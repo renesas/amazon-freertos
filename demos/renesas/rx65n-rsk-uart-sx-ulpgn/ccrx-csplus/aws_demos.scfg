@@ -11,7 +11,7 @@
 </toolchain>
 </configuration>
 <platform id="R5F565NEDxFC"/>
-<option id="board" value="RSKRX65N-2MB"/>
+<option id="board" value="RSKRX65N-2MB (1.01)"/>
 </general>
 <tool id="Clock">
 <Item current="true" id="mainclock.selectBox"/>
@@ -224,19 +224,20 @@
 <Item current="" id="vccSetting.InputValue"/>
 <Item current="vcc2_7-3_6" id="vccSetting.OutputValue"/>
 <Item current="3.3" id="vccSetting.vccTxt"/>
+<Item current="true" id="uckdivider.selectBox"/>
 </tool>
 <tool id="Pins" version="1.0.0.0">
-<pinItem allocation="22" direction="None" id="XTAL" locked="false" status="0"/>
-<pinItem allocation="24" direction="None" id="EXTAL" locked="false" status="0"/>
-<pinItem allocation="70" direction="None" id="RXD2" locked="false" status="0"/>
-<pinItem allocation="59" direction="None" id="RXD8" locked="false" status="0"/>
-<pinItem allocation="72" direction="None" id="TXD2" locked="false" status="0"/>
-<pinItem allocation="58" direction="None" id="TXD8" locked="false" status="0"/>
-<pinItem allocation="7" direction="None" id="RXD6" locked="false" status="1024"/>
-<pinItem allocation="8" direction="None" id="TXD6" locked="false" status="1024"/>
-<pinItem allocation="63" direction="None" id="RXD7" locked="false" status="0"/>
-<pinItem allocation="65" direction="None" id="TXD7" locked="false" status="0"/>
-<pinItem allocation="13" direction="None" id="CTS6#" locked="false" status="0"/>
+<pinItem allocation="22" comments="" direction="None" id="XTAL" locked="false" status="0"/>
+<pinItem allocation="24" comments="" direction="None" id="EXTAL" locked="false" status="0"/>
+<pinItem allocation="70" comments="" direction="None" id="RXD2" locked="false" status="0"/>
+<pinItem allocation="59" comments="" direction="None" id="RXD8" locked="false" status="0"/>
+<pinItem allocation="72" comments="" direction="None" id="TXD2" locked="false" status="0"/>
+<pinItem allocation="58" comments="" direction="None" id="TXD8" locked="false" status="0"/>
+<pinItem allocation="7" comments="" direction="None" id="RXD6" locked="false" status="1024"/>
+<pinItem allocation="8" comments="" direction="None" id="TXD6" locked="false" status="1024"/>
+<pinItem allocation="63" comments="" direction="None" id="RXD7" locked="false" status="0"/>
+<pinItem allocation="65" comments="" direction="None" id="TXD7" locked="false" status="0"/>
+<pinItem allocation="13" comments="" direction="None" id="CTS6#" locked="false" status="0"/>
 <pinnumItem comment="ET-ET0ERXD1_RMII0RXD1" id="88"/>
 <pinnumItem comment="ET-ET0ERXD2" id="89"/>
 <pinnumItem comment="OnTFT-G2" id="110"/>
@@ -583,8 +584,8 @@
 <tool id="SWComponent" version="1.0.0.0">
 <configuration inuse="true" name="r_byteq">
 <component description="依存モジュール: r_bsp バージョン 3.10&#10;This module allocates a queue control block in an Open() call to handle indexing for buffers provided by the user application. Additional functions are provided to put and get data from the buffer queue, inspect the number of bytes available or in use, and to flush the queue. There is no limit to the number of queues supported, and queue control blocks can be allocated statically at build time or dynamically at run time." detailDescription="Byte-based circular buffer library." display="r_byteq" id="r_byteq1.60" version="1.60"/>
-<source description="Firmware Integration Technology (FIT) に対応するコンポーネントは、RXファミリのマイコン間での高い移行性を特徴とします。" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
-<source description="Firmware Integration Technology (FIT) に対応するコンポーネントは、RXファミリのマイコン間での高い移行性を特徴とします。" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
 </configuration>
 <configuration inuse="true" name="r_bsp">
 <component description="依存モジュール: なし&#10;The r_bsp package provides a foundation for code to be built on top of. It provides startup code, iodefines, and MCU information for different boards. There are 2 folders that make up the r_bsp package. The 'mcu' folder contains files that are common to a MCU group. These files provide functionality such as easy register access, CPU functions, and a file named 'mcu_info.h' for each MCU group. The 'mcu_info.h' file has information about the MCU on the board and is configured based on the information given in r_bsp_config.h. The information in 'mcu_info.h' is used to help configure Renesas middleware that uses the r_bsp package. The 'board' folder has a folder with startup code for each supported board.  Which MCU and board is chosen is decided by the settings in 'platform.h'. The user can choose which board they are using by uncommenting the include path that applies to their board. For example, if you are using the RSK+RX62N then you would uncomment the #include &quot;./board/rskrx62n/r_bsp.h&quot; include path. Users are encouraged to add their own boards to the 'board' directory. BSPs are configured by using the r_bsp_config.h file. Each board will have a reference configuration file named r_bsp_config_reference.h. The user should copy this file to their project, rename it to r_bsp_config.h, and use the options inside the file to configure the BSP for their project." detailDescription="Board Support Packages." display="r_bsp" id="r_bsp3.80" version="3.80">
@@ -622,8 +623,8 @@
 <gridItem id="BSP_CFG_EBMAPCR_4TH_PRIORITY" selectedIndex="2"/>
 <gridItem id="BSP_CFG_EBMAPCR_5TH_PRIORITY" selectedIndex="4"/>
 </component>
-<source description="Firmware Integration Technology (FIT) に対応するコンポーネントは、RXファミリのマイコン間での高い移行性を特徴とします。" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
-<source description="Firmware Integration Technology (FIT) に対応するコンポーネントは、RXファミリのマイコン間での高い移行性を特徴とします。" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
 </configuration>
 <configuration inuse="true" name="r_sci_rx">
 <component description="依存モジュール: r_bsp バージョン 2.90, 3.00, 3.40, 3.50, 3.60&#10;依存モジュール: r_byteq バージョン 1.40, 1.50, 1.60&#10;This module allows any number of SCI channels on the MCU to run in full duplex Asynchronous mode, single master Simple SPI mode, or master Synchronous mode simultaneously. The driver is interrupt driven and non-blocking. Transmit and receive buffer queues are used in Asynchronous mode and their sizes may be configured independently for each channel. Resources for unused channels or modes may be removed via settings in the driver's config.h file." detailDescription="Multi-Channel Multi-Mode SCI Driver." display="r_sci_rx" id="r_sci_rx2.01" version="2.01">
@@ -697,13 +698,13 @@
 <gridItem id="CTS12#/RTS12#/SS12#" selectedIndex="0"/>
 <gridItem id="SCI12" selectedIndex="0"/>
 </component>
-<source description="Firmware Integration Technology (FIT) に対応するコンポーネントは、RXファミリのマイコン間での高い移行性を特徴とします。" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
-<source description="Firmware Integration Technology (FIT) に対応するコンポーネントは、RXファミリのマイコン間での高い移行性を特徴とします。" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
 </configuration>
 <configuration inuse="true" name="r_flash_rx">
 <component description="依存モジュール: r_bsp バージョン 3.60&#10;This module allows the user to program, erase, write and blankcheck the Code and/or Data flash." detailDescription="Flash API for RX100, RX200, RX600. and RX700." display="r_flash_rx" id="r_flash_rx3.30" version="3.30"/>
-<source description="Firmware Integration Technology (FIT) に対応するコンポーネントは、RXファミリのマイコン間での高い移行性を特徴とします。" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
-<source description="Firmware Integration Technology (FIT) に対応するコンポーネントは、RXファミリのマイコン間での高い移行性を特徴とします。" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
 </configuration>
 <configuration inuse="true" name="r_s12ad_rx">
 <component description="依存モジュール: r_bsp バージョン 2.90, 3.00, 3.01, 3.10, 3.20, 3.30, 3.40, 3.60&#10;This A/D driver supports the temperature sensor, internal reference voltage sensor, and all analog channels available on the MCU. Single scan and continuous scanning are supported. Group and Double Trigger modes are supported. Triggers may be synchronous, asynchronous, or initiated by software. The RX210 Sample and Hold, Self-Diagnosis, and Disconnect Detection Assist features are supported as well." detailDescription="Multi-Channel A/D and Sensor Driver." display="r_s12ad_rx" id="r_s12ad_rx2.30" version="2.30">
@@ -786,8 +787,8 @@
 <gridItem id="ADST2" selectedIndex="0"/>
 <gridItem id="S12AD2" selectedIndex="0"/>
 </component>
-<source description="Firmware Integration Technology (FIT) に対応するコンポーネントは、RXファミリのマイコン間での高い移行性を特徴とします。" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
-<source description="Firmware Integration Technology (FIT) に対応するコンポーネントは、RXファミリのマイコン間での高い移行性を特徴とします。" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
 </configuration>
 </tool>
 </smc>
