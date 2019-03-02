@@ -621,11 +621,12 @@ Development Environment (tested or no matrix)
 Borad number:
  (1)Renesas Starter Kit+ for RX65N-2MB
  (2)RX65N Envision Kit
- (3)RX65N GR-ROSE proto1
+ (3)RX65N GR-ROSE
  (4)RX64M GR-KAEDE
  (5)Renesas Starter Kit+ for RX65N-2MB + Silex SX-ULPGN PMOD
  (6)RX65N Target Board + Silex SX-ULPGN PMOD
  (7)RX63N GR-SAKURA II
+ (8)RX65N GR-ROSE (WIFI: ESP8266)
 
 Connection pattern number:
  (1)pattern1: wifi module has TCP/IP and SSL/TLS, Amazon recommends this pattern as RAM<16KB.
@@ -651,9 +652,10 @@ Board Connection / Compiler (1) (2) (3) (1) (2) (3) (1) (2) (3)
 (2)   (2)        /           x   x       x   -   -   -   -   * 
 (3)   (2)        /           x   x       x   -   -   -   -     
 (4)   (2)        /           x   x       x   -   -   -   -     
-(5)   (4)        /           *   *       *   -   -   -   -     
-(6)   (4)        /           *   *       *   -   -   -   -     
+(5)   (4)        /           x   x       x   -   -   -   -     
+(6)   (4)        /           x   x       x   -   -   -   -     
 (7)   (2)        /           x   x       x   -   -   -   -     
+(8)   (4)        /           x   x       x   -   -   -   -     
 
   X: tested (Amazon FreeRTOS Qualification)
   x: tested (MQTT echo demo)
@@ -857,6 +859,12 @@ RX65N Envision Kit、RX65N RSK(2MB版/暗号器あり品)をターゲットに�
 　\demos\renesas\rx65n-rsk-uart-sx-ulpgn\ccrx-csplus
 　ここまででコミット。
 
+　以下プロジェクトの動作確認OK。スマートコンフィグレータも動かしなおしてみた。問題なし。
+　\demos\renesas\rx65n-cloud-kit-uart-sx-ulpgn\ccrx-e2studio
+　ただし、ファイル更新が無いのにすべてのファイルのビルドがかかる病気がでている。
+　そのうちプロジェクトを作り直す必要があるか。
+　ここまででコミット。
+　
 2018/12/23
 　以下プロジェクトの動作確認OK。
 　\demos\renesas\rx65n-envision-kit\ccrx-e2studio
