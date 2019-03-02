@@ -887,6 +887,10 @@ RX65N Envision Kit、RX65N RSK(2MB版/暗号器あり品)をターゲットに�
 　そのうちプロジェクトを作り直す必要があるか。
 　ここまででコミット。
 　
+　以下プロジェクトの動作確認OK。スマートコンフィグレータも動かしなおしてみた。問題なし。
+　\demos\renesas\rx65n-gr-rose\ccrx-csplus
+　ここまででコミット。
+　
 2018/12/23
 　以下プロジェクトの動作確認OK。
 　\demos\renesas\rx65n-envision-kit\ccrx-e2studio
