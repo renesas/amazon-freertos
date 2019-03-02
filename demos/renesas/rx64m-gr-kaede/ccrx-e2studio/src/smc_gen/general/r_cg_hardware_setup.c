@@ -14,15 +14,15 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2016, 2017 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
 * File Name    : r_cg_hardware_setup.c
-* Version      : 1.3.0
+* Version      : 1.3.2
 * Device(s)    : R5F564MLCxFB
 * Description  : Initialization file for code generation configurations.
-* Creation Date: 2018-08-19
+* Creation Date: 2019-03-02
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -76,7 +76,7 @@ void R_Systeminit(void)
     /* Enable writing to MPC pin function control registers */
     MPC.PWPR.BIT.B0WI = 0U;
     MPC.PWPR.BIT.PFSWE = 1U;
-    
+
     /* Initialize clocks settings */
     R_CGC_Create();
 
