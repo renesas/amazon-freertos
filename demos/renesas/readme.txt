@@ -529,11 +529,11 @@ WIFI Module: Silex SX-ULPGN PMOD
            #define clientcredentialWIFI_SSID       "Paste Wi-Fi SSID here."
            #define clientcredentialWIFI_PASSWORD   "Paste Wi-Fi password here."
            
-IDE: CS+ v8.00.00
+IDE: CS+ v8.01.00
     [en] https://www.renesas.com/en-us/products/software-tools/tools/ide/csplus.html
     [ja] https://www.renesas.com/ja-jp/products/software-tools/tools/ide/csplus.html
 
-Smart Configurator v1.5.0 (Standalone for CS+): 
+Smart Configurator v2.0.0 (Standalone for CS+): 
     [en] https://www.renesas.com/en-us/products/software-tools/tools/solution-toolkit/smart-configurator.html
     [ja] https://www.renesas.com/ja-jp/products/software-tools/tools/solution-toolkit/smart-configurator.html
     
@@ -825,6 +825,15 @@ RX65N Envision Kit、RX65N RSK(2MB版/暗号器あり品)をターゲットに�
 　ただし、ファイル更新が無いのにすべてのファイルのビルドがかかる病気がでている。
 　そのうちプロジェクトを作り直す必要があるか。
 　ここまででコミット。
+
+　以下プロジェクトの動作確認OK。スマートコンフィグレータも動かしなおしてみた。問題なし。
+　\demos\renesas\rx65n-rsk\gnurx-e2studio
+　ここまででコミット。
+
+　以下プロジェクトの動作確認OK。スマートコンフィグレータも動かしなおしてみた。問題なし。
+　\demos\renesas\rx65n-rsk\ccrx-csplus
+　ここまででコミット。
+
 　
 2018/12/23
 　以下プロジェクトの動作確認OK。
