@@ -377,7 +377,7 @@ Compiler: CC-RX V3.00 (you need non-expired evaluation license or product licens
     [en] https://www.renesas.com/us/en/products/software-tools/tools/compiler-assembler/compiler-package-for-rx-family-e2studio.html
     [ja] https://www.renesas.com/jp/ja/products/software-tools/tools/compiler-assembler/compiler-package-for-rx-family-e2studio.html
 
-IDE: e2 studio V7.2.0
+IDE: e2 studio V7.3.0
     [en] https://www.renesas.com/us/en/products/software-tools/tools/ide/e2studio.html
     [ja] https://www.renesas.com/jp/ja/products/software-tools/tools/ide/e2studio.html
     
@@ -797,6 +797,35 @@ RX65N Envision Kit、RX65N RSK(2MB版/暗号器あり品)をターゲットに�
 --------------------------------------------------------------------------
 ■ポーティング記録	★印が解決すべき課題
 --------------------------------------------------------------------------
+2019/03/02
+　Amazon FreeRTOS Qualification Program 合格し、認証が取れた。
+　https://www.renesas.com/jp/ja/about/press-center/news/2019/news20190108.html
+　
+　OTA対応やSDIO無線LAN対応、スマートコンフィグレータとの連携、FITのGCCI/IAR対応など
+　まだまだ整備が足りないところが多い。引き続きメンテしていく必要がある。
+　スマートコンフィグレータとの連携、FITのGCCI/IAR対応は正式に仕事としてスタートできた。
+　ところで本家のアップデートが溜まってきたようなので、最新版V147とマージを試みリリースビルドを作る。
+　それはそうと、対応ボードが増えて動作確認が大変かつ、MQTTエコーの動作確認しかできないので、
+　そろそろ自動テスト機構を作る必要がある。
+　アメリカの開発部隊がGitLabを利用したマイコン実機活用の自動テスト機構を作っていたので
+　これを参考に作ってみよう。ここら辺がゴールデンウィークのネタ。
+　・OTA対応
+　・SDIO無線LAN
+　・自動テスト機構
+　
+　ひとまずしばらくは手動で我慢してテストしていく。
+
+　以下プロジェクトの動作確認OK。
+　このフォルダはAmazon FreeRTOS Qualification Programを通した神様。
+　.cprojectや.projectの内容は後々他のプロジェクトに反映する必要がある。
+　\demos\renesas\rx65n-rsk\e2studio
+　
+　以下プロジェクトの動作確認OK。スマートコンフィグレータも動かしなおしてみた。問題なし。
+　\demos\renesas\rx65n-rsk\ccrx-e2studio
+　ただし、ファイル更新が無いのにすべてのファイルのビルドがかかる病気がでている。
+　そのうちプロジェクトを作り直す必要があるか。
+　ここまででコミット。
+　
 2018/12/23
 　以下プロジェクトの動作確認OK。
 　\demos\renesas\rx65n-envision-kit\ccrx-e2studio
