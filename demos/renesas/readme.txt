@@ -655,7 +655,7 @@ Board Connection / Compiler (1) (2) (3) (1) (2) (3) (1) (2) (3)
 (5)   (4)        /           x   x       x   -   -   -   -     
 (6)   (4)        /           x   x       x   -   -   -   -     
 (7)   (2)        /           x   x       x   -   -   -   -     
-(8)   (4)        /           x   x       x   -   -   -   -     
+(8)   (4)        /           x   x           -   -   -   -     
 
   X: tested (Amazon FreeRTOS Qualification)
   x: tested (MQTT echo demo)
@@ -893,6 +893,10 @@ RX65N Envision Kit、RX65N RSK(2MB版/暗号器あり品)をターゲットに�
 
 　以下プロジェクトの動作確認OK。スマートコンフィグレータも動かしなおしてみた。問題なし。
 　\demos\renesas\rx65n-gr-rose-uart-esp8266\ccrx-e2studio
+　ここまででコミット。
+
+　以下プロジェクトの動作確認OK。スマートコンフィグレータも動かしなおしてみた。問題なし。
+　\demos\renesas\rx65n-gr-rose-uart-esp8266\gnurx-e2studio
 　ここまででコミット。
 　
 2018/12/23
