@@ -14,7 +14,7 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
 * File Name    : r_ether_rx_pinset.h
@@ -22,7 +22,7 @@
 * Device(s)    : R5F564MLCxFB
 * Tool-Chain   : RXC toolchain
 * Description  : Setting of port and mpc registers
-* Creation Date: 2018-08-19
+* Creation Date: 2019-03-02
 ***********************************************************************************************************************/
 
 #ifndef R_ETHER_RX_H
@@ -36,6 +36,6 @@ Includes
 Global variables and functions
 ***********************************************************************************************************************/
 
-void R_ETHER_PinSet_ETHERC0_RMII(void);
+void R_ETHER_PinSet_ETHERC0_RMII();
 
 #endif
