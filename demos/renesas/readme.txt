@@ -63,6 +63,36 @@ I hope this solution will be helpful for embedded system developer in W/W.
 --------------------------------------------------------------------------
 Change Logs
 --------------------------------------------------------------------------
+v0.1.7:
+[MERGED] upstream Amazon FreeRTOS v1.4.7 master
+[TESTED] by Amazon FreeRTOS Qualification for
+         RX65N RSK CC-RX e2 studio with E2 Emulator Lite
+[TESTED] demos MQTT echo behavior for
+         RX65N RSK CC-RX e2 studio with E2 Emulator Lite
+         RX65N RSK GCC e2 studio with E2 Emulator Lite
+         RX65N RSK CC-RX CS+ with E2 Emulator Lite
+         RX65N RSK + Silex SX-ULPGN PMOD CC-RX e2 studio with E2 Emulator Lite
+         RX65N RSK + Silex SX-ULPGN PMOD GCC e2 studio with E2 Emulator Lite
+         RX65N RSK + Silex SX-ULPGN PMOD CC-RX CS+with E2 Emulator Lite
+         RX65N Target Board + Silex SX-ULPGN PMOD CC-RX e2 studio with E2 Emulator Lite (on board)
+         RX65N Target Board + Silex SX-ULPGN PMOD GCC e2 studio with E2 Emulator Lite (on board)
+         RX65N Target Board + Silex SX-ULPGN PMOD CC-RX CS+with E2 Emulator Lite (on board)
+         RX65N GR-ROSE CC-RX e2 studio with E2 Emulator Lite
+         RX65N GR-ROSE GCC e2 studio with E2 Emulator Lite
+         RX65N GR-ROSE GCC/C++ e2 studio with E2 Emulator Lite
+         RX65N GR-ROSE CC-RX CS+ with E2 Emulator Lite
+         RX65N GR-ROSE + Espressif ESP8266 CC-RX e2 studio with E2 Emulator Lite
+         RX65N GR-ROSE + Espressif ESP8266 GCC e2 studio with E2 Emulator Lite
+         RX65N Envision Kit CC-RX e2 studio with E2 Emulator Lite (on board)
+         RX65N Envision Kit GCC e2 studio with E2 Emulator Lite (on board)
+         RX65N Envision Kit CC-RX CS+ with E2 Emulator Lite (on board)
+         RX64M GR-KAEDE CC-RX e2 studio with E2 Emulator Lite
+         RX64M GR-KAEDE GCC e2 studio with E2 Emulator Lite
+         RX64M GR-KAEDE CC-RX CS+ with E2 Emulator Lite
+         RX63N GR-SAKURA II CC-RX e2 studio with E2 Emulator Lite
+         RX63N GR-SAKURA II GCC e2 studio with E2 Emulator Lite
+         RX63N GR-SAKURA II CC-RX CS+ with E2 Emulator Lite
+         
 v0.1.6:
 [TESTED] by Amazon FreeRTOS Qualification for
          RX65N RSK CC-RX e2 studio with E2 Emulator Lite
