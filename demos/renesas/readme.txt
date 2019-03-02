@@ -930,6 +930,12 @@ RX65N Envision Kit、RX65N RSK(2MB版/暗号器あり品)をターゲットに�
 　ただし、ファイル更新が無いのにすべてのファイルのビルドがかかる病気がでている。
 　そのうちプロジェクトを作り直す必要があるか。
 　ここまででコミット。
+
+　以下プロジェクトの動作確認OK。スマートコンフィグレータも動かしなおしてみた。問題なし。
+　\demos\renesas\rx63n-gr-sakura2\ccrx-csplus
+　\demos\renesas\rx63n-gr-sakura2\ccrx-e2studio
+　\demos\renesas\rx63n-gr-sakura2\gnurx-e2studio
+　ここまででコミット。
 　
 2018/12/23
 　以下プロジェクトの動作確認OK。
