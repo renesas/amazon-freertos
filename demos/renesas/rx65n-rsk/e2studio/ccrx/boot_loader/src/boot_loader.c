@@ -14,9 +14,12 @@
 #include "r_tfat_lib.h"
 #include "r_usb_basic_if.h"
 #include "r_usb_hmsc_if.h"
-#include "Pin.h"
+#include "r_sci_rx_if.h"
 #include "base64_decode.h"
 #include "r_cryptogram.h"
+
+#include "r_sci_rx_pinset.h"
+#include "r_usb_basic_pinset.h"
 
 #define BOOT_LOADER_SUCCESS         (0)
 #define BOOT_LOADER_FAIL            (-1)
@@ -38,12 +41,16 @@
 #define BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_SMALL 8
 #define BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_MEDIUM 2
 
-#define INITIAL_FIRMWARE_FILE_NAME "std.rsu"
+#define BOOT_LOADER_USER_CONST_DATA_LOW_ADDRESS FLASH_DF_BLOCK_8
+#define BOOT_LOADER_CONST_DATA_BLOCK_NUM 8
+
+#define INITIAL_FIRMWARE_FILE_NAME "userprog.rsu"
 /*------------------------------------------ firmware update configuration (end) --------------------------------------------*/
 
 #define BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS FLASH_CF_LO_BANK_LO_ADDR
 #define BOOT_LOADER_UPDATE_EXECUTE_AREA_LOW_ADDRESS FLASH_CF_HI_BANK_LO_ADDR
 #define BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER (FLASH_NUM_BLOCKS_CF - BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_SMALL - BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_MEDIUM)
+#define BOOT_LOADER_UPDATE_CONST_DATA_TARGET_BLOCK_NUMBER (FLASH_NUM_BLOCKS_DF - BOOT_LOADER_CONST_DATA_BLOCK_NUM)
 #define USER_RESET_VECTOR_ADDRESS (BOOT_LOADER_LOW_ADDRESS - 4)
 
 #define MAX_CHECK_DATAFLASH_AREA_RETRY_COUNT 3
@@ -57,6 +64,12 @@ typedef struct _load_firmware_control_block {
     uint8_t hash_sha1[SHA1_HASH_LENGTH_BYTE_SIZE];
     uint32_t firmware_length;
 }LOAD_FIRMWARE_CONTROL_BLOCK;
+
+typedef struct _load_const_data_control_block {
+    uint32_t flash_buffer[FLASH_DF_BLOCK_SIZE / 4];
+    uint32_t offset;
+    uint32_t progress;
+}LOAD_CONST_DATA_CONTROL_BLOCK;
 
 typedef struct _firmware_update_control_block_sub
 {
@@ -75,11 +88,13 @@ typedef struct _firmware_update_control_block
 void main(void);
 static int32_t secure_boot(void);
 static int32_t firm_block_read(uint32_t *firmware, uint32_t offset);
+static int32_t const_data_block_read(uint32_t *const_data, uint32_t offset);
 static void bank_swap_with_software_reset(void);
 static void update_dataflash_data_from_image(void);
 static void update_dataflash_data_mirror_from_image(void);
 static void check_dataflash_area(uint32_t retry_counter);
 static void software_reset(void);
+static void my_sci_callback(void *pArgs);
 
 extern int32_t usb_main(void);
 extern void lcd_open(void);
@@ -110,7 +125,11 @@ static const FIRMWARE_UPDATE_CONTROL_BLOCK firmware_update_control_block_data_mi
 
 static FIRMWARE_UPDATE_CONTROL_BLOCK firmware_update_control_block_image = {0};
 static LOAD_FIRMWARE_CONTROL_BLOCK load_firmware_control_block;
+static LOAD_CONST_DATA_CONTROL_BLOCK load_const_data_control_block;
 static FATFS       g_fatfs;
+
+/* Handle storage. */
+sci_hdl_t     my_sci_handle;
 
 const char lifecycle_string[][64] = {
         {"LIFECYCLE_STATE_BLANK"},
@@ -128,7 +147,33 @@ void main(void)
     uint16_t    previous_event;
     flash_err_t flash_error_code = FLASH_SUCCESS;
     uint8_t hash_sha1[SHA1_HASH_LENGTH_BYTE_SIZE];
-    R_Pins_Create();
+
+    R_USB_PinSet_USB0_HOST();
+    R_SCI_PinSet_SCI8();
+
+    sci_cfg_t   my_sci_config;
+    sci_err_t   my_sci_err;
+
+    /* Set up the configuration data structure for asynchronous (UART) operation. */
+    my_sci_config.async.baud_rate    = 115200;
+    my_sci_config.async.clk_src      = SCI_CLK_INT;
+    my_sci_config.async.data_size    = SCI_DATA_8BIT;
+    my_sci_config.async.parity_en    = SCI_PARITY_OFF;
+    my_sci_config.async.parity_type  = SCI_EVEN_PARITY;
+    my_sci_config.async.stop_bits    = SCI_STOPBITS_1;
+    my_sci_config.async.int_priority = 3;    // 1=lowest, 15=highest
+
+    /* OPEN ASYNC CHANNEL
+    *  Provide address of the configure structure,
+    *  the callback function to be assigned,
+    *  and the location for the handle to be stored.*/
+    my_sci_err = R_SCI_Open(SCI_CH8, SCI_MODE_ASYNC, &my_sci_config, my_sci_callback, &my_sci_handle);
+
+    /* If there were an error this would demonstrate error detection of API calls. */
+    if (SCI_SUCCESS != my_sci_err)
+    {
+        nop(); // Your error handling code would go here.
+    }
 
     load_firmware_control_block.progress = 0;
     load_firmware_control_block.offset = 0;
@@ -160,7 +205,9 @@ void main(void)
     result_secure_boot = secure_boot();
     if (BOOT_LOADER_SUCCESS == result_secure_boot)
     {
-        R_BSP_InterruptsDisable();
+    	/* stop all interrupt completely */
+        set_psw(0);
+
     	uint32_t addr;
     	addr = *(uint32_t*)USER_RESET_VECTOR_ADDRESS;
     	((void (*)())addr)();
@@ -191,7 +238,20 @@ void main(void)
                     {
                         printf("Detected file. %s.\r\n", INITIAL_FIRMWARE_FILE_NAME);
 
-                        printf("erase install area: ");
+                        printf("erase install area (data flash): ");
+                        flash_error_code = R_FLASH_Erase((flash_block_address_t)BOOT_LOADER_USER_CONST_DATA_LOW_ADDRESS, BOOT_LOADER_UPDATE_CONST_DATA_TARGET_BLOCK_NUMBER);
+                        if (FLASH_SUCCESS == flash_error_code)
+                        {
+                            printf("OK\r\n");
+                        }
+                        else
+                        {
+                            printf("R_FLASH_Erase() returns error. %d.\r\n", flash_error_code);
+                            printf("system error.\r\n");
+                            while(1);
+                        }
+
+                        printf("erase install area (code flash): ");
                         flash_error_code = R_FLASH_Erase((flash_block_address_t)BOOT_LOADER_UPDATE_TEMPORARY_AREA_HIGH_ADDRESS, FLASH_NUM_BLOCKS_CF - BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_SMALL - BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_MEDIUM);
                         if (FLASH_SUCCESS == flash_error_code)
                         {
@@ -202,6 +262,50 @@ void main(void)
                             printf("R_FLASH_Erase() returns error. %d.\r\n", flash_error_code);
                             printf("system error.\r\n");
                             while(1);
+                        }
+
+                        while(1)
+                        {
+                            if(!const_data_block_read(load_const_data_control_block.flash_buffer, load_const_data_control_block.offset))
+                            {
+                            	flash_error_code = R_FLASH_Write((uint32_t)load_const_data_control_block.flash_buffer, (uint32_t)BOOT_LOADER_USER_CONST_DATA_LOW_ADDRESS + load_const_data_control_block.offset, sizeof(load_const_data_control_block.flash_buffer));
+                                if (FLASH_SUCCESS != flash_error_code)
+                                {
+                                    printf("R_FLASH_Write() returns error. %d.\r\n", flash_error_code);
+                                    printf("system error.\r\n");
+                                    while(1);
+                                }
+                                load_const_data_control_block.offset += FLASH_DF_BLOCK_SIZE;
+                                load_const_data_control_block.progress = (uint32_t)(((float)(load_const_data_control_block.offset)/(float)((FLASH_DF_BLOCK_SIZE * BOOT_LOADER_UPDATE_CONST_DATA_TARGET_BLOCK_NUMBER))*100));
+                                static uint32_t previous_offset = 0;
+                                if(previous_offset != (load_const_data_control_block.offset/1024))
+                                {
+                                    printf("installing const data...%d%(%d/%dKB).\r", load_const_data_control_block.progress, load_const_data_control_block.offset/1024, (FLASH_DF_BLOCK_SIZE * BOOT_LOADER_UPDATE_CONST_DATA_TARGET_BLOCK_NUMBER)/1024);
+                                    previous_offset = load_const_data_control_block.offset/1024;
+                                }
+                                if(load_const_data_control_block.offset < (FLASH_DF_BLOCK_SIZE * BOOT_LOADER_UPDATE_CONST_DATA_TARGET_BLOCK_NUMBER))
+                                {
+                                    /* one more loop */
+                                }
+                                else if(load_const_data_control_block.offset == (FLASH_DF_BLOCK_SIZE * BOOT_LOADER_UPDATE_CONST_DATA_TARGET_BLOCK_NUMBER))
+                                {
+                                    printf("\n");
+                                    printf("completed installing const data.\r\n");
+                                    break;
+                                }
+                                else
+                                {
+                                    printf("\n");
+                                    printf("fatal error occurred.\r\n");
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                printf("\n");
+                                printf("filesystem output error.\r\n");
+                                break;
+                            }
                         }
 
                         while(1)
@@ -219,7 +323,7 @@ void main(void)
                                 else if(load_firmware_control_block.offset == (FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER))
                                 {
                                     printf("\n");
-                                    printf("completed installing.\r\n");
+                                    printf("completed installing firmware.\r\n");
                                     break;
                                 }
                                 else
@@ -252,7 +356,7 @@ void main(void)
                             update_dataflash_data_from_image();
                             update_dataflash_data_mirror_from_image();
 
-                            printf("swap bank...");
+                            printf("swap bank...\r\n");
                             R_BSP_SoftwareDelay(3000, BSP_DELAY_MILLISECS);
                             R_USB_Close(&ctrl);
                             bank_swap_with_software_reset();
@@ -570,14 +674,9 @@ static void bank_swap_with_software_reset(void)
 
 /***********************************************************************************************************************
 * Function Name: firm_block_read
-* Description  : Does an example task. Making this longer just to see how it wraps. Making this long just to see how it
-*                wraps.
-* Arguments    : index -
-*                    Where to start looking
-*                p_output -
-*                    Pointer of where to put the output data
-* Return Value : count -
-*                    How many entries were found
+* Description  :
+* Arguments    :
+* Return Value :
 ***********************************************************************************************************************/
 static int32_t firm_block_read(uint32_t *firmware, uint32_t offset)
 {
@@ -679,4 +778,185 @@ firm_block_read_error:
         return -1;
     }
     return 0;
+}
+
+/***********************************************************************************************************************
+* Function Name: const_data_block_read
+* Description  :
+* Arguments    :
+* Return Value :
+***********************************************************************************************************************/
+static int32_t const_data_block_read(uint32_t *const_data, uint32_t offset)
+{
+    FRESULT ret = TFAT_FR_OK;
+    uint8_t buf[256] = {0};
+    uint8_t arg1[256] = {0};
+    uint8_t arg2[256] = {0};
+    uint8_t arg3[256] = {0};
+    uint16_t size = 0;
+    FIL file = {0};
+    uint32_t read_size = 0;
+    static uint32_t upconst[4 + 1] = {0};
+    static uint32_t current_char_position = 0;
+    static uint32_t current_file_position = 0;
+    static uint32_t previous_file_position = 0;
+
+    if (0 == offset)
+    {
+        current_char_position = 0;
+        current_file_position = 0;
+        previous_file_position = 0;
+        memset(upconst,0,sizeof(upconst));
+    }
+
+    ret = R_tfat_f_open(&file, INITIAL_FIRMWARE_FILE_NAME, TFAT_FA_READ | TFAT_FA_OPEN_EXISTING);
+    if (TFAT_RES_OK == ret)
+    {
+        current_char_position = 0;
+        memset(buf, 0, sizeof(buf));
+
+        R_tfat_f_lseek(&file, previous_file_position);
+        if (TFAT_RES_OK == ret)
+        {
+            while(1)
+            {
+                ret = R_tfat_f_read(&file, &buf[current_char_position++], 1, &size);
+                if (TFAT_RES_OK == ret)
+                {
+                    if (0 == size)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        previous_file_position += size;
+
+                        /* received 1 line */
+                        if(strstr((char*)buf, "\r\n"))
+                        {
+                            sscanf((char*)buf, "%256s %256s %256s", (char*)arg1, (char*)arg2, (char*)arg3);
+                            if (!strcmp((char *)arg1, "upconst"))
+                            {
+                                base64_decode(arg3, (uint8_t *)upconst, strlen((char *)arg3));
+                                memcpy(&const_data[current_file_position], upconst, 16);
+                                current_file_position += 4;
+                                read_size += 16;
+                            }
+                            if((current_file_position * 4) == FLASH_DF_BLOCK_SIZE)
+                            {
+                                current_file_position = 0;
+                                break;
+                            }
+                            current_char_position = 0;
+                            memset(buf, 0, sizeof(buf));
+                        }
+                    }
+                }
+                else
+                {
+                    goto const_data_block_read_error;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            goto const_data_block_read_error;
+        }
+        if (TFAT_RES_OK == ret)
+        {
+            ret = R_tfat_f_close(&file);
+            if (TFAT_RES_OK != ret)
+            {
+                goto const_data_block_read_error;
+            }
+        }
+    }
+    else
+    {
+const_data_block_read_error:
+        return -1;
+    }
+    return 0;
+}
+
+/*****************************************************************************
+* Function Name: my_sci_callback
+* Description  : This is a template for an SCI Async Mode callback function.
+* Arguments    : pArgs -
+*                pointer to sci_cb_p_args_t structure cast to a void. Structure
+*                contains event and associated data.
+* Return Value : none
+******************************************************************************/
+static void my_sci_callback(void *pArgs)
+{
+    sci_cb_args_t   *p_args;
+
+    p_args = (sci_cb_args_t *)pArgs;
+
+    if (SCI_EVT_RX_CHAR == p_args->event)
+    {
+        /* From RXI interrupt; received character data is in p_args->byte */
+        nop();
+    }
+    else if (SCI_EVT_RXBUF_OVFL == p_args->event)
+    {
+        /* From RXI interrupt; rx queue is full; 'lost' data is in p_args->byte
+           You will need to increase buffer size or reduce baud rate */
+    	nop();
+    }
+    else if (SCI_EVT_OVFL_ERR == p_args->event)
+    {
+        /* From receiver overflow error interrupt; error data is in p_args->byte
+           Error condition is cleared in calling interrupt routine */
+    	nop();
+    }
+    else if (SCI_EVT_FRAMING_ERR == p_args->event)
+    {
+        /* From receiver framing error interrupt; error data is in p_args->byte
+           Error condition is cleared in calling interrupt routine */
+    	nop();
+    }
+    else if (SCI_EVT_PARITY_ERR == p_args->event)
+    {
+        /* From receiver parity error interrupt; error data is in p_args->byte
+           Error condition is cleared in calling interrupt routine */
+    	nop();
+    }
+    else
+    {
+        /* Do nothing */
+    }
+
+} /* End of function my_sci_callback() */
+
+/***********************************************************************************************************************
+ * Function Name: my_sw_charput_function
+ * Description  : char data output API
+ * Arguments    : data -
+ *                    Send data with SCI
+ * Return Value : none
+ **********************************************************************************************************************/
+void my_sw_charput_function(uint8_t data)
+{
+    uint32_t arg = 0;
+    /* do not call printf()->charput in interrupt context */
+    do
+    {
+        /* Casting void pointer is used for address. */
+        R_SCI_Control(my_sci_handle, SCI_CMD_TX_Q_BYTES_FREE, (void*)&arg);
+    }
+    while (SCI_CFG_CH8_RX_BUFSIZ != arg);
+    /* Casting uint8_t pointer is used for address. */
+    R_SCI_Send(my_sci_handle, (uint8_t*)&data, 1);
+
+    return;
+}
+/***********************************************************************************************************************
+ End of function my_sw_charput_function
+ **********************************************************************************************************************/
+
+void my_sw_charget_function(void)
+{
+
 }

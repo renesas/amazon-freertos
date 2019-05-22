@@ -14,37 +14,45 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
-
 /***********************************************************************************************************************
-* File Name    : Pin.h
+* File Name    : r_sci_rx_pinset.c
 * Version      : 1.0.2
 * Device(s)    : R5F565NEDxFC
-* Description  : This file implements SMC pin code generation.
+* Tool-Chain   : RXC toolchain
+* Description  : Setting of port and mpc registers
 * Creation Date: 2019-05-22
 ***********************************************************************************************************************/
 
-#ifndef PIN_H
-#define PIN_H
+/***********************************************************************************************************************
+Includes
+***********************************************************************************************************************/
+#include "r_sci_rx_pinset.h"
+#include "platform.h"
 
 /***********************************************************************************************************************
-Macro definitions (Register bit)
+Global variables and functions
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-Macro definitions
+* Function Name: R_SCI_PinSet_SCI8
+* Description  : This function initializes pins for r_sci_rx module
+* Arguments    : none
+* Return Value : none
 ***********************************************************************************************************************/
+void R_SCI_PinSet_SCI8()
+{
+    R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_MPC);
 
-/***********************************************************************************************************************
-Typedef definitions
-***********************************************************************************************************************/
+    /* Set RXD8/SMISO8/SSCL8 pin */
+    MPC.PJ1PFS.BYTE = 0x0AU;
+    PORTJ.PMR.BIT.B1 = 1U;
 
-/***********************************************************************************************************************
-Global functions
-***********************************************************************************************************************/
-void R_Pins_Create(void);
-/* Start user code for function. Do not edit comment generated here */
-/* End user code. Do not edit comment generated here */
-#endif
+    /* Set TXD8/SMOSI8/SSDA8 pin */
+    MPC.PJ2PFS.BYTE = 0x0AU;
+    PORTJ.PMR.BIT.B2 = 1U;
+
+    R_BSP_RegisterProtectEnable(BSP_REG_PROTECT_MPC);
+}
 

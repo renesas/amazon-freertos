@@ -22,7 +22,7 @@
 * Version      : 1.0.2
 * Device(s)    : R5F565NEDxFC
 * Description  : This file implements SMC pin code generation.
-* Creation Date: 2019-05-19
+* Creation Date: 2019-05-22
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -55,6 +55,15 @@ Global variables and functions
 void R_Pins_Create(void)
 {
     R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_MPC);
+
+    /* Set RXD8 pin */
+    MPC.PJ1PFS.BYTE = 0x0AU;
+    PORTJ.PMR.BYTE |= 0x02U;
+
+    /* Set TXD8 pin */
+    PORTJ.PODR.BYTE |= 0x04U;
+    MPC.PJ2PFS.BYTE = 0x0AU;
+    PORTJ.PDR.BYTE |= 0x04U;
 
     /* Set USB0_OVRCURA pin */
     MPC.P14PFS.BYTE = 0x12U;
