@@ -216,7 +216,6 @@ void uart_string_printf(char *pString)
 
         sci_err = R_SCI_Send(my_sci_handle, (uint8_t *) pString,
                              transmit_length);
-        printf("%s", pString);
 
         if ((sci_err == SCI_ERR_XCVR_BUSY) || (sci_err == SCI_ERR_INSUFFICIENT_SPACE))
         {
