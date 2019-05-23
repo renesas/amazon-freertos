@@ -63,6 +63,12 @@ I hope this solution will be helpful for embedded system developer in W/W.
 --------------------------------------------------------------------------
 Change Logs
 --------------------------------------------------------------------------
+v0.1.8:
+[TESTED] demos MQTT echo behavior for
+         RX65N RSK CC-RX e2 studio with E2 Emulator Lite
+[NOTICE] This is very tentative release. Please use v0.1.7 in basically.
+         RX65N RSK CC-RX e2 studio with E2 Emulator Lite is only project to build in correctly.
+
 v0.1.7:
 [MERGED] upstream Amazon FreeRTOS v1.4.7 master
 [TESTED] by Amazon FreeRTOS Qualification for
