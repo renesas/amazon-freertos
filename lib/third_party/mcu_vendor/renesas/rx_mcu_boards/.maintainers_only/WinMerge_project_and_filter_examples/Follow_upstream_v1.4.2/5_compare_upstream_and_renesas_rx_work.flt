@@ -1,0 +1,24 @@
+name: Amazon FreeRTOS: cmp u rx
+desc: Compare upstream folder and renesas-rx work folder
+
+## WinMerge setting of Options Dialogu (Menu : Edit --> Options) : Compare --> General
+## Select  'Compare' in "Whitespace"            (default)
+## Uncheck 'Ignore blank lines'                 (default)
+## Uncheck 'Ignore carriage retrun differences' (default)
+## Check   'Ignore codepage differences'        (default)
+## Uncheck 'Filter comments' in "Comments'      (default)
+
+## Remember, in file filters, an include rule does not specify what to include, 
+## it specifies what not to include. 
+def: include
+
+d: ^\\\.git$
+
+d: ^\\\.github$
+d: ^\\demos\\renesas$
+d: ^\\lib\\ota\\portable\\renesas$
+d: ^\\lib\\pkcs11\\portable\\renesas$
+d: ^\\lib\\secure_sockets\\portable\\renesas$
+d: ^\\lib\\wifi\\portable\\renesas$
+d: ^\\lib\\third_party\\mcu_vendor\\renesas$
+d: ^\\lib\\FreeRTOS-Plus-TCP\\source\\portable\\NetworkInterface\\RX$

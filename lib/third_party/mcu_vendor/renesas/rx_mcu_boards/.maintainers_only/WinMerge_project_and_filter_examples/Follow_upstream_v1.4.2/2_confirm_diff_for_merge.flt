@@ -1,0 +1,108 @@
+name: Amazon FreeRTOS: merge 0
+desc: Confirm diff for merge (Copmare renesas-rx origin-master folder and renesas-rx work-git-automerge folder)
+
+## WinMerge setting of Options Dialogu (Menu : Edit --> Options) : Compare --> General
+## Select  'Ignore all' in 'Whitespace'
+## Check   'Ignore blank lines'
+## Check   'Ignore carriage retrun differences'
+## Check   'Ignore codepage differences'        (default)
+## Check   'Filter comments' in 'Comments'
+
+## Remember, in file filters, an include rule does not specify what to include, 
+## it specifies what not to include. 
+def: include
+
+d: ^\\\.git$
+d: ^\\tests$
+d: ^\\tools$
+
+d: ^\\\.github$
+d: ^\\demos\\renesas$
+d: ^\\lib\\ota\\portable\\renesas$
+d: ^\\lib\\pkcs11\\portable\\renesas$
+d: ^\\lib\\secure_sockets\\portable\\renesas$
+d: ^\\lib\\wifi\\portable\\renesas$
+d: ^\\lib\\third_party\\mcu_vendor\\renesas$
+d: ^\\lib\\FreeRTOS-Plus-TCP\\source\\portable\\NetworkInterface\\RX$
+
+## f: ^CHANGELOG.md$
+## f: ^README.md$
+f: ^\.gitignore$
+f: ^\.gitattributes$
+d: ^\\demos\\common\\defender$
+d: ^\\demos\\common\\devmode_key_provisioning\\CertificateConfigurationTool$
+d: ^\\demos\\common\\ota\\bootloader$
+d: ^\\demos\\common\\tools$
+d: ^\\lib\\defender$
+d: ^\\lib\\FreeRTOS\\portable\\ThirdParty$
+d: ^\\lib\\FreeRTOS-Plus-POSIX$
+d: ^\\lib\\include\\FreeRTOS_POSIX$
+
+## d: ^\\demos\\espressif$
+## d: ^\\lib\FreeRTOS-Plus-TCP\\source\\portable\\NetworkInterface\\esp32$
+## d: ^\\lib\\ota\\portable\\espressif$
+## d: ^\\lib\\pkcs11\\portable\\espressif$
+## d: ^\\lib\\secure_sockets\\portable\\espressif$
+## d: ^\\lib\\wifi\\portable\\espressif$
+d: ^\\lib\\third_party\\mcu_vendor\\espressif$
+
+## d: ^\\demos\\infineon$
+## ## NO FOLDER ## d: ^\\lib\\ota\\portable\\infineon$
+## d: ^\\lib\\pkcs11\\portable\\infineon$
+## d: ^\\lib\\secure_sockets\\portable\\infineon$
+## d: ^\\lib\\wifi\\portable\\infineon$
+d: ^\\lib\\third_party\\mcu_vendor\\infineon$
+
+## d: ^\\demos\\microchip$
+## d: ^\\lib\\FreeRTOS-Plus-TCP\\source\\portable\\NetworkInterface\\pic32mzef$
+## d: ^\\lib\\ota\\portable\\microchip$
+## d: ^\\lib\\pkcs11\\portable\\microchip$
+## ## NO FOLDER ## d: ^\\lib\\secure_sockets\\portable\\microchip$
+## d: ^\\lib\\wifi\\portable\\microchip$
+d: ^\\lib\\third_party\\mcu_vendor\\microchip$
+
+## d: ^\\demos\\nxp$
+## ## NO FOLDER ## d: ^\\lib\\ota\\portable\\nxp$
+## d: ^\\lib\\pkcs11\\portable\\nxp$
+## d: ^\\lib\\secure_sockets\\portable\\nxp$
+## d: ^\\lib\\wifi\\portable\\infineon$
+d: ^\\lib\\third_party\\mcu_vendor\\nxp$
+
+## d: ^\\demos\\pc$
+## d: ^\\lib\FreeRTOS-Plus-TCP\\source\\portable\\NetworkInterface\\WinPCap$
+## d: ^\\lib\\ota\\portable\\pc$
+## d: ^\\lib\\pkcs11\\portable\\pc$
+## ## NO FOLDER ## d: ^\\lib\\secure_sockets\\portable\\pc$
+## ## NO FOLDER ## d: ^\\lib\\wifi\\portable\\pc$
+## d: ^\\lib\\third_party\\mcu_vendor\\pc$
+
+## d: ^\\demos\\st$
+## ## NO FOLDER ## d: ^\\lib\\ota\\portable\\st$
+## d: ^\\lib\\pkcs11\\portable\\st$
+## d: ^\\lib\\secure_sockets\\portable\\st$
+## d: ^\\lib\\wifi\\portable\\st$
+d: ^\\lib\\third_party\\mcu_vendor\\st$
+
+## d: ^\\demos\\ti$
+## d: ^\\lib\\ota\\portable\\ti$
+## d: ^\\lib\\pkcs11\\portable\\ti$
+## d: ^\\lib\\secure_sockets\\portable\\ti$
+## d: ^\\lib\\wifi\\portable\\ti$
+d: ^\\lib\\third_party\\mcu_vendor\\ti$
+
+## d: ^\\demos\\vendor$
+## d: ^\\lib\FreeRTOS-Plus-TCP\\source\\portable\\NetworkInterface\\board_family$
+## d: ^\\lib\\ota\\portable\\vendor$
+## d: ^\\lib\\pkcs11\\portable\\vendor$
+## d: ^\\lib\\secure_sockets\\portable\\vendor$
+## d: ^\\lib\\wifi\\portable\\vendor$
+## d: ^\\lib\\third_party\\mcu_vendor\\vendor$
+
+# Temporary filters for only merging upstream v1.4.1 --> v1.4.2 changes into renesas-rx
+
+d: ^\\demos\\infineon$
+d: ^\\lib\\pkcs11\\portable\\infineon$
+d: ^\\lib\\secure_sockets\\portable\\infineon$
+d: ^\\lib\\wifi\\portable\\infineon$
+
+d: ^\\demos\\microchip\\curiosity_pic32_bl$
