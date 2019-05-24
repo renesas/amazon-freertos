@@ -698,9 +698,6 @@ int32_t R_ETHER_Read_ZC2_BufRelease (uint32_t channel)
         /* When receive data exists */
         if (RACT != (papp_rx_desc[channel]->status & RACT))
         {
-            /* Move to next descriptor */
-            papp_rx_desc[channel]->status |= RACT;
-
             status = RFP1;
             status |= RFP0;
             status |= RFE;
@@ -714,6 +711,8 @@ int32_t R_ETHER_Read_ZC2_BufRelease (uint32_t channel)
             status |= RFS0_CERF;
 
             papp_rx_desc[channel]->status &= (~status);
+            /* Move to next descriptor */
+            papp_rx_desc[channel]->status |= RACT;
             papp_rx_desc[channel] = papp_rx_desc[channel]->next;
         }
         pether_ch = g_eth_control_ch[channel].pether_control;
