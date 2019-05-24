@@ -123,30 +123,6 @@ for %%S in (%MODIFIED_FIT_MODULES%) do (
 if %ef%==1 goto ERROR
 
 :MOVE_STEP_3
-set ef=0
-for %%S in (%MODIFIED_FIT_MODULES%) do (
-    if not exist "%pj%src\smc_gen\%%S" if exist "%pj%src\smc_gen\UNUSED_generated_code\%%S" if %ide%==e2 (
-        rem MAKE_EMPTY_FOLDER
-        if %%S==r_bsp (
-            mkdir "%pj%src\smc_gen\%%S"                  > nul 2>&1
-        ) else if %%S==r_ether_rx (
-            mkdir "%pj%src\smc_gen\%%S"                  > nul 2>&1
-        ) else if %%S==r_flash_rx (
-            mkdir "%pj%src\smc_gen\%%S"                  > nul 2>&1
-            mkdir "%pj%src\smc_gen\%%S\src"              > nul 2>&1
-            mkdir "%pj%src\smc_gen\%%S\src\flash_type_1" > nul 2>&1
-            mkdir "%pj%src\smc_gen\%%S\src\flash_type_2" > nul 2>&1
-            mkdir "%pj%src\smc_gen\%%S\src\flash_type_3" > nul 2>&1
-            mkdir "%pj%src\smc_gen\%%S\src\flash_type_4" > nul 2>&1
-            mkdir "%pj%src\smc_gen\%%S\src\targets"      > nul 2>&1
-        ) else (
-            mkdir "%pj%src\smc_gen\%%S"                  > nul 2>&1
-            mkdir "%pj%src\smc_gen\%%S\src"              > nul 2>&1
-        )
-    )
-)
-
-:MOVE_STEP_4
 for %%S in (%MODIFIED_FIT_MODULES%) do (
     if exist "%pj%src\smc_gen\UNUSED_generated_code\%%S\readme.txt" (
         rem SUCCEEDED
