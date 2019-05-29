@@ -31,18 +31,18 @@
 
 /*------------------------------------------ firmware update configuration (start) --------------------------------------------*/
 /* R_FLASH_Write() arguments: specify "low address" and process to "high address" */
-#define BOOT_LOADER_LOW_ADDRESS FLASH_CF_BLOCK_9
-#define BOOT_LOADER_MIRROR_LOW_ADDRESS FLASH_CF_BLOCK_47
+#define BOOT_LOADER_LOW_ADDRESS FLASH_CF_BLOCK_13
+#define BOOT_LOADER_MIRROR_LOW_ADDRESS FLASH_CF_BLOCK_51
 
 /* R_FLASH_Erase() arguments: specify "high address (low block number)" and process to "low address (high block number)" */
 #define BOOT_LOADER_MIRROR_HIGH_ADDRESS FLASH_CF_BLOCK_38
-#define BOOT_LOADER_UPDATE_TEMPORARY_AREA_HIGH_ADDRESS FLASH_CF_BLOCK_48
+#define BOOT_LOADER_UPDATE_TEMPORARY_AREA_HIGH_ADDRESS FLASH_CF_BLOCK_52
 
 #define BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_SMALL 8
-#define BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_MEDIUM 2
+#define BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_MEDIUM 6
 
-#define BOOT_LOADER_USER_CONST_DATA_LOW_ADDRESS FLASH_DF_BLOCK_8
-#define BOOT_LOADER_CONST_DATA_BLOCK_NUM 8
+#define BOOT_LOADER_USER_CONST_DATA_LOW_ADDRESS FLASH_DF_BLOCK_128
+#define BOOT_LOADER_CONST_DATA_BLOCK_NUM 128
 
 #define INITIAL_FIRMWARE_FILE_NAME "userprog.rsu"
 /*------------------------------------------ firmware update configuration (end) --------------------------------------------*/
