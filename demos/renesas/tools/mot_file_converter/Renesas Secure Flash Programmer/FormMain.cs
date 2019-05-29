@@ -1364,7 +1364,7 @@ namespace Renesas_Secure_Flash_Programmer
                                 && (current_user_firm_address <= code_flash_bottom_address))
                             {
                                 if ((current_user_firm_address < user_program_top_address)
-                                    || (current_user_firm_address > user_program_bottom_address))
+                                    || (current_user_firm_address > (user_program_bottom_address + 1)))
                                 {
                                     print_log(String.Format("your motorola file includes prohibited address 0x{0:x08} on code flash, out of 0x{1:x08}-0x{2:x08}.\r\n", current_user_firm_address, user_program_top_address, user_program_bottom_address));
                                     sw.Close();
@@ -1405,7 +1405,7 @@ namespace Renesas_Secure_Flash_Programmer
                         byte[] SessionKey0 = new byte[16];
                         byte[] SessionKey1 = new byte[16];
 
-                        for (int i = 0; i < user_program_bottom_address - user_program_top_address; i += (aesCryptoProvider.BlockSize / 8))
+                        for (int i = 0; i < (user_program_bottom_address + 1) - user_program_top_address; i += (aesCryptoProvider.BlockSize / 8))
                         {
                             for (int j = 0; j < aesCryptoProvider.BlockSize / 8; j++)
                             {
@@ -1468,7 +1468,7 @@ namespace Renesas_Secure_Flash_Programmer
                         string iv_base64 = Convert.ToBase64String(iv_init, 0, 16);
                         string sessionkey0_base64 = Convert.ToBase64String(SessionKey0, 0, 16);
                         string sessionkey1_base64 = Convert.ToBase64String(SessionKey1, 0, 16);
-                        string max_cnt = Convert.ToString(((user_program_bottom_address - user_program_top_address) / 4) + 4, 16); // +4 means for checksum
+                        string max_cnt = Convert.ToString((((user_program_bottom_address + 1) - user_program_top_address) / 4) + 4, 16); // +4 means for checksum
                         string checksum_base64 = Convert.ToBase64String(checksum, 0, 16);
                         string script;
                         script = $"iv {iv_base64}\r\n";
@@ -1499,8 +1499,8 @@ namespace Renesas_Secure_Flash_Programmer
                         // calculate hash
                         System.Security.Cryptography.SHA1CryptoServiceProvider sha_1 =
                             new System.Security.Cryptography.SHA1CryptoServiceProvider();
-                        int offset = Convert.ToInt32(user_program_bottom_address - user_program_top_address);
-                        bs = sha_1.ComputeHash(code_flash_image, 0, offset + 1);
+                        int offset = Convert.ToInt32((user_program_bottom_address + 1) - user_program_top_address);
+                        bs = sha_1.ComputeHash(code_flash_image, 0, offset);
                         sha_1.Clear();
                         hash_value = Convert.ToBase64String(bs, 0, 20);
 
@@ -1509,7 +1509,7 @@ namespace Renesas_Secure_Flash_Programmer
                         hash_string += "\r\n";
                         sw.Write(hash_string);
 
-                        for (int i = 0; i < (user_program_bottom_address - user_program_top_address) + 1; i += 16)
+                        for (int i = 0; i < ((user_program_bottom_address + 1) - user_program_top_address); i += 16)
                         {
                             string user_program_base64 = Convert.ToBase64String(code_flash_image, i, 16);
 
