@@ -666,8 +666,9 @@ Borad number:
  (4)RX64M GR-KAEDE
  (5)Renesas Starter Kit+ for RX65N-2MB + Silex SX-ULPGN PMOD
  (6)RX65N Target Board + Silex SX-ULPGN PMOD
- (7)RX63N GR-SAKURA II
+ (7)RX63N GR-SAKURA II -> not available
  (8)RX65N GR-ROSE (WIFI: ESP8266)
+ (9)RX65N Envision Kit + Silex SX-ULPGN PMOD
 
 Connection pattern number:
  (1)pattern1: wifi module has TCP/IP and SSL/TLS, Amazon recommends this pattern as RAM<16KB.
@@ -689,14 +690,15 @@ Compiler number:
 
                  / IDE      (1)         (2)         (3)
 Board Connection / Compiler (1) (2) (3) (1) (2) (3) (1) (2) (3)
-(1)   (2)        /           X   x       x   -   -   -   -     
-(2)   (2)        /           x   x       x   -   -   -   -   * 
-(3)   (2)        /           x   x       x   -   -   -   -     
-(4)   (2)        /           x   x       x   -   -   -   -     
-(5)   (4)        /           x   x       x   -   -   -   -     
-(6)   (4)        /           x   x       x   -   -   -   -     
-(7)   (2)        /           x   x       x   -   -   -   -     
-(8)   (4)        /           x   x           -   -   -   -     
+(1)   (2)        /           x   *       *   -   -   -   -     
+(2)   (2)        /           *   *       *   -   -   -   -   * 
+(3)   (2)        /           *   *       *   -   -   -   -     
+(4)   (2)        /           *   *       *   -   -   -   -     
+(5)   (4)        /           *   *       *   -   -   -   -     
+(6)   (4)        /           *   *       *   -   -   -   -     
+(7)   (2)        /           -   -       -   -   -   -   -     
+(8)   (4)        /           *   *           -   -   -   -     
+(9)   (4)        /           *   *           -   -   -   -     
 
   X: tested (Amazon FreeRTOS Qualification)
   x: tested (MQTT echo demo)
