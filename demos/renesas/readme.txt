@@ -660,15 +660,15 @@ Development Environment (tested or no matrix)
 --------------------------------------------------------------------------
 
 Borad number:
- (1)Renesas Starter Kit+ for RX65N-2MB
- (2)RX65N Envision Kit
- (3)RX65N GR-ROSE
- (4)RX64M GR-KAEDE
- (5)Renesas Starter Kit+ for RX65N-2MB + Silex SX-ULPGN PMOD
- (6)RX65N Target Board + Silex SX-ULPGN PMOD
- (7)RX63N GR-SAKURA II -> not available
- (8)RX65N GR-ROSE (WIFI: ESP8266)
- (9)RX65N Envision Kit + Silex SX-ULPGN PMOD
+ (1)rx65n-rsk				: Renesas Starter Kit+ for RX65N-2MB
+ (2)rx65n-rsk-uart-sx-ulpgn		: Renesas Starter Kit+ for RX65N-2MB + Silex SX-ULPGN PMOD
+ (3)rx65n-envision-kit			: RX65N Envision Kit
+ (4)rx65n-envision-kit-uart-sx-ulpgn	: RX65N Envision Kit + Silex SX-ULPGN PMOD
+ (5)rx65n-gr-rose			: RX65N GR-ROSE
+ (6)rx65n-gr-rose-uart-esp8266		: RX65N GR-ROSE (WIFI: ESP8266)
+ (7)rx65n-cloud-kit-uart-sx-ulpgn	: RX65N Target Board + Silex SX-ULPGN PMOD
+ (8)rx64m-gr-kaede			: RX64M GR-KAEDE
+ (9)rx63n-gr-sakura2: RX63N GR-SAKURA II -> not available
 
 Connection pattern number:
  (1)pattern1: wifi module has TCP/IP and SSL/TLS, Amazon recommends this pattern as RAM<16KB.
@@ -691,14 +691,14 @@ Compiler number:
                  / IDE      (1)         (2)         (3)
 Board Connection / Compiler (1) (2) (3) (1) (2) (3) (1) (2) (3)
 (1)   (2)        /           x   *       *   -   -   -   -     
-(2)   (2)        /           *   *       *   -   -   -   -   * 
-(3)   (2)        /           *   *       *   -   -   -   -     
-(4)   (2)        /           *   *       *   -   -   -   -     
-(5)   (4)        /           *   *       *   -   -   -   -     
-(6)   (4)        /           *   *       *   -   -   -   -     
-(7)   (2)        /           -   -       -   -   -   -   -     
-(8)   (4)        /           *   *           -   -   -   -     
-(9)   (4)        /           *   *           -   -   -   -     
+(2)   (4)        /           *   *       *   -   -   -   -     
+(3)   (2)        /           *   *       *   -   -   -   -   * 
+(4)   (4)        /           *   *           -   -   -   -     
+(5)   (2)        /           *   *       *   -   -   -   -     
+(6)   (4)        /           *   *           -   -   -   -     
+(7)   (4)        /           *   *       *   -   -   -   -     
+(8)   (2)        /           *   *       *   -   -   -   -     
+(9)   (2)        /           -   -       -   -   -   -   -     
 
   X: tested (Amazon FreeRTOS Qualification)
   x: tested (MQTT echo demo)
