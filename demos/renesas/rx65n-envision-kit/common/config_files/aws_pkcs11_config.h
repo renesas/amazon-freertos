@@ -1,5 +1,5 @@
 /*
- * Amazon FreeRTOS V1.4.3
+ * Amazon FreeRTOS V1.4.7
  * Copyright (C) 2018 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -34,14 +34,5 @@
 
 /* A non-standard version of C_INITIALIZE should be used by this port. */
 #define pkcs11configC_INITIALIZE_ALT
-
-/* Workaround for missing function prototypes for aws_pkcs11_mbedtls.c. */
-#include "threading_alt.h"
-extern void aws_mbedtls_mutex_free( mbedtls_threading_mutex_t * mutex );
-extern void aws_mbedtls_mutex_init( mbedtls_threading_mutex_t * mutex );
-extern int aws_mbedtls_mutex_lock( mbedtls_threading_mutex_t * mutex );
-extern int aws_mbedtls_mutex_unlock( mbedtls_threading_mutex_t * mutex );
-//extern CK_RV prvMbedTLS_Initialize( void );
-//extern P11SessionPtr_t prvSessionPointerFromHandle( CK_SESSION_HANDLE xSession );
 
 #endif /* _AWS_PKCS11_CONFIG_H_ include guard. */
