@@ -1,3 +1,6 @@
+#ifndef _MBEDTLS_USER_CONFIG_H_
+#define _MBEDTLS_USER_CONFIG_H_
+
 /* Remove mbedTLS's unused *_self_test functions to remove 
  * linker warnings of the GNURX projects such as 
  * '_fstat is not implemented and will always fail', 
@@ -39,4 +42,6 @@
 typedef void * (* mbedtls_platform_zeroize_memset_t)( void *, int, size_t );
 #undef memset
 #define memset ((mbedtls_platform_zeroize_memset_t)memset)
+#endif
+
 #endif

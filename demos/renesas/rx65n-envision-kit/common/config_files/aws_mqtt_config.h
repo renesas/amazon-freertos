@@ -1,5 +1,5 @@
 /*
- * Amazon FreeRTOS V1.2.2
+ * Amazon FreeRTOS V1.4.7
  * Copyright (C) 2018 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -65,6 +65,6 @@ extern void vAssertCalled( void );
 /**
  * @brief Set this macro to 1 for enabling debug logs.
  */
-#define mqttconfigENABLE_DEBUG_LOGS    1
+#define mqttconfigENABLE_DEBUG_LOGS    0
 
 #endif /* _AWS_MQTT_CONFIG_H_ */
