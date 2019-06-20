@@ -52,18 +52,18 @@
 #define configENABLE_BACKWARD_COMPATIBILITY        1
 #define configUSE_PREEMPTION                       1
 #define configUSE_PORT_OPTIMISED_TASK_SELECTION    0
-#define configMAX_PRIORITIES                       ( 7 )
-#define configTICK_RATE_HZ                         ( 1000 )
-#define configMINIMAL_STACK_SIZE                   ( ( unsigned short ) 512 )
-#define configTOTAL_HEAP_SIZE                      ( ( size_t ) ( 128U * 1024U ) )
-#define configMAX_TASK_NAME_LEN                    ( 12 )
+#define configMAX_PRIORITIES                       (7)
+#define configTICK_RATE_HZ                         (( TickType_t ) 1000)
+#define configMINIMAL_STACK_SIZE                   (( unsigned short ) 512)
+#define configTOTAL_HEAP_SIZE                      (( size_t ) ( 128U * 1024U ))
+#define configMAX_TASK_NAME_LEN                    (12)
 #define configUSE_TRACE_FACILITY                   1
 #define configUSE_16_BIT_TICKS                     0
 #define configIDLE_SHOULD_YIELD                    1
 #define configUSE_CO_ROUTINES                      0
 #define configUSE_MUTEXES                          1
 #define configUSE_RECURSIVE_MUTEXES                1
-#define configQUEUE_REGISTRY_SIZE                  0
+#define configQUEUE_REGISTRY_SIZE                  8
 #define configUSE_APPLICATION_TASK_TAG             0
 #define configUSE_COUNTING_SEMAPHORES              1
 #define configUSE_ALTERNATIVE_API                  0
@@ -72,21 +72,21 @@
 
 #define configUSE_DAEMON_TASK_STARTUP_HOOK 1
 
-#define configCPU_CLOCK_HZ				( 120000000UL )
-#define configPERIPHERAL_CLOCK_HZ		( 60000000UL )
+#define configCPU_CLOCK_HZ				(BSP_ICLK_HZ)
+#define configPERIPHERAL_CLOCK_HZ		(BSP_PCLKB_HZ)
 #define configUSE_QUEUE_SETS			1
 
 /* Hook function related definitions. */
-#define configUSE_TICK_HOOK                        0
-#define configUSE_IDLE_HOOK                        0
+#define configUSE_TICK_HOOK                        1
+#define configUSE_IDLE_HOOK                        1
 #define configUSE_MALLOC_FAILED_HOOK               1
-#define configCHECK_FOR_STACK_OVERFLOW             0      /* Not applicable to the Win32 port. */
+#define configCHECK_FOR_STACK_OVERFLOW             2      /* Not applicable to the Win32 port. */
 
 /* Software timer related definitions. */
 #define configUSE_TIMERS                           1
-#define configTIMER_TASK_PRIORITY                  ( configMAX_PRIORITIES - 1 )
+#define configTIMER_TASK_PRIORITY                  (configMAX_PRIORITIES - 1)
 #define configTIMER_QUEUE_LENGTH                   5
-#define configTIMER_TASK_STACK_DEPTH               ( configMINIMAL_STACK_SIZE * 6 )
+#define configTIMER_TASK_STACK_DEPTH               (configMINIMAL_STACK_SIZE)
 
 /* The interrupt priority used by the kernel itself for the tick interrupt and
 the pended interrupt.  This would normally be the lowest priority. */
@@ -117,7 +117,7 @@ void vConfigureTimerForRunTimeStats( void );
 
 /* Co-routine definitions. */
 #define configUSE_CO_ROUTINES                   0
-#define configMAX_CO_ROUTINE_PRIORITIES         ( 2 )
+#define configMAX_CO_ROUTINE_PRIORITIES         (2)
 
 /* Currently the TCP/IP stack is using dynamic allocation, and the MQTT task is
  * using static allocation. */
@@ -203,7 +203,7 @@ extern void vLoggingPrint( const char * pcMessage );
 
 /* Only used when running in the FreeRTOS Windows simulator.  Defines the
  * priority of the task used to simulate Ethernet interrupts. */
-#define configMAC_ISR_SIMULATOR_PRIORITY     ( configMAX_PRIORITIES - 1 )
+#define configMAC_ISR_SIMULATOR_PRIORITY     (configMAX_PRIORITIES - 1)
 
 /* This demo creates a virtual network connection by accessing the raw Ethernet
  * or WiFi data to and from a real network connection.  Many computers have more
@@ -231,19 +231,19 @@ extern void vLoggingPrint( const char * pcMessage );
  * to and from a real network connection on the host PC.  See the
  * configNETWORK_INTERFACE_TO_USE definition above for information on how to
  * configure the real network connection to use. */
-#define configMAC_ADDR0                      0x74
-#define configMAC_ADDR1                      0x90
-#define configMAC_ADDR2                      0x50
-#define configMAC_ADDR3                      0x00
-#define configMAC_ADDR4                      0x79
-#define configMAC_ADDR5                      0x03
+#define configMAC_ADDR0                      0x01
+#define configMAC_ADDR1                      0x12
+#define configMAC_ADDR2                      0x13
+#define configMAC_ADDR3                      0x10
+#define configMAC_ADDR4                      0x15
+#define configMAC_ADDR5                      0x11
 
 /* Default IP address configuration.  Used in ipconfigUSE_DHCP is set to 0, or
  * ipconfigUSE_DHCP is set to 1 but a DNS server cannot be contacted. */
-#define configIP_ADDR0                       172
-#define configIP_ADDR1                       27
-#define configIP_ADDR2                       49
-#define configIP_ADDR3                       127
+#define configIP_ADDR0                       192
+#define configIP_ADDR1                       168
+#define configIP_ADDR2                       0
+#define configIP_ADDR3                       200
 
 /* Default gateway IP address configuration.  Used in ipconfigUSE_DHCP is set to
  * 0, or ipconfigUSE_DHCP is set to 1 but a DNS server cannot be contacted. */
@@ -268,9 +268,9 @@ extern void vLoggingPrint( const char * pcMessage );
 #define configNET_MASK3                      0
 
 /* The UDP port to which print messages are sent. */
-#define configPRINT_PORT                     ( 15000 )
+#define configPRINT_PORT                     (15000)
 
-#define configPROFILING                      ( 0 )
+#define configPROFILING                      (0)
 
 /* Pseudo random number generater used by some demo tasks. */
 uint32_t ulRand(void);
