@@ -23,25 +23,6 @@
  * http://www.FreeRTOS.org
  */
 
-/***********************************************************************************************************************
-* DISCLAIMER
-* This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
-* other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
-* applicable laws, including copyright laws.
-* THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
-* THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
-* FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
-* EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
-* SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS
-* SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
-* Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
-* this software. By using this software, you agree to the additional terms and conditions found by accessing the
-* following link:
-* http://www.renesas.com/disclaimer
-*
-* Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
-***********************************************************************************************************************/
-
 /**
  * @file aws_secure_sockets.c
  * @brief WiFi and Secure Socket interface implementation.
@@ -60,7 +41,8 @@
 #include "aws_pkcs11.h"
 #include "aws_crypto.h"
 #include "platform.h"
-#include "sx_ulpgn_driver.h"
+#include "esp8266_driver.h"
+//#include "machine.h"
 
 /* Internal context structure. */
 typedef struct SSOCKETContext
@@ -75,6 +57,7 @@ typedef struct SSOCKETContext
     uint32_t ulRecvTimeout;
     char * pcServerCertificate;
     uint32_t ulServerCertificateLength;
+    uint32_t socket_no;
 } SSOCKETContext_t, * SSOCKETContextPtr_t;
 
 /**
@@ -82,7 +65,7 @@ typedef struct SSOCKETContext
  *
  * 16 total sockets
  */
-#define MAX_NUM_SSOCKETS    (4)
+#define MAX_NUM_SSOCKETS    (2)
 
 /**
  * @brief Number of secure sockets allocated.
@@ -91,15 +74,6 @@ typedef struct SSOCKETContext
  */
 static uint8_t ssockets_num_allocated = 0;
 
-static SemaphoreHandle_t xUcInUse = NULL;
-static const TickType_t xMaxSemaphoreBlockTime = pdMS_TO_TICKS( 60000UL );
-
-/* Generate a randomized TCP Initial Sequence Number per RFC. */
-uint32_t ulApplicationGetNextSequenceNumber(
-    uint32_t ulSourceAddress,
-    uint16_t usSourcePort,
-    uint32_t ulDestinationAddress,
-    uint16_t usDestinationPort );
 
 /*
  * @brief Network send callback.
@@ -110,7 +84,9 @@ static BaseType_t prvNetworkSend( void * pvContext,
 {
     SSOCKETContextPtr_t pxContext = ( SSOCKETContextPtr_t ) pvContext; /*lint !e9087 cast used for portability. */
 
-    return sx_ulpgn_tcp_send(pxContext->xSocket, pucData, xDataLength, pxContext->ulSendTimeout);
+    return esp8266_tcp_send(pxContext->socket_no, pucData, xDataLength, pxContext->ulSendTimeout);
+
+//    return FreeRTOS_send( pxContext->xSocket, pucData, xDataLength, pxContext->xSendFlags );
 }
 /*-----------------------------------------------------------*/
 
@@ -124,13 +100,16 @@ static BaseType_t prvNetworkRecv( void * pvContext,
 	BaseType_t receive_byte;
    SSOCKETContextPtr_t pxContext = ( SSOCKETContextPtr_t ) pvContext; /*lint !e9087 cast used for portability. */
 
-   if(pxContext->xSocket >= MAX_NUM_SSOCKETS)
-   {
-	   return SOCKETS_SOCKET_ERROR;
-   }
-   receive_byte = sx_ulpgn_tcp_recv(pxContext->xSocket, pucReceiveBuffer, xReceiveLength, pxContext->ulRecvTimeout);
 
+   receive_byte = esp8266_tcp_recv(pxContext->socket_no, pucReceiveBuffer, xReceiveLength, pxContext->ulRecvTimeout);
+
+   if(xReceiveLength == 64)
+   {
+   	nop();
+   }
    return receive_byte;
+
+//   return FreeRTOS_recv( pxContext->xSocket, pucReceiveBuffer, xReceiveLength, pxContext->xRecvFlags );
 }
 
 /*-----------------------------------------------------------*/
@@ -159,24 +138,16 @@ Socket_t SOCKETS_Socket( int32_t lDomain,
 {
     int32_t lStatus = SOCKETS_ERROR_NONE;
     int32_t ret;
-    uint8_t socketId;
+    int32_t i;
     SSOCKETContextPtr_t pxContext = NULL;
 
-	/* Ensure that only supported values are supplied. */
-	configASSERT( lDomain == SOCKETS_AF_INET );
-	configASSERT( lType == SOCKETS_SOCK_STREAM );
-	configASSERT( lProtocol == SOCKETS_IPPROTO_TCP );
-	/* Ensure that only supported values are supplied. */
-    if((lDomain != SOCKETS_AF_INET) || ( lType != SOCKETS_SOCK_STREAM ) || ( lProtocol != SOCKETS_IPPROTO_TCP ))
-	{
-		return SOCKETS_INVALID_SOCKET;
-	}
-    if (xSemaphoreTake( xUcInUse, xMaxSemaphoreBlockTime) == pdTRUE)
-    {
+    /* Ensure that only supported values are supplied. */
+    configASSERT( lDomain == SOCKETS_AF_INET );
+    configASSERT( lType == SOCKETS_SOCK_STREAM );
+    configASSERT( lProtocol == SOCKETS_IPPROTO_TCP );
 
-		socketId = sx_ulpgn_get_avail_socket();
 
-		if(ssockets_num_allocated >= MAX_NUM_SSOCKETS || socketId == 255)
+		if(ssockets_num_allocated >= MAX_NUM_SSOCKETS)
 		{
 			lStatus = SOCKETS_SOCKET_ERROR;
 		}
@@ -194,29 +165,32 @@ Socket_t SOCKETS_Socket( int32_t lDomain,
 		{
 			memset( pxContext, 0, sizeof( SSOCKETContext_t ) );
 
-			/* Create the wrapped socket. */
-			ret = sx_ulpgn_socket_create(socketId, 0, 4);
-			if(-1 == ret)
+			for(i = 0;i<MAX_NUM_SSOCKETS; i++)
+			{
+				/* Create the wrapped socket. */
+				ret = esp8266_socket_create(i, 0, 4);
+				if(-1 == ret)
+				{
+				}
+				else
+				{
+					pxContext->socket_no = i;
+					pxContext->xSocket = pxContext;
+					pxContext->ulRecvTimeout = socketsconfigDEFAULT_RECV_TIMEOUT;
+					pxContext->ulSendTimeout = socketsconfigDEFAULT_SEND_TIMEOUT;
+					break;
+				}
+			}
+			if(i == MAX_NUM_SSOCKETS)
 			{
 				lStatus = SOCKETS_SOCKET_ERROR;
 			}
-			else
-			{
-				pxContext->xSocket = socketId;
-				pxContext->ulRecvTimeout = socketsconfigDEFAULT_RECV_TIMEOUT;
-				pxContext->ulSendTimeout = socketsconfigDEFAULT_SEND_TIMEOUT;
-			}
+
 		}
 
 		if( SOCKETS_ERROR_NONE != lStatus )
 		{
-			if(NULL != pxContext)
-			{
-				vPortFree( pxContext );
-			}
-			/* Give back the socketInUse mutex. */
-		    xSemaphoreGive(xUcInUse);
-			return SOCKETS_INVALID_SOCKET;
+			vPortFree( pxContext );
 		}
 
 		else
@@ -225,15 +199,15 @@ Socket_t SOCKETS_Socket( int32_t lDomain,
 			{
 				ssockets_num_allocated++;
 			}
-
-			/* Give back the socketInUse mutex. */
-		    xSemaphoreGive(xUcInUse);
-			return pxContext;
 		}
+
+    if( SOCKETS_ERROR_NONE != lStatus )
+    {
+        return SOCKETS_INVALID_SOCKET;
     }
     else
     {
-		return SOCKETS_INVALID_SOCKET;
+    	return pxContext;
     }
 }
 /*-----------------------------------------------------------*/
@@ -272,11 +246,25 @@ int32_t SOCKETS_Connect( Socket_t xSocket,
 
     if( ( pxContext != SOCKETS_INVALID_SOCKET ) && ( pxAddress != NULL ) )
     {
-        ret = sx_ulpgn_tcp_connect(pxContext->xSocket, SOCKETS_ntohl(pxAddress->ulAddress), SOCKETS_ntohs(pxAddress->usPort));
+
+#if 0
+        ret = esp8266_tcp_connect(pxContext->socket_no, SOCKETS_ntohl(pxAddress->ulAddress), SOCKETS_ntohs(pxAddress->usPort));
         if( 0 != ret )
         {
         	lStatus = SOCKETS_SOCKET_ERROR;
         }
+#endif
+
+//#if 0
+        ret = esp8266_ssl_connect(pxContext->socket_no, SOCKETS_ntohl(pxAddress->ulAddress), SOCKETS_ntohs(pxAddress->usPort));
+        if( 0 != ret )
+        {
+        	lStatus = SOCKETS_SOCKET_ERROR;
+        }
+    }
+//#endif
+
+#if 0
         /* Negotiate TLS if requested. */
         if( ( SOCKETS_ERROR_NONE == lStatus ) && ( pdTRUE == pxContext->xRequireTLS ) )
         {
@@ -303,7 +291,7 @@ int32_t SOCKETS_Connect( Socket_t xSocket,
     {
         lStatus = SOCKETS_SOCKET_ERROR;
     }
-
+#endif
     return lStatus;
 }
 /*-----------------------------------------------------------*/
@@ -335,12 +323,12 @@ int32_t SOCKETS_Recv( Socket_t xSocket,
     int32_t lStatus = SOCKETS_SOCKET_ERROR;
     SSOCKETContextPtr_t pxContext = ( SSOCKETContextPtr_t ) xSocket; /*lint !e9087 cast used for portability. */
 
+    pxContext->xRecvFlags = ( BaseType_t ) ulFlags;
 
     if( ( xSocket != SOCKETS_INVALID_SOCKET ) &&
         ( pvBuffer != NULL ) )
     {
-        pxContext->xRecvFlags = ( BaseType_t ) ulFlags;
-
+#if 0
         if( pdTRUE == pxContext->xRequireTLS )
         {
             /* Receive through TLS pipe, if negotiated. */
@@ -351,6 +339,8 @@ int32_t SOCKETS_Recv( Socket_t xSocket,
             /* Receive unencrypted. */
             lStatus = prvNetworkRecv( pxContext, pvBuffer, xBufferLength );
         }
+#endif
+        lStatus = prvNetworkRecv( pxContext, pvBuffer, xBufferLength );
     }
 
     return lStatus;
@@ -385,6 +375,7 @@ int32_t SOCKETS_Send( Socket_t xSocket,
     {
         pxContext->xSendFlags = ( BaseType_t ) ulFlags;
 
+#if 0
         if( pdTRUE == pxContext->xRequireTLS )
         {
             /* Send through TLS pipe, if negotiated. */
@@ -395,6 +386,8 @@ int32_t SOCKETS_Send( Socket_t xSocket,
             /* Send unencrypted. */
             lStatus = prvNetworkSend( pxContext, pvBuffer, xDataLength );
         }
+#endif
+        lStatus = prvNetworkSend( pxContext, pvBuffer, xDataLength );
     }
 
     return lStatus;
@@ -417,16 +410,8 @@ int32_t SOCKETS_Shutdown( Socket_t xSocket,
 {
     SSOCKETContextPtr_t pxContext = ( SSOCKETContextPtr_t ) xSocket; /*lint !e9087 cast used for portability. */
 
-    if(( NULL == pxContext ) || (pxContext == SOCKETS_INVALID_SOCKET) || (pxContext->xSocket >= MAX_NUM_SSOCKETS))
-    {
-    	return SOCKETS_EINVAL;
-    }
-    else if((ulHow != SOCKETS_SHUT_RD) && (ulHow != SOCKETS_SHUT_WR) && (ulHow != SOCKETS_SHUT_RDWR))
-    {
-    	return SOCKETS_EINVAL;
-    }
-
-	return sx_ulpgn_tcp_disconnect(pxContext->xSocket);
+	return esp8266_tcp_disconnect(pxContext->socket_no);
+//    return FreeRTOS_shutdown( pxContext->xSocket, ( BaseType_t ) ulHow );
 }
 /*-----------------------------------------------------------*/
 
@@ -443,7 +428,7 @@ int32_t SOCKETS_Close( Socket_t xSocket )
 {
     SSOCKETContextPtr_t pxContext = ( SSOCKETContextPtr_t ) xSocket; /*lint !e9087 cast used for portability. */
 
-    if( ( NULL != pxContext ) && ( SOCKETS_INVALID_SOCKET != pxContext ) && (pxContext->xSocket < MAX_NUM_SSOCKETS))
+    if( NULL != pxContext )
     {
         if( NULL != pxContext->pcDestination )
         {
@@ -455,17 +440,15 @@ int32_t SOCKETS_Close( Socket_t xSocket )
             vPortFree( pxContext->pcServerCertificate );
         }
 
+#if 0
         if( pdTRUE == pxContext->xRequireTLS )
         {
             TLS_Cleanup( pxContext->pvTLSContext );
         }
-
-        sx_ulpgn_tcp_disconnect(pxContext->xSocket);
+#endif
+        esp8266_tcp_disconnect(pxContext->socket_no);
+//        ( void ) FreeRTOS_closesocket( pxContext->xSocket );
         vPortFree( pxContext );
-    }
-    else
-    {
-    	return SOCKETS_EINVAL;
     }
 
 	if(ssockets_num_allocated > 0)
@@ -546,119 +529,82 @@ int32_t SOCKETS_SetSockOpt( Socket_t xSocket,
     TickType_t xTimeout;
     SSOCKETContextPtr_t pxContext = ( SSOCKETContextPtr_t ) xSocket; /*lint !e9087 cast used for portability. */
 
-    if( ( xSocket != SOCKETS_INVALID_SOCKET ) && ( xSocket != NULL ) )
+    switch( lOptionName )
     {
-		switch( lOptionName )
-		{
-			case SOCKETS_SO_SERVER_NAME_INDICATION:
+        case SOCKETS_SO_SERVER_NAME_INDICATION:
 
-                /* Do not set the SNI options if the socket is possibly already connected. */
-                if( ULPGN_SOCKET_STATUS_CONNECTED == sx_ulpgn_get_tcp_socket_status(pxContext->xSocket) )
-                {
-                    lStatus = SOCKETS_EISCONN;
-                }
+            /* Non-NULL destination string indicates that SNI extension should
+             * be used during TLS negotiation. */
+            if( NULL == ( pxContext->pcDestination =
+                              ( char * ) pvPortMalloc( 1U + xOptionLength ) ) )
+            {
+                lStatus = SOCKETS_ENOMEM;
+            }
+            else
+            {
+                memcpy( pxContext->pcDestination, pvOptionValue, xOptionLength );
+                pxContext->pcDestination[ xOptionLength ] = '\0';
+            }
 
-                /* Non-NULL destination string indicates that SNI extension should
-                 * be used during TLS negotiation. */
-                else if( NULL == ( pxContext->pcDestination =
-                                       ( char * ) pvPortMalloc( 1U + xOptionLength ) ) )
-                {
-                    lStatus = SOCKETS_ENOMEM;
-                }
-                else
-                {
-                    memcpy( pxContext->pcDestination, pvOptionValue, xOptionLength );
-                    pxContext->pcDestination[ xOptionLength ] = '\0';
-                }
+            break;
 
-				break;
+        case SOCKETS_SO_TRUSTED_SERVER_CERTIFICATE:
 
-			case SOCKETS_SO_TRUSTED_SERVER_CERTIFICATE:
+            /* Non-NULL server certificate field indicates that the default trust
+             * list should not be used. */
+            if( NULL == ( pxContext->pcServerCertificate =
+                              ( char * ) pvPortMalloc( xOptionLength ) ) )
+            {
+                lStatus = SOCKETS_ENOMEM;
+            }
+            else
+            {
+                memcpy( pxContext->pcServerCertificate, pvOptionValue, xOptionLength );
+                pxContext->ulServerCertificateLength = xOptionLength;
+            }
 
-                /* Do not set the trusted server certificate if the socket is possibly already connected. */
-                if( ULPGN_SOCKET_STATUS_CONNECTED == sx_ulpgn_get_tcp_socket_status(pxContext->xSocket) )
-                {
-                    lStatus = SOCKETS_EISCONN;
-                }
+            break;
 
-				/* Non-NULL server certificate field indicates that the default trust
-				 * list should not be used. */
-                else if( NULL == ( pxContext->pcServerCertificate =
-								  ( char * ) pvPortMalloc( xOptionLength ) ) )
-				{
-					lStatus = SOCKETS_ENOMEM;
-				}
-				else
-				{
-					memcpy( pxContext->pcServerCertificate, pvOptionValue, xOptionLength );
-					pxContext->ulServerCertificateLength = xOptionLength;
-				}
+        case SOCKETS_SO_REQUIRE_TLS:
+            pxContext->xRequireTLS = pdTRUE;
+            break;
 
-                break;
+        case SOCKETS_SO_NONBLOCK:
+            pxContext->ulSendTimeout = 1000;
+            pxContext->ulRecvTimeout = 2;
+            break;
 
-			case SOCKETS_SO_REQUIRE_TLS:
-                /* Do not set the TLS option if the socket is possibly already connected. */
-                if( ULPGN_SOCKET_STATUS_CONNECTED == sx_ulpgn_get_tcp_socket_status(pxContext->xSocket) )
-                {
-                    lStatus = SOCKETS_EISCONN;
-                }
-                else
-                {
-                    pxContext->xRequireTLS = pdTRUE;
-                }
-				break;
+        case SOCKETS_SO_RCVTIMEO:
+            /* Comply with Berkeley standard - a 0 timeout is wait forever. */
+            xTimeout = *( ( const TickType_t * ) pvOptionValue ); /*lint !e9087 pvOptionValue passed should be of TickType_t */
 
-			case SOCKETS_SO_NONBLOCK:
-                /* Non-blocking connect is not supported.  Socket may be set to nonblocking
-                 * only after a connection is made. */
+            if( xTimeout == 0U )
+            {
+                xTimeout = portMAX_DELAY;
+            }
+        	pxContext->ulRecvTimeout = xTimeout;
+            esp8266_serial_tcp_recv_timeout_set(pxContext->socket_no, xTimeout);
+            break;
+        case SOCKETS_SO_SNDTIMEO:
+            /* Comply with Berkeley standard - a 0 timeout is wait forever. */
+            xTimeout = *( ( const TickType_t * ) pvOptionValue ); /*lint !e9087 pvOptionValue passed should be of TickType_t */
 
-                if( ULPGN_SOCKET_STATUS_CONNECTED == sx_ulpgn_get_tcp_socket_status(pxContext->xSocket) )
-                {
-                    pxContext->ulSendTimeout = 1;
-    				pxContext->ulRecvTimeout = 1;
-                }
-                else
-                {
-                    lStatus = SOCKETS_EISCONN;
-                }
-				break;
+            if( xTimeout == 0U )
+            {
+                xTimeout = portMAX_DELAY;
+            }
+        	pxContext->ulSendTimeout = xTimeout;
+//            esp8266_serial_tcp_timeout_set(xTimeout);
+            break;
 
-			case SOCKETS_SO_RCVTIMEO:
-				/* Comply with Berkeley standard - a 0 timeout is wait forever. */
-				xTimeout = *( ( const TickType_t * ) pvOptionValue ); /*lint !e9087 pvOptionValue passed should be of TickType_t */
-
-				if( xTimeout == 0U )
-				{
-					xTimeout = portMAX_DELAY;
-				}
-
-				pxContext->ulRecvTimeout = xTimeout;
-
-				break;
-			case SOCKETS_SO_SNDTIMEO:
-				/* Comply with Berkeley standard - a 0 timeout is wait forever. */
-				xTimeout = *( ( const TickType_t * ) pvOptionValue ); /*lint !e9087 pvOptionValue passed should be of TickType_t */
-
-				if( xTimeout == 0U )
-				{
-					xTimeout = portMAX_DELAY;
-				}
-				pxContext->ulSendTimeout = xTimeout;
-				break;
-
-			default:
-				lStatus = SOCKETS_ENOPROTOOPT;
+        default:
+            lStatus = SOCKETS_ENOPROTOOPT;
 //            FreeRTOS_setsockopt( pxContext->xSocket,
 //                                           lLevel,
 //                                           lOptionName,
 //                                           pvOptionValue,
 //                                           xOptionLength );
-				break;
-		}
-    }
-    else
-    {
-        lStatus = SOCKETS_EINVAL;
+            break;
     }
 
     return lStatus;
@@ -678,10 +624,10 @@ uint32_t SOCKETS_GetHostByName( const char * pcHostName )
 	uint32_t ulAddr = 0;
 	uint32_t ret;
 
-	ret = sx_ulpgn_dns_query(pcHostName, &ulAddr);
+	ret = esp8266_dns_query((uint8_t *)pcHostName, &ulAddr);
 	if(0 == ret)
 	{
-//		ulAddr = SOCKETS_htonl( ulAddr );
+		ulAddr = SOCKETS_htonl( ulAddr );
 	}
 	return ulAddr;
 }
@@ -700,22 +646,23 @@ uint32_t SOCKETS_GetHostByName( const char * pcHostName )
 BaseType_t SOCKETS_Init( void )
 {
     /* FIX ME. */
-    /* Empty initialization */
+    BaseType_t xResult = pdFAIL;
 
-	  /* Create the global mutex which is used to ensure
-	   * that only one socket is accessing the ucInUse bits in
-	   * the socket array. */
-	  xUcInUse = xSemaphoreCreateMutex();
-	  if (xUcInUse == NULL)
-	  {
-		return pdFAIL;
-	  }
+    /* Create the global mutex which is used to ensure
+     * that only one socket is accessing the ucInUse bits in
+     * the socket array. */
 
-    return pdPASS;
+    if(0 == esp8266_socket_init())
+    {
+        xResult = pdPASS;
+    }
+    /* Success. */
+
+    return xResult;
 }
 /*-----------------------------------------------------------*/
 
-static CK_RV prvSocketsGetCryptoSession( CK_SESSION_HANDLE *pxSession,
+static CK_RV prvSocketsGetCryptoSession( CK_SESSION_HANDLE * pxSession,
                                          CK_FUNCTION_LIST_PTR_PTR ppxFunctionList )
 {
     CK_RV xResult = 0;
@@ -725,7 +672,7 @@ static CK_RV prvSocketsGetCryptoSession( CK_SESSION_HANDLE *pxSession,
     CK_ULONG ulCount = 1;
     CK_SLOT_ID xSlotId = 0;
 
-    portENTER_CRITICAL( );
+    portENTER_CRITICAL();
 
     if( 0 == xPkcs11Session )
     {
@@ -744,27 +691,25 @@ static CK_RV prvSocketsGetCryptoSession( CK_SESSION_HANDLE *pxSession,
         }
 
         /* Get the default slot ID. */
-        if( 0 == xResult )
+        if( ( 0 == xResult ) || ( CKR_CRYPTOKI_ALREADY_INITIALIZED == xResult ) )
         {
-            xResult = pxPkcs11FunctionList->C_GetSlotList(
-                CK_TRUE,
-                &xSlotId,
-                &ulCount );
+            xResult = pxPkcs11FunctionList->C_GetSlotList( CK_TRUE,
+                                                           &xSlotId,
+                                                           &ulCount );
         }
 
         /* Start a session with the PKCS#11 module. */
         if( 0 == xResult )
         {
-            xResult = pxPkcs11FunctionList->C_OpenSession(
-                xSlotId,
-                CKF_SERIAL_SESSION,
-                NULL,
-                NULL,
-                &xPkcs11Session );
+            xResult = pxPkcs11FunctionList->C_OpenSession( xSlotId,
+                                                           CKF_SERIAL_SESSION,
+                                                           NULL,
+                                                           NULL,
+                                                           &xPkcs11Session );
         }
     }
 
-    portEXIT_CRITICAL( );
+    portEXIT_CRITICAL();
 
     /* Output the shared function pointers and session handle. */
     *ppxFunctionList = pxPkcs11FunctionList;
@@ -774,15 +719,45 @@ static CK_RV prvSocketsGetCryptoSession( CK_SESSION_HANDLE *pxSession,
 }
 /*-----------------------------------------------------------*/
 
+#if 0
+uint32_t ulRand( void )
+{
+    CK_RV xResult = 0;
+    CK_SESSION_HANDLE xPkcs11Session = 0;
+    CK_FUNCTION_LIST_PTR pxPkcs11FunctionList = NULL;
+    uint32_t ulRandomValue = 0;
+
+    xResult = prvSocketsGetCryptoSession( &xPkcs11Session,
+                                          &pxPkcs11FunctionList );
+
+    if( 0 == xResult )
+    {
+        /* Request a sequence of cryptographically random byte values using
+         * PKCS#11. */
+        xResult = pxPkcs11FunctionList->C_GenerateRandom( xPkcs11Session,
+                                                          ( CK_BYTE_PTR ) &ulRandomValue,
+                                                          sizeof( ulRandomValue ) );
+    }
+
+    /* Check if any of the API calls failed. */
+    if( 0 != xResult )
+    {
+        ulRandomValue = 0;
+    }
+
+    return ulRandomValue;
+}
+#endif
+/*-----------------------------------------------------------*/
+
 /**
- * @brief Generate a TCP Initial Sequence Number that is reasonably difficult 
- * to predict, per https://tools.ietf.org/html/rfc6528. 
+ * @brief Generate a TCP Initial Sequence Number that is reasonably difficult
+ * to predict, per https://tools.ietf.org/html/rfc6528.
  */
-uint32_t ulApplicationGetNextSequenceNumber( 
-    uint32_t ulSourceAddress,
-    uint16_t usSourcePort,
-    uint32_t ulDestinationAddress,
-    uint16_t usDestinationPort )
+uint32_t ulApplicationGetNextSequenceNumber( uint32_t ulSourceAddress,
+                                             uint16_t usSourcePort,
+                                             uint32_t ulDestinationAddress,
+                                             uint16_t usDestinationPort )
 {
     CK_RV xResult = 0;
     CK_SESSION_HANDLE xPkcs11Session = 0;
@@ -794,104 +769,100 @@ uint32_t ulApplicationGetNextSequenceNumber(
     static uint64_t ullKey = 0;
 
     /* Acquire a crypto session handle. */
-    xResult = prvSocketsGetCryptoSession( 
-        &xPkcs11Session,
-        &pxPkcs11FunctionList );
+    xResult = prvSocketsGetCryptoSession( &xPkcs11Session,
+                                          &pxPkcs11FunctionList );
 
     if( 0 == xResult )
     {
-        portENTER_CRITICAL( );
         if( 0 == ullKey )
         {
             /* One-time initialization, per boot, of the random seed. */
-            xResult = pxPkcs11FunctionList->C_GenerateRandom( 
-                xPkcs11Session,
-                ( CK_BYTE_PTR )&ullKey,
-                sizeof( ullKey ) );
+            xResult = pxPkcs11FunctionList->C_GenerateRandom( xPkcs11Session,
+                                                              ( CK_BYTE_PTR ) &ullKey,
+                                                              sizeof( ullKey ) );
         }
-        portEXIT_CRITICAL( );
     }
 
     /* Lock the shared crypto session. */
-    portENTER_CRITICAL( );
+    portENTER_CRITICAL();
 
     /* Start a hash. */
     if( 0 == xResult )
     {
         xMechSha256.mechanism = CKM_SHA256;
-        xResult = pxPkcs11FunctionList->C_DigestInit( 
-            xPkcs11Session, &xMechSha256 );
+        xResult = pxPkcs11FunctionList->C_DigestInit( xPkcs11Session, &xMechSha256 );
     }
 
     /* Hash the seed. */
     if( 0 == xResult )
     {
-        xResult = pxPkcs11FunctionList->C_DigestUpdate( 
-            xPkcs11Session, ( CK_BYTE_PTR )&ullKey, sizeof( ullKey ) );
+        xResult = pxPkcs11FunctionList->C_DigestUpdate( xPkcs11Session,
+                                                        ( CK_BYTE_PTR ) &ullKey,
+                                                        sizeof( ullKey ) );
     }
 
     /* Hash the source address. */
     if( 0 == xResult )
     {
-        xResult = pxPkcs11FunctionList->C_DigestUpdate(
-            xPkcs11Session,
-            ( CK_BYTE_PTR )&ulSourceAddress,
-            sizeof( ulSourceAddress ) );
+        xResult = pxPkcs11FunctionList->C_DigestUpdate( xPkcs11Session,
+                                                        ( CK_BYTE_PTR ) &ulSourceAddress,
+                                                        sizeof( ulSourceAddress ) );
     }
 
     /* Hash the source port. */
     if( 0 == xResult )
     {
-        xResult = pxPkcs11FunctionList->C_DigestUpdate(
-            xPkcs11Session,
-            ( CK_BYTE_PTR )&usSourcePort,
-            sizeof( usSourcePort ) );
+        xResult = pxPkcs11FunctionList->C_DigestUpdate( xPkcs11Session,
+                                                        ( CK_BYTE_PTR ) &usSourcePort,
+                                                        sizeof( usSourcePort ) );
     }
 
     /* Hash the destination address. */
     if( 0 == xResult )
     {
-        xResult = pxPkcs11FunctionList->C_DigestUpdate( 
-            xPkcs11Session, 
-            ( CK_BYTE_PTR )&ulDestinationAddress, 
-            sizeof( ulDestinationAddress ) );
+        xResult = pxPkcs11FunctionList->C_DigestUpdate( xPkcs11Session,
+                                                        ( CK_BYTE_PTR ) &ulDestinationAddress,
+                                                        sizeof( ulDestinationAddress ) );
     }
 
     /* Hash the destination port. */
     if( 0 == xResult )
     {
-        xResult = pxPkcs11FunctionList->C_DigestUpdate(
-            xPkcs11Session,
-            ( CK_BYTE_PTR )&usDestinationPort,
-            sizeof( usDestinationPort ) );
+        xResult = pxPkcs11FunctionList->C_DigestUpdate( xPkcs11Session,
+                                                        ( CK_BYTE_PTR ) &usDestinationPort,
+                                                        sizeof( usDestinationPort ) );
     }
 
     /* Get the hash. */
     if( 0 == xResult )
     {
-        xResult = pxPkcs11FunctionList->C_DigestFinal(
-            xPkcs11Session,
-            ucSha256Result,
-            &ulLength );
+        xResult = pxPkcs11FunctionList->C_DigestFinal( xPkcs11Session,
+                                                       ucSha256Result,
+                                                       &ulLength );
     }
 
-    portEXIT_CRITICAL( );
+    portEXIT_CRITICAL();
 
     /* Use the first four bytes of the hash result as the starting point for
-    all initial sequence numbers for connections based on the input 4-tuple. */
+     * all initial sequence numbers for connections based on the input 4-tuple. */
     if( 0 == xResult )
     {
-        memcpy(
-            &ulNextSequenceNumber,
-            ucSha256Result,
-            sizeof( ulNextSequenceNumber ) );
+        memcpy( &ulNextSequenceNumber,
+                ucSha256Result,
+                sizeof( ulNextSequenceNumber ) );
 
         /* Add the tick count of four-tick intervals. In theory, per the RFC
-        (see above), this approach still allows server equipment to optimize
-        handling of connections from the same device that haven't fully timed out. */
-        ulNextSequenceNumber += xTaskGetTickCount( ) / 4;
+         * (see above), this approach still allows server equipment to optimize
+         * handling of connections from the same device that haven't fully timed out. */
+        ulNextSequenceNumber += xTaskGetTickCount() / 4;
     }
 
     return ulNextSequenceNumber;
+}
+uint8_t get_socket_no(void *pvContext)
+{
+    SSOCKETContextPtr_t pxContext = ( SSOCKETContextPtr_t ) pvContext; /*lint !e9087 cast used for portability. */
+
+	return pxContext->socket_no;
 }
 /*-----------------------------------------------------------*/
