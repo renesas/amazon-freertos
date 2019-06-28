@@ -22,7 +22,7 @@
 * Version      : 1.0.2
 * Device(s)    : R5F565NEHxFP
 * Description  : This file implements SMC pin code generation.
-* Creation Date: 2019-06-24
+* Creation Date: 2019-06-28
 ***********************************************************************************************************************/
 
 #ifndef PIN_H

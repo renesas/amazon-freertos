@@ -22,7 +22,7 @@
 * Device(s)    : R5F565NEHxFP
 * Tool-Chain   : RXC toolchain
 * Description  : Setting of port and mpc registers
-* Creation Date: 2019-06-24
+* Creation Date: 2019-06-28
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -45,25 +45,9 @@ void R_ETHER_PinSet_ETHERC0_MII()
 {
     R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_MPC);
 
-    /* Set ET0_TX_CLK pin */
-    MPC.PC4PFS.BYTE = 0x11U;
-    PORTC.PMR.BIT.B4 = 1U;
-
-    /* Set ET0_RX_CLK pin */
-    MPC.PB2PFS.BYTE = 0x11U;
-    PORTB.PMR.BIT.B2 = 1U;
-
     /* Set ET0_TX_EN pin */
     MPC.PB4PFS.BYTE = 0x11U;
     PORTB.PMR.BIT.B4 = 1U;
-
-    /* Set ET0_ETXD3 pin */
-    MPC.PC6PFS.BYTE = 0x11U;
-    PORTC.PMR.BIT.B6 = 1U;
-
-    /* Set ET0_ETXD2 pin */
-    MPC.PC5PFS.BYTE = 0x11U;
-    PORTC.PMR.BIT.B5 = 1U;
 
     /* Set ET0_ETXD1 pin */
     MPC.PB6PFS.BYTE = 0x11U;
@@ -72,22 +56,6 @@ void R_ETHER_PinSet_ETHERC0_MII()
     /* Set ET0_ETXD0 pin */
     MPC.PB5PFS.BYTE = 0x11U;
     PORTB.PMR.BIT.B5 = 1U;
-
-    /* Set ET0_TX_ER pin */
-    MPC.PC3PFS.BYTE = 0x11U;
-    PORTC.PMR.BIT.B3 = 1U;
-
-    /* Set ET0_RX_DV pin */
-    MPC.PC2PFS.BYTE = 0x11U;
-    PORTC.PMR.BIT.B2 = 1U;
-
-    /* Set ET0_ERXD3 pin */
-    MPC.PC0PFS.BYTE = 0x11U;
-    PORTC.PMR.BIT.B0 = 1U;
-
-    /* Set ET0_ERXD2 pin */
-    MPC.PC1PFS.BYTE = 0x11U;
-    PORTC.PMR.BIT.B1 = 1U;
 
     /* Set ET0_ERXD1 pin */
     MPC.PB0PFS.BYTE = 0x11U;
@@ -105,10 +73,6 @@ void R_ETHER_PinSet_ETHERC0_MII()
     MPC.PB7PFS.BYTE = 0x11U;
     PORTB.PMR.BIT.B7 = 1U;
 
-    /* Set ET0_COL pin */
-    MPC.PC7PFS.BYTE = 0x11U;
-    PORTC.PMR.BIT.B7 = 1U;
-
     /* Set ET0_MDC pin */
     MPC.PA4PFS.BYTE = 0x11U;
     PORTA.PMR.BIT.B4 = 1U;
@@ -118,8 +82,8 @@ void R_ETHER_PinSet_ETHERC0_MII()
     PORTA.PMR.BIT.B3 = 1U;
 
     /* Set ET0_LINKSTA pin */
-    MPC.P34PFS.BYTE = 0x11U;
-    PORT3.PMR.BIT.B4 = 1U;
+    MPC.PA5PFS.BYTE = 0x11U;
+    PORTA.PMR.BIT.B5 = 1U;
 
     R_BSP_RegisterProtectEnable(BSP_REG_PROTECT_MPC);
 }

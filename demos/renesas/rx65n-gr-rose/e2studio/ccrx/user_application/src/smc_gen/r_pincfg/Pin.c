@@ -22,7 +22,7 @@
 * Version      : 1.0.2
 * Device(s)    : R5F565NEHxFP
 * Description  : This file implements SMC pin code generation.
-* Creation Date: 2019-06-24
+* Creation Date: 2019-06-28
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -56,10 +56,6 @@ void R_Pins_Create(void)
 {
     R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_MPC);
 
-    /* Set ET0_COL pin */
-    MPC.PC7PFS.BYTE = 0x11U;
-    PORTC.PMR.BYTE |= 0x80U;
-
     /* Set ET0_CRS pin */
     MPC.PB7PFS.BYTE = 0x11U;
     PORTB.PMR.BYTE |= 0x80U;
@@ -72,14 +68,6 @@ void R_Pins_Create(void)
     MPC.PB0PFS.BYTE = 0x11U;
     PORTB.PMR.BYTE |= 0x01U;
 
-    /* Set ET0_ERXD2 pin */
-    MPC.PC1PFS.BYTE = 0x11U;
-    PORTC.PMR.BYTE |= 0x02U;
-
-    /* Set ET0_ERXD3 pin */
-    MPC.PC0PFS.BYTE = 0x11U;
-    PORTC.PMR.BYTE |= 0x01U;
-
     /* Set ET0_ETXD0 pin */
     MPC.PB5PFS.BYTE = 0x11U;
     PORTB.PMR.BYTE |= 0x20U;
@@ -88,17 +76,9 @@ void R_Pins_Create(void)
     MPC.PB6PFS.BYTE = 0x11U;
     PORTB.PMR.BYTE |= 0x40U;
 
-    /* Set ET0_ETXD2 pin */
-    MPC.PC5PFS.BYTE = 0x11U;
-    PORTC.PMR.BYTE |= 0x20U;
-
-    /* Set ET0_ETXD3 pin */
-    MPC.PC6PFS.BYTE = 0x11U;
-    PORTC.PMR.BYTE |= 0x40U;
-
     /* Set ET0_LINKSTA pin */
-    MPC.P34PFS.BYTE = 0x11U;
-    PORT3.PMR.BYTE |= 0x10U;
+    MPC.PA5PFS.BYTE = 0x11U;
+    PORTA.PMR.BYTE |= 0x20U;
 
     /* Set ET0_MDC pin */
     MPC.PA4PFS.BYTE = 0x11U;
@@ -108,29 +88,13 @@ void R_Pins_Create(void)
     MPC.PA3PFS.BYTE = 0x11U;
     PORTA.PMR.BYTE |= 0x08U;
 
-    /* Set ET0_RX_CLK pin */
-    MPC.PB2PFS.BYTE = 0x11U;
-    PORTB.PMR.BYTE |= 0x04U;
-
-    /* Set ET0_RX_DV pin */
-    MPC.PC2PFS.BYTE = 0x11U;
-    PORTC.PMR.BYTE |= 0x04U;
-
     /* Set ET0_RX_ER pin */
     MPC.PB3PFS.BYTE = 0x11U;
     PORTB.PMR.BYTE |= 0x08U;
 
-    /* Set ET0_TX_CLK pin */
-    MPC.PC4PFS.BYTE = 0x11U;
-    PORTC.PMR.BYTE |= 0x10U;
-
     /* Set ET0_TX_EN pin */
     MPC.PB4PFS.BYTE = 0x11U;
     PORTB.PMR.BYTE |= 0x10U;
-
-    /* Set ET0_TX_ER pin */
-    MPC.PC3PFS.BYTE = 0x11U;
-    PORTC.PMR.BYTE |= 0x08U;
 
     /* Set RXD8 pin */
     MPC.PC6PFS.BYTE = 0x0AU;
