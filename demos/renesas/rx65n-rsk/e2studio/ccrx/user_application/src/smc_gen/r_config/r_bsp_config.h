@@ -177,7 +177,7 @@ Configuration Options
       choose 'Contents' in E2Studio. This will present a list of modules that can be included. Uncheck the box for
       stdio.h. 
 */
-#define BSP_CFG_HEAP_BYTES              (0x400)
+#define BSP_CFG_HEAP_BYTES              (0)
 
 /* Initializes C input & output library functions.
    0 = Disable I/O library initialization in resetprg.c. If you are not using stdio then use this value.
