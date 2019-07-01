@@ -43,14 +43,14 @@
  0 = MII  (Media Independent Interface)
  1 = RMII (Reduced Media Independent Interface)
  */
-    #define ETHER_CFG_MODE_SEL                          (0)
+    #define ETHER_CFG_MODE_SEL                          (1)
 
 /* PHY-LSI address setting for ETHER0/1.
  Please set the value 31 ETHER_CFG_CH0_PHY_ADDRESS when use default setting of the RSK+RX63N.
  Please set the value 30 ETHER_CFG_CH0_PHY_ADDRESS when use default setting of the RSK+RX65N/RSK+RX65N_2MB.
  Please set the value 0 ETHER_CFG_CH0_PHY_ADDRESS and value 1 ETHER_CFG_CH1_PHY_ADDRESS when use default setting of the RSK+RX64M/RSK+RX71M.
  */
-    #define ETHER_CFG_CH0_PHY_ADDRESS                   (30)     /* Please define the PHY-LSI address in the range of 0-31. */
+    #define ETHER_CFG_CH0_PHY_ADDRESS                   (0)     /* Please define the PHY-LSI address in the range of 0-31. */
     #define ETHER_CFG_CH1_PHY_ADDRESS                   (1)     /* Please define the PHY-LSI address in the range of 0-31. */
 
 /* The number of Rx descriptors. */
@@ -78,7 +78,7 @@
  Please set the value 0 ETHER_CFG_CH0_PHY_ACCESS when use default setting of the RSK+RX65N/RSK+RX65N_2MB.
  Please set the value 1 ETHER_CFG_CH0_PHY_ACCESS and ETHER_CFG_CH1_PHY_ACCESS when use default setting of the RSK+RX64M/RSK+RX71M.
  */
-    #define ETHER_CFG_CH0_PHY_ACCESS                    (1)
+    #define ETHER_CFG_CH0_PHY_ACCESS                    (0)
     #define ETHER_CFG_CH1_PHY_ACCESS                    (1)
 
 /* Define the access timing of MII/RMII register */
