@@ -397,7 +397,7 @@ int32_t sx_ulpgn_wifi_init(void)
 
     /* Check HSUART2 connection */
     /* Command Port = HSUART2 */
-    ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATUART=2\r", 3, 200, ULPGN_RETURN_OK);
+    ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATUART=2\r", 3, 2000, ULPGN_RETURN_OK);
     if(ret != 0)
     {
         return ret;
@@ -416,7 +416,7 @@ int32_t sx_ulpgn_wifi_init(void)
     sx_ulpgn_serial_close();
 
     /* Command Port = HSUART2, Data Port = HSUART1 */
-    ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "AT\r", 3, 200, ULPGN_RETURN_OK);
+    ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATV0\r", 100, 2000, ULPGN_RETURN_OK);
     if(ret == 0)
     {
         /* HSUART2 and SCI are connecting.
@@ -440,7 +440,7 @@ int32_t sx_ulpgn_wifi_init(void)
         ULPGN_HSUART1_RTS_PDR = 1;
         R_BSP_SoftwareDelay(1000, BSP_DELAY_MILLISECS); /* 5us mergin 1us */
 
-        ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATUART=2,1\r", 3, 200, ULPGN_RETURN_OK);
+        ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATUART=2,1\r", 3, 2000, ULPGN_RETURN_OK);
         if(ret != 0)
         {
             return ret;
@@ -569,7 +569,7 @@ int32_t sx_ulpgn_wifi_init(void)
     if(0)
     {
         /* Command Port = HSUART1(PMOD-UART), Data Port = Debug　UART */
-        ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATUART=1,2\r", 3, 200, ULPGN_RETURN_OK);
+        ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATUART=1,2\r", 3, 2000, ULPGN_RETURN_OK);
         if(ret != 0)
         {
             return ret;
@@ -602,9 +602,9 @@ int32_t sx_ulpgn_wifi_connect(const char *pssid, uint32_t security, const char *
 
     if(0 ==  is_sx_ulpgn_wifi_connect())
     {
-    	/* If Wifi is already connected, do nothing and return success. */
+    	/* If Wifi is already connected, do nothing and return fail. */
     	sx_ulpgn_serial_send_basic_give_mutex(mutex_flag);
-    	return 0;
+    	return -1;
     }
 
 
@@ -639,9 +639,30 @@ int32_t sx_ulpgn_wifi_connect(const char *pssid, uint32_t security, const char *
     strcat((char *)buff, "\r");
 
     ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, buff, 3, 20000, ULPGN_RETURN_OK);
-    if(0 == ret)
+    if((0 == ret) || (-2 == ret))
     {
-        ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATW\r", 3, 1000, ULPGN_RETURN_OK);
+    	if(-2 == ret)
+    	{
+            ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATW\r", 3, 1000, ULPGN_RETURN_OK);
+            if(0 == ret)
+            {
+            	ret = -1;
+            	pstr = strstr(recvbuff,"ssid         =   ");
+            	if(pstr != NULL)
+            	{
+            		pstr2 = recvbuff + strlen("ssid         =   ");
+            		pstr = strstr(pstr2,"\r\n");
+                	if(pstr != NULL)
+                	{
+                		*pstr = '\0';  // \r -> \0
+                		if(0 == strcmp(pstr, pssid))
+                		{
+                			ret = 0;
+                		}
+                	}
+            	}
+            }
+    	}
         if(0 == ret)
         {
             while(1)
@@ -788,6 +809,7 @@ int32_t sx_ulpgn_wifi_scan(WIFIScanResult_t *results, uint8_t maxNetworks)
     uint8_t *bssid;
     char *ptr = recvbuff + 2;
 	uint8_t mutex_flag;
+    uint8_t retry_count;
 
     if ((NULL == results) || (0 == maxNetworks))
     {
@@ -801,15 +823,26 @@ int32_t sx_ulpgn_wifi_scan(WIFIScanResult_t *results, uint8_t maxNetworks)
 	}
 
     // TODO investigate why this never returns the full response
-    ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATWS\r", 500, 8000, ULPGN_RETURN_OK);
-    if (strlen(recvbuff) < 10)
-    {
-    	sx_ulpgn_serial_send_basic_give_mutex(mutex_flag);
-        return -1;
+	for (retry_count = 0; retry_count < 3; retry_count++)
+	{
+        ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATWS\r", 500, 8000, ULPGN_RETURN_OK);
+        if (ret == 0)
+        {
+        	if(ptr != '\0')
+        	{
+        		break;
+        	}
+        }
     }
 
-    do
+	if(ret != 0)
+	{
+    	sx_ulpgn_serial_send_basic_give_mutex(mutex_flag);
+        return -1;
+	}
+	do
     {
+		results[idx].cSSID[0] = '\0';
         if (strncmp(ptr, "ssid =", 6) != 0)
         {
             break; // end of list
@@ -819,7 +852,7 @@ int32_t sx_ulpgn_wifi_scan(WIFIScanResult_t *results, uint8_t maxNetworks)
         if (ret != 1)
 		{
         	sx_ulpgn_serial_send_basic_give_mutex(mutex_flag);
-			return idx > 0 ? 0 : -1;
+			return 0;
 		}
         while(*(ptr++) != '\n');
 
@@ -829,7 +862,7 @@ int32_t sx_ulpgn_wifi_scan(WIFIScanResult_t *results, uint8_t maxNetworks)
         if (ret != 6)
         {
         	sx_ulpgn_serial_send_basic_give_mutex(mutex_flag);
-        	return idx > 0 ? 0 : -1;
+			return 0;
         }
         while(*(ptr++) != '\n');
 
@@ -837,7 +870,7 @@ int32_t sx_ulpgn_wifi_scan(WIFIScanResult_t *results, uint8_t maxNetworks)
         if (ret != 1)
 		{
 			sx_ulpgn_serial_send_basic_give_mutex(mutex_flag);
-			return idx > 0 ? 0 : -1;
+			return 0;
 		}
         while(*(ptr++) != '\n');
 
@@ -845,7 +878,7 @@ int32_t sx_ulpgn_wifi_scan(WIFIScanResult_t *results, uint8_t maxNetworks)
         if (ret != 1)
 		{
 			sx_ulpgn_serial_send_basic_give_mutex(mutex_flag);
-			return idx > 0 ? 0 : -1;
+			return 0;
 		}
         while(*(ptr++) != '\n');
 
@@ -1610,7 +1643,7 @@ int32_t sx_ulpgn_get_ipaddress(void)
     int32_t scanf_ret;
     uint32_t count;
 
-    func_ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATNSET=\?\r", 3, 3000, ULPGN_RETURN_OK);
+    func_ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATNSET=\?\r", 30, 3000, ULPGN_RETURN_OK);
     if(func_ret != 0)
     {
         return -1;
@@ -1825,165 +1858,191 @@ static int32_t sx_ulpgn_serial_send_basic(uint8_t serial_ch_id, const char *ptex
     uint32_t recvcnt = 0;
     uint8_t receive_data;
     uint8_t last_data_cnt = 0;
+    uint8_t retry_count;
 
-    memset(recvbuff, 0, sizeof(recvbuff));
-    memset(last_data, 0, sizeof(last_data));
-
-    timeout_init(serial_ch_id, timeout_ms);
-
-    //uart_string_printf(ptextstring);
-    //uart_string_printf("\r\n");
-    if(ptextstring != NULL)
+	for (retry_count = 0; retry_count < 10; retry_count++)
     {
-        timeout = 0;
-        recvcnt = 0;
-        g_sx_ulpgn_uart_teiflag[serial_ch_id] = 0;
-        R_SCI_Control(sx_ulpgn_uart_sci_handle[serial_ch_id], SCI_CMD_RX_Q_FLUSH, NULL);
-        ercd = R_SCI_Send(sx_ulpgn_uart_sci_handle[serial_ch_id], (uint8_t *)ptextstring, (uint16_t)strlen((const char *)ptextstring));
-        if(SCI_SUCCESS != ercd)
-        {
-            return -1;
-        }
+		last_data_cnt = 0;
+	    memset(recvbuff, 0, sizeof(recvbuff));
+	    memset(last_data, 0, sizeof(last_data));
 
-        while(1)
-        {
-            if(0 != g_sx_ulpgn_uart_teiflag[serial_ch_id])
-                //      ercd = R_SCI_Control(sx_ulpgn_uart_sci_handle, SCI_CMD_TX_Q_BYTES_FREE, &non_used);
-                //      if(non_used == SCI_TX_BUSIZ)
-            {
-                break;
-            }
-            if(-1 == check_timeout(serial_ch_id, recvcnt))
-            {
-                timeout = 1;
-                break;
-            }
-        }
-        if(timeout == 1)
-        {
-#if DEBUGLOG == 1
-            R_BSP_CpuInterruptLevelWrite (13);
-            printf("timeout.\r\n", tmptime1, ptextstring);
-            R_BSP_CpuInterruptLevelWrite (0);
-#endif
-            return -1;
-        }
+	    timeout_init(serial_ch_id, timeout_ms);
 
-#if DEBUGLOG == 1
-        tmptime1 = xTaskGetTickCount();
-        if(ptextstring[strlen((const char *)ptextstring) - 1] != '\r')
-        {
-            R_BSP_CpuInterruptLevelWrite (13);
-            printf("s:%06d:%s\r\n", tmptime1, ptextstring);
-            R_BSP_CpuInterruptLevelWrite (0);
-        }
-        else
-        {
-            R_BSP_CpuInterruptLevelWrite (13);
-            printf("s:%06d:%s", tmptime1, ptextstring);
-            printf("\n");
-            R_BSP_CpuInterruptLevelWrite (0);
-        }
-#endif
-    }
-    while(1)
-    {
-        ercd = R_SCI_Receive(sx_ulpgn_uart_sci_handle[serial_ch_id], &receive_data, 1);
-        if(SCI_SUCCESS == ercd)
-        {
-        	recvbuff[recvcnt] = receive_data;
-            recvcnt++;
-            if(last_data_cnt < (ULPGN_RETURN_TEXT_LENGTH - 2))
-            {
-            	last_data[last_data_cnt] = receive_data;
-            	last_data_cnt++;
-            }
-            else
-            {
-            	memmove(&last_data[0],&last_data[1],ULPGN_RETURN_TEXT_LENGTH - 2);
-            	last_data_cnt--;
-            	last_data[last_data_cnt] = receive_data;
-            	last_data_cnt++;
-            }
-            bytetimeout_init(serial_ch_id, response_type);
-            if(recvcnt < 4)
-            {
-                continue;
-            }
-            if(recvcnt == sizeof(recvbuff) - 2)
-            {
-                break;
-            }
-        }
-        if(-1 == check_bytetimeout(serial_ch_id, recvcnt))
-        {
-            break;
-        }
-        if(-1 == check_timeout(serial_ch_id, recvcnt))
-        {
-            timeout = 1;
-            break;
-        }
-    }
-    if(timeout == 1)
-    {
-        return -1;
-    }
+	    //uart_string_printf(ptextstring);
+	    //uart_string_printf("\r\n");
+	    if(ptextstring != NULL)
+	    {
+	        timeout = 0;
+	        recvcnt = 0;
+	        g_sx_ulpgn_uart_teiflag[serial_ch_id] = 0;
+	        R_SCI_Control(sx_ulpgn_uart_sci_handle[serial_ch_id], SCI_CMD_RX_Q_FLUSH, NULL);
+	        ercd = R_SCI_Send(sx_ulpgn_uart_sci_handle[serial_ch_id], (uint8_t *)ptextstring, (uint16_t)strlen((const char *)ptextstring));
+	        if(SCI_SUCCESS != ercd)
+	        {
+	            return -1;
+	        }
 
-    if(recvcnt == sizeof(recvbuff) - 2)
-    {
-        while(1)
-        {
-			ercd = R_SCI_Receive(sx_ulpgn_uart_sci_handle[serial_ch_id], &receive_data, 1);
-			if(SCI_SUCCESS == ercd)
-			{
-				memmove(&last_data[0],&last_data[1],ULPGN_RETURN_TEXT_LENGTH - 2);
-            	last_data_cnt--;
-            	last_data[last_data_cnt] = receive_data;
-            	last_data_cnt++;
-				bytetimeout_init(serial_ch_id, response_type);
+	        while(1)
+	        {
+	            if(0 != g_sx_ulpgn_uart_teiflag[serial_ch_id])
+	                //      ercd = R_SCI_Control(sx_ulpgn_uart_sci_handle, SCI_CMD_TX_Q_BYTES_FREE, &non_used);
+	                //      if(non_used == SCI_TX_BUSIZ)
+	            {
+	                break;
+	            }
+	            if(-1 == check_timeout(serial_ch_id, recvcnt))
+	            {
+	                timeout = 1;
+	                break;
+	            }
+	        }
+	        if(timeout == 1)
+	        {
+	#if DEBUGLOG == 1
+	            R_BSP_CpuInterruptLevelWrite (13);
+	            printf("timeout.\r\n", tmptime1, ptextstring);
+	            R_BSP_CpuInterruptLevelWrite (0);
+	#endif
+	            return -1;
+	        }
+
+	#if DEBUGLOG == 1
+	        tmptime1 = xTaskGetTickCount();
+	        if(ptextstring[strlen((const char *)ptextstring) - 1] != '\r')
+	        {
+	            R_BSP_CpuInterruptLevelWrite (13);
+	            printf("s:%06d:%s\r\n", tmptime1, ptextstring);
+	            R_BSP_CpuInterruptLevelWrite (0);
+	        }
+	        else
+	        {
+	            R_BSP_CpuInterruptLevelWrite (13);
+	            printf("s:%06d:%s", tmptime1, ptextstring);
+	            printf("\n");
+	            R_BSP_CpuInterruptLevelWrite (0);
+	        }
+	#endif
+	    }
+	    while(1)
+	    {
+	        ercd = R_SCI_Receive(sx_ulpgn_uart_sci_handle[serial_ch_id], &receive_data, 1);
+	        if(SCI_SUCCESS == ercd)
+	        {
+	        	recvbuff[recvcnt] = receive_data;
+	            recvcnt++;
+	            if(last_data_cnt < (ULPGN_RETURN_TEXT_LENGTH - 2))
+	            {
+	            	last_data[last_data_cnt] = receive_data;
+	            	last_data_cnt++;
+	            }
+	            else
+	            {
+	            	memmove(&last_data[0],&last_data[1],ULPGN_RETURN_TEXT_LENGTH - 2);
+	            	last_data_cnt--;
+	            	last_data[last_data_cnt] = receive_data;
+	            	last_data_cnt++;
+	            }
+	            bytetimeout_init(serial_ch_id, response_type);
+	            if(recvcnt < 4)
+	            {
+	                continue;
+	            }
+	            if(recvcnt == sizeof(recvbuff) - 2)
+	            {
+	                break;
+	            }
+	        }
+	        if(-1 == check_bytetimeout(serial_ch_id, recvcnt))
+	        {
+	            break;
+	        }
+	        if(-1 == check_timeout(serial_ch_id, recvcnt))
+	        {
+	            timeout = 1;
+	            break;
+	        }
+	    }
+	    if (0 == timeout)
+	    {
+			/* Success */
+		}
+	    else if (1 == timeout && 5 == retry_count)
+	    {
+            /* Error, no response */
+	        return -1;
+	    }
+	    else
+	    {
+			/* Retry */
+			continue;
+		}
+
+	    if(recvcnt == sizeof(recvbuff) - 2)
+	    {
+	        while(1)
+	        {
+				ercd = R_SCI_Receive(sx_ulpgn_uart_sci_handle[serial_ch_id], &receive_data, 1);
+				if(SCI_SUCCESS == ercd)
+				{
+					memmove(&last_data[0],&last_data[1],ULPGN_RETURN_TEXT_LENGTH - 2);
+	            	last_data_cnt--;
+	            	last_data[last_data_cnt] = receive_data;
+	            	last_data_cnt++;
+					bytetimeout_init(serial_ch_id, response_type);
+				}
+				if(-1 == check_bytetimeout(serial_ch_id, recvcnt))
+				{
+					break;
+				}
+	        }
+	    }
+
+	#if DEBUGLOG == 1
+	    tmptime2 = xTaskGetTickCount();
+	    if(recvbuff[recvcnt - 1] != '\r')
+	    {
+	        recvbuff[recvcnt] = '\r';
+	        recvbuff[recvcnt + 1] = '\0';
+	    }
+	    else
+	    {
+	        recvbuff[recvcnt] = '\0';
+	    }
+	    printf("r:%06d:%s", tmptime2, recvbuff);
+	#endif
+	    /* Response data check */
+	    if(recvcnt < strlen((const char *)ulpgn_result_code[expect_code][g_sx_ulpgn_return_mode]))
+	    {
+	        return -1;
+	    }
+
+	    const char* expected_result = ulpgn_result_code[expect_code][g_sx_ulpgn_return_mode];
+	    const uint32_t expected_len = strlen(expected_result);
+	    uint32_t expected_offset = 0;
+
+	    if(0 != strncmp((const char *)&last_data[last_data_cnt - strlen((const char *)ulpgn_result_code[expect_code][g_sx_ulpgn_return_mode]) ],
+	                    (const char *)ulpgn_result_code[expect_code][g_sx_ulpgn_return_mode], strlen((const char *)ulpgn_result_code[expect_code][g_sx_ulpgn_return_mode])))
+	    {
+	        if(0 == strncmp((const char *)&last_data[last_data_cnt - strlen((const char *)ulpgn_result_code[expect_code][g_sx_ulpgn_return_mode]) ],
+	                        (const char *)ulpgn_result_code[ULPGN_RETURN_BUSY][g_sx_ulpgn_return_mode], strlen((const char *)ulpgn_result_code[ULPGN_RETURN_BUSY][g_sx_ulpgn_return_mode])))
+	        {
+	            /* busy */
+	            return -2;
+	        }
+
+		    if (5 == retry_count)
+		    {
+	            /* Error */
+		        return -1;
 			}
-			if(-1 == check_bytetimeout(serial_ch_id, recvcnt))
-			{
-				break;
-			}
-        }
-    }
+	    }
+	    else
+	    {
+			/* Success */
+			break;
+		}
+	}
 
-#if DEBUGLOG == 1
-    tmptime2 = xTaskGetTickCount();
-    if(recvbuff[recvcnt - 1] != '\r')
-    {
-        recvbuff[recvcnt] = '\r';
-        recvbuff[recvcnt + 1] = '\0';
-    }
-    else
-    {
-        recvbuff[recvcnt] = '\0';
-    }
-    printf("r:%06d:%s", tmptime2, recvbuff);
-#endif
-    /* Response data check */
-    if(recvcnt < strlen((const char *)ulpgn_result_code[expect_code][g_sx_ulpgn_return_mode]))
-    {
-        return -1;
-    }
-
-    const char* expected_result = ulpgn_result_code[expect_code][g_sx_ulpgn_return_mode];
-    const uint32_t expected_len = strlen(expected_result);
-    uint32_t expected_offset = 0;
-
-    if(0 != strncmp((const char *)&last_data[last_data_cnt - strlen((const char *)ulpgn_result_code[expect_code][g_sx_ulpgn_return_mode]) ],
-                    (const char *)ulpgn_result_code[expect_code][g_sx_ulpgn_return_mode], strlen((const char *)ulpgn_result_code[expect_code][g_sx_ulpgn_return_mode])))
-    {
-        if(0 == strncmp((const char *)&last_data[last_data_cnt - strlen((const char *)ulpgn_result_code[expect_code][g_sx_ulpgn_return_mode]) ],
-                        (const char *)ulpgn_result_code[ULPGN_RETURN_BUSY][g_sx_ulpgn_return_mode], strlen((const char *)ulpgn_result_code[ULPGN_RETURN_BUSY][g_sx_ulpgn_return_mode])))
-        {
-            /* busy */
-            return -2;
-        }
-        return -1;
-    }
     return 0;
 }
 
@@ -2209,7 +2268,7 @@ static void timeout_init(uint8_t serial_ch, uint32_t timeout_ms)
 {
     starttime[serial_ch] = xTaskGetTickCount();
     endtime[serial_ch] = starttime[serial_ch] + timeout_ms;
-    if((starttime[serial_ch] + endtime[serial_ch]) < starttime[serial_ch])
+    if(endtime[serial_ch] < starttime[serial_ch])
     {
         /* overflow */
         timeout_overflow_flag[serial_ch] = 1;
@@ -2242,7 +2301,7 @@ static void tcp_timeout_init(uint8_t socket_no, uint32_t timeout_ms, uint8_t fla
 	}
     *starttime = xTaskGetTickCount();
     *endtime = *starttime + timeout_ms;
-    if((*starttime + *endtime) < *starttime)
+    if(*endtime < *starttime)
     {
         /* overflow */
         *timeout_overflow_flag = 1;
@@ -2322,7 +2381,7 @@ static void bytetimeout_init(uint8_t serial_ch, uint32_t timeout_ms)
 {
     startbytetime[serial_ch] = xTaskGetTickCount();
     endbytetime[serial_ch] = startbytetime[serial_ch] + timeout_ms;
-    if((startbytetime[serial_ch] + endbytetime[serial_ch]) < startbytetime[serial_ch])
+    if((endbytetime[serial_ch]) < startbytetime[serial_ch])
     {
         /* overflow */
         byte_timeout_overflow_flag[serial_ch] = 1;
