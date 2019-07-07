@@ -55,6 +55,8 @@ void get_random_number(uint8_t *data, uint32_t len)
     adc_ch_cfg_t ch_cfg;
     adc_sst_t sst;
     uint16_t temperature_data;
+    uint32_t len_count;
+    uint32_t bit_count;
 
     /* initialize temperature sensor */
     memset(&ad_cfg, 0, sizeof(ad_cfg));
@@ -79,18 +81,24 @@ void get_random_number(uint8_t *data, uint32_t len)
     ch_cfg.sample_hold_mask = 0;
     R_ADC_Control(1, ADC_CMD_ENABLE_CHANS, &ch_cfg);
 
-    vTaskDelay(10);
+    memset(data, 0, len);
 
-    R_ADC_Control(1, ADC_CMD_SCAN_NOW, NULL);
-    while (R_ADC_Control(1, ADC_CMD_CHECK_SCAN_DONE, NULL) == ADC_ERR_SCAN_NOT_DONE);
-
-    R_ADC_Read(1, ADC_REG_TEMP, &temperature_data);
-
-    y += temperature_data;  /* randomness from internal temperature sensor */
+    for (len_count = 0; len_count < len; len_count++)
+    {
+        for (bit_count = 0; bit_count < 4; bit_count++)
+		{
+			R_ADC_Control(1, ADC_CMD_SCAN_NOW, NULL);
+			while (R_ADC_Control(1, ADC_CMD_CHECK_SCAN_DONE, NULL) == ADC_ERR_SCAN_NOT_DONE);
+			R_ADC_Read(1, ADC_REG_TEMP, &temperature_data);
+			data[len_count] ^= (uint8_t)(temperature_data << (2 * (bit_count % 4)));
+		}
+    }
 #elif defined (BSP_MCU_RX63N) || (BSP_MCU_RX631) || (BSP_MCU_RX630)
     adc_cfg_t ad_cfg;
     adc_ch_cfg_t ch_cfg;
     uint16_t temperature_data;
+    uint32_t len_count;
+    uint32_t bit_count;
 
     /* initialize temperature sensor */
     memset(&ad_cfg, 0, sizeof(ad_cfg));
@@ -105,15 +113,19 @@ void get_random_number(uint8_t *data, uint32_t len)
     memset(&ch_cfg, 0, sizeof(ch_cfg));
     R_ADC_Control(1, ADC_CMD_ENABLE_CHANS, &ch_cfg);
 
-    vTaskDelay(10);
+    memset(data, 0, len);
 
-    R_ADC_Control(1, ADC_CMD_SCAN_NOW, NULL);
-    while (R_ADC_Control(1, ADC_CMD_CHECK_SCAN_DONE, NULL) == ADC_ERR_SCAN_NOT_DONE);
-
-    R_ADC_Read(1, ADC_REG_TEMP, &temperature_data);
-
-    y += temperature_data;  /* randomness from internal temperature sensor, RX63N ver has not been confirmed. Maybe always zero is output. Please fix this anybody. */
-#endif
+    for (len_count = 0; len_count < len; len_count++)
+    {
+        for (bit_count = 0; bit_count < 4; bit_count++)
+		{
+            R_ADC_Control(1, ADC_CMD_SCAN_NOW, NULL);
+            while (R_ADC_Control(1, ADC_CMD_CHECK_SCAN_DONE, NULL) == ADC_ERR_SCAN_NOT_DONE);
+            R_ADC_Read(1, ADC_REG_TEMP, &temperature_data);
+			data[len_count] ^= (uint8_t)(temperature_data << (2 * (bit_count % 4)));
+		}
+    }
+#else
     y += xTaskGetTickCount();   /* randomness from system timer */
 
     res = len / 4;
@@ -171,4 +183,5 @@ void get_random_number(uint8_t *data, uint32_t len)
             /* no op */
             break;
     }
+#endif
 }
