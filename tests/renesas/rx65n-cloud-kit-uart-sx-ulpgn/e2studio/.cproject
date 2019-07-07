@@ -39,7 +39,9 @@
 							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.compiler.465369246" name="Compiler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.compiler">
 								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.fpu.1840467564" name="浮動小数点演算命令を使用する" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.fpu" useByScannerDiscovery="false" value="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.fpu.yes" valueType="enumerated"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.include.1720078478" name="インクルード・ファイルを検索するフォルダ" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.include" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="${TCINSTALL}/include"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/application_code/renesas_code/config_files/general}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/application_code/renesas_code/config_files/r_config}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/application_code/renesas_code/config_files/r_pincfg}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/application_code/common_test/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib/aws/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib/aws/include/private}&quot;"/>
@@ -49,50 +51,29 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib/third_party/unity/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib/third_party/unity/extras/fixture/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/config_files}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib/third_party/mbedtls/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib/third_party/pkcs11}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib/third_party/jsmn}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/FIT_modefied_code/r_bsp}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/FIT_modefied_code/r_bsp/board/generic_rx65n}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/FIT_modefied_code/r_bsp/mcu/rx65n}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/FIT_modefied_code/r_bsp/mcu/rx65n/register_access}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/FIT_modefied_code/r_byteq}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/FIT_modefied_code/r_cmt_rx}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/FIT_modefied_code/r_ether_rx}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/FIT_modefied_code/r_flash_rx}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/FIT_modefied_code/r_flash_rx/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/FIT_modefied_code/r_flash_rx/src/flash_type_1}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/FIT_modefied_code/r_flash_rx/src/flash_type_2}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/FIT_modefied_code/r_flash_rx/src/flash_type_3}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/FIT_modefied_code/r_flash_rx/src/flash_type_4}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/FIT_modefied_code/r_flash_rx/src/targets}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/FIT_modefied_code/r_riic_rx}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/FIT_modefied_code/r_sci_iic_rx}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/FIT_modefied_code/r_sci_rx}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/FIT_modefied_code/r_sci_rx/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/FIT_modefied_code/r_s12ad_rx}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/FIT_modefied_code/r_s12ad_rx/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/FIT_modefied_code/r_s12ad_rx/src/targets/rx65x}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/amazon_freertos_common}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/amazon_freertos_common/compiler_support/ccrx}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/amazon_freertos_common/network_support/uart_sx_ulpgn}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib/third_party/mbed_tls/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_config}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_byteq}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_byteq/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/flash_type_1}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/flash_type_2}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/flash_type_3}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/flash_type_4}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/targets}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_s12ad_rx}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_s12ad_rx/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/general}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_pincfg}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib/third_party/mcu_vendor/renesas/rx_mcu_boards/amazon_freertos_common}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib/third_party/mcu_vendor/renesas/rx_mcu_boards/amazon_freertos_common/compiler_support/ccrx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib/third_party/mcu_vendor/renesas/rx_mcu_boards/amazon_freertos_common/network_support/uart_sx_ulpgn}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_bsp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_bsp/board/generic_rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_s12ad_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_byteq}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_flash_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_flash_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_flash_rx/src/flash_type_1}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_flash_rx/src/flash_type_2}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_flash_rx/src/flash_type_3}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_flash_rx/src/flash_type_4}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_flash_rx/src/targets}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_s12ad_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_sci_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_sci_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/application_code/renesas_code/src/smc_gen/r_config}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/application_code/renesas_code/src/smc_gen/general}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/application_code/renesas_code/src/smc_gen/r_pincfg}&quot;"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.define.1968064697" name="プリプロセッサ・マクロの定義" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.option.define" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="_COMPLEX"/>
@@ -127,167 +108,7 @@
 									<listOptionValue builtIn="false" value="D_2=R_2"/>
 								</option>
 								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.linkerSection.421001419" name="セクション" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.linkerSection" useByScannerDiscovery="false" value="R_1,R_2,R,B,SI/01000,C_PKCS11_STORAGE*/0100000,B_1,B_2/0800000,C_1,C_2,C,C$*,D*,W*,L,P*/0FFE00000,EXCEPTVECT/0FFFFFF80,RESETVECT/0FFFFFFFC" valueType="string"/>
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.noneLinkageOrderList.335426047" name="(リンク順序のリスト)" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.noneLinkageOrderList" useByScannerDiscovery="false" valueType="stringList">
-									<listOptionValue builtIn="false" value="&quot;.\lib/aws/FreeRTOS/portable/Renesas/RX600v2\port_asm.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\application_code/common_test/crypto\aws_test_crypto.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\application_code/common_test/devmode_key_provisioning\aws_dev_mode_key_provisioning.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\application_code/common_test/framework\aws_test_framework.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\application_code/common_test/greengrass\aws_test_greengrass_discovery.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\application_code/common_test/greengrass\aws_test_helper_secure_connect.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\application_code/common_test/logging\aws_logging_task_dynamic_buffers.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\application_code/common_test/memory_leak\aws_memory_leak.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\application_code/common_test/mqtt\aws_test_mqtt_agent.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\application_code/common_test/mqtt\aws_test_mqtt_lib.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\application_code/common_test/pkcs11\aws_test_pkcs11.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\application_code/common_test/secure_sockets\aws_test_tcp.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\application_code/common_test/shadow\aws_test_shadow.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\application_code/common_test/test_runner\aws_test_runner.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\application_code/common_test/tls\aws_test_tls.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\application_code\main.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/aws/FreeRTOS\event_groups.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/aws/FreeRTOS\list.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/aws/FreeRTOS/portable/MemMang\heap_4.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/aws/FreeRTOS/portable/Renesas/RX600v2\port.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/aws/FreeRTOS\queue.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/aws/FreeRTOS\stream_buffer.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/aws/FreeRTOS\tasks.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/aws/FreeRTOS\timers.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/aws/bufferpool\aws_bufferpool_static_thread_safe.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/aws/crypto\aws_crypto.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/aws/greengrass\aws_greengrass_discovery.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/aws/greengrass\aws_helper_secure_connect.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/aws/mqtt\aws_mqtt_agent.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/aws/mqtt\aws_mqtt_lib.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/aws/pkcs11\aws_pkcs11_mbedtls.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/aws/pkcs11/portable/renesas/rx65n-rsk-uart-sx-ulpgn\aws_pkcs11_pal.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/aws/secure_sockets/portable/renesas/rx65n-rsk-uart-sx-ulpgn\aws_secure_sockets.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/aws/shadow\aws_shadow.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/aws/shadow\aws_shadow_json.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/aws/tls\aws_tls.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/aws/utils\aws_system_init.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/aws/wifi/portable/renesas/rx65n-rsk-uart-sx-ulpgn\aws_wifi.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/jsmn\jsmn.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\aes.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\aesni.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\arc4.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\asn1parse.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\asn1write.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\base64.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\bignum.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\blowfish.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\camellia.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\ccm.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\certs.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\cipher.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\cipher_wrap.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\cmac.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\ctr_drbg.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\debug.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\des.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\dhm.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\ecdh.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\ecdsa.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\ecjpake.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\ecp.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\ecp_curves.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\entropy.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\entropy_poll.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\error.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\gcm.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\havege.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\hmac_drbg.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\md.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\md2.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\md4.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\md5.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\md_wrap.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\memory_buffer_alloc.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\net_sockets.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\oid.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\padlock.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\pem.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\pk.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\pk_wrap.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\pkcs12.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\pkcs5.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\pkparse.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\pkwrite.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\platform.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\platform_util.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\ripemd160.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\rsa.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\rsa_internal.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\sha1.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\sha256.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\sha512.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\ssl_cache.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\ssl_ciphersuites.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\ssl_cli.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\ssl_cookie.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\ssl_srv.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\ssl_ticket.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\ssl_tls.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\threading.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\timing.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\version.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\version_features.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\x509.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\x509_create.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\x509_crl.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\x509_crt.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\x509_csr.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\x509write_crt.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\x509write_csr.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/mbed_tls/library\xtea.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/unity/extras/fixture/src\unity_fixture.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\lib/third_party/unity/src\unity.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_bsp/board/all\dbsct.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_bsp/board/all\lowlvl.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_bsp/board/all\lowsrc.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_bsp/board/all\resetprg.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_bsp/board/all\sbrk.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_bsp/board/generic_rx65n\r_bsp_hwsetup_reference.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_bsp/board/rx65n\clkconf.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_bsp/board/rx65n\vecttbl.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_bsp/mcu/all\r_bsp_common.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_bsp/mcu/rx65n\cpu.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_bsp/mcu/rx65n\locking.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_bsp/mcu/rx65n\mcu_clocks.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_bsp/mcu/rx65n\mcu_init.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_bsp/mcu/rx65n\mcu_interrupts.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_bsp/mcu/rx65n\mcu_locks.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_bsp/mcu/rx65n\mcu_mapped_interrupts.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_bsp/mcu/rx65n\mcu_startup.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_byteq/src\r_byteq.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_flash_rx/src/flash_type_1\r_codeflash.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_flash_rx/src/flash_type_1\r_codeflash_extra.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_flash_rx/src/flash_type_1\r_dataflash.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_flash_rx/src/flash_type_1\r_flash_type1.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_flash_rx/src/flash_type_1\r_flash_utils.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_flash_rx/src/flash_type_2\r_flash_type2.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_flash_rx/src/flash_type_3\r_flash_type3.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_flash_rx/src/flash_type_4\r_flash_type4.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_flash_rx/src\r_flash_fcu.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_flash_rx/src\r_flash_group.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_flash_rx/src\r_flash_rx.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_s12ad_rx/src\r_s12ad_rx.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_s12ad_rx/src/targets/rx65x\r_s12ad_rx65x.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_sci_rx/src\r_sci_rx.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_sci_rx/src/targets/rx65n\r_sci_rx65n.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/FIT_modefied_code/r_sci_rx/src/targets/rx65n\r_sci_rx65n_data.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/amazon_freertos_common/compiler_support/ccrx\exit.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/amazon_freertos_common\entropy_hardware_poll.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/amazon_freertos_common\freertos_start.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/amazon_freertos_common/network_support/uart_sx_ulpgn\sx_ulpgn_driver.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/amazon_freertos_common\serial_term_uart.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/smc_gen/general\r_cg_hardware_setup.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/smc_gen/general\r_smc_cgc.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/smc_gen/general\r_smc_cgc_user.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/smc_gen/general\r_smc_interrupt.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/smc_gen/r_pincfg\Pin.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\src/smc_gen/r_pincfg\r_sci_rx_pinset.obj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;.\aws_tests.lib&quot;"/>
-								</option>
+								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.noneLinkageOrderList.335426047" name="(リンク順序のリスト)" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.noneLinkageOrderList" useByScannerDiscovery="false"/>
 								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.outputSymbolAllocation.570191124" name="外部シンボル割り付け情報ファイルを出力する" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.outputSymbolAllocation" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.vect.871197267" name="可変ベクタテーブルのアドレス未設定ベクタ番号に指定するアドレス" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.vect" useByScannerDiscovery="false" value="_undefined_interrupt_source_isr" valueType="string"/>
 								<option id="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.showSymbol.1294042342" name="シンボル情報を出力する" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.linker.option.showSymbol" useByScannerDiscovery="false" value="true" valueType="boolean"/>
@@ -311,60 +132,6 @@
 							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig.614884446" name="RTOS Configurator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig"/>
 						</toolChain>
 					</folderInfo>
-					<folderInfo id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.configuration.327171527.1611612470" name="/" resourcePath="lib/aws/wifi/portable/renesas">
-						<toolChain id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.toolChain.771251826" name="Renesas CCRX Toolchain" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.toolChain" unusedChildren="">
-							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.PE" id="com.renesas.cdt.managedbuild.renesas.ccrx.base.targetPlatform" osList="win32" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.targetPlatform"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.dsp.368508612" name="DSP Assembler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.dsp.2136801445"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.common.892082766" name="Common" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.common.2029368761"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.compiler.1460035566" name="Compiler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.compiler.465369246">
-								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gcc.inputType.870524068" name="Compiler Input C" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gcc.inputType"/>
-								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gpp.inputType.1363337884" name="Compiler Input CPP" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gpp.inputType"/>
-							</tool>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.assembler.426566351" name="Assembler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.assembler.1773401596">
-								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.assembler.inputType.439561763" name="Assembler InputType" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.assembler.inputType"/>
-							</tool>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.linker.1250830358" name="Linker" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.linker.1578025335"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.librarian.1589067289" name="Library Generator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.librarian.1112381756"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.converter.575134778" name="Converter" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.converter.1844656851"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig.2082194921" name="RTOS Configurator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig.614884446"/>
-						</toolChain>
-					</folderInfo>
-					<folderInfo id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.configuration.327171527.902548732" name="/" resourcePath="lib/aws/FreeRTOS/portable">
-						<toolChain id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.toolChain.1464257822" name="Renesas CCRX Toolchain" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.toolChain" unusedChildren="">
-							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.PE" id="com.renesas.cdt.managedbuild.renesas.ccrx.base.targetPlatform" osList="win32" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.targetPlatform"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.dsp.1064300578" name="DSP Assembler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.dsp.2136801445"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.common.819941110" name="Common" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.common.2029368761"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.compiler.1509733848" name="Compiler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.compiler.465369246">
-								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gcc.inputType.987800698" name="Compiler Input C" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gcc.inputType"/>
-								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gpp.inputType.36955106" name="Compiler Input CPP" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gpp.inputType"/>
-							</tool>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.assembler.2077649182" name="Assembler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.assembler.1773401596">
-								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.assembler.inputType.1957961098" name="Assembler InputType" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.assembler.inputType"/>
-							</tool>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.linker.2063951227" name="Linker" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.linker.1578025335"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.librarian.444064870" name="Library Generator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.librarian.1112381756"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.converter.1649759621" name="Converter" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.converter.1844656851"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig.1062406831" name="RTOS Configurator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig.614884446"/>
-						</toolChain>
-					</folderInfo>
-					<folderInfo id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.configuration.327171527.333066059" name="/" resourcePath="lib/aws/pkcs11/mbedtls">
-						<toolChain id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.toolChain.1923147202" name="Renesas CCRX Toolchain" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.toolChain" unusedChildren="">
-							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.PE" id="com.renesas.cdt.managedbuild.renesas.ccrx.base.targetPlatform" osList="win32" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.targetPlatform"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.dsp.1186178139" name="DSP Assembler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.dsp.2136801445"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.common.190047804" name="Common" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.common.2029368761"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.compiler.2137457696" name="Compiler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.compiler.465369246">
-								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gcc.inputType.1066012948" name="Compiler Input C" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gcc.inputType"/>
-								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gpp.inputType.1166018894" name="Compiler Input CPP" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gpp.inputType"/>
-							</tool>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.assembler.159766653" name="Assembler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.assembler.1773401596">
-								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.assembler.inputType.1558154841" name="Assembler InputType" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.assembler.inputType"/>
-							</tool>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.linker.308801758" name="Linker" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.linker.1578025335"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.librarian.2028531344" name="Library Generator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.librarian.1112381756"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.converter.776886317" name="Converter" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.converter.1844656851"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig.1491729" name="RTOS Configurator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig.614884446"/>
-						</toolChain>
-					</folderInfo>
 					<folderInfo id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.configuration.327171527.199964455" name="/" resourcePath="lib/aws/FreeRTOS-Plus-TCP">
 						<toolChain id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.toolChain.1166780323" name="Renesas CCRX Toolchain" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.toolChain" unusedChildren="">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.PE" id="com.renesas.cdt.managedbuild.renesas.ccrx.base.targetPlatform" osList="win32" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.targetPlatform"/>
@@ -381,24 +148,6 @@
 							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.librarian.1455067199" name="Library Generator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.librarian.1112381756"/>
 							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.converter.597742456" name="Converter" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.converter.1844656851"/>
 							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig.748501798" name="RTOS Configurator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig.614884446"/>
-						</toolChain>
-					</folderInfo>
-					<folderInfo id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.configuration.327171527.2047253785" name="/" resourcePath="lib/aws/FreeRTOS-Plus-TCP/source">
-						<toolChain id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.toolChain.1588055010" name="Renesas CCRX Toolchain" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.toolChain" unusedChildren="">
-							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.PE" id="com.renesas.cdt.managedbuild.renesas.ccrx.base.targetPlatform" osList="win32" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.targetPlatform"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.dsp.139647070" name="DSP Assembler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.dsp.2136801445"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.common.1742974749" name="Common" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.common.2029368761"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.compiler.576498185" name="Compiler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.compiler.465369246">
-								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gcc.inputType.1317837333" name="Compiler Input C" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gcc.inputType"/>
-								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gpp.inputType.1479834834" name="Compiler Input CPP" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gpp.inputType"/>
-							</tool>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.assembler.2079461237" name="Assembler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.assembler.1773401596">
-								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.assembler.inputType.1672334077" name="Assembler InputType" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.assembler.inputType"/>
-							</tool>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.linker.760326989" name="Linker" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.linker.1578025335"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.librarian.561962591" name="Library Generator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.librarian.1112381756"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.converter.2077813941" name="Converter" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.converter.1844656851"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig.248839416" name="RTOS Configurator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig.614884446"/>
 						</toolChain>
 					</folderInfo>
 					<folderInfo id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.configuration.327171527.1221831534" name="/" resourcePath="lib/third_party/mcu_vendor/renesas/FIT">
@@ -419,6 +168,18 @@
 							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig.892921257" name="RTOS Configurator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig.614884446"/>
 						</toolChain>
 					</folderInfo>
+					<folderInfo id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.configuration.327171527.1090553754" name="/" resourcePath="lib/third_party/mcu_vendor/renesas/rx_mcu_boards/amazon_freertos_common/network_support">
+						<toolChain id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.toolChain.897720750" name="Renesas CCRX Toolchain" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.toolChain" unusedChildren="">
+							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.dsp.1639283343" name="DSP Assembler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.dsp.2136801445"/>
+							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.common.2119095621" name="Common" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.common.2029368761"/>
+							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.compiler.1120246321" name="Compiler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.compiler.465369246"/>
+							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.assembler.425799000" name="Assembler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.assembler.1773401596"/>
+							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.linker.1201439810" name="Linker" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.linker.1578025335"/>
+							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.librarian.455362691" name="Library Generator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.librarian.1112381756"/>
+							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.converter.1472416440" name="Converter" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.converter.1844656851"/>
+							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig.1253310914" name="RTOS Configurator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig.614884446"/>
+						</toolChain>
+					</folderInfo>
 					<folderInfo id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.configuration.327171527.797144579" name="/" resourcePath="src/FIT_modefied_code/r_s12ad_rx/src/targets">
 						<toolChain id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.toolChain.1454940204" name="Renesas CCRX Toolchain" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.toolChain" unusedChildren="">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.PE" id="com.renesas.cdt.managedbuild.renesas.ccrx.base.targetPlatform" osList="win32" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.targetPlatform"/>
@@ -435,78 +196,6 @@
 							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.librarian.1471009366" name="Library Generator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.librarian.1112381756"/>
 							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.converter.1931653104" name="Converter" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.converter.1844656851"/>
 							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig.835322052" name="RTOS Configurator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig.614884446"/>
-						</toolChain>
-					</folderInfo>
-					<folderInfo id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.configuration.327171527.1905267624" name="/" resourcePath="src/FIT_modefied_code/r_cmt_rx">
-						<toolChain id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.toolChain.1556538350" name="Renesas CCRX Toolchain" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.toolChain" unusedChildren="">
-							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.PE" id="com.renesas.cdt.managedbuild.renesas.ccrx.base.targetPlatform" osList="win32" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.targetPlatform"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.dsp.1105435614" name="DSP Assembler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.dsp.2136801445"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.common.1686635469" name="Common" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.common.2029368761"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.compiler.156329937" name="Compiler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.compiler.465369246">
-								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gcc.inputType.282961163" name="Compiler Input C" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gcc.inputType"/>
-								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gpp.inputType.1351824742" name="Compiler Input CPP" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gpp.inputType"/>
-							</tool>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.assembler.1017941338" name="Assembler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.assembler.1773401596">
-								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.assembler.inputType.748574550" name="Assembler InputType" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.assembler.inputType"/>
-							</tool>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.linker.1204223848" name="Linker" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.linker.1578025335"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.librarian.1644970808" name="Library Generator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.librarian.1112381756"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.converter.1685138870" name="Converter" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.converter.1844656851"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig.793498063" name="RTOS Configurator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig.614884446"/>
-						</toolChain>
-					</folderInfo>
-					<folderInfo id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.configuration.327171527.2033523993" name="/" resourcePath="src/FIT_modefied_code/r_ether_rx">
-						<toolChain id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.toolChain.1439200939" name="Renesas CCRX Toolchain" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.toolChain" unusedChildren="">
-							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.PE" id="com.renesas.cdt.managedbuild.renesas.ccrx.base.targetPlatform" osList="win32" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.targetPlatform"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.dsp.1435932503" name="DSP Assembler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.dsp.2136801445"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.common.935265389" name="Common" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.common.2029368761"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.compiler.1839084443" name="Compiler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.compiler.465369246">
-								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gcc.inputType.2133748957" name="Compiler Input C" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gcc.inputType"/>
-								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gpp.inputType.1857063659" name="Compiler Input CPP" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gpp.inputType"/>
-							</tool>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.assembler.837922696" name="Assembler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.assembler.1773401596">
-								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.assembler.inputType.1977264534" name="Assembler InputType" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.assembler.inputType"/>
-							</tool>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.linker.513202493" name="Linker" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.linker.1578025335"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.librarian.100971452" name="Library Generator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.librarian.1112381756"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.converter.1194051950" name="Converter" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.converter.1844656851"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig.1857013841" name="RTOS Configurator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig.614884446"/>
-						</toolChain>
-					</folderInfo>
-					<folderInfo id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.configuration.327171527.1234122235" name="/" resourcePath="src/FIT_modefied_code/r_riic_rx">
-						<toolChain id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.toolChain.434243747" name="Renesas CCRX Toolchain" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.toolChain" unusedChildren="">
-							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.PE" id="com.renesas.cdt.managedbuild.renesas.ccrx.base.targetPlatform" osList="win32" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.targetPlatform"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.dsp.1236215446" name="DSP Assembler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.dsp.2136801445"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.common.1344971023" name="Common" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.common.2029368761"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.compiler.1229766576" name="Compiler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.compiler.465369246">
-								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gcc.inputType.1269529244" name="Compiler Input C" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gcc.inputType"/>
-								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gpp.inputType.1653933670" name="Compiler Input CPP" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gpp.inputType"/>
-							</tool>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.assembler.1104917794" name="Assembler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.assembler.1773401596">
-								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.assembler.inputType.661884206" name="Assembler InputType" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.assembler.inputType"/>
-							</tool>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.linker.1885091833" name="Linker" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.linker.1578025335"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.librarian.168169405" name="Library Generator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.librarian.1112381756"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.converter.1796893943" name="Converter" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.converter.1844656851"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig.410308591" name="RTOS Configurator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig.614884446"/>
-						</toolChain>
-					</folderInfo>
-					<folderInfo id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.configuration.327171527.2117915717" name="/" resourcePath="src/FIT_modefied_code/r_sci_iic_rx">
-						<toolChain id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.toolChain.579274079" name="Renesas CCRX Toolchain" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.toolChain" unusedChildren="">
-							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.PE" id="com.renesas.cdt.managedbuild.renesas.ccrx.base.targetPlatform" osList="win32" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.targetPlatform"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.dsp.664012532" name="DSP Assembler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.dsp.2136801445"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.common.558566358" name="Common" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.common.2029368761"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.compiler.1901917551" name="Compiler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.compiler.465369246">
-								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gcc.inputType.851140023" name="Compiler Input C" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gcc.inputType"/>
-								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gpp.inputType.1882712799" name="Compiler Input CPP" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.compiler.gpp.inputType"/>
-							</tool>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.assembler.1311195949" name="Assembler" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.assembler.1773401596">
-								<inputType id="com.renesas.cdt.managedbuild.renesas.ccrx.assembler.inputType.481439521" name="Assembler InputType" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.assembler.inputType"/>
-							</tool>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.linker.1565638435" name="Linker" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.linker.1578025335"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.librarian.2092992072" name="Library Generator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.librarian.1112381756"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.converter.379511804" name="Converter" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.converter.1844656851"/>
-							<tool id="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig.1099313014" name="RTOS Configurator" superClass="com.renesas.cdt.managedbuild.renesas.ccrx.base.rtosConfig.614884446"/>
 						</toolChain>
 					</folderInfo>
 					<folderInfo id="com.renesas.cdt.managedbuild.renesas.ccrx.hardwaredebug.configuration.327171527.2094521331" name="/" resourcePath="src/amazon_freertos_common/network_support">
@@ -564,11 +253,10 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="trash|application_code|config_files|src|lib|src/FIT_modefied_code/r_riic_rx|src/FIT_modefied_code/r_sci_iic_rx|src/FIT_modefied_code/r_cmt_rx|src/smc_gen/UNUSED_generated_code|lib/third_party/mcu_vendor/renesas/FIT|application_code/vendor_code/entropy_hardware_poll.c|lib/aws/pkcs11/pkcs11.c|lib/aws/FreeRTOS-Plus-TCP/source/portable/BufferManagement/BufferAllocation_1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
-						<entry excluding="common_test/freertos_tcp|common_test/ota|common_test/posix" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="application_code"/>
+						<entry excluding="application_code/vendor_code/entropy_hardware_poll.c|src/FIT_modefied_code/r_cmt_rx|src/FIT_modefied_code/r_sci_iic_rx|lib/third_party/mcu_vendor/renesas/FIT|config_files|lib/aws/pkcs11/pkcs11.c|src|trash|application_code|src/smc_gen/UNUSED_generated_code|lib|lib/aws/FreeRTOS-Plus-TCP/source/portable/BufferManagement/BufferAllocation_1.c|src/FIT_modefied_code/r_riic_rx" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="common_test/posix|common_test/ota|common_test/freertos_tcp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="application_code"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="config_files"/>
-						<entry excluding="aws/FreeRTOS-Plus-TCP|aws/pkcs11/mbedtls|third_party/mcu_vendor/renesas/amazon_freertos_common|third_party/mcu_vendor/renesas/FIT" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="lib"/>
-						<entry excluding="FIT_modefied_code/r_ether_rx|smc_gen/UNUSED_generated_code|FIT_modefied_code/r_riic_rx|FIT_modefied_code/r_cmt_rx|FIT_modefied_code/r_sci_iic_rx" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_ether_rx|aws/FreeRTOS-Plus-TCP|aws/pkcs11/mbedtls|third_party/mcu_vendor/renesas/amazon_freertos_common|third_party/mcu_vendor/renesas/FIT" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="lib"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
