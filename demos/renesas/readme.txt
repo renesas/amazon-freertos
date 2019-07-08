@@ -63,6 +63,12 @@ I hope this solution will be helpful for embedded system developer in W/W.
 --------------------------------------------------------------------------
 Change Logs
 --------------------------------------------------------------------------
+v0.1.10:
+[REVERTED] the version from v0.2.0 to v0.1.10 for smart configurator collaboration.
+[TESTED] FullWiFi test with device tester for
+         RX65N Target Board + Silex SX-ULPGN PMOD CC-RX e2 studio with E2 Emulator Lite (on board)
+[NOTICE] This is very tentative release. Please use v0.1.7 in basically.
+
 v0.2.0:
 [TESTED] FullWiFi test with device tester for
          RX65N Target Board + Silex SX-ULPGN PMOD CC-RX e2 studio with E2 Emulator Lite (on board)
