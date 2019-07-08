@@ -206,9 +206,9 @@ command, and ping replies.  If ipconfigHAS_PRINTF is set to 1 then FreeRTOS_prin
             <constraint display="Value must be greater than 1">("${ipconfigTCP_RX_BUFFER_LENGTH}" &gt;= 1) </constraint>
             <description>Define the size of Rx buffer for TCP sockets</description>
         </property>
-        <property id="ipconfigTCP_TX_BUFFER_LENGTH" display="Size of Tx buffer for TCP sockets" default="3000" type="combobox">
-            <option id="ipconfigTCP_TX_BUFFER_LENGTH.0" display="Enable " value="0"/>
-            <option id="ipconfigTCP_TX_BUFFER_LENGTH.1" display="Disable" value="1"/>
+        <property id="ipconfigTCP_TX_BUFFER_LENGTH" display="Size of Tx buffer for TCP sockets" default="3000" type="textbox">
+            <constraint display="Value must be an integer">testInteger("${ipconfigTCP_TX_BUFFER_LENGTH}")</constraint>
+            <constraint display="Value must be greater than 1">("${ipconfigTCP_TX_BUFFER_LENGTH}" &gt;= 1) </constraint>
             <description>Define the size of Tx buffer for TCP sockets</description>
         </property>
         <property id="ipconfigTCP_KEEP_ALIVE" display="TCP keep-alive" default="1" type="combobox">
