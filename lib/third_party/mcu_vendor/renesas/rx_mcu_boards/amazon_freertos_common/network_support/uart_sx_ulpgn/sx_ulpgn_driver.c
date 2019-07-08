@@ -300,6 +300,7 @@ typedef struct
 
 ulpgn_socket_t g_ulpgn_socket[CREATEABLE_SOCKETS];
 
+static uint8_t g_temporary_byteq_enable_flag = 0;
 typedef struct
 {
     uint32_t queue_overflow_count;
@@ -2090,177 +2091,278 @@ static int32_t sx_ulpgn_change_socket_index(uint8_t socket_no)
 #endif
     volatile int32_t timeout;
     sci_err_t ercd;
-    uint32_t recvcnt = 0;
-    int32_t ret;
+    uint32_t receive_count = 0;
+    int32_t ret = 0;
     uint16_t i;
-    uint16_t read_data = 0;
-    uint16_t read_data2;
+    uint16_t stored_data_size = 0;
+    uint16_t read_data_size;
     uint8_t before_socket_no;
     int8_t receive_ret;
+    uint8_t temprary_buff[64];
+    
     if(ULPGN_USE_UART_NUM == 2)
     {
-        if(socket_no != current_socket_index)
+  
+    	if(socket_no != current_socket_index)
         {
             before_socket_no = current_socket_index;
-            read_data = 0;
-            if(SCI_SUCCESS == R_SCI_Control(sx_ulpgn_uart_sci_handle[ULPGN_UART_DATA_PORT], SCI_CMD_RX_Q_BYTES_AVAIL_TO_READ, &read_data))
-            {
-                if(read_data > 0)
-                {
-                    while(read_data > 0)
-                    {
-                        if(sizeof(recvbuff) >= read_data)
-                        {
-                            read_data2 = read_data;
-                        }
-                        else
-                        {
-                            read_data2 = sizeof(recvbuff);
-                        }
-                        R_SCI_Receive(sx_ulpgn_uart_sci_handle[ULPGN_UART_DATA_PORT], recvbuff, read_data2);
-                        for(i = 0; i < read_data2; i++ )
-                        {
-                            R_BYTEQ_Put(g_ulpgn_socket[current_socket_index].socket_byteq_hdl, *(recvbuff + i));
-                        }
-                        read_data -= read_data2;
-                    }
-                }
-            }
-#if DEBUGLOG ==1
-            printf("Before ATNSOCKINDEX SCI_Receive size = %d\r\n", read_data);
-#endif
-
+            stored_data_size = 0;
             sprintf((char *)buff, "ATNSOCKINDEX=%d\r", socket_no);
-
-#if 0
-            while(1)
-            {
-                ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, buff, 3, 5000, ULPGN_RETURN_OK);
-                if(0 == ret)
-                {
-                    /* RTS sets active */
-                    //              ULPGN_HSUART1_RTS_PODR = 0;
-                    break;
-                }
-            }
-            current_socket_index = socket_no;
-            /* RTS sets active */
-//          ULPGN_HSUART1_RTS_PODR = 0;
+            
+            sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATUSTAT\r", 5, 400, ULPGN_RETURN_OK);
+            ULPGN_HSUART1_RTS_PODR = 1;
+			do{
+				
+	            if(SCI_SUCCESS != R_SCI_Control(sx_ulpgn_uart_sci_handle[ULPGN_UART_DATA_PORT], SCI_CMD_RX_Q_BYTES_AVAIL_TO_READ, &stored_data_size))
+	            	return -1;
+				
+					if(sizeof(temprary_buff) >= stored_data_size)
+					{
+						read_data_size = stored_data_size;
+					}
+					else
+					{
+						read_data_size = sizeof(temprary_buff);
+					}
+					
+					R_SCI_Receive(sx_ulpgn_uart_sci_handle[ULPGN_UART_DATA_PORT], temprary_buff, read_data_size);
+					
+					for(i = 0; i < read_data_size; i++ )
+					{
+						R_BYTEQ_Put(g_ulpgn_socket[current_socket_index].socket_byteq_hdl, *(temprary_buff + i));
+					}
+					
+					stored_data_size -= read_data_size;
+					
+				}while(stored_data_size > 0);
+            
+#if DEBUGLOG ==1
+            printf("Before ATNSOCKINDEX SCI_Receive size = %d\r\n", read_data_size);
 #endif
-#if 1
-            while(1)
+
+            while((0 == ret)&&(current_socket_index != socket_no))
             {
-                recvcnt = 0;
+                receive_count = 0;
                 receive_ret = -1;
                 timeout = 0;
                 g_sx_ulpgn_uart_teiflag[ULPGN_UART_COMMAND_PORT] = 0;
+                
+                /* Send ATNSOCKINDEX command. */
+
                 ercd = R_SCI_Send(sx_ulpgn_uart_sci_handle[ULPGN_UART_COMMAND_PORT], (uint8_t *)buff, strlen((const char *)buff));
+                
                 if(SCI_SUCCESS != ercd)
                 {
-                    /* RTS sets active */
                     return -1;
                 }
-                while(1)
-                {
-                    if(0 != g_sx_ulpgn_uart_teiflag[ULPGN_UART_COMMAND_PORT])
-                    {
-                        /* RTS sets not active */
-                    	ULPGN_HSUART1_RTS_PODR = 1;
-                        R_BSP_SoftwareDelay(26, BSP_DELAY_MILLISECS); /* 26ms */
-                        break;
-                    }
-                    if(-1 == check_timeout(ULPGN_UART_COMMAND_PORT, 1000))
-                    {
-                        timeout = 1;
-                        break;
-                    }
-                }
-                if(timeout == 1)
-                {
-                    /* RTS sets active */
-                	ULPGN_HSUART1_RTS_PODR = 0;
-                    return -1;
-                }
-                bytetimeout_init(ULPGN_UART_COMMAND_PORT, 3);
-                while(1)
-                {
-                    ercd = R_SCI_Receive(sx_ulpgn_uart_sci_handle[ULPGN_UART_COMMAND_PORT], &recvbuff[recvcnt], 1);
-                    if(SCI_SUCCESS == ercd)
-                    {
-                        if(recvcnt == 0)
-                        {
-                            receive_ret = recvbuff[0];
-                            if(receive_ret == *ulpgn_result_code[ULPGN_RETURN_OK][ULPGN_RETURN_STRING_NUMERIC])
-                            {
 
-                                R_BSP_SoftwareDelay(100, BSP_DELAY_MICROSECS); /* 5us mergin 1us */
+                /* Enable temporary byte que(default byte que). */
+                g_temporary_byteq_enable_flag = 1;
 
+                /* Wait to send command. */
+                while(0 == g_sx_ulpgn_uart_teiflag[ULPGN_UART_COMMAND_PORT]);
 
-//                              R_BSP_InterruptsDisable();
-                                current_socket_index = socket_no;
-#if ULPGN_PORT_DEBUG == 1
-//                              DEBUG_PORT4_DR = 1;
-//                              DEBUG_PORT7_DR = socket_no;
-#endif
-                                ercd = R_SCI_Control(sx_ulpgn_uart_sci_handle[ULPGN_UART_DATA_PORT], SCI_CMD_RX_Q_BYTES_AVAIL_TO_READ, &read_data);
-//                              R_BSP_InterruptsEnable();
-                                if(SCI_SUCCESS == ercd)
-                                {
-                                    if(read_data > 0)
-                                    {
-                                        R_SCI_Receive(sx_ulpgn_uart_sci_handle[ULPGN_UART_DATA_PORT], buff, read_data);
-                                        for(i = 0; i < read_data; i++ )
-                                        {
-                                            R_BYTEQ_Put(g_ulpgn_socket[before_socket_no].socket_byteq_hdl, *(buff + i));
-                                        }
-                                    }
-                                }
-                            }
-                            else if(receive_ret == *ulpgn_result_code[ULPGN_RETURN_BUSY][ULPGN_RETURN_STRING_NUMERIC])
-                            {
-                                /* do nothing */
-                            }
-                            else
-                            {
-                                return -1;
-                            }
-                        }
-                        recvcnt++;
-                        if(recvcnt < 2)
-                        {
-#if DEBUGLOG ==1
-//                          printf("ATNSOCKINDEX=%c\r\n",receive_ret);
-#endif
-                            continue;
-                        }
-                        /* RTS sets active */
-                        ULPGN_HSUART1_RTS_PODR = 0;
-                        break;
-                    }
-                    if(-1 == check_bytetimeout(ULPGN_UART_COMMAND_PORT, recvcnt))
+                /* Initualize command response. */
+                bytetimeout_init(ULPGN_UART_COMMAND_PORT, 1000);
+
+                /* Check stored data of command return code. */
+                do{
+                    
+    	            if(SCI_SUCCESS != R_SCI_Control(sx_ulpgn_uart_sci_handle[ULPGN_UART_COMMAND_PORT], SCI_CMD_RX_Q_BYTES_AVAIL_TO_READ, &stored_data_size))
+    	            {
+                    	ret = -1;
+                    	break;
+    	            }
+                    if(-1 == check_bytetimeout(ULPGN_UART_COMMAND_PORT, 1000))
                     {
-                        break;
+                    	ret = -1;/// Should be continue?
+                    	break;
                     }
-                    if(-1 == check_timeout(ULPGN_UART_COMMAND_PORT, recvcnt))
-                    {
-                        timeout = 1;
-                        break;
-                    }
-                }
-                if(receive_ret == *ulpgn_result_code[ULPGN_RETURN_OK][ULPGN_RETURN_STRING_NUMERIC])
+                    
+                }while(2 > stored_data_size);
+                
+                /* Get command return code. */                
+            	ercd = R_SCI_Receive(sx_ulpgn_uart_sci_handle[ULPGN_UART_COMMAND_PORT], recvbuff, 2);
+                
+            	if(SCI_SUCCESS != ercd)
                 {
-                    break;
+                   	ret = -1;
+                   	break;
                 }
+            	
+                /* Parse command return code. */
+            	if(recvbuff[1]=='\r'){
+            		
+            		switch(recvbuff[0]){
+                    /* If change socket successfully, copy data from temporary buff to socekt buff
+                     * and change socket index. */
+            		case '0':
+					
+    			    /* change socket index to next. */
+					current_socket_index = socket_no;
+
+
+                    /* Copy data(which stored during socket switching) from temporary buff to next socekt buff. */
+					do{						
+
+			            if(SCI_SUCCESS != R_SCI_Control(sx_ulpgn_uart_sci_handle[ULPGN_UART_DATA_PORT], SCI_CMD_RX_Q_BYTES_AVAIL_TO_READ, &stored_data_size))
+			            	return -1;
+						
+							if(sizeof(temprary_buff) >= stored_data_size)
+							{
+								read_data_size = stored_data_size;
+							}
+							else
+							{
+								read_data_size = sizeof(temprary_buff);
+							}
+							
+							R_SCI_Receive(sx_ulpgn_uart_sci_handle[ULPGN_UART_DATA_PORT], temprary_buff, read_data_size);
+							
+							for(i = 0; i < read_data_size; i++ )
+							{
+								R_BYTEQ_Put(g_ulpgn_socket[current_socket_index].socket_byteq_hdl, *(temprary_buff + i));
+							}
+							
+							stored_data_size -= read_data_size;
+							
+						}while(stored_data_size > 0);
+
+
+            			R_BSP_InterruptsDisable();
+            			
+            			/* Copy data(which stored during copying data) from temporary buff to socket buff. */
+            			do{
+    						
+    			            if(SCI_SUCCESS != R_SCI_Control(sx_ulpgn_uart_sci_handle[ULPGN_UART_DATA_PORT], SCI_CMD_RX_Q_BYTES_AVAIL_TO_READ, &stored_data_size))
+    			            	return -1;
+    						
+    							if(sizeof(temprary_buff) >= stored_data_size)
+    							{
+    								read_data_size = stored_data_size;
+    							}
+    							else
+    							{
+    								read_data_size = sizeof(temprary_buff);
+    							}
+    							
+    							R_SCI_Receive(sx_ulpgn_uart_sci_handle[ULPGN_UART_DATA_PORT], temprary_buff, read_data_size);
+    							
+    							for(i = 0; i < read_data_size; i++ )
+    							{
+    								R_BYTEQ_Put(g_ulpgn_socket[current_socket_index].socket_byteq_hdl, *(temprary_buff + i));
+    							}
+    							
+    							stored_data_size -= read_data_size;
+    							
+    					}while(stored_data_size > 0);
+
+            			/* Disable temporary byte que(default byte que). */
+            			g_temporary_byteq_enable_flag = 0;
+ 		                ULPGN_HSUART1_RTS_PODR = 0;
+
+						R_BSP_InterruptsEnable();
+						
+            				break;
+            				
+            		case '7':
+                    /* If dont change socket because of wifi module buzy, copy data from temporary buff to socekt buff
+                     * and retry change socket command. */
+
+ 		                ULPGN_HSUART1_RTS_PODR = 0;
+
+					/* Wait 100us for module to complate send data. */
+						R_BSP_SoftwareDelay(100, BSP_DELAY_MICROSECS); ///FIXME
+		                ULPGN_HSUART1_RTS_PODR = 1;
+
+                    /* Copy data(which stored during socket switching) from temporary buff to current socekt buff. */
+					do{						
+
+			            if(SCI_SUCCESS != R_SCI_Control(sx_ulpgn_uart_sci_handle[ULPGN_UART_DATA_PORT], SCI_CMD_RX_Q_BYTES_AVAIL_TO_READ, &stored_data_size))
+			            	return -1;
+						
+							if(sizeof(temprary_buff) >= stored_data_size)
+							{
+								read_data_size = stored_data_size;
+							}
+							else
+							{
+								read_data_size = sizeof(temprary_buff);
+							}
+							
+							R_SCI_Receive(sx_ulpgn_uart_sci_handle[ULPGN_UART_DATA_PORT], temprary_buff, read_data_size);
+							
+							for(i = 0; i < read_data_size; i++ )
+							{
+								R_BYTEQ_Put(g_ulpgn_socket[current_socket_index].socket_byteq_hdl, *(temprary_buff + i));
+							}
+							
+							stored_data_size -= read_data_size;
+							
+						}while(stored_data_size > 0);          		
+					
+            					break;
+            		default:
+
+            			/* This is command error and recovery socket status. */
+            					ret = -1;
+            					break;
+            		
+            		}
+            		
+            	}else{
+
+        			/* This is command error and recovery socket status. */
+        					ret = -1;
+        					break;
+            		
+            	}
+            
             }
-#endif
-            /* RTS sets active */
-            ULPGN_HSUART1_RTS_PODR = 0;
-#if ULPGN_PORT_DEBUG == 1
-//          DEBUG_PORT4_DR =0;
-#endif
+            
+			if(-1 == ret){
+				
+				R_BSP_InterruptsDisable();
+
+				/* Copy data(which stored during socket switching) from temporary buff to current socekt buff. */
+				do{						
+
+					if(SCI_SUCCESS != R_SCI_Control(sx_ulpgn_uart_sci_handle[ULPGN_UART_DATA_PORT], SCI_CMD_RX_Q_BYTES_AVAIL_TO_READ, &stored_data_size))
+						return -1;
+					
+						if(sizeof(temprary_buff) >= stored_data_size)
+						{
+							read_data_size = stored_data_size;
+						}
+						else
+						{
+							read_data_size = sizeof(temprary_buff);
+						}
+						
+						R_SCI_Receive(sx_ulpgn_uart_sci_handle[ULPGN_UART_DATA_PORT], temprary_buff, read_data_size);
+						
+						for(i = 0; i < read_data_size; i++ )
+						{
+							R_BYTEQ_Put(g_ulpgn_socket[current_socket_index].socket_byteq_hdl, *(temprary_buff + i));
+						}
+						
+						stored_data_size -= read_data_size;
+						
+					}while(stored_data_size > 0);
+				
+				/* Disable temporary byte que(default byte que). */
+				g_temporary_byteq_enable_flag = 0;
+                ULPGN_HSUART1_RTS_PODR = 0;
+
+				R_BSP_InterruptsEnable();
+				
+			}
+            
         }
+    
     }
-    return 0;
+    
+    return ret;
 }
 //#endif
 
@@ -2408,7 +2510,7 @@ static int32_t check_bytetimeout(uint8_t serial_ch, int32_t rcvcount)
         {
             if(thisbytetime[serial_ch] < startbytetime[serial_ch] && thisbytetime[serial_ch] <= endbytetime[serial_ch])
             {
-                /* Not timeout  */
+                /* timeout  */
                 return -1;
             }
         }
@@ -2530,8 +2632,6 @@ static int32_t sx_ulpgn_serial_second_port_close(void)
 
 int32_t sx_ulpgn_socket_init(void)
 {
-//#if ULPGN_USE_UART_NUM == 2
-
     int i;
     if(ULPGN_USE_UART_NUM == 2)
     {
@@ -2543,7 +2643,6 @@ int32_t sx_ulpgn_socket_init(void)
             }
         }
     }
-//#endif
 
     /* Success. */
     return 0;
@@ -2673,7 +2772,7 @@ static void sx_ulpgn_uart_callback_default_port_for_data(void *pArgs)
 
     if (SCI_EVT_RX_CHAR == p_args->event)
     {
-        if(g_ulpgn_socket[current_socket_index].socket_create_flag == 1)
+        if((0 == g_temporary_byteq_enable_flag)&&(g_ulpgn_socket[current_socket_index].socket_create_flag == 1))
         {
             /* From RXI interrupt; received character data is in p_args->byte */
             R_SCI_Control(sx_ulpgn_uart_sci_handle[ULPGN_UART_DEFAULT_PORT], SCI_CMD_RX_Q_FLUSH, NULL);
