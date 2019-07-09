@@ -2269,6 +2269,9 @@ TEST( Full_TCP, AFQP_SECURE_SOCKETS_SockEventHandler )
  */
 static void prvSOCKETS_Threadsafe_SameSocketDifferentTasks( Server_t xConn )
 {
+#if 1 // renesas skip
+    TEST_ASSERT_EQUAL_MESSAGE( 0, -1, "Force error by renesas" ); // renesas skip
+#else
     BaseType_t xTotalReceived, xReturned = 0;
     size_t xRecvLoop, xRecvLen;
     tcptestEchoTestModes_t xMode;
@@ -2393,6 +2396,7 @@ static void prvSOCKETS_Threadsafe_SameSocketDifferentTasks( Server_t xConn )
 
     /* Set priority back. */
     vTaskPrioritySet( NULL, tskIDLE_PRIORITY );
+#endif
 }
 
 TEST( Full_TCP, AFQP_SOCKETS_Threadsafe_SameSocketDifferentTasks )
@@ -2523,72 +2527,66 @@ static void prvEchoClientTxTask( void * pvParameters )
  */
 void prvStartTCPEchoClientTasks_DifferentSockets( Server_t xConn )
 {
+#if 1 // renesas skip
+    TEST_ASSERT_EQUAL_MESSAGE( 0, -1, "Force error by renesas" ); // renesas skip
+#else
     uint16_t usIndex;
     tcptestEchoClientsTaskParams_t xTcptestEchoClientsTaskParams[ tcptestNUM_ECHO_CLIENTS ];
     uint32_t ulEventMask;
     volatile BaseType_t xSyncEventGroupAllocated = pdFALSE;
     BaseType_t xResult;
 
-    if (eSecure == xConn)                                                               // renesas skip
-    {                                                                                   // renesas skip
-        xTcptestEchoClientsTaskParams[ usIndex ].xResult = SOCKETS_SOCKET_ERROR;        // renesas skip
-        TEST_ASSERT_EQUAL_MESSAGE( SOCKETS_ERROR_NONE,                                  // renesas skip
-                                   xTcptestEchoClientsTaskParams[ usIndex ].xResult,    // renesas skip
-                                   "Check aws_secure_sockets.h for error code" );       // renesas skip
-    }                                                                                   // renesas skip
-    else                                                                                // renesas skip
-    {                                                                                   // renesas skip
-        if( TEST_PROTECT() )
+    if( TEST_PROTECT() )
+    {
+        /* Create the event group used by the Tx and Rx tasks to synchronize prior
+         * to commencing a cycle using a new socket. */
+        xSyncEventGroup = xEventGroupCreate();
+        configASSERT( xSyncEventGroup );
+        xSyncEventGroupAllocated = pdTRUE;
+
+        /* Create the echo client tasks. */
+        for( usIndex = 0; usIndex < tcptestNUM_ECHO_CLIENTS; usIndex++ )
         {
-            /* Create the event group used by the Tx and Rx tasks to synchronize prior
-             * to commencing a cycle using a new socket. */
-            xSyncEventGroup = xEventGroupCreate();
-            configASSERT( xSyncEventGroup );
-            xSyncEventGroupAllocated = pdTRUE;
+            xTcptestEchoClientsTaskParams[ usIndex ].usTaskTag = usIndex;
+            xTcptestEchoClientsTaskParams[ usIndex ].xConn = xConn;
+            xTcptestEchoClientsTaskParams[ usIndex ].xResult = SOCKETS_SOCKET_ERROR;
 
-            /* Create the echo client tasks. */
-            for( usIndex = 0; usIndex < tcptestNUM_ECHO_CLIENTS; usIndex++ )
+            xResult = xTaskCreate( prvThreadSafeDifferentSocketsDifferentTasks,                 /* The function that implements the task. */
+                                   "ClientTask",                                                /* Just a text name for the task to aid debugging. */
+                                   tcptestTCP_ECHO_TASKS_STACK_SIZE,                            /* The stack size is defined in FreeRTOSIPConfig.h. */
+                                   &( xTcptestEchoClientsTaskParams[ usIndex ] ),               /* The task parameter, not used in this case. */
+                                   tcptestTCP_ECHO_TASKS_PRIORITY,                              /* The priority assigned to the task is defined in FreeRTOSConfig.h. */
+                                   &( xTcptestEchoClientsTaskParams[ usIndex ].xTaskHandle ) ); /* The task handle is not used. */
+            TEST_ASSERT_EQUAL_MESSAGE( pdPASS, xResult, "Task creation failed" );
+        }
+
+        ulEventMask = xEventGroupSync( xSyncEventGroup, /* The event group used for the rendezvous. */
+                                       0,
+                                       tcptestECHO_CLIENT_EVENT_MASK,
+                                       tcptestECHO_TEST_SYNC_TIMEOUT_TICKS );
+
+        /* For each task not completed, delete the task.  */
+        for( usIndex = 0; usIndex < tcptestNUM_ECHO_CLIENTS; usIndex++ )
+        {
+            if( ( ulEventMask & ( 1 << usIndex ) ) == 0 )
             {
-                xTcptestEchoClientsTaskParams[ usIndex ].usTaskTag = usIndex;
-                xTcptestEchoClientsTaskParams[ usIndex ].xConn = xConn;
-                xTcptestEchoClientsTaskParams[ usIndex ].xResult = SOCKETS_SOCKET_ERROR;
-
-                xResult = xTaskCreate( prvThreadSafeDifferentSocketsDifferentTasks,                 /* The function that implements the task. */
-                                       "ClientTask",                                                /* Just a text name for the task to aid debugging. */
-                                       tcptestTCP_ECHO_TASKS_STACK_SIZE,                            /* The stack size is defined in FreeRTOSIPConfig.h. */
-                                       &( xTcptestEchoClientsTaskParams[ usIndex ] ),               /* The task parameter, not used in this case. */
-                                       tcptestTCP_ECHO_TASKS_PRIORITY,                              /* The priority assigned to the task is defined in FreeRTOSConfig.h. */
-                                       &( xTcptestEchoClientsTaskParams[ usIndex ].xTaskHandle ) ); /* The task handle is not used. */
-                TEST_ASSERT_EQUAL_MESSAGE( pdPASS, xResult, "Task creation failed" );
-            }
-
-            ulEventMask = xEventGroupSync( xSyncEventGroup, /* The event group used for the rendezvous. */
-                                           0,
-                                           tcptestECHO_CLIENT_EVENT_MASK,
-                                           tcptestECHO_TEST_SYNC_TIMEOUT_TICKS );
-
-            /* For each task not completed, delete the task.  */
-            for( usIndex = 0; usIndex < tcptestNUM_ECHO_CLIENTS; usIndex++ )
-            {
-                if( ( ulEventMask & ( 1 << usIndex ) ) == 0 )
-                {
-                    vTaskDelete( xTcptestEchoClientsTaskParams[ usIndex ].xTaskHandle );
-                }
-            }
-
-            for( usIndex = 0; usIndex < tcptestNUM_ECHO_CLIENTS; usIndex++ )
-            {
-                TEST_ASSERT_EQUAL_MESSAGE( SOCKETS_ERROR_NONE,
-                                           xTcptestEchoClientsTaskParams[ usIndex ].xResult,
-                                           "Check aws_secure_sockets.h for error code" );
+                vTaskDelete( xTcptestEchoClientsTaskParams[ usIndex ].xTaskHandle );
             }
         }
 
-        if( xSyncEventGroupAllocated == pdTRUE )
+        for( usIndex = 0; usIndex < tcptestNUM_ECHO_CLIENTS; usIndex++ )
         {
-            vEventGroupDelete( xSyncEventGroup );
+            TEST_ASSERT_EQUAL_MESSAGE( SOCKETS_ERROR_NONE,
+                                       xTcptestEchoClientsTaskParams[ usIndex ].xResult,
+                                       "Check aws_secure_sockets.h for error code" );
         }
-    }                                                                                   // renesas skip
+    }
+
+    if( xSyncEventGroupAllocated == pdTRUE )
+    {
+        vEventGroupDelete( xSyncEventGroup );
+    }
+#endif
 }
 
 
@@ -2779,6 +2777,9 @@ TEST( Full_TCP, AFQP_SECURE_SOCKETS_NonBlockingConnect )
 
 static void prvTwoSecureConnections( void )
 {
+#if 1 // renesas
+    TEST_ASSERT_EQUAL_MESSAGE( 0, -1, "Force error by renesas" ); // renesas skip
+#else
     BaseType_t xResult = pdFAIL;
     uint8_t * pucRxBuffer = ( uint8_t * ) pcRxBuffer;
     uint32_t ulIndex;
@@ -2870,6 +2871,7 @@ static void prvTwoSecureConnections( void )
             TEST_ASSERT_EQUAL_INT32_MESSAGE( SOCKETS_ERROR_NONE, xResult, "Socket failed to close" );
         }
     }
+#endif
 }
 
 TEST( Full_TCP, AFQP_SECURE_SOCKETS_TwoSecureConnections )
