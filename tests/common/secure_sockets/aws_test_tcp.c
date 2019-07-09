@@ -2529,56 +2529,66 @@ void prvStartTCPEchoClientTasks_DifferentSockets( Server_t xConn )
     volatile BaseType_t xSyncEventGroupAllocated = pdFALSE;
     BaseType_t xResult;
 
-    if( TEST_PROTECT() )
-    {
-        /* Create the event group used by the Tx and Rx tasks to synchronize prior
-         * to commencing a cycle using a new socket. */
-        xSyncEventGroup = xEventGroupCreate();
-        configASSERT( xSyncEventGroup );
-        xSyncEventGroupAllocated = pdTRUE;
-
-        /* Create the echo client tasks. */
-        for( usIndex = 0; usIndex < tcptestNUM_ECHO_CLIENTS; usIndex++ )
+    if (eSecure == xConn)                                                               // renesas skip
+    {                                                                                   // renesas skip
+        xTcptestEchoClientsTaskParams[ usIndex ].xResult = SOCKETS_SOCKET_ERROR;        // renesas skip
+        TEST_ASSERT_EQUAL_MESSAGE( SOCKETS_ERROR_NONE,                                  // renesas skip
+                                   xTcptestEchoClientsTaskParams[ usIndex ].xResult,    // renesas skip
+                                   "Check aws_secure_sockets.h for error code" );       // renesas skip
+    }                                                                                   // renesas skip
+    else                                                                                // renesas skip
+    {                                                                                   // renesas skip
+        if( TEST_PROTECT() )
         {
-            xTcptestEchoClientsTaskParams[ usIndex ].usTaskTag = usIndex;
-            xTcptestEchoClientsTaskParams[ usIndex ].xConn = xConn;
-            xTcptestEchoClientsTaskParams[ usIndex ].xResult = SOCKETS_SOCKET_ERROR;
+            /* Create the event group used by the Tx and Rx tasks to synchronize prior
+             * to commencing a cycle using a new socket. */
+            xSyncEventGroup = xEventGroupCreate();
+            configASSERT( xSyncEventGroup );
+            xSyncEventGroupAllocated = pdTRUE;
 
-            xResult = xTaskCreate( prvThreadSafeDifferentSocketsDifferentTasks,                 /* The function that implements the task. */
-                                   "ClientTask",                                                /* Just a text name for the task to aid debugging. */
-                                   tcptestTCP_ECHO_TASKS_STACK_SIZE,                            /* The stack size is defined in FreeRTOSIPConfig.h. */
-                                   &( xTcptestEchoClientsTaskParams[ usIndex ] ),               /* The task parameter, not used in this case. */
-                                   tcptestTCP_ECHO_TASKS_PRIORITY,                              /* The priority assigned to the task is defined in FreeRTOSConfig.h. */
-                                   &( xTcptestEchoClientsTaskParams[ usIndex ].xTaskHandle ) ); /* The task handle is not used. */
-            TEST_ASSERT_EQUAL_MESSAGE( pdPASS, xResult, "Task creation failed" );
-        }
-
-        ulEventMask = xEventGroupSync( xSyncEventGroup, /* The event group used for the rendezvous. */
-                                       0,
-                                       tcptestECHO_CLIENT_EVENT_MASK,
-                                       tcptestECHO_TEST_SYNC_TIMEOUT_TICKS );
-
-        /* For each task not completed, delete the task.  */
-        for( usIndex = 0; usIndex < tcptestNUM_ECHO_CLIENTS; usIndex++ )
-        {
-            if( ( ulEventMask & ( 1 << usIndex ) ) == 0 )
+            /* Create the echo client tasks. */
+            for( usIndex = 0; usIndex < tcptestNUM_ECHO_CLIENTS; usIndex++ )
             {
-                vTaskDelete( xTcptestEchoClientsTaskParams[ usIndex ].xTaskHandle );
+                xTcptestEchoClientsTaskParams[ usIndex ].usTaskTag = usIndex;
+                xTcptestEchoClientsTaskParams[ usIndex ].xConn = xConn;
+                xTcptestEchoClientsTaskParams[ usIndex ].xResult = SOCKETS_SOCKET_ERROR;
+
+                xResult = xTaskCreate( prvThreadSafeDifferentSocketsDifferentTasks,                 /* The function that implements the task. */
+                                       "ClientTask",                                                /* Just a text name for the task to aid debugging. */
+                                       tcptestTCP_ECHO_TASKS_STACK_SIZE,                            /* The stack size is defined in FreeRTOSIPConfig.h. */
+                                       &( xTcptestEchoClientsTaskParams[ usIndex ] ),               /* The task parameter, not used in this case. */
+                                       tcptestTCP_ECHO_TASKS_PRIORITY,                              /* The priority assigned to the task is defined in FreeRTOSConfig.h. */
+                                       &( xTcptestEchoClientsTaskParams[ usIndex ].xTaskHandle ) ); /* The task handle is not used. */
+                TEST_ASSERT_EQUAL_MESSAGE( pdPASS, xResult, "Task creation failed" );
+            }
+
+            ulEventMask = xEventGroupSync( xSyncEventGroup, /* The event group used for the rendezvous. */
+                                           0,
+                                           tcptestECHO_CLIENT_EVENT_MASK,
+                                           tcptestECHO_TEST_SYNC_TIMEOUT_TICKS );
+
+            /* For each task not completed, delete the task.  */
+            for( usIndex = 0; usIndex < tcptestNUM_ECHO_CLIENTS; usIndex++ )
+            {
+                if( ( ulEventMask & ( 1 << usIndex ) ) == 0 )
+                {
+                    vTaskDelete( xTcptestEchoClientsTaskParams[ usIndex ].xTaskHandle );
+                }
+            }
+
+            for( usIndex = 0; usIndex < tcptestNUM_ECHO_CLIENTS; usIndex++ )
+            {
+                TEST_ASSERT_EQUAL_MESSAGE( SOCKETS_ERROR_NONE,
+                                           xTcptestEchoClientsTaskParams[ usIndex ].xResult,
+                                           "Check aws_secure_sockets.h for error code" );
             }
         }
 
-        for( usIndex = 0; usIndex < tcptestNUM_ECHO_CLIENTS; usIndex++ )
+        if( xSyncEventGroupAllocated == pdTRUE )
         {
-            TEST_ASSERT_EQUAL_MESSAGE( SOCKETS_ERROR_NONE,
-                                       xTcptestEchoClientsTaskParams[ usIndex ].xResult,
-                                       "Check aws_secure_sockets.h for error code" );
+            vEventGroupDelete( xSyncEventGroup );
         }
-    }
-
-    if( xSyncEventGroupAllocated == pdTRUE )
-    {
-        vEventGroupDelete( xSyncEventGroup );
-    }
+    }                                                                                   // renesas skip
 }
 
 
