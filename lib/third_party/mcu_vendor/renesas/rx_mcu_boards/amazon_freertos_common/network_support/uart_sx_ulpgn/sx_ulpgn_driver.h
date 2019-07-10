@@ -2,12 +2,16 @@
 #define SX_ULPGN_DRIVER_H
 
 #include "aws_wifi.h"
+#include "platform.h"
 
 #define DEBUGLOG  0
 #define ULPGN_PORT_DEBUG 0
 
 /* Configuration */
 //#define ULPGN_USE_UART_NUM (1)
+#define ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_VALUE    1
+#define ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_PERIOD   BSP_DELAY_MILLISECS
+
 
 
 #define ULPGN_RETURN_TEXT_OK             "OK\r\n"
