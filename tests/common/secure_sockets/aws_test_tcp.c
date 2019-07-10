@@ -2269,9 +2269,6 @@ TEST( Full_TCP, AFQP_SECURE_SOCKETS_SockEventHandler )
  */
 static void prvSOCKETS_Threadsafe_SameSocketDifferentTasks( Server_t xConn )
 {
-#if 1 // renesas skip
-    TEST_ASSERT_EQUAL_MESSAGE( 0, -1, "Force error by renesas" ); // renesas skip
-#else
     BaseType_t xTotalReceived, xReturned = 0;
     size_t xRecvLoop, xRecvLen;
     tcptestEchoTestModes_t xMode;
@@ -2396,7 +2393,6 @@ static void prvSOCKETS_Threadsafe_SameSocketDifferentTasks( Server_t xConn )
 
     /* Set priority back. */
     vTaskPrioritySet( NULL, tskIDLE_PRIORITY );
-#endif
 }
 
 TEST( Full_TCP, AFQP_SOCKETS_Threadsafe_SameSocketDifferentTasks )
@@ -2527,9 +2523,6 @@ static void prvEchoClientTxTask( void * pvParameters )
  */
 void prvStartTCPEchoClientTasks_DifferentSockets( Server_t xConn )
 {
-#if 1 // renesas skip
-    TEST_ASSERT_EQUAL_MESSAGE( 0, -1, "Force error by renesas" ); // renesas skip
-#else
     uint16_t usIndex;
     tcptestEchoClientsTaskParams_t xTcptestEchoClientsTaskParams[ tcptestNUM_ECHO_CLIENTS ];
     uint32_t ulEventMask;
@@ -2586,7 +2579,6 @@ void prvStartTCPEchoClientTasks_DifferentSockets( Server_t xConn )
     {
         vEventGroupDelete( xSyncEventGroup );
     }
-#endif
 }
 
 
@@ -2777,9 +2769,6 @@ TEST( Full_TCP, AFQP_SECURE_SOCKETS_NonBlockingConnect )
 
 static void prvTwoSecureConnections( void )
 {
-#if 1 // renesas
-    TEST_ASSERT_EQUAL_MESSAGE( 0, -1, "Force error by renesas" ); // renesas skip
-#else
     BaseType_t xResult = pdFAIL;
     uint8_t * pucRxBuffer = ( uint8_t * ) pcRxBuffer;
     uint32_t ulIndex;
@@ -2871,7 +2860,6 @@ static void prvTwoSecureConnections( void )
             TEST_ASSERT_EQUAL_INT32_MESSAGE( SOCKETS_ERROR_NONE, xResult, "Socket failed to close" );
         }
     }
-#endif
 }
 
 TEST( Full_TCP, AFQP_SECURE_SOCKETS_TwoSecureConnections )
