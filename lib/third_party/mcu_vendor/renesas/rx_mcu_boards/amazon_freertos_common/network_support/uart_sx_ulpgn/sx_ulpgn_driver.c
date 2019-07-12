@@ -1532,7 +1532,7 @@ int32_t sx_ulpgn_tcp_disconnect(uint8_t socket_no)
 					{
 						R_BYTEQ_Flush(g_ulpgn_socket[socket_no].socket_byteq_hdl);
 					}
-					R_BSP_SoftwareDelay(1000, BSP_DELAY_MILLISECS);
+					R_BSP_SoftwareDelay(500, BSP_DELAY_MILLISECS);
 	//#endif
 				}
 				/* Give back the socketInUse mutex. */
