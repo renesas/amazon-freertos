@@ -1170,11 +1170,9 @@ int32_t sx_ulpgn_tcp_send(uint8_t socket_no, const uint8_t *pdata, int32_t lengt
 {
     int32_t timeout;
     volatile int32_t sended_length;
-    int32_t lenghttmp1;
-    int32_t lenghttmp2;
+    int32_t current_send_length;
     int32_t ret;
     sci_err_t ercd;
-//  sci_baud_t baud;
     TickType_t starttime;
 	TickType_t stoptime;
 
@@ -1230,23 +1228,24 @@ int32_t sx_ulpgn_tcp_send(uint8_t socket_no, const uint8_t *pdata, int32_t lengt
 
         timeout = 0;
 
-        lenghttmp2 = g_sx_ulpgn_tx_busiz_data;
         while(sended_length < length)
         {
-            if(length - sended_length > lenghttmp2)
+            if(length - sended_length > g_sx_ulpgn_tx_busiz_data)
             {
-                lenghttmp1 = lenghttmp2;
+                current_send_length = g_sx_ulpgn_tx_busiz_data;
             }
             else
             {
-                lenghttmp1 = length - sended_length;
+                current_send_length = length - sended_length;
             }
-            if(lenghttmp1 > 1420)
+
+            if(current_send_length > 1420)
             {
-            	lenghttmp1 = 1420;
+            	current_send_length = 1420;
             }
+
             g_sx_ulpgn_uart_teiflag[ULPGN_UART_DATA_PORT] = 0;
-            ercd = R_SCI_Send(sx_ulpgn_uart_sci_handle[ULPGN_UART_DATA_PORT], (uint8_t *)pdata + sended_length, lenghttmp1);
+            ercd = R_SCI_Send(sx_ulpgn_uart_sci_handle[ULPGN_UART_DATA_PORT], (uint8_t *)pdata + sended_length, current_send_length);
             if(SCI_SUCCESS != ercd)
             {
                 /* Give back the socketInUse mutex. */
@@ -1261,26 +1260,15 @@ int32_t sx_ulpgn_tcp_send(uint8_t socket_no, const uint8_t *pdata, int32_t lengt
                     break;
                 }
                 vTaskDelay(1);
-
-                //if(-1 == tcp_check_timeout(socket_no, 0))
-                //{
-                //  timeout = 1;
-                //  break;
-                //}
             }
-            //if(timeout == 1)
-            //{
-            //  return -1;
-            //}
-            sended_length += lenghttmp1;
-        }
-//        vTaskDelay(1);
 
-        if(timeout == 1 )
-        {
-            /* Give back the socketInUse mutex. */
-            ( void ) xSemaphoreGive( g_sx_ulpgn_tx_semaphore );
-            return -1;
+            sended_length += current_send_length;
+
+            if(-1 == tcp_check_timeout(socket_no, 0))
+            {
+              break;
+            }
+
         }
 
 #if DEBUGLOG == 1
