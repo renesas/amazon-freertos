@@ -1559,7 +1559,7 @@ int32_t sx_ulpgn_get_ipaddress(void)
     int32_t scanf_ret;
     uint32_t count;
 
-    func_ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATNSET=\?\r", 30, 3000, ULPGN_RETURN_OK);
+    func_ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATNSET=\?\r", 100, 3000, ULPGN_RETURN_OK);
     if(func_ret != 0)
     {
         return -1;
