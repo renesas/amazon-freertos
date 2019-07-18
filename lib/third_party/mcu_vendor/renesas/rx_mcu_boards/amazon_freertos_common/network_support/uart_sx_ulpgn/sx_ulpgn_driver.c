@@ -243,7 +243,6 @@ static uint8_t byte_timeout_overflow_flag[2];
 
 uint8_t g_sx_ulpgn_return_mode;
 
-
 static void sx_ulpgn_uart_callback_second_port_for_command(void *pArgs);
 static void sx_ulpgn_uart_callback_default_port_for_inititial(void *pArgs);
 static void sx_ulpgn_uart_callback_default_port_for_data(void *pArgs);
@@ -261,6 +260,7 @@ static int32_t sx_ulpgn_serial_escape(void);
 static int32_t sx_ulpgn_serial_second_port_open(void);
 static int32_t sx_ulpgn_serial_second_port_close(void);
 static int32_t sx_ulpgn_serial_send_basic(uint8_t serial_ch_id, const char *ptextstring, uint16_t response_type, uint16_t timeout_ms, sx_ulpgn_return_code_t expect_code);
+static int32_t sx_ulpgn_check_uart_state(uint16_t response_type, uint16_t timeout_ms,uint32_t *uart_receive_status, uint32_t *uart_send_status);
 
 static int32_t sx_ulpgn_serial_send_basic_take_mutex(uint8_t mutex_flag);
 static void sx_ulpgn_serial_send_basic_give_mutex(uint8_t mutex_flag);
@@ -316,6 +316,8 @@ uint8_t g_sx_ulpgn_ipaddress[4];
 uint8_t g_sx_ulpgn_subnetmask[4];
 uint8_t g_sx_ulpgn_gateway[4];
 
+uint32_t test_recvdat = 0xa5;
+uint32_t test_senddat = 0x5a;
 
 int32_t sx_ulpgn_wifi_init(void)
 {
@@ -567,6 +569,21 @@ int32_t sx_ulpgn_wifi_init(void)
     {
         return ret;
     }
+
+    ret = sx_ulpgn_check_uart_state(100, 400, &test_recvdat, &test_senddat);
+    if(ret != 0)
+    {
+        R_NOP();
+    }
+    R_NOP();
+
+    ret = sx_ulpgn_check_uart_state(100, 400, &test_recvdat, &test_senddat);
+    if(ret != 0)
+    {
+        R_NOP();
+    }
+    R_NOP();
+
 
     if(0)
     {
@@ -2033,16 +2050,12 @@ static int32_t sx_ulpgn_change_socket_index(uint8_t socket_no)
 
             sprintf((char *)buff, "ATNSOCKINDEX=%d\r", socket_no);
 
-
-            ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATUSTAT\r", 100, 400, ULPGN_RETURN_OK);
+            ret = sx_ulpgn_check_uart_state(100, 400, &atustat_recv, &previous_atustat_sent);
             if(ret != 0)
             {
             	return -1;
             }
-            if(3 != sscanf(recvbuff,"recv=%lu sent=%lu\r\n%d\r",&atustat_recv, &previous_atustat_sent, &dummy))
-            {
-            	return -1;
-            }
+
             while(sequence < 0x80)
             {
             	switch(sequence)
@@ -2052,14 +2065,8 @@ static int32_t sx_ulpgn_change_socket_index(uint8_t socket_no)
             			resequence_flag = 0;
                         /* Enable temporary byte que(default byte que). */
                         g_temporary_byteq_enable_flag = 1;
-                        ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATUSTAT\r", 100, 400, ULPGN_RETURN_OK);
+                        ret = sx_ulpgn_check_uart_state(100, 400, &atustat_recv, &now_atustat_sent);
                         if(ret != 0)
-                        {
-							ret = -1;
-							sequence = 0x80;
-							break;
-                        }
-                        if(3 != sscanf(recvbuff,"recv=%lu sent=%lu\r\n%d\r",&atustat_recv, &now_atustat_sent, &dummy))
                         {
 							ret = -1;
 							sequence = 0x80;
@@ -2198,19 +2205,14 @@ static int32_t sx_ulpgn_change_socket_index(uint8_t socket_no)
 									/* change socket index to next. */
 									current_socket_index = socket_no;
 
-						            ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATUSTAT\r", 100, 400, ULPGN_RETURN_OK);
-						            if(ret != 0)
-						            {
+			                        ret = sx_ulpgn_check_uart_state(100, 400, &atustat_recv, &now_atustat_sent);
+			                        if(ret != 0)
+			                        {
 										ret = -1;
 										sequence = 0x80;
 										break;
-						            }
-						            if(3 != sscanf(recvbuff,"recv=%lu sent=%lu\r\n%d\r",&atustat_recv, &now_atustat_sent, &dummy))
-						            {
-										ret = -1;
-										sequence = 0x80;
-										break;
-						            }
+			                        }
+
 			        				if(now_atustat_sent != previous_atustat_sent)
 			        				{
 			        					if(previous_socket_store_data_size > 0)
@@ -2413,6 +2415,197 @@ static int32_t sx_ulpgn_change_socket_index(uint8_t socket_no)
     return ret;
 }
 //#endif
+
+static int32_t sx_ulpgn_check_uart_state(uint16_t response_type, uint16_t timeout_ms,uint32_t *uart_receive_status, uint32_t *uart_send_status){
+
+#if DEBUGLOG == 1
+    TickType_t tmptime1, tmptime2;
+#endif
+
+    volatile int32_t timeout;
+    sci_err_t ercd;
+    uint32_t recvcnt = 0;
+    uint8_t receive_data;
+    uint8_t last_data_cnt = 0;
+    uint8_t retry_count;
+    uint8_t ptextstring[] = "ATUSTAT\r";
+    uint8_t presponsestring[] = "recv=%lu sent=%lu\r\n%d\r";
+    uint32_t ret;
+    uint32_t previous_atustat_sent,now_atustat_sent,atustat_recv;
+
+	for (retry_count = 0; retry_count < 10; retry_count++)
+    {
+		last_data_cnt = 0;
+	    memset(recvbuff, 0, sizeof(recvbuff));
+	    memset(last_data, 0, sizeof(last_data));
+
+	    timeout_init(ULPGN_UART_COMMAND_PORT, timeout_ms);
+
+	    if(ptextstring != NULL)
+	    {
+	        timeout = 0;
+	        recvcnt = 0;
+	        g_sx_ulpgn_uart_teiflag[ULPGN_UART_COMMAND_PORT] = 0;
+	        R_SCI_Control(sx_ulpgn_uart_sci_handle[ULPGN_UART_COMMAND_PORT], SCI_CMD_RX_Q_FLUSH, NULL);
+	        ercd = R_SCI_Send(sx_ulpgn_uart_sci_handle[ULPGN_UART_COMMAND_PORT], (uint8_t *)ptextstring, (uint16_t)strlen((const char *)ptextstring));
+	        if(SCI_SUCCESS != ercd)
+	        {
+	            return -1;
+	        }
+
+	        while(1)
+	        {
+	            if(0 != g_sx_ulpgn_uart_teiflag[ULPGN_UART_COMMAND_PORT])
+	            {
+	                break;
+	            }
+	            if(-1 == check_timeout(ULPGN_UART_COMMAND_PORT, recvcnt))
+	            {
+	                timeout = 1;
+	                break;
+	            }
+	        }
+	        if(timeout == 1)
+	        {
+	#if DEBUGLOG == 1
+	            R_BSP_CpuInterruptLevelWrite (13);
+	            printf("timeout.\r\n", tmptime1, ptextstring);
+	            R_BSP_CpuInterruptLevelWrite (0);
+	#endif
+	            return -1;
+	        }
+
+	#if DEBUGLOG == 1
+	        tmptime1 = xTaskGetTickCount();
+	        if(ptextstring[strlen((const char *)ptextstring) - 1] != '\r')
+	        {
+	            R_BSP_CpuInterruptLevelWrite (13);
+	            printf("s:%06d:%s\r\n", tmptime1, ptextstring);
+	            R_BSP_CpuInterruptLevelWrite (0);
+	        }
+	        else
+	        {
+	            R_BSP_CpuInterruptLevelWrite (13);
+	            printf("s:%06d:%s", tmptime1, ptextstring);
+	            printf("\n");
+	            R_BSP_CpuInterruptLevelWrite (0);
+	        }
+	#endif
+	    }
+	    while(1)
+	    {
+	        ercd = R_SCI_Receive(sx_ulpgn_uart_sci_handle[ULPGN_UART_COMMAND_PORT], &receive_data, 1);
+	        if(SCI_SUCCESS == ercd)
+	        {
+	        	recvbuff[recvcnt] = receive_data;
+	            recvcnt++;
+	            if(last_data_cnt < (ULPGN_RETURN_TEXT_LENGTH - 2))
+	            {
+	            	last_data[last_data_cnt] = receive_data;
+	            	last_data_cnt++;
+	            }
+	            else
+	            {
+	            	memmove(&last_data[0],&last_data[1],ULPGN_RETURN_TEXT_LENGTH - 2);
+	            	last_data_cnt--;
+	            	last_data[last_data_cnt] = receive_data;
+	            	last_data_cnt++;
+	            }
+	            bytetimeout_init(ULPGN_UART_COMMAND_PORT, response_type);
+	            if(recvcnt < 4)
+	            {
+	                continue;
+	            }
+	            if(recvcnt == sizeof(recvbuff) - 2)
+	            {
+	                break;
+	            }
+	        }
+
+            if(3 == sscanf(recvbuff,presponsestring,&atustat_recv, &now_atustat_sent, &ret))
+            {
+            	if(receive_data == '\r')
+            	{
+            		break;
+            	}
+            }
+
+	        if(-1 == check_bytetimeout(ULPGN_UART_COMMAND_PORT, recvcnt))
+	        {
+	            break;
+	        }
+	        if(-1 == check_timeout(ULPGN_UART_COMMAND_PORT, recvcnt))
+	        {
+	            timeout = 1;
+	            break;
+	        }
+	    }
+	    if (0 == timeout)
+	    {
+			/* Success */
+		}
+	    else if (1 == timeout && 10 == retry_count)
+	    {
+            /* Error, no response */
+	        return -1;
+	    }
+	    else
+	    {
+			/* Retry */
+			continue;
+		}
+
+
+	#if DEBUGLOG == 1
+	    tmptime2 = xTaskGetTickCount();
+	    if(recvbuff[recvcnt - 1] != '\r')
+	    {
+	        recvbuff[recvcnt] = '\r';
+	        recvbuff[recvcnt + 1] = '\0';
+	    }
+	    else
+	    {
+	        recvbuff[recvcnt] = '\0';
+	    }
+	    printf("r:%06d:%s", tmptime2, recvbuff);
+	#endif
+	    /* Response data check */
+	    if(recvcnt < strlen((const char *)ulpgn_result_code[ULPGN_RETURN_OK][g_sx_ulpgn_return_mode]))
+	    {
+	        return -1;
+	    }
+
+	    const char* expected_result = ulpgn_result_code[ULPGN_RETURN_OK][g_sx_ulpgn_return_mode];
+	    const uint32_t expected_len = strlen(expected_result);
+	    uint32_t expected_offset = 0;
+
+	    if(0 != strncmp((const char *)&last_data[last_data_cnt - strlen((const char *)ulpgn_result_code[ULPGN_RETURN_OK][g_sx_ulpgn_return_mode]) ],
+	                    (const char *)ulpgn_result_code[ULPGN_RETURN_OK][g_sx_ulpgn_return_mode], strlen((const char *)ulpgn_result_code[ULPGN_RETURN_OK][g_sx_ulpgn_return_mode])))
+	    {
+	        if(0 == strncmp((const char *)&last_data[last_data_cnt - strlen((const char *)ulpgn_result_code[ULPGN_RETURN_OK][g_sx_ulpgn_return_mode]) ],
+	                        (const char *)ulpgn_result_code[ULPGN_RETURN_BUSY][g_sx_ulpgn_return_mode], strlen((const char *)ulpgn_result_code[ULPGN_RETURN_BUSY][g_sx_ulpgn_return_mode])))
+	        {
+	            /* busy */
+	            return -2;
+	        }
+
+		    if (10 == retry_count)
+		    {
+	            /* Error */
+		        return -1;
+			}
+	    }
+	    else
+	    {
+			/* Success */
+	    	*uart_receive_status = atustat_recv;
+	    	*uart_send_status = now_atustat_sent;
+			break;
+		}
+	}
+
+    return 0;
+}
 
 static void timeout_init(uint8_t serial_ch, uint32_t timeout_ms)
 {
