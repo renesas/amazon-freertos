@@ -2010,7 +2010,7 @@ static int32_t sx_ulpgn_change_socket_index(uint8_t socket_no)
     int32_t ret = 0;
     uint16_t i;
     uint16_t stored_data_size = 0;
-    uint16_t previous_socket_store_data_size = 0;
+    uint32_t previous_socket_store_data_size = 0;
     uint16_t read_data_size;
     uint8_t before_socket_no;
     int8_t receive_ret;
@@ -2034,7 +2034,7 @@ static int32_t sx_ulpgn_change_socket_index(uint8_t socket_no)
             sprintf((char *)buff, "ATNSOCKINDEX=%d\r", socket_no);
 
 
-            ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATUSTAT\r", 3, 400, ULPGN_RETURN_OK);
+            ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATUSTAT\r", 100, 400, ULPGN_RETURN_OK);
             if(ret != 0)
             {
             	return -1;
@@ -2052,7 +2052,7 @@ static int32_t sx_ulpgn_change_socket_index(uint8_t socket_no)
             			resequence_flag = 0;
                         /* Enable temporary byte que(default byte que). */
                         g_temporary_byteq_enable_flag = 1;
-                        ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATUSTAT\r", 3, 400, ULPGN_RETURN_OK);
+                        ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATUSTAT\r", 100, 400, ULPGN_RETURN_OK);
                         if(ret != 0)
                         {
 							ret = -1;
@@ -2198,7 +2198,7 @@ static int32_t sx_ulpgn_change_socket_index(uint8_t socket_no)
 									/* change socket index to next. */
 									current_socket_index = socket_no;
 
-						            ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATUSTAT\r", 3, 400, ULPGN_RETURN_OK);
+						            ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATUSTAT\r", 100, 400, ULPGN_RETURN_OK);
 						            if(ret != 0)
 						            {
 										ret = -1;
