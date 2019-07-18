@@ -476,6 +476,15 @@ int32_t SOCKETS_Close( Socket_t xSocket )
             sx_ulpgn_tcp_disconnect(pxContext->xSocket);
             vPortFree( pxContext );
 
+        	if(ssockets_num_allocated > 0)
+        	{
+        		ssockets_num_allocated--;
+        	}
+        	else
+        	{
+        		ssockets_num_allocated = 0;
+        	}
+
             ( void ) xSemaphoreGive( xUcInUse );
 
         }else{
@@ -487,14 +496,6 @@ int32_t SOCKETS_Close( Socket_t xSocket )
     	return SOCKETS_EINVAL;
     }
 
-	if(ssockets_num_allocated > 0)
-	{
-		ssockets_num_allocated--;
-	}
-	else
-	{
-		ssockets_num_allocated = 0;
-	}
     return pdFREERTOS_ERRNO_NONE;
 }
 /*-----------------------------------------------------------*/
