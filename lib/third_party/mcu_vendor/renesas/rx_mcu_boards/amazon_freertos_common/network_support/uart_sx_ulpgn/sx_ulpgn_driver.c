@@ -2027,6 +2027,7 @@ static int32_t sx_ulpgn_change_socket_index(uint8_t socket_no)
     int32_t ret = 0;
     uint16_t i;
     uint16_t stored_data_size = 0;
+    uint16_t stored_response_size = 0;
     uint32_t previous_socket_store_data_size = 0;
     uint16_t read_data_size;
     uint8_t before_socket_no;
@@ -2055,6 +2056,7 @@ static int32_t sx_ulpgn_change_socket_index(uint8_t socket_no)
             {
             	return -1;
             }
+			R_BSP_SoftwareDelay(ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_VALUE, ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_PERIOD);
 
             while(sequence < 0x80)
             {
@@ -2126,7 +2128,7 @@ static int32_t sx_ulpgn_change_socket_index(uint8_t socket_no)
             			}
             			else
             			{
-//            				ULPGN_HSUART1_RTS_PODR = 1;
+        					R_BSP_SoftwareDelay(ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_VALUE, ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_PERIOD);
         					zero_cnt = 0;
             				sequence = 2;
             			}
@@ -2155,15 +2157,11 @@ static int32_t sx_ulpgn_change_socket_index(uint8_t socket_no)
                     	g_sockindex_command_flag =0;
 
                     	/* Just before the socket is switched to the next socket, secure the number of received data in the previous_socket_store_data_size. */
-    					if(SCI_SUCCESS != R_SCI_Control(sx_ulpgn_uart_sci_handle[ULPGN_UART_DATA_PORT], SCI_CMD_RX_Q_BYTES_AVAIL_TO_READ, &previous_socket_store_data_size))
+    					if(SCI_SUCCESS != R_SCI_Control(sx_ulpgn_uart_sci_handle[ULPGN_UART_DATA_PORT], SCI_CMD_RX_Q_BYTES_AVAIL_TO_READ, &stored_data_size))
     					{
 							ret = -1;
 							sequence = 0x80;
 							break;
-    					}
-    					if(previous_socket_store_data_size > 0)
-    					{
-    						R_NOP();
     					}
                         /* Initualize command response. */
                         bytetimeout_init(ULPGN_UART_COMMAND_PORT, 1000);
@@ -2171,7 +2169,7 @@ static int32_t sx_ulpgn_change_socket_index(uint8_t socket_no)
                         /* Check stored data of command return code. */
                         do{
 
-            	            if(SCI_SUCCESS != R_SCI_Control(sx_ulpgn_uart_sci_handle[ULPGN_UART_COMMAND_PORT], SCI_CMD_RX_Q_BYTES_AVAIL_TO_READ, &stored_data_size))
+            	            if(SCI_SUCCESS != R_SCI_Control(sx_ulpgn_uart_sci_handle[ULPGN_UART_COMMAND_PORT], SCI_CMD_RX_Q_BYTES_AVAIL_TO_READ, &stored_response_size))
             	            {
 								ret = -1;
 								sequence = 0x80;
@@ -2184,7 +2182,7 @@ static int32_t sx_ulpgn_change_socket_index(uint8_t socket_no)
 								break;
                             }
 
-                        }while(2 > stored_data_size);
+                        }while(2 > stored_response_size);
 
                         /* Get command return code. */
                     	ercd = R_SCI_Receive(sx_ulpgn_uart_sci_handle[ULPGN_UART_COMMAND_PORT], recvbuff, 2);
@@ -2213,16 +2211,14 @@ static int32_t sx_ulpgn_change_socket_index(uint8_t socket_no)
 										break;
 			                        }
 
-			        				if(now_atustat_sent != previous_atustat_sent)
+			        				if(stored_data_size > 0)
 			        				{
-			        					if(previous_socket_store_data_size > 0)
-			        					{
 			        						previous_socket_store_data_size = now_atustat_sent - previous_atustat_sent;
 											ULPGN_HSUART1_RTS_PODR = 0;
 											/* Copy data(which stored during socket switching) from temporary buff to current socekt buff. */
 											while(previous_socket_store_data_size > 0)
 											{
-												if(SCI_SUCCESS != R_SCI_Control(sx_ulpgn_uart_sci_handle[ULPGN_UART_COMMAND_PORT], SCI_CMD_RX_Q_BYTES_AVAIL_TO_READ, &stored_data_size))
+												if(SCI_SUCCESS != R_SCI_Control(sx_ulpgn_uart_sci_handle[ULPGN_UART_DATA_PORT], SCI_CMD_RX_Q_BYTES_AVAIL_TO_READ, &stored_data_size))
 												{
 													ret = -1;
 													sequence = 0x80;
@@ -2262,7 +2258,6 @@ static int32_t sx_ulpgn_change_socket_index(uint8_t socket_no)
 													}
 												}
 											}
-			        					}
 			        				}
 			        				else
 			        				{
