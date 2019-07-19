@@ -1151,13 +1151,13 @@ int32_t sx_ulpgn_tcp_connect(uint8_t socket_no, uint32_t ipaddr, uint16_t port)
 	//#if ULPGN_USE_UART_NUM == 2
 			if(ULPGN_USE_UART_NUM == 2)
 			{
-				ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, (char *)buff, 100, 15000, ULPGN_RETURN_OK);
+				ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, (char *)buff, 300, 15000, ULPGN_RETURN_OK);
 			}
 	//#endif
 			if(ULPGN_USE_UART_NUM == 1)
 			{
 	//#if ULPGN_USE_UART_NUM == 1
-				ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, (char *)buff, 100, 15000, ULPGN_RETURN_CONNECT);
+				ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, (char *)buff, 300, 15000, ULPGN_RETURN_CONNECT);
 	//#endif
 			}
 			if(ret == 0)
@@ -1537,7 +1537,7 @@ int32_t sx_ulpgn_tcp_disconnect(uint8_t socket_no)
 					{
 						R_BYTEQ_Flush(g_ulpgn_socket[socket_no].socket_byteq_hdl);
 					}
-					R_BSP_SoftwareDelay(50, BSP_DELAY_MILLISECS);
+					R_BSP_SoftwareDelay(500, BSP_DELAY_MILLISECS);
 	//#endif
 				}
 				/* Give back the socketInUse mutex. */
