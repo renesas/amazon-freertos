@@ -63,17 +63,24 @@ I hope this solution will be helpful for embedded system developer in W/W.
 --------------------------------------------------------------------------
 Change Logs
 --------------------------------------------------------------------------
-v0.1.10-certification_candidate2:
+v0.1.11
+[TESTED] all test with device tester for
+         RX65N Target Board + Silex SX-ULPGN PMOD CC-RX e2 studio with E2 Emulator Lite (on board)
+[TESTED] MQTT Echo sample for
+         RX65N RSK CC-RX e2 studio with E2 Emulator Lite
+         RX65N Target Board + Silex SX-ULPGN PMOD CC-RX e2 studio with E2 Emulator Lite (on board)
+
+v0.1.10-certification_candidate2: (discarded)
 [TESTED] all test with device tester for
          RX65N Target Board + Silex SX-ULPGN PMOD CC-RX e2 studio with E2 Emulator Lite (on board)
 [NOTICE] This is very tentative release. Please use v0.1.7 in basically.
 
-v0.1.10-certification_candidate1:
+v0.1.10-certification_candidate1: (discarded)
 [TESTED] all test with device tester for
          RX65N Target Board + Silex SX-ULPGN PMOD CC-RX e2 studio with E2 Emulator Lite (on board)
 [NOTICE] This is very tentative release. Please use v0.1.7 in basically.
 
-v0.1.10:
+v0.1.10: (discarded)
 [REVERTED] the version from v0.2.0 to v0.1.10 for smart configurator collaboration.
 [TESTED] FullWiFi test with device tester for
          RX65N Target Board + Silex SX-ULPGN PMOD CC-RX e2 studio with E2 Emulator Lite (on board)
@@ -438,11 +445,11 @@ Board: Renesas Starter Kit+ for RX65N-2MB
     [en] https://www.renesas.com/us/en/products/software-tools/boards-and-kits/renesas-starter-kits/renesas-starter-kitplus-for-rx65n-2mb.html
     [ja] https://www.renesas.com/jp/ja/products/software-tools/boards-and-kits/renesas-starter-kits/renesas-starter-kitplus-for-rx65n-2mb.html
 
-Compiler: CC-RX V3.00 (you need non-expired evaluation license or product license to build Amazon FreeRTOS)
+Compiler: CC-RX V3.01.00 (you need non-expired evaluation license or product license to build Amazon FreeRTOS)
     [en] https://www.renesas.com/us/en/products/software-tools/tools/compiler-assembler/compiler-package-for-rx-family-e2studio.html
     [ja] https://www.renesas.com/jp/ja/products/software-tools/tools/compiler-assembler/compiler-package-for-rx-family-e2studio.html
 
-IDE: e2 studio V7.3.0
+IDE: e2 studio V7.5.0
     [en] https://www.renesas.com/us/en/products/software-tools/tools/ide/e2studio.html
     [ja] https://www.renesas.com/jp/ja/products/software-tools/tools/ide/e2studio.html
     
@@ -720,7 +727,7 @@ Board Connection / Compiler (1) (2) (3) (1) (2) (3) (1) (2) (3)
 (4)   (4)        /           *   *           -   -   -   -     
 (5)   (2)        /           *   *       *   -   -   -   -     
 (6)   (4)        /           *   *           -   -   -   -     
-(7)   (4)        /           *   *       *   -   -   -   -     
+(7)   (4)        /           X   *       *   -   -   -   -     
 (8)   (2)        /           *   *       *   -   -   -   -     
 (9)   (2)        /           -   -       -   -   -   -   -     
 
