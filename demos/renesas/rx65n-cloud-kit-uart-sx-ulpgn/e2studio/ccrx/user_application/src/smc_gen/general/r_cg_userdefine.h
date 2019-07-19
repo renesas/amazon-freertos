@@ -14,70 +14,48 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
+
 /***********************************************************************************************************************
-* File Name    : r_sci_rx_pinset.c
-* Version      : 1.0.2
-* Device(s)    : R5F565NEDxFB
-* Tool-Chain   : RXC toolchain
-* Description  : Setting of port and mpc registers
-* Creation Date: 2019-05-29
+* File Name    : r_cg_userdefine.h
+* Version      : 1.2.4
+* Device(s)    : R5F565NEDxFP
+* Description  : User header file for code generation.
+* Creation Date: 2019-07-17
 ***********************************************************************************************************************/
+
+#ifndef CG_USER_DEF_H
+#define CG_USER_DEF_H
 
 /***********************************************************************************************************************
 Includes
 ***********************************************************************************************************************/
-#include "r_sci_rx_pinset.h"
-#include "platform.h"
+/* Start user code for include. Do not edit comment generated here */
+/* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
-Global variables and functions
+Macro definitions (Register bit)
 ***********************************************************************************************************************/
+/* Start user code for register. Do not edit comment generated here */
+/* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
-* Function Name: R_SCI_PinSet_SCI2
-* Description  : This function initializes pins for r_sci_rx module
-* Arguments    : none
-* Return Value : none
+Macro definitions
 ***********************************************************************************************************************/
-void R_SCI_PinSet_SCI2()
-{
-    R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_MPC);
-
-    /* Set RXD2/SMISO2 pin */
-    MPC.P52PFS.BYTE = 0x0AU;
-    PORT5.PMR.BIT.B2 = 1U;
-
-    /* Set TXD2/SMOSI2 pin */
-    MPC.P50PFS.BYTE = 0x0AU;
-    PORT5.PMR.BIT.B0 = 1U;
-
-    /* Set CTS2#/RTS2#/SS2# pin */
-    MPC.PJ5PFS.BYTE = 0x0BU;
-    PORTJ.PMR.BIT.B5 = 1U;
-
-    R_BSP_RegisterProtectEnable(BSP_REG_PROTECT_MPC);
-}
+/* Start user code for macro define. Do not edit comment generated here */
+/* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
-* Function Name: R_SCI_PinSet_SCI9
-* Description  : This function initializes pins for r_sci_rx module
-* Arguments    : none
-* Return Value : none
+Typedef definitions
 ***********************************************************************************************************************/
-void R_SCI_PinSet_SCI9()
-{
-    R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_MPC);
+/* Start user code for type define. Do not edit comment generated here */
+/* End user code. Do not edit comment generated here */
 
-    /* Set RXD9/SMISO9/SSCL9 pin */
-    MPC.PB6PFS.BYTE = 0x0AU;
-    PORTB.PMR.BIT.B6 = 1U;
-
-    /* Set TXD9/SMOSI9/SSDA9 pin */
-    MPC.PB7PFS.BYTE = 0x0AU;
-    PORTB.PMR.BIT.B7 = 1U;
-
-    R_BSP_RegisterProtectEnable(BSP_REG_PROTECT_MPC);
-}
+/***********************************************************************************************************************
+Global functions
+***********************************************************************************************************************/
+/* Start user code for function. Do not edit comment generated here */
+/* End user code. Do not edit comment generated here */
+#endif
 

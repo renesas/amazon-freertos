@@ -18,66 +18,27 @@
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-* File Name    : Pin.c
-* Version      : 1.0.2
-* Device(s)    : R5F565NEDxFB
-* Description  : This file implements SMC pin code generation.
-* Creation Date: 2019-05-29
+* File Name    : r_smc_interrupt.c
+* Version      : 1.1.0
+* Device(s)    : R5F565NEDxFP
+* Description  : This file implements interrupt setting
+* Creation Date: 2019-07-17
 ***********************************************************************************************************************/
-
-/***********************************************************************************************************************
-Pragma directive
-***********************************************************************************************************************/
-/* Start user code for pragma. Do not edit comment generated here */
-/* End user code. Do not edit comment generated here */
-
 /***********************************************************************************************************************
 Includes
 ***********************************************************************************************************************/
-#include "r_cg_macrodriver.h"
-/* Start user code for include. Do not edit comment generated here */
-/* End user code. Do not edit comment generated here */
-#include "r_cg_userdefine.h"
+#include "r_smc_interrupt.h"
+#include "platform.h"
 
 /***********************************************************************************************************************
-Global variables and functions
-***********************************************************************************************************************/
-/* Start user code for global. Do not edit comment generated here */
-/* End user code. Do not edit comment generated here */
-
-/***********************************************************************************************************************
-* Function Name: R_Pins_Create
-* Description  : This function initializes Smart Configurator pins
+* Function Name: R_Interrupt_Create
+* Description  : This function Used to set the fast interrupt or group interrupt 
 * Arguments    : None
 * Return Value : None
 ***********************************************************************************************************************/
 
-void R_Pins_Create(void)
+void R_Interrupt_Create(void)
 {
-    R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_MPC);
-
-    /* Set CTS2# pin */
-    MPC.PJ5PFS.BYTE = 0x0BU;
-    PORTJ.PMR.BYTE |= 0x20U;
-
-    /* Set RXD2 pin */
-    MPC.P52PFS.BYTE = 0x0AU;
-    PORT5.PMR.BYTE |= 0x04U;
-
-    /* Set RXD9 pin */
-    MPC.PB6PFS.BYTE = 0x0AU;
-    PORTB.PMR.BYTE |= 0x40U;
-
-    /* Set TXD2 pin */
-    PORT5.PODR.BYTE |= 0x01U;
-    MPC.P50PFS.BYTE = 0x0AU;
-    PORT5.PDR.BYTE |= 0x01U;
-
-    /* Set TXD9 pin */
-    PORTB.PODR.BYTE |= 0x80U;
-    MPC.PB7PFS.BYTE = 0x0AU;
-    PORTB.PDR.BYTE |= 0x80U;
-
-    R_BSP_RegisterProtectEnable(BSP_REG_PROTECT_MPC);
-}   
+    /* No fast interrupt and group settings have been configured in the Interrupts tab. */
+}
 

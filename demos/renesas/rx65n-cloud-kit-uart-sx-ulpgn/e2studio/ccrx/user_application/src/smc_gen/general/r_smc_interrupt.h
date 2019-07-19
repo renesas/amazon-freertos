@@ -20,9 +20,9 @@
 /***********************************************************************************************************************
 * File Name    : r_smc_interrupt.h
 * Version      : 1.1.0
-* Device(s)    : R5F565NEDxFC
+* Device(s)    : R5F565NEDxFP
 * Description  : This file implements interrupt setting.
-* Creation Date: 2019-05-19
+* Creation Date: 2019-07-17
 ***********************************************************************************************************************/
 
 #ifndef SMC_INTERRUPT_H

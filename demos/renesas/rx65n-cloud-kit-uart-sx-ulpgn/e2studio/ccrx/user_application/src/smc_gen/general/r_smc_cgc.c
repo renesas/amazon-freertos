@@ -14,21 +14,32 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
+
 /***********************************************************************************************************************
-* File Name    : r_pinset.h.h
-* Version      : 1.0.1
-* Description  : Declares all pin code headers into a single file
-* Creation Date: 2019-03-02
+* File Name    : r_smc_cgc.c
+* Version      : 1.3.0
+* Device(s)    : R5F565NEDxFP
+* Description  : This file implements cgc setting
+* Creation Date: 2019-07-17
 ***********************************************************************************************************************/
-
-#ifndef R_PINSET_H
-#define R_PINSET_H
-
 /***********************************************************************************************************************
 Includes
 ***********************************************************************************************************************/
-#include "r_sci_rx_pinset.h"
+#include "r_cg_macrodriver.h"
+#include "r_smc_cgc.h"
+#include "platform.h"
 
-#endif /* R_PINSET_H */
+/***********************************************************************************************************************
+* Function Name: R_CGC_Create
+* Description  : This function Used to initializes the clock generator
+* Arguments    : None
+* Return Value : None
+***********************************************************************************************************************/
+
+void R_CGC_Create(void)
+{
+
+    R_CGC_Create_UserInit();
+}

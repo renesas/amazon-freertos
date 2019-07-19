@@ -14,41 +14,91 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
-
 /***********************************************************************************************************************
-* File Name    : r_smc_entry.h
-* Version      : 1.2.4
-* Device(s)    : R5F565NEDxFC
-* Description  : SMC platform header file.
-* Creation Date: 2019-05-19
+* File Name    : r_sci_rx_pinset.c
+* Version      : 1.0.2
+* Device(s)    : R5F565NEDxFP
+* Tool-Chain   : RXC toolchain
+* Description  : Setting of port and mpc registers
+* Creation Date: 2019-02-04
 ***********************************************************************************************************************/
-
-#ifndef SMC_ENTRY_H
-#define SMC_ENTRY_H
 
 /***********************************************************************************************************************
 Includes
 ***********************************************************************************************************************/
-#include "r_cg_macrodriver.h"
+#include "r_sci_rx_pinset.h"
+#include "platform.h"
 
 /***********************************************************************************************************************
-Macro definitions (Register bit)
+Global variables and functions
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-Macro definitions
+* Function Name: R_SCI_PinSet_SCI0
+* Description  : This function initializes pins for r_sci_rx module
+* Arguments    : none
+* Return Value : none
 ***********************************************************************************************************************/
+void R_SCI_PinSet_SCI0()
+{
+    R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_MPC);
+
+    /* Set RXD0/SMISO0 pin */
+    MPC.P21PFS.BYTE = 0x0AU;
+    PORT2.PMR.BIT.B1 = 1U;
+
+    /* Set TXD0/SMOSI0 pin */
+    MPC.P20PFS.BYTE = 0x0AU;
+    PORT2.PMR.BIT.B0 = 1U;
+
+    /* Set CTS0#/RTS0#/SS0# pin */
+    MPC.P23PFS.BYTE = 0x0BU;
+    PORT2.PMR.BIT.B3 = 1U;
+
+    R_BSP_RegisterProtectEnable(BSP_REG_PROTECT_MPC);
+}
 
 /***********************************************************************************************************************
-Typedef definitions
+* Function Name: R_SCI_PinSet_SCI1
+* Description  : This function initializes pins for r_sci_rx module
+* Arguments    : none
+* Return Value : none
 ***********************************************************************************************************************/
+void R_SCI_PinSet_SCI1()
+{
+    R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_MPC);
+
+    /* Set RXD1/SMISO1 pin */
+    MPC.P30PFS.BYTE = 0x0AU;
+    PORT3.PMR.BIT.B0 = 1U;
+
+    /* Set TXD1/SMOSI1 pin */
+    MPC.P26PFS.BYTE = 0x0AU;
+    PORT2.PMR.BIT.B6 = 1U;
+
+    R_BSP_RegisterProtectEnable(BSP_REG_PROTECT_MPC);
+}
 
 /***********************************************************************************************************************
-Global functions
+* Function Name: R_SCI_PinSet_SCI5
+* Description  : This function initializes pins for r_sci_rx module
+* Arguments    : none
+* Return Value : none
 ***********************************************************************************************************************/
-/* Start user code for function. Do not edit comment generated here */
-/* End user code. Do not edit comment generated here */
-#endif
+void R_SCI_PinSet_SCI5()
+{
+    R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_MPC);
+
+    /* Set RXD5/SMISO5 pin */
+    MPC.PA3PFS.BYTE = 0x0AU;
+    PORTA.PMR.BIT.B3 = 1U;
+
+    /* Set TXD5/SMOSI5 pin */
+    MPC.PA4PFS.BYTE = 0x0AU;
+    PORTA.PMR.BIT.B4 = 1U;
+
+    R_BSP_RegisterProtectEnable(BSP_REG_PROTECT_MPC);
+}
 

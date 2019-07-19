@@ -18,27 +18,46 @@
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-* File Name    : r_smc_interrupt.c
-* Version      : 1.1.0
-* Device(s)    : R5F565NEDxFB
-* Description  : This file implements interrupt setting
-* Creation Date: 2019-06-18
+* File Name    : r_smc_cgc_user.c
+* Version      : 1.3.0
+* Device(s)    : R5F565NEDxFP
+* Description  : None
+* Creation Date: 2019-07-17
 ***********************************************************************************************************************/
+
+/***********************************************************************************************************************
+Pragma directive
+***********************************************************************************************************************/
+/* Start user code for pragma. Do not edit comment generated here */
+/* End user code. Do not edit comment generated here */
+
 /***********************************************************************************************************************
 Includes
 ***********************************************************************************************************************/
-#include "r_smc_interrupt.h"
-#include "platform.h"
+#include "r_cg_macrodriver.h"
+/* Start user code for include. Do not edit comment generated here */
+/* End user code. Do not edit comment generated here */
+#include "r_cg_userdefine.h"
 
 /***********************************************************************************************************************
-* Function Name: R_Interrupt_Create
-* Description  : This function Used to set the fast interrupt or group interrupt 
+Global variables and functions
+***********************************************************************************************************************/
+/* Start user code for global. Do not edit comment generated here */
+/* End user code. Do not edit comment generated here */
+
+/***********************************************************************************************************************
+* Function Name: R_CGC_Create_UserInit
+* Description  : This function adds user code after initializing CGC
 * Arguments    : None
 * Return Value : None
 ***********************************************************************************************************************/
 
-void R_Interrupt_Create(void)
+void R_CGC_Create_UserInit(void)
 {
-    /* No fast interrupt and group settings have been configured in the Interrupts tab. */
+    /* Start user code for code init. Do not edit comment generated here */
+    /* End user code. Do not edit comment generated here */
 }
+
+/* Start user code for adding. Do not edit comment generated here */
+/* End user code. Do not edit comment generated here */   
 
