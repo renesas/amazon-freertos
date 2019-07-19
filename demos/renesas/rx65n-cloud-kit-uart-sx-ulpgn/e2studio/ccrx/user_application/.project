@@ -32,12 +32,12 @@
 		<link>
 			<name>application_code</name>
 			<type>2</type>
-			<locationURI>AFR_HOME/demos/renesas/rx65n-rsk/common/application_code</locationURI>
+			<locationURI>AFR_HOME/demos/renesas/rx65n-cloud-kit-uart-sx-ulpgn/common/application_code</locationURI>
 		</link>
 		<link>
 			<name>config_files</name>
 			<type>2</type>
-			<locationURI>AFR_HOME/demos/renesas/rx65n-rsk/common/config_files</locationURI>
+			<locationURI>AFR_HOME/demos/renesas/rx65n-cloud-kit-uart-sx-ulpgn/common/config_files</locationURI>
 		</link>
 		<link>
 			<name>lib</name>
@@ -112,12 +112,12 @@
 		<link>
 			<name>lib/aws/pkcs11</name>
 			<type>2</type>
-			<locationURI>AFR_HOME/lib/pkcs11/portable/renesas/rx65n-rsk</locationURI>
+			<locationURI>AFR_HOME/lib/pkcs11/portable/renesas/rx65n-cloud-kit-uart-sx-ulpgn</locationURI>
 		</link>
 		<link>
 			<name>lib/aws/secure_sockets</name>
 			<type>2</type>
-			<locationURI>AFR_HOME/lib/secure_sockets/portable/renesas/rx65n-rsk</locationURI>
+			<locationURI>AFR_HOME/lib/secure_sockets/portable/renesas/rx65n-cloud-kit-uart-sx-ulpgn</locationURI>
 		</link>
 		<link>
 			<name>lib/aws/shadow</name>
@@ -133,6 +133,11 @@
 			<name>lib/aws/utils</name>
 			<type>2</type>
 			<locationURI>AFR_HOME/lib/utils</locationURI>
+		</link>
+		<link>
+			<name>lib/aws/wifi</name>
+			<type>2</type>
+			<locationURI>AFR_HOME/lib/wifi/portable/renesas/rx65n-cloud-kit-uart-sx-ulpgn</locationURI>
 		</link>
 		<link>
 			<name>lib/third_party/jsmn</name>
@@ -217,7 +222,7 @@
 	</linkedResources>
 	<filteredResources>
 		<filter>
-			<id>1563514757273</id>
+			<id>1563350817486</id>
 			<name></name>
 			<type>10</type>
 			<matcher>
@@ -226,7 +231,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1563514771123</id>
+			<id>1563352069831</id>
 			<name>src/smc_gen</name>
 			<type>10</type>
 			<matcher>
@@ -235,7 +240,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1558253900975</id>
+			<id>1563350506788</id>
 			<name>lib/third_party/mcu_vendor</name>
 			<type>9</type>
 			<matcher>
@@ -244,7 +249,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1558253049840</id>
+			<id>1563349760030</id>
 			<name>lib/aws/FreeRTOS/portable</name>
 			<type>9</type>
 			<matcher>
@@ -253,7 +258,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1558253088192</id>
+			<id>1563349779023</id>
 			<name>lib/aws/FreeRTOS/portable/MemMang</name>
 			<type>5</type>
 			<matcher>
@@ -262,7 +267,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1558253106232</id>
+			<id>1563349797775</id>
 			<name>lib/aws/FreeRTOS/portable/Renesas</name>
 			<type>9</type>
 			<matcher>
@@ -271,61 +276,34 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1558489889503</id>
-			<name>lib/aws/FreeRTOS-Plus-TCP/source/portable/BufferManagement</name>
-			<type>5</type>
-			<matcher>
-				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-false-BufferAllocation_2.c</arguments>
-			</matcher>
-		</filter>
-		<filter>
-			<id>1558253227308</id>
-			<name>lib/aws/FreeRTOS-Plus-TCP/source/portable/Compiler</name>
-			<type>9</type>
-			<matcher>
-				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-true-Renesas</arguments>
-			</matcher>
-		</filter>
-		<filter>
-			<id>1558253239929</id>
-			<name>lib/aws/FreeRTOS-Plus-TCP/source/portable/NetworkInterface</name>
-			<type>9</type>
-			<matcher>
-				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-true-RX</arguments>
-			</matcher>
-		</filter>
-		<filter>
-			<id>1558267869127</id>
+			<id>1563350560537</id>
 			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/amazon_freertos_common/compiler_support</name>
 			<type>9</type>
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-false-ccrx</arguments>
+				<arguments>1.0-name-matches-false-true-ccrx</arguments>
 			</matcher>
 		</filter>
 		<filter>
-			<id>1558267886536</id>
+			<id>1563350537937</id>
 			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/amazon_freertos_common/network_support</name>
 			<type>9</type>
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-false-onchip_rx_ether</arguments>
+				<arguments>1.0-name-matches-false-true-uart_sx_ulpgn</arguments>
 			</matcher>
 		</filter>
 		<filter>
-			<id>1558591014449</id>
+			<id>1563350623751</id>
 			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_bsp/board</name>
 			<type>9</type>
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-true-all|generic_rx65n|rx65n</arguments>
+				<arguments>1.0-name-matches-true-true-all|generic_rx65n|rx65n</arguments>
 			</matcher>
 		</filter>
 		<filter>
-			<id>1558591136223</id>
+			<id>1563350672524</id>
 			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_bsp/mcu</name>
 			<type>9</type>
 			<matcher>
@@ -334,7 +312,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1558591980813</id>
+			<id>1563350642780</id>
 			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_bsp/board/all</name>
 			<type>6</type>
 			<matcher>
@@ -343,25 +321,16 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1558591163000</id>
-			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_ether_rx/src/targets</name>
-			<type>9</type>
-			<matcher>
-				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-true-rx65n</arguments>
-			</matcher>
-		</filter>
-		<filter>
-			<id>1558591179845</id>
+			<id>1563350701559</id>
 			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_flash_rx/src/targets</name>
 			<type>9</type>
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-true-rx65n</arguments>
+				<arguments>1.0-name-matches-false-false-rx65n</arguments>
 			</matcher>
 		</filter>
 		<filter>
-			<id>1558592187990</id>
+			<id>1563350719844</id>
 			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_s12ad_rx/src/targets</name>
 			<type>9</type>
 			<matcher>
@@ -370,7 +339,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1558591213257</id>
+			<id>1563350740681</id>
 			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_sci_rx/src/targets</name>
 			<type>9</type>
 			<matcher>
