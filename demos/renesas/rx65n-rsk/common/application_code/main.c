@@ -121,8 +121,8 @@ static void prvMiscInitialization( void );
  */
 void main( void )
 {
-	nop();
-    while(1)
+    nop();
+	while(1)
     {
         vTaskDelay(10000);
     }

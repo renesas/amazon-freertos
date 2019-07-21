@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>aws_tests</name>
+	<name>aws_demos</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -17,6 +17,11 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+		<buildCommand>
+			<name>com.renesas.cdt.managedbuild.renesas.misrachecker.builder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.cdt.core.cnature</nature>
@@ -27,12 +32,12 @@
 		<link>
 			<name>application_code</name>
 			<type>2</type>
-			<locationURI>AFR_HOME/tests/renesas/rx65n-cloud-kit-uart-sx-ulpgn/common/application_code</locationURI>
+			<locationURI>AFR_HOME/demos/renesas/rx65n-cloud-kit-uart-sx-ulpgn/common/application_code</locationURI>
 		</link>
 		<link>
 			<name>config_files</name>
 			<type>2</type>
-			<locationURI>AFR_HOME/tests/renesas/rx65n-cloud-kit-uart-sx-ulpgn/common/config_files</locationURI>
+			<locationURI>AFR_HOME/demos/renesas/rx65n-cloud-kit-uart-sx-ulpgn/common/config_files</locationURI>
 		</link>
 		<link>
 			<name>lib</name>
@@ -40,7 +45,7 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>application_code/common_test</name>
+			<name>application_code/common_demos</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
@@ -55,79 +60,14 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>application_code/common_test/crypto</name>
+			<name>application_code/common_demos/include</name>
 			<type>2</type>
-			<locationURI>AFR_HOME/tests/common/crypto</locationURI>
+			<locationURI>AFR_HOME/demos/common/include</locationURI>
 		</link>
 		<link>
-			<name>application_code/common_test/devmode_key_provisioning</name>
+			<name>application_code/common_demos/source</name>
 			<type>2</type>
-			<locationURI>AFR_HOME/demos/common/devmode_key_provisioning</locationURI>
-		</link>
-		<link>
-			<name>application_code/common_test/framework</name>
-			<type>2</type>
-			<locationURI>AFR_HOME/tests/common/framework</locationURI>
-		</link>
-		<link>
-			<name>application_code/common_test/freertos_tcp</name>
-			<type>2</type>
-			<locationURI>AFR_HOME/tests/common/freertos_tcp</locationURI>
-		</link>
-		<link>
-			<name>application_code/common_test/greengrass</name>
-			<type>2</type>
-			<locationURI>AFR_HOME/tests/common/greengrass</locationURI>
-		</link>
-		<link>
-			<name>application_code/common_test/include</name>
-			<type>2</type>
-			<locationURI>AFR_HOME/tests/common/include</locationURI>
-		</link>
-		<link>
-			<name>application_code/common_test/logging</name>
-			<type>2</type>
-			<locationURI>AFR_HOME/demos/common/logging</locationURI>
-		</link>
-		<link>
-			<name>application_code/common_test/memory_leak</name>
-			<type>2</type>
-			<locationURI>AFR_HOME/tests/common/memory_leak</locationURI>
-		</link>
-		<link>
-			<name>application_code/common_test/mqtt</name>
-			<type>2</type>
-			<locationURI>AFR_HOME/tests/common/mqtt</locationURI>
-		</link>
-		<link>
-			<name>application_code/common_test/pkcs11</name>
-			<type>2</type>
-			<locationURI>AFR_HOME/tests/common/pkcs11</locationURI>
-		</link>
-		<link>
-			<name>application_code/common_test/secure_sockets</name>
-			<type>2</type>
-			<locationURI>AFR_HOME/tests/common/secure_sockets</locationURI>
-		</link>
-		<link>
-			<name>application_code/common_test/shadow</name>
-			<type>2</type>
-			<locationURI>AFR_HOME/tests/common/shadow</locationURI>
-		</link>
-		<link>
-			<name>application_code/common_test/test_runner</name>
-			<type>2</type>
-			<locationURI>AFR_HOME/tests/common/test_runner</locationURI>
-		</link>
-		<link>
-			<name>application_code/common_test/tls</name>
-			<type>2</type>
-			<locationURI>AFR_HOME/tests/common/tls</locationURI>
-		</link>
-		<link>
-			<name>application_code/common_test/wifi</name>
-			<type>2</type>
-			<locationURI>AFR_HOME/tests/common/wifi</locationURI>
+			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
 			<name>application_code/renesas_code/config_files</name>
@@ -220,9 +160,34 @@
 			<locationURI>AFR_HOME/lib/third_party/pkcs11</locationURI>
 		</link>
 		<link>
-			<name>lib/third_party/unity</name>
-			<type>2</type>
-			<locationURI>virtual:/virtual</locationURI>
+			<name>application_code/common_demos/source/aws_demo_runner.c</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/demos/common/demo_runner/aws_demo_runner.c</locationURI>
+		</link>
+		<link>
+			<name>application_code/common_demos/source/aws_dev_mode_key_provisioning.c</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/demos/common/devmode_key_provisioning/aws_dev_mode_key_provisioning.c</locationURI>
+		</link>
+		<link>
+			<name>application_code/common_demos/source/aws_hello_world.c</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/demos/common/mqtt/aws_hello_world.c</locationURI>
+		</link>
+		<link>
+			<name>application_code/common_demos/source/aws_logging_task_dynamic_buffers.c</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/demos/common/logging/aws_logging_task_dynamic_buffers.c</locationURI>
+		</link>
+		<link>
+			<name>application_code/common_demos/source/aws_shadow_lightbulb_on_off.c</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/demos/common/shadow/aws_shadow_lightbulb_on_off.c</locationURI>
+		</link>
+		<link>
+			<name>application_code/common_demos/source/aws_subscribe_publish_loop.c</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/demos/common/mqtt/aws_subscribe_publish_loop.c</locationURI>
 		</link>
 		<link>
 			<name>application_code/renesas_code/config_files/general</name>
@@ -250,43 +215,32 @@
 			<locationURI>AFR_HOME/lib/third_party/mbedtls/include</locationURI>
 		</link>
 		<link>
-			<name>lib/third_party/mbedtls/library</name>
+			<name>lib/third_party/mbedtls/source</name>
 			<type>2</type>
 			<locationURI>AFR_HOME/lib/third_party/mbedtls/library</locationURI>
-		</link>
-		<link>
-			<name>lib/third_party/unity/extras</name>
-			<type>2</type>
-			<locationURI>virtual:/virtual</locationURI>
-		</link>
-		<link>
-			<name>lib/third_party/unity/src</name>
-			<type>2</type>
-			<locationURI>AFR_HOME/lib/third_party/unity/src</locationURI>
-		</link>
-		<link>
-			<name>lib/third_party/unity/extras/fixture</name>
-			<type>2</type>
-			<locationURI>virtual:/virtual</locationURI>
-		</link>
-		<link>
-			<name>lib/third_party/unity/extras/fixture/src</name>
-			<type>2</type>
-			<locationURI>AFR_HOME/lib/third_party/unity/extras/fixture/src</locationURI>
 		</link>
 	</linkedResources>
 	<filteredResources>
 		<filter>
-			<id>1562476181637</id>
+			<id>1563350817486</id>
 			<name></name>
 			<type>10</type>
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-true-src|trash|flash_project</arguments>
+				<arguments>1.0-name-matches-false-true-trash</arguments>
 			</matcher>
 		</filter>
 		<filter>
-			<id>1562475853257</id>
+			<id>1563352069831</id>
+			<name>src/smc_gen</name>
+			<type>10</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-true-general|r_config|r_pincfg|UNUSED_generated_code|r_bsp|r_byteq|r_ether_rx|r_flash_rx|r_s12ad_rx|r_sci_rx</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1563350506788</id>
 			<name>lib/third_party/mcu_vendor</name>
 			<type>9</type>
 			<matcher>
@@ -295,7 +249,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1562475397568</id>
+			<id>1563349760030</id>
 			<name>lib/aws/FreeRTOS/portable</name>
 			<type>9</type>
 			<matcher>
@@ -304,7 +258,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1562475416767</id>
+			<id>1563349779023</id>
 			<name>lib/aws/FreeRTOS/portable/MemMang</name>
 			<type>5</type>
 			<matcher>
@@ -313,7 +267,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1562475434774</id>
+			<id>1563349797775</id>
 			<name>lib/aws/FreeRTOS/portable/Renesas</name>
 			<type>9</type>
 			<matcher>
@@ -322,7 +276,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1562475892346</id>
+			<id>1563350560537</id>
 			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/amazon_freertos_common/compiler_support</name>
 			<type>9</type>
 			<matcher>
@@ -331,7 +285,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1562476792768</id>
+			<id>1563350537937</id>
 			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/amazon_freertos_common/network_support</name>
 			<type>9</type>
 			<matcher>
@@ -340,16 +294,16 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1562475953512</id>
+			<id>1563350623751</id>
 			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_bsp/board</name>
 			<type>9</type>
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-true-all|generic_rx65n|rx65n</arguments>
+				<arguments>1.0-name-matches-true-true-all|generic_rx65n|rx65n</arguments>
 			</matcher>
 		</filter>
 		<filter>
-			<id>1562476010653</id>
+			<id>1563350672524</id>
 			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_bsp/mcu</name>
 			<type>9</type>
 			<matcher>
@@ -358,7 +312,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1562475974575</id>
+			<id>1563350642780</id>
 			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_bsp/board/all</name>
 			<type>6</type>
 			<matcher>
@@ -367,25 +321,16 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1562476044650</id>
-			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_ether_rx/src/targets</name>
-			<type>9</type>
-			<matcher>
-				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-true-rx65n</arguments>
-			</matcher>
-		</filter>
-		<filter>
-			<id>1562476068279</id>
+			<id>1563350701559</id>
 			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_flash_rx/src/targets</name>
 			<type>9</type>
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-true-rx65n</arguments>
+				<arguments>1.0-name-matches-false-false-rx65n</arguments>
 			</matcher>
 		</filter>
 		<filter>
-			<id>1562476087268</id>
+			<id>1563350719844</id>
 			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_s12ad_rx/src/targets</name>
 			<type>9</type>
 			<matcher>
@@ -394,19 +339,19 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1562476113478</id>
+			<id>1563350740681</id>
 			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v115_customed/r_sci_rx/src/targets</name>
 			<type>9</type>
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-false-rx65n</arguments>
+				<arguments>1.0-name-matches-false-true-rx65n</arguments>
 			</matcher>
 		</filter>
 	</filteredResources>
 	<variableList>
 		<variable>
 			<name>AFR_HOME</name>
-			<value>$%7BPARENT-4-PROJECT_LOC%7D</value>
+			<value>$%7BPARENT-6-PROJECT_LOC%7D</value>
 		</variable>
 	</variableList>
 </projectDescription>

@@ -415,7 +415,8 @@ int32_t SOCKETS_Send( Socket_t xSocket,
 int32_t SOCKETS_Shutdown( Socket_t xSocket,
                           uint32_t ulHow )
 {
-    SSOCKETContextPtr_t pxContext = ( SSOCKETContextPtr_t ) xSocket; /*lint !e9087 cast used for portability. */
+	int32_t ret;
+	SSOCKETContextPtr_t pxContext = ( SSOCKETContextPtr_t ) xSocket; /*lint !e9087 cast used for portability. */
 
     if(( NULL == pxContext ) || (pxContext == SOCKETS_INVALID_SOCKET) || (pxContext->xSocket >= MAX_NUM_SSOCKETS))
     {
@@ -426,7 +427,16 @@ int32_t SOCKETS_Shutdown( Socket_t xSocket,
     	return SOCKETS_EINVAL;
     }
 
-	return sx_ulpgn_tcp_disconnect(pxContext->xSocket);
+    if (xSemaphoreTake( xUcInUse, xMaxSemaphoreBlockTime) == pdTRUE)
+    {
+    	ret = sx_ulpgn_tcp_disconnect(pxContext->xSocket);
+
+    	( void ) xSemaphoreGive( xUcInUse );
+    }else{
+    	ret = SOCKETS_EWOULDBLOCK;
+    }
+
+	return ret;
 }
 /*-----------------------------------------------------------*/
 
@@ -445,37 +455,47 @@ int32_t SOCKETS_Close( Socket_t xSocket )
 
     if( ( NULL != pxContext ) && ( SOCKETS_INVALID_SOCKET != pxContext ) && (pxContext->xSocket < MAX_NUM_SSOCKETS))
     {
-        if( NULL != pxContext->pcDestination )
+        if (xSemaphoreTake( xUcInUse, xMaxSemaphoreBlockTime) == pdTRUE)
         {
-            vPortFree( pxContext->pcDestination );
-        }
 
-        if( NULL != pxContext->pcServerCertificate )
-        {
-            vPortFree( pxContext->pcServerCertificate );
-        }
+            if( NULL != pxContext->pcDestination )
+            {
+                vPortFree( pxContext->pcDestination );
+            }
 
-        if( pdTRUE == pxContext->xRequireTLS )
-        {
-            TLS_Cleanup( pxContext->pvTLSContext );
-        }
+            if( NULL != pxContext->pcServerCertificate )
+            {
+                vPortFree( pxContext->pcServerCertificate );
+            }
 
-        sx_ulpgn_tcp_disconnect(pxContext->xSocket);
-        vPortFree( pxContext );
+            if( pdTRUE == pxContext->xRequireTLS )
+            {
+                TLS_Cleanup( pxContext->pvTLSContext );
+            }
+
+            sx_ulpgn_tcp_disconnect(pxContext->xSocket);
+            vPortFree( pxContext );
+
+        	if(ssockets_num_allocated > 0)
+        	{
+        		ssockets_num_allocated--;
+        	}
+        	else
+        	{
+        		ssockets_num_allocated = 0;
+        	}
+
+            ( void ) xSemaphoreGive( xUcInUse );
+
+        }else{
+        	return SOCKETS_EWOULDBLOCK;
+        }
     }
     else
     {
     	return SOCKETS_EINVAL;
     }
 
-	if(ssockets_num_allocated > 0)
-	{
-		ssockets_num_allocated--;
-	}
-	else
-	{
-		ssockets_num_allocated = 0;
-	}
     return pdFREERTOS_ERRNO_NONE;
 }
 /*-----------------------------------------------------------*/
