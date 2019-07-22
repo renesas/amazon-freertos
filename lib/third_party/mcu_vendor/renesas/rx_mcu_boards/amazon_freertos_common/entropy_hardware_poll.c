@@ -18,8 +18,8 @@ Functions : hardware entropy collector(repeatedly called until enough gathered)
 int mbedtls_hardware_poll( void *data,
                            unsigned char *output, size_t len, size_t *olen )
 {
-    R_INTERNAL_NOT_USED(data);
-    R_INTERNAL_NOT_USED(len);
+    INTERNAL_NOT_USED(data);
+    INTERNAL_NOT_USED(len);
 
     uint32_t random_number = 0;
 
