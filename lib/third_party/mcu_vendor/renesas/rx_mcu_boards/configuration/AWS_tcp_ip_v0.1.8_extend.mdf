@@ -10,7 +10,7 @@
     <formatVersion>2.00</formatVersion>
     <fileTemplate></fileTemplate>
     <configuration>
-        <property id="ipconfigHAS_DEBUG_PRINTF" display="Print out the debugging messages" default="1" type="combobox">
+        <property id="ipconfigHAS_DEBUG_PRINTF" display="Print out the debugging messages" default="0" type="combobox">
             <option id="ipconfigHAS_DEBUG_PRINTF.0" display="Enable " value="0"/>
             <option id="ipconfigHAS_DEBUG_PRINTF.1" display="Disable" value="1"/>
             <description>If ipconfigHAS_DEBUG_PRINTF is set to 1 then FreeRTOS_debug_printf should be defined to the function  used to print out the debugging messages</description>
@@ -22,8 +22,8 @@
 command, and ping replies.  If ipconfigHAS_PRINTF is set to 1 then FreeRTOS_printf should be set to the function used to print out the  messages.</description>
         </property>
         <property id="ipconfigBYTE_ORDER" display="Byte order of the target MCU" default="pdFREERTOS_LITTLE_ENDIAN" type="combobox">
-            <option id="ipconfigBYTE_ORDER.pdLITTLE_ENDIAN " display="pdLITTLE_ENDIAN " value="pdLITTLE_ENDIAN "/>
-            <option id="ipconfigBYTE_ORDER.pdBIG_ENDIAN" display="pdBIG_ENDIAN" value="pdBIG_ENDIAN"/>
+            <option id="ipconfigBYTE_ORDER.pdFREERTOS_LITTLE_ENDIAN " display="pdFREERTOS_LITTLE_ENDIAN " value="pdFREERTOS_LITTLE_ENDIAN "/>
+            <option id="ipconfigBYTE_ORDER.pdFREERTOS_BIG_ENDIAN" display="pdFREERTOS_BIG_ENDIAN" value="pdFREERTOS_BIG_ENDIAN"/>
             <description>Define the byte order of the target MCU</description>
         </property>
         <property id="ipconfigDRIVER_INCLUDED_RX_IP_CHECKSUM" display="IP/TCP/UDP checksums" default="1" type="combobox">
