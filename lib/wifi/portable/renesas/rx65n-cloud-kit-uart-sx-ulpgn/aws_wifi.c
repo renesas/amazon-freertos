@@ -159,6 +159,10 @@ WIFIReturnCode_t WIFI_ConnectAP(
 
     convert_security = prvConvertSecurityFromSilexAT(
             pxNetworkParams->xSecurity);
+    if(pdTRUE == WIFI_IsConnected())
+    {
+    	WIFI_Disconnect();
+    }
     ret = sx_ulpgn_wifi_connect(pxNetworkParams->pcSSID, convert_security,
             pxNetworkParams->pcPassword);
 

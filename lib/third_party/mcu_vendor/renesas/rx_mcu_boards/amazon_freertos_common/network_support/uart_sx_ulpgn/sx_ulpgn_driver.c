@@ -611,7 +611,7 @@ int32_t sx_ulpgn_wifi_connect(const char *pssid, uint32_t security, const char *
     volatile char secu[3][10];
     uint32_t security_encrypt_type = 1;
     uint8_t mutex_flag;
-
+    uint8_t retry_count;
 
     mutex_flag = (MUTEX_TX | MUTEX_RX);
     if(0 != sx_ulpgn_serial_send_basic_take_mutex(mutex_flag))
@@ -623,7 +623,14 @@ int32_t sx_ulpgn_wifi_connect(const char *pssid, uint32_t security, const char *
     {
     	/* If Wifi is already connected, do nothing and return fail. */
     	sx_ulpgn_serial_send_basic_give_mutex(mutex_flag);
-    	return -1;
+    	if(0 != sx_ulpgn_wifi_disconnect())
+    	{
+    		return -1;
+    	}
+        if(0 != sx_ulpgn_serial_send_basic_take_mutex(mutex_flag))
+    	{
+        	return -1;
+    	}
     }
 
 
@@ -657,43 +664,51 @@ int32_t sx_ulpgn_wifi_connect(const char *pssid, uint32_t security, const char *
     strcat((char *)buff, (const char *)ppass);
     strcat((char *)buff, "\r");
 
-    ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, buff, 3, 20000, ULPGN_RETURN_OK);
-    if((0 == ret) || (-2 == ret))
+    for(retry_count = 0;retry_count < 3;retry_count++)
     {
-    	if(-2 == ret)
-    	{
-            ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATW\r", 3, 1000, ULPGN_RETURN_OK);
-            if(0 == ret)
-            {
-            	ret = -1;
-            	pstr = strstr(recvbuff,"ssid         =   ");
-            	if(pstr != NULL)
-            	{
-            		pstr2 = recvbuff + strlen("ssid         =   ");
-            		pstr = strstr(pstr2,"\r\n");
-                	if(pstr != NULL)
-                	{
-                		*pstr = '\0';  // \r -> \0
-                		if(0 == strcmp(pstr, pssid))
-                		{
-                			ret = 0;
-                		}
-                	}
-            	}
-            }
-    	}
-        if(0 == ret)
-        {
-            while(1)
-            {
-                ret = sx_ulpgn_get_ipaddress();
-                if(0 == ret)
-                {
-                    ret = sx_ulpgn_socket_init();
-                    break;
-                }
-            }
-        }
+		ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, buff, 3, 20000, ULPGN_RETURN_OK);
+		if((0 == ret) || (-2 == ret))
+		{
+			if(-2 == ret)
+			{
+				ret = sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATW\r", 3, 1000, ULPGN_RETURN_OK);
+				if(0 == ret)
+				{
+					ret = -1;
+					pstr = strstr(recvbuff,"ssid         =   ");
+					if(pstr != NULL)
+					{
+						pstr2 = recvbuff + strlen("ssid         =   ");
+						pstr = strstr(pstr2,"\r\n");
+						if(pstr != NULL)
+						{
+							*pstr = '\0';  // \r -> \0
+							if(0 == strcmp(pstr, pssid))
+							{
+								ret = 0;
+							}
+						}
+					}
+				}
+			}
+		}
+		if(0 == ret)
+		{
+			while(1)
+			{
+				ret = sx_ulpgn_get_ipaddress();
+				if(0 == ret)
+				{
+					ret = sx_ulpgn_socket_init();
+					break;
+				}
+			}
+			break;
+		}
+		else
+		{
+			sx_ulpgn_serial_send_basic(ULPGN_UART_COMMAND_PORT, "ATWD\r", 3, 1000, ULPGN_RETURN_OK);
+		}
     }
     sx_ulpgn_serial_send_basic_give_mutex(mutex_flag);
     return ret;
