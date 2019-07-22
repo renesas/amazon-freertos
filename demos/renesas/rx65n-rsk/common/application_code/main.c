@@ -45,6 +45,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /* Demo includes */
 #include "aws_demo_runner.h"
 #include "aws_clientcredential.h"
+#include "platform.h"
 
 #define mainLOGGING_TASK_STACK_SIZE         ( configMINIMAL_STACK_SIZE * 6 )
 #define mainLOGGING_MESSAGE_QUEUE_LENGTH    ( 15 )
@@ -121,7 +122,7 @@ static void prvMiscInitialization( void );
  */
 void main( void )
 {
-    nop();
+    R_BSP_NOP();
 	while(1)
     {
         vTaskDelay(10000);
