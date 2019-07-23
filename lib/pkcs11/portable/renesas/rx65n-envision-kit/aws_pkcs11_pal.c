@@ -1,5 +1,5 @@
 /*
- * Amazon FreeRTOS PKCS #11 PAL V1.0.0
+ * Amazon FreeRTOS PKCS #11 PAL for Renesas Starter Kit+ for RX65N-2MB V1.0.0
  * Copyright (C) 2018 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -147,13 +147,13 @@ uint8_t object_handle_dictionary[PKCS_OBJECT_HANDLES_NUM][PKCS_HANDLES_LABEL_MAX
 
 static PKCS_CONTROL_BLOCK pkcs_control_block_data_image;        /* RX65N case: 8KB, RX64M case: 16KB, RX63N case: 8KB */
 
-R_ATTRIB_SECTION_CHANGE(C, _PKCS11_STORAGE, 1)
+R_BSP_ATTRIB_SECTION_CHANGE(C, _PKCS11_STORAGE, 1)
 static const PKCS_CONTROL_BLOCK pkcs_control_block_data = {PKCS_CONTROL_BLOCK_INITIAL_DATA};
-R_ATTRIB_SECTION_CHANGE_END
+R_BSP_ATTRIB_SECTION_CHANGE_END
 
-R_ATTRIB_SECTION_CHANGE(C, _PKCS11_STORAGE_MIRROR, 1)
+R_BSP_ATTRIB_SECTION_CHANGE(C, _PKCS11_STORAGE_MIRROR, 1)
 static const PKCS_CONTROL_BLOCK pkcs_control_block_data_mirror = {PKCS_CONTROL_BLOCK_INITIAL_DATA};
-R_ATTRIB_SECTION_CHANGE_END
+R_BSP_ATTRIB_SECTION_CHANGE_END
 
 static void update_dataflash_data_from_image(void);
 static void update_dataflash_data_mirror_from_image(void);
@@ -340,7 +340,7 @@ CK_OBJECT_HANDLE PKCS11_PAL_FindObject( uint8_t * pLabel,
                                         uint8_t usLength )
 {
     /* Avoid compiler warnings about unused variables. */
-    R_INTERNAL_NOT_USED(usLength);
+    INTERNAL_NOT_USED(usLength);
 
     CK_OBJECT_HANDLE xHandle = eInvalidHandle;
     int i;
@@ -430,8 +430,8 @@ void PKCS11_PAL_GetObjectValueCleanup( uint8_t * pucData,
                                        uint32_t ulDataSize )
 {
     /* Avoid compiler warnings about unused variables. */
-    R_INTERNAL_NOT_USED(pucData);
-    R_INTERNAL_NOT_USED(ulDataSize);
+    INTERNAL_NOT_USED(pucData);
+    INTERNAL_NOT_USED(ulDataSize);
 
     /* todo: nothing to do in now. Now, pkcs_data exists as static. I will fix this function when I will port this to heap memory. (Renesas/Ishiguro) */
 }
