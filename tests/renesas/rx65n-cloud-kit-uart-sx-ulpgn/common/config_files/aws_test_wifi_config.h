@@ -40,4 +40,6 @@
  */
 #define testwifiTASK_PRIORITY               ( tskIDLE_PRIORITY )                /* FIX ME. */
 
+#define testwifiMULTITASK_TEST_TIMEOUT      pdMS_TO_TICKS( 300000 )
+
 #endif /* _AWS_TEST_WIFI_CONFIG_H_ */
