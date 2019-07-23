@@ -14,15 +14,15 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
 * File Name    : r_smc_cgc.h
-* Version      : 1.3.0
+* Version      : 1.4.0
 * Device(s)    : R5F565NEDxFB
 * Description  : This file implements cgc setting.
-* Creation Date: 2019-06-17
+* Creation Date: 2019-07-23
 ***********************************************************************************************************************/
 
 #ifndef SMC_CGC_H
