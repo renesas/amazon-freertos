@@ -14,28 +14,79 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
-***********************************************************************************************************************/
-/***********************************************************************************************************************
-* File Name    : r_ether_rx_pinset.h
-* Version      : 1.0.2
-* Device(s)    : R5F565NEDxFC
-* Tool-Chain   : RXC toolchain
-* Description  : Setting of port and mpc registers
-* Creation Date: 2019-05-19
+* Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 
-#ifndef R_ETHER_RX_H
-#define R_ETHER_RX_H
+/***********************************************************************************************************************
+* File Name    : Pin.c
+* Version      : 1.0.2
+* Device(s)    : R5F565NEDxFB
+* Description  : This file implements SMC pin code generation.
+* Creation Date: 2019-07-23
+***********************************************************************************************************************/
+
+/***********************************************************************************************************************
+Pragma directive
+***********************************************************************************************************************/
+/* Start user code for pragma. Do not edit comment generated here */
+/* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
 Includes
 ***********************************************************************************************************************/
+#include "r_cg_macrodriver.h"
+/* Start user code for include. Do not edit comment generated here */
+/* End user code. Do not edit comment generated here */
+#include "r_cg_userdefine.h"
 
 /***********************************************************************************************************************
 Global variables and functions
 ***********************************************************************************************************************/
+/* Start user code for global. Do not edit comment generated here */
+/* End user code. Do not edit comment generated here */
 
-void R_ETHER_PinSet_ETHERC0_MII();
+/***********************************************************************************************************************
+* Function Name: R_Pins_Create
+* Description  : This function initializes Smart Configurator pins
+* Arguments    : None
+* Return Value : None
+***********************************************************************************************************************/
 
-#endif
+void R_Pins_Create(void)
+{
+    R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_MPC);
+
+    /* Set CTS2# pin */
+    MPC.PJ5PFS.BYTE = 0x0BU;
+    PORTJ.PMR.BYTE |= 0x20U;
+
+    /* Set RXD2 pin */
+    MPC.P52PFS.BYTE = 0x0AU;
+    PORT5.PMR.BYTE |= 0x04U;
+
+    /* Set RXD5 pin */
+    MPC.PC2PFS.BYTE = 0x0AU;
+    PORTC.PMR.BYTE |= 0x04U;
+
+    /* Set RXD9 pin */
+    MPC.PB6PFS.BYTE = 0x0AU;
+    PORTB.PMR.BYTE |= 0x40U;
+
+    /* Set TXD2 pin */
+    PORT5.PODR.BYTE |= 0x01U;
+    MPC.P50PFS.BYTE = 0x0AU;
+    PORT5.PDR.BYTE |= 0x01U;
+
+    /* Set TXD5 pin */
+    PORTC.PODR.BYTE |= 0x08U;
+    MPC.PC3PFS.BYTE = 0x0AU;
+    PORTC.PDR.BYTE |= 0x08U;
+
+    /* Set TXD9 pin */
+    PORTB.PODR.BYTE |= 0x80U;
+    MPC.PB7PFS.BYTE = 0x0AU;
+    PORTB.PDR.BYTE |= 0x80U;
+
+    R_BSP_RegisterProtectEnable(BSP_REG_PROTECT_MPC);
+}   
+

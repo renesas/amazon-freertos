@@ -90,7 +90,7 @@ Configuration Options
 #define SCI_CFG_CH2_INCLUDED    (1)
 #define SCI_CFG_CH3_INCLUDED    (0)
 #define SCI_CFG_CH4_INCLUDED    (0)
-#define SCI_CFG_CH5_INCLUDED    (0)
+#define SCI_CFG_CH5_INCLUDED    (1)
 #define SCI_CFG_CH6_INCLUDED    (0)
 #define SCI_CFG_CH7_INCLUDED    (0)
 #define SCI_CFG_CH8_INCLUDED    (0)
@@ -141,7 +141,7 @@ Configuration Options
 * for including the TEI code. The interrupt itself must be enabled using an
 * R_SCI_Control(hdl, SCI_CMD_EN_TEI, NULL) call.
 */
-#define SCI_CFG_TEI_INCLUDED    (1)      /* 1=included, 0=not */
+#define SCI_CFG_TEI_INCLUDED    (0)      /* 1=included, 0=not */
 
 /* 
 * SET GROUP12 (RECEIVER ERROR) INTERRUPT PRIORITY; RX63N/631 ONLY
