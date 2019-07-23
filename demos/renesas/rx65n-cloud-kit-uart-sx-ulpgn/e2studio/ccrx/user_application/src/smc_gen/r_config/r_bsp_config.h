@@ -35,15 +35,6 @@
 *         : 01.07.2018 1.02      Added the following macro definition.
 *                                - BSP_CFG_CONFIGURATOR_SELECT
 *                                Add RTOS support. FreeRTOS. Define a timer for RTOS.
-*         : 27.07.2018 1.03      Modified the comment of PLL clock source.
-*                                Added the following macro definition for ID code protection.
-*                                 - BSP_CFG_ID_CODE_LONG_1
-*                                 - BSP_CFG_ID_CODE_LONG_2
-*                                 - BSP_CFG_ID_CODE_LONG_3
-*                                 - BSP_CFG_ID_CODE_LONG_4
-*                                Added the following macro definition.
-*                                 - BSP_CFG_FIT_IPL_MAX
-*         : xx.xx.xxxx 1.04      Added support for GNUC and ICCRX.
 ***********************************************************************************************************************/
 #ifndef R_BSP_CONFIG_REF_HEADER_FILE
 #define R_BSP_CONFIG_REF_HEADER_FILE
@@ -89,7 +80,7 @@ Configuration Options
    FP           = 0x5             = LFQFP/100/0.50
    LJ           = 0xA             = TFLGA/100/0.65
 */
-#define BSP_CFG_MCU_PART_PACKAGE        (0x5) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_MCU_PART_PACKAGE        (0x5) /* Generated value. Do not edit this manually */
 
 /* Whether Encryption and SDHI/SDSI are included or not. 
    Character(s) = Value for macro = Description
@@ -100,7 +91,7 @@ Configuration Options
    F            = true            = Encryption module included, SDHI/SDSI module included
    H            = true            = Encryption module included, SDHI/SDSI module included, dual-bank structure
 */
-#define BSP_CFG_MCU_PART_ENCRYPTION_INCLUDED   (false) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_MCU_PART_ENCRYPTION_INCLUDED   (false) /* Generated value. Do not edit this manually */
 
 /* ROM, RAM, and Data Flash Capacity. 
    Character(s) = Value for macro = ROM Size/Ram Size/Data Flash Size
@@ -111,25 +102,25 @@ Configuration Options
    E            = 0xE             = 2MB/640KB/32KB
    NOTE: When the RAM capacity is 640KB, the RAM areas are not contiguous.
 */
-#define BSP_CFG_MCU_PART_MEMORY_SIZE    (0xE) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_MCU_PART_MEMORY_SIZE    (0xE) /* Generated value. Do not edit this manually */
 
 /* Group name. 
    Character(s) = Value for macro = Description
    5N/51        = 0x0             = RX65N Group/RX651 Group
 */
-#define BSP_CFG_MCU_PART_GROUP          (0x0) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_MCU_PART_GROUP          (0x0) /* Generated value. Do not edit this manually */
 
 /* Series name. 
    Character(s) = Value for macro = Description
    56           = 0x0             = RX600 Series
 */  
-#define BSP_CFG_MCU_PART_SERIES         (0x0) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_MCU_PART_SERIES         (0x0) /* Generated value. Do not edit this manually */
 
 /* Memory type. 
    Character(s) = Value for macro = Description
    F            = 0x0             = Flash memory version
 */
-#define BSP_CFG_MCU_PART_MEMORY_TYPE    (0x0) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_MCU_PART_MEMORY_TYPE    (0x0) /* Generated value. Do not edit this manually */
 
 /* Whether to use 1 stack or 2. RX MCUs have the ability to use 2 stacks: an interrupt stack and a user stack.
  * When using 2 stacks the user stack will be used during normal user code. When an interrupt occurs the CPU
@@ -145,22 +136,24 @@ Configuration Options
  */
 #define BSP_CFG_USER_STACK_ENABLE       (0)
 
-#if defined(__CCRX__) || defined(__GNUC__)
-
 /* When using the user startup program, disable the following code. */
 #if (BSP_CFG_STARTUP_DISABLE == 0)
 
-/* If only 1 stack is chosen using BSP_CFG_USER_STACK_ENABLE then no RAM will be allocated for the user stack. */
-#if (BSP_CFG_USER_STACK_ENABLE == 1)
-/* User Stack size in bytes. The Renesas RX toolchain sets the stack size using the #pragma stacksize directive. */
-#define BSP_CFG_USTACK_BYTES            (0)
-#endif
+/* The 'BSP_DECLARE_STACK' macro is checked so that the stack is only declared in one place (resetprg.c). Every time a 
+   '#pragma stacksize' is encountered, the stack size is increased. This prevents multiplication of stack size. */
+#if defined(BSP_DECLARE_STACK)
+    /* If only 1 stack is chosen using BSP_CFG_USER_STACK_ENABLE then no RAM will be allocated for the user stack. */
+    #if (BSP_CFG_USER_STACK_ENABLE == 1)
+    /* User Stack size in bytes. The Renesas RX toolchain sets the stack size using the #pragma stacksize directive. */
+    #pragma stacksize su=0x3000
+    #endif
 
 /* Interrupt Stack size in bytes. The Renesas RX toolchain sets the stack size using the #pragma stacksize directive.
  * If the interrupt stack is the only stack being used then the user will likely want to increase the default size
  * below.
  */
-#define BSP_CFG_ISTACK_BYTES            (0x1000)
+#pragma stacksize si=0x3000
+#endif
 
 #endif /* BSP_CFG_STARTUP_DISABLE == 0 */
 
@@ -173,18 +166,12 @@ Configuration Options
       choose 'Contents' in E2Studio. This will present a list of modules that can be included. Uncheck the box for
       stdio.h. 
 */
-#define BSP_CFG_HEAP_BYTES              (0x400)
-
-#endif /* defined(__CCRX__) || defined(__GNUC__) */
-
-#if defined(__CCRX__)
+#define BSP_CFG_HEAP_BYTES              (0x2000)
 
 /* Initializes C input & output library functions.
    0 = Disable I/O library initialization in resetprg.c. If you are not using stdio then use this value.
    1 = Enable I/O library initialization in resetprg.c. This is default and needed if you are using stdio. */
 #define BSP_CFG_IO_LIB_ENABLE           (1)
-
-#endif /* defined(__CCRX__) */
 
 /* If desired the user may redirect the stdio charget() and/or charput() functions to their own respective functions
    by enabling below and providing and replacing the my_sw_... function names with the names of their own functions. */
@@ -201,21 +188,6 @@ Configuration Options
 */
 #define BSP_CFG_RUN_IN_USER_MODE        (0)
 
-/* Set your desired ID code. NOTE, leave at the default (all 0xFF's) if you do not wish to use an ID code. If you set 
-   this value and program it into the MCU then you will need to remember the ID code because the debugger will ask for 
-   it when trying to connect. Note that the E1/E20 will ignore the ID code when programming the MCU during debugging.
-   If you set this value and then forget it then you can clear the ID code by connecting up in serial boot mode using 
-   FDT. The ID Code is 16 bytes long. The macro below define the ID Code in 4-byte sections. */
-/* Lowest 4-byte section, address 0xFE7F5D50. From MSB to LSB: ID code 4, ID code 3, ID code 2, ID code 1/Control Code.
- */
-#define BSP_CFG_ID_CODE_LONG_1          (0xFFFFFFFF)
-/* 2nd ID Code section, address 0xFE7F5D54. From MSB to LSB: ID code 8, ID code 7, ID code 6, ID code 5. */
-#define BSP_CFG_ID_CODE_LONG_2          (0xFFFFFFFF)
-/* 3rd ID Code section, address 0xFE7F5D58. From MSB to LSB: ID code 12, ID code 11, ID code 10, ID code 9. */
-#define BSP_CFG_ID_CODE_LONG_3          (0xFFFFFFFF)
-/* 4th ID Code section, address 0xFE7F5D5C. From MSB to LSB: ID code 16, ID code 15, ID code 14, ID code 13. */
-#define BSP_CFG_ID_CODE_LONG_4          (0xFFFFFFFF)
-
 /* Clock source select (CKSEL).
    0 = Low Speed On-Chip Oscillator  (LOCO)
    1 = High Speed On-Chip Oscillator (HOCO)
@@ -223,26 +195,26 @@ Configuration Options
    3 = Sub-Clock Oscillator
    4 = PLL Circuit
 */ 
-#define BSP_CFG_CLOCK_SOURCE            (4) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_CLOCK_SOURCE            (4) /* Generated value. Do not edit this manually */
 
 /* Main clock Oscillator Switching (MOSEL).
    0 = Resonator
    1 = External clock input
 */ 
-#define BSP_CFG_MAIN_CLOCK_SOURCE       (0) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_MAIN_CLOCK_SOURCE       (0) /* Generated value. Do not edit this manually */
 
 /* The sub-clock oscillation control for using the RTC.
    When '1' is selected, the registers related to RTC are initialized and the sub-clock oscillator is operated.
    0 = The RTC is not to be used.
    1 = The RTC is to be used.
 */
-#define BSP_CFG_RTC_ENABLE              (0) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_RTC_ENABLE              (0) /* Generated value. Do not edit this manually */
 
 /* Sub-Clock Oscillator Drive Capacity Control (RTCDV).
    0 = Drive capacity for standard CL.
    1 = Drive capacity for low CL. 
 */
-#define BSP_CFG_SOSC_DRV_CAP            (0) // <-- Updated by GUI. Do not edit this value manually //standard CL by default
+#define BSP_CFG_SOSC_DRV_CAP            (0) /* Generated value. Do not edit this manually */ //standard CL by default
 
 /* Clock configuration options.
    The input clock frequency is specified and then the system clocks are set by specifying the multipliers used. The
@@ -272,7 +244,7 @@ Configuration Options
 */
 
 /* Input clock frequency in Hz (XTAL or EXTAL). */
-#define BSP_CFG_XTAL_HZ                 (24000000) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_XTAL_HZ                 (12000000) /* Generated value. Do not edit this manually */
 
 /* The HOCO can operate at several different frequencies. Choose which one using the macro below.
    Available frequency settings:
@@ -280,74 +252,74 @@ Configuration Options
    1 = 18MHz
    2 = 20MHz
 */
-#define BSP_CFG_HOCO_FREQUENCY          (2) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_HOCO_FREQUENCY          (2) /* Generated value. Do not edit this manually */
 
-/* PLL clock source (PLLSRCSEL). Choose which clock source to input to the PLL circuit.
+/* PLL clock source (PLLSRCEL). Choose which clock source to input to the PLL circuit.
    Available clock sources:
    0 = Main clock (default)
    1 = HOCO
 */
-#define BSP_CFG_PLL_SRC                 (1) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_PLL_SRC                 (1) /* Generated value. Do not edit this manually */
 
 /* PLL Input Frequency Division Ratio Select (PLIDIV).
    Available divisors = /1 (no division), /2, /3
 */
-#define BSP_CFG_PLL_DIV                 (1) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_PLL_DIV                 (1) /* Generated value. Do not edit this manually */
 
 /* PLL Frequency Multiplication Factor Select (STC). 
    Available multipliers = x10.0 to x30.0 in 0.5 increments (e.g. 10.0, 10.5, 11.0, 11.5, ..., 29.0, 29.5, 30.0)
 */
-#define BSP_CFG_PLL_MUL                 (12.0) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_PLL_MUL                 (12.0) /* Generated value. Do not edit this manually */
 
 /* System Clock Divider (ICK).
    Available divisors = /1 (no division), /2, /4, /8, /16, /32, /64
 */
-#define BSP_CFG_ICK_DIV                 (2) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_ICK_DIV                 (2) /* Generated value. Do not edit this manually */
 
 /* Peripheral Module Clock A Divider (PCKA). 
    Available divisors = /1 (no division), /2, /4, /8, /16, /32, /64
 */
-#define BSP_CFG_PCKA_DIV                (2) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_PCKA_DIV                (2) /* Generated value. Do not edit this manually */
 
 /* Peripheral Module Clock B Divider (PCKB). 
    Available divisors = /1 (no division), /2, /4, /8, /16, /32, /64
 */
-#define BSP_CFG_PCKB_DIV                (4) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_PCKB_DIV                (4) /* Generated value. Do not edit this manually */
 
 /* Peripheral Module Clock C Divider (PCKC).
    Available divisors = /1 (no division), /2, /4, /8, /16, /32, /64
 */
-#define BSP_CFG_PCKC_DIV                (4) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_PCKC_DIV                (4) /* Generated value. Do not edit this manually */
 
 /* Peripheral Module Clock D Divider (PCKD).
    Available divisors = /1 (no division), /2, /4, /8, /16, /32, /64
 */
-#define BSP_CFG_PCKD_DIV                (4) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_PCKD_DIV                (4) /* Generated value. Do not edit this manually */
 
 /* External Bus Clock Divider (BCLK). 
    Available divisors = /1 (no division), /2, /4, /8, /16, /32, /64
 */
-#define BSP_CFG_BCK_DIV                 (2) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_BCK_DIV                 (2) /* Generated value. Do not edit this manually */
 
 /* Flash IF Clock Divider (FCK). 
    Available divisors = /1 (no division), /2, /4, /8, /16, /32, /64
 */
-#define BSP_CFG_FCK_DIV                 (4) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_FCK_DIV                 (4) /* Generated value. Do not edit this manually */
 
 /* USB Clock Divider Select. 
    Available divisors = /2, /3, /4, /5
 */
-#define BSP_CFG_UCK_DIV                 (5) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_UCK_DIV                 (5) /* Generated value. Do not edit this manually */
 
 /* Configure BCLK output pin (only effective when external bus enabled)
    Values 0=no output, 1 = BCK frequency, 2= BCK/2 frequency
 */
-#define BSP_CFG_BCLK_OUTPUT             (0) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_BCLK_OUTPUT             (0) /* Generated value. Do not edit this manually */
 
 /* Configure SDCLK output pin (only effective when external bus enabled)
    Values 0=no output, 1 = BCK frequency
 */
-#define BSP_CFG_SDCLK_OUTPUT            (0) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_SDCLK_OUTPUT            (0)
 
 /* Main Clock Oscillator Wait Time (MOSCWTCR).
    The value of MOSCWTCR register required for correspondence with the waiting time required to secure stable oscillation
@@ -362,7 +334,7 @@ Configuration Options
    NOTE: The waiting time is not required when an external clock signal is input for the main clock oscillator. 
          Set the BSP_CFG_MOSC_WAIT_TIME to 00h.
 */
-#define BSP_CFG_MOSC_WAIT_TIME          (0x53) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_MOSC_WAIT_TIME          (0x53) /* Generated value. Do not edit this manually */
 
 /* Sub-Clock Oscillator Wait Time (SOSCWTCR).
    The value of SOSCWTCR register required for correspondence with the expected time to secure settling of oscillation
@@ -374,7 +346,7 @@ Configuration Options
    If tSUBOSC is 2 s and fLOCO is 264 kHz (the period is 1/3.78 us), the formula gives
     BSP_CFG_SOSC_WAIT_TIME > (2 s * (264 kHz) +16)/16384 = 32.22, so set the  BSP_CFG_SOSC_WAIT_TIME bits to 33(21h).
 */
-#define BSP_CFG_SOSC_WAIT_TIME          (0x21) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_SOSC_WAIT_TIME          (0x21) /* Generated value. Do not edit this manually */
 
 /* ROM Cache Enable Register (ROMCE).
    0 = ROM cache operation disabled.
@@ -403,7 +375,7 @@ Configuration Options
        b1      IWDTSTRT - IWDT Start Mode Select - (0=auto-start after reset, 1=halt after reset)
        b0      Reserved (set to 1) 
 */
-#define BSP_CFG_OFS0_REG_VALUE  (0xFFFFFFFF) // <-- Updated by GUI. Do not edit this value manually //Disable by default
+#define BSP_CFG_OFS0_REG_VALUE  (0xFFFFFFFF) /* Generated value. Do not edit this manually */ //Disable by default
 
 /* Configure whether voltage detection 0 circuit and HOCO are enabled after reset.
    OFS1 - Option Function Select Register 1
@@ -415,7 +387,7 @@ Configuration Options
        NOTE: If HOCO oscillation is enabled by OFS1.HOCOEN, HOCO frequency is 16MHz.
              BSP_CFG_HOCO_FREQUENCY should be default value.
 */
-#define BSP_CFG_OFS1_REG_VALUE  (0xFFFFFFFF) // <-- Updated by GUI. Do not edit this value manually //Disable by default
+#define BSP_CFG_OFS1_REG_VALUE  (0xFFFFFFFF) /* Generated value. Do not edit this manually */ //Disable by default
 
 /* Trusted memory is facility to prevent the reading of blocks 8 and 9 and blocks 46 and 47 (in dual mode) in 
    the code flash memory by third party software. This feature is disabled by default.
@@ -469,7 +441,7 @@ Configuration Options
          Default setting of the bank mode is linear mode.
          If the dual bank function has not been incorporated in a device, this macro should be 1.
 */
-#define BSP_CFG_CODE_FLASH_BANK_MODE    (1) //Linear mode by default
+#define BSP_CFG_CODE_FLASH_BANK_MODE    (0) //Linear mode by default
 
 /* Select the startup bank of the program when dual bank function is in dual mode.
    0 = The address range of bank 1 from FFE00000h to FFEFFFFFh and bank 0 from FFF00000h to FFFFFFFFh.
@@ -487,16 +459,7 @@ Configuration Options
    3 = MicroC_OS is used.(This is not available.)
    4 = RI600V4 or RI600PX is used.(This is not available.)
 */
-/* As of today, we need a workaround to avoid the problem that the Smart Configurator does not have such GUI
-   yet and the BSP_CFG_RTOS_USED here is set to (0) every time of code generation by the Smart Configurator.
-   The BSP_CFG_RTOS_USED is set to (1) in the r_bsp.h instead of here so that the setting of here is ignored.
-*/
-#if !defined(BSP_CFG_RTOS_USED) || (BSP_CFG_RTOS_USED == 0)
-#if defined(BSP_CFG_RTOS_USED)
-#undef BSP_CFG_RTOS_USED
-#endif
-#define BSP_CFG_RTOS_USED               (0) // <-- Updated by GUI. Do not edit this value manually
-#endif
+#define BSP_CFG_RTOS_USED               (1) /* Generated value. Do not edit this manually */
 
 /* This macro is used to select which CMT channel used for system timer of RTOS.
  * The setting of this macro is only valid if the macro BSP_CFG_RTOS_USED is set to a value other than 0. */
@@ -600,17 +563,17 @@ Configuration Options
 
 /* This macro is used to define the voltage that is supplied to the MCU (Vcc). This macro is defined in millivolts. This
    macro does not actually change anything on the MCU. Some FIT modules need this information so it is defined here. */
-#define BSP_CFG_MCU_VCC_MV                          (3300) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_MCU_VCC_MV                          (3300) /* Generated value. Do not edit this manually */
 
 /* Allow initialization of auto-generated peripheral initialization code by Smart Configurator tool.
    When not using the Smart Configurator,  set the value of BSP_CFG_CONFIGURATOR_SELECT to 0.
    0 = Disabled (default)
    1 = Smart Configurator initialization code used
 */
-#define BSP_CFG_CONFIGURATOR_SELECT                 (1) // <-- Updated by GUI. Do not edit this value manually
+#define BSP_CFG_CONFIGURATOR_SELECT                 (1) /* Generated value. Do not edit this manually */
 
-/* For some BSP functions, it is necessary to ensure that, while these functions are executing, interrupts from other 
-   FIT modules do not occur. By controlling the IPL, these functions disable interrupts that are at or below the 
+/* For some BSP functions, it is necessary to ensure that, while these functions are executing, interrupts from other
+   FIT modules do not occur. By controlling the IPL, these functions disable interrupts that are at or below the
    specified interrupt priority level.
    This macro sets the IPL. Range is 0x0 - 0xF.
    Please set this macro more than IPR for other FIT module interrupts.
@@ -631,6 +594,5 @@ Configuration Options
 #define MY_BSP_CFG_UART_WIFI_SECOND_SCI             (1)
 #define ULPGN_RESET_PORT_PDR    PORTD.PDR.BIT.B0     /*PMOD PinNo.8 */
 #define ULPGN_RESET_PORT_PODR   PORTD.PODR.BIT.B0    /*PMOD PinNo.8 */
-
 #endif /* R_BSP_CONFIG_REF_HEADER_FILE */
 
