@@ -198,10 +198,10 @@ int32_t esp8266_wifi_init(void)
 	//	ESP8266_UARTBOOT_PORT_DDR = 1;
 	//	ESP8266_UARTBOOT_PORT_DR = 0;
 
-	ESP8266_RESET_PORT_DDR = 1;
-	ESP8266_RESET_PORT_DR = 0; /* Low */
+//	ESP8266_RESET_PORT_DDR = 1;
+//	ESP8266_RESET_PORT_DR = 0; /* Low */
 	R_BSP_SoftwareDelay(26, BSP_DELAY_MILLISECS); /* 5us mergin 1us */
-	ESP8266_RESET_PORT_DR = 1; /* High */
+//	ESP8266_RESET_PORT_DR = 1; /* High */
 	R_BSP_SoftwareDelay(1000, BSP_DELAY_MILLISECS); /* 5us mergin 1us */
 
 	ret = esp8266_serial_send_rst(ESP8266_UART_COMMAND_PORT, NULL, 1000, 20000, ESP8266_RETURN_OK, ESP8266_RETURN_READY);
@@ -1249,13 +1249,13 @@ static void esp8266_uart_callback_command_port(void *pArgs)
     if (SCI_EVT_RX_CHAR == p_args->event)
     {
         /* From RXI interrupt; received character data is in p_args->byte */
-        R_NOP();
+    	R_BSP_NOP();
     }
 #if SCI_CFG_TEI_INCLUDED
 	else if (SCI_EVT_TEI == p_args->event)
 	{
 		g_esp8266_uart_teiflag[ESP8266_UART_COMMAND_PORT] = 1;
-		R_NOP();
+		R_BSP_NOP();
 
 	}
 #endif
@@ -1263,28 +1263,28 @@ static void esp8266_uart_callback_command_port(void *pArgs)
     {
         /* From RXI interrupt; rx queue is full; 'lost' data is in p_args->byte
            You will need to increase buffer size or reduce baud rate */
-        R_NOP();
+    	R_BSP_NOP();
         effl = 1;
     }
     else if (SCI_EVT_OVFL_ERR == p_args->event)
     {
         /* From receiver overflow error interrupt; error data is in p_args->byte
            Error condition is cleared in calling interrupt routine */
-        R_NOP();
+    	R_BSP_NOP();
         effl = 2;
     }
     else if (SCI_EVT_FRAMING_ERR == p_args->event)
     {
         /* From receiver framing error interrupt; error data is in p_args->byte
            Error condition is cleared in calling interrupt routine */
-        R_NOP();
+    	R_BSP_NOP();
         effl = 3;
     }
     else if (SCI_EVT_PARITY_ERR == p_args->event)
     {
         /* From receiver parity error interrupt; error data is in p_args->byte
            Error condition is cleared in calling interrupt routine */
-        R_NOP();
+    	R_BSP_NOP();
         effl = 4;
     }
     else
