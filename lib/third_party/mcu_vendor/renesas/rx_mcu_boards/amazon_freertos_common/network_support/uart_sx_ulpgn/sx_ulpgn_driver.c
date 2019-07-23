@@ -573,16 +573,16 @@ int32_t sx_ulpgn_wifi_init(void)
     ret = sx_ulpgn_check_uart_state(100, 400, &test_recvdat, &test_senddat);
     if(ret != 0)
     {
-        R_NOP();
+        R_BSP_NOP();
     }
-    R_NOP();
+    R_BSP_NOP();
 
     ret = sx_ulpgn_check_uart_state(100, 400, &test_recvdat, &test_senddat);
     if(ret != 0)
     {
-        R_NOP();
+    	R_BSP_NOP();
     }
-    R_NOP();
+    R_BSP_NOP();
 
 
     if(0)
@@ -1391,7 +1391,7 @@ int32_t sx_ulpgn_tcp_recv(uint8_t socket_no, uint8_t *pdata, int32_t length, uin
 	//	                printf("recv timeout.%d received. requestsize=%d,lastdata=%02x,data1=%02x\r\n",recvcnt,length,*(pdata + (recvcnt-1)),data1);
 						R_BSP_CpuInterruptLevelWrite (0);
 		#endif
-						R_NOP();
+						R_BSP_NOP();
 						break;
 					}
 					vTaskDelay(1);
@@ -2892,8 +2892,8 @@ static void sx_ulpgn_uart_callback_default_port_for_inititial(void *pArgs)
     if (SCI_EVT_RX_CHAR == p_args->event)
     {
         /* From RXI interrupt; received character data is in p_args->byte */
-        R_NOP();
-        R_NOP();
+        R_BSP_NOP();
+        R_BSP_NOP();
     }
 #if SCI_CFG_TEI_INCLUDED
     else if (SCI_EVT_TEI == p_args->event)
@@ -2905,41 +2905,41 @@ static void sx_ulpgn_uart_callback_default_port_for_inititial(void *pArgs)
     {
         /* From RXI interrupt; rx queue is full; 'lost' data is in p_args->byte
            You will need to increase buffer size or reduce baud rate */
-        R_NOP();
-        R_NOP();
-        R_NOP();
+        R_BSP_NOP();
+        R_BSP_NOP();
+        R_BSP_NOP();
     }
     else if (SCI_EVT_OVFL_ERR == p_args->event)
     {
         /* From receiver overflow error interrupt; error data is in p_args->byte
            Error condition is cleared in calling interrupt routine */
-        R_NOP();
-        R_NOP();
-        R_NOP();
-        R_NOP();
-        R_NOP();
-        R_NOP();
-        R_NOP();
-        R_NOP();
+        R_BSP_NOP();
+        R_BSP_NOP();
+        R_BSP_NOP();
+        R_BSP_NOP();
+        R_BSP_NOP();
+        R_BSP_NOP();
+        R_BSP_NOP();
+        R_BSP_NOP();
     }
     else if (SCI_EVT_FRAMING_ERR == p_args->event)
     {
         /* From receiver framing error interrupt; error data is in p_args->byte
            Error condition is cleared in calling interrupt routine */
-        R_NOP();
-        R_NOP();
-        R_NOP();
-        R_NOP();
-        R_NOP();
+        R_BSP_NOP();
+        R_BSP_NOP();
+        R_BSP_NOP();
+        R_BSP_NOP();
+        R_BSP_NOP();
     }
     else if (SCI_EVT_PARITY_ERR == p_args->event)
     {
         /* From receiver parity error interrupt; error data is in p_args->byte
            Error condition is cleared in calling interrupt routine */
-        R_NOP();
-        R_NOP();
-        R_NOP();
-        R_NOP();
+        R_BSP_NOP();
+        R_BSP_NOP();
+        R_BSP_NOP();
+        R_BSP_NOP();
     }
     else
     {
@@ -2958,7 +2958,7 @@ static void sx_ulpgn_uart_callback_second_port_for_command(void *pArgs)
     if (SCI_EVT_RX_CHAR == p_args->event)
     {
         /* From RXI interrupt; received character data is in p_args->byte */
-        R_NOP();
+        R_BSP_NOP();
     }
 #if SCI_CFG_TEI_INCLUDED
     else if (SCI_EVT_TEI == p_args->event)
