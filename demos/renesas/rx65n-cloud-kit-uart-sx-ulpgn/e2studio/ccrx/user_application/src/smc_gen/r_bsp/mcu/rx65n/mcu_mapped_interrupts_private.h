@@ -12,7 +12,7 @@
 * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of 
 * this software. By using this software, you agree to the additional terms and conditions found by accessing the 
 * following link:
-* http://www.renesas.com/disclaimer 
+* http://www.renesas.com/disclaimer
 *
 * Copyright (C) 2016 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
@@ -23,11 +23,16 @@
 /**********************************************************************************************************************
 * History : DD.MM.YYYY Version  Description
 *         : 01.10.2016 1.00     First Release
+*         : 28.02.2019 1.01     Fixed coding style.
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
 Macro definitions
 ***********************************************************************************************************************/
+/* Multiple inclusion prevention macro */
+#ifndef MCU_MAPPED_INTERRUPTS_PRIVATE_H
+#define MCU_MAPPED_INTERRUPTS_PRIVATE_H
+
 /* These macros are calculated values for x % 8. These macros are used when preprocessor arithmetic cannot be used.
  * For example, 'IEN0'-'IEN7' needs to be defined for a macro based on 'vector_number % 8' but preprocessor arithmetic
  * is only evaluated at compile-time when it is used in a preprocessor conditional. For this reason the calculated
@@ -351,4 +356,6 @@ Exported global variables
 /***********************************************************************************************************************
 Exported global functions (to be accessed by other files)
 ***********************************************************************************************************************/
+
+#endif /* MCU_MAPPED_INTERRUPTS_PRIVATE_H */
 

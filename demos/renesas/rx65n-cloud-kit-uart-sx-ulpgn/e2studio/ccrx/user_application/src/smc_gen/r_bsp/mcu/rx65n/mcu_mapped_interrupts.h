@@ -12,7 +12,7 @@
 * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of 
 * this software. By using this software, you agree to the additional terms and conditions found by accessing the 
 * following link:
-* http://www.renesas.com/disclaimer 
+* http://www.renesas.com/disclaimer
 *
 * Copyright (C) 2016 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
@@ -61,11 +61,16 @@
 *                                - XXX_TSIP_RDRDY1
 *                                - XXX_TSIP_INTEGRATE_WRRDY
 *                                - XXX_TSIP_INTEGRATE_RDRDY
+*         : 28.02.2019 2.01      Fixed coding style.
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
 Macro definitions
 ***********************************************************************************************************************/
+/* Multiple inclusion prevention macro */
+#ifndef MCU_MAPPED_INTERRUPTS_H
+#define MCU_MAPPED_INTERRUPTS_H
+
 /* The following macros define the number for each interrupt request source as it pertains to being an Interrupt B or
  * Interrupt A interrupt. These values are used when setting the interrupt select registers (i.e. SLIBXRn, SLIBrn, and
  * SLIARn).
@@ -1320,4 +1325,6 @@ Exported global variables
 Exported global functions (to be accessed by other files)
 ***********************************************************************************************************************/
 void bsp_mapped_interrupt_open(void); //r_bsp internal function. DO NOT CALL.
+
+#endif /* MCU_MAPPED_INTERRUPTS_H */
 

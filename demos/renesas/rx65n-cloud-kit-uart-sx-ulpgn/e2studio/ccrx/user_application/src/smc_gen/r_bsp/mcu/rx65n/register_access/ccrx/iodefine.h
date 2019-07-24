@@ -18,7 +18,7 @@
 ***********************************************************************************************************************/
 /*******************************************************************************
 *                                                                              
-* Device     : RX/RX600/RX65N                                                  
+* Device     : RX/RX600/RX651                                                  
 *
 * File Name  : iodefine.h                                                      
 *
@@ -37,16 +37,17 @@
 *            : V1.5B  (2017-03-22)  [Hardware Manual Revision : 1.00]
 *            : V2.0   (2017-04-21)  [Hardware Manual Revision : 2.00]
 *            : V2.0A  (2017-10-23)  [Hardware Manual Revision : 2.00]
+*            : V2.2   (2018-10-26)  [Hardware Manual Revision : 2.20]
 *
 * NOTE       : THIS IS A TYPICAL EXAMPLE.                                      
 *                                                                              
-*  Copyright(c) 2017 Renesas Electronics Corporation.                          
+*  Copyright(c) 2018 Renesas Electronics Corporation.                          
 *
 *********************************************************************************/
 /********************************************************************************/
 /*                                                                              */
 /*  DESCRIPTION : Definition of ICU Register                                    */
-/*  CPU TYPE    : RX65N                                                         */
+/*  CPU TYPE    : RX651                                                         */
 /*                                                                              */
 /*  Usage : IR,DTCER,IER,IPR of ICU Register                                    */
 /*     The following IR, DTCE, IEN, IPR macro functions simplify usage.         */
@@ -91,8 +92,8 @@
 /*                                                                              */
 /*                                                                              */
 /********************************************************************************/
-#ifndef __RX65NIODEFINE_HEADER__
-#define __RX65NIODEFINE_HEADER__
+#ifndef __RX651IODEFINE_HEADER__
+#define __RX651IODEFINE_HEADER__
 
 #define	IEN_BSC_BUSERR		IEN0
 #define	IEN_RAM_RAMERR		IEN2
@@ -1007,6 +1008,7 @@
 #define	MTU6	(*(volatile struct st_mtu6    __evenaccess *)0xC1A00)
 #define	MTU7	(*(volatile struct st_mtu7    __evenaccess *)0xC1A00)
 #define	MTU8	(*(volatile struct st_mtu8    __evenaccess *)0xC1298)
+#define	OFSM	(*(volatile struct st_ofsm    __evenaccess *)0xFE7F5D00)
 #define	PDC		(*(volatile struct st_pdc     __evenaccess *)0xA0500)
 #define	POE3	(*(volatile struct st_poe     __evenaccess *)0x8C4C0)
 #define	PORT0	(*(volatile struct st_port0   __evenaccess *)0x8C000)
@@ -2677,13 +2679,13 @@ typedef struct st_crc {
 		} BIT;
 	} CRCCR;
 	char           wk0[3];
-	union {	
+	union {
 		unsigned long LONG;
-		unsigned char BYTE;	
+		unsigned char BYTE;
 	} CRCDIR;
 	union {
-		unsigned long LONG;	
-		unsigned short WORD;	
+		unsigned long LONG;
+		unsigned short WORD;
 		unsigned char BYTE;
 	} CRCDOR;
 } st_crc_t;
@@ -9691,6 +9693,117 @@ typedef struct st_mtu8 {
 	unsigned long  TGRC;
 	unsigned long  TGRD;
 } st_mtu8_t;
+
+typedef struct st_ofsm {
+	union {
+		unsigned long LONG;
+		struct {
+			unsigned long :29;
+			unsigned long MDE:3;
+		} BIT;
+	} MDE;
+	union {
+		unsigned long LONG;
+		struct {
+			unsigned long :3;
+			unsigned long WDTRSTIRQS:1;
+			unsigned long WDTRPSS:2;
+			unsigned long WDTRPES:2;
+			unsigned long WDTTCKS:4;
+			unsigned long WDTTOPS:2;
+			unsigned long WDTSTRT:1;
+			unsigned long :2;
+			unsigned long IWDTSLCSTP:1;
+			unsigned long :1;
+			unsigned long IWDTRSTIRQS:1;
+			unsigned long IWDTRPSS:2;
+			unsigned long IWDTRPES:2;
+			unsigned long IWDTTCKS:4;
+			unsigned long IWDTTOPS:2;
+			unsigned long IWDTSTRT:1;
+			unsigned long :1;
+		} BIT;
+	} OFS0;
+	union {
+		unsigned long LONG;
+		struct {
+			unsigned long :23;
+			unsigned long HOCOEN:1;
+			unsigned long :5;
+			unsigned long LVDAS:1;
+			unsigned long VDSEL:2;
+		} BIT;
+	} OFS1;
+	char           wk0[4];
+	unsigned long  TMINF;
+	char           wk1[12];
+	union {
+		unsigned long LONG;
+		struct {
+			unsigned long :29;
+			unsigned long BANKSWP:3;
+		} BIT;
+	} BANKSEL;
+	char           wk2[28];
+	union {
+		unsigned long LONG;
+		struct {
+			unsigned long :4;
+			unsigned long SPE:1;
+			unsigned long :27;
+		} BIT;
+	} SPCC;
+	char           wk3[4];
+	union {
+		unsigned long LONG;
+		struct {
+			unsigned long :5;
+			unsigned long TMEF:3;
+			unsigned long :24;
+		} BIT;
+	} TMEF;
+	char           wk4[4];
+	union {
+		unsigned char BYTE;
+		struct {
+			unsigned long ID4:8;
+			unsigned long ID3:8;
+			unsigned long ID2:8;
+			unsigned long ID1:8;
+			unsigned long ID8:8;
+			unsigned long ID7:8;
+			unsigned long ID6:8;
+			unsigned long ID5:8;
+			unsigned long ID12:8;
+			unsigned long ID11:8;
+			unsigned long ID10:8;
+			unsigned long ID9:8;
+			unsigned long ID16:8;
+			unsigned long ID15:8;
+			unsigned long ID14:8;
+			unsigned long ID13:8;
+		} BIT;
+	} OSIS;
+	char           wk5[4];
+	union {
+		unsigned long LONG;
+		struct {
+			unsigned long BTFLG:1;
+			unsigned long :3;
+			unsigned long FAWE:12;
+			unsigned long FSPR:1;
+			unsigned long :3;
+			unsigned long FAWS:12;
+		} BIT;
+	} FAW;
+	char           wk6[8];
+	union {
+		unsigned long LONG;
+		struct {
+			unsigned long CODE:32;
+		} BIT;
+	} ROMCODE;
+} st_ofsm_t;
 
 typedef struct st_pdc {
 	union {

@@ -14,37 +14,70 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2016 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2013 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
-* File Name    : mcu_init.h
-* Description  : Performs initialization common to all MCUs in this Group
+* File Name    : r_bsp_mcu_startup.c
+* Description  : This module implements user startup specific functions.
 ***********************************************************************************************************************/
 /**********************************************************************************************************************
 * History : DD.MM.YYYY Version  Description
-*         : 01.10.2016 1.00     First Release
-*         : 28.02.2019 1.01     Fixed coding style.
+*         : 28.02.2019 2.00     Merged processing of all devices.
+*                               Fixed coding style.
 ***********************************************************************************************************************/
+
+/***********************************************************************************************************************
+Includes   <System Includes> , "Project Includes"
+***********************************************************************************************************************/
+/* Platform support. */
+#include "platform.h"
+
+/* When using the user startup program, disable the following code. */
+#if BSP_CFG_STARTUP_DISABLE != 0
 
 /***********************************************************************************************************************
 Macro definitions
 ***********************************************************************************************************************/
-/* Multiple inclusion prevention macro */
-#ifndef MCU_INIT_H
-#define MCU_INIT_H
+
+/***********************************************************************************************************************
+Error checking
+***********************************************************************************************************************/
 
 /***********************************************************************************************************************
 Typedef definitions
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-Exported global variables
+Exported global variables (to be accessed by other files)
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-Exported global functions (to be accessed by other files)
+Private global variables and functions
 ***********************************************************************************************************************/
-void bsp_non_existent_port_init(void);      //r_bsp internal function. DO NOT CALL.
 
-#endif /* MCU_INIT_H */
+/***********************************************************************************************************************
+* Function Name: R_BSP_StartupOpen
+* Description  : The R_BSP_StartupOpen function initializes interrupt callbacks, register protection, and hardware 
+*                and pins. These processes are necessary to use the BSP and the Peripheral FIT module.
+*                Therefore, when BSP startup module is disabled, the R_BSP_StartupOpen function call executed 
+*                at the beginning of the user's main function.
+* Arguments    : none
+* Return Value : none
+***********************************************************************************************************************/
+void R_BSP_StartupOpen (void)
+{
+    /* Initialize RAM. */
+    bsp_ram_initialize();
+
+    /* Initialize MCU interrupt callbacks. */
+    bsp_interrupt_open();
+
+    /* Initialize register protection functionality. */
+    bsp_register_protect_open();
+
+    /* Configure the MCU and board hardware */
+    hardware_setup();
+} /* End of function R_BSP_StartupOpen() */
+
+#endif /* BSP_CFG_STARTUP_DISABLE != 0 */
 

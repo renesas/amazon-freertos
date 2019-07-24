@@ -12,70 +12,77 @@
 * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of 
 * this software. By using this software, you agree to the additional terms and conditions found by accessing the 
 * following link:
-* http://www.renesas.com/disclaimer 
+* http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2017 Renesas Electronics Corporation. All rights reserved.    
+* Copyright (C) 2016 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
-* File Name    : mcu_startup.c
-* Description  : This module implements user startup specific functions.
+* File Name    : r_bsp_cpu.h
+* Description  : This module implements CPU specific functions. An example is enabling/disabling interrupts.
 ***********************************************************************************************************************/
-/**********************************************************************************************************************
+/***********************************************************************************************************************
 * History : DD.MM.YYYY Version  Description
-*         : 15.05.2017 1.00     First Release
+*         : 01.10.2016 1.00     First Release
+*         : 15.05.2017 2.00     Changed comments of the following enumeration.
+*                               - bsp_reg_protect_t
+*         : 28.02.2019 3.00     Added bsp_ram_initialize function.
+*                               Fixed coding style.
 ***********************************************************************************************************************/
-
-/***********************************************************************************************************************
-Includes   <System Includes> , "Project Includes"
-***********************************************************************************************************************/
-/* Platform support. */
-#include "platform.h"
-
-/* When using the user startup program, disable the following code. */
-#if (BSP_CFG_STARTUP_DISABLE != 0)
 
 /***********************************************************************************************************************
 Macro definitions
 ***********************************************************************************************************************/
-
-/***********************************************************************************************************************
-Error checking
-***********************************************************************************************************************/
+/* Multiple inclusion prevention macro */
+#ifndef CPU_H
+#define CPU_H
 
 /***********************************************************************************************************************
 Typedef definitions
 ***********************************************************************************************************************/
-
-/***********************************************************************************************************************
-Exported global variables (to be accessed by other files)
-***********************************************************************************************************************/
-extern void bsp_interrupt_open(void);
-extern void bsp_register_protect_open(void);
-extern void hardware_setup(void);
-
-/***********************************************************************************************************************
-Private global variables and functions
-***********************************************************************************************************************/
-
-/***********************************************************************************************************************
-* Function Name: R_BSP_StartupOpen
-* Description  : The R_BSP_StartupOpen function initializes interrupt callbacks, register protection, and hardware 
-*                and pins. These processes are necessary to use the BSP and the Peripheral FIT module.
-*                Therefore, when BSP startup module is disabled, the R_BSP_StartupOpen function call executed 
-*                at the beginning of the user's main function.
-* Arguments    : none
-* Return Value : none
-***********************************************************************************************************************/
-void R_BSP_StartupOpen (void)
+/* The different types of registers that can be protected. */
+typedef enum
 {
-    /* Initialize MCU interrupt callbacks. */
-    bsp_interrupt_open();
+    /* PRC0
+       Enables writing to the registers related to the clock generation circuit: SCKCR, SCKCR2, SCKCR3, PLLCR,
+       PLLCR2, BCKCR, MOSCCR, SOSCCR, LOCOCR, ILOCOCR, HOCOCR, HOCOCR2, OSTDCR, OSTDSR. */
+    BSP_REG_PROTECT_CGC = 0,
 
-    /* Initialize register protection functionality. */
-    bsp_register_protect_open();
+    /* PRC1
+       Enables writing to the registers related to operating modes, low power consumption, the clock generation circuit,
+       and software reset: SYSCR0, SYSCR1, SBYCR, MSTPCRA, MSTPCRB, MSTPCRC, MSTPCRD, OPCCR, RSTCKCR,
+       DPSBYCR, DPSIER0, DPSIER1, DPSIER2, DPSIER3, DPSIFR0, DPSIFR1, DPSIFR2, DPSIFR3,
+       DPSIEGR0, DPSIEGR1, DPSIEGR2, DPSIEGR3, MOSCWTCR, SOSCWTCR, MOFCR, HOCOPCR, SWRR. */
+    BSP_REG_PROTECT_LPC_CGC_SWR,
 
-    /* Configure the MCU and board hardware */
-    hardware_setup();
-}
+    /* PRC3
+       Enables writing to the registers related to the LVD:LVCMPCR, LVDLVLR, LVD1CR0, LVD1CR1, LVD1SR, LVD2CR0,
+       LVD2CR1, LVD2SR. */
+    BSP_REG_PROTECT_LVD,
 
-#endif /* BSP_CFG_STARTUP_DISABLE != 0 */
+    /* MPC.PWPR
+       Enables writing to MPC's PFS registers. */
+    BSP_REG_PROTECT_MPC,
+
+    /* This entry is used for getting the number of enum items. This must be the last entry. DO NOT REMOVE THIS ENTRY!*/
+    BSP_REG_PROTECT_TOTAL_ITEMS
+} bsp_reg_protect_t;
+
+/***********************************************************************************************************************
+Exported global variables
+***********************************************************************************************************************/
+
+/***********************************************************************************************************************
+Exported global functions (to be accessed by other files)
+***********************************************************************************************************************/
+void     R_BSP_InterruptsDisable(void);
+void     R_BSP_InterruptsEnable(void);
+uint32_t R_BSP_CpuInterruptLevelRead(void);
+bool     R_BSP_CpuInterruptLevelWrite(uint32_t level);
+void     R_BSP_RegisterProtectEnable(bsp_reg_protect_t regs_to_protect);
+void     R_BSP_RegisterProtectDisable(bsp_reg_protect_t regs_to_unprotect);
+
+void     bsp_register_protect_open(void); //r_bsp internal function. DO NOT CALL.
+void     bsp_ram_initialize(void);
+
+#endif /* CPU_H */
+

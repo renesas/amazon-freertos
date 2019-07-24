@@ -12,22 +12,19 @@
 * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of 
 * this software. By using this software, you agree to the additional terms and conditions found by accessing the 
 * following link:
-* http://www.renesas.com/disclaimer 
+* http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2016 Renesas Electronics Corporation. All rights reserved.    
+* Copyright (C) 2016 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
 * File Name    : vecttbl.h
-* Device(s)    : RX65N
 * Description  : Has function prototypes for exception callback functions.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
 * History : DD.MM.YYYY Version   Description
 *         : 01.10.2016 1.00      First Release
+*         : 28.02.2019 1.01      Fixed coding style.
 ***********************************************************************************************************************/
-
-#ifndef VECTTBL_HEADER_INC
-#define VECTTBL_HEADER_INC
 
 /***********************************************************************************************************************
 Includes   <System Includes> , "Project Includes"
@@ -36,6 +33,9 @@ Includes   <System Includes> , "Project Includes"
 /***********************************************************************************************************************
 Macro definitions
 ***********************************************************************************************************************/
+/* Multiple inclusion prevention macro */
+#ifndef VECTTBL_HEADER_INC
+#define VECTTBL_HEADER_INC
 
 /***********************************************************************************************************************
 Typedef definitions
@@ -46,3 +46,4 @@ Exported global functions (to be accessed by other files)
 ***********************************************************************************************************************/
 
 #endif /* VECTTBL_HEADER_INC */
+

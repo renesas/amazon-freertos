@@ -14,46 +14,44 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2013 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
-* File Name    : r_typedefs.h
-* Description  : This has fixed-width integer and bool support for compilers that are not C99 compliant and do not have
-*                the header files stdint.h, stdbool.h, and stddef.h.
+* File Name    : r_rtos.h
+* Description  : This module implements functions of rtos.
 ***********************************************************************************************************************/
-/***********************************************************************************************************************
+/**********************************************************************************************************************
 * History : DD.MM.YYYY Version  Description
-*         : 18.09.2012 1.00     First Release
-*         : 21.06.2013 1.10     Added NULL and size_t support.
-*         : 22.11.2013 1.11     Changed size_t to 'unsigned long' from 'unsigned int'.
-*         : 28.02.2019 1.12     Fixed coding style.
+*         : 28.02.2019 1.00     First Release
 ***********************************************************************************************************************/
+
+/***********************************************************************************************************************
+Includes   <System Includes> , "Project Includes"
+***********************************************************************************************************************/
+#include "r_bsp_config.h"
+
+#if BSP_CFG_RTOS_USED == 0      /* Non-OS */
+#elif BSP_CFG_RTOS_USED == 1    /* FreeRTOS */
+#include "FreeRTOS.h"
+#include "task.h"
+#include "semphr.h"
+#include "queue.h"
+#include "croutine.h"
+#include "timers.h"
+#include "event_groups.h"
+#include "freertos_start.h"
+#elif BSP_CFG_RTOS_USED == 2    /* SEGGER embOS */
+#elif BSP_CFG_RTOS_USED == 3    /* Micrium MicroC/OS */
+#elif BSP_CFG_RTOS_USED == 4    /* Renesas RI600V4 & RI600PX */
+#else
+#endif
 
 /***********************************************************************************************************************
 Macro definitions
 ***********************************************************************************************************************/
 /* Multiple inclusion prevention macro */
-#ifndef R_TYPEDEFS_H
-#define R_TYPEDEFS_H
+#ifndef R_RTOS_H
+#define R_RTOS_H
 
-#define bool  (_Bool)
-#define false (0)
-#define true  (1)
-#define NULL  (0)
-
-/***********************************************************************************************************************
-Typedef definitions
-***********************************************************************************************************************/
-typedef signed char int8_t;
-typedef unsigned char uint8_t;
-typedef signed short int16_t;
-typedef unsigned short uint16_t;
-typedef signed long int32_t;
-typedef unsigned long uint32_t;
-typedef signed long long int64_t;
-typedef unsigned long long uint64_t;
-typedef unsigned int _Bool;
-typedef unsigned long size_t;
-
-#endif  /* End of multiple inclusion prevention macro */
+#endif  /* R_RTOS_H */
 

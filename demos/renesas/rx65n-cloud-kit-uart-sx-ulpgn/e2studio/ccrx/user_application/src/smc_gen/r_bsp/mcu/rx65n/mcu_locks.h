@@ -12,9 +12,9 @@
 * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of 
 * this software. By using this software, you agree to the additional terms and conditions found by accessing the 
 * following link:
-* http://www.renesas.com/disclaimer 
+* http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2016 Renesas Electronics Corporation. All rights reserved.    
+* Copyright (C) 2016 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
 * File Name    : mcu_locks.h
@@ -22,16 +22,19 @@
 * Description  : This source file has 1 lock per MCU resource.
 ***********************************************************************************************************************/
 /**********************************************************************************************************************
-* History : DD.MM.YYYY Version   Description
-*         : 01.10.2016 1.00      First Release
-*         : 15.05.2017 2.00      Added the following enumeration constant.
-*                                - BSP_LOCK_RIIC1
-*                                - BSP_LOCK_GLCDC
-*                                - BSP_LOCK_DRW2D
+* History : DD.MM.YYYY Version  Description
+*         : 01.10.2016 1.00     First Release
+*         : 15.05.2017 2.00     Added the following enumeration constant.
+*                               - BSP_LOCK_RIIC1
+*                               - BSP_LOCK_GLCDC
+*                               - BSP_LOCK_DRW2D
+*         : 27.07.2018 2.01     Added the following enumeration constant.
+*                               - BSP_LOCK_SMCI10
+*                               - BSP_LOCK_SMCI11
+*         : 28.02.2019 2.02     Deleted the following enumeration constant.
+*                               - BSP_LOCK_SMCIx (x = 0 to 12.)
+*                               Fixed coding style.
 ***********************************************************************************************************************/
-
-#ifndef MCU_LOCKS_H
-#define MCU_LOCKS_H
 
 /***********************************************************************************************************************
 Includes   <System Includes> , "Project Includes"
@@ -42,6 +45,9 @@ Includes   <System Includes> , "Project Includes"
 /***********************************************************************************************************************
 Macro definitions
 ***********************************************************************************************************************/
+/* Multiple inclusion prevention macro */
+#ifndef MCU_LOCKS_H
+#define MCU_LOCKS_H
 
 /***********************************************************************************************************************
 Typedef definitions
@@ -49,7 +55,7 @@ Typedef definitions
 /* This enum defines all of the available hardware locks for this MCU. If you delete an entry out of this list then you
    will decrease the size of the locks array but will not be able to use that lock. For example, if your design is not
    using CAN at all then you can safely remove the BSP_LOCK_CAN# entries below. */
-typedef enum 
+typedef enum
 {
     BSP_LOCK_BSC = 0,
     BSP_LOCK_CAC,
@@ -143,17 +149,6 @@ typedef enum
     BSP_LOCK_SCI12,
     BSP_LOCK_SDHI,
     BSP_LOCK_SDSI,
-    BSP_LOCK_SMCI0,
-    BSP_LOCK_SMCI1,
-    BSP_LOCK_SMCI2,
-    BSP_LOCK_SMCI3,
-    BSP_LOCK_SMCI4,
-    BSP_LOCK_SMCI5,
-    BSP_LOCK_SMCI6,
-    BSP_LOCK_SMCI7,
-    BSP_LOCK_SMCI8,
-    BSP_LOCK_SMCI9,
-    BSP_LOCK_SMCI12,
     BSP_LOCK_SYSTEM,
     BSP_LOCK_TEMPS,
     BSP_LOCK_TMR0,
@@ -183,6 +178,7 @@ typedef struct
 {
     /* The actual lock. int32_t is used because this is what the xchg() instruction takes as parameters. */
     int32_t     lock;
+
     /* Could add a ID for locking and unlocking. In this could protect against any function being able to unlock. */
 } bsp_lock_t;
 
@@ -190,18 +186,18 @@ typedef struct
 Error checking
 ***********************************************************************************************************************/
 #if BSP_CFG_USER_LOCKING_ENABLED == 0
-#undef  BSP_CFG_USER_LOCKING_TYPE  
+#undef  BSP_CFG_USER_LOCKING_TYPE
 #define BSP_CFG_USER_LOCKING_TYPE       bsp_lock_t
 #else
     #if !defined(BSP_CFG_USER_LOCKING_TYPE)
-    #error "R_BSP ERROR - If you are using your own locking mechanism then you must define BSP_CFG_USER_LOCKING_TYPE in \
-            r_bsp_config.h."
+    #error "R_BSP ERROR - If you are using your own locking mechanism then you must define BSP_CFG_USER_LOCKING_TYPE in r_bsp_config.h."
     #endif
 #endif
 
 /***********************************************************************************************************************
 Exported global variables (to be accessed by other files)
 ***********************************************************************************************************************/
-extern BSP_CFG_USER_LOCKING_TYPE g_bsp_Locks[];    
+extern BSP_CFG_USER_LOCKING_TYPE g_bsp_Locks[];
 
 #endif /* MCU_LOCKS_H */
+
