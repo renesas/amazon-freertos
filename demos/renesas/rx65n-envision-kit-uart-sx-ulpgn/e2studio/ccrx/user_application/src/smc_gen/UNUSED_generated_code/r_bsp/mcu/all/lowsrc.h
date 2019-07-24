@@ -14,106 +14,66 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2016 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2013 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
-* File Name    : lowlvl.c
-* Description  : Functions to support stream I/O to the E1 virtual Console
+* File Name    : lowsrc.h
+* Description  : Functions to support stream I/O
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
 * History : DD.MM.YYYY Version  Description
-*         : 01.10.2016 1.00     First Release
-*         : 15.05.2017 2.00     Added the bsp startup module disable function.
-*         : 27.07.2018 2.01     Added the comment to while statement.
+*         : 28.02.2019 2.00     Merged processing of all devices.
+*                               Added support for GNUC and ICCRX.
+*                               Fixed coding style.
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
 Includes   <System Includes> , "Project Includes"
 ***********************************************************************************************************************/
-/* r_bsp access. */
-#include "platform.h"
-
-/* When using the user startup program, disable the following code. */
-#if (BSP_CFG_STARTUP_DISABLE == 0)
-
-#if BSP_CFG_USER_CHARPUT_ENABLED != 0
-/* If user has indicated they want to provide their own charput function then this is the prototype. */
-void BSP_CFG_USER_CHARPUT_FUNCTION(uint32_t output_char);
-#endif
-
-#if BSP_CFG_USER_CHARGET_ENABLED != 0
-/* If user has indicated they want to provide their own charget function then this is the prototype. */
-uint32_t BSP_CFG_USER_CHARGET_FUNCTION(void);
-#endif
 
 /***********************************************************************************************************************
 Macro definitions
 ***********************************************************************************************************************/
-#define E1_DBG_PORT (*(volatile struct st_dbg     __evenaccess *)0x84080)
-#define TXFL0EN     0x00000100          // debug tx flow control bit
-#define RXFL0EN     0x00001000          // debug RX flow control bit
+/* Multiple inclusion prevention macro */
+#ifndef LOWSRC_H
+#define LOWSRC_H
 
 /***********************************************************************************************************************
 Typedef definitions
 ***********************************************************************************************************************/
-struct st_dbg
-{
-    uint32_t   TX_DATA;     // Debug Virtual Console TX data
-    char       wk1[12];     // spacer
-    uint32_t   RX_DATA;     // Debug Virtual Console RX data
-    char       wk2[44];     // spacer
-    uint32_t   DBGSTAT;     // Debug Virtual Console Status
-};
 
 /***********************************************************************************************************************
-Exported global variables (to be accessed by other files)
+Exported global variables
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-Private global variables and functions
+Exported global functions (to be accessed by other files)
 ***********************************************************************************************************************/
-
-/***********************************************************************************************************************
-* Function Name: charput
-* Description  : Outputs a character on a serial port
-* Arguments    : character to output
-* Return Value : none
-***********************************************************************************************************************/
-void charput (uint32_t output_char)
-{
-    /* If user has provided their own charput() function, then call it. */
-#if BSP_CFG_USER_CHARPUT_ENABLED == 1
-    BSP_CFG_USER_CHARPUT_FUNCTION(output_char);
-#else
-    /* Wait for transmit buffer to be empty */
-    /* WAIT_LOOP */
-    while(0 != (E1_DBG_PORT.DBGSTAT & TXFL0EN));
-
-    /* Write the character out */
-    E1_DBG_PORT.TX_DATA = output_char;
+#if defined(__CCRX__)
+void init_iolib(void);
+void close_all(void);
+long open(const char *name, long  mode, long  flg);
+long close(long fileno);
+long write(long  fileno, const unsigned char *buf, long  count);
+long read(long fileno, unsigned char *buf, long count);
+long lseek(long fileno, long offset, long base);
+#ifdef _REENTRANT
+long *errno_addr(void)
+long wait_sem(long semnum)
+long signal_sem(long semnum)
 #endif
-}
+#endif /* defined(__CCRX__) */
 
-/***********************************************************************************************************************
-* Function Name: charget
-* Description  : Gets a character on a serial port
-* Arguments    : none
-* Return Value : received character
-***********************************************************************************************************************/
-uint32_t charget (void)
-{
-    /* If user has provided their own charget() function, then call it. */
-#if BSP_CFG_USER_CHARGET_ENABLED == 1
-    return BSP_CFG_USER_CHARGET_FUNCTION();
-#else
-    /* Wait for rx buffer buffer to be ready */
-    /* WAIT_LOOP */
-    while(0 == (E1_DBG_PORT.DBGSTAT & RXFL0EN));
+#if defined(__GNUC__)
+int write(int fileno, char *buf, int count);
+int read(int fileno, char *buf, int count);
+int _write(int fileno, char *buf, int count);
+int _read(int fileno, char *buf, int count);
+void close(void);
+void fstat(void);
+void isatty(void);
+void lseek(void);
+#endif /* defined(__GNUC__) */
 
-    /* Read data, send back up */
-    return E1_DBG_PORT.RX_DATA;
-#endif
-}
-
-#endif /* BSP_CFG_STARTUP_DISABLE == 0 */
+#endif  /* End of multiple inclusion prevention macro */
 

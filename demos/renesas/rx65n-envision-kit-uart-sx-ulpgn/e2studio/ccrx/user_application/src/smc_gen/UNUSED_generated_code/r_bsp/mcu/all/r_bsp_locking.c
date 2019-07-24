@@ -1,36 +1,36 @@
 /***********************************************************************************************************************
 * DISCLAIMER
-* This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No 
-* other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all 
-* applicable laws, including copyright laws. 
+* This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
+* other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
+* applicable laws, including copyright laws.
 * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
-* THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, 
-* FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM 
-* EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES 
-* SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS 
+* THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
+* EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
+* SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS
 * SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
-* Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of 
-* this software. By using this software, you agree to the additional terms and conditions found by accessing the 
+* Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
+* this software. By using this software, you agree to the additional terms and conditions found by accessing the
 * following link:
-* http://www.renesas.com/disclaimer 
+* http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2016 Renesas Electronics Corporation. All rights reserved.    
+* Copyright (C) 2013 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
-* File Name    : locking.c
+* File Name    : r_bsp_locking.c
 * Description  : This implements a locking mechanism that can be used by all code. The locking is done atomically so
 *                common resources can be accessed safely.
 ***********************************************************************************************************************/
 /**********************************************************************************************************************
 * History : DD.MM.YYYY Version  Description
-*         : 01.10.2016 1.00     First Release
+*         : 28.02.2019 2.00     Merged processing of all devices.
+*                               Added support for GNUC and ICCRX.
+*                               Fixed coding style.
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
 Includes   <System Includes> , "Project Includes"
 ***********************************************************************************************************************/
-/* Has intrinsic support. Includes xchg() which is used in this code. */
-#include <machine.h>
 /* Platform configuration. */
 #include "platform.h"
 
@@ -77,10 +77,10 @@ bool R_BSP_SoftwareLock (BSP_CFG_USER_LOCKING_TYPE * const plock)
        we just need to check the value of 'is_locked' after this instruction finishes. */
 
     /* Try to acquire semaphore to obtain lock */
-    xchg(&is_locked, &plock->lock);
+    R_BSP_EXCHANGE(&is_locked, &plock->lock);
     
     /* Check to see if semaphore was successfully taken */
-    if (is_locked == false)
+    if (false == is_locked)
     {        
         /* Lock obtained, return success. */
         ret = true;
@@ -88,9 +88,10 @@ bool R_BSP_SoftwareLock (BSP_CFG_USER_LOCKING_TYPE * const plock)
     else
     {
         /* Lock was not obtained, another task already has it. */
+        R_BSP_NOP();
     }
 
-    return ret;   
+    return ret;
 #else
     /* User is going to handle the locking themselves. */
     return BSP_CFG_USER_LOCKING_SW_LOCK_FUNCTION(plock);
@@ -163,3 +164,4 @@ bool R_BSP_HardwareUnlock (mcu_lock_t const hw_index)
     return BSP_CFG_USER_LOCKING_HW_UNLOCK_FUNCTION(hw_index);
 #endif
 } /* End of function R_BSP_HardwareUnlock() */
+

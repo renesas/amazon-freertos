@@ -12,25 +12,25 @@
 * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of 
 * this software. By using this software, you agree to the additional terms and conditions found by accessing the 
 * following link:
-* http://www.renesas.com/disclaimer 
+* http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2017 Renesas Electronics Corporation. All rights reserved.    
+* Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
-* File Name    : mcu_startup.h
-* Description  : This module implements user startup specific functions.
+* File Name    : mcu_clocks.h
+* Description  : Contains clock specific routines.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
 * History : DD.MM.YYYY Version  Description
-*         : 15.05.2017 1.00     First Release
+*         : 28.02.2019 1.00     First Release
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
 Macro definitions
 ***********************************************************************************************************************/
 /* Multiple inclusion prevention macro */
-#ifndef MCU_STARTUP_H
-#define MCU_STARTUP_H
+#ifndef MCU_CLOCKS_H
+#define MCU_CLOCKS_H
 
 /***********************************************************************************************************************
 Typedef definitions
@@ -43,7 +43,9 @@ Exported global variables
 /***********************************************************************************************************************
 Exported global functions (to be accessed by other files)
 ***********************************************************************************************************************/
-void R_BSP_StartupOpen(void);
+uint32_t get_iclk_freq_hz(void);
+void mcu_clock_setup(void);
 
 /* End of multiple inclusion prevention macro */
 #endif
+

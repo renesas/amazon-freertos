@@ -45,35 +45,68 @@
 *         : 31.08.2018 1.26     Changed Minor version to 3.91.
 *         : 31.10.2018 1.27     Changed Major/Minor version to 4.00.
 *         : 11.01.2019 1.28     Changed Minor version to 4.01.
+*         : 28.02.2019 1.29     Changed Major version to 5.00.
+*                               Added the following macro definition.
+*                                - INTERNAL_NOT_USED(p)
+*                               Added support for GNUC and ICCRX.
+*                               Fixed coding style.
+*         : 29.03.2019 1.30     Changed Minor version to 5.10.
+*         : 08.04.2019 1.31     Changed Minor version to 5.20.
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
 Includes   <System Includes> , "Project Includes"
 ***********************************************************************************************************************/
-/* If C99 is supported by your toolchain then use the included fixed-width integer, bool, etc support. If not, then
- * use the included r_typedefs.h file.
- */
-#if __STDC_VERSION__ >= 199901L
+/* C99 (or later) is necessary because r_rx_compiler.h uses Pragma operator and variadic macros.
+ * This means that r_typedefs.h is not used in any case. */
+#if !defined(__cplusplus) && !defined(CPPAPP)
+/* All implementation is C99 (or later) */
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
 #include    <stdint.h>
 #include    <stdbool.h>
+#include    <stdio.h>
 #include    <stddef.h>
 #else
-#include    "r_typedefs.h"
+#error "This version of FIT needs C99 (or later)."
 #endif
+#else /* defined(__cplusplus) || defined(CPPAPP) */
+/* Interface might be referred from C++ */
+#include    <stdint.h>
+#include    <stdbool.h>
+#include    <stdio.h>
+#include    <stddef.h>
+#endif /* !defined(__cplusplus) && !defined(CPPAPP) */
 
-#if defined(__RENESAS__)
+#if defined(__CCRX__) || defined(__ICCRX__)
 /* Intrinsic functions provided by compiler. */
 #include <machine.h>
+#elif defined(__GNUC__)
+/* No header file for intrinsic functions. */
 #else
-/* PORT: Use header file for other compiler. */
-#endif
+/* PORT: Use header file for other compiler and port r_rx_compiler.h. */
+#endif /* defined(__CCRX__), defined(__GNUC__), defined(__ICCRX__) */
 
 /***********************************************************************************************************************
 Macro definitions
 ***********************************************************************************************************************/
+/* Multiple inclusion prevention macro */
+#ifndef R_BSP_COMMON_H
+#define R_BSP_COMMON_H
+
 /* Version Number of r_bsp. */
-#define R_BSP_VERSION_MAJOR           (4)
-#define R_BSP_VERSION_MINOR           (1)
+#define R_BSP_VERSION_MAJOR           (5)
+#define R_BSP_VERSION_MINOR           (20)
+
+/* This macro is used to suppress compiler messages about not only a parameter but also a auto variable not being used
+ * in a function. The nice thing about using this implementation is that it does not take any extra RAM or ROM.
+ * This macro is available for the followings:
+ * CC-RX's 'M0520826:Parameter "XXXX" was never referenced'
+ * CC-RX's 'W0520550:Variable "XXXX" was set but never used'
+ * GNURX's 'unused parameter 'XXXX' [-Wunused-parameter]'
+ * GNURX's 'variable 'XXXX' set but not used [-Wunused-but-set-variable]'
+ * When the variable is declared as volatile, the '&' can be applied like 'R_INTERNAL_NOT_USED(&volatile_variable);'.
+ */
+#define INTERNAL_NOT_USED(p)        ((void)(p))
 
 /***********************************************************************************************************************
 Typedef definitions
@@ -100,4 +133,6 @@ uint32_t R_BSP_GetVersion(void);
 bool R_BSP_SoftwareDelay(uint32_t delay, bsp_delay_units_t units);
 uint32_t R_BSP_GetIClkFreqHz(void);
 
+/* End of multiple inclusion prevention macro */
+#endif  /* R_BSP_COMMON_H */
 
