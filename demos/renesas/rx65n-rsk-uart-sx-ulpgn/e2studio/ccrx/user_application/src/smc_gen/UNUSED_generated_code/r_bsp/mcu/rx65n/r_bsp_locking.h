@@ -12,100 +12,57 @@
 * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of 
 * this software. By using this software, you agree to the additional terms and conditions found by accessing the 
 * following link:
-* http://www.renesas.com/disclaimer 
+* http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2016 Renesas Electronics Corporation. All rights reserved.    
+* Copyright (C) 2016 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
-* File Name    : sbrk.c
-* Device(s)    : RX
-* Description  : Configures the MCU heap memory.  The size of the heap is defined by the macro HEAPSIZE below.
+* File Name    : r_bsp_locking.h
+* Description  : This implements a locking mechanism that can be used by all code. The locking is done atomically so
+*                common resources can be accessed safely.
 ***********************************************************************************************************************/
-/***********************************************************************************************************************
+/**********************************************************************************************************************
 * History : DD.MM.YYYY Version  Description
 *         : 01.10.2016 1.00     First Release
-*         : 15.05.2017 2.00     Deleted unnecessary comments.
-*                               Added the bsp startup module disable function.
+*         : 28.02.2019 1.01     Fixed coding style.
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
 Includes   <System Includes> , "Project Includes"
 ***********************************************************************************************************************/
-#include "r_bsp_config.h"
-
-/* ONly use this file if heap is enabled in r_bsp_config. */
-#if (BSP_CFG_HEAP_BYTES > 0)
-
-/* Provides standard definitions used in this file */
-#include <stddef.h>
-/* Defines standard input/output functions used in this file */
-#include <stdio.h>
-/* Defines standard variable types used in this file */
-#include <stdint.h>
-/* Used for getting BSP_CFG_HEAP_BYTES macro. */
-#include "platform.h"
-
-/* When using the user startup program, disable the following code. */
-#if (BSP_CFG_STARTUP_DISABLE == 0)
+/* Lock types. */
+#include "mcu_locks.h"
 
 /***********************************************************************************************************************
 Macro definitions
 ***********************************************************************************************************************/
+/* Multiple inclusion prevention macro */
+#ifndef LOCKING_H
+#define LOCKING_H
 
 /***********************************************************************************************************************
-Function Prototypes
+Typedef definitions
 ***********************************************************************************************************************/
-/* Memory allocation function prototype declaration */
-int8_t  *sbrk(size_t size);
 
 /***********************************************************************************************************************
-Global Variables
+Exported global variables
 ***********************************************************************************************************************/
-//const size_t _sbrk_size=      /* Specifies the minimum unit of */
-/* the defined heap area */
-extern int8_t *_s1ptr;
-
-union HEAP_TYPE
-{
-    int32_t  dummy;             /* Dummy for 4-byte boundary */
-    int8_t heap[BSP_CFG_HEAP_BYTES];    /* Declaration of the area managed by sbrk*/
-};
-/* Declare memory heap area */
-static union HEAP_TYPE heap_area;
-/* End address allocated by sbrk    */
-static int8_t *brk=(int8_t *)&heap_area;
 
 /***********************************************************************************************************************
-* Function name: sbrk
-* Description  : This function configures MCU memory area allocation.
-* Arguments    : size - 
-*                    assigned area size
-* Return value : Start address of allocated area (pass)
-*                -1 (failure)
+Exported global functions (to be accessed by other files)
 ***********************************************************************************************************************/
-int8_t  *sbrk(size_t size)
-{
-    int8_t  *p;
+bool R_BSP_SoftwareLock(BSP_CFG_USER_LOCKING_TYPE * const plock);
+bool R_BSP_SoftwareUnlock(BSP_CFG_USER_LOCKING_TYPE * const plock);
+bool R_BSP_HardwareLock(mcu_lock_t const hw_index);
+bool R_BSP_HardwareUnlock(mcu_lock_t const hw_index);
 
-    if ((brk + size) > (heap_area.heap + BSP_CFG_HEAP_BYTES))
-    {
-        /* Empty area size  */
-        p = (int8_t *)-1;
-    }
-    else
-    {
-        /* Area assignment */
-        p = brk;  
+#if BSP_CFG_USER_LOCKING_ENABLED != 0
+/* Is user is using their own lock functions then these are the prototypes. */
+bool BSP_CFG_USER_LOCKING_SW_LOCK_FUNCTION(BSP_CFG_USER_LOCKING_TYPE * const plock);
+bool BSP_CFG_USER_LOCKING_SW_UNLOCK_FUNCTION(BSP_CFG_USER_LOCKING_TYPE * const plock);
+bool BSP_CFG_USER_LOCKING_HW_LOCK_FUNCTION(mcu_lock_t const hw_index);
+bool BSP_CFG_USER_LOCKING_HW_UNLOCK_FUNCTION(mcu_lock_t const hw_index);
+#endif
 
-        /* End address update */
-        brk += size;
-    }
-
-    /* Return result */
-    return p;
-}
-
-#endif /* BSP_CFG_HEAP_BYTES */
-
-#endif /* BSP_CFG_STARTUP_DISABLE == 0 */
+#endif /* LOCKING_H */
 
