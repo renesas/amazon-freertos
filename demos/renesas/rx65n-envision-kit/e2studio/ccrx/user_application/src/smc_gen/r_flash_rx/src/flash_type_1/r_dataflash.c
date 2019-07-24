@@ -19,7 +19,7 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2015 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2014-2019 Renesas Electronics Corporation. All rights reserved.
 *******************************************************************************/
 /*******************************************************************************
 * File Name    : r_dataflash.c
@@ -44,10 +44,11 @@
 *           02.08.2016 2.00     Modified for BSPless flash.
 *           02.08.2017 2.10     Removed #include "r_mcu_config.h". Now in
 *                               targets.h (r_flash_rx_if.h includes)
+*           19.04.2019 4.00     Added support for GNUC and ICCRX.
 *******************************************************************************/
 
 /******************************************************************************
-Includes   <System Includes> , “Project Includes”
+Includes   <System Includes> , "Project Includes"
 ******************************************************************************/
 #include "r_flash_rx_if.h"
 #if (FLASH_TYPE == FLASH_TYPE_1)
@@ -88,7 +89,7 @@ void R_DF_Enable_DataFlashAccess(void)
 
     if(1 == FLASH.DFLCTL.BIT.DFLEN)
     {
-        nop();
+        R_BSP_NOP();
     }
 
     /* Wait for 5us over (tDSTOP) */
@@ -491,7 +492,7 @@ static void r_df_write_fpmcr (uint8_t value)
 
     if(value == FLASH.FPMCR.BYTE)
     {
-        nop();
+        R_BSP_NOP();
     }
 
 }

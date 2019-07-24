@@ -5,12 +5,12 @@ r_flash_rx
 
 Document Number 
 ---------------
-r01an2184eu0350
-r01an2184ju0350
+r01an2184ej0400
+r01an2184jj0400
 
 Version
 -------
-v3.50
+v4.00
 
 Overview
 --------
@@ -37,21 +37,11 @@ Supported MCUs
 * RX111 Group
 * RX113 Group
 * RX130 Group
-* RX210 Group
-* RX21A Group
-* RX220 Group
 * RX230 Group
 * RX231 Group
 * RX23T Group
 * RX24T Group
 * RX24U Group
-* RX610 Group
-* RX621, RX62N Group
-* RX62T Group
-* RX62G Group
-* RX630 Group
-* RX631, RX63N Group 
-* RX63T Group
 * RX64M Group
 * RX651, RX65N Group
 * RX66T Group
@@ -65,24 +55,10 @@ Boards Tested On
 * RSKRX111
 * RSKRX113
 * RSKRX130
-* RSKRX210
-* RSKRX210B
-* HSBRX21AP
-* RSKRX220
 * RSKRX231
 * RSKRX23T
 * RSKRX24T
 * RSKRX24U
-* RSKRX610
-* RSK+RX62N
-* RSKRX62T
-* RSKRX62G
-* YRDKRX62N
-* RSKRX630
-* RSK+RX63N
-* YRDKRX63N
-* RSKRX63T_64PIN
-* RSKRX63T_144PIN
 * RSKRX64M
 * RSKRX65N
 * RSKRX65N-2
@@ -107,7 +83,7 @@ Peripherals Used Directly
 
 Required Packages
 -----------------
-* r_bsp      V4.00
+* r_bsp      V5.00
 
 How to add to your project
 --------------------------
@@ -117,7 +93,7 @@ How to add to your project
 * Add a project include path for the 'r_flash_rx\src' directory.
 * Add a project include path for the 'r_flash_rx\src\targets' directory.
 * Add a project include path for the 'r_flash_rx\src\flash_type_x' directory,
-    where "x" is 1, 2, or 3 (see app note for MCU flash type assignments).
+    where "x" is 1, 3, or 4 (see app note for MCU flash type assignments).
     Adding all 3 flash type paths will not cause a build issue.
 * Add a project include path for the 'r_config' directory.
 * Copy the reference configuration file from the '\r_flash_rx\ref' directory 
@@ -138,7 +114,9 @@ How to add to your project
 
 Toolchain(s) Used
 -----------------
-* Renesas RXC 3.00.00
+* Renesas RXC 3.01.00
+* GNU GNURX 4.08.04.201801
+* IAR ICCRX 4.10.01
 
 
 File Structure
@@ -149,9 +127,9 @@ r_flash_rx
 |
 +---doc
 |   +-- en
-|   |   +-- r01an2184eu0350-rx.pdf
+|   |   +-- r01an2184ej0400-rx-flash.pdf
 |   +-- ja
-|       +-- r01an2184ju0350-rx.pdf
+|       +-- r01an2184jj0400-rx-flash.pdf
 |
 +---ref
 |   +-- r_flash_rx_config_reference.h
@@ -177,11 +155,6 @@ r_flash_rx
         +-- r_flash_type1_if.h
         +-- r_flash_utils.c 
     |
-    +-- flash_type_2
-        |
-        +--r_flash_type2.c
-        +--r_flash_type2_if.h
-    |
     +-- flash_type_3
         |
         +--r_flash_type3.c
@@ -196,94 +169,42 @@ r_flash_rx
         |
         +--rx110
              +-- r_flash_rx110.h
-             +-- r_mcu_config_reference.h
         |
         +--rx111
              +-- r_flash_rx111.h
-             +-- r_mcu_config_reference.h        
         |
         +--rx113
              +-- r_flash_rx113.h
-             +-- r_mcu_config_reference.h|
+        |
         +--rx130
              +-- r_flash_rx130.h
-             +-- r_mcu_config_reference.h
-        |
-        +--rx210
-             +-- r_flash_rx210.h
-             +-- r_mcu_config_reference.h
-        |
-        +--rx21a
-             +-- r_flash_rx21a.h
-             +-- r_mcu_config_reference.h
-        |
-        +--rx220
-             +-- r_flash_rx220.h
-             +-- r_mcu_config_reference.h
         |
         +--rx231
              +-- r_flash_rx231.h
-             +-- r_mcu_config_reference.h
         |
         +--rx23t
              +-- r_flash_rx23t.h
-             +-- r_mcu_config_reference.h
         |
         +--rx24t
              +-- r_flash_rx24t.h
-             +-- r_mcu_config_reference.h
         |
         +--rx24u
              +-- r_flash_rx24u.h
-             +-- r_mcu_config_reference.h
-        |
-        +--rx610
-             +-- r_flash_rx610.h
-             +-- r_mcu_config_reference.h
-        |
-        +--rx62g
-             +-- r_flash_rx62g.h
-             +-- r_mcu_config_reference.h
-        |
-        +--rx62n
-             +-- r_flash_rx62n.h
-             +-- r_mcu_config_reference.h
-        |
-        +--rx62t
-             +-- r_flash_rx62t.h
-             +-- r_mcu_config_reference.h
-        |
-        +--rx630
-             +-- r_flash_rx630.h
-             +-- r_mcu_config_reference.h
-        |
-        +--rx63n
-             +-- r_flash_rx63n.h
-             +-- r_mcu_config_reference.h
-        |
-        +--rx63t
-             +-- r_flash_rx63t.h
-             +-- r_mcu_config_reference.h
         |
         +--rx64m
              +-- r_flash_rx64m.h
-             +-- r_mcu_config_reference.h
         |
         +--rx65n
              +-- r_flash_rx65n.h
-             +-- r_mcu_config_reference.h
         |
         +--rx66t
              +-- r_flash_rx66t.h
-             +-- r_mcu_config_reference.h
         |
         +--rx71m
              +-- r_flash_rx71m.h
-             +-- r_mcu_config_reference.h
         |    
         +--rx72t
              +-- r_flash_rx72t.h
-             +-- r_mcu_config_reference.h    
 
 r_config
     r_flash_rx_config.h

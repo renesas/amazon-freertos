@@ -12,9 +12,9 @@
 * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of 
 * this software. By using this software, you agree to the additional terms and conditions found by accessing the 
 * following link:
-* http://www.renesas.com/disclaimer 
+* http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2016-2017 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2013 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /**********************************************************************************************************************
 * File Name    : r_s12ad_rx_if.h
@@ -33,6 +33,11 @@
 *           03.09.2018 3.00    Added RX66T support.
 *           03.12.2018 3.01    Changed Minor version to '01' for update of xml file.
 *           28.12.2018 3.10    Added RX72T support.
+*           05.04.2019 4.00    Changed Major/Minor version to 4.00 for update below.
+*                              - Added support of GNUC and ICCRX.
+*                              - End of Update for RX210, RX631, and RX63N.
+*                              Deleted include of RX210, RX631, and RX63N.
+*                              Modified include pass of RX65N.
 ***********************************************************************************************************************/
 
 #ifndef S12AD_IF_H
@@ -53,18 +58,14 @@ Includes   <System Includes> , "Project Includes"
 #include "./src/targets/rx113/r_s12ad_rx113_if.h"
 #elif defined(BSP_MCU_RX130)
 #include "./src/targets/rx130/r_s12ad_rx130_if.h"
-#elif defined(BSP_MCU_RX210)
-#include "./src/targets/rx210/r_s12ad_rx210_if.h"
 #elif defined(BSP_MCU_RX230)
 #include "./src/targets/rx230/r_s12ad_rx230_if.h"
 #elif defined(BSP_MCU_RX231)
 #include "./src/targets/rx231/r_s12ad_rx231_if.h"
-#elif defined(BSP_MCU_RX63_ALL)
-#include "./src/targets/rx63x/r_s12ad_rx63x_if.h"
 #elif defined(BSP_MCU_RX64M)
 #include "./src/targets/rx64m/r_s12ad_rx64m_if.h"
 #elif defined(BSP_MCU_RX65_ALL)
-#include "./src/targets/rx65x/r_s12ad_rx65x_if.h"
+#include "./src/targets/rx65n/r_s12ad_rx65n_if.h"
 #elif defined(BSP_MCU_RX66T)
 #include "./src/targets/rx66t/r_s12ad_rx66t_if.h"
 #elif defined(BSP_MCU_RX71M)
@@ -77,8 +78,8 @@ Includes   <System Includes> , "Project Includes"
 Macro definitions
 *******************************************************************************/
 /* Version Number of API. */
-#define ADC_VERSION_MAJOR       (3)
-#define ADC_VERSION_MINOR       (10)
+#define ADC_VERSION_MAJOR       (4)
+#define ADC_VERSION_MINOR       (0)
 
 /*****************************************************************************
 Typedef definitions

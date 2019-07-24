@@ -43,6 +43,7 @@
 *                              Fix GSCE Code Checker errors.
 *          01.02.2019  2.20    Added support RX72T, RX65N-64pin.
 *                              Fix GSCE Code Checker errors.
+*          20.05.2019  3.00    Added support for GNUC and ICCRX.
 ***********************************************************************************************************************/
 
 /*****************************************************************************
@@ -1845,7 +1846,7 @@ static void sci_error(sci_hdl_t const hdl)
 
             if (0 != (SCI_SSR & SCI_RCVR_ERR_MASK))
             {
-                nop(); /* read and Compare */
+                R_BSP_NOP(); /* read and Compare */
             }
         }
 
@@ -1928,7 +1929,7 @@ static void sci_fifo_error(sci_hdl_t const hdl)
                 SCI_SSRFIFO = (uint8_t)~SCI_RCVR_ERR_MASK;      /* PER, FER, ORER clear */
                 if (0x00 != (SCI_SSRFIFO & SCI_RCVR_ERR_MASK))
                 {
-                    nop();                                      /* read and Compare */
+                    R_BSP_NOP();                                /* read and Compare */
                 }
             }
         }
@@ -2252,7 +2253,6 @@ sci_err_t R_SCI_Close(sci_hdl_t const hdl)
 * Arguments    : none
 * Return Value : version number
 ******************************************************************************/
-#pragma inline(R_SCI_GetVersion)
 uint32_t  R_SCI_GetVersion(void)
 {
     uint32_t const version = (SCI_VERSION_MAJOR << 16) | SCI_VERSION_MINOR;

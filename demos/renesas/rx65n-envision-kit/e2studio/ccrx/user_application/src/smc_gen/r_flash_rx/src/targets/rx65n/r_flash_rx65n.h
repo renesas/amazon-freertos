@@ -14,7 +14,7 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2016 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2016-2019 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
 * File Name    : r_flash_rx65n.h
@@ -28,6 +28,7 @@
 *         : 24.01.2017 2.10    Added 1.5M, 2M and data flash equates.
 *         : 19.06.2017 2.20    Added FLASH_HAS_APP_SWAP qualification to bank mode check.
 *         : 02.08.2017 2.30    Replaced #include "r_mcu_config.h" with "r_flash_targets.h"
+*         : 19.04.2019 4.00    Added support for GNUC and ICCRX.
 ***********************************************************************************************************************/
 
 #ifndef RX65N_FLASH_PRIVATE_HEADER_FILE
@@ -806,22 +807,20 @@ static rom_block_sizes_t g_flash_RomBlockSizes[NUM_BLOCK_TABLE_ENTRIES] =
 };
 
 
-#pragma bit_order left
-#pragma unpack
+R_BSP_PRAGMA_UNPACK
 typedef union
 {
     unsigned long LONG;
-    struct {
-        unsigned long BTFLG:1;
-        unsigned long :3;
-        unsigned long FAWE:12;
-        unsigned long FSPR:1;
-        unsigned long :3;
-        unsigned long FAWS:12;
-    } BIT;
+    R_BSP_ATTRIB_STRUCT_BIT_ORDER_LEFT_6(
+        unsigned long BTFLG:1,
+        unsigned long :3,
+        unsigned long FAWE:12,
+        unsigned long FSPR:1,
+        unsigned long :3,
+        unsigned long FAWS:12
+    ) BIT;
 } fawreg_t;
-#pragma bit_order
-#pragma packoption
+R_BSP_PRAGMA_PACKOPTION
 
 
 /*  According to HW Manual the Max Programming Time for 128 bytes (ROM)

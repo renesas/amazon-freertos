@@ -14,11 +14,11 @@
  * following link:
  * http://www.renesas.com/disclaimer 
  *
- * Copyright (C) 2016 Renesas Electronics Corporation. All rights reserved.    
+ * Copyright (C) 2016(2019) Renesas Electronics Corporation. All rights reserved.    
  ***********************************************************************************************************************/
 /***********************************************************************************************************************
  * File Name    : phy.c
- * Version      : 1.10
+ * Version      : 1.16
  * Description  : Ethernet PHY device driver
  ***********************************************************************************************************************/
 /**********************************************************************************************************************
@@ -27,13 +27,13 @@
  *         : 16.12.2014 1.01     Made changes related to header file include.
  *         : 29.01.2015 1.02     Correction of ETHER_CFG_USE_PHY_KSZ8041NL.
  *         : 31.03.2016 1.10     Added changes behavior of phy_get_link_status function depending on number of Ethernet channel.
+ *         : 04.04.2019 1.16     Added support for GNUC and ICCRX.
+ *                               Fixed coding style.
  ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
  Includes   <System Includes> , "Project Includes"
  ***********************************************************************************************************************/
-#include <machine.h>
-
 /* Access to peripherals and board defines. */
 #include "platform.h"
 
@@ -133,7 +133,7 @@ static void phy_trans_zto0 (uint32_t ether_channel);
 static void phy_trans_1to0 (uint32_t ether_channel);
 static void phy_mii_write1 (uint32_t ether_channel);
 static void phy_mii_write0 (uint32_t ether_channel);
-static int16_t phy_get_pir_address (uint32_t ether_channel, volatile uint32_t __evenaccess ** pppir_addr);
+static int16_t phy_get_pir_address (uint32_t ether_channel, volatile uint32_t R_BSP_EVENACCESS_SFR ** pppir_addr);
 
 static uint16_t local_advertise[ETHER_CHANNEL_MAX]; /* the capabilities of the local link as PHY data */
 
@@ -264,7 +264,7 @@ int16_t phy_set_autonegotiate (uint32_t ether_channel, uint16_t *pline_speed_dup
     /* When the link isn't up, return error */
     if (PHY_STATUS_LINK_UP != (reg & PHY_STATUS_LINK_UP))
     {
-        nop();
+        R_BSP_NOP();
         return R_PHY_ERROR;
     }
 
@@ -343,7 +343,7 @@ int16_t phy_get_link_status (uint32_t ether_channel)
     /* When the link isn't up, return error */
     if (PHY_STATUS_LINK_UP != (reg & PHY_STATUS_LINK_UP))
     {
-        nop();
+        R_BSP_NOP();
 
         /* Link is down */
         return R_PHY_ERROR;
@@ -507,7 +507,7 @@ static void phy_reg_read (uint32_t ether_channel, uint16_t *pdata)
     int32_t j;
     uint16_t reg_data;
     int16_t ret;
-    volatile uint32_t __evenaccess * petherc_pir;
+    volatile uint32_t R_BSP_EVENACCESS_SFR * petherc_pir;
 
     ret = phy_get_pir_address(ether_channel, &petherc_pir);
     if ( R_PHY_ERROR == ret)
@@ -596,7 +596,7 @@ static void phy_trans_zto0 (uint32_t ether_channel)
 {
     int32_t j;
     int16_t ret;
-    volatile uint32_t __evenaccess * petherc_pir;
+    volatile uint32_t R_BSP_EVENACCESS_SFR * petherc_pir;
 
     ret = phy_get_pir_address(ether_channel, &petherc_pir);
     if ( R_PHY_ERROR == ret)
@@ -659,7 +659,7 @@ static void phy_mii_write1 (uint32_t ether_channel)
 {
     int32_t j;
     int16_t ret;
-    volatile uint32_t __evenaccess * petherc_pir;
+    volatile uint32_t R_BSP_EVENACCESS_SFR * petherc_pir;
 
     ret = phy_get_pir_address(ether_channel, &petherc_pir);
     if ( R_PHY_ERROR == ret)
@@ -705,7 +705,7 @@ static void phy_mii_write0 (uint32_t ether_channel)
 {
     int32_t j;
     int16_t ret;
-    volatile uint32_t __evenaccess * petherc_pir;
+    volatile uint32_t R_BSP_EVENACCESS_SFR * petherc_pir;
 
     ret = phy_get_pir_address(ether_channel, &petherc_pir);
     if ( R_PHY_ERROR == ret)
@@ -749,11 +749,11 @@ static void phy_mii_write0 (uint32_t ether_channel)
  *                    Pointer of the PHY interface register
  * Return Value : none
  ***********************************************************************************************************************/
-static int16_t phy_get_pir_address (uint32_t ether_channel, volatile uint32_t __evenaccess ** pppir_addr)
+static int16_t phy_get_pir_address (uint32_t ether_channel, volatile uint32_t R_BSP_EVENACCESS_SFR ** pppir_addr)
 {
     const ether_control_t * pether_ch;
     uint32_t phy_access;
-    volatile uint32_t __evenaccess * petherc_pir;
+    volatile uint32_t R_BSP_EVENACCESS_SFR * petherc_pir;
 
     if (ETHER_CHANNEL_MAX <= ether_channel)
     {

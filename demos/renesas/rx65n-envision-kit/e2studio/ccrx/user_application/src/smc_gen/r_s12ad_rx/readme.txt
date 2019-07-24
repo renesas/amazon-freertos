@@ -50,10 +50,10 @@ r_s12ad_rx
 |
 +---doc
 |    +---en
-|    |    +---r01an1666ej{VERSION_NUMBER}-rx.pdf
+|    |    +---r01an1666ej{VERSION_NUMBER}-rx-adc.pdf
 |    |
 |    +---ja
-|         +---r01an1666jj{VERSION_NUMBER}-rx.pdf
+|         +---r01an1666jj{VERSION_NUMBER}-rx-adc.pdf
 |
 +---ref
 |    +---r_s12ad_rx_config_reference.h

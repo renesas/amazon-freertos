@@ -14,11 +14,11 @@
  * following link:
  * http://www.renesas.com/disclaimer 
  *
- * Copyright (C) 2016 Renesas Electronics Corporation. All rights reserved.    
+ * Copyright (C) 2016(2019) Renesas Electronics Corporation. All rights reserved.    
  ***********************************************************************************************************************/
 /***********************************************************************************************************************
  * File Name    : r_ether_rx.c
- * Version      : 1.14
+ * Version      : 1.16
  * Description  : Ethernet module device driver
  ***********************************************************************************************************************/
 /***********************************************************************************************************************
@@ -51,13 +51,14 @@
  *                                 The issue occurs when R_ETHER_LinkProcess function is called
  *                                 in the interrupt function.
  *                               Corrected source code of the R_ETHER_Read_ZC2 function.
+ *         : 04.04.2019 1.16     Added support for GNUC and ICCRX.
+ *                               Fixed coding style.
  ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
  Includes   <System Includes> , "Project Includes"
  ***********************************************************************************************************************/
 #include <string.h>
-#include <machine.h>
 
 /* Access to peripherals and board defines. */
 #include "platform.h"
@@ -233,10 +234,10 @@ static const pauseresolution_t pause_resolution[PAUSE_TABLE_ENTRIES] =
  * defined with section pragma directives to easily locate them
  * on the memory map.
  */
-#pragma section _RX_DESC
-static descriptor_t rx_descriptors[ETHER_CHANNEL_MAX][ETHER_CFG_EMAC_RX_DESCRIPTORS];
-#pragma section _TX_DESC
-static descriptor_t tx_descriptors[ETHER_CHANNEL_MAX][ETHER_CFG_EMAC_TX_DESCRIPTORS];
+R_BSP_ATTRIB_SECTION_CHANGE(B, _RX_DESC, 1)
+static R_BSP_VOLATILE_EVENACCESS descriptor_t rx_descriptors[ETHER_CHANNEL_MAX][ETHER_CFG_EMAC_RX_DESCRIPTORS];
+R_BSP_ATTRIB_SECTION_CHANGE(B, _TX_DESC, 1)
+static R_BSP_VOLATILE_EVENACCESS descriptor_t tx_descriptors[ETHER_CHANNEL_MAX][ETHER_CFG_EMAC_TX_DESCRIPTORS];
 
 /* 
  * As for Ethernet buffer, the size of total buffer which are use for transmission and the reception is secured.
@@ -245,10 +246,10 @@ static descriptor_t tx_descriptors[ETHER_CHANNEL_MAX][ETHER_CFG_EMAC_TX_DESCRIPT
  * The ETHER_CFG_BUFSIZE and EMAC_NUM_BUFFERS are defined by macro in the file "r_ether_private.h".
  * It is sequentially used from the head of the buffer as a receive buffer or a transmission buffer.
  */
-#pragma section _ETHERNET_BUFFERS
+R_BSP_ATTRIB_SECTION_CHANGE(B, _ETHERNET_BUFFERS, 1)
 static etherbuffer_t ether_buffers[ETHER_CHANNEL_MAX];
 
-#pragma section
+R_BSP_ATTRIB_SECTION_CHANGE_END
 
 static uint8_t promiscuous_mode[ETHER_CHANNEL_MAX];
 
@@ -257,31 +258,31 @@ static uint8_t promiscuous_mode[ETHER_CHANNEL_MAX];
 static const ether_control_t ether_ch_0[]=
 {
     /* Ether = ch0, Phy access = ch0 */
-    {   &ETHERC, &EDMAC, &ETHERC.PIR.LONG, ETHER_CFG_CH0_PHY_ADDRESS, PORT_CONNECT_ET0}
+    {   &ETHERC, &EDMAC, (volatile uint32_t R_BSP_EVENACCESS_SFR *)&ETHERC.PIR.LONG, ETHER_CFG_CH0_PHY_ADDRESS, PORT_CONNECT_ET0}
 };
     #elif (defined(BSP_MCU_RX65N))
 static const ether_control_t ether_ch_0[] =
 {
 /* Ether = ch0, Phy access = ch0 */
-{ &ETHERC0, &EDMAC0, &ETHERC0.PIR.LONG, ETHER_CFG_CH0_PHY_ADDRESS, PORT_CONNECT_ET0 } };
+    {   &ETHERC0, &EDMAC0, (volatile uint32_t R_BSP_EVENACCESS_SFR *)&ETHERC0.PIR.LONG, ETHER_CFG_CH0_PHY_ADDRESS, PORT_CONNECT_ET0 } };
     #endif
 #elif (ETHER_CHANNEL_MAX == 2)
 static const ether_control_t ether_ch_0[]=
 {
     /* Ether = ch0, Phy access = ch0 */
-    {   &ETHERC0, &EDMAC0, &ETHERC0.PIR.LONG, ETHER_CFG_CH0_PHY_ADDRESS, PORT_CONNECT_ET0},
+    {   &ETHERC0, &EDMAC0, (volatile uint32_t R_BSP_EVENACCESS_SFR *)&ETHERC0.PIR.LONG, ETHER_CFG_CH0_PHY_ADDRESS, PORT_CONNECT_ET0},
 
     /* Ether = ch0, Phy access = ch1 */
-    {   &ETHERC0, &EDMAC0, &ETHERC1.PIR.LONG, ETHER_CFG_CH0_PHY_ADDRESS, PORT_CONNECT_ET0_ET1}
+    {   &ETHERC0, &EDMAC0, (volatile uint32_t R_BSP_EVENACCESS_SFR *)&ETHERC1.PIR.LONG, ETHER_CFG_CH0_PHY_ADDRESS, PORT_CONNECT_ET0_ET1}
 };
 
 static const ether_control_t ether_ch_1[]=
 {
     /* Ether = ch1, Phy access = ch0 */
-    {   &ETHERC1, &EDMAC1, &ETHERC0.PIR.LONG, ETHER_CFG_CH1_PHY_ADDRESS, PORT_CONNECT_ET0_ET1},
+    {   &ETHERC1, &EDMAC1, (volatile uint32_t R_BSP_EVENACCESS_SFR *)&ETHERC0.PIR.LONG, ETHER_CFG_CH1_PHY_ADDRESS, PORT_CONNECT_ET0_ET1},
 
     /* Ether = ch1, Phy access = ch1 */
-    {   &ETHERC1, &EDMAC1, &ETHERC1.PIR.LONG, ETHER_CFG_CH1_PHY_ADDRESS, PORT_CONNECT_ET1}
+    {   &ETHERC1, &EDMAC1, (volatile uint32_t R_BSP_EVENACCESS_SFR *)&ETHERC1.PIR.LONG, ETHER_CFG_CH1_PHY_ADDRESS, PORT_CONNECT_ET1}
 };
 #endif
 
@@ -336,8 +337,8 @@ const ether_ch_control_t g_eth_control_ch[] =
 void R_ETHER_Initial (void)
 {
     /* Initialize the transmit and receive descriptor */
-    memset(&rx_descriptors, 0x00, sizeof(rx_descriptors));
-    memset(&tx_descriptors, 0x00, sizeof(tx_descriptors));
+    memset((void *)&rx_descriptors, 0x00, sizeof(rx_descriptors));
+    memset((void *)&tx_descriptors, 0x00, sizeof(tx_descriptors));
 
     /* Initialize the Ether buffer */
     memset(&ether_buffers, 0x00, sizeof(ether_buffers));
@@ -396,8 +397,8 @@ ether_return_t R_ETHER_Open_ZC2 (uint32_t channel, const uint8_t mac_addr[], uin
     const ether_control_t * pether_ch;
     uint32_t phy_access;
 
-    volatile struct st_etherc __evenaccess * petherc_adr;
-    volatile struct st_edmac __evenaccess * pedmac_adr;
+    volatile struct st_etherc R_BSP_EVENACCESS_SFR * petherc_adr;
+    volatile struct st_edmac R_BSP_EVENACCESS_SFR * pedmac_adr;
 
     /* Check argument */
     if (ETHER_CHANNEL_MAX <= channel)
@@ -496,8 +497,8 @@ ether_return_t R_ETHER_Open_ZC2 (uint32_t channel, const uint8_t mac_addr[], uin
  ***********************************************************************************************************************/
 ether_return_t R_ETHER_Close_ZC2 (uint32_t channel)
 {
-    volatile struct st_etherc __evenaccess * petherc_adr;
-    volatile struct st_edmac __evenaccess * pedmac_adr;
+    volatile struct st_etherc R_BSP_EVENACCESS_SFR * petherc_adr;
+    volatile struct st_edmac R_BSP_EVENACCESS_SFR * pedmac_adr;
     const ether_control_t * pether_ch;
     uint32_t phy_access;
 
@@ -665,7 +666,7 @@ int32_t R_ETHER_Read_ZC2 (uint32_t channel, void **pbuf)
 int32_t R_ETHER_Read_ZC2_BufRelease (uint32_t channel)
 {
     int32_t ret;
-    volatile struct st_edmac __evenaccess * pedmac_adr;
+    volatile struct st_edmac R_BSP_EVENACCESS_SFR * pedmac_adr;
     const ether_control_t * pether_ch;
     uint32_t phy_access;
     uint32_t status;
@@ -822,7 +823,7 @@ ether_return_t R_ETHER_Write_ZC2_GetBuf (uint32_t channel, void **pbuf, uint16_t
 ether_return_t R_ETHER_Write_ZC2_SetBuf (uint32_t channel, const uint32_t len)
 {
     ether_return_t ret;
-    volatile struct st_edmac __evenaccess * pedmac_adr;
+    volatile struct st_edmac R_BSP_EVENACCESS_SFR * pedmac_adr;
     const ether_control_t * pether_ch;
     uint32_t phy_access;
 
@@ -919,7 +920,7 @@ ether_return_t R_ETHER_CheckLink_ZC (uint32_t channel)
  ***********************************************************************************************************************/
 void R_ETHER_LinkProcess (uint32_t channel)
 {
-    volatile struct st_etherc __evenaccess * petherc_adr;
+    volatile struct st_etherc R_BSP_EVENACCESS_SFR * petherc_adr;
     const ether_control_t * pether_ch;
     uint32_t phy_access;
 
@@ -991,8 +992,8 @@ void R_ETHER_LinkProcess (uint32_t channel)
             lchng_flag[channel] = ETHER_FLAG_OFF;
 
             /* Initialize the transmit and receive descriptor */
-            memset(&rx_descriptors[channel], 0x00, sizeof(rx_descriptors[channel]));
-            memset(&tx_descriptors[channel], 0x00, sizeof(tx_descriptors[channel]));
+            memset((void *)&rx_descriptors[channel], 0x00, sizeof(rx_descriptors[channel]));
+            memset((void *)&tx_descriptors[channel], 0x00, sizeof(tx_descriptors[channel]));
 
             /* Initialize the Ether buffer */
             memset(&ether_buffers[channel], 0x00, sizeof(ether_buffers[channel]));
@@ -1034,8 +1035,8 @@ void R_ETHER_LinkProcess (uint32_t channel)
         lchng_flag[channel] = ETHER_FLAG_OFF;
 
         /* Initialize the transmit and receive descriptor */
-        memset(&rx_descriptors[channel], 0x00, sizeof(rx_descriptors[channel]));
-        memset(&tx_descriptors[channel], 0x00, sizeof(tx_descriptors[channel]));
+        memset((void *)&rx_descriptors[channel], 0x00, sizeof(rx_descriptors[channel]));
+        memset((void *)&tx_descriptors[channel], 0x00, sizeof(tx_descriptors[channel]));
 
         /* Initialize the Ether buffer */
         memset(&ether_buffers[channel], 0x00, sizeof(ether_buffers[channel]));
@@ -1144,7 +1145,7 @@ void R_ETHER_LinkProcess (uint32_t channel)
 ether_return_t R_ETHER_WakeOnLAN (uint32_t channel)
 {
 #if (ETHER_CFG_USE_LINKSTA == 1)
-    volatile struct st_etherc __evenaccess * petherc_adr;
+    volatile struct st_etherc R_BSP_EVENACCESS_SFR * petherc_adr;
     const ether_control_t * pether_ch;
     uint32_t phy_access;
 #endif
@@ -1359,7 +1360,7 @@ ether_return_t R_ETHER_Write (uint32_t channel, void *pbuf, const uint32_t len)
 ether_return_t R_ETHER_CheckWrite (uint32_t channel)
 {
     ether_return_t ret;
-    volatile struct st_edmac __evenaccess * pedmac_adr;
+    volatile struct st_edmac R_BSP_EVENACCESS_SFR * pedmac_adr;
     const ether_control_t * pether_ch;
     uint32_t phy_access;
 
@@ -1451,7 +1452,6 @@ ether_return_t R_ETHER_Control (ether_cmd_t const cmd, ether_param_t const contr
  * Arguments    : none
  * Return Value : Version number
  ***********************************************************************************************************************/
-#pragma inline(R_ETHER_GetVersion)
 uint32_t R_ETHER_GetVersion (void)
 {
     return ((((uint32_t) ETHER_RX_VERSION_MAJOR) << 16) | ((uint32_t) ETHER_RX_VERSION_MINOR));
@@ -1569,8 +1569,8 @@ static void ether_init_descriptors (uint32_t channel)
  ***********************************************************************************************************************/
 static void ether_config_ethernet (uint32_t channel, const uint8_t mode)
 {
-    volatile struct st_etherc __evenaccess * petherc_adr;
-    volatile struct st_edmac __evenaccess * pedmac_adr;
+    volatile struct st_etherc R_BSP_EVENACCESS_SFR * petherc_adr;
+    volatile struct st_edmac R_BSP_EVENACCESS_SFR * pedmac_adr;
     const ether_control_t * pether_ch;
     uint32_t phy_access;
 
@@ -1721,7 +1721,7 @@ static void ether_configure_mac (uint32_t channel, const uint8_t mac_addr[], con
 {
     uint32_t mac_h;
     uint32_t mac_l;
-    volatile struct st_etherc __evenaccess * petherc_adr;
+    volatile struct st_etherc R_BSP_EVENACCESS_SFR * petherc_adr;
     const ether_control_t * pether_ch;
     uint32_t phy_access;
 
@@ -1783,8 +1783,8 @@ static ether_return_t ether_do_link (uint32_t channel, const uint8_t mode)
     uint16_t receive_pause_set = 0;
     uint16_t full_duplex = 0;
     uint16_t link_result = 0;
-    volatile struct st_etherc __evenaccess * petherc_adr;
-    volatile struct st_edmac __evenaccess * pedmac_adr;
+    volatile struct st_etherc R_BSP_EVENACCESS_SFR * petherc_adr;
+    volatile struct st_edmac R_BSP_EVENACCESS_SFR * pedmac_adr;
     const ether_control_t * pether_ch;
     uint32_t phy_access;
 
@@ -2253,7 +2253,7 @@ static ether_return_t ether_set_multicastframe_filter (ether_param_t const contr
     ether_return_t ret;
     uint32_t phy_access;
 
-    volatile struct st_etherc __evenaccess * petherc_adr;
+    volatile struct st_etherc R_BSP_EVENACCESS_SFR * petherc_adr;
     const ether_control_t * pether_ch;
 
     ret = ETHER_ERR_INVALID_ARG;
@@ -2317,7 +2317,7 @@ static ether_return_t ether_set_broadcastframe_filter (ether_param_t const contr
     ether_return_t ret;
     uint32_t phy_access;
 
-    volatile struct st_etherc __evenaccess * petherc_adr;
+    volatile struct st_etherc R_BSP_EVENACCESS_SFR * petherc_adr;
     const ether_control_t * pether_ch;
 
     ret = ETHER_ERR_INVALID_ARG;
@@ -2499,8 +2499,8 @@ static uint8_t check_mpde_bit (void)
  * Arguments    : none
  * Return Value : none
  ***********************************************************************************************************************/
-#pragma interrupt (ether_eint(vect=VECT(ETHER,EINT)))
-void ether_eint(void)
+R_BSP_PRAGMA_INTERRUPT(ether_eint, VECT(ETHER,EINT))
+R_BSP_ATTRIB_INTERRUPT void ether_eint(void)
 {
     ether_int_common(ETHER_CHANNEL_0);
 } /* End of function ether_eint() */
@@ -2552,8 +2552,8 @@ static void ether_int_common (uint32_t channel)
 {
     uint32_t status_ecsr;
     uint32_t status_eesr;
-    volatile struct st_etherc __evenaccess * petherc_adr;
-    volatile struct st_edmac __evenaccess * pedmac_adr;
+    volatile struct st_etherc R_BSP_EVENACCESS_SFR * petherc_adr;
+    volatile struct st_edmac R_BSP_EVENACCESS_SFR * pedmac_adr;
     const ether_control_t * pether_ch;
     uint32_t phy_access;
     ether_cb_arg_t cb_arg;

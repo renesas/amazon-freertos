@@ -14,7 +14,7 @@
 * following link:
 * http://www.renesas.com/disclaimer 
 *
-* Copyright (C) 2016 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2014-2019 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
 * File Name    : r_flash_rx.h
@@ -38,6 +38,7 @@
 *           31.10.2017 3.30    Added extern for g_flash_lock;
 *           27.02.2018 3.40    Added RX66T.
 *           23.10.2018 3.50    Added RX72T.
+*           19.04.2019 4.00    Removed support for flash type 2.
 ***********************************************************************************************************************/
 
 #ifndef FLASH_RX_HEADER_FILE
@@ -55,26 +56,6 @@
     #include "./src/targets/rx113/r_flash_rx113.h"
 #elif   defined(MCU_RX130)
     #include "./src/targets/rx130/r_flash_rx130.h"
-#elif   defined(MCU_RX610)
-    #include "./src/targets/rx610/r_flash_rx610.h"
-#elif defined(MCU_RX621) || defined(MCU_RX62N)
-    #include "./src/targets/rx62n/r_flash_rx62n.h"
-#elif defined(MCU_RX62T)
-    #include "./src/targets/rx62t/r_flash_rx62t.h"
-#elif defined(MCU_RX62G)
-    #include "./src/targets/rx62g/r_flash_rx62g.h"
-#elif defined(MCU_RX630)
-    #include "./src/targets/rx630/r_flash_rx630.h"
-#elif defined(MCU_RX631) || defined(MCU_RX63N)
-    #include "./src/targets/rx63n/r_flash_rx63n.h"
-#elif defined(MCU_RX63T)
-    #include "./src/targets/rx63t/r_flash_rx63t.h"
-#elif defined(MCU_RX210)
-    #include "./src/targets/rx210/r_flash_rx210.h"
-#elif defined(MCU_RX21A)
-    #include "./src/targets/rx21a/r_flash_rx21a.h"
-#elif defined(MCU_RX220)
-    #include "./src/targets/rx220/r_flash_rx220.h"
 #elif defined(MCU_RX231) || defined(MCU_RX230)
     #include "./src/targets/rx231/r_flash_rx231.h"
 #elif defined(MCU_RX23T)
@@ -109,9 +90,9 @@ Typedef definitions
 ***********************************************************************************************************************/
 /* These typedefs are used for guaranteeing correct accesses to memory. When
    working with the FCU sometimes byte or word accesses are required. */
-typedef __evenaccess volatile uint8_t  * FCU_BYTE_PTR;
-typedef __evenaccess volatile uint16_t * FCU_WORD_PTR;
-typedef __evenaccess volatile uint32_t * FCU_LONG_PTR;
+typedef R_BSP_VOLATILE_EVENACCESS uint8_t  * FCU_BYTE_PTR;
+typedef R_BSP_VOLATILE_EVENACCESS uint16_t * FCU_WORD_PTR;
+typedef R_BSP_VOLATILE_EVENACCESS uint32_t * FCU_LONG_PTR;
 
 
 typedef enum

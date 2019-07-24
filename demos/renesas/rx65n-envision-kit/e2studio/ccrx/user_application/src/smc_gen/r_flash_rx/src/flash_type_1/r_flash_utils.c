@@ -14,7 +14,7 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2016 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
  ***********************************************************************************************************************/
 /***********************************************************************************************************************
  * File Name    : r_flash_utils.c
@@ -29,6 +29,7 @@
 *           12.08.2016 2.00    Modified for BSPless operation.
 *           15.11.2016 2.10    Added function flash_stop().
 *           05.10.2016 3.00    Moved flash_interrupt_config() to r_flash_group.c.
+*           19.04.2019 4.00    Added support for GNUC and ICCRX.
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -78,7 +79,11 @@ extern void (*flash_ready_isr_handler)(void *);          /* Function pointer for
 
 #if (FLASH_CFG_CODE_FLASH_ENABLE == 1)
 /*All the functions below need to be placed in RAM if Code Flash programming is to be supported */
-#pragma section FRAM
+#define FLASH_PE_MODE_SECTION    R_BSP_ATTRIB_SECTION_CHANGE(P, FRAM)
+#define FLASH_SECTION_CHANGE_END R_BSP_ATTRIB_SECTION_CHANGE_END
+#else
+#define FLASH_PE_MODE_SECTION
+#define FLASH_SECTION_CHANGE_END
 #endif
 
 /***********************************************************************************************************************
@@ -93,6 +98,7 @@ extern void (*flash_ready_isr_handler)(void *);          /* Function pointer for
  *                FLASH_ERR_PARAM -
  *                Illegal parameter passed
  ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t flash_pe_mode_enter(flash_type_t flash_type)
 {
     flash_err_t err = FLASH_SUCCESS;
@@ -140,6 +146,7 @@ flash_err_t flash_pe_mode_enter(flash_type_t flash_type)
  *                FLASH_ERR_FAILURE
  *                Erase operation failed for some other reason
  ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t flash_erase(uint32_t block_address, uint32_t num_blocks)
 {
     flash_err_t err = FLASH_SUCCESS;
@@ -199,6 +206,7 @@ flash_err_t flash_erase(uint32_t block_address, uint32_t num_blocks)
  *                FLASH_ERR_FAILURE
  *                Erase operation failed for some other reason
  ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t flash_write(uint32_t src_address, uint32_t dest_address, uint32_t num)
 {
     flash_err_t err = FLASH_SUCCESS;
@@ -258,6 +266,7 @@ flash_err_t flash_write(uint32_t src_address, uint32_t dest_address, uint32_t nu
  *                Operation started successfully (BGO/polling)
  *                Operation completed (Blocking)
  ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t flash_blankcheck(uint32_t start_address, uint32_t num_bytes, flash_res_t *result)
 {
     flash_err_t err = FLASH_SUCCESS;
@@ -331,6 +340,7 @@ flash_err_t flash_blankcheck(uint32_t start_address, uint32_t num_bytes, flash_r
  * Description  : Exit PE mode to either DF or CF Read
  *              : And Flash Ready Interrupt disable (BGO mode)
  **********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t flash_pe_mode_exit()
 {
 
@@ -348,7 +358,7 @@ flash_err_t flash_pe_mode_exit()
 #endif
 
 #if ((FLASH_CFG_CODE_FLASH_ENABLE == 1) && (FLASH_CFG_CODE_FLASH_BGO == 1) || (FLASH_CFG_DATA_FLASH_BGO == 1))
-    /* Enable Flash Ready Interrupt */
+    /* Disable Flash Ready Interrupt */
     IEN(FCU,FRDYI)= 0;
 #endif
 
@@ -362,6 +372,7 @@ flash_err_t flash_pe_mode_exit()
  * Arguments    : None
  * Return Value : None
  ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 void flash_stop(void)
 {
 
@@ -380,6 +391,7 @@ void flash_stop(void)
  * Return Value : FLASH_SUCCESS -
  *                Flash circuit successfully reset.
  ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t flash_reset() 
 {
     /* Flash control circuit. */
@@ -390,6 +402,6 @@ flash_err_t flash_reset()
 
 
 
-#pragma section /* end FLASH_SECTION_ROM */
+FLASH_SECTION_CHANGE_END /* end FLASH_SECTION_ROM */
 #endif
 /* end of file */

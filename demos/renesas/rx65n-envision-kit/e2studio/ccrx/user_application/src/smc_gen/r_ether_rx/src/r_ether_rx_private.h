@@ -14,12 +14,12 @@
  * following link:
  * http://www.renesas.com/disclaimer 
  *
- * Copyright (C) 2016 Renesas Electronics Corporation. All rights reserved.    
+ * Copyright (C) 2016(2019) Renesas Electronics Corporation. All rights reserved.    
  ***********************************************************************************************************************/
 /***********************************************************************************************************************
  * File Name    : r_ether_rx_private.h
- * Version      : 1.14
- * Device       : RX63N/RX65N/RX64M/RX71M
+ * Version      : 1.16
+ * Device       : RX65N/RX64M/RX71M
  * Tool-Chain   : RX Family C Compiler
  * H/W Platform : 
  * Description  : File that defines macro and structure seen only in "r_ether_rx.c" file.
@@ -33,6 +33,8 @@
  *         : 01.10.2016 1.04     Added changes for RX65N.
  *         : 01.10.2017 1.13     Removed BSP version error.
  *         : 08.01.2018 1.14     Changed setting value check.
+ *         : 04.04.2019 1.16     Added support for GNUC and ICCRX.
+ *                               Fixed coding style.
   ***********************************************************************************************************************/
 
 /* Guards against multiple inclusion */
@@ -198,18 +200,18 @@
  * EDMAC descriptor as defined in the hardware manual. It is
  * modified to support little endian CPU mode.
  */
-    #pragma pack
+R_BSP_PRAGMA_PACK;
 typedef struct DescriptorS
 {
-    __evenaccess uint32_t           status;
+    R_BSP_EVENACCESS uint32_t           status;
     #if __LIT
     /* Little endian */
-    __evenaccess uint16_t           size;
-    __evenaccess uint16_t           bufsize;
+    R_BSP_EVENACCESS uint16_t           size;
+    R_BSP_EVENACCESS uint16_t           bufsize;
     #else
     /* Big endian */
-    __evenaccess uint16_t bufsize;
-    __evenaccess uint16_t size;
+    R_BSP_EVENACCESS uint16_t bufsize;
+    R_BSP_EVENACCESS uint16_t size;
 
     #endif
     uint8_t            *buf_p;
@@ -279,9 +281,9 @@ typedef struct pause_resolutionS
 
 typedef struct
 {
-    volatile struct st_etherc __evenaccess * petherc; /* ETHERC module */
-    volatile struct st_edmac __evenaccess * pedmac; /* EDMAC */
-    volatile uint32_t         __evenaccess * preg_pir;
+    volatile struct st_etherc R_BSP_EVENACCESS_SFR * petherc; /* ETHERC module */
+    volatile struct st_edmac R_BSP_EVENACCESS_SFR * pedmac; /* EDMAC */
+    volatile uint32_t         R_BSP_EVENACCESS_SFR * preg_pir;
     uint32_t                  phy_address;
     uint8_t                   port_connect;
 } ether_control_t;
@@ -292,7 +294,7 @@ typedef struct
     uint32_t              phy_access;
 } ether_ch_control_t;
 
-    #pragma packoption
+R_BSP_PRAGMA_PACKOPTION;
 
 /***********************************************************************************************************************
  Exported global variables

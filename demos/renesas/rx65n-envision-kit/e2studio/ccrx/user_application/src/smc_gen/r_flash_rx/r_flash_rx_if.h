@@ -14,7 +14,7 @@
 * following link:
 * http://www.renesas.com/disclaimer 
 *
-* Copyright (C) 2017 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2014-2019 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
 * File Name    : r_flash_rx_if.h
@@ -139,6 +139,10 @@
 *                              Fixed write failure bug in RX210 768K and 1M variants.
 *                              Modified flash types 3 and 4 R_FLASH_BlankCheck() parameter checking to return error
 *                                 when argument passed in is code flash address.
+*           19.04.2019 4.00    Removed support for flash type 2.
+*                               (BLANK_CHECK_SMALLEST, BLANK_CHECK_ENTIRE_BLOCK,
+*                                FLASH_CMD_LOCKBIT_PROGRAM, FLASH_CMD_LOCKBIT_PROTECTION,
+*                                FLASH_ERR_ALIGNED, FLASH_ERR_BOUNDARY, FLASH_ERR_OVERFLOW)
 ***********************************************************************************************************************/
 
 #ifndef FLASH_INTERFACE_HEADER_FILE
@@ -147,13 +151,16 @@
 #include "r_flash_rx_config.h"
 #include "r_flash_targets.h"
 
+#if R_BSP_VERSION_MAJOR < 5
+    #error "This module must use BSP module of Rev.5.00 or higher. Please use the BSP module of Rev.5.00 or higher."
+#endif
 
 /***********************************************************************************************************************
 Macro definitions
 ***********************************************************************************************************************/
 /* Driver Version Number. */
-#define FLASH_RX_VERSION_MAJOR           (3)
-#define FLASH_RX_VERSION_MINOR           (50)
+#define FLASH_RX_VERSION_MAJOR           (4)
+#define FLASH_RX_VERSION_MINOR           (00)
 
 
 /***********************************************************************************************************************
@@ -163,7 +170,6 @@ Typedef definitions
 /* DRIVER INTERNAL PROGRAMMING GROUPINGS */
 
 #define FLASH_TYPE_1    1
-#define FLASH_TYPE_2    2
 #define FLASH_TYPE_3    3
 #define FLASH_TYPE_4    4
 
@@ -171,13 +177,6 @@ Typedef definitions
      defined(MCU_RX130) || defined(MCU_RX231) || defined(MCU_RX23T) || \
      defined(MCU_RX24T) || defined(MCU_RX24U) ||defined(MCU_RX230))
 #define FLASH_TYPE              FLASH_TYPE_1
-
-#elif (defined(MCU_RX210) || defined(MCU_RX21A) || defined(MCU_RX220) || \
-     defined(MCU_RX610) || defined(MCU_RX621) || defined(MCU_RX62N) || \
-     defined(MCU_RX62T) || defined(MCU_RX62G) || defined(MCU_RX630) || \
-     defined(MCU_RX631) || defined(MCU_RX63N) || defined(MCU_RX63T) || \
-     defined(MCU_RX634))
-#define FLASH_TYPE      FLASH_TYPE_2
 
 #elif (defined(MCU_RX64M) || defined(MCU_RX66T) || defined(MCU_RX71M) || \
      defined(MCU_RX72T))
@@ -190,9 +189,7 @@ Typedef definitions
 
 /* FEATURE GROUPINGS */
 
-#if (FLASH_TYPE != 2)
 #define FLASH_HAS_ISR_CALLBACK_CMD  1
-#endif
 
 #if ((FLASH_TYPE == 4) && (MCU_DATA_FLASH_SIZE_BYTES == 0))
 #define FLASH_NO_BLANK_CHECK        1
@@ -209,7 +206,7 @@ Typedef definitions
 #endif
 #endif
 
-#if ((FLASH_TYPE == 1) || (FLASH_TYPE == 2))
+#if (FLASH_TYPE == 1)
 #define FLASH_ERASE_CF_ASCENDING_ADDRESSES     1
 #else
 #define FLASH_ERASE_CF_ASCENDING_BLOCK_NUMS    1
@@ -240,14 +237,6 @@ Typedef definitions
 
 #if ((FLASH_TYPE == 1) || (FLASH_TYPE == 4))
 #define FLASH_HAS_CF_ACCESS_WINDOW  1
-#endif
-
-#if (FLASH_TYPE == 2)
-#define FLASH_HAS_DF_ACCESS_WINDOW  1
-#endif
-
-#if (FLASH_TYPE == 2)
-#define FLASH_HAS_INDIVIDUAL_CF_BLOCK_LOCKS     1
 #endif
 
 #if (FLASH_TYPE == 3)
@@ -289,9 +278,6 @@ typedef enum _flash_err
     FLASH_ERR_CMD_LOCKED,   // Peripheral in command locked state
     FLASH_ERR_LOCKBIT_SET,  // Pgm/Erase error due to lock bit.
     FLASH_ERR_FREQUENCY,    // Illegal frequency value attempted
-    FLASH_ERR_ALIGNED,      // The address not aligned correctly for CF or DF
-    FLASH_ERR_BOUNDARY,     // Writes cannot cross the 1MB boundary on some parts
-    FLASH_ERR_OVERFLOW,     // 'Address + number of bytes' for this operation went past the end of memory area.
     FLASH_ERR_BYTES,        // Invalid number of bytes passed
     FLASH_ERR_ADDRESS,      // Invalid address or address not on a programming boundary
     FLASH_ERR_BLOCKS,       // The 'number of blocks' argument is invalid
@@ -323,11 +309,7 @@ typedef enum _flash_cmd
                                     // Arg: flash_access_window_config_t*
     FLASH_CMD_ACCESSWINDOW_GET,     // Get the Access Window boundaries for CF
                                     // Arg: flash_access_window_config_t*
-    FLASH_CMD_LOCKBIT_PROTECTION,   // (Flash Type 2) Enable or disable CF lock bit protection
-                                    // Arg: flash_lockbit_enable_t*
-    FLASH_CMD_LOCKBIT_PROGRAM,      // (Flash Type 2) Program the lock bit for a specific CF block.
-                                    // Arg: flash_program_lockbit_config_t*
-    FLASH_CMD_LOCKBIT_READ,         // (Flash Types 2, 3) Arg: flash_read_lockbit_config_t* OR flash_lockbit_config_t*
+    FLASH_CMD_LOCKBIT_READ,         // (Flash Type 3) Arg: flash_lockbit_config_t*
     FLASH_CMD_LOCKBIT_WRITE,        // (Flash Type 3) Arg: flash_lockbit_config_t*
     FLASH_CMD_LOCKBIT_ENABLE,       // (Flash Type 3) Enabled by default
     FLASH_CMD_LOCKBIT_DISABLE,      // (Flash Type 3) Override lockbits; erase block to clear lockbit
@@ -456,53 +438,6 @@ typedef struct _flash_access_window_config
 #endif
 
 
-#ifdef FLASH_HAS_DF_ACCESS_WINDOW
-
-/* Control() FLASH_CMD_ACCESSWINDOW_SET
- * bit0 - blocks 0-15
- * bit1 - blocks 16-31
- * bit2 - blocks 32-47
- * bit3 - blocks 48-63
- */
-typedef struct _flash_access_window_config
-{
-    uint16_t read_en_mask;
-    uint16_t write_en_mask;
-} flash_access_window_config_t;
-
-#endif
-
-
-#ifdef FLASH_HAS_INDIVIDUAL_CF_BLOCK_LOCKS
-
-typedef enum _flash_lock_bit
-{
-    FLASH_LOCK_BIT_SET = 0,
-    FLASH_LOCK_BIT_NOT_SET,
-} flash_lock_bit_t;
-
-/* Control() FLASH_CMD_LOCKBIT_READ */
-typedef struct _flash_read_lockbit_config
-{
-    uint32_t          block_addr;   /* Address of or in ROM erasure block to read the lock bit of */
-    flash_lock_bit_t  result;       /* result of the read (FLASH_LOCK_BIT_SET, or FLASH_LOCK_BIT_NOT_SET) */
-} flash_read_lockbit_config_t;
-
-/* Control() FLASH_CMD_LOCKBIT_PROGRAM */
-typedef struct _flash_program_lockbit_config
-{
-    uint32_t block_addr;            /* Address of ROM block to program the lockbit */
-} flash_program_lockbit_config_t;
-
-/* Control() FLASH_CMD_LOCKBIT_PROTECTION */
-typedef struct _flash_lockbit_enable
-{
-    bool enable;                    /* enable or disable lockbit */
-} flash_lockbit_enable_t;
-
-#endif
-
-
 #ifdef FLASH_HAS_SEQUENTIAL_CF_BLOCKS_LOCK
 #include "r_flash_type3_if.h"
 /* Control() FLASH_CMD_LOCKBIT_READ, FLASH_CMD_LOCKBIT_WRITE */
@@ -556,12 +491,6 @@ typedef struct _flash_non_cached
 
 #if (FLASH_TYPE == FLASH_TYPE_1)
 #include "r_flash_type1_if.h"
-
-#elif (FLASH_TYPE == FLASH_TYPE_2)
-#include "r_flash_type2_if.h"
-/* 'size' argument for R_FLASH_BlankCheck() */
-#define BLANK_CHECK_SMALLEST         0
-#define BLANK_CHECK_ENTIRE_BLOCK     1
 
 #elif (FLASH_TYPE == FLASH_TYPE_3)
 #include "r_flash_type3_if.h"

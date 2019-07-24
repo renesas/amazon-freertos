@@ -14,7 +14,7 @@
 * following link:
 * http://www.renesas.com/disclaimer 
 *
-* Copyright (C) 2016 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2016-2019 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
 * File Name    : r_flash_group.c
@@ -35,6 +35,8 @@
 *              : 25.10.2018 1.50    Added NON_CACHED commmand support to r_flash_control().
 *              : 18.12.2018 1.60    Modified set_blankcheck_params() parameter checking to return error when get
 *                                     code flash address and blankcheck not supported in code flash.
+*              : 19.04.2019 4.00    Added support for GNUC and ICCRX.
+*                                   Removed support for flash type 2.
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -45,8 +47,6 @@ Includes   <System Includes> , "Project Includes"
 #include "r_flash_fcu.h"
 #include "r_flash_group.h"
 
-#if (FLASH_TYPE != 2)
-    
 /***********************************************************************************************************************
 Macro definitions
 ***********************************************************************************************************************/
@@ -103,20 +103,19 @@ typedef struct _flash_addr_info
 } flash_addr_info_t;
 
 
-#pragma bit_order left
-#pragma unpack
+R_BSP_PRAGMA_UNPACK
 
 typedef union
 {
     unsigned long LONG;
-    struct {
-        unsigned long :11;
-        unsigned long NCSZ:17;
-        unsigned long NC3E:1;
-        unsigned long NC2E:1;
-        unsigned long NC1E:1;
-        unsigned long :1;
-    } BIT;
+    R_BSP_ATTRIB_STRUCT_BIT_ORDER_LEFT_6(
+        unsigned long :11,
+        unsigned long NCSZ:17,
+        unsigned long NC3E:1,
+        unsigned long NC2E:1,
+        unsigned long NC1E:1,
+        unsigned long :1
+    ) BIT;
 } ncrc_reg_t;
 
 typedef struct _flash_non_cached_regs
@@ -125,8 +124,7 @@ typedef struct _flash_non_cached_regs
     ncrc_reg_t  ncrc;
 } flash_non_cached_regs_t;
 
-#pragma bit_order
-#pragma packoption
+R_BSP_PRAGMA_PACKOPTION
 
 
 /***********************************************************************************************************************
@@ -279,14 +277,14 @@ flash_err_t flash_interrupt_config(bool state, void *pcfg)
         FLASH_FCU_INT_ENABLE;
 
         /* Enable interrupts in ICU */
-        IR(FCU,FRDYI)= 0;                           // Clear Flash Ready Interrupt Request
-        IPR(FCU,FRDYI)= int_cfg->int_priority;      // Set Flash Ready Interrupt Priority
-        IEN (FCU,FRDYI)= 1;                         // Enable Flash Ready Interrupt
+        IR(FCU,FRDYI)= 0;                               // Clear Flash Ready Interrupt Request
+        IPR(FCU,FRDYI)= int_cfg->int_priority;          // Set Flash Ready Interrupt Priority
+        IEN(FCU,FRDYI)= 1;                              // Enable Flash Ready Interrupt
 
 #ifdef FLASH_HAS_ERR_ISR
-        IR(FCU,FIFERR)= 0;                          // Clear Flash Error Interrupt Request
-        IPR(FCU,FIFERR)= int_cfg->int_priority;     // Set Flash Error Interrupt Priority
-        IEN (FCU,FIFERR)= 1;                        // Enable Flash Error Interrupt
+        IR(FCU,FIFERR)= 0;                              // Clear Flash Error Interrupt Request
+        IPR(FCU,FIFERR)= int_cfg->int_priority;         // Set Flash Error Interrupt Priority
+        IEN(FCU,FIFERR)= 1;                             // Enable Flash Error Interrupt
 #endif
     }
 
@@ -401,7 +399,11 @@ static flash_err_t set_non_cached_regs(flash_non_cached_t *p_cfg, flash_non_cach
 
 /* FUNCTIONS WHICH MUST BE RUN FROM RAM FOLLOW */
 #if (FLASH_CFG_CODE_FLASH_ENABLE == 1)
-#pragma section FRAM
+#define FLASH_PE_MODE_SECTION    R_BSP_ATTRIB_SECTION_CHANGE(P, FRAM)
+#define FLASH_SECTION_CHANGE_END R_BSP_ATTRIB_SECTION_CHANGE_END
+#else
+#define FLASH_PE_MODE_SECTION
+#define FLASH_SECTION_CHANGE_END
 #endif
 
 
@@ -423,6 +425,7 @@ static flash_err_t set_non_cached_regs(flash_non_cached_t *p_cfg, flash_non_cach
 *                FLASH_ERR_BUSY -
 *                    Flash peripheral is busy with another operation
 ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t r_flash_erase(flash_block_address_t block_start_address, uint32_t num_blocks)
 {
     flash_err_t     err;
@@ -503,6 +506,7 @@ flash_err_t r_flash_erase(flash_block_address_t block_start_address, uint32_t nu
 *                FLASH_ERR_ADRRESS -
 *                    Start address is an invalid Code/Data Flash block start address
 ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t get_erase_flash_type(flash_block_address_t block_start_address, uint32_t num_blocks, flash_type_t *flash_type)
 {
     *flash_type = FLASH_TYPE_INVALID;
@@ -606,6 +610,7 @@ flash_err_t get_erase_flash_type(flash_block_address_t block_start_address, uint
 *                false
 *                    Address is not a code flash address
 ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 static bool is_cf_addr(uint32_t addr)
 {
     bool    result = false;
@@ -641,6 +646,7 @@ static bool is_cf_addr(uint32_t addr)
 *                false
 *                    Resulting address is in legal code flash range
 ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 static bool is_cf_overflow(uint32_t addr, uint32_t num_bytes)
 {
     bool        result = false;
@@ -695,6 +701,7 @@ static bool is_cf_overflow(uint32_t addr, uint32_t num_bytes)
 * Return Value : None
 ***********************************************************************************************************************/
 #if FLASH_ERASE_CF_ASCENDING_BLOCK_NUMS
+FLASH_PE_MODE_SECTION
 static void get_cf_addr_info(uint32_t addr, flash_addr_info_t *info)
 {
 
@@ -737,6 +744,7 @@ static void get_cf_addr_info(uint32_t addr, flash_addr_info_t *info)
 *                FLASH_ERR_ADRRESS -
 *                    Start address is not on block boundary
 ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t check_cf_block_total(flash_block_address_t block_start_address, uint32_t num_blocks)
 {
 #if FLASH_ERASE_CF_ASCENDING_BLOCK_NUMS
@@ -793,6 +801,7 @@ flash_err_t check_cf_block_total(flash_block_address_t block_start_address, uint
 *                FLASH_ERR_FAILURE -
 *                    Callback function not set and interrupts are configured
 ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t set_erase_params(flash_block_address_t block_start_address, uint32_t num_blocks, flash_type_t flash_type)
 {
 
@@ -882,6 +891,7 @@ flash_err_t set_erase_params(flash_block_address_t block_start_address, uint32_t
 *                FLASH_ERR_FAILURE -
 *                    Operation failed for some other reason
 ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t r_flash_blankcheck(uint32_t address, uint32_t num_bytes, flash_res_t *result)
 {
     flash_err_t     err;
@@ -965,6 +975,7 @@ flash_err_t r_flash_blankcheck(uint32_t address, uint32_t num_bytes, flash_res_t
 *                FLASH_ERR_ADDRESS -
 *                    Address for code flash and blankcheck not supported on this device.
 ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t set_blankcheck_params(uint32_t address, uint32_t num_bytes, flash_type_t flash_type)
 {
     FLASH_RETURN_IF_BGO_AND_NO_CALLBACK;
@@ -1053,6 +1064,7 @@ flash_err_t set_blankcheck_params(uint32_t address, uint32_t num_bytes, flash_ty
 *                    Code Flash Write operation attempted in BGO mode. This is temporarily not supported
 *                    Operation failed for some other reason; RESET was performed on the FCU to recover from this state.
 ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t r_flash_write(uint32_t src_address, uint32_t dest_address, uint32_t num_bytes)
 {
     flash_err_t     err;
@@ -1134,6 +1146,7 @@ flash_err_t r_flash_write(uint32_t src_address, uint32_t dest_address, uint32_t 
 *                FLASH_ERR_ADRRESS -
 *                    Start address is an invalid Code/Data flash start address
 ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t get_bc_pgm_flash_type(uint32_t address, uint32_t num_bytes, flash_type_t *flash_type)
 {
 
@@ -1219,6 +1232,7 @@ flash_err_t get_bc_pgm_flash_type(uint32_t address, uint32_t num_bytes, flash_ty
 *                FLASH_ERR_FAILURE -
 *                    Callback function not set and interrupts are configured
 ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t set_write_params(uint32_t address, uint32_t num_bytes, flash_type_t flash_type)
 {
 
@@ -1322,6 +1336,7 @@ flash_err_t set_write_params(uint32_t address, uint32_t num_bytes, flash_type_t 
 *                FLASH_ERR_FREQUENCY -
 *                    Illegal flash frequency
 ******************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t r_flash_control(flash_cmd_t cmd, void *pcfg)
 {
 #if (FLASH_CFG_CODE_FLASH_ENABLE == 1)
@@ -1407,7 +1422,7 @@ flash_err_t r_flash_control(flash_cmd_t cmd, void *pcfg)
         FLASH.ROMCIV.BIT.ROMCIV = 1;                // start invalidation
         while (FLASH.ROMCIV.BIT.ROMCIV != 0)        // wait for invalidation to complete
         {
-            nop();
+            R_BSP_NOP();
         }
         FLASH.ROMCE.BIT.ROMCEN = 1;                 // enable cache
         if (FLASH.ROMCE.BIT.ROMCEN != 1)
@@ -1608,6 +1623,4 @@ flash_err_t r_flash_control(flash_cmd_t cmd, void *pcfg)
 }
 
 
-#pragma section /* end FLASH SECTION FRAM */
-
-#endif  // #if (FLASH_TYPE != 2)
+FLASH_SECTION_CHANGE_END /* end FLASH SECTION FRAM */

@@ -27,6 +27,7 @@
 *         : 29.01.2016 1.60     Fixed the initial setting process in the R_LONGQ_Open function.
 *                               Fixed a program according to the Renesas coding rules.
 *         : 01.06.2018 1.70     Added the comment to while statement.
+*         : 07.02.2019 1.80     Deleted the inline expansion of the R_BYTEQ_GetVersion function.
 ******************************************************************************/
 
 /*****************************************************************************
@@ -413,7 +414,6 @@ byteq_err_t R_BYTEQ_Close(byteq_hdl_t const hdl)
 * Arguments    : none
 * Return Value : version number
 ******************************************************************************/
-#pragma inline(R_BYTEQ_GetVersion)
 uint32_t  R_BYTEQ_GetVersion(void)
 {
 

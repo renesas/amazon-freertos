@@ -19,7 +19,7 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2015 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2014-2019 Renesas Electronics Corporation. All rights reserved.
 *******************************************************************************/
 /*******************************************************************************
 * File Name    : r_codeflash.c
@@ -43,10 +43,11 @@
 *                                      more include files.
 *                02.08.2017 2.20     Removed #include "r_mcu_config.h". Now in
 *                                    targets.h (r_flash_rx_if.h includes)
+*                19.04.2019 4.00     Added support for GNUC and ICCRX.
 *******************************************************************************/
 
 /******************************************************************************
-Includes   <System Includes> , “Project Includes”
+Includes   <System Includes> , "Project Includes"
 ******************************************************************************/
 #include "r_flash_rx_if.h"
 #if (FLASH_TYPE == FLASH_TYPE_1)
@@ -64,7 +65,8 @@ static r_codeflash_data_t  code_flash_info;
 static void r_cf_write_fpmcr (uint8_t value);
 extern void r_flash_delay_us (unsigned long us, unsigned long khz);
 
-#pragma section FRAM
+#define FLASH_PE_MODE_SECTION    R_BSP_ATTRIB_SECTION_CHANGE(P, FRAM)
+#define FLASH_SECTION_CHANGE_END R_BSP_ATTRIB_SECTION_CHANGE_END
 
 /*******************************************************************************
 * Outline      : Transition to P/E mode
@@ -74,6 +76,7 @@ extern void r_flash_delay_us (unsigned long us, unsigned long khz);
 * Arguments    : none
 * Return Value : none
 *******************************************************************************/
+FLASH_PE_MODE_SECTION
 void R_CF_Enter_PE_Mode(void)
 {
     FLASH.FENTRYR.WORD = FENTRYR_CODEFLASH_PE_MODE;
@@ -111,6 +114,7 @@ void R_CF_Enter_PE_Mode(void)
 * Arguments    : none
 * Return Value : none
 *******************************************************************************/
+FLASH_PE_MODE_SECTION
 void R_CF_Enter_Read_Mode(void)
 {
     r_cf_write_fpmcr(DISCHARGE_2);
@@ -143,6 +147,7 @@ void R_CF_Enter_Read_Mode(void)
 *              : byte_length : Number of bytes to write
 * Return Value : None
 *******************************************************************************/
+FLASH_PE_MODE_SECTION
 void R_CF_Write (uint32_t *psrc_addr, const uint32_t dest_addr, const uint32_t byte_length )
 {
     code_flash_info.start_addr = (uint32_t)psrc_addr;                 // Ram Source for data to write
@@ -165,6 +170,7 @@ void R_CF_Write (uint32_t *psrc_addr, const uint32_t dest_addr, const uint32_t b
 *              : block_end_addr     : End address (read form) for writing
 * Return Value : none
 *******************************************************************************/
+FLASH_PE_MODE_SECTION
 void R_CF_Write_Operation (const uint32_t *psrc_addr, const uint32_t dest_addr)
 {
     uint32_t dest_addr_idx;
@@ -209,6 +215,7 @@ void R_CF_Write_Operation (const uint32_t *psrc_addr, const uint32_t dest_addr)
 *              : FLASH_ERR_TIMEOUT   - Command timed out
 *              : FLASH_ERR_FAILURE   - Command failed for some reason
 *******************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t R_CF_Write_Check (void)
 {
     flash_err_t status;
@@ -274,6 +281,7 @@ flash_err_t R_CF_Write_Check (void)
 *              : num          : End address for erasing
 * Return Value : none
 *******************************************************************************/
+FLASH_PE_MODE_SECTION
 void R_CF_Erase (const uint32_t start_addr, const uint32_t num_blocks)
 {
     uint32_t block_start_addr;
@@ -319,6 +327,7 @@ void R_CF_Erase (const uint32_t start_addr, const uint32_t num_blocks)
 *              : FLASH_ERR_TIMEOUT   - Erase command timed out
 *              : FLASH_ERR_FAILURE   - Command failed for some reason
 *******************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t R_CF_Erase_Check (void)
 {
     /* Check FREADY Flag bit*/
@@ -366,6 +375,7 @@ flash_err_t R_CF_Erase_Check (void)
 *              : end_addr     : End address for blank check
 * Return Value : none
 *******************************************************************************/
+FLASH_PE_MODE_SECTION
 void R_CF_BlankCheck (const uint32_t start_addr, const uint32_t end_addr)
 {
     uint32_t start_addr_idx;
@@ -413,6 +423,7 @@ void R_CF_BlankCheck (const uint32_t start_addr, const uint32_t end_addr)
 *              : FLASH_ERR_FAILURE   - Command failed for some reason or area
 *                                      is not blank
 *******************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t R_CF_BlankCheck_Check (void)
 {
 
@@ -458,6 +469,7 @@ flash_err_t R_CF_BlankCheck_Check (void)
 * Arguments    : value     : Setting value for the FPMCR register
 * Return Value : none
 *******************************************************************************/
+FLASH_PE_MODE_SECTION
 static void r_cf_write_fpmcr (uint8_t value)
 {
     FLASH.FPR        = 0xA5;
@@ -467,12 +479,12 @@ static void r_cf_write_fpmcr (uint8_t value)
 
     if(value == FLASH.FPMCR.BYTE)
     {
-        nop();
+        R_BSP_NOP();
     }
 
 }
 
-#pragma section /* end FLASH_SECTION_ROM */
+FLASH_SECTION_CHANGE_END /* end FLASH_SECTION_ROM */
 #endif
 
 #endif

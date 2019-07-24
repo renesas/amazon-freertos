@@ -14,14 +14,14 @@
 * following link:
 * http://www.renesas.com/disclaimer 
 *
-* Copyright (C) 2016 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2013 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
 * File Name    : r_s12ad_rx.c
 * Description  : Primary source code for 12-bit A/D Converter driver.
 ***********************************************************************************************************************/
 /**********************************************************************************************************************
-* History : DD.MM.YYYY Version Description           
+* History : DD.MM.YYYY Version Description
 *           22.07.2013 1.00    Initial Release.
 *           21.04.2014 1.20    Updated for RX210 advanced features; RX110/63x support.
 *           06.11.2014 1.40    Added RX113 support.
@@ -36,6 +36,9 @@
 *           03.09.2018 3.00    Added RX66T support.
 *                              Added the comment to while statement.
 *           28.12.2018 3.10    Added RX72T support.
+*           05.04.2019 4.00    Added support for GNUC and ICCRX.
+*                              Deleted the process of RX210, RX631, and RX63N.
+*                              Deleted the function of adc_gbadi_isr.
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -65,33 +68,21 @@ Private global variables and functions
   || defined(BSP_MCU_RX71M) || defined(BSP_MCU_RX72T))
 
 /* In ROM */
-extern volatile __evenaccess uint16_t * const  dreg0_ptrs[];
-extern volatile __evenaccess uint16_t * const  dreg1_ptrs[];
+extern R_BSP_VOLATILE_EVENACCESS uint16_t * const  dreg0_ptrs[];
+extern R_BSP_VOLATILE_EVENACCESS uint16_t * const  dreg1_ptrs[];
 #if (defined(BSP_MCU_RX66T) || defined(BSP_MCU_RX72T))
-extern volatile __evenaccess uint16_t * const  dreg2_ptrs[];
+extern R_BSP_VOLATILE_EVENACCESS uint16_t * const  dreg2_ptrs[];
 #endif
-extern adc_err_t adc_close(uint8_t const unit);
-extern adc_err_t adc_read_all(adc_data_t * const  p_all_data);
 
-#else  // rx110/rx111/rx113/rx130/rx210/rx230/rx231/rx63x
+#else  // rx110/rx111/rx113/rx130/rx230/rx231
 
-extern volatile __evenaccess uint16_t * const  dreg_ptrs[]; // In ROM
+extern R_BSP_VOLATILE_EVENACCESS uint16_t * const  dreg_ptrs[]; // In ROM
 adc_ctrl_t g_dcb = { ADC_MODE_MAX, false, NULL};  // In RAM
 
 #endif
 
 
 void adc_enable_s12adi0(void);
-
-extern adc_err_t adc_open(uint8_t const          unit,
-                          adc_mode_t const       mode,
-                          adc_cfg_t * const      p_cfg,
-                          void         (* const  p_callback)(void *p_args));
-
-extern adc_err_t adc_control(uint8_t const       unit,
-                             adc_cmd_t const     cmd,
-                             void * const        p_args);
-
 
 
 /******************************************************************************
@@ -132,7 +123,7 @@ adc_err_t R_ADC_Open(uint8_t const          unit,
                      void         (* const  p_callback)(void *p_args))
 {
     return adc_open(unit, mode, p_cfg, p_callback);
-}
+} /* End of function R_ADC_Open() */
 
 
 /******************************************************************************
@@ -174,7 +165,7 @@ adc_err_t R_ADC_Control(uint8_t const       unit,
                         void * const        p_args)
 {
     return adc_control(unit, cmd, p_args);
-}
+} /* End of function R_ADC_Control() */
 
 
 /******************************************************************************
@@ -220,6 +211,7 @@ adc_err_t R_ADC_Read(uint8_t            unit,
     }
     #endif
 
+    /* Casting is valid because it matches the type to the right side or argument. */
     if ((NULL == p_data) || (FIT_NO_PTR == p_data))
     {
         return ADC_ERR_MISSING_PTR;
@@ -236,7 +228,7 @@ adc_err_t R_ADC_Read(uint8_t            unit,
     *p_data = *p_dregs[reg_id];
 
     return ADC_SUCCESS;
-}
+} /* End of function R_ADC_Read() */
 
 /******************************************************************************
 * Function Name: R_ADC_ReadAll
@@ -252,6 +244,7 @@ adc_err_t R_ADC_Read(uint8_t            unit,
 adc_err_t R_ADC_ReadAll(adc_data_t * const  p_all_data)
 {
 #if ADC_CFG_PARAM_CHECKING_ENABLE == 1
+    /* Casting is valid because it matches the type to the right side or argument. */
     if ((NULL == p_all_data) || (FIT_NO_PTR == p_all_data))
     {
         return ADC_ERR_MISSING_PTR;
@@ -264,7 +257,7 @@ adc_err_t R_ADC_ReadAll(adc_data_t * const  p_all_data)
 
     return adc_read_all(p_all_data);
 
-#else // rx110/rx111/rx113/rx210/rx63x
+#else // rx110/rx111/rx113
 
     p_all_data->chan[ADC_REG_CH0] = S12AD.ADDR0;
     p_all_data->chan[ADC_REG_CH1] = S12AD.ADDR1;
@@ -285,29 +278,16 @@ adc_err_t R_ADC_ReadAll(adc_data_t * const  p_all_data)
     p_all_data->chan[ADC_REG_CH5] = S12AD.ADDR5;
     p_all_data->chan[ADC_REG_CH7] = S12AD.ADDR7;
 #endif
-#ifdef BSP_MCU_RX63_ALL
-    p_all_data->chan[ADC_REG_CH16] = S12AD.ADDR16;    
-    p_all_data->chan[ADC_REG_CH17] = S12AD.ADDR17;
-    p_all_data->chan[ADC_REG_CH18] = S12AD.ADDR18;
-    p_all_data->chan[ADC_REG_CH19] = S12AD.ADDR19;
-    p_all_data->chan[ADC_REG_CH20] = S12AD.ADDR20;
-#endif
 #ifdef BSP_MCU_RX113
     p_all_data->chan[ADC_REG_CH21] = S12AD.ADDR21;
 #endif
     p_all_data->temp = S12AD.ADTSDR;
     p_all_data->volt = S12AD.ADOCDR;
-#ifndef BSP_MCU_RX63_ALL
-    p_all_data->dbltrig = S12AD.ADDBLDR;
-#endif
-#ifdef BSP_MCU_RX210
-    p_all_data->self_diag = S12AD.ADRD.WORD;
-#endif
-    
+
     return ADC_SUCCESS;
 
-#endif
-}
+#endif /* rx110/rx111/rx113 */
+} /* End of function R_ADC_ReadAll() */
 
 /******************************************************************************
 * Function Name: R_ADC_Close
@@ -319,33 +299,26 @@ adc_err_t R_ADC_ReadAll(adc_data_t * const  p_all_data)
 *******************************************************************************/
 adc_err_t   R_ADC_Close(uint8_t const unit)
 {
-
 #if (defined(BSP_MCU_RX64M) || defined(BSP_MCU_RX65_ALL) || defined(BSP_MCU_RX66T) \
   || defined(BSP_MCU_RX71M) || defined(BSP_MCU_RX72T)    || defined(BSP_MCU_RX231) \
   || defined(BSP_MCU_RX230) || defined(BSP_MCU_RX130))
 
     return adc_close(unit);
 
-#else // rx110/rx111/rx113/rx210/rx63x
+#else // rx110/rx111/rx113
     volatile uint16_t i;
 
-    /* Stop triggers & conversions, and disable peripheral interrupts */
-    IEN(S12AD,S12ADI0) = 0;         // disable interrupts in ICU
-    IR(S12AD,S12ADI0) = 0;          // clear interrupt flag
-#ifdef BSP_MCU_RX63_ALL
-    S12AD.ADCSR.BIT.TRGE = 0;
-    S12AD.ADCSR.BYTE = 0;
-
-    S12AD.ADCSR.BIT.CKS = 3;        // ADCLK = PCLK
-    /* Wait for 6 PCLK cycles (MAX: 64*6 ICLK cycles) */
-    /* WAIT_LOOP */
-    for (i = 0; i < (64*6); i++)
+#if ADC_CFG_PARAM_CHECKING_ENABLE == 1
+    if (unit > 0)
     {
-        nop();
+        return ADC_ERR_INVALID_ARG;
     }
+#endif
 
-#else
-    IEN(S12AD,GBADI) = 0;           // disable interrupts in ICU
+    /* Stop triggers & conversions, and disable peripheral interrupts */
+    R_BSP_InterruptRequestDisable(VECT(S12AD,S12ADI0));         // disable interrupts in ICU
+    IR(S12AD,S12ADI0) = 0;          // clear interrupt flag
+    R_BSP_InterruptRequestDisable(VECT(S12AD,GBADI));           // disable interrupts in ICU
     IR(S12AD,GBADI) = 0;            // clear interrupt flag
     S12AD.ADCSR.BIT.TRGE = 0;
     S12AD.ADCSR.WORD = 0;
@@ -354,14 +327,12 @@ adc_err_t   R_ADC_Close(uint8_t const unit)
     /* WAIT_LOOP */
     for (i = 0; i < 128; i++)
     {
-        nop();
+        R_BSP_NOP();
     }
-
-#endif
 
     /* Power down peripheral */
     R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_LPC_CGC_SWR);
-#ifndef BSP_MCU_RX11_ALL             // RX63x, RX210
+#ifndef BSP_MCU_RX11_ALL             // RX63x
     if (g_dcb.mode == ADC_MODE_SS_TEMPERATURE)
     {
         TEMPS.TSCR.BYTE = 0;
@@ -376,8 +347,8 @@ adc_err_t   R_ADC_Close(uint8_t const unit)
 
     return ADC_SUCCESS;
 
-#endif
-}
+#endif /* rx110/rx111/rx113 */
+} /* End of function R_ADC_Close() */
 
 
 /*****************************************************************************
@@ -388,13 +359,12 @@ adc_err_t   R_ADC_Close(uint8_t const unit)
 * Arguments    : none
 * Return Value : version number
 ******************************************************************************/
-#pragma inline(R_ADC_GetVersion)
 uint32_t  R_ADC_GetVersion(void)
 {
-uint32_t const version = (ADC_VERSION_MAJOR << 16) | ADC_VERSION_MINOR;
+    uint32_t const version = (ADC_VERSION_MAJOR << 16) | ADC_VERSION_MINOR;
 
     return version;
-}
+} /* End of function R_ADC_GetVersion() */
 
 
 #if (!defined(BSP_MCU_RX64M) && !defined(BSP_MCU_RX65_ALL) && !defined(BSP_MCU_RX66T) \
@@ -416,9 +386,9 @@ void adc_enable_s12adi0(void)
     S12AD.ADCSR.BIT.ADIE = 1;               // enable in peripheral
     if (ICU.IPR[IPR_S12AD_S12ADI0].BYTE != 0)
     {
-        IEN(S12AD,S12ADI0) = 1;             // enable in ICU
+        R_BSP_InterruptRequestEnable(VECT(S12AD,S12ADI0));             // enable in ICU
     }
-}
+} /* End of function adc_enable_s12adi0() */
 
 
 /*****************************************************************************
@@ -428,39 +398,18 @@ void adc_enable_s12adi0(void)
 * Arguments    : none
 * Return Value : none
 ******************************************************************************/
-#pragma interrupt adc_s12adi0_isr(vect=VECT(S12AD,S12ADI0))
-//#pragma interrupt adc_s12adi0_isr(vect=VECT(S12AD,S12ADI0), enable) // FOR TESTING ONLY!
-static void adc_s12adi0_isr(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(adc_s12adi0_isr, VECT(S12AD,S12ADI0))
+R_BSP_ATTRIB_STATIC_INTERRUPT void adc_s12adi0_isr(void)
 {
-adc_cb_evt_t    event=ADC_EVT_SCAN_COMPLETE;
+    adc_cb_evt_t    event=ADC_EVT_SCAN_COMPLETE;
 
     // presence of callback function verified in Open()
     if ((g_dcb.callback != NULL) && (g_dcb.callback != FIT_NO_FUNC))
     {
         g_dcb.callback(&event);
     }
-}
+} /* End of function adc_s12adi0_isr() */
 
+#endif /* #if (!defined(BSP_MCU_RX64M) && !defined(BSP_MCU_RX65_ALL) && !defined(BSP_MCU_RX66T) &&
+               !defined(BSP_MCU_RX71M) && !defined(BSP_MCU_RX72T)) */
 
-#ifndef BSP_MCU_RX63_ALL
-/*****************************************************************************
-* Function Name: adc_gbadi_isr
-* Description  : Interrupt handler for Group B scan complete.
-* Arguments    : none
-* Return Value : none
-******************************************************************************/
-#pragma interrupt adc_gbadi_isr(vect=VECT(S12AD,GBADI))
-//#pragma interrupt adc_gbadi_isr(vect=VECT(S12AD,GBADI),enable)  // FOR TESTING ONLY!
-static void adc_gbadi_isr(void)
-{
-adc_cb_evt_t    event=ADC_EVT_SCAN_COMPLETE_GROUPB;
-
-    // presence of callback function verified in Open()
-    if ((g_dcb.callback != NULL) && (g_dcb.callback != FIT_NO_FUNC))
-    {
-        g_dcb.callback(&event);
-    }
-}
-#endif
-
-#endif // #if (!defined(BSP_MCU_RX64M) && !defined(BSP_MCU_RX65_ALL) && !defined(BSP_MCU_RX66T) && !defined(BSP_MCU_RX71M))

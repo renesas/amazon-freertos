@@ -24,6 +24,7 @@
 *           01.10.2016 1.00    Initial Release.
 *           07.03.2017 2.00    Fixed a bug that the new FIFO threshold was retained only on first receive.
 *           01.02.2019 2.20    Fixed GSCE Code Checker errors.
+*           20.05.2019 3.00    Added support for GNUC and ICCRX.
 ***********************************************************************************************************************/
 
 #ifndef SCI_RX65N_H
@@ -99,8 +100,8 @@ Typedef definitions
 
 typedef struct st_sci_ch_rom    /* SCI ROM info for channel control block */
 {
-    volatile  __evenaccess struct st_sci10  *regs;  /* base ptr to ch registers */
-    volatile  __evenaccess uint32_t *mstp;          /* ptr to mstp register */
+    volatile  struct st_sci10 R_BSP_EVENACCESS_SFR  *regs;  /* base ptr to ch registers */
+    volatile  uint32_t R_BSP_EVENACCESS_SFR *mstp;          /* ptr to mstp register */
     uint32_t                        stop_mask;      /* mstp mask to disable ch */
 #if SCI_CFG_TEI_INCLUDED
     bsp_int_src_t                   tei_vector;
@@ -110,18 +111,18 @@ typedef struct st_sci_ch_rom    /* SCI ROM info for channel control block */
     bsp_int_cb_t                    eri_isr;
     uint32_t                        tei_ch_mask;    /* ICU IR and IEN mask */
     uint32_t                        eri_ch_mask;    /* ICU IR and IEN mask */
-    volatile  __evenaccess uint8_t  *ipr_rxi;       /* ptr to IPR register */
-    volatile  __evenaccess uint8_t  *ipr_txi;       /* ptr to IPR register */
-    volatile  __evenaccess uint8_t  *ir_rxi;        /* ptr to RXI IR register */
-    volatile  __evenaccess uint8_t  *ir_txi;        /* ptr to TXI IR register */
+    volatile  uint8_t R_BSP_EVENACCESS_SFR  *ipr_rxi;       /* ptr to IPR register */
+    volatile  uint8_t R_BSP_EVENACCESS_SFR  *ipr_txi;       /* ptr to IPR register */
+    volatile  uint8_t R_BSP_EVENACCESS_SFR  *ir_rxi;        /* ptr to RXI IR register */
+    volatile  uint8_t R_BSP_EVENACCESS_SFR  *ir_txi;        /* ptr to TXI IR register */
 
     /* 
     * DO NOT use the enable/disable interrupt bits in the SCR 
     * register. Pending interrupts can be lost that way.
     */
-    volatile  __evenaccess uint8_t  *icu_rxi;       /* ptr to ICU register */
-    volatile  __evenaccess uint8_t  *icu_txi;
-    volatile  __evenaccess uint32_t *icu_grp;
+    volatile  uint8_t R_BSP_EVENACCESS_SFR  *icu_rxi;       /* ptr to ICU register */
+    volatile  uint8_t R_BSP_EVENACCESS_SFR  *icu_txi;
+    volatile  uint32_t R_BSP_EVENACCESS_SFR *icu_grp;
     uint8_t                         rxi_en_mask;    /* ICU enable/disable rxi mask */
     uint8_t                         txi_en_mask;    /* ICU enable/disable txi mask */
 } sci_ch_rom_t;

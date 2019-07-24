@@ -25,6 +25,7 @@
 *           28.09.2018 2.10    Added SCI_CFG_DATA_MATCH_INCLUDED for configuration data match function.
 *                              Fix GSCE Code Checker errors.
 *           01.02.2019 2.20    Added support received data match function for RX65N (SCI10 and SCI11).
+*           20.05.2019 3.00    Added support for GNUC and ICCRX.
 ***********************************************************************************************************************/
 
 #ifndef SCI_RX_H
@@ -110,7 +111,7 @@ Macro definitions
 #define SCI_SCR_DUMMY_READ                \
     if (0x00 == hdl->rom->regs->SCR.BYTE) \
     {                                     \
-        nop();                            \
+        R_BSP_NOP();                      \
     }
 
 /* Interrupt Request register flag clear */

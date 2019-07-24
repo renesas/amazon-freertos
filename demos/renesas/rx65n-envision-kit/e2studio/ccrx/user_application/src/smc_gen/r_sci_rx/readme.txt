@@ -41,9 +41,9 @@ r_sci_rx
 |
 +---doc
 |   +---ja
-|   |    r01an1815jj{VERSION_NUMBER}-rx.pdf
+|   |    r01an1815jj{VERSION_NUMBER}-rx-serial.pdf
 |   +---en
-|        r01an1815ej{VERSION_NUMBER}-rx.pdf
+|        r01an1815ej{VERSION_NUMBER}-rx-serial.pdf
 |
 +---ref
 |       r_sci_rx_config_reference.h

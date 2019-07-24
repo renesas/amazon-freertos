@@ -42,6 +42,7 @@
 *                              Fixed section layout follow GSCE 5.0
 *           16.11.2018 2.11    Added XML document number
 *           01.02.2019 2.20    Added support RX72T, RX65N-64pin
+*           20.05.2019 3.00    Added support for GNUC and ICCRX.
 ***********************************************************************************************************************/
 
 #ifndef SCI_IF_H
@@ -56,9 +57,14 @@ Includes   <System Includes> , "Project Includes"
 /***********************************************************************************************************************
 Macro definitions
 ***********************************************************************************************************************/
+
+#if R_BSP_VERSION_MAJOR < 5
+    #error "This module must use BSP module of Rev.5.00 or higher. Please use the BSP module of Rev.5.00 or higher."
+#endif
+
 /* Version Number of API. */
-#define SCI_VERSION_MAJOR  (2)
-#define SCI_VERSION_MINOR  (20)
+#define SCI_VERSION_MAJOR  (3)
+#define SCI_VERSION_MINOR  (00)
 
 #define SCI_CLK_INT         (0x00U) /* use internal clock for baud generation */
 #define SCI_CLK_EXT8X       (0x03U) /* use external clock 8x baud rate (ASYNC) */

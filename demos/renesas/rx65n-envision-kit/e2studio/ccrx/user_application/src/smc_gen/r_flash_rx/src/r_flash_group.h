@@ -14,7 +14,7 @@
 * following link:
 * http://www.renesas.com/disclaimer 
 *
-* Copyright (C) 2016 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2016-2019 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
 * File Name    : r_flash_group.h
@@ -25,13 +25,13 @@
 * History : DD.MM.YYYY Version Description
 *           05.10.2016 1.00    First Release
 *           31.10.2017 1.10    Added function prototype for r_flash_close().
+*           19.04.2019 4.00    Removed support for flash type 2.
 ***********************************************************************************************************************/
 
 #ifndef RX_FLASH_GROUP_HEADER_FILE
 #define RX_FLASH_GROUP_HEADER_FILE
 
 #include "r_flash_rx_if.h"
-#if (FLASH_TYPE != 2)
 
 /***********************************************************************************************************************
 Macro definitions
@@ -63,6 +63,5 @@ extern flash_err_t r_flash_blankcheck(uint32_t address, uint32_t num_bytes, flas
 extern flash_err_t r_flash_write(uint32_t src_address, uint32_t dest_address, uint32_t num_bytes);
 extern flash_err_t r_flash_control(flash_cmd_t cmd,  void  *pcfg);
 
-#endif  // #if (FLASH_TYPE != 2)
 #endif  // RX_FLASH_GROUP_HEADER_FILE
 

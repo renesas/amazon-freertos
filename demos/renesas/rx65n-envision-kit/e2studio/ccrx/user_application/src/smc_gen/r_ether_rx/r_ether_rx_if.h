@@ -14,11 +14,11 @@
  * following link:
  * http://www.renesas.com/disclaimer 
  *
- * Copyright (C) 2016 Renesas Electronics Corporation. All rights reserved.    
+ * Copyright (C) 2016(2019) Renesas Electronics Corporation. All rights reserved.    
  ***********************************************************************************************************************/
 /***********************************************************************************************************************
  * File Name    : r_ether_rx_if.h
- * Version      : 1.08
+ * Version      : 1.16
  * Description  : Ethernet module device driver
  ***********************************************************************************************************************/
 /***********************************************************************************************************************
@@ -33,6 +33,8 @@
  *         : 01.10.2017 1.06     Added changes for RX65N-2MB.
  *         : 08.01.2018 1.07     Changed minor version to '14'.
  *         : 07.05.2018 1.08     Changed minor version to '15'.
+ *         : 04.04.2019 1.16     Added support for GNUC and ICCRX.
+ *                               Fixed coding style.
  ***********************************************************************************************************************/
 
 /* Guards against multiple inclusion */
@@ -54,7 +56,7 @@
  ***********************************************************************************************************************/
 /* Version Number of API. */
     #define ETHER_RX_VERSION_MAJOR  (1)
-    #define ETHER_RX_VERSION_MINOR  (15)
+    #define ETHER_RX_VERSION_MINOR  (16)
 
 /* When using the Read functions, ETHER_NO_DATA is the return value that indicates that no received data. */
     #define ETHER_NO_DATA           (0)

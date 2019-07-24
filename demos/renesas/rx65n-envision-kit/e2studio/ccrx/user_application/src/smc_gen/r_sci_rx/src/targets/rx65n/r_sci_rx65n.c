@@ -28,6 +28,7 @@
 *           01.02.2019 2.20    Supported received data match function.
 *                              Fixed GSCE Code Checker errors.
 *                              Added WAIT_LOOP comments.
+*           20.05.2019 3.00    Added support for GNUC and ICCRX.
 ***********************************************************************************************************************/
 
 /*****************************************************************************
@@ -638,7 +639,7 @@ sci_err_t sci_async_cmds(sci_hdl_t const hdl,
                 /* WAIT_LOOP */
                 while (0 == hdl->rom->regs->SSR.BIT.TEND)
                 {
-                    nop();
+                    R_BSP_NOP();
                 }
 
                 /* restore original baud rate */
@@ -779,8 +780,6 @@ sci_err_t sci_sync_cmds(sci_hdl_t const hdl,
         case (SCI_CMD_CHANGE_SPI_MODE):
         {
     #if SCI_CFG_PARAM_CHECKING_ENABLE
-            /* Casting pointer void* type is valid */
-            spi_mode = *((sci_spi_mode_t *)p_args);
 
             if (SCI_MODE_SSPI != hdl->mode)
             {
@@ -792,6 +791,9 @@ sci_err_t sci_sync_cmds(sci_hdl_t const hdl,
             {
                 return SCI_ERR_NULL_PTR;
             }
+
+            /* Casting pointer void* type is valid */
+            spi_mode = *((sci_spi_mode_t *)p_args);
 
             if ((SCI_SPI_MODE_0 != spi_mode) && (SCI_SPI_MODE_1 != spi_mode)
               && (SCI_SPI_MODE_2 != spi_mode) && (SCI_SPI_MODE_3 != spi_mode))
@@ -836,156 +838,156 @@ ISRs
  * Function Name: sci0_txi0_isr
  * Description  : TXI interrupt routines for SCI0 channel
  ******************************************************************************/
-#pragma interrupt sci0_txi0_isr(vect=VECT(SCI0,TXI0))
-static void sci0_txi0_isr(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(sci0_txi0_isr, VECT(SCI0,TXI0))
+R_BSP_ATTRIB_STATIC_INTERRUPT void sci0_txi0_isr(void)
 {
     txi_handler(&ch0_ctrl);
 } /* End of function sci0_txi0_isr() */
-#endif /* End of SCI_CFG_CH0_INCLUDED  */
+#endif /* End of SCI_CFG_CH0_INCLUDED  */
 
 #if SCI_CFG_CH1_INCLUDED
 /*******************************************************************************
  * Function Name: sci1_txi1_isr
  * Description  : TXI interrupt routines for SCI1 channel
  ******************************************************************************/
-#pragma interrupt sci1_txi1_isr(vect=VECT(SCI1,TXI1))
-static void sci1_txi1_isr(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(sci1_txi1_isr, VECT(SCI1,TXI1))
+R_BSP_ATTRIB_STATIC_INTERRUPT void sci1_txi1_isr(void)
 {
     txi_handler(&ch1_ctrl);
 } /* End of function sci1_txi1_isr() */
-#endif /* End of SCI_CFG_CH1_INCLUDED  */
+#endif /* End of SCI_CFG_CH1_INCLUDED  */
 
 #if SCI_CFG_CH2_INCLUDED
 /*******************************************************************************
  * Function Name: sci2_txi2_isr
  * Description  : TXI interrupt routines for SCI2 channel
  ******************************************************************************/
-#pragma interrupt sci2_txi2_isr(vect=VECT(SCI2,TXI2))
-static void sci2_txi2_isr(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(sci2_txi2_isr, VECT(SCI2,TXI2))
+R_BSP_ATTRIB_STATIC_INTERRUPT void sci2_txi2_isr(void)
 {
     txi_handler(&ch2_ctrl);
 } /* End of function sci2_txi2_isr() */
-#endif /* End of SCI_CFG_CH2_INCLUDED  */
+#endif /* End of SCI_CFG_CH2_INCLUDED  */
 
 #if SCI_CFG_CH3_INCLUDED
 /*******************************************************************************
  * Function Name: sci3_txi3_isr
  * Description  : TXI interrupt routines for SCI3 channel
  ******************************************************************************/
-#pragma interrupt sci3_txi3_isr(vect=VECT(SCI3,TXI3))
-static void sci3_txi3_isr(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(sci3_txi3_isr, VECT(SCI3,TXI3))
+R_BSP_ATTRIB_STATIC_INTERRUPT void sci3_txi3_isr(void)
 {
     txi_handler(&ch3_ctrl);
 } /* End of function sci3_txi3_isr() */
-#endif /* End of SCI_CFG_CH3_INCLUDED  */
+#endif /* End of SCI_CFG_CH3_INCLUDED  */
 
 #if SCI_CFG_CH4_INCLUDED
 /*******************************************************************************
  * Function Name: sci4_txi4_isr
  * Description  : TXI interrupt routines for SCI4 channel
  ******************************************************************************/
-#pragma interrupt sci4_txi4_isr(vect=VECT(SCI4,TXI4))
-static void sci4_txi4_isr(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(sci4_txi4_isr, VECT(SCI4,TXI4))
+R_BSP_ATTRIB_STATIC_INTERRUPT void sci4_txi4_isr(void)
 {
     txi_handler(&ch4_ctrl);
 } /* End of function sci4_txi4_isr() */
-#endif /* End of SCI_CFG_CH4_INCLUDED  */
+#endif /* End of SCI_CFG_CH4_INCLUDED  */
 
 #if SCI_CFG_CH5_INCLUDED
 /*******************************************************************************
  * Function Name: sci5_txi5_isr
  * Description  : TXI interrupt routines for SCI5 channel
  ******************************************************************************/
-#pragma interrupt sci5_txi5_isr(vect=VECT(SCI5,TXI5))
-static void sci5_txi5_isr(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(sci5_txi5_isr, VECT(SCI5,TXI5))
+R_BSP_ATTRIB_STATIC_INTERRUPT void sci5_txi5_isr(void)
 {
     txi_handler(&ch5_ctrl);
 } /* End of function sci5_txi5_isr() */
-#endif /* End of SCI_CFG_CH5_INCLUDED */
+#endif /* End of SCI_CFG_CH5_INCLUDED  */
 
 #if SCI_CFG_CH6_INCLUDED
 /*******************************************************************************
  * Function Name: sci6_txi6_isr
  * Description  : TXI interrupt routines for SCI6 channel
  ******************************************************************************/
-#pragma interrupt sci6_txi6_isr(vect=VECT(SCI6,TXI6))
-static void sci6_txi6_isr(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(sci6_txi6_isr, VECT(SCI6,TXI6))
+R_BSP_ATTRIB_STATIC_INTERRUPT void sci6_txi6_isr(void)
 {
     txi_handler(&ch6_ctrl);
 } /* End of function sci6_txi6_isr() */
-#endif /* End of SCI_CFG_CH6_INCLUDED */
+#endif /* End of SCI_CFG_CH6_INCLUDED  */
 
 #if SCI_CFG_CH7_INCLUDED
 /*******************************************************************************
  * Function Name: sci7_txi7_isr
  * Description  : TXI interrupt routines for SCI7 channel
  ******************************************************************************/
-#pragma interrupt sci7_txi7_isr(vect=VECT(SCI7,TXI7))
-static void sci7_txi7_isr(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(sci7_txi7_isr, VECT(SCI7,TXI7))
+R_BSP_ATTRIB_STATIC_INTERRUPT void sci7_txi7_isr(void)
 {
     txi_handler(&ch7_ctrl);
 } /* End of function sci7_txi7_isr() */
-#endif /* End of SCI_CFG_CH7_INCLUDED */
+#endif /* End of SCI_CFG_CH7_INCLUDED  */
 
 #if SCI_CFG_CH8_INCLUDED
 /*******************************************************************************
  * Function Name: sci8_txi8_isr
  * Description  : TXI interrupt routines for SCI8 channel
  ******************************************************************************/
-#pragma interrupt sci8_txi8_isr(vect=VECT(SCI8,TXI8))
-static void sci8_txi8_isr(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(sci8_txi8_isr, VECT(SCI8,TXI8))
+R_BSP_ATTRIB_STATIC_INTERRUPT void sci8_txi8_isr(void)
 {
     txi_handler(&ch8_ctrl);
 } /* End of function sci8_txi8_isr() */
-#endif /* End of SCI_CFG_CH8_INCLUDED */
+#endif /* End of SCI_CFG_CH8_INCLUDED  */
 
 #if SCI_CFG_CH9_INCLUDED
 /*******************************************************************************
  * Function Name: sci9_txi9_isr
  * Description  : TXI interrupt routines for SCI9 channel
  ******************************************************************************/
-#pragma interrupt sci9_txi9_isr(vect=VECT(SCI9,TXI9))
-static void sci9_txi9_isr(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(sci9_txi9_isr, VECT(SCI9,TXI9))
+R_BSP_ATTRIB_STATIC_INTERRUPT void sci9_txi9_isr(void)
 {
     txi_handler(&ch9_ctrl);
 } /* End of function sci9_txi9_isr() */
-#endif /* End of SCI_CFG_CH9_INCLUDED */
+#endif /* End of SCI_CFG_CH9_INCLUDED  */
 
 #if SCI_CFG_CH10_INCLUDED
 /*******************************************************************************
  * Function Name: sci10_txi10_isr
  * Description  : TXI interrupt routines for SCI10 channel
  ******************************************************************************/
-#pragma interrupt sci10_txi10_isr(vect=VECT(SCI10,TXI10))
-static void sci10_txi10_isr(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(sci10_txi10_isr, VECT(SCI10,TXI10))
+R_BSP_ATTRIB_STATIC_INTERRUPT void sci10_txi10_isr(void)
 {
     txi_handler(&ch10_ctrl);
 } /* End of function sci10_txi10_isr() */
-#endif /* End of SCI_CFG_CH10_INCLUDED */
+#endif /* End of SCI_CFG_CH10_INCLUDED  */
 
 #if SCI_CFG_CH11_INCLUDED
 /*******************************************************************************
  * Function Name: sci11_txi11_isr
  * Description  : TXI interrupt routines for SCI11 channel
  ******************************************************************************/
-#pragma interrupt sci11_txi11_isr(vect=VECT(SCI11,TXI11))
-static void sci11_txi11_isr(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(sci11_txi11_isr, VECT(SCI11,TXI11))
+R_BSP_ATTRIB_STATIC_INTERRUPT void sci11_txi11_isr(void)
 {
     txi_handler(&ch11_ctrl);
 } /* End of function sci11_txi11_isr() */
-#endif /* End of SCI_CFG_CH11_INCLUDED */
+#endif /* End of SCI_CFG_CH11_INCLUDED  */
 
 #if SCI_CFG_CH12_INCLUDED
 /*******************************************************************************
  * Function Name: sci12_txi12_isr
  * Description  : TXI interrupt routines for SCI12 channel
  ******************************************************************************/
-#pragma interrupt sci12_txi12_isr(vect=VECT(SCI12,TXI12))
-static void sci12_txi12_isr(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(sci12_txi12_isr, VECT(SCI12,TXI12))
+R_BSP_ATTRIB_STATIC_INTERRUPT void sci12_txi12_isr(void)
 {
     txi_handler(&ch12_ctrl);
 } /* End of function sci12_txi12_isr() */
-#endif /* End of SCI_CFG_CH12_INCLUDED */
+#endif /* End of SCI_CFG_CH12_INCLUDED  */
 
 #endif /* End of SCI_CFG_ASYNC_INCLUDED */
 
@@ -1154,8 +1156,8 @@ void sci12_tei12_isr(void *cb_args)
  * Function Name: sci0_rxi0_isr
  * Description  : RXI interrupt routines for SCI0 channel
  ******************************************************************************/
-#pragma interrupt sci0_rxi0_isr(vect=VECT(SCI0,RXI0))
-static void sci0_rxi0_isr(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(sci0_rxi0_isr, VECT(SCI0,RXI0))
+R_BSP_ATTRIB_STATIC_INTERRUPT void sci0_rxi0_isr(void)
 {
     rxi_handler(&ch0_ctrl);
 } /* End of function sci0_rxi0_isr() */
@@ -1166,20 +1168,20 @@ static void sci0_rxi0_isr(void)
  * Function Name: sci1_rxi1_isr
  * Description  : RXI interrupt routines for SCI1 channel
  ******************************************************************************/
-#pragma interrupt sci1_rxi1_isr(vect=VECT(SCI1,RXI1))
-static void sci1_rxi1_isr(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(sci1_rxi1_isr, VECT(SCI1,RXI1))
+R_BSP_ATTRIB_STATIC_INTERRUPT void sci1_rxi1_isr(void)
 {
     rxi_handler(&ch1_ctrl);
 } /* End of function sci1_rxi1_isr() */
-#endif /* End of SCI_CFG_CH1_INCLUDED*/
+#endif /* End of SCI_CFG_CH1_INCLUDED */
 
 #if SCI_CFG_CH2_INCLUDED
 /*******************************************************************************
  * Function Name: sci2_rxi2_isr
  * Description  : RXI interrupt routines for SCI2 channel
  ******************************************************************************/
-#pragma interrupt sci2_rxi2_isr(vect=VECT(SCI2,RXI2))
-static void sci2_rxi2_isr(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(sci2_rxi2_isr, VECT(SCI2,RXI2))
+R_BSP_ATTRIB_STATIC_INTERRUPT void sci2_rxi2_isr(void)
 {
     rxi_handler(&ch2_ctrl);
 } /* End of function sci2_rxi2_isr() */
@@ -1190,8 +1192,8 @@ static void sci2_rxi2_isr(void)
  * Function Name: sci3_rxi3_isr
  * Description  : RXI interrupt routines for SCI3 channel
  ******************************************************************************/
-#pragma interrupt sci3_rxi3_isr(vect=VECT(SCI3,RXI3))
-static void sci3_rxi3_isr(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(sci3_rxi3_isr, VECT(SCI3,RXI3))
+R_BSP_ATTRIB_STATIC_INTERRUPT void sci3_rxi3_isr(void)
 {
     rxi_handler(&ch3_ctrl);
 } /* End of function sci3_rxi3_isr() */
@@ -1202,8 +1204,8 @@ static void sci3_rxi3_isr(void)
  * Function Name: sci4_rxi4_isr
  * Description  : RXI interrupt routines for SCI4 channel
  ******************************************************************************/
-#pragma interrupt sci4_rxi4_isr(vect=VECT(SCI4,RXI4))
-static void sci4_rxi4_isr(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(sci4_rxi4_isr, VECT(SCI4,RXI4))
+R_BSP_ATTRIB_STATIC_INTERRUPT void sci4_rxi4_isr(void)
 {
     rxi_handler(&ch4_ctrl);
 } /* End of function sci4_rxi4_isr() */
@@ -1214,20 +1216,20 @@ static void sci4_rxi4_isr(void)
  * Function Name: sci5_rxi5_isr
  * Description  : RXI interrupt routines for SCI5 channel
  ******************************************************************************/
-#pragma interrupt sci5_rxi5_isr(vect=VECT(SCI5,RXI5))
-static void sci5_rxi5_isr(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(sci5_rxi5_isr, VECT(SCI5,RXI5))
+R_BSP_ATTRIB_STATIC_INTERRUPT void sci5_rxi5_isr(void)
 {
     rxi_handler(&ch5_ctrl);
 } /* End of function sci5_rxi5_isr() */
-#endif/* End of SCI_CFG_CH5_INCLUDED */
+#endif /* End of SCI_CFG_CH5_INCLUDED */
 
 #if SCI_CFG_CH6_INCLUDED
 /*******************************************************************************
  * Function Name: sci6_rxi6_isr
  * Description  : RXI interrupt routines for SCI6 channel
  ******************************************************************************/
-#pragma interrupt sci6_rxi6_isr(vect=VECT(SCI6,RXI6))
-static void sci6_rxi6_isr(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(sci6_rxi6_isr, VECT(SCI6,RXI6))
+R_BSP_ATTRIB_STATIC_INTERRUPT void sci6_rxi6_isr(void)
 {
     rxi_handler(&ch6_ctrl);
 } /* End of function sci6_rxi6_isr() */
@@ -1238,8 +1240,8 @@ static void sci6_rxi6_isr(void)
  * Function Name: sci7_rxi7_isr
  * Description  : RXI interrupt routines for SCI7 channel
  ******************************************************************************/
-#pragma interrupt sci7_rxi7_isr(vect=VECT(SCI7,RXI7))
-static void sci7_rxi7_isr(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(sci7_rxi7_isr, VECT(SCI7,RXI7))
+R_BSP_ATTRIB_STATIC_INTERRUPT void sci7_rxi7_isr(void)
 {
     rxi_handler(&ch7_ctrl);
 } /* End of function sci7_rxi7_isr() */
@@ -1250,8 +1252,8 @@ static void sci7_rxi7_isr(void)
  * Function Name: sci8_rxi8_isr
  * Description  : RXI interrupt routines for SCI8 channel
  ******************************************************************************/
-#pragma interrupt sci8_rxi8_isr(vect=VECT(SCI8,RXI8))
-static void sci8_rxi8_isr(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(sci8_rxi8_isr, VECT(SCI8,RXI8))
+R_BSP_ATTRIB_STATIC_INTERRUPT void sci8_rxi8_isr(void)
 {
     rxi_handler(&ch8_ctrl);
 } /* End of function sci8_rxi8_isr() */
@@ -1262,8 +1264,8 @@ static void sci8_rxi8_isr(void)
  * Function Name: sci9_rxi9_isr
  * Description  : RXI interrupt routines for SCI9 channel
  ******************************************************************************/
-#pragma interrupt sci9_rxi9_isr(vect=VECT(SCI9,RXI9))
-static void sci9_rxi9_isr(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(sci9_rxi9_isr, VECT(SCI9,RXI9))
+R_BSP_ATTRIB_STATIC_INTERRUPT void sci9_rxi9_isr(void)
 {
     rxi_handler(&ch9_ctrl);
 } /* End of function sci9_rxi9_isr() */
@@ -1274,8 +1276,8 @@ static void sci9_rxi9_isr(void)
  * Function Name: sci10_rxi10_isr
  * Description  : RXI interrupt routines for SCI10 channel
  ******************************************************************************/
-#pragma interrupt sci10_rxi10_isr(vect=VECT(SCI10,RXI10))
-static void sci10_rxi10_isr(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(sci10_rxi10_isr, VECT(SCI10,RXI10))
+R_BSP_ATTRIB_STATIC_INTERRUPT void sci10_rxi10_isr(void)
 {
     rxi_handler(&ch10_ctrl);
 } /* End of function sci10_rxi10_isr() */
@@ -1286,8 +1288,8 @@ static void sci10_rxi10_isr(void)
  * Function Name: sci11_rxi11_isr
  * Description  : RXI interrupt routines for SCI11 channel
  ******************************************************************************/
-#pragma interrupt sci11_rxi11_isr(vect=VECT(SCI11,RXI11))
-static void sci11_rxi11_isr(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(sci11_rxi11_isr, VECT(SCI11,RXI11))
+R_BSP_ATTRIB_STATIC_INTERRUPT void sci11_rxi11_isr(void)
 {
     rxi_handler(&ch11_ctrl);
 } /* End of function sci11_rxi11_isr() */
@@ -1298,13 +1300,12 @@ static void sci11_rxi11_isr(void)
  * Function Name: sci12_rxi12_isr
  * Description  : RXI interrupt routines for SCI12 channel
  ******************************************************************************/
-#pragma interrupt sci12_rxi12_isr(vect=VECT(SCI12,RXI12))
-static void sci12_rxi12_isr(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(sci12_rxi12_isr, VECT(SCI12,RXI12))
+R_BSP_ATTRIB_STATIC_INTERRUPT void sci12_rxi12_isr(void)
 {
     rxi_handler(&ch12_ctrl);
 } /* End of function sci12_rxi12_isr() */
 #endif /* End of SCI_CFG_CH12_INCLUDED */
-
 
 /*****************************************************************************
 * sciN_eriN_isr

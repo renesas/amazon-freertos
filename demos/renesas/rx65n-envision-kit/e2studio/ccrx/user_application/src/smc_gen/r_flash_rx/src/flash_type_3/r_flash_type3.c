@@ -14,7 +14,7 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2016 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2014-2019 Renesas Electronics Corporation. All rights reserved.
 ********************************************************************************************************************/
 /*******************************************************************************************************************
 * File Name : r_flash_type3.c
@@ -37,6 +37,7 @@
 *                                when in idle state.
 *           18.11.2016 3.00    Merged functions common to other flash types into r_flash_fcu.c and r_flash_group.c.
 *           27.22.2018 3.10    Added #if FLASH_HAS_2BIT_ERR_CHK (not supported by RX66T).
+*           19.04.2019 4.00    Added support for GNUC and ICCRX.
 ********************************************************************************************************************/
 
 /********************************************************************************************************************
@@ -66,7 +67,11 @@ lkbit_mode_t g_lkbit_mode = FLASH_LOCKBIT_MODE_NORMAL;
 #if (FLASH_CFG_CODE_FLASH_ENABLE == 1)
 static flash_err_t flash_lockbit_write(flash_block_address_t block_address, uint32_t num_blocks);
 
-#pragma section FRAM
+#define FLASH_PE_MODE_SECTION    R_BSP_ATTRIB_SECTION_CHANGE(P, FRAM)
+#define FLASH_SECTION_CHANGE_END R_BSP_ATTRIB_SECTION_CHANGE_END
+#else
+#define FLASH_PE_MODE_SECTION
+#define FLASH_SECTION_CHANGE_END
 #endif
 
 /***********************************************************************************************************************
@@ -80,6 +85,7 @@ static flash_err_t flash_lockbit_write(flash_block_address_t block_address, uint
 *                FLASH_ERR_CMD_LOCKED -
 *                    Flash hardware locked
 ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t get_cmdlk_err(void)
 {
     flash_err_t         err;
@@ -112,6 +118,7 @@ flash_err_t get_cmdlk_err(void)
 * Arguments    : None
 * Return Value : None
 ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 void do_cmdlk_recovery(void)
 {
 
@@ -160,6 +167,7 @@ void do_cmdlk_recovery(void)
 *                FLASH_INT_EVENT_ERR_CMD_LOCKED -
 *                    Flash hardware locked
 ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_interrupt_event_t get_cmdlk_err_event(void)
 {
     flash_interrupt_event_t event;
@@ -212,6 +220,7 @@ flash_interrupt_event_t get_cmdlk_err_event(void)
 *                FLASH_ERR_FAILURE
 *                    Failed to enter PE mode
 ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t flash_api_lockbit_set(flash_block_address_t block_address, uint32_t num_blocks)
 {
     flash_err_t err;
@@ -283,6 +292,7 @@ flash_err_t flash_api_lockbit_set(flash_block_address_t block_address, uint32_t 
  *                FLASH_ERR_CMD_LOCKED
  *                    Peripheral hardware in locked state. A reset was issued to recover from this state
  ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t flash_lockbit_read(flash_block_address_t block_address, flash_res_t *lock_state)
 {
     flash_err_t err = FLASH_SUCCESS;
@@ -369,6 +379,7 @@ flash_err_t flash_lockbit_read(flash_block_address_t block_address, flash_res_t 
  *                FLASH_ERR_CMD_LOCKED -
  *                    Flash hardware locked (should never happen)
  ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t flash_lockbit_write(flash_block_address_t block_address, uint32_t num_blocks)
 {
     flash_err_t err = FLASH_SUCCESS;
@@ -421,8 +432,6 @@ flash_err_t flash_lockbit_write(flash_block_address_t block_address, uint32_t nu
 }
 #endif
 
-#if (FLASH_CFG_CODE_FLASH_ENABLE == 1)
-#pragma section //end section FRAM
-#endif
+FLASH_SECTION_CHANGE_END //end section FRAM
 
 #endif  // FLASH_TYPE_3

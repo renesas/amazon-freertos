@@ -14,7 +14,7 @@
 * following link:
 * http://www.renesas.com/disclaimer 
 *
-* Copyright (C) 2016 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2016-2019 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
 * File Name    : r_flash_fcu.c
@@ -29,6 +29,7 @@
 *                                   Fixed bug where the error return code was not being checked when calling
 *                                     FLASH_CMD_CONFIG_CLOCK in flash_init_fcu().
 *              : 06.09.2018 1.30    Modified flash_write() to check for FLASH_CUR_STOP (write access error occurred).
+*              : 19.04.2019 4.00    Added support for GNUC and ICCRX.
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -164,7 +165,11 @@ flash_err_t flash_fcuram_codecopy(void)
 
 
 #if (FLASH_CFG_CODE_FLASH_ENABLE == 1)
-#pragma section FRAM
+#define FLASH_PE_MODE_SECTION    R_BSP_ATTRIB_SECTION_CHANGE(P, FRAM)
+#define FLASH_SECTION_CHANGE_END R_BSP_ATTRIB_SECTION_CHANGE_END
+#else
+#define FLASH_PE_MODE_SECTION
+#define FLASH_SECTION_CHANGE_END
 #endif
 
 
@@ -177,6 +182,7 @@ flash_err_t flash_fcuram_codecopy(void)
  * Notes     :   -This function will reset the peripheral by stopping any ongoing operations,
  *                clearing the DFAE and CFAE flags and changing the PE mode to Read mode.
  ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t flash_reset(void)
 {
 
@@ -224,6 +230,7 @@ flash_err_t flash_reset(void)
  *                FLASH_ERR_LOCKED
  *                    Peripheral in locked state
  ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t flash_stop(void)
 {
 
@@ -260,6 +267,7 @@ flash_err_t flash_stop(void)
  *                Illegal parameter passed
  * NOTE         : This function must run from RAM if Code Flash non-BGO is used
  ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t flash_pe_mode_enter(flash_type_t flash_type)
 {
     flash_err_t err = FLASH_SUCCESS;
@@ -326,6 +334,7 @@ flash_err_t flash_pe_mode_enter(flash_type_t flash_type)
  *                FLASH_ERR_LOCKED -
  *                    Peripheral in locked state. Operation failed.
  ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t flash_pe_mode_exit(void)
 {
     flash_err_t err = FLASH_SUCCESS;
@@ -356,6 +365,7 @@ flash_err_t flash_pe_mode_exit(void)
  *                FLASH_ERR_LOCKED -
  *                    Peripheral in locked state. Operation failed.
  ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t flash_wait_frdy(void)
 {
     flash_err_t err = FLASH_SUCCESS;
@@ -394,6 +404,7 @@ flash_err_t flash_wait_frdy(void)
 *                FLASH_ERR_BUSY -
 *                    Flash is busy with another operation or is uninitialized
 ***********************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t flash_get_status (void)
 {
     /* Return flash status */
@@ -427,6 +438,7 @@ flash_err_t flash_get_status (void)
  *                FLASH_ERR_FAILURE -
  *                    Erase operation failed for some other reason
  ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t flash_erase(uint32_t block_address, uint32_t num_blocks)
 {
 #if (FLASH_CFG_CODE_FLASH_ENABLE == 1)
@@ -519,6 +531,7 @@ flash_err_t flash_erase(uint32_t block_address, uint32_t num_blocks)
  *                FLASH_ERR_FAILURE -
  *                    Operation failure
  ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t flash_blankcheck(uint32_t start_address, uint32_t num_bytes, flash_res_t *result)
 {
     flash_err_t err = FLASH_SUCCESS;
@@ -584,6 +597,7 @@ flash_err_t flash_blankcheck(uint32_t start_address, uint32_t num_bytes, flash_r
  *                    Code Flash Write operation attempted in BGO mode. This is temporarily not supported
  *                    Operation failed for some other reason; RESET was performed on the FCU to recover from this state.
  ***********************************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t flash_write(uint32_t src_start_address,
                         uint32_t dest_start_address,
                         uint32_t num_bytes)
@@ -671,8 +685,9 @@ flash_err_t flash_write(uint32_t src_start_address,
  * Arguments    : none
  * Return Value : none
  ***********************************************************************************************************************/
-#pragma interrupt Excep_FCU_FRDYI(vect=VECT(FCU,FRDYI))
-static void Excep_FCU_FRDYI(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(Excep_FCU_FRDYI,VECT(FCU,FRDYI))
+FLASH_PE_MODE_SECTION
+R_BSP_ATTRIB_STATIC_INTERRUPT void Excep_FCU_FRDYI(void)
 {
 #if (FLASH_CFG_CODE_FLASH_ENABLE == 1)
     uint32_t    size_boundary;
@@ -876,8 +891,9 @@ static void Excep_FCU_FRDYI(void)
  * Arguments    : none
  * Return Value : none
  ***********************************************************************************************************************/
-#pragma interrupt Excep_FCU_FIFERR(vect=VECT(FCU,FIFERR))
-static void Excep_FCU_FIFERR(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(Excep_FCU_FIFERR,VECT(FCU,FIFERR))
+FLASH_PE_MODE_SECTION
+R_BSP_ATTRIB_STATIC_INTERRUPT void Excep_FCU_FIFERR(void)
 {
     /* Check if Command Lock bit is set */
     if (1 == FLASH.FASTAT.BIT.CMDLK)
@@ -901,8 +917,6 @@ static void Excep_FCU_FIFERR(void)
 
 #endif // (FLASH_CFG_CODE_FLASH_BGO || FLASH_CFG_DATA_FLASH_BGO)
 
-#if (FLASH_CFG_CODE_FLASH_ENABLE == 1)
-#pragma section
-#endif
+FLASH_SECTION_CHANGE_END
 
 #endif // FLASH_HAS_FCU

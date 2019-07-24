@@ -14,7 +14,7 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2016 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2014-2019 Renesas Electronics Corporation. All rights reserved.
 ********************************************************************************************************************/
 /*******************************************************************************************************************
 * File Name : r_flash_type1.c
@@ -38,6 +38,7 @@
 *                              Added check in Open() for another operation in progress when in BGO mode.
 *           18.11.2016 3.00    Removed functions common to other MCUs for new merged source code.
 *           02.08.2017 3.10    Removed #include "r_mcu_config.h". Now in targets.h (r_flash_rx_if.h includes)
+*           19.04.2019 4.00    Added support for GNUC and ICCRX.
 ********************************************************************************************************************/
 
 /********************************************************************************************************************
@@ -46,7 +47,6 @@ Includes   <System Includes> , "Project Includes"
 /* Includes board and MCU related header files. */
 #include "r_flash_rx_if.h"
 #if (FLASH_TYPE == FLASH_TYPE_1)
-#include <machine.h>
 
 /* Private header file for this package. */
 #include "r_flash_type1_if.h"
@@ -75,7 +75,11 @@ Includes   <System Includes> , "Project Includes"
 
 
 #if (FLASH_CFG_CODE_FLASH_ENABLE == 1)
-#pragma section FRAM
+#define FLASH_PE_MODE_SECTION    R_BSP_ATTRIB_SECTION_CHANGE(P, FRAM)
+#define FLASH_SECTION_CHANGE_END R_BSP_ATTRIB_SECTION_CHANGE_END
+#else
+#define FLASH_PE_MODE_SECTION
+#define FLASH_SECTION_CHANGE_END
 #endif
 
 /***********************************************************************************************************
@@ -89,6 +93,7 @@ Includes   <System Includes> , "Project Includes"
 *                FLASH_ERR_BUSY -
 *                    Flash is busy with another operation or is uninitialized
 ***********************************************************************************************************/
+FLASH_PE_MODE_SECTION
 flash_err_t flash_get_status (void)
 {
 
@@ -112,16 +117,19 @@ flash_err_t flash_get_status (void)
 * Arguments    : R1 : Waiting loop counter
 * Return Value : none
 *******************************************************************************/
-#pragma inline_asm r_flash_delay
-static void r_flash_delay  (unsigned long loop_cnt)
+FLASH_PE_MODE_SECTION
+R_BSP_PRAGMA_STATIC_INLINE_ASM(r_flash_delay)
+void r_flash_delay (unsigned long loop_cnt)
 {
-    BRA     ?+
-    NOP
-?:
-    NOP
-    SUB     #01H,R1
-    BNE     ?-
-
+    R_BSP_ASM_INTERNAL_USED(loop_cnt)
+    R_BSP_ASM_BEGIN
+    R_BSP_ASM(    BRA.B   R_BSP_ASM_LAB_NEXT(0)    )
+    R_BSP_ASM(    NOP                              )
+    R_BSP_ASM_LAB(0:                               )
+    R_BSP_ASM(    NOP                              )
+    R_BSP_ASM(    SUB     #01H, R1                 )
+    R_BSP_ASM(    BNE.B   R_BSP_ASM_LAB_PREV(0)    )
+    R_BSP_ASM_END
 }
 
 /*******************************************************************************
@@ -135,6 +143,7 @@ static void r_flash_delay  (unsigned long loop_cnt)
                : khz : ICLK frequency when calling the function
 * Return Value : none
 *******************************************************************************/
+FLASH_PE_MODE_SECTION
 void r_flash_delay_us (unsigned long us, unsigned long khz)
 {
 
@@ -161,8 +170,9 @@ void r_flash_delay_us (unsigned long us, unsigned long khz)
 * Arguments    : none
 * Return Value : none
 ******************************************************************************/
-#pragma interrupt Excep_FCU_FRDYI(vect=VECT(FCU, FRDYI))
-static void Excep_FCU_FRDYI(void)
+R_BSP_PRAGMA_STATIC_INTERRUPT(Excep_FCU_FRDYI,VECT(FCU,FRDYI))
+FLASH_PE_MODE_SECTION
+R_BSP_ATTRIB_STATIC_INTERRUPT void Excep_FCU_FRDYI(void)
 {
     flash_err_t err = FLASH_SUCCESS;
 
@@ -301,8 +311,9 @@ static void Excep_FCU_FRDYI(void)
 }
 
 #endif  // ((FLASH_CFG_CODE_FLASH_ENABLE == 1) && (FLASH_CFG_CODE_FLASH_BGO == 1)) || (FLASH_CFG_DATA_FLASH_BGO == 1)
-#endif  // (FLASH_TYPE == FLASH_TYPE_1)
 
-#pragma section /* end FLASH_SECTION_ROM */
+FLASH_SECTION_CHANGE_END /* end FLASH_SECTION_ROM */
+
+#endif  // (FLASH_TYPE == FLASH_TYPE_1)
 
 /* end of file */
