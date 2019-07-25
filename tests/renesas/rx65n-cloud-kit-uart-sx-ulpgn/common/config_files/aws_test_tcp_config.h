@@ -69,5 +69,6 @@
 
 #define         tcptestECHO_TEST_SYNC_TIMEOUT                      180000 /* MS */
 
+#define         tcptestECHO_TEST_RXTX_TIMEOUT                      40000
 
 #endif /*AWS_INTEGRATION_TEST_TCP_CONFIG_H */
