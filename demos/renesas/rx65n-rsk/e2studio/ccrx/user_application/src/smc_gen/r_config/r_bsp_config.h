@@ -327,7 +327,7 @@ Configuration Options
 /* USB Clock Divider Select.
    Available divisors = /2, /3, /4, /5
 */
-#define BSP_CFG_UCK_DIV                 (2)
+#define BSP_CFG_UCK_DIV                 (5)
 
 /* Configure BCLK output pin (only effective when external bus enabled)
    Values 0=no output, 1 = BCK frequency, 2= BCK/2 frequency
@@ -607,6 +607,16 @@ Configuration Options
 /* This macro is used to select which SCI channel used for debug serial terminal.
  */
 #define MY_BSP_CFG_SERIAL_TERM_SCI                  (8)
+
+/* OTA setting
+ * (0) : Disable
+ * (1) : Enable
+ */
+#define MY_BSP_CFG_OTA_ENABLE                       (0)
+
+/* This macro is used to select which SCI channel used for OTA.
+ */
+#define MY_BSP_CFG_USE_USBIP                        (0)
 
 #endif /* R_BSP_CONFIG_REF_HEADER_FILE */
 
