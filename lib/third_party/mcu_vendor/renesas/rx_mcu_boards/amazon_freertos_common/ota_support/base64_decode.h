@@ -14,10 +14,24 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2014-2017 Renesas Electronics Corporation. All rights reserved.
+***********************************************************************************************************************/
+/***********************************************************************************************************************
+* File Name    : base64_decode.h
+* Description  : BASE64 decode function
+***********************************************************************************************************************/
+/**********************************************************************************************************************
+* History : DD.MM.YYYY Version Description
+*         : 01.09.2014 1.00    First Release
+*         : 01.06.2015 1.01    Added RX231.
+*         : 15.05.2017 1.02    Clean up source file
 ***********************************************************************************************************************/
 
-#ifndef TASK_FUNCTION_H_
-#define TASK_FUNCTION_H_
+#ifndef BASE64_DECODE_H_
+#define BASE64_DECODE_H_
 
-#endif /* TASK_FUNCTION_H_ */
+#include "platform.h"
+
+uint32_t base64_decode(uint8_t *source, uint8_t *result, uint32_t size);
+
+#endif /* BASE64_DECODE_H_ */
