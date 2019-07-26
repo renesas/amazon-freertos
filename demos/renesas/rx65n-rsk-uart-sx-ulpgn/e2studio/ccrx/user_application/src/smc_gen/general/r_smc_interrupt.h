@@ -22,7 +22,7 @@
 * Version      : 1.1.0
 * Device(s)    : R5F565NEDxFC
 * Description  : This file implements interrupt setting.
-* Creation Date: 2019-07-24
+* Creation Date: 2019-07-25
 ***********************************************************************************************************************/
 
 #ifndef SMC_INTERRUPT_H
@@ -216,7 +216,7 @@ Macro definitions
 #define ICU_S12AD1_S12ADI1_PRIORITY                (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_S12AD1_S12GBADI1_PRIORITY              (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_S12AD1_S12GCADI1_PRIORITY              (_0F_ICU_PRIORITY_LEVEL15)
-#define ICU_RNG_RNGEND_PRIORITY                    (_0F_ICU_PRIORITY_LEVEL15)
+#define ICU_PERIB_INTB192_PRIORITY                 (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_ELC_ELSR18I_PRIORITY                   (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_ELC_ELSR19I_PRIORITY                   (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_TSIP_PROC_BUSY_PRIORITY                (_0F_ICU_PRIORITY_LEVEL15)
@@ -275,8 +275,8 @@ Macro definitions
 #define ICU_MTU8_TGIC8_PRIORITY                    (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_MTU8_TGID8_PRIORITY                    (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_MTU8_TCIV8_PRIORITY                    (_0F_ICU_PRIORITY_LEVEL15)
-#define ICU_AES_AESRDY_PRIORITY                    (_0F_ICU_PRIORITY_LEVEL15)
-#define ICU_AES_AESEND_PRIORITY                    (_0F_ICU_PRIORITY_LEVEL15)
+#define ICU_PERIA_INTA251_PRIORITY                 (_0F_ICU_PRIORITY_LEVEL15)
+#define ICU_PERIA_INTA252_PRIORITY                 (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_PERIA_INTA253_PRIORITY                 (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_PERIA_INTA254_PRIORITY                 (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_PERIA_INTA255_PRIORITY                 (_0F_ICU_PRIORITY_LEVEL15)

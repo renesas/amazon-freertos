@@ -22,7 +22,7 @@
 * Version      : 1.2.5
 * Device(s)    : R5F565NEDxFC
 * Description  : Initialization file for code generation configurations.
-* Creation Date: 2019-07-24
+* Creation Date: 2019-07-25
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -45,7 +45,6 @@ Includes
 Global variables and functions
 ***********************************************************************************************************************/
 /* Start user code for global. Do not edit comment generated here */
-void r_undefined_exception(void);
 /* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
