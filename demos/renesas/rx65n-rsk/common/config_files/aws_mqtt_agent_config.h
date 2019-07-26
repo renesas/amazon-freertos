@@ -63,7 +63,7 @@
  * @brief The maximum time interval in seconds allowed to elapse between 2 consecutive
  * control packets.
  */
-#define mqttconfigKEEP_ALIVE_INTERVAL_SECONDS         ( 100 )
+#define mqttconfigKEEP_ALIVE_INTERVAL_SECONDS         ( 1200 )
 
 /**
  * @brief Defines the frequency at which the client should send Keep Alive messages.
@@ -108,8 +108,8 @@
 /**
  * @brief Time in milliseconds after which the TCP send operation should timeout.
  */
-//#define mqttconfigTCP_SEND_TIMEOUT_MS    ( 2000 )
-#define mqttconfigTCP_SEND_TIMEOUT_MS    ( 20 )
+#define mqttconfigTCP_SEND_TIMEOUT_MS    ( 2000 )
+//#define mqttconfigTCP_SEND_TIMEOUT_MS    ( 20 )
 
 /**
  * @brief Length of the buffer used to receive data.

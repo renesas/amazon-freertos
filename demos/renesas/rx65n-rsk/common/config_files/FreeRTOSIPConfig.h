@@ -220,7 +220,7 @@ uint32_t ulRand(void);
 #define ipconfigUSE_TCP                                ( 1 )
 
 /* USE_WIN: Let TCP use windowing mechanism. */
-#define ipconfigUSE_TCP_WIN                            ( 0 )
+#define ipconfigUSE_TCP_WIN                            ( 1 )
 
 /* The MTU is the maximum number of bytes the payload of a network frame can
  * contain.  For normal Ethernet V2 frames the maximum MTU is 1500.  Setting a
@@ -278,10 +278,10 @@ uint32_t ulRand(void);
 
 /* Each TCP socket has a circular buffers for Rx and Tx, which have a fixed
  * maximum size.  Define the size of Rx buffer for TCP sockets. */
-#define ipconfigTCP_RX_BUFFER_LENGTH                   ( 3000 )
+#define ipconfigTCP_RX_BUFFER_LENGTH                   ( 1480*8 )
 
 /* Define the size of Tx buffer for TCP sockets. */
-#define ipconfigTCP_TX_BUFFER_LENGTH                   ( 3000 )
+#define ipconfigTCP_TX_BUFFER_LENGTH                   ( 1480*8 )
 
 /* When using call-back handlers, the driver may check if the handler points to
  * real program memory (RAM or flash) or just has a random non-zero value. */

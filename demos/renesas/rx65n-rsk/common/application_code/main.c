@@ -46,6 +46,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "aws_demo_runner.h"
 #include "aws_clientcredential.h"
 #include "platform.h"
+#if (MY_BSP_CFG_OTA_ENABLE == 1)
+#include "r_usb_hmsc_apl.h"
+#endif /* MY_BSP_CFG_OTA_ENABLE == 1 */
 
 #define mainLOGGING_TASK_STACK_SIZE         ( configMINIMAL_STACK_SIZE * 6 )
 #define mainLOGGING_MESSAGE_QUEUE_LENGTH    ( 15 )
@@ -135,6 +138,10 @@ static void prvMiscInitialization( void )
     /* Initialize UART for serial terminal. */
     uart_config();
 
+#if (MY_BSP_CFG_OTA_ENABLE == 1)
+    usb_init();
+#endif /* MY_BSP_CFG_OTA_ENABLE == 1 */
+
     /* Start logging task. */
     xLoggingTaskInitialize( mainLOGGING_TASK_STACK_SIZE,
                             tskIDLE_PRIORITY,
@@ -162,6 +169,11 @@ void vApplicationDaemonTaskStartupHook( void )
         {
             vTaskDelay(3000);
         }
+
+        /* Attached to the usb before running the demos */
+#if (MY_BSP_CFG_OTA_ENABLE == 1)
+        while (0U == usb_attached());
+#endif /* MY_BSP_CFG_OTA_ENABLE == 1 */
 
         /* Provision the device with AWS certificate and private key. */
         vDevModeKeyProvisioning();
