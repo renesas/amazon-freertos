@@ -51,6 +51,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /* Demo includes */
 #include "aws_demo_runner.h"
 
+#include "platform.h"
+
 #define mainLOGGING_TASK_STACK_SIZE         ( configMINIMAL_STACK_SIZE * 6 )
 #define mainLOGGING_MESSAGE_QUEUE_LENGTH    ( 15 )
 #define mainTEST_RUNNER_TASK_STACK_SIZE    ( configMINIMAL_STACK_SIZE * 8 )
@@ -138,6 +140,7 @@ void main( void )
      * startup hook. */
     // vTaskStartScheduler();
 
+    R_BSP_NOP();
     while(1)
     {
     	vTaskDelay(10000);
@@ -149,8 +152,8 @@ static void prvMiscInitialization( void )
 {
     /* FIX ME. */
 	uart_config();
-	configPRINT_STRING(("Hello World.\r\n"));
-    /* Start logging task. */
+
+	/* Start logging task. */
     xLoggingTaskInitialize( mainLOGGING_TASK_STACK_SIZE,
                             tskIDLE_PRIORITY,
                             mainLOGGING_MESSAGE_QUEUE_LENGTH );

@@ -74,6 +74,10 @@ void R_SCI_PinSet_SCI6()
     MPC.P00PFS.BYTE = 0x0AU;
     PORT0.PMR.BIT.B0 = 1U;
 
+    /* Set CTS6#/RTS6#/SS6# pin */
+    MPC.PJ3PFS.BYTE = 0x0AU;
+    PORTJ.PMR.BIT.B3 = 1U;
+
     R_BSP_RegisterProtectEnable(BSP_REG_PROTECT_MPC);
 }
 
