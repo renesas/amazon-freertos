@@ -613,7 +613,7 @@ Configuration Options
  * (0) : Disable
  * (1) : Enable
  */
-#define MY_BSP_CFG_OTA_ENABLE                       (1)
+#define MY_BSP_CFG_OTA_ENABLE                       (0)
 
 /* This macro is used to select which SCI channel used for OTA.
  */
