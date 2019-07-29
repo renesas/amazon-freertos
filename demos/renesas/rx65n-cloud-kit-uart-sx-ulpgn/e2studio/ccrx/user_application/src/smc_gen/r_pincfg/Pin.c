@@ -22,7 +22,7 @@
 * Version      : 1.0.2
 * Device(s)    : R5F565NEDxFP
 * Description  : This file implements SMC pin code generation.
-* Creation Date: 2019-07-24
+* Creation Date: 2019-07-29
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -56,22 +56,26 @@ void R_Pins_Create(void)
 {
     R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_MPC);
 
+    /* Set CTS0# pin */
+    MPC.P23PFS.BYTE = 0x0BU;
+    PORT2.PMR.BYTE |= 0x08U;
+
     /* Set RXD0 pin */
-    MPC.P33PFS.BYTE = 0x0BU;
-    PORT3.PMR.BYTE |= 0x08U;
+    MPC.P21PFS.BYTE = 0x0AU;
+    PORT2.PMR.BYTE |= 0x02U;
 
     /* Set RXD1 pin */
     MPC.P30PFS.BYTE = 0x0AU;
     PORT3.PMR.BYTE |= 0x01U;
 
     /* Set RXD5 pin */
-    MPC.PC2PFS.BYTE = 0x0AU;
-    PORTC.PMR.BYTE |= 0x04U;
+    MPC.PA3PFS.BYTE = 0x0AU;
+    PORTA.PMR.BYTE |= 0x08U;
 
     /* Set TXD0 pin */
-    PORT3.PODR.BYTE |= 0x04U;
-    MPC.P32PFS.BYTE = 0x0BU;
-    PORT3.PDR.BYTE |= 0x04U;
+    PORT2.PODR.BYTE |= 0x01U;
+    MPC.P20PFS.BYTE = 0x0AU;
+    PORT2.PDR.BYTE |= 0x01U;
 
     /* Set TXD1 pin */
     PORT2.PODR.BYTE |= 0x40U;
@@ -79,9 +83,9 @@ void R_Pins_Create(void)
     PORT2.PDR.BYTE |= 0x40U;
 
     /* Set TXD5 pin */
-    PORTC.PODR.BYTE |= 0x08U;
-    MPC.PC3PFS.BYTE = 0x0AU;
-    PORTC.PDR.BYTE |= 0x08U;
+    PORTA.PODR.BYTE |= 0x10U;
+    MPC.PA4PFS.BYTE = 0x0AU;
+    PORTA.PDR.BYTE |= 0x10U;
 
     R_BSP_RegisterProtectEnable(BSP_REG_PROTECT_MPC);
 }   

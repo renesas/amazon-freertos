@@ -100,8 +100,8 @@ Configuration Options
 #define SCI_CFG_CH12_INCLUDED   (0)
 
 /* SPECIFY ASYNC MODE TX QUEUE BUFFER SIZES (will not allocate if chan not enabled */
-#define SCI_CFG_CH0_TX_BUFSIZ   (5000)
-#define SCI_CFG_CH1_TX_BUFSIZ   (1460)
+#define SCI_CFG_CH0_TX_BUFSIZ   (2048)
+#define SCI_CFG_CH1_TX_BUFSIZ   (1024)
 #define SCI_CFG_CH2_TX_BUFSIZ   (80)
 #define SCI_CFG_CH3_TX_BUFSIZ   (80)
 #define SCI_CFG_CH4_TX_BUFSIZ   (80)
