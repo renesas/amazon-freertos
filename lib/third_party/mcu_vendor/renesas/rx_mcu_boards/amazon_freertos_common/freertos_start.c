@@ -61,7 +61,6 @@ Exported global variables (to be accessed by other files)
 ******************************************************************************/
 
 /************* semaphore initialization *****************/
-#if (MY_BSP_CFG_OTA_ENABLE == 1)
 static QueueHandle_t g_apl_mbx_hdl;
 /******************************************************************************
 Exported global variables (to be accessed by other files)
@@ -70,7 +69,6 @@ QueueHandle_t *g_apl_mbx_table[] =
 {
     &g_apl_mbx_hdl,
 };
-#endif /* MY_BSP_CFG_OTA_ENABLE == 1 */
 /************* mutex initialization *********************/
 
 
