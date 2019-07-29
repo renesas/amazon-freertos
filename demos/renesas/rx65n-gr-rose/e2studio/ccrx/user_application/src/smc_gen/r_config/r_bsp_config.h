@@ -220,7 +220,7 @@ Configuration Options
    0 = Resonator
    1 = External clock input
 */
-#define BSP_CFG_MAIN_CLOCK_SOURCE       (0) /* Generated value. Do not edit this manually */
+#define BSP_CFG_MAIN_CLOCK_SOURCE       (1) /* Generated value. Do not edit this manually */
 
 /* The sub-clock oscillation control for using the RTC.
    When '1' is selected, the registers related to RTC are initialized and the sub-clock oscillator is operated.
@@ -604,6 +604,6 @@ Configuration Options
    Don't change if there is no special processing with higher priority than all fit modules.
 */
 #define BSP_CFG_FIT_IPL_MAX                         (0xF)
-#define MY_BSP_CFG_SERIAL_TERM_SCI 					 (1)
+#define MY_BSP_CFG_SERIAL_TERM_SCI 					 (2)
 #endif /* R_BSP_CONFIG_REF_HEADER_FILE */
 
