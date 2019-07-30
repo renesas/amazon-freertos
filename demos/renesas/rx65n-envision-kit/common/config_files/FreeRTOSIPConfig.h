@@ -54,7 +54,7 @@
 
 /* Define the byte order of the target MCU (the MCU FreeRTOS+TCP is executing
  * on).  Valid options are pdFREERTOS_BIG_ENDIAN and pdFREERTOS_LITTLE_ENDIAN. */
-#define ipconfigBYTE_ORDER                         pdFREERTOS_LITTLE_ENDIAN       
+#define ipconfigBYTE_ORDER                         pdFREERTOS_LITTLE_ENDIAN        
 
 /* If the network card/driver includes checksum offloading (IP/TCP/UDP checksums)
  * then set ipconfigDRIVER_INCLUDED_RX_IP_CHECKSUM to 1 to prevent the software
@@ -281,7 +281,7 @@ uint32_t ulRand(void);
 #define ipconfigTCP_RX_BUFFER_LENGTH                   (3000)
 
 /* Define the size of Tx buffer for TCP sockets. */
-#define ipconfigTCP_TX_BUFFER_LENGTH                   (0)
+#define ipconfigTCP_TX_BUFFER_LENGTH                   (3000)
 
 /* When using call-back handlers, the driver may check if the handler points to
  * real program memory (RAM or flash) or just has a random non-zero value. */
