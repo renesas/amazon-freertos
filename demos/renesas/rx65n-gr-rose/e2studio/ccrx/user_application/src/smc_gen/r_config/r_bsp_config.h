@@ -169,7 +169,7 @@ Configuration Options
       settings and choosing the Standard Library section. After that choose 'Contents' in E2Studio.
       This will present a list of modules that can be included. Uncheck the box for stdio.h.
    NOTE: This setting is available only when using CCRX and GNUC. */
-#define BSP_CFG_HEAP_BYTES              (0x400)
+#define BSP_CFG_HEAP_BYTES              (0x1000)
 
 /* Initializes C input & output library functions.
    0 = Disable I/O library initialization in resetprg.c. If you are not using stdio then use this value.
@@ -220,7 +220,7 @@ Configuration Options
    0 = Resonator
    1 = External clock input
 */
-#define BSP_CFG_MAIN_CLOCK_SOURCE       (1) /* Generated value. Do not edit this manually */
+#define BSP_CFG_MAIN_CLOCK_SOURCE       (0) /* Generated value. Do not edit this manually */
 
 /* The sub-clock oscillation control for using the RTC.
    When '1' is selected, the registers related to RTC are initialized and the sub-clock oscillator is operated.
