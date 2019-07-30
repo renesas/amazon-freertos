@@ -231,9 +231,9 @@ extern void vLoggingPrint( const char * pcMessage );
  * to and from a real network connection on the host PC.  See the
  * configNETWORK_INTERFACE_TO_USE definition above for information on how to
  * configure the real network connection to use. */
-#define configMAC_ADDR0                      0x01
-#define configMAC_ADDR1                      0x12
-#define configMAC_ADDR2                      0x13
+#define configMAC_ADDR0                      0x74
+#define configMAC_ADDR1                      0x90
+#define configMAC_ADDR2                      0x50
 #define configMAC_ADDR3                      0x10
 #define configMAC_ADDR4                      0x15
 #define configMAC_ADDR5                      0x11
