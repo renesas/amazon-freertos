@@ -46,8 +46,8 @@ void R_USB_PinSet_USB0_HOST()
     R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_MPC);
 
     /* Set USB0_VBUSEN pin */
-    MPC.P32PFS.BYTE = 0x13U;
-    PORT3.PMR.BIT.B2 = 1U;
+    MPC.P16PFS.BYTE = 0x12U;
+    PORT1.PMR.BIT.B6 = 1U;
 
     /* Set USB0_OVRCURA pin */
     MPC.P14PFS.BYTE = 0x12U;
