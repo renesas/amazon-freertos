@@ -181,36 +181,7 @@ int32_t esp8266_wifi_init(void)
 	DEBUG_PORT7_DDR = 1;
 	DEBUG_PORT7_DR = 0;
 #endif
-	/* Wifi Module hardware reset   */
-//	ESP8266_UARTBOOT_PORT_DDR = 1;
-//	ESP8266_UARTBOOT_PORT_DR = 0;
 
-#if 0
-	ret = memdrv_open(76800);
-	if(ret != 0)
-	{
-		return ret;
-	}
-
-	ret = esp8266_serial_open(76800);
-	if(ret != 0)
-	{
-		return ret;
-	}
-#endif
-
-//	ret = esp8266_serial_send_basic2(ESP8266_UART_COMMAND_PORT, NULL, 1000, 20000, ESP8266_RETURN_OK, ESP8266_RETURN_READY);
-
-	/* IO15 = LOW */
-	//PORTC.PDR.BIT.B4 = 1;
-	//PORTC.PODR.BIT.B4 = 0;
-
-	/* IO0 = HIGH */
-	//PORT1.PDR.BIT.B5 = 1;
-	//PORT1.PODR.BIT.B5 = 1;
-
-	//	ESP8266_UARTBOOT_PORT_DDR = 1;
-	//	ESP8266_UARTBOOT_PORT_DR = 0;
 
 	ESP8266_RESET_PORT_DDR = 1;
 	ESP8266_RESET_PORT_DR = 0; /* Low */
@@ -223,14 +194,6 @@ int32_t esp8266_wifi_init(void)
 	ret = esp8266_serial_send_rst(ESP8266_UART_COMMAND_PORT, NULL, 1000, 20000, ESP8266_RETURN_OK, ESP8266_RETURN_READY);
 
 	esp8266_serial_close();
-
-#if 0
-	ret = memdrv_open(115200);
-	if(ret != 0)
-	{
-		return ret;
-	}
-#endif
 
 	ret = esp8266_serial_open(115200);
 	if(ret != 0)
@@ -267,21 +230,6 @@ int32_t esp8266_wifi_init(void)
 		return ret;
 	}
 
-//	g_sx_esp8266_return_mode = 1;
-//	/* result code format = numeric */
-//	ret = esp8266_serial_send_basic(ESP8266_UART_COMMAND_PORT, "ATV0\r", 3, 200, ESP8266_RETURN_OK);
-//	if(ret != 0)
-//	{
-//		return ret;
-//	}
-
-//	/* Escape guard time = 200msec */
-//	ret = esp8266_serial_send_basic(ESP8266_UART_COMMAND_PORT, "ATS12=1\r", 3, 200, ESP8266_RETURN_OK);
-//	if(ret != 0)
-//	{
-//		return ret;
-//	}
-
 	R_SCI_Control(esp8266_uart_sci_handle[ESP8266_UART_COMMAND_PORT], SCI_CMD_RX_Q_FLUSH, NULL);
 	ret = esp8266_serial_send_basic(0, "AT+UART_CUR=115200,8,1,0,0\r\n", 3, 200, ESP8266_RETURN_OK);
 	ret = esp8266_serial_send_basic(0, "AT+UART_CUR?\r\n", 3, 200, ESP8266_RETURN_OK);
@@ -312,31 +260,6 @@ int32_t esp8266_wifi_init(void)
 	{
 		return ret;
 	}
-
-
-//	ret = esp8266_serial_send_basic(ESP8266_UART_COMMAND_PORT, "ATTO=1\r", 3, 1000, ESP8266_RETURN_OK);
-//	if(ret != 0)
-//	{
-//		return ret;
-//	}
-
-#if (0)
-	/* Command Port = HSUART1(PMOD-UART), Data Port = Debug　UART */
-	ret = esp8266_serial_send_basic(ESP8266_UART_COMMAND_PORT, "ATUART=1,0\r", 3, 200, ESP8266_RETURN_OK);
-	if(ret != 0)
-	{
-		return ret;
-	}
-
-	ret = esp8266_serial_data_port_open();
-	if(ret != 0)
-	{
-		return ret;
-	}
-
-	ret = esp8266_serial_send_basic(ESP8266_UART_DATA_PORT, NULL, 1000, 200, ESP8266_RETURN_OK);
-#endif
-
 
 	return 0;
 }
@@ -442,10 +365,6 @@ int32_t esp8266_tcp_connect(uint8_t socket_no, uint32_t ipaddr, uint16_t port)
 
 }
 
-
-/*
- *堤作成箇所ここから
- */
 int32_t esp8266_ssl_connect(uint8_t socket_no, uint32_t ipaddr, uint16_t port)
 {
 	int32_t ret;
@@ -457,7 +376,6 @@ int32_t esp8266_ssl_connect(uint8_t socket_no, uint32_t ipaddr, uint16_t port)
 	{
 		return -1;
 	}
-	//ret = esp8266_serial_send_with_recvtask(ESP8266_UART_COMMAND_PORT, "AT+CIPSTART=0,\"SSL\",\"a3jl4w84ja8rfq-ats.iot.us-east-2.amazonaws.com\",8883\r\n", 1000, 60000, ESP8266_RETURN_OK, ESP8266_SET_CIPSTART, socket_no);
 	ret = esp8266_serial_send_with_recvtask(ESP8266_UART_COMMAND_PORT, buff, 3, 20000, ESP8266_RETURN_OK, ESP8266_SET_CIPSTART, socket_no);
 	if( 0 != ret )
 	{
@@ -468,21 +386,14 @@ int32_t esp8266_ssl_connect(uint8_t socket_no, uint32_t ipaddr, uint16_t port)
 }
 
 
-/*
- * 堤作成箇所ここまで
- */
-
-
 int32_t esp8266_tcp_send(uint8_t socket_no, uint8_t *pdata, int32_t length, uint32_t timeout_ms)
 {
 	int32_t timeout;
 	volatile int32_t sended_length;
 	int32_t lenghttmp1;
-//	int32_t lenghttmp2;
 	int32_t ret;
 	sci_err_t ercd;
 	uint8_t result;
-//	sci_baud_t baud;
 
     if( xSemaphoreTake( g_esp8266_semaphore, xMaxSemaphoreBlockTime ) == pdTRUE )
     {
@@ -546,7 +457,6 @@ int32_t esp8266_tcp_send(uint8_t socket_no, uint8_t *pdata, int32_t length, uint
 				return -1;
 			}
 
-#if 1
 			while(1)
 			{
 				if(0 != g_esp8266_uart_teiflag[ESP8266_UART_COMMAND_PORT])
@@ -554,32 +464,6 @@ int32_t esp8266_tcp_send(uint8_t socket_no, uint8_t *pdata, int32_t length, uint
 					break;
 				}
 			}
-#else
-			while(1)
-			{
-				if(0 != g_esp8266_uart_teiflag[ESP8266_UART_COMMAND_PORT])
-				{
-					break;
-				}
-				if(-1 == check_timeout(0, 0))
-				{
-					timeout = 1;
-					break;
-				}
-
-			}
-			if(timeout == 1 )
-			{
-#if DEBUGLOG == 1
-	R_BSP_CpuInterruptLevelWrite (14);
-	printf("g_esp8266_uart_teiflag timeout\r\n");
-	R_BSP_CpuInterruptLevelWrite (0);
-#endif
-				/* Give back the socketInUse mutex. */
-				( void ) xSemaphoreGive( g_esp8266_semaphore );
-				return -1;
-			}
-#endif
 			timeout_init(0, timeout_ms);
 
 			while(1)
@@ -728,18 +612,8 @@ int32_t esp8266_tcp_disconnect(uint8_t socket_no)
 			printf("esp8266_tcp_disconnect(%d)\r\n",socket_no);
 			R_BSP_CpuInterruptLevelWrite (0);
 #endif
-#if 0
-#if ESP8266_USE_UART_NUM == 1
-			//R_BSP_SoftwareDelay(201, BSP_DELAY_MILLISECS); /* 1s */
-			vTaskDelay(201);
-			R_SCI_Control(esp8266_uart_sci_handle[ESP8266_UART_COMMAND_PORT],SCI_CMD_RX_Q_FLUSH,NULL);
-			ret = esp8266_serial_send_basic(ESP8266_UART_COMMAND_PORT, "+++", 3, 1000, ESP8266_RETURN_OK);
-#endif
-#endif
 			sprintf((char *)buff,"AT+CIPCLOSE=%d\r\n",socket_no);
 			ret = esp8266_serial_send_with_recvtask(ESP8266_UART_COMMAND_PORT, buff, 3, 10000, ESP8266_RETURN_OK, ESP8266_SET_CIPCLOSE, socket_no);
-
-//			ret = esp8266_serial_send_basic(ESP8266_UART_COMMAND_PORT, buff, 3, 1000, ESP8266_RETURN_OK);
 			if(0 == ret)
 			{
 				esp8266_socket[socket_no].socket_create_flag = 0;
@@ -774,7 +648,6 @@ int32_t esp8266_dns_query(uint8_t *ptextstring, uint32_t *ulipaddr)
 	sprintf((char *)buff+strlen((char *)buff),"%s\"\r\n",ptextstring);
 
 	func_ret = esp8266_serial_send_with_recvtask(ESP8266_UART_COMMAND_PORT, buff, 3, 20000, ESP8266_RETURN_OK, ESP8266_SET_CIPDOMAIN, 0xff);
-//	func_ret = esp8266_serial_send_basic(ESP8266_UART_COMMAND_PORT, buff, 3, 20000, ESP8266_RETURN_OK);
 	if(func_ret != 0)
 	{
 		return -1;
@@ -812,8 +685,6 @@ static int32_t esp8266_serial_send_basic(uint8_t serial_ch_id, uint8_t *ptextstr
 		while(1)
 		{
 			if(0 != g_esp8266_uart_teiflag[serial_ch_id])
-	//		ercd = R_SCI_Control(esp8266_uart_sci_handle, SCI_CMD_TX_Q_BYTES_FREE, &non_used);
-	//		if(non_used == SCI_TX_BUSIZ)
 			{
 				break;
 			}
@@ -893,20 +764,6 @@ static int32_t esp8266_serial_send_basic(uint8_t serial_ch_id, uint8_t *ptextstr
 			ret = 0;
 		}
 	}
-#if 0
-	if(recvbuff[recvcnt-1] != '\n')
-	{
-		recvbuff[recvcnt] = '\r';
-		recvbuff[recvcnt+1] = '\n';
-		recvbuff[recvcnt+2] = '\0';
-		debug_out_crlf = 1;
-	}
-	else
-	{
-		recvbuff[recvcnt] = '\0';
-		debug_out_crlf = 0;
-	}
-#endif
 #if DEBUGLOG == 1
 	tmptime2 = xTaskGetTickCount();
 	printf("r:%06d:%s",tmptime2,recvbuff);
@@ -944,8 +801,6 @@ static int32_t esp8266_serial_send_with_recvtask(uint8_t serial_ch_id, uint8_t *
 		while(1)
 		{
 			if(0 != g_esp8266_uart_teiflag[serial_ch_id])
-	//		ercd = R_SCI_Control(esp8266_uart_sci_handle, SCI_CMD_TX_Q_BYTES_FREE, &non_used);
-	//		if(non_used == SCI_TX_BUSIZ)
 			{
 				break;
 			}
@@ -1022,8 +877,6 @@ static int32_t esp8266_serial_send_rst(uint8_t serial_ch_id, uint8_t *ptextstrin
 		while(1)
 		{
 			if(0 != g_esp8266_uart_teiflag[serial_ch_id])
-	//		ercd = R_SCI_Control(esp8266_uart_sci_handle, SCI_CMD_TX_Q_BYTES_FREE, &non_used);
-	//		if(non_used == SCI_TX_BUSIZ)
 			{
 				break;
 			}
@@ -1091,20 +944,6 @@ static int32_t esp8266_serial_send_rst(uint8_t serial_ch_id, uint8_t *ptextstrin
 		return -1;
 	}
 
-#if 0
-	if(recvbuff[recvcnt-1] != '\n')
-	{
-		recvbuff[recvcnt] = '\r';
-		recvbuff[recvcnt+1] = '\n';
-		recvbuff[recvcnt+2] = '\0';
-		debug_out_crlf = 1;
-	}
-	else
-	{
-		recvbuff[recvcnt] = '\0';
-		debug_out_crlf = 0;
-	}
-#endif
 #if DEBUGLOG == 1
 	tmptime2 = xTaskGetTickCount();
 	printf("r:%06d:%s",tmptime2,recvbuff);
@@ -1248,27 +1087,6 @@ static int32_t check_bytetimeout(uint8_t socket_no, int32_t rcvcount)
 	return 0;
 }
 
-#if 0
-static int32_t memdrv_open(uint32_t baudrate)
-{
-	memdrv_err_t ret = MEMDRV_SUCCESS;
-	sci_baud_t baurate;
-	st_memdrv_info_t memdrv_info;
-
-	memdrv_info.cnt = 0;
-	memdrv_info.p_data = NULL;
-	memdrv_info.io_mode = MEMDRV_MODE_SINGLE;
-	baurate.rate = baudrate;
-	ret = R_MEMDRV_Open(0,&memdrv_info);
-	if(MEMDRV_SUCCESS != ret)
-	{
-		return -1;
-	}
-
-	return 0;
-}
-#endif
-
 static int32_t esp8266_serial_open(uint32_t baudrate)
 {
 	sci_err_t   my_sci_err;
@@ -1290,7 +1108,6 @@ static int32_t esp8266_serial_open(uint32_t baudrate)
     	return -1;
     }
 
-//    PORT2.PCR.BIT.B5 = 1;
     return 0;
 
 }

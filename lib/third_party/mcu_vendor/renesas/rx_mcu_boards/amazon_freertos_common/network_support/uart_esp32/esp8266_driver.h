@@ -4,7 +4,7 @@
 #include "r_sci_rx_if.h"
 #include "r_byteq_if.h"
 
-#define DEBUGLOG  1
+#define DEBUGLOG  0
 #define ESP8266_PORT_DEBUG 0
 
 /* Configuration */
@@ -115,13 +115,9 @@ int32_t esp8266_wifi_get_macaddr(uint8_t *ptextstring);
 int32_t esp8266_wifi_connect(uint8_t *pssid, uint32_t security, uint8_t *ppass);
 int32_t esp8266_socket_create(uint8_t socket_no, uint32_t type,uint32_t ipversion);
 int32_t esp8266_tcp_connect(uint8_t socket_no, uint32_t ipaddr, uint16_t port);
-/*
- * 堤作成ここから
- */
+
 int32_t esp8266_ssl_connect(uint8_t socket_no, uint32_t ipaddr, uint16_t port);
-/*
- * 堤作成ここまで
- */
+
 int32_t esp8266_tcp_send(uint8_t socket_no, uint8_t *pdata, int32_t length, uint32_t timeout);
 int32_t esp8266_tcp_recv(uint8_t socket_no, uint8_t *pdata, int32_t length, uint32_t timeout);
 int32_t esp8266_tcp_disconnect(uint8_t socket_no);
