@@ -275,25 +275,6 @@ void vApplicationSetupTimerInterrupt(void)
 } /* End of function vApplicationSetupTimerInterrupt() */
 
 /******************************************************************************
-* Function name: _top_of_heap
-* Description  : This implementation prevents using GNURX+OPTLIB's
-*                malloc() and calloc() which are not thread safe.
-* Arguments    : none
-* Return value : end (failure) but vAssertCalled() may not return
-******************************************************************************/
-#if defined(__GNUC__)
-extern int8_t end;
-int8_t *_heap_of_memory = (int8_t *)&end;
-int8_t *_last_heap_object = (int8_t *)&end;
-extern int8_t *_top_of_heap(void);
-int8_t *_top_of_heap(void)
-{
-    vAssertCalled();
-    return &end;
-}
-#endif
-
-/******************************************************************************
 * Function Name: vAssertCalled
 * Description  : This function is used to validate the input parameters.
 * Arguments    : None.
