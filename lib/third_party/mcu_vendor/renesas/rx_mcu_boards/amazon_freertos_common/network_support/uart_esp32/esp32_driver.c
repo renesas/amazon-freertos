@@ -6,7 +6,7 @@
 #include "platform.h"
 #include "r_sci_rx_if.h"
 #include "r_byteq_if.h"
-#include "esp8266_driver.h"
+#include "esp32_driver.h"
 //#include "r_memdrv_rx_if.h"
 #include "r_sci_rx_if.h"
 

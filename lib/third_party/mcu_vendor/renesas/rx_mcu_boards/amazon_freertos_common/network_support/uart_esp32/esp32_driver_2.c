@@ -6,7 +6,7 @@
 #include "platform.h"
 #include "r_sci_rx_if.h"
 #include "r_byteq_if.h"
-#include "esp8266_driver.h"
+#include "esp32_driver.h"
 
 #define ESP8266_DATA_RECEIVE_COMMAND "\r\n+IPD,%d,%d"
 #define ESP8266_READ_MAC             "+CIPAPMAC"

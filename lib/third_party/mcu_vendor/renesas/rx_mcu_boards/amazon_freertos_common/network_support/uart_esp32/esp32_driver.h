@@ -1,5 +1,5 @@
-#ifndef SX_ESP8266_DRIVER_H
-#define SX_ESP8266_DRIVER_H
+#ifndef ESP32_DRIVER_H
+#define ESP32_DRIVER_H
 
 #include "r_sci_rx_if.h"
 #include "r_byteq_if.h"
@@ -142,4 +142,4 @@ extern uint8_t sntp_week[5];
 extern uint8_t dnsaddress[4];
 
 
-#endif /* #define SX_ESP8266_DRIVER_H */
+#endif /* #define ESP32_DRIVER_H */
