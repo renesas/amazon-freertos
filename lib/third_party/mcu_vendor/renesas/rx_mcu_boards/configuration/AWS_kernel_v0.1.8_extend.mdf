@@ -84,7 +84,7 @@ Readers should familiarise themselves with the differences between mutexes and b
             <description>Enable: include recursive mutex functionality in the build.
 Disable: omit recursive mutex functionality from the build.</description>
         </property>
-        <property id="configQUEUE_REGISTRY_SIZE" display="Queue registry size" default="8" type="textbox">
+        <property id="configQUEUE_REGISTRY_SIZE" display="Queue registry size" default="0" type="textbox">
             <constraint display="Value must be an integer">testInteger("${configQUEUE_REGISTRY_SIZE}")</constraint>
             <constraint display="Value must be equal or greater than 0">("${configQUEUE_REGISTRY_SIZE}" &gt;= 0) </constraint>
             <description>The queue registry has two purposes, both of which are associated with RTOS kernel aware debugging:
@@ -105,7 +105,7 @@ Disable: vTaskSetApplicationTaskTag to be unavailable.</description>
             <description>Enable: include counting semaphore functionality in the build.
 Disable: omit counting semaphore functionality from the build.</description>
         </property>
-        <property id="configUSE_ALTERNATIVE_API" display="Using Alternative API" default="0" type="combobox">
+        <property id="configUSE_ALTERNATIVE_API" display="Using Alternative API" default="0" type="checkbox">
             <option id="configUSE_ALTERNATIVE_API.0" display="Disable" value="0"/>
             <option id="configUSE_ALTERNATIVE_API.1" display="Enable" value="1"/>
             <description>Enable: alternative API is enable.
@@ -176,8 +176,10 @@ Check by stack pointer and tick value: Check for stack overflow. The stack overf
             <description>Enable: include software timer functionality.
 Disable: omit software timer functionality.</description>
         </property>
-        <property id="configTIMER_TASK_PRIORITY" display="The priority of the software timer task" default="configMAX_PRIORITIES - 1" type="textbox">
-            <constraint display="default disable" actionOnFail="disable">("${configTIMER_TASK_PRIORITY}" == configMAX_PRIORITIES - 1) </constraint>
+        <property id="configTIMER_TASK_PRIORITY" display="The priority of the software timer task" default="6" type="textbox">
+            <constraint display="Value must be an integer">testInteger("${configTIMER_TASK_PRIORITY}")</constraint>
+            <constraint display="Value must be in the range 1 ~ 32">("${configTIMER_TASK_PRIORITY}" &gt;= 1) &amp;&amp; ("${configTIMER_TASK_PRIORITY}" &lt;= 32)</constraint>
+            <constraint display="Value must be less than the maximum number of priorities to the application task">("${configTIMER_TASK_PRIORITY}" &lt; ${configMAX_PRIORITIES}) </constraint>
             <description>Sets the priority of the software timer service/daemon task. See the FreeRTOS software timers page for a full description. </description>
         </property>
         <property id="configTIMER_QUEUE_LENGTH" display="The length of the software timer command queue" default="5" type="textbox">
@@ -354,19 +356,6 @@ Disable: exclude the xTaskAbortDelay() from your build</description>
             <option id="configUSE_STATS_FORMATTING_FUNCTIONS.1" display="Enable" value="1"/>
             <description>Enable: enable stats formatting function
 Disable: disable stats formatting function</description>
-        </property>
-        <property id="configASSERT( x )" display="If defined unity testing" default="do { if( ( x ) == 0 ) TEST_ABORT(); } while( 0 )" type="textbox">
-            <constraint display="default disable" actionOnFail="disable">("${configASSERT( x )}" == do { if( ( x ) == 0 ) TEST_ABORT(); } while( 0 ))</constraint>
-            <description></description>
-        </property>
-        <property id="configASSERT( x )" display="Disable Assert call for release builds." default="( ( void ) 0 )" type="textbox">
-            <constraint display="default disable" actionOnFail="disable">("${configASSERT( x )}" == ( ( void ) 0 ))</constraint>
-            <description></description>
-        </property>
-        <property id="configASSERT( x )" display="Assert call defined for debug builds" default="do { if( ( x ) == 0 ) vAssertCalled(); } while( 0 )" type="textbox">
-            <constraint display="default disable" actionOnFail="disable">("${configASSERT( x )}" == do { if( ( x ) == 0 ) vAssertCalled(); } while( 0 ))</constraint>
-            <description>The semantics of the configASSERT() macro are the same as the standard C assert() macro. An assertion is triggered if the parameter passed into configASSERT() is zero.
-configASSERT() is called throughout the FreeRTOS source files to check how the application is using FreeRTOS. It is highly recommended to develop FreeRTOS applications with configASSERT() defined.</description>
         </property>
         <property id="configPRINTF ( X )" display="configPRINTF ( X )" default="vLoggingPrintf X" type="textbox">
             <constraint display="default disable" actionOnFail="disable">("${configPRINTF ( X )}" == vLoggingPrintf X)</constraint>

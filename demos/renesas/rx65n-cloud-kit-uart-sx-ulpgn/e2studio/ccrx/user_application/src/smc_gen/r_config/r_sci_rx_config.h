@@ -1,3 +1,4 @@
+/* Generated configuration header file - do not edit */
 /***********************************************************************************************************************
 * DISCLAIMER
 * This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No 
@@ -14,7 +15,7 @@
 * following link:
 * http://www.renesas.com/disclaimer 
 *
-* Copyright (C) 2013-2017 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2013-2019 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
 * File Name     : r_sci_rx_config.h
@@ -29,6 +30,9 @@
 *           01.10.2016 1.80    Added support for RX65N (comments and TX/RX FIFO THRESHOLD options)
 *           19.12.2016 1.90    Added comments for RX24U support
 *           07.03.2017 2.00    Added comments for RX130-512KB support
+*           28.09.2018 2.10    Added comments for RX66T support
+*           01.02.2019 2.20    Added comments for RX72T, RX65N-64pin support
+*                              Added support received data match function for RX65N
 ***********************************************************************************************************************/
 #ifndef SCI_CONFIG_H
 #define SCI_CONFIG_H
@@ -60,23 +64,25 @@ Configuration Options
  * * = port connector RDKRX63N, RSKRX210, RSKRX11x
  * u = channel used by the USB-UART port (G1CUSB0)
  * a = this channel is used only for RX130-512KB
+ * n = this channel is not available for RX65N-64pin.
+ * s = this channel is not available in simple SPI mode.
  * RX MCU supported channels
  *
- * CH#  110 111 113 130 210 230 231 23T 24T 24U 63N 631 64M 71M 65N
- * ---  --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
- * CH0           X   Xa  X*  X   X               X*  X   X   X   X
- * CH1   X   X*  X*  Xu  X   X   X   Xu  Xu  Xu  X   X   X   X   X
+ * CH#  110 111 113 130 210 230 231 23T 24T 24U 63N 631 64M 71M 65N 66T 72T
+ * ---  --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+ * CH0           X   Xa  X*  X   X               X*  X   X   X   Xn
+ * CH1   X   X*  X*  Xu  X   X   X   Xu  Xu  Xu  X   X   X   X   Xs  X   X
  * CH2           X                               X   X   X   X   Xu
- * CH3                                           X   X   X   X   X
- * CH4                                           X   X   X   X   X
- * CH5   X   X   X   X   X   X   Xu  X   X   X   X   X   X   X   X
- * CH6           X   X   X   X   X       X   X   X   X   X   X   X
- * CH7                                           X   X   Xu  Xu  X
- * CH8           X   Xa  X   X   X           X   X   X           X
- * CH9           X   Xa  X   X   X           X   X   X           X
+ * CH3                                           X   X   X   X   Xs
+ * CH4                                           X   X   X   X   Xn
+ * CH5   X   X   X   X   X   X   Xu  X   X   X   X   X   X   X   X   X   X
+ * CH6           X   X   X   X   X       X   X   X   X   X   X   Xn  X   X
+ * CH7                                           X   X   Xu  Xu  Xn
+ * CH8           X   Xa  X   X   X           X   X   X           X   X   X
+ * CH9           X   Xa  X   X   X           X   X   X           Xs  X   X
  * CH10                                          X   X           X
- * CH11                                      X   X   X           X
- * CH12  X   X   X   X   X   X   X               X   X   X   X   X
+ * CH11                                      X   X   X           Xs  X   X
+ * CH12  X   X   X   X   X   X   X               X   X   X   X   Xs  X   X
 */
                                    
 #define SCI_CFG_CH0_INCLUDED    (1)
@@ -94,8 +100,8 @@ Configuration Options
 #define SCI_CFG_CH12_INCLUDED   (0)
 
 /* SPECIFY ASYNC MODE TX QUEUE BUFFER SIZES (will not allocate if chan not enabled */
-#define SCI_CFG_CH0_TX_BUFSIZ   (5000)
-#define SCI_CFG_CH1_TX_BUFSIZ   (1460)
+#define SCI_CFG_CH0_TX_BUFSIZ   (2048)
+#define SCI_CFG_CH1_TX_BUFSIZ   (1024)
 #define SCI_CFG_CH2_TX_BUFSIZ   (80)
 #define SCI_CFG_CH3_TX_BUFSIZ   (80)
 #define SCI_CFG_CH4_TX_BUFSIZ   (80)
@@ -167,5 +173,13 @@ Configuration Options
 #define SCI_CFG_CH10_RX_FIFO_THRESH (8)
 #define SCI_CFG_CH11_RX_FIFO_THRESH (8)
 
+/* ENABLE Received Data match function (SCIj and SCIi supported MCU RX65N/RX66T/RX72T ONLY) 1=included, 0=not */
+#define SCI_CFG_CH1_DATA_MATCH_INCLUDED  (0)
+#define SCI_CFG_CH5_DATA_MATCH_INCLUDED  (0)
+#define SCI_CFG_CH6_DATA_MATCH_INCLUDED  (0)
+#define SCI_CFG_CH8_DATA_MATCH_INCLUDED  (0)
+#define SCI_CFG_CH9_DATA_MATCH_INCLUDED  (0)
+#define SCI_CFG_CH10_DATA_MATCH_INCLUDED (0)
+#define SCI_CFG_CH11_DATA_MATCH_INCLUDED (0)
 
 #endif /* SCI_CONFIG_H */
