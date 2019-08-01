@@ -1,7 +1,8 @@
 MEMORY
 {
 	RAM : ORIGIN = 0x0, LENGTH = 262144
-	RAM2 : ORIGIN = 0x00080000, LENGTH = 393216
+	RAM2 : ORIGIN = 0x00800000, LENGTH = 393216
+	DROM : ORIGIN = 0x00100000, LENGTH = 4096
 	ROM : ORIGIN = 0xFFF00000, LENGTH = 1048576
 	OFS : ORIGIN = 0xFE7F5D00, LENGTH = 128
 }
@@ -27,7 +28,7 @@ SECTIONS
 	.rvectors ALIGN(4) :
 	{
 		_rvectors_start = .;
-		INCLUDE ../src/smc_gen/r_bsp/mcu/all/linker_script_rvectors.inc
+		INCLUDE ../../../../../../../lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v120/r_bsp/mcu/all/linker_script_rvectors.inc
 		_rvectors_end = .;
 	} >ROM
 	.init :
@@ -144,14 +145,14 @@ SECTIONS
 	_C_PKCS11_STORAGE_start = .;
 	*(C_PKCS11_STORAGE)
 	_C_PKCS11_STORAGE_end = .;
-	} >RAM2
+	} >DROM
 	
 	C_PKCS11_STORAGE_MIRROR  (NOLOAD) : 
 {
 	_C_PKCS11_STORAGE_MIRROR_start = .;
 	*(C_PKCS11_STORAGE_MIRROR)
 	_C_PKCS11_STORAGE_MIRROR_end = .;
-	} >RAM2
+	} >DROM
 	
 	B_ETHERNET_BUFFERS_1  (NOLOAD) :
 {
