@@ -63,6 +63,18 @@ I hope this solution will be helpful for embedded system developer in W/W.
 --------------------------------------------------------------------------
 Change Logs
 --------------------------------------------------------------------------
+v0.1.13
+[UPDATED] mcu vendor library rx_driver_package/v120
+[TESTED] demos MQTT echo behavior for
+         RX65N RSK CC-RX e2 studio with E2 Emulator Lite
+         RX65N RSK + Silex SX-ULPGN PMOD CC-RX e2 studio with E2 Emulator Lite
+         RX65N RSK + Espressif ESP32 PMOD CC-RX e2 studio with E2 Emulator Lite
+         RX65N Target Board + Silex SX-ULPGN PMOD CC-RX e2 studio with E2 Emulator Lite (on board)
+         RX65N GR-ROSE CC-RX e2 studio with E2 Emulator Lite
+         RX65N GR-ROSE + Espressif ESP8266 CC-RX e2 studio with E2 Emulator Lite
+         RX65N Envision Kit CC-RX e2 studio with E2 Emulator Lite (on board)
+         RX64M GR-KAEDE CC-RX e2 studio with E2 Emulator Lite
+
 v0.1.12
 [TESTED] all test with device tester for
          RX65N Target Board + Silex SX-ULPGN PMOD CC-RX e2 studio with E2 Emulator Lite (on board)
@@ -728,14 +740,14 @@ Compiler number:
 
                  / IDE      (1)         (2)         (3)
 Board Connection / Compiler (1) (2) (3) (1) (2) (3) (1) (2) (3)
-(1)   (2)        /           x   *       *   -   -   -   -     
-(2)   (4)        /           *   *       *   -   -   -   -     
-(3)   (2)        /           *   *       *   -   -   -   -   * 
-(4)   (4)        /           *   *           -   -   -   -     
-(5)   (2)        /           *   *       *   -   -   -   -     
-(6)   (4)        /           *   *           -   -   -   -     
-(7)   (4)        /           X   *       *   -   -   -   -     
-(8)   (2)        /           *   *       *   -   -   -   -     
+(1)   (2)        /           x   -       -   -   -   -   -     
+(2)   (4)        /           x   -       -   -   -   -   -     
+(3)   (2)        /           x   -       -   -   -   -   -     
+(4)   (4)        /           *   -           -   -   -   -     
+(5)   (2)        /           x   *       -   -   -   -   -     
+(6)   (4)        /           x   -           -   -   -   -     
+(7)   (4)        /           X   -       -   -   -   -   -     
+(8)   (2)        /           x   -       -   -   -   -   -     
 (9)   (2)        /           -   -       -   -   -   -   -     
 
   X: tested (Amazon FreeRTOS Qualification)
