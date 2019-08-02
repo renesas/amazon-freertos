@@ -169,7 +169,7 @@ Configuration Options
       settings and choosing the Standard Library section. After that choose 'Contents' in E2Studio.
       This will present a list of modules that can be included. Uncheck the box for stdio.h.
    NOTE: This setting is available only when using CCRX and GNUC. */
-#define BSP_CFG_HEAP_BYTES              (0x400)
+#define BSP_CFG_HEAP_BYTES              (0x1000)
 
 /* Initializes C input & output library functions.
    0 = Disable I/O library initialization in resetprg.c. If you are not using stdio then use this value.
@@ -263,7 +263,7 @@ Configuration Options
 */
 
 /* Input clock frequency in Hz (XTAL or EXTAL). */
-#define BSP_CFG_XTAL_HZ                 (24000000) /* Generated value. Do not edit this manually */
+#define BSP_CFG_XTAL_HZ                 (12000000) /* Generated value. Do not edit this manually */
 
 /* The HOCO can operate at several different frequencies. Choose which one using the macro below.
    Available frequency settings:
@@ -604,6 +604,6 @@ Configuration Options
    Don't change if there is no special processing with higher priority than all fit modules.
 */
 #define BSP_CFG_FIT_IPL_MAX                         (0xF)
-#define MY_BSP_CFG_SERIAL_TERM_SCI					(1)
+#define MY_BSP_CFG_SERIAL_TERM_SCI					(2)
 #endif /* R_BSP_CONFIG_REF_HEADER_FILE */
 

@@ -53,7 +53,7 @@
  * type 3 (see section 2.14 in App Note). See section 2.13 in the App Note for
  * details on how to set up code and the linker to execute code from RAM.
  */
-#define FLASH_CFG_CODE_FLASH_ENABLE (1)
+#define FLASH_CFG_CODE_FLASH_ENABLE (0)
 
 
 /******************************************************************************
