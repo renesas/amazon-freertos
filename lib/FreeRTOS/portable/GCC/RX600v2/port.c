@@ -72,7 +72,7 @@ static void prvStartFirstTask( void ) __attribute__((naked));
  * required.
  */
 #if defined(configTICK_VECTOR)
-void vSoftwareInterruptISR( void ) __attribute__((naked, vector( R_SECNAME_INTVECTTBL, VECT_ICU_SWINT )));
+void vSoftwareInterruptISR( void ) __attribute__((naked, vector( R_BSP_SECNAME_INTVECTTBL, VECT_ICU_SWINT )));
 #else
 void vSoftwareInterruptISR( void ) __attribute__((naked));
 #endif
@@ -81,7 +81,7 @@ void vSoftwareInterruptISR( void ) __attribute__((naked));
  * The tick interrupt handler.
  */
 #if defined(configTICK_VECTOR)
-void vTickISR( void ) __attribute__((interrupt( R_SECNAME_INTVECTTBL, _VECT( configTICK_VECTOR ) )));
+void vTickISR( void ) __attribute__((interrupt( R_BSP_SECNAME_INTVECTTBL, _VECT( configTICK_VECTOR ) )));
 #else
 void vTickISR( void ) __attribute__((interrupt));
 #endif
