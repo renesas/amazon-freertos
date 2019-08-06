@@ -135,6 +135,8 @@ Typedef definitions
 #define FIRMWARE_UPDATE_STATE_WAIT_START 101
 #define FIRMWARE_UPDATE_STATE_COMPLETED 102
 #define FIRMWARE_UPDATE_STATE_ERROR 103
+#define FIRMWARE_UPDATE_STATE_WRITE_COMPLETE 201
+#define FIRMWARE_UPDATE_STATE_ERASE_COMPLETE 202
 
 // select read size
 /* set "1" or "45" */
@@ -157,7 +159,7 @@ Typedef definitions
 #define BASE64_ENCODE_DF_TOTAL_LENGTH (41)
 #define BASE64_ENCODE_SHA1_TOTAL_LENGTH (35)
 #define BASE64_DECODE_TOTAL_LENGTH (16)
-#define CODE_FLASH_WRITE_SIZE (128)
+#define CODE_FLASH_WRITE_ERASE_SIZE (128)
 #define CODE_FLASH_16BYTE_MASK (0x00000070u)
 #define CODE_FLASH_128BYTE_ALIGN (0xffffff80u)
 #define BOOT_LOADER_MIRROR_FIRST_ADDRESS FLASH_CF_BLOCK_37
@@ -235,6 +237,8 @@ extern uint8_t     g_isFileWrite;
 
 FIL file = {0};
 
+uint32_t g_on_the_fly_start;
+
 /*-----------------------------------------------------------*/
 
 OTA_Err_t prvPAL_CreateFileForRx( OTA_FileContext_t * const C )
@@ -271,6 +275,7 @@ OTA_Err_t prvPAL_CreateFileForRx( OTA_FileContext_t * const C )
                 eResult = kOTA_Err_RxFileCreateFailed;
                 OTA_LOG_L1( "[%s] ERROR - The semaphore was created fail.\r\n", OTA_METHOD_NAME );
             }
+            // 最初にTEMPエリアのコードフラッシュを消去する。
             R_FLASH_Open();
             /* Transition to FIRMWARE_UPDATE_STATE_INITIALIZE state */
             firmware_update_status_initialize();
@@ -280,13 +285,14 @@ OTA_Err_t prvPAL_CreateFileForRx( OTA_FileContext_t * const C )
                Execute update firmware write area initialization */
             ota_firmware_update_request(C);
             /* Wait for flash erase to complete */
-            while (FIRMWARE_UPDATE_STATE_READ_WAIT_COMPLETE != load_firmware_control_block.status)
+            while (FIRMWARE_UPDATE_STATE_ERASE_COMPLETE != load_firmware_control_block.status)
             {
                 load_firmware_process();
                 vTaskDelay(100);
             }
             eResult = kOTA_Err_None;
             OTA_LOG_L1( "[%s] Firmware update initialized.\r\n", OTA_METHOD_NAME );
+            g_on_the_fly_start = 0;
 #else
 #endif
 		}
@@ -393,6 +399,17 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
     DEFINE_OTA_METHOD_NAME( "prvPAL_WriteBlock" );
 
     int16_t  err = -1;
+
+    // オンザフライ開始時にフラッシュ設定を初期化する
+    if (0 == g_on_the_fly_start)
+    {
+        R_FLASH_Open();
+        /* Transition to FIRMWARE_UPDATE_STATE_INITIALIZE state */
+        firmware_update_status_initialize();
+        /* 1st call, Transition to FIRMWARE_UPDATE_STATE_INITIALIZE state */
+        ota_firmware_update_request(C);
+        g_on_the_fly_start = 1; 
+    }
 
     err = on_the_fly_write_process(pacData, (int16_t) ulBlockSize, ulOffset);
     if (err != 0)
@@ -950,6 +967,7 @@ void flash_load_firmware_callback_function(void *event)
 	switch(event_code)
 	{
 		case FLASH_INT_EVENT_ERASE_COMPLETE:
+#if (MY_BSP_CFG_OTA_ENABLE == 1)
 			if(FIRMWARE_UPDATE_STATE_ERASE_WAIT_COMPLETE == load_firmware_control_block.status)
 			{
 				load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_READ_WAIT_COMPLETE;
@@ -963,11 +981,21 @@ void flash_load_firmware_callback_function(void *event)
 			{
 				load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_ERROR;
 			}
+#elif (MY_BSP_CFG_OTA_ENABLE == 2)
+			if(FIRMWARE_UPDATE_STATE_ERASE_WAIT_COMPLETE == load_firmware_control_block.status)
+			{
+				load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_ERASE_COMPLETE;
+			}
+			else
+			{
+				load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_ERROR;
+			}
+#endif
 			break;
 		case FLASH_INT_EVENT_WRITE_COMPLETE:
+#if (MY_BSP_CFG_OTA_ENABLE == 1)
 			if(FIRMWARE_UPDATE_STATE_WRITE_WAIT_COMPLETE == load_firmware_control_block.status)
 			{
-#if (MY_BSP_CFG_OTA_ENABLE == 1)
 				load_firmware_control_block.offset += FLASH_BUCKET_SIZE;
 		    	load_firmware_control_block.progress = (uint32_t)(((float)(load_firmware_control_block.offset)/(float)((FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER))*100));
 
@@ -979,9 +1007,6 @@ void flash_load_firmware_callback_function(void *event)
 				{
 					load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_READ_WAIT_COMPLETE;
 				}
-#elif (MY_BSP_CFG_OTA_ENABLE == 2)
-                load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_FINALIZE;
-#endif
 			}
 			else if(FIRMWARE_UPDATE_STATE_FINALIZE_WAIT_WRITE_DATA_FLASH == load_firmware_control_block.status)
 			{
@@ -991,6 +1016,16 @@ void flash_load_firmware_callback_function(void *event)
 			{
 				load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_ERROR;
 			}
+#elif (MY_BSP_CFG_OTA_ENABLE == 2)
+			if(FIRMWARE_UPDATE_STATE_WRITE_WAIT_COMPLETE == load_firmware_control_block.status)
+			{
+                load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_WRITE_COMPLETE;
+			}
+			else
+			{
+				load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_ERROR;
+			}
+#endif
 			break;
 		case FLASH_INT_EVENT_TOGGLE_BANK:
 	        R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_LPC_CGC_SWR);
@@ -998,6 +1033,7 @@ void flash_load_firmware_callback_function(void *event)
 			while(1);	/* software reset */
 			break;
 		default:
+			nop();
 			break;
 	}
 }
@@ -1075,7 +1111,7 @@ int16_t on_the_fly_write_process(uint8_t *buf, int16_t write_size, uint32_t Offs
     uint32_t index = 0; // 最初に書き込むコードフラッシュアドレスを決める
 
     uint8_t buf_tmp[BASE64_ENCODE_ONE_LINE_CHARACTER_LENGTH];
-    uint8_t buf_code_flash[CODE_FLASH_WRITE_SIZE] = {0};
+    uint8_t buf_code_flash[CODE_FLASH_WRITE_ERASE_SIZE] = {0};
     uint8_t* p_data = buf;
 
     xSemaphoreTake(OTASemaphoreHandle, portMAX_DELAY);
@@ -1140,7 +1176,7 @@ int16_t on_the_fly_write_process(uint8_t *buf, int16_t write_size, uint32_t Offs
             }
             
             // RAMのデータ格納位置を決める＆コードフラッシュ書き込み単位のアライメントを取る
-            if (flash_address & (CODE_FLASH_WRITE_SIZE - 1))
+            if (flash_address & (CODE_FLASH_WRITE_ERASE_SIZE - 1))
             {
                 // RAMのデータ格納位置を決める(16バイト単位)
                 index = flash_address & CODE_FLASH_16BYTE_MASK;
@@ -1198,7 +1234,7 @@ int16_t on_the_fly_write_process(uint8_t *buf, int16_t write_size, uint32_t Offs
                 buffer_pointer = write_size;
             }
         }
-        while ((index < CODE_FLASH_WRITE_SIZE) && (buffer_pointer < write_size));
+        while ((index < CODE_FLASH_WRITE_ERASE_SIZE) && (buffer_pointer < write_size));
 
         // 6) 1)-5)を繰り返し、arg2 + 16 が 128の倍数になってたら、コードフラッシュ書込み用の128バイトRAMをコードフラッシュに書き込む。
         //    このとき、対象のコードフラッシュを128バイト分を一度新しいRAMに読み出し、
@@ -1207,18 +1243,27 @@ int16_t on_the_fly_write_process(uint8_t *buf, int16_t write_size, uint32_t Offs
         {
             uint8_t cnt = 0;
             uint8_t* p_flash = (uint8_t *)flash_address;
-            for (cnt = 0; cnt < CODE_FLASH_WRITE_SIZE; cnt++, p_flash++)
+            for (cnt = 0; cnt < CODE_FLASH_WRITE_ERASE_SIZE; cnt++, p_flash++)
             {
                 buf_code_flash[cnt] &= *p_flash;
             }
 
-            // コードフラッシュ消去は最初に行う。(prvPAL_CreateFileForRx()で1MBのコードフラッシュ領域を消去)
-            
+            // 128バイトのコードフラッシュを消去する
+            load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_ERASE_WAIT_COMPLETE;
+            R_FLASH_Erase((flash_block_address_t)(BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + (flash_address - BOOT_LOADER_UPDATE_EXECUTE_AREA_LOW_ADDRESS)),
+                          CODE_FLASH_WRITE_ERASE_SIZE);
+            while (FIRMWARE_UPDATE_STATE_ERASE_COMPLETE != load_firmware_control_block.status)
+            {
+                load_firmware_process();
+                vTaskDelay(5);
+            }
             
             // 転写後のRAM128バイトをコードフラッシュに書き込む。
             load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_WRITE_WAIT_COMPLETE;
-            R_FLASH_Write((uint32_t)buf_code_flash, (uint32_t)flash_address, sizeof(buf_code_flash));
-            while (FIRMWARE_UPDATE_STATE_FINALIZE != load_firmware_control_block.status)
+            R_FLASH_Write((uint32_t)buf_code_flash,
+                          (uint32_t)(BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + (flash_address - BOOT_LOADER_UPDATE_EXECUTE_AREA_LOW_ADDRESS)),
+                          sizeof(buf_code_flash));
+            while (FIRMWARE_UPDATE_STATE_WRITE_COMPLETE != load_firmware_control_block.status)
             {
                 load_firmware_process();
                 vTaskDelay(5);
@@ -1233,7 +1278,7 @@ int16_t on_the_fly_write_process(uint8_t *buf, int16_t write_size, uint32_t Offs
 
         // 128バイト書き込み完了。残データの書き込みが完了するまで繰り返し。
         p_data += (buffer_pointer + BASE64_ENCODE_RETURN_CODE_LENGTH);
-        block_size += CODE_FLASH_WRITE_SIZE;
+        block_size += CODE_FLASH_WRITE_ERASE_SIZE;
     }
 
     xSemaphoreGive(OTASemaphoreHandle);
