@@ -46,6 +46,11 @@
 #include "r_usb_typedef.h"
 #include "r_usb_rtos_apl.h"
 
+#if (MY_BSP_CFG_OTA_ENABLE == 3)
+#include "r_flash_spi_if.h"
+#include "r_flash_spi_config.h"
+#endif /* MY_BSP_CFG_OTA_ENABLE == 3 */
+
 /* Specify the OTA signature algorithm we support on this platform. */
 
 const char cOTA_JSON_FileSignatureKey[ OTA_FILE_SIG_KEY_STR_MAX_LENGTH ] = "sig-sha1-rsa";
@@ -159,10 +164,16 @@ Typedef definitions
 #define BASE64_ENCODE_DF_TOTAL_LENGTH (41)
 #define BASE64_ENCODE_SHA1_TOTAL_LENGTH (35)
 #define BASE64_DECODE_TOTAL_LENGTH (16)
-#define CODE_FLASH_WRITE_ERASE_SIZE (128)
+#define CODE_FLASH_WRITE_SIZE (128)
+#define CODE_FLASH_WRITE_BUFFER_SIZE (512)
 #define CODE_FLASH_16BYTE_MASK (0x00000070u)
 #define CODE_FLASH_128BYTE_ALIGN (0xffffff80u)
 #define BOOT_LOADER_MIRROR_FIRST_ADDRESS FLASH_CF_BLOCK_37
+
+#if (MY_BSP_CFG_OTA_ENABLE == 3)
+#define SERIAL_FLASH_BLOCK_ERASE_64KB_SIZE (65536)
+#define SERIAL_FLASH_FIT_COUNT (128)
+#endif /* MY_BSP_CFG_OTA_ENABLE == 3 */
 
 typedef struct _load_firmware_control_block {
 	uint32_t status;
@@ -202,7 +213,7 @@ static LOAD_FIRMWARE_CONTROL_BLOCK load_firmware_control_block;
 static FIRMWARE_UPDATE_CONTROL_BLOCK firmware_update_control_block_image = {0};
 
 OTA_ImageState_t eSavedAgentState = eOTA_ImageState_Unknown;
-#if (MY_BSP_CFG_OTA_ENABLE == 2)
+#if (MY_BSP_CFG_OTA_ENABLE == 2 || MY_BSP_CFG_OTA_ENABLE == 3)
 SemaphoreHandle_t  OTASemaphoreHandle;
 #endif /* MY_BSP_CFG_OTA_ENABLE == 2 */
 
@@ -231,7 +242,13 @@ void load_firmware_status(uint32_t *now_status, uint32_t *finish_status);
 void firmware_update_status_initialize(void);
 
 int16_t file_write_process(uint8_t *buf, int16_t write_size, uint32_t Offset);
+#if (MY_BSP_CFG_OTA_ENABLE == 2)
 int16_t on_the_fly_write_process(uint8_t *buf, int16_t write_size, uint32_t Offset);
+#endif /* MY_BSP_CFG_OTA_ENABLE == 2 */
+#if (MY_BSP_CFG_OTA_ENABLE == 3)
+static int32_t serial_flash_firm_block_read(uint32_t *firmware, uint32_t offset);
+int16_t serial_flash_write_process(uint8_t *buf, int16_t write_size, uint32_t Offset);
+#endif /* MY_BSP_CFG_OTA_ENABLE == 3 */
 
 extern uint8_t     g_isFileWrite;
 
@@ -293,6 +310,43 @@ OTA_Err_t prvPAL_CreateFileForRx( OTA_FileContext_t * const C )
             eResult = kOTA_Err_None;
             OTA_LOG_L1( "[%s] Firmware update initialized.\r\n", OTA_METHOD_NAME );
             g_on_the_fly_start = 0;
+#elif (MY_BSP_CFG_OTA_ENABLE == 3)
+            flash_spi_erase_info_t Flash_Info_E = {0};
+            uint8_t status = 0;
+            uint32_t serial_flash_address;
+            uint32_t update_target_block_bytes =  FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER;
+            
+            C->pucFile = (uint8_t *)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS;
+            vSemaphoreCreateBinary(OTASemaphoreHandle);
+            if (OTASemaphoreHandle == NULL)
+            {
+                eResult = kOTA_Err_RxFileCreateFailed;
+                OTA_LOG_L1( "[%s] ERROR - The semaphore was created fail.\r\n", OTA_METHOD_NAME );
+            }
+            // シリアルフラシュ初期設定
+            R_FLASH_SPI_Open(0);
+            #if 0 // QSPI Quad通信の場合は設定が必要
+            R_FLASH_SPI_Quad_Enable(0);
+            while (FLASH_SPI_SUCCESS_BUSY == R_FLASH_SPI_Polling(0, FLASH_SPI_MODE_REG_WRITE_POLL))
+            {
+                vTaskDelay(5);
+            }
+            #endif
+            R_FLASH_SPI_Set_Write_Protect(0,0);
+            while (FLASH_SPI_SUCCESS_BUSY == R_FLASH_SPI_Polling(0, FLASH_SPI_MODE_REG_WRITE_POLL))
+            {
+                vTaskDelay(5);
+            }
+            // シリアルフラッシュを消去する。
+            Flash_Info_E.addr   = 0;
+            Flash_Info_E.mode   = FLASH_SPI_MODE_C_ERASE;
+            R_FLASH_SPI_Erase(0, &Flash_Info_E);
+            while (FLASH_SPI_SUCCESS_BUSY == R_FLASH_SPI_Polling(0, FLASH_SPI_MODE_ERASE_POLL))
+            {
+                vTaskDelay(5);
+            }
+            eResult = kOTA_Err_None;
+            OTA_LOG_L1( "[%s] Firmware update initialized.\r\n", OTA_METHOD_NAME );
 #else
 #endif
 		}
@@ -363,7 +417,6 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
 
     if( (C->ulBlocksRemaining) == 1U)
 	{
-
     	load_firmware_control_block.firmware_length = (FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER);
         if(TFAT_FR_OK == R_tfat_f_stat(C->pucFilePath, &filinfo))
         {
@@ -391,6 +444,8 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
             printf("File Not Found. %s.\r\n", C->pucFilePath);
             while(1);
         }
+
+        return lReturnVal;
 	}
 
     return lReturnVal;
@@ -429,6 +484,41 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
 
     return 0;
 
+#elif (MY_BSP_CFG_OTA_ENABLE == 3)
+
+    DEFINE_OTA_METHOD_NAME( "prvPAL_WriteBlock" );
+    int16_t  err = -1;
+
+    err = serial_flash_write_process(pacData, (int16_t) ulBlockSize, ulOffset);
+    if (err != 0)
+    {
+        printf("Serial Flash writting FAIL\r\n");
+    	return -1;
+    }
+
+    if( (C->ulBlocksRemaining) == 1U)
+	{
+    	load_firmware_control_block.firmware_length = (FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER);
+
+    	R_FLASH_Open();
+
+        /* Transition to FIRMWARE_UPDATE_STATE_INITIALIZE state */
+        firmware_update_status_initialize();
+
+        /* 1st call, Transition to FIRMWARE_UPDATE_STATE_INITIALIZE state */
+        ota_firmware_update_request(C);
+
+        /* 2nd call, Transition to FIRMWARE_UPDATE_STATE_ERASE state
+           Execute update firmware write area initialization */
+        ota_firmware_update_request(C);
+
+    	while(FIRMWARE_UPDATE_STATE_COMPLETED != load_firmware_control_block.status)
+     	{
+     		load_firmware_process();
+     	}
+	}
+    return 0;
+
 #else
 
 #endif
@@ -461,6 +551,7 @@ OTA_Err_t prvPAL_CloseFile( OTA_FileContext_t * const C )
             eResult = kOTA_Err_SignatureCheckFailed;
         }
 
+#if (MY_BSP_CFG_OTA_ENABLE == 1)
         FRESULT ret = TFAT_FR_OK;
         ret = R_tfat_f_close(&file);
 		if (TFAT_FR_OK != ret)
@@ -468,6 +559,7 @@ OTA_Err_t prvPAL_CloseFile( OTA_FileContext_t * const C )
             OTA_LOG_L1( "[%s] ERROR - Failed to close OTA update file.\r\n", OTA_METHOD_NAME );
             eResult = kOTA_Err_FileClose;
 		}
+#endif /* MY_BSP_CFG_OTA_ENABLE == 1 */
 
         if( eResult == kOTA_Err_None )
         {
@@ -643,7 +735,7 @@ void ota_firmware_update_request(OTA_FileContext_t * const C)
 	}
 	if(FIRMWARE_UPDATE_STATE_CAN_SWAP_BANK < load_firmware_control_block.status)
 	{
-#if (MY_BSP_CFG_OTA_ENABLE == 1)
+#if (MY_BSP_CFG_OTA_ENABLE == 1) || (MY_BSP_CFG_OTA_ENABLE == 3)
 		strcpy((char *)load_firmware_control_block.file_name, C->pucFilePath);
 #endif /* MY_BSP_CFG_OTA_ENABLE == 1 */
 		load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_ERASE;
@@ -891,7 +983,11 @@ uint32_t load_firmware_process(void)
 			/* this state will be changed by callback routine */
 			break;
 		case FIRMWARE_UPDATE_STATE_READ_WAIT_COMPLETE:
+#if (MY_BSP_CFG_OTA_ENABLE == 1)
 			if(!firm_block_read(load_firmware_control_block.flash_buffer, load_firmware_control_block.offset))
+#elif (MY_BSP_CFG_OTA_ENABLE == 3)
+			if(!serial_flash_firm_block_read(load_firmware_control_block.flash_buffer, load_firmware_control_block.offset))
+#endif
 			{
 				R_FLASH_Write((uint32_t)load_firmware_control_block.flash_buffer, (uint32_t)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + load_firmware_control_block.offset, sizeof(load_firmware_control_block.flash_buffer));
 				load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_WRITE_WAIT_COMPLETE;
@@ -967,7 +1063,7 @@ void flash_load_firmware_callback_function(void *event)
 	switch(event_code)
 	{
 		case FLASH_INT_EVENT_ERASE_COMPLETE:
-#if (MY_BSP_CFG_OTA_ENABLE == 1)
+#if (MY_BSP_CFG_OTA_ENABLE == 1) || (MY_BSP_CFG_OTA_ENABLE == 3)
 			if(FIRMWARE_UPDATE_STATE_ERASE_WAIT_COMPLETE == load_firmware_control_block.status)
 			{
 				load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_READ_WAIT_COMPLETE;
@@ -993,7 +1089,7 @@ void flash_load_firmware_callback_function(void *event)
 #endif
 			break;
 		case FLASH_INT_EVENT_WRITE_COMPLETE:
-#if (MY_BSP_CFG_OTA_ENABLE == 1)
+#if (MY_BSP_CFG_OTA_ENABLE == 1) || (MY_BSP_CFG_OTA_ENABLE == 3)
 			if(FIRMWARE_UPDATE_STATE_WRITE_WAIT_COMPLETE == load_firmware_control_block.status)
 			{
 				load_firmware_control_block.offset += FLASH_BUCKET_SIZE;
@@ -1095,6 +1191,7 @@ int16_t file_write_process(uint8_t *buf, int16_t write_size, uint32_t Offset)
     return 0;
 }
 
+#if (MY_BSP_CFG_OTA_ENABLE == 2)
 /******************************************************************************
 Function Name   : on_the_fly_write_process
 Description     : 
@@ -1111,7 +1208,7 @@ int16_t on_the_fly_write_process(uint8_t *buf, int16_t write_size, uint32_t Offs
     uint32_t index = 0; // 最初に書き込むコードフラッシュアドレスを決める
 
     uint8_t buf_tmp[BASE64_ENCODE_ONE_LINE_CHARACTER_LENGTH];
-    uint8_t buf_code_flash[CODE_FLASH_WRITE_ERASE_SIZE] = {0};
+    uint8_t buf_code_flash[CODE_FLASH_WRITE_BUFFER_SIZE] = {0};
     uint8_t* p_data = buf;
 
     xSemaphoreTake(OTASemaphoreHandle, portMAX_DELAY);
@@ -1157,7 +1254,7 @@ int16_t on_the_fly_write_process(uint8_t *buf, int16_t write_size, uint32_t Offs
         uint8_t arg2[64] = {0};
         uint8_t arg3[64] = {0};
 
-        // 3)コードフラッシュ書込み用の128バイトRAM を用意する
+        // 3)コードフラッシュ書込み用の512バイトRAM を用意する
         memset(buf_code_flash, 0xff, sizeof(buf_code_flash));
 
         sscanf((char*)(p_data + buffer_pointer + 1), "%64s %64s %64s", (char*)arg1, (char*)arg2, (char*)arg3);
@@ -1166,7 +1263,7 @@ int16_t on_the_fly_write_process(uint8_t *buf, int16_t write_size, uint32_t Offs
             sscanf((char*)arg2, "%x", &flash_address);
 
             // 4)arg2のアドレスから、1)でバッファリングできたデータバイト数を引いたアドレスに、
-            //   対応するコードフラッシュ書込み用の128バイトRAMに1) でバッファリングできたデータを
+            //   対応するコードフラッシュ書込み用の512バイトRAMに1) でバッファリングできたデータを
             //   base64デコードしてコピー
 
             // 後方が"=="または"="以外、または、1行目がsha1ではない場合
@@ -1176,7 +1273,7 @@ int16_t on_the_fly_write_process(uint8_t *buf, int16_t write_size, uint32_t Offs
             }
             
             // RAMのデータ格納位置を決める＆コードフラッシュ書き込み単位のアライメントを取る
-            if (flash_address & (CODE_FLASH_WRITE_ERASE_SIZE - 1))
+            if (flash_address & (CODE_FLASH_WRITE_SIZE - 1))
             {
                 // RAMのデータ格納位置を決める(16バイト単位)
                 index = flash_address & CODE_FLASH_16BYTE_MASK;
@@ -1190,7 +1287,7 @@ int16_t on_the_fly_write_process(uint8_t *buf, int16_t write_size, uint32_t Offs
                 // アライメントが取れているので調整不要
             }
 
-            // 後方が"=="または"="以外の場合、128バイトRAMに1)でバッファリングしたデータをbase64でコピー
+            // 後方が"=="または"="以外の場合、512バイトRAMに1)でバッファリングしたデータをbase64でコピー
             if (BASE64_ENCODE_EQUAL_CHARACTER_LENGTH < buffer_pointer)
             {
                 base64_decode(buf_tmp, &buf_code_flash[index], BASE64_ENCODE_ONE_LINE_CHARACTER_LENGTH);
@@ -1203,7 +1300,7 @@ int16_t on_the_fly_write_process(uint8_t *buf, int16_t write_size, uint32_t Offs
             index = 0;
         }
 
-        // 5) arg3をbase64デコードしてコードフラッシュ書込み用の128バイトRAMに入れる。
+        // 5) arg3をbase64デコードしてコードフラッシュ書込み用の512バイトRAMに入れる。
         do
         {
             memset(arg1, 0, sizeof(arg1));
@@ -1234,7 +1331,7 @@ int16_t on_the_fly_write_process(uint8_t *buf, int16_t write_size, uint32_t Offs
                 buffer_pointer = write_size;
             }
         }
-        while ((index < CODE_FLASH_WRITE_ERASE_SIZE) && (buffer_pointer < write_size));
+        while ((index < CODE_FLASH_WRITE_SIZE) && (buffer_pointer < write_size));
 
         // 6) 1)-5)を繰り返し、arg2 + 16 が 128の倍数になってたら、コードフラッシュ書込み用の128バイトRAMをコードフラッシュに書き込む。
         //    このとき、対象のコードフラッシュを128バイト分を一度新しいRAMに読み出し、
@@ -1243,7 +1340,7 @@ int16_t on_the_fly_write_process(uint8_t *buf, int16_t write_size, uint32_t Offs
         {
             uint8_t cnt = 0;
             uint8_t* p_flash = (uint8_t *)flash_address;
-            for (cnt = 0; cnt < CODE_FLASH_WRITE_ERASE_SIZE; cnt++, p_flash++)
+            for (cnt = 0; cnt < CODE_FLASH_WRITE_SIZE; cnt++, p_flash++)
             {
                 buf_code_flash[cnt] &= *p_flash;
             }
@@ -1251,7 +1348,7 @@ int16_t on_the_fly_write_process(uint8_t *buf, int16_t write_size, uint32_t Offs
             // 128バイトのコードフラッシュを消去する
             load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_ERASE_WAIT_COMPLETE;
             R_FLASH_Erase((flash_block_address_t)(BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + (flash_address - BOOT_LOADER_UPDATE_EXECUTE_AREA_LOW_ADDRESS)),
-                          CODE_FLASH_WRITE_ERASE_SIZE);
+                          CODE_FLASH_WRITE_SIZE);
             while (FIRMWARE_UPDATE_STATE_ERASE_COMPLETE != load_firmware_control_block.status)
             {
                 load_firmware_process();
@@ -1278,14 +1375,169 @@ int16_t on_the_fly_write_process(uint8_t *buf, int16_t write_size, uint32_t Offs
 
         // 128バイト書き込み完了。残データの書き込みが完了するまで繰り返し。
         p_data += (buffer_pointer + BASE64_ENCODE_RETURN_CODE_LENGTH);
-        block_size += CODE_FLASH_WRITE_ERASE_SIZE;
+        block_size += CODE_FLASH_WRITE_SIZE;
     }
 
     xSemaphoreGive(OTASemaphoreHandle);
 
     return 0;
 }
+#endif /* MY_BSP_CFG_OTA_ENABLE == 2 */
 
+#if (MY_BSP_CFG_OTA_ENABLE == 3)
+/***********************************************************************************************************************
+* Function Name: serial_flash_firm_block_read
+* Description  :
+* Arguments    :
+* Return Value :
+***********************************************************************************************************************/
+static int32_t serial_flash_firm_block_read(uint32_t *firmware, uint32_t offset)
+{
+    uint8_t buf[256] = {0};
+    uint8_t arg1[256] = {0};
+    uint8_t arg2[256] = {0};
+    uint8_t arg3[256] = {0};
+    uint32_t read_size = 0;
+    static uint32_t upprogram[4 + 1] = {0};
+    static uint32_t current_char_position = 0;
+    static uint32_t current_file_position = 0;
+    static uint32_t previous_file_position = 0;
+
+    flash_spi_info_t Flash_Info_R;
+    flash_spi_status_t Ret = FLASH_SPI_SUCCESS;
+
+    if (0 == offset)
+    {
+        current_char_position = 0;
+        current_file_position = 0;
+        previous_file_position = 0;
+        memset(upprogram,0,sizeof(upprogram));
+    }
+
+    xSemaphoreTake(OTASemaphoreHandle, portMAX_DELAY);
+
+	current_char_position = 0;
+	memset(buf, 0, sizeof(buf));
+
+	while(1)
+	{
+        memset(buf, 0, sizeof(buf));
+	    Flash_Info_R.addr   = previous_file_position;
+	    Flash_Info_R.cnt    = FREAD_SIZE;
+//	    Flash_Info_R.p_data = &buf[current_char_position++];
+	    Flash_Info_R.p_data = &buf[current_char_position];
+	    Flash_Info_R.op_mode = FLASH_SPI_SINGLE;
+        Ret = R_FLASH_SPI_Read_Data(0, &Flash_Info_R);
+        if (FLASH_SPI_SUCCESS == Ret)
+		{
+			previous_file_position += FREAD_SIZE;
+
+			/* received 1 line */
+			if(strstr((char*)buf, "\r\n"))
+			{
+				memset(arg1, 0, sizeof(arg1));
+				memset(arg2, 0, sizeof(arg2));
+				memset(arg3, 0, sizeof(arg3));
+				
+				sscanf((char*)buf, "%256s %256s %256s", (char*)arg1, (char*)arg2, (char*)arg3);
+
+				if (!strcmp((char *)arg1, "sha1"))
+				{
+#if (FREAD_SIZE == 45U)
+					previous_file_position -= (CF_DATA_LINE_NUM - PARAM_DATA_LINE_NUM);
+//				        	ret = R_tfat_f_lseek(&file, previous_file_position);
+					for(int i=PARAM_DATA_LINE_NUM; i < CF_DATA_LINE_NUM; i++)
+					{
+						arg2[i] = NULL;
+					}
+#endif
+					base64_decode(arg2, (uint8_t *)load_firmware_control_block.hash_sha1, strlen((char *)arg2));
+				}
+				if (!strcmp((char *)arg1, "max_cnt"))
+				{
+					sscanf((char*) arg2, "%x", load_firmware_control_block.firmware_length);
+				}
+				if (!strcmp((char *)arg1, "upprogram"))
+				{
+            		base64_decode(arg3, (uint8_t *)upprogram, strlen((char *)arg3));
+            		memcpy(&firmware[current_file_position], upprogram, 16);
+                	current_file_position += 4;
+                	read_size += 16;
+				}
+#if (FREAD_SIZE == 45U)
+				if (!strcmp((char *)arg1, "upconst"))
+				{
+					// DATA FLASH data
+					previous_file_position -= (CF_DATA_LINE_NUM - DF_DATA_LINE_NUM);
+//				        	ret = R_tfat_f_lseek(&file, previous_file_position);
+				}
+#endif
+//				if((current_file_position * 4) == FLASH_BUCKET_SIZE)
+				if((current_file_position * 4) >= FLASH_BUCKET_SIZE)
+				{
+					current_file_position = 0;
+					break;
+				}
+				current_char_position = 0;
+				memset(buf, 0, sizeof(buf));
+			}
+		}
+		else
+		{
+			goto serial_flash_firm_block_read_error;
+			break;
+		}
+	}
+
+    xSemaphoreGive(OTASemaphoreHandle);
+	if (FLASH_SPI_SUCCESS != Ret)
+	{
+serial_flash_firm_block_read_error:
+		return -1;
+	}
+
+    return 0;
+}
+
+/******************************************************************************
+Function Name   : on_the_fly_write_process
+Description     : 
+Arguments       : 
+Return Value    : 
+******************************************************************************/
+int16_t serial_flash_write_process(uint8_t *buf, int16_t write_size, uint32_t Offset)
+{
+    flash_spi_info_t Flash_Info_W;
+    flash_spi_status_t Ret = FLASH_SPI_SUCCESS;
+
+    xSemaphoreTake(OTASemaphoreHandle, portMAX_DELAY);
+
+    uint32_t internal_cnt = 0;
+
+    do
+    {
+        Flash_Info_W.addr    = Offset + internal_cnt;
+        Flash_Info_W.cnt     = SERIAL_FLASH_FIT_COUNT;
+        Flash_Info_W.p_data  = (uint8_t *)&buf[internal_cnt];
+        Flash_Info_W.op_mode = FLASH_SPI_SINGLE;
+        Ret = R_FLASH_SPI_Write_Data_Page(0, &Flash_Info_W);
+        if (FLASH_SPI_SUCCESS > Ret)
+        {
+            return -1;
+        }
+        while (FLASH_SPI_SUCCESS_BUSY == R_FLASH_SPI_Polling(0, FLASH_SPI_MODE_PROG_POLL))
+        {
+            vTaskDelay(5);
+        }
+        internal_cnt += SERIAL_FLASH_FIT_COUNT;
+    }
+    while (internal_cnt < write_size);
+
+    xSemaphoreGive(OTASemaphoreHandle);
+
+    return 0;
+}
+#endif /* MY_BSP_CFG_OTA_ENABLE == 3 */
 
 #pragma section FRAM2
 #pragma interrupt (dummy_int)
@@ -1293,5 +1545,6 @@ static void dummy_int(void)
 {
 	/* nothing to do */
 }
+
 
 /* end of file */
