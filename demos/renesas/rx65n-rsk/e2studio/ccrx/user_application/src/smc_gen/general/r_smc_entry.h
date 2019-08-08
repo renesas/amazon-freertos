@@ -22,7 +22,7 @@
 * Version      : 1.2.5
 * Device(s)    : R5F565NEDxFC
 * Description  : SMC platform header file.
-* Creation Date: 2019-07-27
+* Creation Date: 2019-08-06
 ***********************************************************************************************************************/
 
 #ifndef SMC_ENTRY_H
