@@ -38,6 +38,7 @@
 
 #include "r_flash_rx_if.h"
 #include "r_cryptogram.h"
+#if (MY_BSP_CFG_OTA_ENABLE == 1)
 #include "r_tfat_lib.h"
 #include "r_usb_basic_if.h"
 #include "r_usb_hmsc_if.h"
@@ -45,6 +46,7 @@
 #include "r_usb_hmsc_apl.h"
 #include "r_usb_typedef.h"
 #include "r_usb_rtos_apl.h"
+#endif
 
 #if (MY_BSP_CFG_OTA_ENABLE == 3)
 #include "r_flash_spi_if.h"
@@ -252,7 +254,9 @@ int16_t serial_flash_write_process(uint8_t *buf, int16_t write_size, uint32_t Of
 
 extern uint8_t     g_isFileWrite;
 
+#if (MY_BSP_CFG_OTA_ENABLE == 1)
 FIL file = {0};
+#endif
 
 uint32_t g_on_the_fly_start;
 
@@ -841,7 +845,7 @@ void load_firmware_status(uint32_t *now_status, uint32_t *finish_status)
 ***********************************************************************************************************************/
 static int32_t firm_block_read(uint32_t *firmware, uint32_t offset)
 {
-
+#if (MY_BSP_CFG_OTA_ENABLE == 1)
     uint8_t buf[256] = {0};
     uint8_t arg1[256] = {0};
     uint8_t arg2[256] = {0};
@@ -950,7 +954,7 @@ firm_block_read_error:
 			return -1;
 		}
     }
-
+#endif
     return 0;
 }
 
@@ -1155,7 +1159,8 @@ Return Value    : (-1) -
 ******************************************************************************/
 int16_t file_write_process(uint8_t *buf, int16_t write_size, uint32_t Offset)
 {
-    uint16_t 	file_size = 0;
+#if (MY_BSP_CFG_OTA_ENABLE == 1)
+	uint16_t 	file_size = 0;
     uint8_t     drvno = 0;
 	FRESULT 	ret = TFAT_FR_OK;
 
@@ -1187,7 +1192,7 @@ int16_t file_write_process(uint8_t *buf, int16_t write_size, uint32_t Offset)
     {
         return -1;
     }
-
+#endif
     return 0;
 }
 
