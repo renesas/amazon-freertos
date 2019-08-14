@@ -48,10 +48,10 @@
 #include "r_usb_rtos_apl.h"
 #endif
 
-#if (MY_BSP_CFG_OTA_ENABLE == 3)
+#if (MY_BSP_CFG_OTA_ENABLE == 2)
 #include "r_flash_spi_if.h"
 #include "r_flash_spi_config.h"
-#endif /* MY_BSP_CFG_OTA_ENABLE == 3 */
+#endif /* MY_BSP_CFG_OTA_ENABLE == 2 */
 
 /* Specify the OTA signature algorithm we support on this platform. */
 
@@ -172,10 +172,10 @@ Typedef definitions
 #define CODE_FLASH_128BYTE_ALIGN (0xffffff80u)
 #define BOOT_LOADER_MIRROR_FIRST_ADDRESS FLASH_CF_BLOCK_37
 
-#if (MY_BSP_CFG_OTA_ENABLE == 3)
+#if (MY_BSP_CFG_OTA_ENABLE == 2)
 #define SERIAL_FLASH_BLOCK_ERASE_64KB_SIZE (65536)
 #define SERIAL_FLASH_FIT_COUNT (128)
-#endif /* MY_BSP_CFG_OTA_ENABLE == 3 */
+#endif /* MY_BSP_CFG_OTA_ENABLE == 2 */
 
 typedef struct _load_firmware_control_block {
 	uint32_t status;
@@ -215,9 +215,9 @@ static LOAD_FIRMWARE_CONTROL_BLOCK load_firmware_control_block;
 static FIRMWARE_UPDATE_CONTROL_BLOCK firmware_update_control_block_image = {0};
 
 OTA_ImageState_t eSavedAgentState = eOTA_ImageState_Unknown;
-#if (MY_BSP_CFG_OTA_ENABLE == 2 || MY_BSP_CFG_OTA_ENABLE == 3)
+#if (MY_BSP_CFG_OTA_ENABLE == 3 || MY_BSP_CFG_OTA_ENABLE == 2)
 SemaphoreHandle_t  OTASemaphoreHandle;
-#endif /* MY_BSP_CFG_OTA_ENABLE == 2 */
+#endif /* MY_BSP_CFG_OTA_ENABLE == 3 */
 
 /******************************************************************************
  External functions
@@ -244,13 +244,13 @@ void load_firmware_status(uint32_t *now_status, uint32_t *finish_status);
 void firmware_update_status_initialize(void);
 
 int16_t file_write_process(uint8_t *buf, int16_t write_size, uint32_t Offset);
-#if (MY_BSP_CFG_OTA_ENABLE == 2)
-int16_t on_the_fly_write_process(uint8_t *buf, int16_t write_size, uint32_t Offset);
-#endif /* MY_BSP_CFG_OTA_ENABLE == 2 */
 #if (MY_BSP_CFG_OTA_ENABLE == 3)
+int16_t on_the_fly_write_process(uint8_t *buf, int16_t write_size, uint32_t Offset);
+#endif /* MY_BSP_CFG_OTA_ENABLE == 3 */
+#if (MY_BSP_CFG_OTA_ENABLE == 2)
 static int32_t serial_flash_firm_block_read(uint32_t *firmware, uint32_t offset);
 int16_t serial_flash_write_process(uint8_t *buf, int16_t write_size, uint32_t Offset);
-#endif /* MY_BSP_CFG_OTA_ENABLE == 3 */
+#endif /* MY_BSP_CFG_OTA_ENABLE == 2 */
 
 extern uint8_t     g_isFileWrite;
 
@@ -288,7 +288,7 @@ OTA_Err_t prvPAL_CreateFileForRx( OTA_FileContext_t * const C )
 				eResult = kOTA_Err_RxFileCreateFailed;
 				OTA_LOG_L1( "[%s] ERROR - Failed to start operation: already active!\r\n", OTA_METHOD_NAME );
 			}
-#elif (MY_BSP_CFG_OTA_ENABLE == 2)
+#elif (MY_BSP_CFG_OTA_ENABLE == 3)
             C->pucFile = (uint8_t *)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS;
             vSemaphoreCreateBinary(OTASemaphoreHandle);
             if (OTASemaphoreHandle == NULL)
@@ -314,7 +314,7 @@ OTA_Err_t prvPAL_CreateFileForRx( OTA_FileContext_t * const C )
             eResult = kOTA_Err_None;
             OTA_LOG_L1( "[%s] Firmware update initialized.\r\n", OTA_METHOD_NAME );
             g_on_the_fly_start = 0;
-#elif (MY_BSP_CFG_OTA_ENABLE == 3)
+#elif (MY_BSP_CFG_OTA_ENABLE == 2)
             flash_spi_erase_info_t Flash_Info_E = {0};
             uint8_t status = 0;
             uint32_t serial_flash_address;
@@ -453,7 +453,7 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
 	}
 
     return lReturnVal;
-#elif (MY_BSP_CFG_OTA_ENABLE == 2)
+#elif (MY_BSP_CFG_OTA_ENABLE == 3)
 
     DEFINE_OTA_METHOD_NAME( "prvPAL_WriteBlock" );
 
@@ -488,7 +488,7 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
 
     return 0;
 
-#elif (MY_BSP_CFG_OTA_ENABLE == 3)
+#elif (MY_BSP_CFG_OTA_ENABLE == 2)
 
     DEFINE_OTA_METHOD_NAME( "prvPAL_WriteBlock" );
     int16_t  err = -1;
@@ -739,7 +739,7 @@ void ota_firmware_update_request(OTA_FileContext_t * const C)
 	}
 	if(FIRMWARE_UPDATE_STATE_CAN_SWAP_BANK < load_firmware_control_block.status)
 	{
-#if (MY_BSP_CFG_OTA_ENABLE == 1) || (MY_BSP_CFG_OTA_ENABLE == 3)
+#if (MY_BSP_CFG_OTA_ENABLE == 1) || (MY_BSP_CFG_OTA_ENABLE == 2)
 		strcpy((char *)load_firmware_control_block.file_name, C->pucFilePath);
 #endif /* MY_BSP_CFG_OTA_ENABLE == 1 */
 		load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_ERASE;
@@ -989,7 +989,7 @@ uint32_t load_firmware_process(void)
 		case FIRMWARE_UPDATE_STATE_READ_WAIT_COMPLETE:
 #if (MY_BSP_CFG_OTA_ENABLE == 1)
 			if(!firm_block_read(load_firmware_control_block.flash_buffer, load_firmware_control_block.offset))
-#elif (MY_BSP_CFG_OTA_ENABLE == 3)
+#elif (MY_BSP_CFG_OTA_ENABLE == 2)
 			if(!serial_flash_firm_block_read(load_firmware_control_block.flash_buffer, load_firmware_control_block.offset))
 #endif
 			{
@@ -1067,7 +1067,7 @@ void flash_load_firmware_callback_function(void *event)
 	switch(event_code)
 	{
 		case FLASH_INT_EVENT_ERASE_COMPLETE:
-#if (MY_BSP_CFG_OTA_ENABLE == 1) || (MY_BSP_CFG_OTA_ENABLE == 3)
+#if (MY_BSP_CFG_OTA_ENABLE == 1) || (MY_BSP_CFG_OTA_ENABLE == 2)
 			if(FIRMWARE_UPDATE_STATE_ERASE_WAIT_COMPLETE == load_firmware_control_block.status)
 			{
 				load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_READ_WAIT_COMPLETE;
@@ -1081,7 +1081,7 @@ void flash_load_firmware_callback_function(void *event)
 			{
 				load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_ERROR;
 			}
-#elif (MY_BSP_CFG_OTA_ENABLE == 2)
+#elif (MY_BSP_CFG_OTA_ENABLE == 3)
 			if(FIRMWARE_UPDATE_STATE_ERASE_WAIT_COMPLETE == load_firmware_control_block.status)
 			{
 				load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_ERASE_COMPLETE;
@@ -1093,7 +1093,7 @@ void flash_load_firmware_callback_function(void *event)
 #endif
 			break;
 		case FLASH_INT_EVENT_WRITE_COMPLETE:
-#if (MY_BSP_CFG_OTA_ENABLE == 1) || (MY_BSP_CFG_OTA_ENABLE == 3)
+#if (MY_BSP_CFG_OTA_ENABLE == 1) || (MY_BSP_CFG_OTA_ENABLE == 2)
 			if(FIRMWARE_UPDATE_STATE_WRITE_WAIT_COMPLETE == load_firmware_control_block.status)
 			{
 				load_firmware_control_block.offset += FLASH_BUCKET_SIZE;
@@ -1116,7 +1116,7 @@ void flash_load_firmware_callback_function(void *event)
 			{
 				load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_ERROR;
 			}
-#elif (MY_BSP_CFG_OTA_ENABLE == 2)
+#elif (MY_BSP_CFG_OTA_ENABLE == 3)
 			if(FIRMWARE_UPDATE_STATE_WRITE_WAIT_COMPLETE == load_firmware_control_block.status)
 			{
                 load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_WRITE_COMPLETE;
@@ -1196,7 +1196,7 @@ int16_t file_write_process(uint8_t *buf, int16_t write_size, uint32_t Offset)
     return 0;
 }
 
-#if (MY_BSP_CFG_OTA_ENABLE == 2)
+#if (MY_BSP_CFG_OTA_ENABLE == 3)
 /******************************************************************************
 Function Name   : on_the_fly_write_process
 Description     : 
@@ -1387,9 +1387,9 @@ int16_t on_the_fly_write_process(uint8_t *buf, int16_t write_size, uint32_t Offs
 
     return 0;
 }
-#endif /* MY_BSP_CFG_OTA_ENABLE == 2 */
+#endif /* MY_BSP_CFG_OTA_ENABLE == 3 */
 
-#if (MY_BSP_CFG_OTA_ENABLE == 3)
+#if (MY_BSP_CFG_OTA_ENABLE == 2)
 /***********************************************************************************************************************
 * Function Name: serial_flash_firm_block_read
 * Description  :
@@ -1542,7 +1542,7 @@ int16_t serial_flash_write_process(uint8_t *buf, int16_t write_size, uint32_t Of
 
     return 0;
 }
-#endif /* MY_BSP_CFG_OTA_ENABLE == 3 */
+#endif /* MY_BSP_CFG_OTA_ENABLE == 2 */
 
 #pragma section FRAM2
 #pragma interrupt (dummy_int)

@@ -611,11 +611,11 @@ Configuration Options
 
 /* OTA setting
  * (0) : Disable
- * (1) : Enable (USB writing)
- * (2) : Enable (on-the-fly writing) 
- * (3) : Enable (Serial flash writing)
+ * (1) : Enable (file system on USB)
+ * (2) : Enable (Serial flash)
+ * (3) : Enable (on-the-fly)
  */
-#define MY_BSP_CFG_OTA_ENABLE                       (3)
+#define MY_BSP_CFG_OTA_ENABLE                       (2)
 
 /* This macro is used to select which SCI channel used for OTA.
  */
