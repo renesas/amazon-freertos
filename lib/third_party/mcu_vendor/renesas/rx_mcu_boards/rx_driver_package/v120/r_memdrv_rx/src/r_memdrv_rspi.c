@@ -2477,9 +2477,6 @@ static memdrv_err_t r_memdrv_rspi_write_data(uint8_t channel,
 {
     rspi_err_t     ret_drv = RSPI_SUCCESS;
 
-    volatile uint32_t debug = 0;
-
-
     g_transfer_busy = true;
     ret_drv = R_RSPI_Write(g_rspi_handle,
                            cmd,
@@ -2487,7 +2484,6 @@ static memdrv_err_t r_memdrv_rspi_write_data(uint8_t channel,
                            count);
     if   (RSPI_SUCCESS != ret_drv)
     {
-    	debug = 0x01;
         return MEMDRV_ERR_OTHER;
     }
 
@@ -2501,7 +2497,6 @@ static memdrv_err_t r_memdrv_rspi_write_data(uint8_t channel,
         g_rspi_handle->channel = channel;
         if (RSPI_SUCCESS != R_RSPI_Close(g_rspi_handle))
         {
-        	debug = 0x02;
             return MEMDRV_ERR_OTHER;
         }
         return MEMDRV_ERR_OTHER;
@@ -2509,7 +2504,6 @@ static memdrv_err_t r_memdrv_rspi_write_data(uint8_t channel,
 
     if (RSPI_EVT_TRANSFER_COMPLETE != callback_event)
     {
-    	debug = 0x03;
         return MEMDRV_ERR_OTHER;
     }
     return MEMDRV_SUCCESS;

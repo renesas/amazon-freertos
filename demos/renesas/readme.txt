@@ -921,6 +921,14 @@ RX65N Envision Kit、RX65N RSK(2MB版/暗号器あり品)をターゲットに�
 　②user_application\ota\type2
 　③user_application^ota\type3
 　MQTTエコーのデモは user_application\mqtt_echo
+　
+　以下コンポーネントをlibフォルダに移動。
+　r_rspi_rx
+　r_flash_spi
+　r_qspi_smstr_rx
+　r_memdrv_rx
+　
+　
 
 2019/07/28
 　チームの成果を確認。

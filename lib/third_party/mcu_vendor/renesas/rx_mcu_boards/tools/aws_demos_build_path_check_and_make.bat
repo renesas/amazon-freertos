@@ -78,7 +78,7 @@ rem     src/NO_USE_FIT_pre_generated_code
 rem if exist "%pj%src\NO_USE_FIT_modified_code" goto MAKE
 rem if exist "%pj%src\NO_USE_FIT_pre_generated_code" goto MAKE
 
-set MODIFIED_FIT_MODULES=r_bsp r_ether_rx r_flash_rx r_sci_rx r_byteq r_s12ad_rx r_tfat_driver_rx r_tfat_rx r_usb_basic r_usb_hmsc r_sys_time_rx r_cmt_rx
+set MODIFIED_FIT_MODULES=r_bsp r_ether_rx r_flash_rx r_sci_rx r_byteq r_s12ad_rx r_tfat_driver_rx r_tfat_rx r_usb_basic r_usb_hmsc r_sys_time_rx r_cmt_rx r_rspi_rx r_flash_spi r_qspi_smstr_rx r_memdrv_rx
 
 rem goto MOVE_STEP_1 && rem # For debug
 rem goto MOVE_STEP_2 && rem # For debug
