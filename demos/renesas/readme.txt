@@ -936,6 +936,20 @@ RX65N Envision Kit、RX65N RSK(2MB版/暗号器あり品)をターゲットに�
 　MDFにFITモジュールの設定情報を移すべき。汎用ポートを使ってCSを実現する仕組みだが
 　この場合はどうすべきか？ このパタンの場合のコンフィグ方法にうまいやり方がないものか。
 　良いアイデアが浮かばない。要議論。ひとまず保留。
+　暫定では、以下ファイルを以下のように修正すればよい。
+　\demos\renesas\rx65n-rsk\e2studio\ccrx\user_application\ota\type2\src\smc_gen\r_config\
+　　r_flash_spi_pin_config.h
+　　
+　#define FLASH_SPI_CS_DEV0_CFG_PORTNO    '3'     /* Device 0 Port Number : FLASH SS#    */
+　#define FLASH_SPI_CS_DEV0_CFG_BITNO     '1'     /* Device 0 Bit Number  : FLASH SS#    */
+
+　注意：
+　　RX65N RSK用の設定なので、ほかのボードを使っている場合はシリアルフラッシュのCS端子が
+　　マイコンのどの端子に繋がっているか回路図を見て調べるとよい。
+　
+　最適化を切ると動かないようだ。最適化が効いていると今後のデバッグが面倒なので原因を探ってみる。
+　r_bsp_config.h のスタックサイズが0x1000にしていたはずが、いつの間にか0x400に変更されていた。
+　元に戻したら治った。
 
 2019/07/28
 　チームの成果を確認。
