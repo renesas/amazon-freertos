@@ -20,7 +20,7 @@
 * File Name    : r_pinset.h.h
 * Version      : 1.0.1
 * Description  : Declares all pin code headers into a single file
-* Creation Date: 2019-08-06
+* Creation Date: 2019-08-14
 ***********************************************************************************************************************/
 
 #ifndef R_PINSET_H
@@ -29,9 +29,9 @@
 /***********************************************************************************************************************
 Includes
 ***********************************************************************************************************************/
+#include "r_rspi_rx_pinset.h"
 #include "r_ether_rx_pinset.h"
 #include "r_sci_rx_pinset.h"
 #include "r_usb_basic_pinset.h"
-#include "r_rspi_rx_pinset.h"
 
 #endif /* R_PINSET_H */
