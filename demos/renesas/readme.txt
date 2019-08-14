@@ -909,7 +909,7 @@ RX65N Envision Kit、RX65N RSK(2MB版/暗号器あり品)をターゲットに�
 　開発チームでは、以下3点のOTA方式を検討進めていた。
 　①ファイルシステム(USBメモリ)をバッファ領域とするOTA
 　②シリアルフラッシュをバッファ領域とするOTA
-　③内臓フラッシュをバッファ領域とするOTA
+　③内蔵フラッシュをバッファ領域とするOTA
 　
 　①②はできたようだ。③はまだだ。
 　
@@ -919,7 +919,7 @@ RX65N Envision Kit、RX65N RSK(2MB版/暗号器あり品)をターゲットに�
 　以下のようにしてしてみる。
 　①user_application\ota\type1
 　②user_application\ota\type2
-　③user_application^ota\type3
+　③user_application\ota\type3
 　MQTTエコーのデモは user_application\mqtt_echo
 　
 　以下コンポーネントをlibフォルダに移動。
@@ -950,6 +950,8 @@ RX65N Envision Kit、RX65N RSK(2MB版/暗号器あり品)をターゲットに�
 　最適化を切ると動かないようだ。最適化が効いていると今後のデバッグが面倒なので原因を探ってみる。
 　r_bsp_config.h のスタックサイズが0x1000にしていたはずが、いつの間にか0x400に変更されていた。
 　元に戻したら治った。
+　
+　オンザフライ用(③内蔵フラッシュをバッファ領域とするOTA)のプロジェクトを作る。
 
 2019/07/28
 　チームの成果を確認。
