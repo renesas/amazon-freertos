@@ -127,16 +127,17 @@ static uint8_t * prvPAL_ReadAndAssumeCertificate( const uint8_t * const pucCertN
 #define FIRMWARE_UPDATE_STATE_WRITE_COMPLETE 201
 #define FIRMWARE_UPDATE_STATE_ERASE_COMPLETE 202
 
+#define OTA_FRAGMENT_MAX_LENGTH 128
+
 typedef struct _load_firmware_control_block {
 	uint32_t status;
 	uint8_t *flash_buffer_for_erase_unit;
 	uint8_t *flash_buffer_program_unit;
-	uint32_t offset;
+	uint32_t processed_byte;
 	volatile uint32_t flash_write_in_progress_flag;
 	volatile uint32_t flash_erase_in_progress_flag;
 	uint32_t progress;
 	uint8_t hash_sha1[SHA1_HASH_LENGTH_BYTE_SIZE];
-	uint32_t firmware_length;
 	OTA_ImageState_t eSavedAgentState;
 	OTA_FileContext_t OTA_FileContext;
 }LOAD_FIRMWARE_CONTROL_BLOCK;
@@ -155,11 +156,27 @@ typedef struct _firmware_update_control_block
 	uint8_t hash_sha1[SHA1_HASH_LENGTH_BYTE_SIZE];
 }FIRMWARE_UPDATE_CONTROL_BLOCK;
 
-LOAD_FIRMWARE_CONTROL_BLOCK load_firmware_control_block;
+typedef struct _fragmented_packet
+{
+	uint32_t block_number;
+	uint8_t	*string;
+	uint8_t length;
+}FRAGMENTED_PACKET;
 
+typedef struct _fragmented_packet_list
+{
+	FRAGMENTED_PACKET content;
+	struct _fragmented_packet_list *next;
+}FRAGMENTED_PACKET_LIST;
+
+static LOAD_FIRMWARE_CONTROL_BLOCK load_firmware_control_block;
+static FRAGMENTED_PACKET_LIST *fragmented_packet_list_head;
 static void bank_swap(void);
 static uint32_t *flash_copy_vector_table(void);
 static void dummy_int(void);
+static FRAGMENTED_PACKET_LIST *fragmented_packet_list_add(FRAGMENTED_PACKET_LIST *head, uint32_t block_number, uint8_t *string, uint8_t length);
+static FRAGMENTED_PACKET_LIST *fragmented_packet_list_search(FRAGMENTED_PACKET_LIST *head, uint32_t block_number);
+static FRAGMENTED_PACKET_LIST *fragmented_packet_list_delete(FRAGMENTED_PACKET_LIST *head, uint32_t block_number);
 
 /*-----------------------------------------------------------*/
 
@@ -167,7 +184,7 @@ OTA_Err_t prvPAL_CreateFileForRx( OTA_FileContext_t * const C )
 {
     DEFINE_OTA_METHOD_NAME( "prvPAL_CreateFileForRx" );
     OTA_LOG_L1("[%s] is called.\r\n", OTA_METHOD_NAME);
-    OTA_Err_t eResult = kOTA_Err_Uninitialized; /* For MISRA mandatory. */
+    OTA_Err_t eResult = kOTA_Err_Uninitialized;
     static uint8_t *dummy_file_pointer;
     static uint8_t dummy_file;
     dummy_file_pointer = &dummy_file;
@@ -186,6 +203,7 @@ OTA_Err_t prvPAL_CreateFileForRx( OTA_FileContext_t * const C )
 				load_firmware_control_block.eSavedAgentState = eOTA_ImageState_Unknown;
 				memcpy(&load_firmware_control_block.OTA_FileContext, C, sizeof(OTA_FileContext_t));
 				C->pucFile = dummy_file_pointer;
+				fragmented_packet_list_head = NULL;
 				eResult = kOTA_Err_None;
 				OTA_LOG_L1( "[%s] Receive file created.\r\n", OTA_METHOD_NAME );
         	}
@@ -216,6 +234,7 @@ OTA_Err_t prvPAL_Abort( OTA_FileContext_t * const C )
 {
     DEFINE_OTA_METHOD_NAME( "prvPAL_Abort" );
     OTA_LOG_L1("[%s] is called.\r\n", OTA_METHOD_NAME);
+    OTA_LOG_L1("Compiled in [%s].\r\n", __TIME__);
 
     /* Set default return status to uninitialized. */
     OTA_Err_t eResult = kOTA_Err_Uninitialized;
@@ -243,12 +262,127 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
                            uint32_t ulBlockSize )
 {
     DEFINE_OTA_METHOD_NAME( "prvPAL_WriteBlock" );
-    OTA_LOG_L1("[%s] is called.\r\n", OTA_METHOD_NAME);
 
     /* Set default return status to uninitialized. */
     OTA_Err_t eResult = kOTA_Err_Uninitialized;
 
-    eResult = kOTA_Err_None;
+    uint8_t arg1[16], arg2[16], arg3[32];
+    uint8_t *current_index;
+    uint8_t *next_index;
+    uint8_t *buffer;
+    uint32_t buffer_size = 0;
+    static uint8_t initialized_flag = 0;
+
+    FRAGMENTED_PACKET_LIST *previous_fragmented_packet, *next_fragmented_packet, *fragmented_packet_list_new;
+    uint32_t specified_block_number = (ulOffset / (1 << otaconfigLOG2_FILE_BLOCK_SIZE));
+
+    /* initialize for first received packet is not block number == 0 */
+    if(initialized_flag == 0)
+    {
+    	initialized_flag = 1;
+    	if(specified_block_number != 0)
+    	{
+    		current_index = pacData;
+			next_index = (uint8_t*)strstr((char*)current_index, "\r\n");
+			OTA_LOG_L1("fragmented data size [%d] bytes.\r\n", strlen((char *)current_index));
+			fragmented_packet_list_new = fragmented_packet_list_add(fragmented_packet_list_head, specified_block_number, current_index, strlen((char *)current_index));
+			fragmented_packet_list_head = fragmented_packet_list_new;
+    	}
+    }
+
+    /* pre-process for fragmented line on head/tail of pacData */
+    if(specified_block_number != 0)
+    {
+    	/* calculate buffer size */
+		previous_fragmented_packet = fragmented_packet_list_search(fragmented_packet_list_head, specified_block_number - 1);
+		if(previous_fragmented_packet != NULL)
+		{
+			buffer_size += previous_fragmented_packet->content.length;
+		}
+		buffer_size += ulBlockSize;
+		next_fragmented_packet = fragmented_packet_list_search(fragmented_packet_list_head, specified_block_number + 1);
+		if(next_fragmented_packet != NULL)
+		{
+			buffer_size += next_fragmented_packet->content.length;
+		}
+
+		/* allocate the buffer memory */
+		buffer = pvPortMalloc(buffer_size + 1); /* +1 means string terminator 0 */
+		buffer[0] = 0;
+
+		/* if previous fragment packet would be found, it is needed to be combined into head of pacData */
+		if(previous_fragmented_packet != NULL)
+		{
+			strcat((char *)buffer, (char *)previous_fragmented_packet->content.string);
+			fragmented_packet_list_delete(fragmented_packet_list_head, previous_fragmented_packet->content.block_number);
+		}
+		strcat((char *)buffer, (char *)pacData);
+		/* if next fragment packet would be found, it is needed to be combined into tail of pacData */
+		if(previous_fragmented_packet != NULL)
+		{
+			strcat((char *)buffer, (char *)next_fragmented_packet->content.string);
+			fragmented_packet_list_delete(fragmented_packet_list_head, next_fragmented_packet->content.block_number);
+		}
+    }
+    /* no need to pre-process for first 1 packet */
+    else
+    {
+		buffer = pvPortMalloc(ulBlockSize + 1); /* +1 means string terminator 0 */
+		strcpy((char *)buffer, (char *)pacData);
+    }
+
+    current_index = buffer;
+	next_index = (uint8_t*)strstr((char*)current_index, "\r\n");
+	if(next_index != NULL)
+	{
+	    while(1)
+	    {
+	        /* extract 1 line*/
+	    	sscanf((char*)next_index, "%16s %16s %32s", (char*)arg1, (char*)arg2, (char*)arg3);
+			if(!strcmp((char*)arg1, "upprogram"))
+			{
+
+			}
+			else if(!strcmp((char*)arg1, "sha1"))
+			{
+
+			}
+
+			/* exit if no CRLF would be found */
+			next_index = (uint8_t*)strstr((char*)current_index, "\r\n");
+			if(next_index == NULL)
+			{
+				OTA_LOG_L1("fragmented data size [%d] bytes.\r\n", strlen((char *)current_index));
+				fragmented_packet_list_new = fragmented_packet_list_add(fragmented_packet_list_head, specified_block_number, current_index, strlen((char *)current_index));
+				if(fragmented_packet_list_new != NULL)
+				{
+					if(fragmented_packet_list_head == NULL)
+					{
+						fragmented_packet_list_head = fragmented_packet_list_new;
+					}
+					eResult = kOTA_Err_None;
+				}
+				else
+				{
+					OTA_LOG_L1("fragmented_packet_list_add() returns NULL, out of memory.\r\n");
+					eResult = kOTA_Err_OutOfMemory;
+				}
+				break;
+			}
+			else
+			{
+				next_index += 2; /* +2 means CRLF */
+				current_index = next_index;
+			}
+	    }
+	}
+	else
+	{
+		OTA_LOG_L1("illegal data format [%s].\r\n", current_index);
+		eResult = kOTA_Err_OutOfMemory;
+		/* リスト全消去 */
+	}
+	vPortFree(buffer);
     return eResult;
 }
 /*-----------------------------------------------------------*/
@@ -451,4 +585,77 @@ static uint32_t *flash_copy_vector_table(void)
 static void dummy_int(void)
 {
 	/* nothing to do */
+}
+
+static FRAGMENTED_PACKET_LIST *fragmented_packet_list_add(FRAGMENTED_PACKET_LIST *head, uint32_t block_number, uint8_t *string, uint8_t length)
+{
+	FRAGMENTED_PACKET_LIST *tmp, *new;
+
+    new = pvPortMalloc(sizeof(FRAGMENTED_PACKET_LIST));
+    new->content.string = pvPortMalloc(length + 1); /* +1 means string terminator 0 */
+
+    if((new != NULL) && (new->content.string != NULL))
+    {
+        strcpy((char *)new->content.string, (char *)string);
+    	new->content.block_number = block_number;
+    	new->content.length = length;
+    	new->next = NULL;
+
+    	/* nothing to do when initializing phase */
+    	if(head == NULL)
+    	{
+    		/* nothing to do */
+    	}
+    	else
+    	{
+        	/* store the allocated memory "new" into "tail of list" */
+    		tmp = new;
+			while(tmp->next != NULL)
+			{
+				tmp = tmp->next;
+			}
+	    	tmp->next = new;
+    	}
+    }
+    else
+    {
+    	/* todo: リスト全消去 */
+    }
+    return new;
+}
+
+static FRAGMENTED_PACKET_LIST *fragmented_packet_list_search(FRAGMENTED_PACKET_LIST *head, uint32_t block_number)
+{
+	FRAGMENTED_PACKET_LIST *tmp = head;
+	while(tmp->content.block_number != block_number)
+	{
+		tmp = tmp->next;
+		if(tmp->next == NULL)
+		{
+			tmp = NULL;
+			break;
+		}
+	}
+	return tmp;
+}
+
+static FRAGMENTED_PACKET_LIST *fragmented_packet_list_delete(FRAGMENTED_PACKET_LIST *head, uint32_t block_number)
+{
+	FRAGMENTED_PACKET_LIST *tmp = head, *previous = NULL;
+	while(tmp->content.block_number != block_number)
+	{
+		previous = tmp;
+		tmp = tmp->next;
+		if(tmp->next == NULL)
+		{
+			tmp = NULL;
+			break;
+		}
+	}
+	if((tmp != NULL) && (previous != NULL))
+	{
+		previous->next = tmp->next;
+		vPortFree(tmp);
+	}
+	return tmp;
 }
