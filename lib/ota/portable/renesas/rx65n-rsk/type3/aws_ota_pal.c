@@ -129,6 +129,9 @@ static uint8_t * prvPAL_ReadAndAssumeCertificate( const uint8_t * const pucCertN
 
 #define OTA_FRAGMENT_MAX_LENGTH 128
 
+#define FRAGMENTED_PACKET_TYPE_HEAD 0
+#define FRAGMENTED_PACKET_TYPE_TAIL 1
+
 typedef struct _load_firmware_control_block {
 	uint32_t status;
 	uint8_t *flash_buffer_for_erase_unit;
@@ -159,6 +162,7 @@ typedef struct _firmware_update_control_block
 typedef struct _fragmented_packet
 {
 	uint32_t block_number;
+	uint8_t type;	/* 0: head, 1: tail */
 	uint8_t	*string;
 	uint8_t length;
 }FRAGMENTED_PACKET;
@@ -171,12 +175,14 @@ typedef struct _fragmented_packet_list
 
 static LOAD_FIRMWARE_CONTROL_BLOCK load_firmware_control_block;
 static FRAGMENTED_PACKET_LIST *fragmented_packet_list_head;
+
 static void bank_swap(void);
 static uint32_t *flash_copy_vector_table(void);
 static void dummy_int(void);
-static FRAGMENTED_PACKET_LIST *fragmented_packet_list_add(FRAGMENTED_PACKET_LIST *head, uint32_t block_number, uint8_t *string, uint8_t length);
-static FRAGMENTED_PACKET_LIST *fragmented_packet_list_search(FRAGMENTED_PACKET_LIST *head, uint32_t block_number);
-static FRAGMENTED_PACKET_LIST *fragmented_packet_list_delete(FRAGMENTED_PACKET_LIST *head, uint32_t block_number);
+static FRAGMENTED_PACKET_LIST *fragmented_packet_list_add(FRAGMENTED_PACKET_LIST *head, uint32_t block_number, uint8_t type, uint8_t *string, uint8_t length);
+static FRAGMENTED_PACKET_LIST *fragmented_packet_list_search(FRAGMENTED_PACKET_LIST *head, uint32_t block_number, uint8_t type);
+static FRAGMENTED_PACKET_LIST *fragmented_packet_list_delete(FRAGMENTED_PACKET_LIST *head, uint32_t block_number, uint8_t type);
+static FRAGMENTED_PACKET_LIST *fragmented_packet_list_print(FRAGMENTED_PACKET_LIST *head);
 
 /*-----------------------------------------------------------*/
 
@@ -184,6 +190,7 @@ OTA_Err_t prvPAL_CreateFileForRx( OTA_FileContext_t * const C )
 {
     DEFINE_OTA_METHOD_NAME( "prvPAL_CreateFileForRx" );
     OTA_LOG_L1("[%s] is called.\r\n", OTA_METHOD_NAME);
+    OTA_LOG_L1("Compiled in [%s] [%s].\r\n", __DATE__, __TIME__);
     OTA_Err_t eResult = kOTA_Err_Uninitialized;
     static uint8_t *dummy_file_pointer;
     static uint8_t dummy_file;
@@ -234,7 +241,6 @@ OTA_Err_t prvPAL_Abort( OTA_FileContext_t * const C )
 {
     DEFINE_OTA_METHOD_NAME( "prvPAL_Abort" );
     OTA_LOG_L1("[%s] is called.\r\n", OTA_METHOD_NAME);
-    OTA_LOG_L1("Compiled in [%s].\r\n", __TIME__);
 
     /* Set default return status to uninitialized. */
     OTA_Err_t eResult = kOTA_Err_Uninitialized;
@@ -270,75 +276,105 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
     uint8_t *current_index;
     uint8_t *next_index;
     uint8_t *buffer;
-    uint32_t buffer_size = 0;
-    static uint8_t initialized_flag = 0;
+    uint32_t buffer_size = ulBlockSize;
+    uint32_t fragmented_size = 0;
+    uint8_t pacData_string[(1 << otaconfigLOG2_FILE_BLOCK_SIZE) + 1]; /* +1 means string terminator 0 */
 
-    FRAGMENTED_PACKET_LIST *previous_fragmented_packet, *next_fragmented_packet, *fragmented_packet_list_new;
+    FRAGMENTED_PACKET_LIST *previous_fragmented_packet, *next_fragmented_packet;
     uint32_t specified_block_number = (ulOffset / (1 << otaconfigLOG2_FILE_BLOCK_SIZE));
 
-    /* initialize for first received packet is not block number == 0 */
-    if(initialized_flag == 0)
-    {
-    	initialized_flag = 1;
-    	if(specified_block_number != 0)
-    	{
-    		current_index = pacData;
-			next_index = (uint8_t*)strstr((char*)current_index, "\r\n");
-			OTA_LOG_L1("fragmented data size [%d] bytes.\r\n", strlen((char *)current_index));
-			fragmented_packet_list_new = fragmented_packet_list_add(fragmented_packet_list_head, specified_block_number, current_index, strlen((char *)current_index));
-			fragmented_packet_list_head = fragmented_packet_list_new;
-    	}
-    }
+    pacData_string[(1 << otaconfigLOG2_FILE_BLOCK_SIZE)] = 0;
+    memcpy(pacData_string, pacData, ulBlockSize);
 
     /* pre-process for fragmented line on head/tail of pacData */
-    if(specified_block_number != 0)
-    {
-    	/* calculate buffer size */
-		previous_fragmented_packet = fragmented_packet_list_search(fragmented_packet_list_head, specified_block_number - 1);
-		if(previous_fragmented_packet != NULL)
+	/* calculate buffer size for head of pacData */
+	previous_fragmented_packet = fragmented_packet_list_search(fragmented_packet_list_head, specified_block_number - 1, FRAGMENTED_PACKET_TYPE_TAIL);
+	if(previous_fragmented_packet != NULL)
+	{
+		buffer_size += previous_fragmented_packet->content.length;
+	}
+	/* cutting off the fragment of head of pacData and add this into list */
+	else
+	{
+		if(specified_block_number != 0)
 		{
-			buffer_size += previous_fragmented_packet->content.length;
+			current_index = pacData_string;
+			next_index = (uint8_t*)strstr((char*)current_index, "\n");
+			next_index += 1; /* +1 means LF */
+			fragmented_size = next_index - current_index;
+			buffer = pvPortMalloc(fragmented_size + 1); /* +1 means string terminator 0 */
+			buffer[fragmented_size] = 0;
+			pacData_string[fragmented_size] = 0;
+			memcpy(buffer, current_index, fragmented_size);
+			fragmented_packet_list_head = fragmented_packet_list_add(fragmented_packet_list_head, specified_block_number, FRAGMENTED_PACKET_TYPE_HEAD, buffer, strlen((char *)buffer));
+			vPortFree(buffer);
+			buffer_size -= fragmented_size;
 		}
-		buffer_size += ulBlockSize;
-		next_fragmented_packet = fragmented_packet_list_search(fragmented_packet_list_head, specified_block_number + 1);
-		if(next_fragmented_packet != NULL)
+		/* no more fragment data before head of the pacData */
+		else
 		{
-			buffer_size += next_fragmented_packet->content.length;
+			/* nothing to do */
 		}
+	}
+	/* calculate buffer size for tail of pacData */
+	next_fragmented_packet = fragmented_packet_list_search(fragmented_packet_list_head, specified_block_number + 1, FRAGMENTED_PACKET_TYPE_HEAD);
+	if(next_fragmented_packet != NULL)
+	{
+		buffer_size += next_fragmented_packet->content.length;
+	}
+	/* cutting off the fragment of tail of pacData and add this into list */
+	else
+	{
+		current_index = pacData_string;
+		/* search last 1 line */
+		while(1)
+		{
+			next_index = (uint8_t*)strstr((char*)current_index, "\n");
+			if(next_index == NULL)
+			{
+				break;
+			}
+			next_index += 1; /* +1 means LF */
+			current_index = next_index;
+		}
+		fragmented_size = strlen((char *)current_index);
+		buffer = pvPortMalloc(fragmented_size + 1); /* +1 means string terminator 0 */
+		buffer[fragmented_size] = 0;
+		memcpy(buffer, current_index, fragmented_size);
+		fragmented_packet_list_head = fragmented_packet_list_add(fragmented_packet_list_head, specified_block_number, FRAGMENTED_PACKET_TYPE_TAIL, buffer, strlen((char *)buffer));
+		vPortFree(buffer);
+		buffer_size -= fragmented_size;
+		pacData_string[ulBlockSize - fragmented_size] = 0;
+	}
 
-		/* allocate the buffer memory */
-		buffer = pvPortMalloc(buffer_size + 1); /* +1 means string terminator 0 */
-		buffer[0] = 0;
+	/* allocate the buffer memory */
+	buffer = pvPortMalloc(buffer_size + 1); /* +1 means string terminator 0 */
+	buffer[buffer_size] = 0;
+	buffer[0] = 0;
 
-		/* if previous fragment packet would be found, it is needed to be combined into head of pacData */
-		if(previous_fragmented_packet != NULL)
-		{
-			strcat((char *)buffer, (char *)previous_fragmented_packet->content.string);
-			fragmented_packet_list_delete(fragmented_packet_list_head, previous_fragmented_packet->content.block_number);
-		}
-		strcat((char *)buffer, (char *)pacData);
-		/* if next fragment packet would be found, it is needed to be combined into tail of pacData */
-		if(previous_fragmented_packet != NULL)
-		{
-			strcat((char *)buffer, (char *)next_fragmented_packet->content.string);
-			fragmented_packet_list_delete(fragmented_packet_list_head, next_fragmented_packet->content.block_number);
-		}
-    }
-    /* no need to pre-process for first 1 packet */
-    else
-    {
-		buffer = pvPortMalloc(ulBlockSize + 1); /* +1 means string terminator 0 */
-		strcpy((char *)buffer, (char *)pacData);
-    }
+	/* if previous fragment packet would be found, it is needed to be combined into head of pacData */
+	if(previous_fragmented_packet != NULL)
+	{
+		strcat((char *)buffer, (char *)previous_fragmented_packet->content.string);
+		fragmented_packet_list_head = fragmented_packet_list_delete(fragmented_packet_list_head, specified_block_number - 1, FRAGMENTED_PACKET_TYPE_TAIL);
+	}
+	strcat((char *)buffer, (char *)pacData_string);
+
+	/* if next fragment packet would be found, it is needed to be combined into tail of pacData */
+	if(next_fragmented_packet != NULL)
+	{
+		strcat((char *)buffer, (char *)next_fragmented_packet->content.string);
+		fragmented_packet_list_head = fragmented_packet_list_delete(fragmented_packet_list_head, specified_block_number + 1, FRAGMENTED_PACKET_TYPE_HEAD);
+	}
 
     current_index = buffer;
-	next_index = (uint8_t*)strstr((char*)current_index, "\r\n");
+	next_index = (uint8_t*)strstr((char*)current_index, "\n");
 	if(next_index != NULL)
 	{
 	    while(1)
 	    {
 	        /* extract 1 line*/
-	    	sscanf((char*)next_index, "%16s %16s %32s", (char*)arg1, (char*)arg2, (char*)arg3);
+	    	sscanf((char*)current_index, "%16s %16s %32s", (char*)arg1, (char*)arg2, (char*)arg3);
 			if(!strcmp((char*)arg1, "upprogram"))
 			{
 
@@ -349,29 +385,15 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
 			}
 
 			/* exit if no CRLF would be found */
-			next_index = (uint8_t*)strstr((char*)current_index, "\r\n");
+			next_index = (uint8_t*)strstr((char*)current_index, "\n");
 			if(next_index == NULL)
 			{
-				OTA_LOG_L1("fragmented data size [%d] bytes.\r\n", strlen((char *)current_index));
-				fragmented_packet_list_new = fragmented_packet_list_add(fragmented_packet_list_head, specified_block_number, current_index, strlen((char *)current_index));
-				if(fragmented_packet_list_new != NULL)
-				{
-					if(fragmented_packet_list_head == NULL)
-					{
-						fragmented_packet_list_head = fragmented_packet_list_new;
-					}
-					eResult = kOTA_Err_None;
-				}
-				else
-				{
-					OTA_LOG_L1("fragmented_packet_list_add() returns NULL, out of memory.\r\n");
-					eResult = kOTA_Err_OutOfMemory;
-				}
+				eResult = kOTA_Err_None;
 				break;
 			}
 			else
 			{
-				next_index += 2; /* +2 means CRLF */
+				next_index += 1; /* +1 means LF */
 				current_index = next_index;
 			}
 	    }
@@ -380,9 +402,10 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
 	{
 		OTA_LOG_L1("illegal data format [%s].\r\n", current_index);
 		eResult = kOTA_Err_OutOfMemory;
-		/* リスト全消去 */
+    	/* todo: リスト全消去 */
 	}
 	vPortFree(buffer);
+	fragmented_packet_list_print(fragmented_packet_list_head);
     return eResult;
 }
 /*-----------------------------------------------------------*/
@@ -587,75 +610,161 @@ static void dummy_int(void)
 	/* nothing to do */
 }
 
-static FRAGMENTED_PACKET_LIST *fragmented_packet_list_add(FRAGMENTED_PACKET_LIST *head, uint32_t block_number, uint8_t *string, uint8_t length)
+/***********************************************************************************************************************
+* Function Name: fragmented_packet_list_add
+* Description  : Add the fragmented packet into the list
+* Arguments    : head - current head of list
+*                block_number - packet number of block
+*                type - fragment direction
+*                string - character string
+*                length - string length
+* Return Value : FRAGMENTED_PACKET_LIST* - new head of list (returns same value as specified head in normally,
+*                                                            new head would be returned when head would be specified as NULL.)
+***********************************************************************************************************************/
+static FRAGMENTED_PACKET_LIST *fragmented_packet_list_add(FRAGMENTED_PACKET_LIST *head, uint32_t block_number, uint8_t type, uint8_t *string, uint8_t length)
 {
 	FRAGMENTED_PACKET_LIST *tmp, *new;
 
     new = pvPortMalloc(sizeof(FRAGMENTED_PACKET_LIST));
     new->content.string = pvPortMalloc(length + 1); /* +1 means string terminator 0 */
+    new->content.string[0] = 0;
+    new->content.string[length] = 0;
 
     if((new != NULL) && (new->content.string != NULL))
     {
         strcpy((char *)new->content.string, (char *)string);
     	new->content.block_number = block_number;
+    	new->content.type = type;
     	new->content.length = length;
     	new->next = NULL;
 
-    	/* nothing to do when initializing phase */
+    	/* new head would be returned when head would be specified as NULL. */
     	if(head == NULL)
     	{
-    		/* nothing to do */
+    		tmp = new;
     	}
     	else
     	{
         	/* store the allocated memory "new" into "tail of list" */
-    		tmp = new;
+	    	tmp = head;
 			while(tmp->next != NULL)
 			{
 				tmp = tmp->next;
 			}
 	    	tmp->next = new;
+
+	    	/* returns same value as specified head in normally */
+	    	tmp = head;
     	}
     }
     else
     {
+    	tmp = NULL;
     	/* todo: リスト全消去 */
     }
-    return new;
+    return tmp;
 }
 
-static FRAGMENTED_PACKET_LIST *fragmented_packet_list_search(FRAGMENTED_PACKET_LIST *head, uint32_t block_number)
+/***********************************************************************************************************************
+* Function Name: fragmented_packet_list_delete
+* Description  : Delete the fragmented packet into the list
+* Arguments    : head - current head of list
+*                block_number - packet number of block
+*                type - fragment direction
+*
+* Return Value : FRAGMENTED_PACKET_LIST* - new head of list (returns same value as specified head in normally,
+*                                                            new head would be returned when head would be deleted.
+*                                                            NULL would be returned when all list are deleted.)
+***********************************************************************************************************************/
+static FRAGMENTED_PACKET_LIST *fragmented_packet_list_delete(FRAGMENTED_PACKET_LIST *head, uint32_t block_number, uint8_t type)
 {
-	FRAGMENTED_PACKET_LIST *tmp = head;
-	while(tmp->content.block_number != block_number)
+	FRAGMENTED_PACKET_LIST *tmp = head, *previous = NULL;
+
+	if(head != NULL)
 	{
-		tmp = tmp->next;
-		if(tmp->next == NULL)
+		while(1)
 		{
-			tmp = NULL;
-			break;
+			if((tmp->content.block_number == block_number) && (tmp->content.type == type))
+			{
+				break;
+			}
+			if(tmp->next == NULL)
+			{
+				tmp = NULL;
+				break;
+			}
+			previous = tmp;
+			tmp = tmp->next;
+		}
+		if(tmp != NULL)
+		{
+			/* delete target exists on not head, remove specified and return head in this case */
+			if(previous != NULL)
+			{
+				previous->next = tmp->next;
+				vPortFree(tmp->content.string);
+				vPortFree(tmp);
+				tmp = head;
+			}
+			else
+			{
+				/* delete target exists on head with subsequent data, remove head and return specified (as new head) in this case */
+				if(head->next != NULL)
+				{
+					tmp = head->next;
+				}
+				/* delete target exists on head without subsequent data, remove head and return NULL in this case */
+				else
+				{
+					tmp = NULL;
+				}
+				vPortFree(head->content.string);
+				vPortFree(head);
+			}
 		}
 	}
 	return tmp;
 }
 
-static FRAGMENTED_PACKET_LIST *fragmented_packet_list_delete(FRAGMENTED_PACKET_LIST *head, uint32_t block_number)
+static FRAGMENTED_PACKET_LIST *fragmented_packet_list_search(FRAGMENTED_PACKET_LIST *head, uint32_t block_number, uint8_t type)
 {
-	FRAGMENTED_PACKET_LIST *tmp = head, *previous = NULL;
-	while(tmp->content.block_number != block_number)
+	FRAGMENTED_PACKET_LIST *tmp = head;
+
+	while(1)
 	{
-		previous = tmp;
-		tmp = tmp->next;
+		if((tmp->content.block_number == block_number) && (tmp->content.type == type))
+		{
+			break;
+		}
 		if(tmp->next == NULL)
 		{
 			tmp = NULL;
 			break;
 		}
+		tmp = tmp->next;
 	}
-	if((tmp != NULL) && (previous != NULL))
-	{
-		previous->next = tmp->next;
-		vPortFree(tmp);
-	}
+	return tmp;
+}
+
+static FRAGMENTED_PACKET_LIST *fragmented_packet_list_print(FRAGMENTED_PACKET_LIST *head)
+{
+	FRAGMENTED_PACKET_LIST *tmp = head;
+	uint32_t total_heap_length, total_list_count;
+
+	total_heap_length = 0;
+	total_list_count = 0;
+
+	while(1){
+		total_heap_length += sizeof(FRAGMENTED_PACKET_LIST);
+		total_heap_length += tmp->content.length;
+		total_list_count++;
+		if(tmp->next == NULL)
+		{
+			break;
+		}
+		tmp = tmp->next;
+	};
+    OTA_LOG_L1("FRAGMENTED_PACKET_LIST: total_heap_length = [%d], total_list_count = [%d].\r\n", total_heap_length, total_list_count);
+
 	return tmp;
 }
