@@ -148,7 +148,7 @@ Configuration Options
  * 1 = Use 2 stacks. User stack and interrupt stack will both be used.
  * NOTE: This setting is available only when using CCRX and GNUC.
  */
-#define BSP_CFG_USER_STACK_ENABLE       (1)
+#define BSP_CFG_USER_STACK_ENABLE       (0)
 
 /* If only 1 stack is chosen using BSP_CFG_USER_STACK_ENABLE then no RAM will be allocated for the user stack. */
 #if BSP_CFG_USER_STACK_ENABLE == 1
@@ -169,7 +169,7 @@ Configuration Options
       settings and choosing the Standard Library section. After that choose 'Contents' in E2Studio.
       This will present a list of modules that can be included. Uncheck the box for stdio.h.
    NOTE: This setting is available only when using CCRX and GNUC. */
-#define BSP_CFG_HEAP_BYTES              (0x400)
+#define BSP_CFG_HEAP_BYTES              (0x2000)
 
 /* Initializes C input & output library functions.
    0 = Disable I/O library initialization in resetprg.c. If you are not using stdio then use this value.
@@ -271,14 +271,14 @@ Configuration Options
    1 = 18MHz
    2 = 20MHz
 */
-#define BSP_CFG_HOCO_FREQUENCY          (0) /* Generated value. Do not edit this manually */
+#define BSP_CFG_HOCO_FREQUENCY          (2) /* Generated value. Do not edit this manually */
 
 /* PLL clock source (PLLSRCSEL). Choose which clock source to input to the PLL circuit.
    Available clock sources:
    0 = Main clock (default)
    1 = HOCO
 */
-#define BSP_CFG_PLL_SRC                 (0) /* Generated value. Do not edit this manually */
+#define BSP_CFG_PLL_SRC                 (1) /* Generated value. Do not edit this manually */
 
 /* PLL Input Frequency Division Ratio Select (PLIDIV).
    Available divisors = /1 (no division), /2, /3
@@ -288,7 +288,7 @@ Configuration Options
 /* PLL Frequency Multiplication Factor Select (STC).
    Available multipliers = x10.0 to x30.0 in 0.5 increments (e.g. 10.0, 10.5, 11.0, 11.5, ..., 29.0, 29.5, 30.0)
 */
-#define BSP_CFG_PLL_MUL                 (10.0) /* Generated value. Do not edit this manually */
+#define BSP_CFG_PLL_MUL                 (12.0) /* Generated value. Do not edit this manually */
 
 /* System Clock Divider (ICK).
    Available divisors = /1 (no division), /2, /4, /8, /16, /32, /64
@@ -328,7 +328,7 @@ Configuration Options
 /* USB Clock Divider Select.
    Available divisors = /2, /3, /4, /5
 */
-#define BSP_CFG_UCK_DIV                 (2) /* Generated value. Do not edit this manually */
+#define BSP_CFG_UCK_DIV                 (5) /* Generated value. Do not edit this manually */
 
 /* Configure BCLK output pin (only effective when external bus enabled)
    Values 0=no output, 1 = BCK frequency, 2= BCK/2 frequency

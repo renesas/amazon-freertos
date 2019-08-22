@@ -22,7 +22,7 @@
 * Device(s)    : R5F565NEDxFP
 * Tool-Chain   : RXC toolchain
 * Description  : Setting of port and mpc registers
-* Creation Date: 2019-08-21
+* Creation Date: 2019-08-22
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -46,12 +46,16 @@ void R_SCI_PinSet_SCI0()
     R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_MPC);
 
     /* Set RXD0/SMISO0 pin */
-    MPC.P33PFS.BYTE = 0x0BU;
-    PORT3.PMR.BIT.B3 = 1U;
+    MPC.P21PFS.BYTE = 0x0AU;
+    PORT2.PMR.BIT.B1 = 1U;
 
     /* Set TXD0/SMOSI0 pin */
-    MPC.P32PFS.BYTE = 0x0BU;
-    PORT3.PMR.BIT.B2 = 1U;
+    MPC.P20PFS.BYTE = 0x0AU;
+    PORT2.PMR.BIT.B0 = 1U;
+
+    /* Set CTS0#/RTS0#/SS0# pin */
+    MPC.P23PFS.BYTE = 0x0BU;
+    PORT2.PMR.BIT.B3 = 1U;
 
     R_BSP_RegisterProtectEnable(BSP_REG_PROTECT_MPC);
 }
@@ -88,12 +92,12 @@ void R_SCI_PinSet_SCI5()
     R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_MPC);
 
     /* Set RXD5/SMISO5 pin */
-    MPC.PC2PFS.BYTE = 0x0AU;
-    PORTC.PMR.BIT.B2 = 1U;
+    MPC.PA3PFS.BYTE = 0x0AU;
+    PORTA.PMR.BIT.B3 = 1U;
 
     /* Set TXD5/SMOSI5 pin */
-    MPC.PC3PFS.BYTE = 0x0AU;
-    PORTC.PMR.BIT.B3 = 1U;
+    MPC.PA4PFS.BYTE = 0x0AU;
+    PORTA.PMR.BIT.B4 = 1U;
 
     R_BSP_RegisterProtectEnable(BSP_REG_PROTECT_MPC);
 }
