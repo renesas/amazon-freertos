@@ -898,6 +898,210 @@ RX65N Envision Kit、RX65N RSK(2MB版/暗号器あり品)をターゲットに�
 --------------------------------------------------------------------------
 ■ポーティング記録	★印が解決すべき課題
 --------------------------------------------------------------------------
+2019/08/25
+　(b-x)を開発チームにお願いしたがリストBのアルゴリズムを少し変えることにした。
+　リストAが1行単位で確定するので、リストBに1行追加する際に昇順で追加するようにする。
+　それで、リストB内部をサーチし、128バイト分のデータが並んでいたらそれを抽出するようにする。
+　ひとまず、ヒープ10KB程度で最後まで転送できたが、最後のほうの処理がうまくいっておらず(？)
+　最後のループでフリーズしている。もう少しで動く感じ。
+
+　とりあえず動くようにはなってきたが、スパゲッティな感じ。落ち着いたら一回全部書き直そうかな。
+
+　■OTAオンザフライ方式設計メモ
+　・RX65Nマイコン内蔵フラッシュの1バンク分の1MB分=1024*1024バイトに対し、
+　　最小の書き込み単位は128バイトであり、これを1ブロックとすると8192ブロック存在する。
+　　最大の書き込み単位は32KBであり、これを1ブロックとすると64ブロック存在する。(厳密には8KBブロックもあり異なる)
+　・また、消去単位は32KBである。
+　・AWSからは2.5秒おきに128KB送られてくる(1KBパケットを128回)
+　　・データフォーマットはbase64エンコードされたテキストデータ
+　　・base64エンコードされたテキストフォーマットは以下
+　　　https://github.com/renesas-rx/amazon-freertos/wiki/OTA%E3%81%AE%E6%B4%BB%E7%94%A8#%E3%83%80%E3%82%A6%E3%83%B3%E3%83%AD%E3%83%BC%E3%83%89%E3%83%87%E3%83%BC%E3%82%BF%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%83%E3%83%88
+　　　例: upprogram ffe00000 AAAAAAAAAAAAAAAAAAAAAA==\r\n
+　　・従って1ブロック128バイトに対して必ずしも割り切れる状態でデータが送られてくるとは限らない
+　　・1024バイトをbase64エンコードをほどくと、1024バイトの中央に128バイトで割り切れる分があり、
+　　　その両端に128バイトで割り切れない部分が存在する（パンの耳みたいになる）
+　　・128バイトで割り切れる分はそのまま内蔵フラッシュにオフセットをかませて書き込んでしまえばよい
+　　・128バイトで割り切れない分は以下アルゴリズムで結合後に128バイト揃った時点で書き込む
+　　・ファイルを1行単位で揃えるリストをリストAとし、128バイト単位に揃えるリストをリストBとする
+　　・また以下アルゴリズムでは「端数」と表現しているが、パケット1024バイトがたまたま端数が無いような状態で
+　　　送られてきたとしても、最初の1行と最後の1行を「端数」として取り扱う
+　　　→リストには長さ 0 のアイテムが登録されるはずで、長さ 0 のアイテムとパケットデータが結合され「耳が揃う」はずだ
+　　　<<初期化処理>>
+　　　　キューAを生成する
+　　　　タスクAを生成する
+　　　<<rsuファイルの結合: 1024バイト単位のパンの耳 = 耳の大きさは例にあるような1行分*2が最大(43バイト分*2)>>
+　　　　AWSから受け取った1024バイトをNブロック目とし
+　　　　　(a-1)リストAからN-1ブロック目をサーチしヒットしたらN-1ブロック目を取り出しN-1の端数データ長を取得
+　　　　　(a-2)リストAからN-1ブロック目をサーチしヒットしなければNブロック目の先頭部分の端数をリストに登録しNブロック目から端数を切り取った残り部分のデータ長を取得
+　　　　　(a-3)リストAからN+1ブロック目をサーチしヒットしたらN+1ブロック目を取り出しN+1の端数データ長を取得
+　　　　　(a-4)リストAからN+1ブロック目をサーチしヒットしなければNブロック目の末尾部分の端数をリストに登録しNブロック目から端数を切り取った残り部分のデータ長を取得
+　　　　　(a-5)(a-1)-(a-4)の演算で算出されたデータ長の分だけヒープからバッファAを確保
+　　　　　　→サーチがヒットしたらバッファを増やし端数分を結合、ヒットしなければバッファを減らし端数はリストA行き、という感じ。
+　　　　　　→この時点でバッファAには、例(upprogram ffe00000 AAAAAAAAAAAAAAAAAAAAAA==\r\n)の単位で格納されるが、
+　　　　　　　フラッシュメモリの書き込み単位ではアライメントが取れてない状態。
+　　　<<フラッシュ書き込みブロックの結合: 128バイト単位のパンの耳 = 耳の大きさは128バイト分*2が最大(128バイト分*2)>>
+　　　　(a-5)で生成したバッファAは1行単位で確定するので、リストBに1行ずつ追加していく。
+　　　　その際、昇順で追加するようにする。追加する行がなくなったら、続いて、リストB内部をサーチし、
+　　　　128バイト分のデータが並んでいたらそれを抽出するようにする。並んでいた128バイト分はリストBから削除する。
+　　　　128バイト分は順次キューAに送る。
+　　　<<タスクAの処理>>
+　　　　キューAを無限に受信待ちする。キューから受信したら、フラッシュに書き込みを行う。
+　　　<<終了処理>>
+　　　　タスクAを削除する
+　　　　キューAを削除する
+　　　　リストAとリストBのチェックを行い、中身が残っていたら解放する
+　　　
+　　・必要なヒープ量の考察
+　　　上記アルゴリズムの場合、
+　　　<<rsuファイルの結合>>...(A)
+　　　　リストAにおいて、すべてのパケットが1個おきに送られてくる(1個おきにパケット受信失敗する)
+　　　　ワーストケースでパケット数がおおよそ2200パケットあるので、その半分の1100パケット分のパンの耳を保持しないと
+　　　　いけないとすると、(43バイト分*2)*1100で、94KBの容量が必要。
+　　　<<フラッシュ書き込みブロックの結合>>...(B)
+　　　　リストBにおいて、すべてのパケットが1個おきに送られてくる(1個おきにパケット受信失敗する)
+　　　　ワーストケースでパケット数がおおよそ2200パケットあるので、その半分の1100パケット分のパンの耳を保持しないと
+　　　　いけないとすると、(128バイト分*2)*1100で、281KBの容量が必要。
+　　　
+　　　(A),(B)合計でワーストケースで375KB必要になるが、すべてのパケットが1個おきに
+　　　送られてくる(1個おきにパケット受信失敗する)ということはまず有り得なく、実際は順番通りに並んで送られてくるため、
+　　　リストのためのヒープが確保されても次の受信で即座に解放される。
+　　　この「順番通り」が崩れてヒープが確保される期間が多くなるパタンは、上記で説明した以下ケースが発生した
+　　　ときである。
+　　　　- ここで、OTAエージェントが処理しきれない通信速度でAWSのOTAジョブからEtherパケットが受信された場合、
+　　　　　MQTTエージェントはOTAエージェントが受け取れなかったパケットを破棄する。
+　　　　　このとき、システムログ上は以下のように "Dropped"表記としてカウントされる
+　　　　　856 33468 [OTA] State: Active  Received: 385   Queued: 254   Processed: 254   Dropped: 131
+　　　　　
+　　　実際に実験してみると、(A)(B)において、以下のようになり、最大で確保されたヒープ量は（A)=927バイト、(B)=1664バイトに留まった。
+　　　以下は「AWSからは2.5秒おきに128KB送られてくる」境目を抽出したもの。境目は「1966 30325 [OTA]」にある。
+　　　境目の前まででAWSはブロック256～384あたりを送ろうとしているが、いくつかのパケットは
+　　　ドロップしてしまっている。(Dropped: 75とカウントされている)
+　　　ドロップしたパケットの前後は端数データがリストに登録されるため、ドロップするたびに「total_heap_length」が増えていく。
+　　　境目の後ではAWSはブロック384～512あたりを送ろうとしているが、それまでにドロップしてしまったパケットの再送も行う。
+　　　この例ではドロップしたと思われる block 156, 157, 160, 161, 274, 275, ... が再送されその度にリストに保持された
+　　　端数部分との再結合が行われヒープが解放されるので、「total_heap_length」が減っていく。
+　　　
+　　　：
+1881 29269 [OTA Task] [prvStartRequestTimer] Starting OTA_FileRequest timer.
+1882 29269 [OTA Task] [prvIngestDataBlock] Received file block 313, size 1024
+1889 29286 [OTA Task] FRAGMENTED_PACKET_LIST: total_heap_length = [927], total_list_count = [19].
+1893 29297 [OTA Task] [prvStartRequestTimer] Starting OTA_FileRequest timer.
+1894 29297 [OTA Task] [prvIngestDataBlock] Received file block 315, size 1024
+1895 29311 [OTA Task] FRAGMENTED_PACKET_LIST: total_heap_length = [916], total_list_count = [19].
+1901 29319 [OTA Task] FRAGMENTED_PACKET_LIST: total_heap_length = [905], total_list_count = [19].
+1908 29326 [OTA Task] FRAGMENTED_PACKET_LIST: total_heap_length = [894], total_list_count = [19].
+1912 29333 [OTA Task] [prvStartRequestTimer] Starting OTA_FileRequest timer.
+1914 29342 [OTA Task] FRAGMENTED_PACKET_LIST: total_heap_length = [928], total_list_count = [19].
+1920 29349 [OTA Task] FRAGMENTED_PACKET_LIST: total_heap_length = [917], total_list_count = [19].
+1924 29357 [OTA Task] [prvStartRequestTimer] Starting OTA_FileRequest timer.
+1926 29368 [OTA Task] FRAGMENTED_PACKET_LIST: total_heap_length = [821], total_list_count = [17].
+1927 29368 [OTA Task] FRAGMENTED_FLASH_BLOCK_LIST: total_heap_length = [1664], total_list_count = [52].
+1936 29385 [OTA Task] [prvStartRequestTimer] Starting OTA_FileRequest timer.
+1937 29385 [OTA Task] [prvIngestDataBlock] Received file block 304, size 1024
+1938 29392 [OTA Task] FRAGMENTED_PACKET_LIST: total_heap_length = [799], total_list_count = [17].
+1942 29420 [OTA Task] [prvStartRequestTimer] Starting OTA_FileRequest timer.
+1943 29420 [OTA Task] [prvIngestDataBlock] Received file block 239, size 1024
+1944 29426 [OTA Task] FRAGMENTED_PACKET_LIST: total_heap_length = [703], total_list_count = [15].
+1945 29428 [OTA Task] FRAGMENTED_FLASH_BLOCK_LIST: total_heap_length = [1344], total_list_count = [42].
+1956 29442 [OTA Task] FRAGMENTED_PACKET_LIST: total_heap_length = [641], total_list_count = [13].
+1960 29644 [OTA Task] [prvStartRequestTimer] Starting OTA_FileRequest timer.
+1961 29645 [OTA Task] [prvIngestDataBlock] Received file block 303, size 1024
+1962 29651 [OTA Task] FRAGMENTED_PACKET_LIST: total_heap_length = [545], total_list_count = [11].
+1963 29653 [OTA Task] FRAGMENTED_FLASH_BLOCK_LIST: total_heap_length = [1024], total_list_count = [32].
+1964 29653 [OTA Task] [prvIngestDataBlock] Remaining: 1913
+1965 29653 [OTA Task] [prvOTAUpdateTask] Returned buffer to MQTT client.
+1966 30325 [OTA] State: Active  Received: 385   Queued: 310   Processed: 310   Dropped: 75
+1967 31325 [OTA] State: Active  Received: 385   Queued: 310   Processed: 310   Dropped: 75
+1968 32145 [OTA Task] [prvPublishGetStreamMessage] OK: $aws/things/rx65n_aws_test/streams/AFR_OTA-5344451d-3ddf-4357-83f8-76bcb6cb8134/get/cbor
+1969 32146 [OTA Task] [prvStartRequestTimer] Starting OTA_FileRequest timer.
+1970 32232 [OTA Task] [prvStartRequestTimer] Starting OTA_FileRequest timer.
+1971 32232 [OTA Task] [prvIngestDataBlock] Received file block 156, size 1024
+1972 32241 [OTA Task] FRAGMENTED_PACKET_LIST: total_heap_length = [534], total_list_count = [11].
+1973 32241 [OTA Task] FRAGMENTED_FLASH_BLOCK_LIST: total_heap_length = [992], total_list_count = [31].
+1974 32241 [OTA Task] [prvIngestDataBlock] Remaining: 1912
+1975 32241 [OTA Task] [prvOTAUpdateTask] Returned buffer to MQTT client.
+1976 32242 [OTA Task] [prvStartRequestTimer] Starting OTA_FileRequest timer.
+1977 32242 [OTA Task] [prvIngestDataBlock] Received file block 157, size 1024
+1978 32247 [OTA Task] FRAGMENTED_PACKET_LIST: total_heap_length = [438], total_list_count = [9].
+1979 32247 [OTA Task] FRAGMENTED_FLASH_BLOCK_LIST: total_heap_length = [736], total_list_count = [23].
+1980 32247 [OTA Task] [prvIngestDataBlock] Remaining: 1911
+1981 32247 [OTA Task] [prvOTAUpdateTask] Returned buffer to MQTT client.
+1982 32261 [OTA Task] [prvStartRequestTimer] Starting OTA_FileRequest timer.
+1983 32261 [OTA Task] [prvIngestDataBlock] Received file block 160, size 1024
+1984 32271 [OTA Task] FRAGMENTED_PACKET_LIST: total_heap_length = [427], total_list_count = [9].
+1985 32271 [OTA Task] FRAGMENTED_FLASH_BLOCK_LIST: total_heap_length = [960], total_list_count = [30].
+1986 32271 [OTA Task] [prvIngestDataBlock] Remaining: 1910
+1987 32271 [OTA Task] [prvOTAUpdateTask] Returned buffer to MQTT client.
+1988 32272 [OTA Task] [prvStartRequestTimer] Starting OTA_FileRequest timer.
+1989 32272 [OTA Task] [prvIngestDataBlock] Received file block 161, size 1024
+1990 32278 [OTA Task] FRAGMENTED_PACKET_LIST: total_heap_length = [331], total_list_count = [7].
+1991 32278 [OTA Task] FRAGMENTED_FLASH_BLOCK_LIST: total_heap_length = [704], total_list_count = [22].
+1994 32285 [OTA Task] [prvStartRequestTimer] Starting OTA_FileRequest timer.
+1996 32294 [OTA Task] FRAGMENTED_PACKET_LIST: total_heap_length = [235], total_list_count = [5].
+2002 32302 [OTA Task] FRAGMENTED_PACKET_LIST: total_heap_length = [269], total_list_count = [5].
+2006 32313 [OTA Task] [prvStartRequestTimer] Starting OTA_FileRequest timer.
+2007 32313 [OTA Task] [prvIngestDataBlock] Received file block 274, size 1024
+2008 32320 [OTA Task] FRAGMENTED_PACKET_LIST: total_heap_length = [258], total_list_count = [5].
+2013 32345 [OTA Task] [prvStartRequestTimer] Starting OTA_FileRequest timer.
+2014 32345 [OTA Task] [prvIngestDataBlock] Received file block 275, size 1024
+2019 32352 [OTA Task] [prvStartRequestTimer] Starting OTA_FileRequest timer.
+2025 32369 [OTA Task] [prvStartRequestTimer] Starting OTA_FileRequest timer.
+2026 32369 [OTA Task] [prvIngestDataBlock] Received file block 278, size 1024
+2027 32377 [OTA Task] FRAGMENTED_PACKET_LIST: total_heap_length = [140], total_list_count = [3].
+2028 32377 [OTA Task] FRAGMENTED_FLASH_BLOCK_LIST: total_heap_length = [288], total_list_count = [9].
+　　　：
+　　　
+　　　ヒープを即座に解放してメモリを大量に消費しないようにするためには、このドロップ頻度を極力下げる必要がある。
+　　　ドロップする要因は、OTAエージェントの処理に時間がかかるケースで今回の場合はMQTTのパケット受信レートに対し、
+　　　内蔵フラッシュへの書き込みレートがどの程度追いつくか、である。
+　　　RX65Nデータシートによると、書き込み単位である128バイトでmax=7.2ms(typ=0.41ms)とのこと。
+　　　AWSからは2.5秒おきに128KB送られてきて、128KBに含まれるコマンドやアドレス情報が半分ほど含まれるため
+　　　実効データは半分の64KB程度であるため、これを書き込み単位の128バイトで割った512回の128バイト書き込みが必要、
+　　　つまり3.6秒必要となる。(厳密にはパンの耳があるのでこの通りではないが)
+　　　2.5秒のウェイト時間は、otaconfigFILE_REQUEST_WAIT_MSで設定可能であるので、これを3.6秒(=設定値7200)にすれば
+　　　AWSから送られてくるデータ間隔のうちに全データの書き込みを完了することができる。
+　　　デフォルトが設定値2.5秒であることと、3.6秒の大元の値もtypの15倍あるmax値から算出しているので、
+　　　デフォルトの設定値2.5秒のままでよいであろう。
+
+　　　また、OTAエージェント内で直接フラッシュへの書き込み制御を行うと、ドロップ頻度が上がると予想されるため、
+　　　別途バッファ(キュー)を設けてOTAエージェントからはそちらに書き出しを行い、別タスクで逐次書き込み処理を
+　　　行っていくものとする。
+　　　
+　　　★書き込みレートを上げるためには、(b-2)で確保するバッファBの大きさを32KBにすると改善するはず。
+　　　　128バイト書き込み単体のmax時間が7.2msなのに対し、32KB書き込みのmax時間が384msつまり128バイトあたり1.5msであり、
+　　　　128バイト書き込み単体の時間には「4.7msの切片」が乗っている状態になる。
+　　　　書き込み用のバッファを32KBあらかじめ確保する腹積もりをしてしまえば、
+　　　　AWSからは2.5秒おきに128KB送られてきて、128KBに含まれるコマンドやアドレス情報が半分ほど含まれるため
+　　　　実効データは半分の64KB程度であるため、これを書き込み単位の32KBバイトで割った2回の32KBバイト書き込みが必要、
+　　　　つまり768ms必要となる。(厳密にはパンの耳があるのでこの通りではないが)
+　　　
+　　　　書き込みレートはこれで5倍(=3500/768)程度にできると思うが、
+　　　　(b-1)のリストBで保持するパンの耳の大きさが32KB単位となってしまう。
+　　　　しかも32KB揃ってはじめてパンの耳のために保持したヒープが解放されることになり、通信状態の悪いところで
+　　　　OTA動作を行って実際のパケットロストが増えたり、システム負荷が増えてOTAエージェントの処理が遅くなっている
+　　　　場合でパケットドロップが増えてしまうと、辛いことが起きそう。
+　　　　なので、ひとまず、少々の書き込み時間がかかることは許容し、すぐさまヒープが解放されることを期待し、
+　　　　(b-1)のリストBで保持するパンの耳の大きさは128バイト単位とする。
+　　　　
+　　　　以下が実装されたらもう一度考えてみる。
+　　　　「1024 バイト 128ブロックの1セット要求」を可変にできるような機構が将来Amazon FreeRTOSに搭載されるようだ
+　　　　　https://github.com/aws/amazon-freertos/pull/1066
+　
+　・あと気になる点。
+　　①PKCSのデータフラッシュの書き込み制御が狂っているようだ。1回目の動作はOKだが、何か書いてある状態で
+　　　マイコンをリセットしてもう一度実行するとうまくいかない。さらにもう一度リセットして実行するとうまくいく。
+　　　これはPKCSのデータフラッシュ制御の実装をデバッグしていけば原因が分かりそう。
+　　　開発者に解析依頼する。
+　　　　→https://github.com/renesas-rx/amazon-freertos/blob/master/lib/pkcs11/portable/renesas/rx65n-rsk/aws_pkcs11_pal.c
+　　②(おそらく)デュアルモードにしたときのデバッガの挙動がおかしい
+　　　ダウンロード直後の実行はe2 studioの設定通り、main()で一度ブレークするが、一度実行したあとに
+　　　マイコンをリセットしてもう一度実行するとうまくいかない。main()で一度ブレークしない。
+　　　そのあと正しく動いているようではあるが、何か不安である。
+　　　(バンクスワップしてしまっている？)
+　　　　→R_FLASH_Control()でどちらのバンクで動いているか読みだしてみたり、デバッガで書き込んだ直後に
+　　　　どちらのバンクで動くようにデバッガが何か制御していないかどうか、など確認してみる。
+　　　　　→デバッガおよび、フラッシュに詳しい人にそれぞれ解析依頼する。
+　
 2019/08/18
 　(a-5)までリスト構造体を操作する関数群を作り動作確認ができた。設計メモを少々更新。
 　(b-x)とキューA、タスクA、フラッシュ書き込み操作の実装は開発チームに任せる。
