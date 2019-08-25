@@ -138,7 +138,7 @@ void main( void )
      * startup hook. */
     // vTaskStartScheduler();
 
-	nop();
+
     while(1)
     {
     	vTaskDelay(10000);
