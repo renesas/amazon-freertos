@@ -39,6 +39,8 @@
 /* C runtime includes. */
 #include <string.h>
 
+#define CRYPTO_PRINT( X )    vLoggingPrintf X
+
 /**
  * @brief Internal signature verification context structure
  */
@@ -229,8 +231,12 @@ BaseType_t CRYPTO_SignatureVerificationFinal( void * pvContext,
 {
     BaseType_t xResult = pdFALSE;
 
+    CRYPTO_PRINT( ( "In FInal.\r\n" ) );
+
     if( pvContext != NULL )
     {
+        CRYPTO_PRINT( ( "pvContext is not null.\r\n" ) );
+
         SignatureVerificationStatePtr_t pxCtx = ( SignatureVerificationStatePtr_t ) pvContext; /*lint !e9087 Allow casting void* to other types. */
         uint8_t ucSHA1or256[ cryptoSHA256_DIGEST_BYTES ];                                      /* Reserve enough space for the larger of SHA1 or SHA256 results. */
         uint8_t * pucHash = NULL;
@@ -241,6 +247,7 @@ BaseType_t CRYPTO_SignatureVerificationFinal( void * pvContext,
             ( xSignerCertificateLength > 0UL ) &&
             ( xSignatureLength > 0UL ) )
         {
+            CRYPTO_PRINT( ( "start finishing hash.\r\n" ) );
             /*
              * Finish the hash
              */
@@ -252,6 +259,7 @@ BaseType_t CRYPTO_SignatureVerificationFinal( void * pvContext,
             }
             else
             {
+                CRYPTO_PRINT( ( "calling mbedtls_sha256_finish_ret.\r\n" ) );
                 ( void ) mbedtls_sha256_finish_ret( &pxCtx->xSHA256Context, ucSHA1or256 );
                 pucHash = ucSHA1or256;
                 xHashLength = cryptoSHA256_DIGEST_BYTES;
@@ -260,6 +268,8 @@ BaseType_t CRYPTO_SignatureVerificationFinal( void * pvContext,
             /*
              * Verify the signature
              */
+
+            CRYPTO_PRINT( ( "calling prvVerifySignature.\r\n" ) );
             xResult = prvVerifySignature( pcSignerCertificate,
                                           xSignerCertificateLength,
                                           pxCtx->xHashAlgorithm,
@@ -276,6 +286,7 @@ BaseType_t CRYPTO_SignatureVerificationFinal( void * pvContext,
         /*
          * Clean-up
          */
+        CRYPTO_PRINT( ( "crypto cleanup.\r\n" ) );
         vPortFree( pxCtx );
     }
 
