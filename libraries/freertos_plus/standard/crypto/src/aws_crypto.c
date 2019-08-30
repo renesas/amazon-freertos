@@ -98,6 +98,7 @@ static BaseType_t prvVerifySignature( char * pcSignerCertificate,
     {
         xMbedHashAlg = MBEDTLS_MD_SHA1;
     }
+    CRYPTO_PRINT( ( "calling mbedtls_x509_crt_init.\r\n" ) );
 
     /*
      * Decode and create a certificate context
@@ -108,6 +109,7 @@ static BaseType_t prvVerifySignature( char * pcSignerCertificate,
             &xCertCtx, ( const unsigned char * ) pcSignerCertificate, xSignerCertificateLength ) )
     {
         xResult = pdFALSE;
+        CRYPTO_PRINT( ( "mbedtls_x509_crt_parse failed.\r\n" ) );
     }
 
     /*
@@ -124,12 +126,14 @@ static BaseType_t prvVerifySignature( char * pcSignerCertificate,
                 xSignatureLength ) )
         {
             xResult = pdFALSE;
+            CRYPTO_PRINT( ( "mbedtls_pk_verify failed.\r\n" ) );
         }
     }
 
     /*
      * Clean-up
      */
+    CRYPTO_PRINT( ( "cleanup and return from prvVerifySignature.\r\n" ) );
     mbedtls_x509_crt_free( &xCertCtx );
 
     return xResult;
