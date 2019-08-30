@@ -320,6 +320,7 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
 
     pacData_string[(1 << otaconfigLOG2_FILE_BLOCK_SIZE)] = 0;
     memcpy(pacData_string, pacData, ulBlockSize);
+    pacData_string[ulBlockSize] = 0; /* string terminator */
 
 	current_index = pacData_string;
 
