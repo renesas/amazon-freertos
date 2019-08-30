@@ -135,6 +135,7 @@ static uint8_t * prvPAL_ReadAndAssumeCertificate( const uint8_t * const pucCertN
 #define FRAGMENTED_FLASH_BLOCK_TYPE_TAIL 1
 
 #define ONE_COMMAND_BINARY_LENGH 16
+#define HASH_SHA1_LENGTH 20
 
 typedef struct _load_firmware_control_block {
 	uint32_t status;
@@ -303,7 +304,7 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
     /* Set default return status to uninitialized. */
     OTA_Err_t eResult = kOTA_Err_Uninitialized;
 
-    uint8_t arg1[16], arg2[16], arg3[32];
+    uint8_t arg1[32], arg2[32], arg3[32];
     uint8_t *current_index;
     uint8_t *next_index;
     uint8_t *assembled_packet_buffer;
@@ -314,6 +315,7 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
     uint32_t length;
     uint32_t head_fragmented_size = 0, tail_fragmented_size = 0;
     uint8_t pacData_string[(1 << otaconfigLOG2_FILE_BLOCK_SIZE) + 1]; /* +1 means string terminator 0 */
+    uint8_t hash_sha1[HASH_SHA1_LENGTH];
 
     FRAGMENTED_PACKET_LIST *previous_fragmented_packet, *next_fragmented_packet;
     uint32_t specified_packet_number = (ulOffset / (1 << otaconfigLOG2_FILE_BLOCK_SIZE));
@@ -411,7 +413,7 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
 	    while(1)
 	    {
 	        /* extract 1 line*/
-	    	sscanf((char*)current_index, "%16s %16s %32s", (char*)arg1, (char*)arg2, (char*)arg3);
+	    	sscanf((char*)current_index, "%32s %32s %32s", (char*)arg1, (char*)arg2, (char*)arg3);
 			if(!strcmp((char*)arg1, "upprogram"))
 			{
 				sscanf((char *)arg2, "%x", &address);
@@ -420,7 +422,8 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
 			}
 			else if(!strcmp((char*)arg1, "sha1"))
 			{
-
+				base64_decode(arg2, hash_sha1, strlen((char *)arg2));
+				memcpy(load_firmware_control_block.hash_sha1, hash_sha1, HASH_SHA1_LENGTH);
 			}
 
 			next_index = (uint8_t*)strstr((char*)current_index, "\n");
