@@ -137,6 +137,8 @@ static uint8_t * prvPAL_ReadAndAssumeCertificate( const uint8_t * const pucCertN
 #define ONE_COMMAND_BINARY_LENGH 16
 #define HASH_SHA1_LENGTH 20
 
+#define otaconfigMAX_NUM_BLOCKS_REQUEST        	128U	/* this value will be appeared after 201908.00 in aws_ota_agent_config.h */
+
 typedef struct _load_firmware_control_block {
 	uint32_t status;
 	uint8_t *flash_buffer_for_erase_unit;
@@ -178,26 +180,29 @@ typedef struct _fragmented_packet_list
 	struct _fragmented_packet_list *next;
 }FRAGMENTED_PACKET_LIST;
 
-typedef struct _fragmented_flash_block
+typedef struct _flash_block
 {
 	uint32_t address;
 	uint8_t	*binary;
 	uint8_t length;
-}FRAGMENTED_FLASH_BLOCK;
+}FLASH_BLOCK;
 
 typedef struct _fragmented_flash_block_list
 {
-	FRAGMENTED_FLASH_BLOCK content;
+	FLASH_BLOCK content;
 	struct _fragmented_flash_block_list *next;
 }FRAGMENTED_FLASH_BLOCK_LIST;
 
 static LOAD_FIRMWARE_CONTROL_BLOCK load_firmware_control_block;
 static FRAGMENTED_PACKET_LIST *fragmented_packet_list_head;
 static FRAGMENTED_FLASH_BLOCK_LIST *fragmented_flash_block_list_head;
+static QueueHandle_t xQueue;
 
 static void bank_swap(void);
 static uint32_t *flash_copy_vector_table(void);
 static void dummy_int(void);
+static void ota_flashing_task(void);
+
 static FRAGMENTED_PACKET_LIST *fragmented_packet_list_add(FRAGMENTED_PACKET_LIST *head, uint32_t packet_number, uint8_t type, uint8_t *string, uint8_t length);
 static FRAGMENTED_PACKET_LIST *fragmented_packet_list_delete(FRAGMENTED_PACKET_LIST *head, uint32_t packet_number, uint8_t type);
 static FRAGMENTED_PACKET_LIST *fragmented_packet_list_search(FRAGMENTED_PACKET_LIST *head, uint32_t packet_number, uint8_t type);
@@ -206,8 +211,8 @@ static FRAGMENTED_PACKET_LIST *fragmented_packet_list_print(FRAGMENTED_PACKET_LI
 static FRAGMENTED_FLASH_BLOCK_LIST *fragmented_flash_block_list_insert(FRAGMENTED_FLASH_BLOCK_LIST *head, uint32_t address, uint8_t *binary, uint8_t length);
 static FRAGMENTED_FLASH_BLOCK_LIST *fragmented_flash_block_list_delete(FRAGMENTED_FLASH_BLOCK_LIST *head, uint32_t address);
 static FRAGMENTED_FLASH_BLOCK_LIST *fragmented_flash_block_list_print(FRAGMENTED_FLASH_BLOCK_LIST *head);
-static FRAGMENTED_FLASH_BLOCK_LIST *fragmented_flash_block_list_assemble(FRAGMENTED_FLASH_BLOCK_LIST *head, uint8_t *flash_block, uint32_t *target_address);
-static FRAGMENTED_FLASH_BLOCK_LIST *fragmented_flash_block_list_sort(FRAGMENTED_FLASH_BLOCK_LIST *head);
+static FRAGMENTED_FLASH_BLOCK_LIST *fragmented_flash_block_list_assemble(FRAGMENTED_FLASH_BLOCK_LIST *head, FLASH_BLOCK *flash_block);
+
 
 /*-----------------------------------------------------------*/
 
@@ -244,6 +249,11 @@ OTA_Err_t prvPAL_CreateFileForRx( OTA_FileContext_t * const C )
 				C->pucFile = dummy_file_pointer;
 				fragmented_packet_list_head = NULL;
 				fragmented_flash_block_list_head = NULL;
+
+				/* create task/queue for flashing */
+				xTaskCreate(ota_flashing_task, "OTA_FLASHING_TASK", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL);
+				xQueue = xQueueCreate(otaconfigMAX_NUM_BLOCKS_REQUEST, sizeof(FLASH_BLOCK));
+
 				eResult = kOTA_Err_None;
 				OTA_LOG_L1( "[%s] Receive file created.\r\n", OTA_METHOD_NAME );
         	}
@@ -311,11 +321,12 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
     uint32_t assembled_packet_buffer_size = ulBlockSize;
     uint32_t address;
     uint8_t binary[ONE_COMMAND_BINARY_LENGH];
-    uint8_t flash_block[FLASH_CF_MIN_PGM_SIZE];
+    uint8_t flash_block_array[FLASH_CF_MIN_PGM_SIZE];
     uint32_t length;
     uint32_t head_fragmented_size = 0, tail_fragmented_size = 0;
     uint8_t pacData_string[(1 << otaconfigLOG2_FILE_BLOCK_SIZE) + 1]; /* +1 means string terminator 0 */
     uint8_t hash_sha1[HASH_SHA1_LENGTH];
+    FLASH_BLOCK flash_block;
 
     FRAGMENTED_PACKET_LIST *previous_fragmented_packet, *next_fragmented_packet;
     uint32_t specified_packet_number = (ulOffset / (1 << otaconfigLOG2_FILE_BLOCK_SIZE));
@@ -325,6 +336,8 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
     pacData_string[ulBlockSize] = 0; /* string terminator */
 
 	current_index = pacData_string;
+
+	flash_block.binary = flash_block_array;
 
 	/*----------- pre-process for fragmented line on head/tail of pacData ----------*/
 	/* calculate assembled_packet_buffer size for head of pacData */
@@ -448,10 +461,11 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
 	{
 		while(1)
 		{
-			fragmented_flash_block_list_head = fragmented_flash_block_list_assemble(fragmented_flash_block_list_head, flash_block, &address);
-			if(address != NULL)
+			fragmented_flash_block_list_head = fragmented_flash_block_list_assemble(fragmented_flash_block_list_head, &flash_block);
+			if(flash_block.address != NULL)
 			{
-				/* todo: write request and continue */
+				/* todo: define the error process */
+				xQueueSend(xQueue, &flash_block, NULL);
 			}
 			else
 			{
@@ -997,13 +1011,15 @@ static FRAGMENTED_FLASH_BLOCK_LIST *fragmented_flash_block_list_print(FRAGMENTED
 * Function Name: fragmented_flash_block_list_assemble
 * Description  : Assemble the fragmented flash block from the list
 * Arguments    : head - current head of list
-*                flash_block - assembled flash_block[FLASH_CF_MIN_PGM_SIZE] from the list
-*                target_address - top of actual physical address of the flash_block, if this value would be NULL, no target flash data exists.
+*                flash_block
+*                  address - top of actual physical address of the flash_block, if this value would be NULL, no target flash data exists.
+*                  binary - assembled flash_block[FLASH_CF_MIN_PGM_SIZE] from the list
+*                  length - binary length
 * Return Value : FRAGMENTED_PACKET_LIST* - new head of list (returns same value as specified head in normally,
 *                                                            new head would be returned when head would be deleted.
 *                                                            NULL would be returned when all list are deleted.)
 ***********************************************************************************************************************/
-static FRAGMENTED_FLASH_BLOCK_LIST *fragmented_flash_block_list_assemble(FRAGMENTED_FLASH_BLOCK_LIST *head, uint8_t *flash_block, uint32_t *target_address)
+static FRAGMENTED_FLASH_BLOCK_LIST *fragmented_flash_block_list_assemble(FRAGMENTED_FLASH_BLOCK_LIST *head, FLASH_BLOCK *flash_block)
 {
 	FRAGMENTED_FLASH_BLOCK_LIST *tmp = head;
 	FRAGMENTED_FLASH_BLOCK_LIST *flash_block_candidate[FLASH_CF_MIN_PGM_SIZE/ONE_COMMAND_BINARY_LENGH];
@@ -1054,17 +1070,27 @@ static FRAGMENTED_FLASH_BLOCK_LIST *fragmented_flash_block_list_assemble(FRAGMEN
 	}
 
 	tmp = head;
-	*target_address = NULL;
+	flash_block->address = NULL;
 	/* remove flash_block from list */
 	if(assembled_length == FLASH_CF_MIN_PGM_SIZE)
 	{
-		*target_address = flash_block_candidate[0]->content.address;
+		flash_block->address = flash_block_candidate[0]->content.address;
 		for(uint32_t i = 0; i < (FLASH_CF_MIN_PGM_SIZE/ONE_COMMAND_BINARY_LENGH); i++)
 		{
-			memcpy(&flash_block[i * ONE_COMMAND_BINARY_LENGH], tmp->content.binary, tmp->content.length);
+			memcpy(&flash_block->binary[i * ONE_COMMAND_BINARY_LENGH], tmp->content.binary, tmp->content.length);
 			tmp = fragmented_flash_block_list_delete(tmp, flash_block_candidate[i]->content.address);
 		}
+		flash_block->length = assembled_length;
 	}
 	return tmp;
 
+}
+
+static void ota_flashing_task(void)
+{
+	FLASH_BLOCK *flash_block;
+	while(1)
+	{
+		xQueueReceive(xQueue, flash_block, portMAX_DELAY);
+	}
 }
