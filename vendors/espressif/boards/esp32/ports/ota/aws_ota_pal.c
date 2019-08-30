@@ -364,16 +364,22 @@ u8 * prvPAL_ReadAndAssumeCertificate( const u8 * const pucCertName,
         pucSignerCert = pvPortMalloc( ulCertSize );                           /*lint !e9029 !e9079 !e838 malloc proto requires void*. */
         pucCertData = ( uint8_t * ) signingcredentialSIGNING_CERTIFICATE_PEM; /*lint !e9005 we don't modify the cert but it could be set by PKCS11 so it's not const. */
 
+        ESP_LOGI( TAG, "Done allocating memory for cert.\r\n");
+
         if( pucSignerCert != NULL )
         {
             memcpy( pucSignerCert, pucCertData, ulCertSize );
             *ulSignerCertSize = ulCertSize;
+
+            ESP_LOGI( TAG, "Done memcpy( pucSignerCert, pucCertData, ulCertSize )\r\n");
         }
         else
         {
             ESP_LOGE( TAG, "Error: No memory for certificate in prvPAL_ReadAndAssumeCertificate!\r\n" );
         }
     }
+
+    ESP_LOGI( TAG, "Done Read certificate , going back\r\n");
 
     return pucSignerCert;
 }
@@ -403,6 +409,7 @@ OTA_Err_t prvPAL_CheckFileSignature( OTA_FileContext_t * const C )
         ESP_LOGE( TAG, "cert read failed" );
         return kOTA_Err_BadSignerCert;
     }
+    ESP_LOGI( TAG, "cert read success\n\r" );
 
     esp_err_t ret = esp_partition_mmap( ota_ctx.update_partition, 0, ota_ctx.data_write_len,
                                         SPI_FLASH_MMAP_DATA, &buf, &ota_data_map );
@@ -414,8 +421,15 @@ OTA_Err_t prvPAL_CheckFileSignature( OTA_FileContext_t * const C )
         goto end;
     }
 
+    ESP_LOGI( TAG, "partition map success\n\r" );
+
     CRYPTO_SignatureVerificationUpdate( pvSigVerifyContext, buf, ota_ctx.data_write_len );
+
+    ESP_LOGI( TAG, "CRYPTO_SignatureVerificationUpdate success\n\r" );
+
     spi_flash_munmap( ota_data_map );
+
+    ESP_LOGI( TAG, "ota data map\n\r" );
 
     if( CRYPTO_SignatureVerificationFinal( pvSigVerifyContext, ( char * ) pucSignerCert, ulSignerCertSize,
                                            C->pxSignature->ucData, C->pxSignature->usSize ) == pdFALSE )
@@ -425,6 +439,7 @@ OTA_Err_t prvPAL_CheckFileSignature( OTA_FileContext_t * const C )
     }
     else
     {
+        ESP_LOGI( TAG, "signature verification success.\n\r" );
         result = kOTA_Err_None;
     }
 
@@ -434,6 +449,7 @@ end:
     if( pucSignerCert != NULL )
     {
         vPortFree( pucSignerCert );
+        ESP_LOGI( TAG, " Free the signer certificate memory .\n\r" );
     }
 
     return result;
