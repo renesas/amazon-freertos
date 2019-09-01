@@ -337,6 +337,7 @@ CK_OBJECT_HANDLE PKCS11_PAL_SaveObject( CK_ATTRIBUTE_PTR pxLabel,
         while ( update_data_flash_control_block.status < DATA_FLASH_UPDATE_STATE_FINALIZE_COMPLETED )
         {
             update_dataflash_data_from_image();
+            vTaskDelay(1);
         }
         if (update_data_flash_control_block.status == DATA_FLASH_UPDATE_STATE_ERROR)
         {
@@ -347,6 +348,7 @@ CK_OBJECT_HANDLE PKCS11_PAL_SaveObject( CK_ATTRIBUTE_PTR pxLabel,
         while ( update_data_flash_control_block.status < DATA_FLASH_UPDATE_STATE_FINALIZE_COMPLETED )
         {
             update_dataflash_data_mirror_from_image();
+            vTaskDelay(1);
         }
         if (update_data_flash_control_block.status == DATA_FLASH_UPDATE_STATE_ERROR)
         {
@@ -477,7 +479,7 @@ void PKCS11_PAL_GetObjectValueCleanup( uint8_t * pucData,
 static void update_dataflash_data_from_image(void)
 {
 	flash_interrupt_config_t cb_func_info;
-    uint32_t required_dataflash_block_num;
+    static uint32_t required_dataflash_block_num;
     flash_err_t flash_error_code = FLASH_SUCCESS;
 
     switch(update_data_flash_control_block.status)
@@ -544,7 +546,7 @@ static void update_dataflash_data_from_image(void)
 static void update_dataflash_data_mirror_from_image(void)
 {
 	flash_interrupt_config_t cb_func_info;
-    uint32_t required_dataflash_block_num;
+    static uint32_t required_dataflash_block_num;
     flash_err_t flash_error_code = FLASH_SUCCESS;
 
     switch(update_data_flash_control_block.status)
