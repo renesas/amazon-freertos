@@ -37,6 +37,7 @@
 #include "platform.h"
 #include "r_flash_rx_if.h"
 #include "base64_decode.h"
+#include "r_cryptogram.h"
 
 /* Specify the OTA signature algorithm we support on this platform. */
 //const char cOTA_JSON_FileSignatureKey[ OTA_FILE_SIG_KEY_STR_MAX_LENGTH ] = "sig-sha256-ecdsa";   /* FIX ME. */
@@ -138,14 +139,11 @@ static uint8_t * prvPAL_ReadAndAssumeCertificate( const uint8_t * const pucCertN
 #define HASH_SHA1_LENGTH 20
 
 #define otaconfigMAX_NUM_BLOCKS_REQUEST        	128U	/* this value will be appeared after 201908.00 in aws_ota_agent_config.h */
+#define FLASHING_TIMEOUT 1000U
 
 typedef struct _load_firmware_control_block {
 	uint32_t status;
-	uint8_t *flash_buffer_for_erase_unit;
-	uint8_t *flash_buffer_program_unit;
 	uint32_t processed_byte;
-	volatile uint32_t flash_write_in_progress_flag;
-	volatile uint32_t flash_erase_in_progress_flag;
 	uint32_t progress;
 	uint8_t hash_sha1[SHA1_HASH_LENGTH_BYTE_SIZE];
 	OTA_ImageState_t eSavedAgentState;
@@ -187,21 +185,32 @@ typedef struct _flash_block
 	uint8_t length;
 }FLASH_BLOCK;
 
+typedef struct _flash_block_for_queue
+{
+	uint32_t address;
+	uint8_t	binary[FLASH_CF_MIN_PGM_SIZE];
+}FLASH_BLOCK_FOR_QUEUE;
+
 typedef struct _fragmented_flash_block_list
 {
 	FLASH_BLOCK content;
 	struct _fragmented_flash_block_list *next;
 }FRAGMENTED_FLASH_BLOCK_LIST;
 
-static LOAD_FIRMWARE_CONTROL_BLOCK load_firmware_control_block;
+static volatile LOAD_FIRMWARE_CONTROL_BLOCK load_firmware_control_block;
+static FIRMWARE_UPDATE_CONTROL_BLOCK firmware_update_control_block_image = {0};
 static FRAGMENTED_PACKET_LIST *fragmented_packet_list_head;
 static FRAGMENTED_FLASH_BLOCK_LIST *fragmented_flash_block_list_head;
 static QueueHandle_t xQueue;
+static TaskHandle_t xTask;
+static xSemaphoreHandle xSemaphore;
+static FLASH_BLOCK_FOR_QUEUE flash_block_for_queue;
 
 static void bank_swap(void);
 static uint32_t *flash_copy_vector_table(void);
 static void dummy_int(void);
 static void ota_flashing_task(void);
+static void ota_flashing_callback(void *event);
 
 static FRAGMENTED_PACKET_LIST *fragmented_packet_list_add(FRAGMENTED_PACKET_LIST *head, uint32_t packet_number, uint8_t type, uint8_t *string, uint8_t length);
 static FRAGMENTED_PACKET_LIST *fragmented_packet_list_delete(FRAGMENTED_PACKET_LIST *head, uint32_t packet_number, uint8_t type);
@@ -225,13 +234,8 @@ OTA_Err_t prvPAL_CreateFileForRx( OTA_FileContext_t * const C )
     static uint8_t *dummy_file_pointer;
     static uint8_t dummy_file;
     dummy_file_pointer = &dummy_file;
-
-    uint8_t *test = 0;
-    for(int i = 0; i < 256; i++)
-    {
-    	test[i] = 0x55;
-    }
-
+    flash_err_t flash_err;
+    flash_interrupt_config_t cb_func_info;
 
     if( C != NULL )
     {
@@ -242,20 +246,46 @@ OTA_Err_t prvPAL_CreateFileForRx( OTA_FileContext_t * const C )
         			|| (load_firmware_control_block.status != FIRMWARE_UPDATE_STATE_COMPLETED)
         			|| (load_firmware_control_block.status != FIRMWARE_UPDATE_STATE_ERROR))
         	{
-				memset(&load_firmware_control_block, 0, sizeof(LOAD_FIRMWARE_CONTROL_BLOCK));
+				memset((void *)&load_firmware_control_block, 0, sizeof(LOAD_FIRMWARE_CONTROL_BLOCK));
 				load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_INITIALIZED;
 				load_firmware_control_block.eSavedAgentState = eOTA_ImageState_Unknown;
-				memcpy(&load_firmware_control_block.OTA_FileContext, C, sizeof(OTA_FileContext_t));
+				memset(&firmware_update_control_block_image, 0, sizeof(FIRMWARE_UPDATE_CONTROL_BLOCK));
+				memcpy(&firmware_update_control_block_image, (void *)FLASH_DF_BLOCK_0, sizeof(FIRMWARE_UPDATE_CONTROL_BLOCK));
+				memcpy((void *)&load_firmware_control_block.OTA_FileContext, C, sizeof(OTA_FileContext_t));
 				C->pucFile = dummy_file_pointer;
 				fragmented_packet_list_head = NULL;
 				fragmented_flash_block_list_head = NULL;
 
-				/* create task/queue for flashing */
-				xTaskCreate(ota_flashing_task, "OTA_FLASHING_TASK", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL);
-				xQueue = xQueueCreate(otaconfigMAX_NUM_BLOCKS_REQUEST, sizeof(FLASH_BLOCK));
+				/* create task/queue/semaphore for flashing */
+				xTaskCreate(ota_flashing_task, "OTA_FLASHING_TASK", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES, &xTask);
+				xQueue = xQueueCreate(otaconfigMAX_NUM_BLOCKS_REQUEST, sizeof(FLASH_BLOCK_FOR_QUEUE));
+				xSemaphore = xSemaphoreCreateMutex();
 
-				eResult = kOTA_Err_None;
-				OTA_LOG_L1( "[%s] Receive file created.\r\n", OTA_METHOD_NAME );
+				flash_err = R_FLASH_Open();
+				cb_func_info.pcallback = ota_flashing_callback;
+			    cb_func_info.int_priority = FLASH_INTERRUPT_PRIORITY;
+			    R_FLASH_Control(FLASH_CMD_SET_BGO_CALLBACK, (void *)&cb_func_info);
+
+				if(flash_err == FLASH_SUCCESS)
+				{
+					flash_err = R_FLASH_Erase((flash_block_address_t)BOOT_LOADER_UPDATE_TEMPORARY_AREA_HIGH_ADDRESS, BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER);
+					if(flash_err == FLASH_SUCCESS)
+					{
+						load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_ERASE_WAIT_COMPLETE;
+						eResult = kOTA_Err_None;
+						OTA_LOG_L1( "[%s] Receive file created.\r\n", OTA_METHOD_NAME );
+					}
+					else
+					{
+						eResult = kOTA_Err_RxFileCreateFailed;
+						OTA_LOG_L1( "[%s] ERROR - R_FLASH_Erase() returns error.\r\n", OTA_METHOD_NAME );
+					}
+				}
+				else
+				{
+					eResult = kOTA_Err_RxFileCreateFailed;
+					OTA_LOG_L1( "[%s] ERROR - R_FLASH_Open() returns error.\r\n", OTA_METHOD_NAME );
+				}
         	}
         	else
         	{
@@ -290,8 +320,15 @@ OTA_Err_t prvPAL_Abort( OTA_FileContext_t * const C )
 
     if( NULL != C )
     {
-		memset(&load_firmware_control_block, 0, sizeof(LOAD_FIRMWARE_CONTROL_BLOCK));
+		memset((void *)&load_firmware_control_block, 0, sizeof(LOAD_FIRMWARE_CONTROL_BLOCK));
 		load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_ERROR;
+
+		/* delete task/queue for flashing */
+		vTaskDelete(xTask);
+		vQueueDelete(xQueue);
+
+		/* todo: リスト全消去 */
+
         OTA_LOG_L1( "[%s] OK\r\n", OTA_METHOD_NAME );
         eResult = kOTA_Err_None;
     }
@@ -321,12 +358,12 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
     uint32_t assembled_packet_buffer_size = ulBlockSize;
     uint32_t address;
     uint8_t binary[ONE_COMMAND_BINARY_LENGH];
-    uint8_t flash_block_array[FLASH_CF_MIN_PGM_SIZE];
     uint32_t length;
     uint32_t head_fragmented_size = 0, tail_fragmented_size = 0;
     uint8_t pacData_string[(1 << otaconfigLOG2_FILE_BLOCK_SIZE) + 1]; /* +1 means string terminator 0 */
     uint8_t hash_sha1[HASH_SHA1_LENGTH];
     FLASH_BLOCK flash_block;
+    static uint8_t flash_block_array[FLASH_CF_MIN_PGM_SIZE];
 
     FRAGMENTED_PACKET_LIST *previous_fragmented_packet, *next_fragmented_packet;
     uint32_t specified_packet_number = (ulOffset / (1 << otaconfigLOG2_FILE_BLOCK_SIZE));
@@ -436,7 +473,7 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
 			else if(!strcmp((char*)arg1, "sha1"))
 			{
 				base64_decode(arg2, hash_sha1, strlen((char *)arg2));
-				memcpy(load_firmware_control_block.hash_sha1, hash_sha1, HASH_SHA1_LENGTH);
+				memcpy((void *)load_firmware_control_block.hash_sha1, hash_sha1, HASH_SHA1_LENGTH);
 			}
 
 			next_index = (uint8_t*)strstr((char*)current_index, "\n");
@@ -464,8 +501,14 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
 			fragmented_flash_block_list_head = fragmented_flash_block_list_assemble(fragmented_flash_block_list_head, &flash_block);
 			if(flash_block.address != NULL)
 			{
-				/* todo: define the error process */
-				xQueueSend(xQueue, &flash_block, NULL);
+				flash_block_for_queue.address = flash_block.address;
+				memcpy(flash_block_for_queue.binary, flash_block.binary, sizeof(flash_block_for_queue.binary));
+				if(xQueueSend(xQueue, &flash_block_for_queue, NULL) != pdPASS)
+				{
+					/* todo: リスト全消去 */
+					OTA_LOG_L1("OTA flashing queue send error.\r\n");
+					eResult = kOTA_Err_OutOfMemory;
+				}
 			}
 			else
 			{
@@ -483,24 +526,77 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
 
 OTA_Err_t prvPAL_CloseFile( OTA_FileContext_t * const C )
 {
+	uint8_t hash_sha1[SHA1_HASH_LENGTH_BYTE_SIZE];
+	uint32_t required_dataflash_block_num;
+	uint32_t flashing_timeout_counter = 0;
+
     DEFINE_OTA_METHOD_NAME( "prvPAL_CloseFile" );
     OTA_LOG_L1("[%s] is called.\r\n", OTA_METHOD_NAME);
 
     OTA_Err_t eResult = kOTA_Err_None;
     if( NULL != C )
     {
-    	if(load_firmware_control_block.status != FIRMWARE_UPDATE_STATE_FINALIZE_COMPLETED)
+    	while(load_firmware_control_block.processed_byte != (FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER))
     	{
-			memset(&load_firmware_control_block, 0, sizeof(LOAD_FIRMWARE_CONTROL_BLOCK));
+    		vTaskDelay(1);
+    		flashing_timeout_counter++;
+    		if(flashing_timeout_counter == FLASHING_TIMEOUT)
+    		{
+    			break;
+    		}
+    	}
+    	if(flashing_timeout_counter != FLASHING_TIMEOUT)
+    	{
+			load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_FINALIZE;
+			R_Sha1((uint8_t*)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS, hash_sha1, FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER);
+			if(!memcmp(hash_sha1, (void *)load_firmware_control_block.hash_sha1, SHA1_HASH_LENGTH_BYTE_SIZE))
+			{
+				/* confirm which hash(hash0/hash1 on dataflash) is same as current executed area hash */
+				R_Sha1((uint8_t*)BOOT_LOADER_UPDATE_EXECUTE_AREA_LOW_ADDRESS, hash_sha1, FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER);
+
+				if(!memcmp(hash_sha1, firmware_update_control_block_image.data.hash0_sha1, SHA1_HASH_LENGTH_BYTE_SIZE))
+				{
+					/* hash0_sha1 is for current executed area mac, should write to hash1_sha1 */
+					memcpy(firmware_update_control_block_image.data.hash1_sha1, (void *)load_firmware_control_block.hash_sha1, sizeof(firmware_update_control_block_image.data.hash1_sha1));
+				}
+				else
+				{
+					/* program_mac1 is for current executed area mac, should write to hash0_sha1 */
+					memcpy(firmware_update_control_block_image.data.hash0_sha1, (void *)load_firmware_control_block.hash_sha1, sizeof(firmware_update_control_block_image.data.hash0_sha1));
+				}
+				firmware_update_control_block_image.data.lifecycle_state = LIFECYCLE_STATE_UPDATING;
+				R_Sha1((uint8_t *)&firmware_update_control_block_image.data, hash_sha1, sizeof(firmware_update_control_block_image.data));
+				memcpy(firmware_update_control_block_image.hash_sha1, hash_sha1, SHA1_HASH_LENGTH_BYTE_SIZE);
+				required_dataflash_block_num = sizeof(FIRMWARE_UPDATE_CONTROL_BLOCK) / FLASH_DF_BLOCK_SIZE;
+				if(sizeof(FIRMWARE_UPDATE_CONTROL_BLOCK) % FLASH_DF_BLOCK_SIZE)
+				{
+					required_dataflash_block_num++;
+				}
+				R_FLASH_Erase((flash_block_address_t)FLASH_DF_BLOCK_0, required_dataflash_block_num);
+				load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_FINALIZE_WAIT_ERASE_DATA_FLASH;
+				while(load_firmware_control_block.status != FIRMWARE_UPDATE_STATE_FINALIZE_COMPLETED)
+				{
+					vTaskDelay(1);
+				}
+			}
+
+			memset((void *)&load_firmware_control_block, 0, sizeof(LOAD_FIRMWARE_CONTROL_BLOCK));
 			load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_CLOSED;
+
+			/* delete task/queue for flashing */
+			vTaskDelete(xTask);
+			vQueueDelete(xQueue);
+
+			/* todo: リスト全消去 */
+
 			OTA_LOG_L1( "[%s] OK\r\n", OTA_METHOD_NAME );
 			eResult = kOTA_Err_None;
     	}
-		else
-		{
-			OTA_LOG_L1( "[%s] ERROR - Invalid status.\r\n", OTA_METHOD_NAME );
-			eResult = kOTA_Err_FileClose;
-		}
+    	else
+    	{
+			OTA_LOG_L1( "[%s] NG, flashing not completed.\r\n", OTA_METHOD_NAME );
+	        eResult = kOTA_Err_FileAbort;
+    	}
     }
     else /* Context was not valid. */
     {
@@ -536,8 +632,17 @@ static uint8_t * prvPAL_ReadAndAssumeCertificate( const uint8_t * const pucCertN
 OTA_Err_t prvPAL_ResetDevice( void )
 {
     DEFINE_OTA_METHOD_NAME("prvPAL_ResetDevice");
-    OTA_LOG_L1("[%s] is called.\r\n", OTA_METHOD_NAME);
 
+    OTA_LOG_L1( "[%s] Resetting the device.\r\n", OTA_METHOD_NAME );
+
+    /* Software reset issued (Not bank swap) */
+    R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_LPC_CGC_SWR);
+    SYSTEM.SWRR = 0xa501;
+	while(1);	/* software reset */
+
+    /* We shouldn't actually get here if the board supports the auto reset.
+     * But, it doesn't hurt anything if we do although someone will need to
+     * reset the device for the new image to boot. */
     return kOTA_Err_None;
 }
 /*-----------------------------------------------------------*/
@@ -550,11 +655,6 @@ OTA_Err_t prvPAL_ActivateNewImage( void )
 
     /* Bank swap processing */
 	bank_swap();
-    while(1);
-
-    /* We shouldn't actually get here if the board supports the auto reset.
-     * But, it doesn't hurt anything if we do although someone will need to
-     * reset the device for the new image to boot. */
 
     return kOTA_Err_None;
 }
@@ -626,17 +726,14 @@ OTA_PAL_ImageState_t prvPAL_GetPlatformImageState( void )
 void bank_swap(void)
 {
 	flash_err_t flash_err;
-	if(FIRMWARE_UPDATE_STATE_CAN_SWAP_BANK == load_firmware_control_block.status)
+	R_BSP_InterruptsDisable();
+	flash_err = R_FLASH_Control(FLASH_CMD_BANK_TOGGLE, NULL);
+	if(FLASH_SUCCESS != flash_err)
 	{
-		R_BSP_CpuInterruptLevelWrite(FLASH_INTERRUPT_PRIORITY - 1);
-		flash_copy_vector_table();
-		flash_err = R_FLASH_Control(FLASH_CMD_BANK_TOGGLE, NULL);
-		if(FLASH_SUCCESS == flash_err)
-		{
-			while(1);	/* wait software reset in RAM */
-		}
-		while(1); /* death loop */
+		while(1);	/* fatal error */
 	}
+	R_BSP_InterruptsEnable();
+	/* user can bank swap with software reset after this function */
 }
 
 /***********************************************************************************************************************
@@ -802,18 +899,21 @@ static FRAGMENTED_PACKET_LIST *fragmented_packet_list_search(FRAGMENTED_PACKET_L
 {
 	FRAGMENTED_PACKET_LIST *tmp = head;
 
-	while(1)
+	if(head != NULL)
 	{
-		if((tmp->content.packet_number == packet_number) && (tmp->content.type == type))
+		while(1)
 		{
-			break;
+			if((tmp->content.packet_number == packet_number) && (tmp->content.type == type))
+			{
+				break;
+			}
+			if(tmp->next == NULL)
+			{
+				tmp = NULL;
+				break;
+			}
+			tmp = tmp->next;
 		}
-		if(tmp->next == NULL)
-		{
-			tmp = NULL;
-			break;
-		}
-		tmp = tmp->next;
 	}
 	return tmp;
 }
@@ -858,7 +958,6 @@ static FRAGMENTED_PACKET_LIST *fragmented_packet_list_print(FRAGMENTED_PACKET_LI
 static FRAGMENTED_FLASH_BLOCK_LIST *fragmented_flash_block_list_insert(FRAGMENTED_FLASH_BLOCK_LIST *head, uint32_t address, uint8_t *binary, uint8_t length)
 {
 	FRAGMENTED_FLASH_BLOCK_LIST *tmp, *current, *previous, *new;
-	static FRAGMENTED_FLASH_BLOCK_LIST *tail;
 
     new = pvPortMalloc(sizeof(FRAGMENTED_PACKET_LIST));
     new->content.binary = pvPortMalloc(length);
@@ -874,43 +973,33 @@ static FRAGMENTED_FLASH_BLOCK_LIST *fragmented_flash_block_list_insert(FRAGMENTE
     	if(head == NULL)
     	{
     		tmp = new;
-    		tail = new;
     	}
     	else
     	{
-    		if(new->content.address > tail->content.address)
-    		{
-    			tail->next = new;
-    			tail = new;
-    			tmp = head;
-    		}
-    		else
-    		{
-				/* search the list to insert new node */
-				current = head;
-				while(1)
+			/* search the list to insert new node */
+			current = head;
+			while(1)
+			{
+				if((new->content.address < current->content.address) || (current == NULL))
 				{
-					if((new->content.address < current->content.address) || (current == NULL))
-					{
-						break;
-					}
-					previous = current;
-					current = current->next;
+					break;
 				}
-				/* insert the searched node when current != head */
-				if(current != head)
-				{
-					previous->next = new;
-					new->next = current;
-					tmp = head;
-				}
-				else
-				{
-					new->next = current;
-					tmp = new;
-				}
-    		}
-    	}
+				previous = current;
+				current = current->next;
+			}
+			/* insert the searched node when current != head */
+			if(current != head)
+			{
+				previous->next = new;
+				new->next = current;
+				tmp = head;
+			}
+			else
+			{
+				new->next = current;
+				tmp = new;
+			}
+		}
     }
     else
     {
@@ -1024,73 +1113,151 @@ static FRAGMENTED_FLASH_BLOCK_LIST *fragmented_flash_block_list_assemble(FRAGMEN
 	FRAGMENTED_FLASH_BLOCK_LIST *tmp = head;
 	FRAGMENTED_FLASH_BLOCK_LIST *flash_block_candidate[FLASH_CF_MIN_PGM_SIZE/ONE_COMMAND_BINARY_LENGH];
 	uint32_t assembled_length = 0;
-	uint32_t loop_counter;
+	uint32_t loop_counter = 0;
 
 	/* search aligned FLASH_CF_MIN_PGM_SIZE top address */
 	while(1)
 	{
 		if(!(tmp->content.address % FLASH_CF_MIN_PGM_SIZE))
 		{
-			/* find out flash_block candidate */
+			/* extract continuous flash_block candidate */
 			assembled_length = 0;
 			loop_counter = 0;
-			for(uint32_t i = 0; i < (FLASH_CF_MIN_PGM_SIZE / ONE_COMMAND_BINARY_LENGH); i++)
+			while(1)
 			{
-				if(tmp->content.address + tmp->content.length == tmp->next->content.address)
+				if(loop_counter < ((FLASH_CF_MIN_PGM_SIZE / ONE_COMMAND_BINARY_LENGH) - 1))
 				{
-					assembled_length += tmp->content.length;
-					flash_block_candidate[loop_counter++] = tmp;
-					tmp = tmp->next;
-				}
-				else if(loop_counter == ((FLASH_CF_MIN_PGM_SIZE / ONE_COMMAND_BINARY_LENGH) - 1))
-				{
-					if((assembled_length + tmp->next->content.length) == FLASH_CF_MIN_PGM_SIZE)
+					if((tmp->content.address + tmp->content.length) == tmp->next->content.address)
 					{
-						assembled_length += tmp->next->content.length;
-						flash_block_candidate[loop_counter++] = tmp;
-						tmp = tmp->next;
+						assembled_length += tmp->content.length;
+						flash_block_candidate[loop_counter] = tmp;
+					}
+					else
+					{
 						break;
 					}
 				}
+				else if(loop_counter == (FLASH_CF_MIN_PGM_SIZE / ONE_COMMAND_BINARY_LENGH) - 1)
+				{
+					assembled_length += tmp->content.length;
+					flash_block_candidate[loop_counter] = tmp;
+				}
 				else
 				{
-					tmp = tmp->next;
 					break;
 				}
+				tmp = tmp->next;
+				loop_counter++;
 			}
 		}
+
+		/* break if found completed flash_block_candidate or found end of list */
+		if((assembled_length == FLASH_CF_MIN_PGM_SIZE) || (tmp == NULL))
+		{
+			break;
+		}
+		/* search next candidate */
 		else
 		{
 			tmp = tmp->next;
 		}
-		if((assembled_length == FLASH_CF_MIN_PGM_SIZE) || (tmp->next == NULL))
-		{
-			break;
-		}
 	}
 
-	tmp = head;
-	flash_block->address = NULL;
-	/* remove flash_block from list */
+	/* assemble flash_block */
 	if(assembled_length == FLASH_CF_MIN_PGM_SIZE)
 	{
+		tmp = head;
+		/* remove flash_block from list */
 		flash_block->address = flash_block_candidate[0]->content.address;
+		flash_block->length = assembled_length;
 		for(uint32_t i = 0; i < (FLASH_CF_MIN_PGM_SIZE/ONE_COMMAND_BINARY_LENGH); i++)
 		{
-			memcpy(&flash_block->binary[i * ONE_COMMAND_BINARY_LENGH], tmp->content.binary, tmp->content.length);
+			memcpy(&flash_block->binary[i * ONE_COMMAND_BINARY_LENGH], flash_block_candidate[i]->content.binary, flash_block_candidate[i]->content.length);
 			tmp = fragmented_flash_block_list_delete(tmp, flash_block_candidate[i]->content.address);
 		}
-		flash_block->length = assembled_length;
+	}
+	else
+	{
+		tmp = head;
+		flash_block->address = NULL;
+		flash_block->binary = NULL;
+		flash_block->length = NULL;
 	}
 	return tmp;
-
 }
+
+uint32_t flash_write111 = 0;
 
 static void ota_flashing_task(void)
 {
-	FLASH_BLOCK *flash_block;
+	FLASH_BLOCK_FOR_QUEUE flash_block_for_queue;
+	uint32_t flash_block_array[FLASH_CF_MIN_PGM_SIZE];
+	uint32_t target_address;
+	flash_err_t flash_err;
+
+	while(load_firmware_control_block.status != FIRMWARE_UPDATE_STATE_ERASE_COMPLETE)
+	{
+		vTaskDelay(1);
+	}
+
 	while(1)
 	{
-		xQueueReceive(xQueue, flash_block, portMAX_DELAY);
+		xQueueReceive(xQueue, &flash_block_for_queue, portMAX_DELAY);
+		xSemaphoreTake(xSemaphore, portMAX_DELAY);
+		memcpy(flash_block_array, flash_block_for_queue.binary, FLASH_CF_MIN_PGM_SIZE);
+#if (BSP_MCU_RX65N) || (BSP_MCU_RX651)
+		target_address = flash_block_for_queue.address - (uint32_t)0x00100000; /* minus 0x00100000 to switch the target address bank from 0xfff00000 to 0xffe00000 */
+#else
+#error "your MCU does not support Amazon FreeRTOS OTA feature."
+#endif
+		load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_WRITE_WAIT_COMPLETE;
+		flash_err = R_FLASH_Write((uint32_t)flash_block_array, target_address, FLASH_CF_MIN_PGM_SIZE);
+		flash_write111 += FLASH_CF_MIN_PGM_SIZE;
+		if(flash_err != FLASH_SUCCESS)
+		{
+			nop();
+		}
 	}
+}
+
+static void ota_flashing_callback(void *event)
+{
+	uint32_t event_code;
+	event_code = *((uint32_t*)event);
+
+	static portBASE_TYPE xHigherPriorityTaskWoken;
+	xSemaphoreGiveFromISR(xSemaphore, &xHigherPriorityTaskWoken);
+
+    if(event_code == FLASH_INT_EVENT_WRITE_COMPLETE)
+    {
+		if(FIRMWARE_UPDATE_STATE_WRITE_WAIT_COMPLETE == load_firmware_control_block.status)
+		{
+			load_firmware_control_block.processed_byte += FLASH_CF_MIN_PGM_SIZE;
+			load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_WRITE_COMPLETE;
+    	}
+		else if(FIRMWARE_UPDATE_STATE_FINALIZE_WAIT_WRITE_DATA_FLASH == load_firmware_control_block.status)
+		{
+			load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_FINALIZE_COMPLETED;
+		}
+    }
+    else if(event_code == FLASH_INT_EVENT_ERASE_COMPLETE)
+    {
+		if(FIRMWARE_UPDATE_STATE_ERASE_WAIT_COMPLETE == load_firmware_control_block.status)
+		{
+			load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_ERASE_COMPLETE;
+		}
+		else if(FIRMWARE_UPDATE_STATE_FINALIZE_WAIT_ERASE_DATA_FLASH == load_firmware_control_block.status)
+		{
+			R_FLASH_Write((uint32_t)&firmware_update_control_block_image, FLASH_DF_BLOCK_0, sizeof(FIRMWARE_UPDATE_CONTROL_BLOCK));
+			load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_FINALIZE_WAIT_WRITE_DATA_FLASH;
+		}
+		else
+		{
+			load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_ERROR;
+		}
+    }
+    else
+    {
+		load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_ERROR;
+    }
 }
