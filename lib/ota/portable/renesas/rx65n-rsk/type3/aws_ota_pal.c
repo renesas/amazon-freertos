@@ -656,6 +656,9 @@ OTA_Err_t prvPAL_ActivateNewImage( void )
     /* Bank swap processing */
 	bank_swap();
 
+	vTaskDelay(1000);
+	prvPAL_ResetDevice();	/* no return from this function */
+
     return kOTA_Err_None;
 }
 /*-----------------------------------------------------------*/
