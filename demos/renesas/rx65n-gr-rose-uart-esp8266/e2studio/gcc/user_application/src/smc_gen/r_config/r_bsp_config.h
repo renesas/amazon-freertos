@@ -148,7 +148,7 @@ Configuration Options
  * 1 = Use 2 stacks. User stack and interrupt stack will both be used.
  * NOTE: This setting is available only when using CCRX and GNUC.
  */
-#define BSP_CFG_USER_STACK_ENABLE       (1)
+#define BSP_CFG_USER_STACK_ENABLE       (0)
 
 /* If only 1 stack is chosen using BSP_CFG_USER_STACK_ENABLE then no RAM will be allocated for the user stack. */
 #if BSP_CFG_USER_STACK_ENABLE == 1
@@ -169,7 +169,7 @@ Configuration Options
       settings and choosing the Standard Library section. After that choose 'Contents' in E2Studio.
       This will present a list of modules that can be included. Uncheck the box for stdio.h.
    NOTE: This setting is available only when using CCRX and GNUC. */
-#define BSP_CFG_HEAP_BYTES              (0x400)
+#define BSP_CFG_HEAP_BYTES              (0x2000)
 
 /* Initializes C input & output library functions.
    0 = Disable I/O library initialization in resetprg.c. If you are not using stdio then use this value.
@@ -263,7 +263,7 @@ Configuration Options
 */
 
 /* Input clock frequency in Hz (XTAL or EXTAL). */
-#define BSP_CFG_XTAL_HZ                 (24000000) /* Generated value. Do not edit this manually */
+#define BSP_CFG_XTAL_HZ                 (12000000) /* Generated value. Do not edit this manually */
 
 /* The HOCO can operate at several different frequencies. Choose which one using the macro below.
    Available frequency settings:
@@ -608,5 +608,7 @@ Configuration Options
 #define MY_BSP_CFG_SERIAL_TERM_SCI					(2)
 #define MY_BSP_CFG_UART_WIFI_SCI                    (3)
 
+#define WIFI_RESET_PORT_PDR    PORT2.PDR.BIT.B4     /*PMOD PinNo.8 */
+#define WIFI_RESET_PORT_PODR   PORT2.PODR.BIT.B4    /*PMOD PinNo.8 */
 #endif /* R_BSP_CONFIG_REF_HEADER_FILE */
 

@@ -100,6 +100,11 @@ SECTIONS
 		*(D)
 		*(D_1)
 		*(D_2)
+		_RPFRAM_start = .;
+		_PFRAM_start = LOADADDR(.data) + (_RPFRAM_start - ADDR(.data));
+		*(PFRAM)
+		_RPFRAM_end = (. + 3) & ~ 3;
+		_PFRAM_end = LOADADDR(.data) + (_RPFRAM_end - ADDR(.data));
 		_edata = .;
 	} >RAM
 	.gcc_exc :
@@ -115,16 +120,10 @@ SECTIONS
 		*(B)
 		*(B_1)
 		*(B_2)
-		
 		_ebss = .;
 		_end = .;
 	} >RAM
-	RPFRAM2   (NOLOAD) : 
-{
-	_RPFRAM2_start = .;
-	*(RPFRAM2)
-	_RPFRAM2_end = .;
-	} >RAM
+	
 	
 	PFRAM  (NOLOAD) : 
 {
@@ -139,7 +138,12 @@ SECTIONS
 	*(PFRAM2)
 	_PFRAM2_end = .;
 	} >ROM
-	
+	RPFRAM2   (NOLOAD) : 
+{
+	_RPFRAM2_start = .;
+	*(RPFRAM2)
+	_RPFRAM2_end = .;
+	} >RAM
 	C_PKCS11_STORAGE_1 :
 	{
 	} >DATAFLASH C_PKCS11_STORAGE_MIRROR_1 :
