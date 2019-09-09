@@ -960,14 +960,14 @@ RX65N Envision Kit、RX65N RSK(2MB版/暗号器あり品)をターゲットに�
 　
 　条件をマトリクスにしてみる。交点はブートローダおよびOTAでダウンロード後のファームウェア検証方法。
 　Amazon FreeRTOSを使用するときのバイナリ暗号は、SSL及びAWSのアクセス制御に任せることとし、暗号化しないことにする。
-　　　　　　　　　	Amazon FreeRTOS使用
-　　　　　　　　　	無		有
-　TSIP	無
-　　バイナリ暗号無 	SHA256(S/W)	SHA256/ECDSAによる署名検証(S/W: RX65Nがハックされ偽ファームが起動可能性有)
-　		有 	N/A 		N/A
-　TSIP	有
-　　バイナリ暗号無 	N/A		★SHA256/ECDSAによる署名検証(H/W: RX65Nがハックされ偽ファームが起動可能性低)
-　		有 	AES-CMAC(H/W)	N/A
+　                      Amazon FreeRTOS使用
+　　　　　　　　　      無              有
+　TSIP    無
+　    バイナリ暗号無    SHA256(S/W)     SHA256/ECDSAによる署名検証(S/W: RX65Nがハックされ偽ファームが起動可能性有)
+　                有    N/A             N/A
+　TSIP    有
+　    バイナリ暗号無    N/A             ★SHA256/ECDSAによる署名検証(H/W: RX65Nがハックされ偽ファームが起動可能性低)
+　                有    AES-CMAC(H/W)   N/A
 　
 　TSIP有でAmazon FreeRTOS有のパタンはTSIP連携のAPIの機能設計から別途考える必要がある。
 　SSL連携用のCAの証明書をユーザ工場での製造時にインストールするAPIは準備してあるが、
