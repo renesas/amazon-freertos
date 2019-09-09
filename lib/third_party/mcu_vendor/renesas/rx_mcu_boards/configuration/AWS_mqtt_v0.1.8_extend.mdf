@@ -11,10 +11,10 @@
     <fileTemplate></fileTemplate>
     <configuration>
         <property id="mqttconfigENABLE_METRICS" display="Report usage metrics to the AWS IoT broker" default="1" type="combobox">
-            <option id="mqttconfigENABLE_METRICS.0" display="Enable " value="0"/>
-            <option id="mqttconfigENABLE_METRICS.1" display="Disable" value="1"/>
-            <description>0 = Enable AWS IoT broker.
-1 = Disable AWS IoT broker</description>
+            <option id="mqttconfigENABLE_METRICS.1" display="Enable " value="1"/>
+            <option id="mqttconfigENABLE_METRICS.0" display="Disable" value="0"/>
+            <description>1 = Enable AWS IoT broker.
+0 = Disable AWS IoT broker</description>
         </property>
         <property id="mqttOPERATION_TIMEOUT_MS" display="The maximum time  task waits" default="120000" type="textbox">
             <constraint display="Value must be an integer">testInteger("${mqttOPERATION_TIMEOUT_MS}")</constraint>

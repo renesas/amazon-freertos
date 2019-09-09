@@ -11,13 +11,13 @@
     <fileTemplate></fileTemplate>
     <configuration>
         <property id="ipconfigHAS_DEBUG_PRINTF" display="Print out the debugging messages" default="0" type="combobox">
-            <option id="ipconfigHAS_DEBUG_PRINTF.0" display="Enable " value="0"/>
-            <option id="ipconfigHAS_DEBUG_PRINTF.1" display="Disable" value="1"/>
+            <option id="ipconfigHAS_DEBUG_PRINTF.1" display="Enable " value="1"/>
+            <option id="ipconfigHAS_DEBUG_PRINTF.0" display="Disable" value="0"/>
             <description>If ipconfigHAS_DEBUG_PRINTF is set to 1 then FreeRTOS_debug_printf should be defined to the function  used to print out the debugging messages</description>
         </property>
         <property id="ipconfigHAS_PRINTF" display="Print out the  messages" default="1" type="combobox">
-            <option id="ipconfigHAS_PRINTF.0" display="Enable " value="0"/>
-            <option id="ipconfigHAS_PRINTF.1" display="Disable" value="1"/>
+            <option id="ipconfigHAS_PRINTF.1" display="Enable " value="1"/>
+            <option id="ipconfigHAS_PRINTF.0" display="Disable" value="0"/>
             <description>Set to 1 to print out non debugging messages, for example the output of the  FreeRTOS_netstat() 
 command, and ping replies.  If ipconfigHAS_PRINTF is set to 1 then FreeRTOS_printf should be set to the function used to print out the  messages.</description>
         </property>
@@ -27,8 +27,8 @@ command, and ping replies.  If ipconfigHAS_PRINTF is set to 1 then FreeRTOS_prin
             <description>Define the byte order of the target MCU</description>
         </property>
         <property id="ipconfigDRIVER_INCLUDED_RX_IP_CHECKSUM" display="IP/TCP/UDP checksums" default="1" type="combobox">
-            <option id="ipconfigDRIVER_INCLUDED_RX_IP_CHECKSUM.0" display="Enable " value="0"/>
-            <option id="ipconfigDRIVER_INCLUDED_RX_IP_CHECKSUM.1" display="Disable" value="1"/>
+            <option id="ipconfigDRIVER_INCLUDED_RX_IP_CHECKSUM.1" display="Enable " value="1"/>
+            <option id="ipconfigDRIVER_INCLUDED_RX_IP_CHECKSUM.0" display="Disable" value="0"/>
             <description>If the network card/driver includes checksum offloading (IP/TCP/UDP checksums) then set ipconfigDRIVER_INCLUDED_RX_IP_CHECKSUM to 1 to prevent the software stack repeating the checksum calculations.</description>
         </property>
         <property id="ipconfigSOCK_DEFAULT_RECEIVE_BLOCK_TIME" display="Block several API for FreeRTOS_recv()" default="10000" type="textbox">
@@ -42,8 +42,8 @@ command, and ping replies.  If ipconfigHAS_PRINTF is set to 1 then FreeRTOS_prin
             <description>Several API's will block until the result is known, or the action has been  performed the timeouts can be set per socket for FreeRTOS_send()</description>
         </property>
         <property id="ipconfigUSE_DNS_CACHE" display="DNS caching" default="1" type="combobox">
-            <option id="ipconfigUSE_DNS_CACHE.0" display="Enable " value="0"/>
-            <option id="ipconfigUSE_DNS_CACHE.1" display="Disable" value="1"/>
+            <option id="ipconfigUSE_DNS_CACHE.1" display="Enable " value="1"/>
+            <option id="ipconfigUSE_DNS_CACHE.0" display="Disable" value="0"/>
             <description>DNS caching</description>
         </property>
         <property id="ipconfigDNS_REQUEST_ATTEMPTS" display="ipconfigDNS_REQUEST_ATTEMPTS can be kept low" default="2" type="textbox">
@@ -60,8 +60,8 @@ command, and ping replies.  If ipconfigHAS_PRINTF is set to 1 then FreeRTOS_prin
             <description>The size, in words (not bytes), of the stack allocated to the FreeRTOS+TCP stack</description>
         </property>
         <property id="ipconfigUSE_NETWORK_EVENT_HOOK" display="Function is called  when the network connects or disconnects" default="1" type="combobox">
-            <option id="ipconfigUSE_NETWORK_EVENT_HOOK.0" display="Enable " value="0"/>
-            <option id="ipconfigUSE_NETWORK_EVENT_HOOK.1" display="Disable" value="1"/>
+            <option id="ipconfigUSE_NETWORK_EVENT_HOOK.1" display="Enable " value="1"/>
+            <option id="ipconfigUSE_NETWORK_EVENT_HOOK.0" display="Disable" value="0"/>
             <description>Function is called  when the network connects or disconnects</description>
         </property>
         <property id="ipconfigUDP_MAX_SEND_BLOCK_TIME_TICKS" display="Max send block time" default="5000 / portTICK_PERIOD_MS" type="textbox">
@@ -69,28 +69,28 @@ command, and ping replies.  If ipconfigHAS_PRINTF is set to 1 then FreeRTOS_prin
             <description>Max send block time</description>
         </property>
         <property id="ipconfigUSE_DHCP" display="Use DHCP APIs" default="1" type="combobox">
-            <option id="ipconfigUSE_DHCP.0" display="Enable " value="0"/>
-            <option id="ipconfigUSE_DHCP.1" display="Disable" value="1"/>
+            <option id="ipconfigUSE_DHCP.1" display="Enable " value="1"/>
+            <option id="ipconfigUSE_DHCP.0" display="Disable" value="0"/>
             <description>Use DHCP APIs</description>
         </property>
         <property id="ipconfigDHCP_REGISTER_HOSTNAME" display="Use DHCP APIs" default="1" type="combobox">
-            <option id="ipconfigDHCP_REGISTER_HOSTNAME.0" display="Enable " value="0"/>
-            <option id="ipconfigDHCP_REGISTER_HOSTNAME.1" display="Disable" value="1"/>
+            <option id="ipconfigDHCP_REGISTER_HOSTNAME.1" display="Enable " value="1"/>
+            <option id="ipconfigDHCP_REGISTER_HOSTNAME.0" display="Disable" value="0"/>
             <description>Use DHCP APIs</description>
         </property>
         <property id="ipconfigDHCP_USES_UNICAST" display="Use DHCP APIs" default="1" type="combobox">
-            <option id="ipconfigDHCP_USES_UNICAST.0" display="Enable " value="0"/>
-            <option id="ipconfigDHCP_USES_UNICAST.1" display="Disable" value="1"/>
+            <option id="ipconfigDHCP_USES_UNICAST.1" display="Enable " value="1"/>
+            <option id="ipconfigDHCP_USES_UNICAST.0" display="Disable" value="0"/>
             <description>Use DHCP APIs</description>
         </property>
         <property id="ipconfigDHCP_SEND_DISCOVER_AFTER_AUTO_IP" display="Use DHCP APIs" default="0" type="combobox">
-            <option id="ipconfigDHCP_SEND_DISCOVER_AFTER_AUTO_IP.0" display="Enable " value="0"/>
-            <option id="ipconfigDHCP_SEND_DISCOVER_AFTER_AUTO_IP.1" display="Disable" value="1"/>
+            <option id="ipconfigDHCP_SEND_DISCOVER_AFTER_AUTO_IP.1" display="Enable " value="1"/>
+            <option id="ipconfigDHCP_SEND_DISCOVER_AFTER_AUTO_IP.0" display="Disable" value="0"/>
             <description>Use DHCP APIs</description>
         </property>
         <property id="ipconfigUSE_DHCP_HOOK" display="DHCP callback function" default="0" type="combobox">
-            <option id="ipconfigUSE_DHCP_HOOK.0" display="Enable " value="0"/>
-            <option id="ipconfigUSE_DHCP_HOOK.1" display="Disable" value="1"/>
+            <option id="ipconfigUSE_DHCP_HOOK.1" display="Enable " value="1"/>
+            <option id="ipconfigUSE_DHCP_HOOK.0" display="Disable" value="0"/>
             <description>Provide an implementation of the DHCP callback function</description>
         </property>
         <property id="ipconfigMAXIMUM_DISCOVER_TX_PERIOD" display="Interval between transmissions" default="120000 / portTICK_PERIOD_MS" type="textbox">
@@ -113,8 +113,8 @@ command, and ping replies.  If ipconfigHAS_PRINTF is set to 1 then FreeRTOS_prin
             <description>The maximum time between an entry in the ARP table being created or refreshed and the entry being removed because it is stale</description>
         </property>
         <property id="ipconfigINCLUDE_FULL_INET_ADDR" display="Take an IP in decimal dot format" default="0" type="combobox">
-            <option id="ipconfigINCLUDE_FULL_INET_ADDR.0" display="Enable " value="0"/>
-            <option id="ipconfigINCLUDE_FULL_INET_ADDR.1" display="Disable" value="1"/>
+            <option id="ipconfigINCLUDE_FULL_INET_ADDR.1" display="Enable " value="1"/>
+            <option id="ipconfigINCLUDE_FULL_INET_ADDR.0" display="Disable" value="0"/>
             <description>Take an IP in decimal dot format (for example, "192.168.0.1") as its parameter FreeRTOS_inet_addr_quick() takes an IP address as four separate numerical octets (for example, 192, 168, 0, 1) as its parameters</description>
         </property>
         <property id="ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS" display="Total number of avaiable network buffer" default="ETHER_CFG_EMAC_TX_DESCRIPTORS" type="textbox">
@@ -126,8 +126,8 @@ command, and ping replies.  If ipconfigHAS_PRINTF is set to 1 then FreeRTOS_prin
             <description>Set the maximum number of events that can be queued for processing at any one time.  The event queue must be a minimum of  5 greater than the total number of network buffers</description>
         </property>
         <property id="ipconfigALLOW_SOCKET_SEND_WITHOUT_BIND" display="Calling  FreeRTOS_sendto() on a socket" default="1" type="combobox">
-            <option id="ipconfigALLOW_SOCKET_SEND_WITHOUT_BIND.0" display="Enable " value="0"/>
-            <option id="ipconfigALLOW_SOCKET_SEND_WITHOUT_BIND.1" display="Disable" value="1"/>
+            <option id="ipconfigALLOW_SOCKET_SEND_WITHOUT_BIND.1" display="Enable " value="1"/>
+            <option id="ipconfigALLOW_SOCKET_SEND_WITHOUT_BIND.0" display="Disable" value="0"/>
             <description>Set to 1 then calling  FreeRTOS_sendto() on a socket that has not yet been bound will result in the IP stack automatically binding the socket to a port number from the range socketAUTO_PORT_ALLOCATION_START_NUMBER to 0xffff.  If 
  ipconfigALLOW_SOCKET_SEND_WITHOUT_BIND is set to 0 then calling FreeRTOS_sendto() on a socket that has not yet been bound will result in the send operation being  aborted</description>
         </property>
@@ -142,13 +142,13 @@ command, and ping replies.  If ipconfigHAS_PRINTF is set to 1 then FreeRTOS_prin
             <description>Defines the Time To Live (TTL) values used in outgoing TCP packets</description>
         </property>
         <property id="ipconfigUSE_TCP" display="Use TCP and all its features" default="1" type="combobox">
-            <option id="ipconfigUSE_TCP.0" display="Disable " value="0"/>
-            <option id="ipconfigUSE_TCP.1" display="Enable" value="1"/>
+            <option id="ipconfigUSE_TCP.1" display="Enable " value="1"/>
+            <option id="ipconfigUSE_TCP.0" display="Disable" value="0"/>
             <description>Use TCP and all its features</description>
         </property>
         <property id="ipconfigUSE_TCP_WIN" display="Let TCP use windowing mechanism" default="0" type="combobox">
-            <option id="ipconfigUSE_TCP_WIN.0" display="Disable " value="0"/>
-            <option id="ipconfigUSE_TCP_WIN.1" display="Enable" value="1"/>
+            <option id="ipconfigUSE_TCP_WIN.1" display="Enable " value="1"/>
+            <option id="ipconfigUSE_TCP_WIN.0" display="Disable" value="0"/>
             <description>Let TCP use windowing mechanism</description>
         </property>
         <property id="ipconfigNETWORK_MTU" display="Maximum number of bytes the payload of a network frame can contain" default="1500" type="textbox">
@@ -157,34 +157,34 @@ command, and ping replies.  If ipconfigHAS_PRINTF is set to 1 then FreeRTOS_prin
             <description>Maximum number of bytes the payload of a network frame can contain</description>
         </property>
         <property id="ipconfigUSE_DNS" display="Basic DNS client or resolver" default="1" type="combobox">
-            <option id="ipconfigUSE_DNS.0" display="Enable " value="0"/>
-            <option id="ipconfigUSE_DNS.1" display="Disable" value="1"/>
+            <option id="ipconfigUSE_DNS.1" display="Enable " value="1"/>
+            <option id="ipconfigUSE_DNS.0" display="Disable" value="0"/>
             <description>Set ipconfigUSE_DNS to 1 to include a basic DNS client/resolver.  DNS is used through the FreeRTOS_gethostbyname() API function</description>
         </property>
         <property id="ipconfigREPLY_TO_INCOMING_PINGS" display="Replie to incoming ICMP echo (ping) requests" default="1" type="combobox">
-            <option id="ipconfigREPLY_TO_INCOMING_PINGS.0" display="Enable " value="0"/>
-            <option id="ipconfigREPLY_TO_INCOMING_PINGS.1" display="Disable" value="1"/>
+            <option id="ipconfigREPLY_TO_INCOMING_PINGS.1" display="Enable " value="1"/>
+            <option id="ipconfigREPLY_TO_INCOMING_PINGS.0" display="Disable" value="0"/>
             <description>If ipconfigREPLY_TO_INCOMING_PINGS is set to 1 then the IP stack will generate replies to incoming ICMP echo (ping) requests</description>
         </property>
         <property id="ipconfigSUPPORT_OUTGOING_PINGS" display="FreeRTOS_SendPingRequest() is available" default="0" type="combobox">
-            <option id="ipconfigSUPPORT_OUTGOING_PINGS.0" display="Enable " value="0"/>
-            <option id="ipconfigSUPPORT_OUTGOING_PINGS.1" display="Disable" value="1"/>
+            <option id="ipconfigSUPPORT_OUTGOING_PINGS.1" display="Enable " value="1"/>
+            <option id="ipconfigSUPPORT_OUTGOING_PINGS.0" display="Disable" value="0"/>
             <description>If ipconfigSUPPORT_OUTGOING_PINGS is set to 1 then the  FreeRTOS_SendPingRequest() API function is available</description>
         </property>
         <property id="ipconfigSUPPORT_SELECT_FUNCTION" display="FreeRTOS_select()  (and associated) API function is available" default="0" type="combobox">
-            <option id="ipconfigSUPPORT_SELECT_FUNCTION.0" display="Enable " value="0"/>
-            <option id="ipconfigSUPPORT_SELECT_FUNCTION.1" display="Disable" value="1"/>
+            <option id="ipconfigSUPPORT_SELECT_FUNCTION.1" display="Enable " value="1"/>
+            <option id="ipconfigSUPPORT_SELECT_FUNCTION.0" display="Disable" value="0"/>
             <description>If ipconfigSUPPORT_SELECT_FUNCTION is set to 1 then the FreeRTOS_select()  (and associated) API function is available</description>
         </property>
         <property id="ipconfigFILTER_OUT_NON_ETHERNET_II_FRAMES" display="Ethernet frames dropped.  
 " default="1" type="combobox">
-            <option id="ipconfigFILTER_OUT_NON_ETHERNET_II_FRAMES.0" display="Enable " value="0"/>
-            <option id="ipconfigFILTER_OUT_NON_ETHERNET_II_FRAMES.1" display="Disable" value="1"/>
+            <option id="ipconfigFILTER_OUT_NON_ETHERNET_II_FRAMES.1" display="Enable " value="1"/>
+            <option id="ipconfigFILTER_OUT_NON_ETHERNET_II_FRAMES.0" display="Disable" value="0"/>
             <description>If ipconfigFILTER_OUT_NON_ETHERNET_II_FRAMES is set to 1 then Ethernet frames  that are not in Ethernet II format will be dropped. This option is included for potential future IP stack developments</description>
         </property>
         <property id="ipconfigETHERNET_DRIVER_FILTERS_FRAME_TYPES" display="Responsibility of the Ethernet interface to filter out packets" default="0" type="combobox">
-            <option id="ipconfigETHERNET_DRIVER_FILTERS_FRAME_TYPES.0" display="Enable " value="0"/>
-            <option id="ipconfigETHERNET_DRIVER_FILTERS_FRAME_TYPES.1" display="Disable" value="1"/>
+            <option id="ipconfigETHERNET_DRIVER_FILTERS_FRAME_TYPES.1" display="Enable " value="1"/>
+            <option id="ipconfigETHERNET_DRIVER_FILTERS_FRAME_TYPES.0" display="Disable" value="0"/>
             <description>If ipconfigETHERNET_DRIVER_FILTERS_FRAME_TYPES is set to 1 then it is the  responsibility of the Ethernet interface to filter out packets that are of no interest</description>
         </property>
         <property id="configWINDOWS_MAC_INTERRUPT_SIMULATOR_DELAY" display="The windows simulator cannot really simulate MAC interrupts" default="20 / portTICK_PERIOD_MS" type="textbox">
@@ -212,8 +212,8 @@ command, and ping replies.  If ipconfigHAS_PRINTF is set to 1 then FreeRTOS_prin
             <description>Define the size of Tx buffer for TCP sockets</description>
         </property>
         <property id="ipconfigTCP_KEEP_ALIVE" display="TCP keep-alive" default="1" type="combobox">
-            <option id="ipconfigTCP_KEEP_ALIVE.0" display="Enable " value="0"/>
-            <option id="ipconfigTCP_KEEP_ALIVE.1" display="Disable" value="1"/>
+            <option id="ipconfigTCP_KEEP_ALIVE.1" display="Enable " value="1"/>
+            <option id="ipconfigTCP_KEEP_ALIVE.0" display="Disable" value="0"/>
             <description>TCP keep-alive is avaiable or not</description>
         </property>
         <property id="ipconfigTCP_KEEP_ALIVE_INTERVAL" display="TCP keep-alive interval" default="20" type="textbox">
@@ -222,33 +222,33 @@ command, and ping replies.  If ipconfigHAS_PRINTF is set to 1 then FreeRTOS_prin
             <description>TCP keep-alive interval in second</description>
         </property>
         <property id="ipconfigSOCKET_HAS_USER_SEMAPHORE" display="The socket semaphore to unblock the MQTT task (USER_SEMAPHORE)" default="0" type="combobox">
-            <option id="ipconfigSOCKET_HAS_USER_SEMAPHORE.0" display="Enable " value="0"/>
-            <option id="ipconfigSOCKET_HAS_USER_SEMAPHORE.1" display="Disable" value="1"/>
+            <option id="ipconfigSOCKET_HAS_USER_SEMAPHORE.1" display="Enable " value="1"/>
+            <option id="ipconfigSOCKET_HAS_USER_SEMAPHORE.0" display="Disable" value="0"/>
             <description>The socket semaphore is used to unblock the MQTT task</description>
         </property>
         <property id="ipconfigSOCKET_HAS_USER_WAKE_CALLBACK" display="The socket semaphore to unblock the MQTT task (WAKE_CALLBACK)" default="1" type="combobox">
-            <option id="ipconfigSOCKET_HAS_USER_WAKE_CALLBACK.0" display="Enable " value="0"/>
-            <option id="ipconfigSOCKET_HAS_USER_WAKE_CALLBACK.1" display="Disable" value="1"/>
+            <option id="ipconfigSOCKET_HAS_USER_WAKE_CALLBACK.1" display="Enable " value="1"/>
+            <option id="ipconfigSOCKET_HAS_USER_WAKE_CALLBACK.0" display="Disable" value="0"/>
             <description>The socket semaphore is used to unblock the MQTT task</description>
         </property>
         <property id="ipconfigUSE_CALLBACKS" display="The socket semaphore  to unblock the MQTT task (USE_CALLBACKS)" default="0" type="combobox">
-            <option id="ipconfigUSE_CALLBACKS.0" display="Enable " value="0"/>
-            <option id="ipconfigUSE_CALLBACKS.1" display="Disable" value="1"/>
+            <option id="ipconfigUSE_CALLBACKS.1" display="Enable " value="1"/>
+            <option id="ipconfigUSE_CALLBACKS.0" display="Disable" value="0"/>
             <description>The socket semaphore is used to unblock the MQTT task</description>
         </property>
         <property id="ipconfigZERO_COPY_TX_DRIVER" display="The socket semaphore to unblock the MQTT task (TX_DRIVER)" default="0" type="combobox">
-            <option id="ipconfigZERO_COPY_TX_DRIVER.0" display="Enable " value="0"/>
-            <option id="ipconfigZERO_COPY_TX_DRIVER.1" display="Disable" value="1"/>
+            <option id="ipconfigZERO_COPY_TX_DRIVER.1" display="Enable " value="1"/>
+            <option id="ipconfigZERO_COPY_TX_DRIVER.0" display="Disable" value="0"/>
             <description>The socket semaphore is used to unblock the MQTT task</description>
         </property>
         <property id="ipconfigZERO_COPY_RX_DRIVER" display="The socket semaphore to unblock the MQTT task (RX_DRIVER)" default="0" type="combobox">
-            <option id="ipconfigZERO_COPY_RX_DRIVER.0" display="Enable " value="0"/>
-            <option id="ipconfigZERO_COPY_RX_DRIVER.1" display="Disable" value="1"/>
+            <option id="ipconfigZERO_COPY_RX_DRIVER.1" display="Enable " value="1"/>
+            <option id="ipconfigZERO_COPY_RX_DRIVER.0" display="Disable" value="0"/>
             <description>The socket semaphore is used to unblock the MQTT task</description>
         </property>
         <property id="ipconfigUSE_LINKED_RX_MESSAGES" display="Possible optimisation for expert users" default="0" type="combobox">
-            <option id="ipconfigUSE_LINKED_RX_MESSAGES.0" display="Enable " value="0"/>
-            <option id="ipconfigUSE_LINKED_RX_MESSAGES.1" display="Disable" value="1"/>
+            <option id="ipconfigUSE_LINKED_RX_MESSAGES.1" display="Enable " value="1"/>
+            <option id="ipconfigUSE_LINKED_RX_MESSAGES.0" display="Disable" value="0"/>
             <description>Possible optimisation for expert users - requires network driver support. It is is useful when there is high network traffic. If non-zero value then instead of passing received packets into the IP task one at a time the network interface can chain received packets together and pass them into the IP task in one go. If set to 0 then only one buffer will be sent at a time.</description>
         </property>
     </configuration>
