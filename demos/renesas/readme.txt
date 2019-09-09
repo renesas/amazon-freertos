@@ -898,6 +898,158 @@ RX65N Envision Kit、RX65N RSK(2MB版/暗号器あり品)をターゲットに�
 --------------------------------------------------------------------------
 ■ポーティング記録	★印が解決すべき課題
 --------------------------------------------------------------------------
+2019/09/07
+　バイナリ化してECDSAとSHA256で署名をつけること自体は良いだろう。
+　ただし、Code signing for AWS IoTがどういったフォーマットで何を送ってくるのか
+　もう少し調べる必要がある。
+　
+　以下ページを参考に、コード署名を作ってみた。
+　https://dev.classmethod.jp/cloud/aws/awsiot-code-signe/
+　
+　簡単にできた。コード署名はS3バケットに作られた。
+　これがAmazon FreeRTOSにどうやって流れてくるかが分からない。
+　実際に動かして試してみる。
+　
+　prvPAL_WriteBlock()には、アップデート対象のファイルそのものが送られてきた。
+　署名データは引数にあるOTA_FileContext_t型の C->pxSignature に署名サイズと共に入っていた。
+　とうことでデータパックの構造体を決めていく。
+　基本はマイクロチップのデータフォーマットを参考にする。
+　https://docs.aws.amazon.com/ja_jp/freertos/latest/userguide/microchip-bootloader.html
+
+　----------------------------------------------------------------------------------------------------
+　offset      component           contents name       length(byte)    OTA Image(Signed by signer service)
+　0x00000000  Header              Magic Code          7
+　0x00000007                      Image Flags         1
+　0x00000008  Descriptor          Sequence Number     4               ---
+　0x0000000c                      Start Address       4                |
+　0x00000010                      End Address         4                |
+　0x00000014                      Execution Address   4                |
+　0x00000018                      Hardware ID         4                |
+　0x0000001c                      Resereved           4                |
+　0x00000020  Application Binary                      N               ---
+　(N-324)     Trailer             Signature Type      32
+　(N-324)+32                      Signature size      4
+　(N-324)+36                      Signature           256
+　----------------------------------------------------------------------------------------------------
+　
+　マイクロチップのOTAのデータフォーマットはこんな感じ。
+　次にルネサスにおける各種ツールの役割とデータフローをこのデータフォーマットを参考に整理する。
+
+　　ソースコード
+　　　↓(*.c file) = Application Source Code: 先頭アドレスオフセットがバンク先頭アドレスから+0x00000020となるようにする
+　　コンパイラ
+　　　↓(*.mot file) = Application Binary
+　　Renesas Secure Flash Programmer
+　　　↓(*.rsu file) = Descriptor + Application Binary
+　　Code signing for AWS IoT
+　　　↓(*.rsu file)  ↓
+　　AWS IoT(OTA Job)  ↓
+　　　↓(*.rsu file)  ↓(Trailer)
+　　RX65N(Amazon FreeRTOS)
+　　
+　*.rsu file は prvPAL_WriteBlock() pacData 経由で送られてくる
+　Trailer は prvPAL_WriteBlock() C->pxSignature 経由で送られてくる
+　
+　prvPAL_WriteBlock()は *.rsu file と Trailer を内蔵フラッシュメモリに書いていけばいい。
+　
+　と、ここまではAmazon FreeRTOSを使う場合の話である。
+　
+　後以下2点を考慮に入れなければならない。
+　①Amazon FreeRTOS を使わない場合
+　②RX65N内蔵のTrusted Secure IPを使ってバイナリを暗号化する場合
+　
+　条件をマトリクスにしてみる。交点はブートローダおよびOTAでダウンロード後のファームウェア検証方法。
+　Amazon FreeRTOSを使用するときのバイナリ暗号は、SSL及びAWSのアクセス制御に任せることとし、暗号化しないことにする。
+　　　　　　　　　	Amazon FreeRTOS使用
+　　　　　　　　　	無		有
+　TSIP	無
+　　バイナリ暗号無 	SHA256(S/W)	SHA256/ECDSAによる署名検証(S/W: RX65Nがハックされ偽ファームが起動可能性有)
+　		有 	N/A 		N/A
+　TSIP	有
+　　バイナリ暗号無 	N/A		★SHA256/ECDSAによる署名検証(H/W: RX65Nがハックされ偽ファームが起動可能性低)
+　		有 	AES-CMAC(H/W)	N/A
+　
+　TSIP有でAmazon FreeRTOS有のパタンはTSIP連携のAPIの機能設計から別途考える必要がある。
+　SSL連携用のCAの証明書をユーザ工場での製造時にインストールするAPIは準備してあるが、
+　そこから続くAPIはマスターシークレットの生成などSSL連携用のAPIしか用意してないので、
+　CAの証明書から続く証明書チェーンの検証、それからファーム検証用の公開鍵の検証、その公開鍵を
+　TSIPで使えるようデータ変換をするようなAPI群を作っていけば、
+　★SHA256/ECDSAによる署名検証がより安全な状態で実装できる。
+　
+　ということで、上記マイクロチップのデータ構造を流用し、以下部分のみ拡張することとする。
+
+　----------------------------------------------------------------------------------------------------
+　(N-324)     Trailer             Signature Type      32
+　(N-324)+32                      Signature size      4
+　(N-324)+36                      Signature           256
+　----------------------------------------------------------------------------------------------------
+　Signature Type:
+　	sig-sha256-ecdsa
+　	hash-sha256
+　	mac-aes128-cmac-with-tsip
+　	sig-sha256-ecdsa-with-tsip
+
+　あと、TrailerがApplication Binaryの後にあると結合が若干難儀なので、DescriptorとHeaderの間に挟み込んで
+　名前をSignatureにしてしまおう。
+　
+　まとめると、ルネサスのブートローダが扱うファームウェアのデータフォーマットは以下の通り。
+　
+　/*
+　----------------------------------------------------------------------------------------------------
+　output *.rsu
+　reference: https://docs.aws.amazon.com/ja_jp/freertos/latest/userguide/microchip-bootloader.html
+　----------------------------------------------------------------------------------------------------
+　offset      component           contents name       length(byte)    OTA Image(Signed by signer service)
+　0x00000000  Header              Magic Code          7
+　0x00000007                      Image Flags         1
+　0x00000008  Signature           Signature Type      32
+　0x00000028                      Signature size      4
+　0x0000002c                      Signature           256
+　0x0000012c                      Resereved           212
+　0x00000200  Descriptor          Sequence Number     4               ---
+　0x00000204                      Start Address       4                |
+　0x00000208                      End Address         4                |
+　0x0000020c                      Execution Address   4                |
+　0x00000210                      Hardware ID         4                |
+　0x00000214                      Resereved(0xff)     236              |
+　0x00000300  Application Binary                      N               --- <- provided as mot file
+　----------------------------------------------------------------------------------------------------
+　Magic Code        : Renesas
+　Image Flags       : 0xff アプリケーションイメージは新しく、決して実行されません。
+　                    0xfe アプリケーションイメージにテスト実行のためのマークが付けられます。
+　                    0xfc アプリケーションイメージが有効とマークされ、コミットされます。
+　                    0xf8 アプリケーションイメージは無効とマークされています。
+　Sequence Number   : シーケンス番号は、新しい OTA イメージを構築する前に増加させる必要があります。
+　                    Renesas Secure Flash Programmerにてユーザが指定可能です。
+　                    ブートローダーは、この番号を使用してブートするイメージを決定します。
+　                    有効な値の範囲は 1～ 4294967295‬ です。 
+　Start Address     : デバイス上のOTA Imageの開始アドレスです。
+　                    Renesas Secure Flash Programmerが自動的に設定するため、ユーザ指定は不要です。
+　End Address       : イメージトレーラーを除く、デバイス上のOTA Imageの終了アドレスです。
+　                    Renesas Secure Flash Programmerが自動的に設定するため、ユーザ指定は不要です。
+　Hardware ID       : OTA Imageが正しいプラットフォーム用に構築されているかどうかを検証するために
+　                    ブートローダーによって使用される一意のハードウェア ID です。
+　                    0x00000001    MCUROM_RX65N_2M_SB_64KB
+　                    0x00000002    MCUROM_RX65N_2M_SB_256KB
+　                    0x00000003    MCUROM_RX231_512K_SB_32KB
+　                    0x00000004    MCUROM_RX231_384K_SB_32KB
+　                    0x00000005    MCUROM_RX66T_512K_SB_64KB
+　                    0x00000006    MCUROM_RX66T_256K_SB_64KB
+　                    0x00000007    MCUROM_RX72T_1M_SB_64KB
+　                    0x00000008    MCUROM_RX72T_512K_SB_64KB
+　                    to be continued.
+　Firmware Verification Type
+　                  : ファームウェア検証方式を指定するための識別子です。
+　                    sig-sha256-ecdsa
+　                    hash-sha256
+　                    mac-aes128-cmac-with-tsip
+　                    sig-sha256-ecdsa-with-tsip
+　Signature/MAC size: ファームウェア検証に用いる署名値やMAC値などのデータサイズです。
+　Signature/MAC     : ファームウェア検証に用いる署名値やMAC値です。
+　*/
+　
+　こんなところかな。Renesas Secure Flash Programmerから作り始めてみる。
+　
 2019/09/04
 　新しい住処を構築中。近いうちに引っ越します。
 　https://github.com/renesas/amazon-freertos
