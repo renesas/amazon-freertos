@@ -105,7 +105,7 @@ static BaseType_t prvNetworkRecv( void * pvContext,
 
    if(xReceiveLength == 64)
    {
-   	nop();
+   R_BSP_NOP();
    }
    return receive_byte;
 
