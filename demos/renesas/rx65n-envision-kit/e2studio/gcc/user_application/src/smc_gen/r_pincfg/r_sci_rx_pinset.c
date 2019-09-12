@@ -22,7 +22,7 @@
 * Device(s)    : R5F565NEDxFB
 * Tool-Chain   : RXC toolchain
 * Description  : Setting of port and mpc registers
-* Creation Date: 2019-09-04
+* Creation Date: 2019-09-12
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -46,12 +46,12 @@ void R_SCI_PinSet_SCI2()
     R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_MPC);
 
     /* Set RXD2/SMISO2 pin */
-    MPC.P12PFS.BYTE = 0x0AU;
-    PORT1.PMR.BIT.B2 = 1U;
+    MPC.P52PFS.BYTE = 0x0AU;
+    PORT5.PMR.BIT.B2 = 1U;
 
     /* Set TXD2/SMOSI2 pin */
-    MPC.P13PFS.BYTE = 0x0AU;
-    PORT1.PMR.BIT.B3 = 1U;
+    MPC.P50PFS.BYTE = 0x0AU;
+    PORT5.PMR.BIT.B0 = 1U;
 
     R_BSP_RegisterProtectEnable(BSP_REG_PROTECT_MPC);
 }
