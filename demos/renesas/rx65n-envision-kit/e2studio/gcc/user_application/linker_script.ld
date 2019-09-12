@@ -100,6 +100,11 @@ SECTIONS
 		*(D)
 		*(D_1)
 		*(D_2)
+		_RPFRAM_start = .;
+		_PFRAM_start = LOADADDR(.data) + (_RPFRAM_start - ADDR(.data));
+		*(PFRAM)
+		_RPFRAM_end = (. + 3) & ~ 3;
+		_PFRAM_end = LOADADDR(.data) + (_RPFRAM_end - ADDR(.data));
 		_edata = .;
 	} >RAM
 	.gcc_exc :
