@@ -177,8 +177,8 @@ int32_t esp8266_wifi_init(void)
 	DEBUG_PORT7_DR = 0;
 #endif
 	/* Wifi Module hardware reset   */
-//	ESP8266_UARTBOOT_PORT_DDR = 1;
-//	ESP8266_UARTBOOT_PORT_DR = 0;
+	ESP8266_UARTBOOT_PORT_DDR = 1;
+	ESP8266_UARTBOOT_PORT_DR = 0;
 	ret = esp8266_serial_open(76800);
 	if(ret != 0)
 	{
@@ -195,13 +195,13 @@ int32_t esp8266_wifi_init(void)
 	PORT1.PDR.BIT.B5 = 1;
 	PORT1.PODR.BIT.B5 = 1;
 
-	//	ESP8266_UARTBOOT_PORT_DDR = 1;
-	//	ESP8266_UARTBOOT_PORT_DR = 0;
+//		ESP8266_UARTBOOT_PORT_DDR = 1;
+//		ESP8266_UARTBOOT_PORT_DR = 0;
 
-//	ESP8266_RESET_PORT_DDR = 1;
-//	ESP8266_RESET_PORT_DR = 0; /* Low */
+	ESP8266_RESET_PORT_DDR = 1;
+	ESP8266_RESET_PORT_DR = 0; /* Low */
 	R_BSP_SoftwareDelay(26, BSP_DELAY_MILLISECS); /* 5us mergin 1us */
-//	ESP8266_RESET_PORT_DR = 1; /* High */
+	ESP8266_RESET_PORT_DR = 1; /* High */
 	R_BSP_SoftwareDelay(1000, BSP_DELAY_MILLISECS); /* 5us mergin 1us */
 
 	ret = esp8266_serial_send_rst(ESP8266_UART_COMMAND_PORT, NULL, 1000, 20000, ESP8266_RETURN_OK, ESP8266_RETURN_READY);
@@ -467,7 +467,7 @@ int32_t esp8266_tcp_send(uint8_t socket_no, uint8_t *pdata, int32_t length, uint
 #endif
 				/* Give back the socketInUse mutex. */
 				( void ) xSemaphoreGive( g_esp8266_semaphore );
-				nop();
+				R_BSP_NOP();
 				return -1;
 			}
 
@@ -550,7 +550,7 @@ int32_t esp8266_tcp_send(uint8_t socket_no, uint8_t *pdata, int32_t length, uint
 #endif
 				/* Give back the socketInUse mutex. */
 				( void ) xSemaphoreGive( g_esp8266_semaphore );
-				nop();
+				R_BSP_NOP();
 				return -1;
 			}
 
@@ -1206,7 +1206,7 @@ static int32_t esp8266_serial_open(uint32_t baudrate)
     	return -1;
     }
 
-//    PORT2.PCR.BIT.B5 = 1;
+    PORT2.PCR.BIT.B5 = 1;
     return 0;
 
 }
@@ -1362,7 +1362,7 @@ int32_t esp8266_tcp_send_returncode_check(void)
 	}
 	if(timeout == 1)
 	{
-		nop();
+		R_BSP_NOP();
 		return -1;
 	}
 	return 0;
