@@ -373,94 +373,96 @@ static int32_t secure_boot(void)
     R_FLASH_Control(FLASH_CMD_BANK_GET, &bank_info);
     printf("bank info = %d. (start bank = %d)\r\n", bank_info, (bank_info ^ 0x01));
 
+	if(firmware_update_control_block_bank1->image_flag == LIFECYCLE_STATE_TESTING)
+	{
+    	memcpy(load_firmware_control_block.flash_buffer, (void*)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS, FLASH_CF_MEDIUM_BLOCK_SIZE);
+    	FIRMWARE_UPDATE_CONTROL_BLOCK *firmware_update_control_block_tmp = (FIRMWARE_UPDATE_CONTROL_BLOCK*)load_firmware_control_block.flash_buffer;
+
+    	printf("bank1(temporary area) on code flash hash check...");
+        R_Sha1((uint8_t*)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
+        		hash_sha1, (FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH);
+        if(0 == memcmp(hash_sha1, firmware_update_control_block_bank1->signature, SHA1_HASH_LENGTH_BYTE_SIZE))
+        {
+            printf("OK\r\n");
+        	firmware_update_control_block_tmp->image_flag = LIFECYCLE_STATE_VALID;
+        }
+        else
+        {
+            printf("NG\r\n");
+        	firmware_update_control_block_tmp->image_flag = LIFECYCLE_STATE_INVALID;
+        }
+    	printf("update LIFECYCLE_STATE from [%s] to [%s]\r\n", get_status_string(firmware_update_control_block_bank1->image_flag), get_status_string(firmware_update_control_block_tmp->image_flag));
+    	printf("bank1(temporary area) block0 erase (to update LIFECYCLE_STATE)...");
+        flash_error_code = R_FLASH_Erase((flash_block_address_t)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS, 1);
+        if (FLASH_SUCCESS == flash_error_code)
+        {
+            printf("OK\r\n");
+        }
+        else
+        {
+            printf("R_FLASH_Erase() returns error. %d.\r\n", flash_error_code);
+            printf("system error.\r\n");
+            while(1);
+        }
+    	printf("bank1(temporary area) block0 write (to update LIFECYCLE_STATE)...");
+        flash_error_code = R_FLASH_Write((uint32_t)firmware_update_control_block_tmp, (uint32_t)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS, FLASH_CF_MEDIUM_BLOCK_SIZE);
+        if (FLASH_SUCCESS == flash_error_code)
+        {
+            printf("OK\r\n");
+        }
+        else
+        {
+            printf("R_FLASH_Write() returns error. %d.\r\n", flash_error_code);
+            printf("system error.\r\n");
+            while(1);
+        }
+        printf("swap bank...\r\n");
+        R_BSP_SoftwareDelay(3000, BSP_DELAY_MILLISECS);
+        bank_swap_with_software_reset();
+        while(1);
+	}
+
     switch(firmware_update_control_block_bank0->image_flag)
     {
         case LIFECYCLE_STATE_BLANK:
-        	if(firmware_update_control_block_bank1->image_flag != LIFECYCLE_STATE_TESTING)
-        	{
-				printf("start installing user program.\r\n");
-				printf("erase bank1 secure boot mirror area...");
-				flash_error_code = R_FLASH_Erase(BOOT_LOADER_MIRROR_HIGH_ADDRESS, BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_SMALL + BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_MEDIUM);
-				if(FLASH_SUCCESS == flash_error_code)
-				{
-					printf("OK\r\n");
-				}
-				else
-				{
-					printf("NG\r\n");
-					printf("R_FLASH_Erase() returns error code = %d.\r\n", flash_error_code);
-					secure_boot_error_code = BOOT_LOADER_FAIL;
-					break;
-				}
+        	printf("start installing user program.\r\n");
+			printf("erase bank1 secure boot mirror area...");
+			flash_error_code = R_FLASH_Erase(BOOT_LOADER_MIRROR_HIGH_ADDRESS, BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_SMALL + BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_MEDIUM);
+			if(FLASH_SUCCESS == flash_error_code)
+			{
+				printf("OK\r\n");
+			}
+			else
+			{
+				printf("NG\r\n");
+				printf("R_FLASH_Erase() returns error code = %d.\r\n", flash_error_code);
+				secure_boot_error_code = BOOT_LOADER_FAIL;
+				break;
+			}
 
-				printf("copy secure boot from bank0 to bank1...");
-				if(BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_MEDIUM > 0)
-				{
-					flash_error_code = R_FLASH_Write((uint32_t)FLASH_CF_BLOCK_7, (uint32_t)FLASH_CF_BLOCK_45, 8 * FLASH_CF_SMALL_BLOCK_SIZE);
-					flash_error_code = R_FLASH_Write((uint32_t)BOOT_LOADER_LOW_ADDRESS, (uint32_t)BOOT_LOADER_MIRROR_LOW_ADDRESS, ((uint32_t)BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_MEDIUM) * FLASH_CF_MEDIUM_BLOCK_SIZE);
-				}
-				else
-				{
-					flash_error_code = R_FLASH_Write((uint32_t)BOOT_LOADER_LOW_ADDRESS, (uint32_t)BOOT_LOADER_MIRROR_LOW_ADDRESS, (uint32_t)BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_SMALL * FLASH_CF_SMALL_BLOCK_SIZE);
+			printf("copy secure boot from bank0 to bank1...");
+			if(BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_MEDIUM > 0)
+			{
+				flash_error_code = R_FLASH_Write((uint32_t)FLASH_CF_BLOCK_7, (uint32_t)FLASH_CF_BLOCK_45, 8 * FLASH_CF_SMALL_BLOCK_SIZE);
+				flash_error_code = R_FLASH_Write((uint32_t)BOOT_LOADER_LOW_ADDRESS, (uint32_t)BOOT_LOADER_MIRROR_LOW_ADDRESS, ((uint32_t)BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_MEDIUM) * FLASH_CF_MEDIUM_BLOCK_SIZE);
+			}
+			else
+			{
+				flash_error_code = R_FLASH_Write((uint32_t)BOOT_LOADER_LOW_ADDRESS, (uint32_t)BOOT_LOADER_MIRROR_LOW_ADDRESS, (uint32_t)BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_SMALL * FLASH_CF_SMALL_BLOCK_SIZE);
 
-				}
-				if(FLASH_SUCCESS == flash_error_code)
-				{
-					printf("OK\r\n");
-				}
-				else
-				{
-					printf("NG\r\n");
-					printf("R_FLASH_Write() returns error code = %d.\r\n", flash_error_code);
-					secure_boot_error_code = BOOT_LOADER_FAIL;
-					break;
-				}
-				secure_boot_error_code = BOOT_LOADER_GOTO_INSTALL;
-        	}
-        	else
-        	{
-            	memcpy(load_firmware_control_block.flash_buffer, (void*)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS, FLASH_CF_MEDIUM_BLOCK_SIZE);
-            	FIRMWARE_UPDATE_CONTROL_BLOCK *firmware_update_control_block_tmp = (FIRMWARE_UPDATE_CONTROL_BLOCK*)load_firmware_control_block.flash_buffer;
-                printf("verifying update data: ");
-                R_Sha1((uint8_t*)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
-                		hash_sha1, (FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH);
-                if(0 == memcmp(hash_sha1, firmware_update_control_block_bank1->signature, SHA1_HASH_LENGTH_BYTE_SIZE))
-                {
-                    printf("OK\r\n");
-                	firmware_update_control_block_tmp->image_flag = LIFECYCLE_STATE_VALID;
-                }
-                else
-                {
-                    printf("NG\r\n");
-                	firmware_update_control_block_tmp->image_flag = LIFECYCLE_STATE_INVALID;
-                }
-                flash_error_code = R_FLASH_Erase((flash_block_address_t)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS, 1);
-                if (FLASH_SUCCESS == flash_error_code)
-                {
-                    printf("OK\r\n");
-                }
-                else
-                {
-                    printf("R_FLASH_Erase() returns error. %d.\r\n", flash_error_code);
-                    printf("system error.\r\n");
-                    while(1);
-                }
-                flash_error_code = R_FLASH_Write((uint32_t)firmware_update_control_block_tmp, (uint32_t)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS, FLASH_CF_MEDIUM_BLOCK_SIZE);
-                if (FLASH_SUCCESS == flash_error_code)
-                {
-                    printf("OK\r\n");
-                }
-                else
-                {
-                    printf("R_FLASH_Write() returns error. %d.\r\n", flash_error_code);
-                    printf("system error.\r\n");
-                    while(1);
-                }
-                printf("swap bank...\r\n");
-                R_BSP_SoftwareDelay(3000, BSP_DELAY_MILLISECS);
-                bank_swap_with_software_reset();
-                while(1);
-        	}
+			}
+			if(FLASH_SUCCESS == flash_error_code)
+			{
+				printf("OK\r\n");
+			}
+			else
+			{
+				printf("NG\r\n");
+				printf("R_FLASH_Write() returns error code = %d.\r\n", flash_error_code);
+				secure_boot_error_code = BOOT_LOADER_FAIL;
+				break;
+			}
+			secure_boot_error_code = BOOT_LOADER_GOTO_INSTALL;
 			break;
         case LIFECYCLE_STATE_TESTING:
             printf("illegal status\r\n");
@@ -470,7 +472,7 @@ static int32_t secure_boot(void)
             while(1);
             break;
         case LIFECYCLE_STATE_VALID:
-            printf("code flash hash check...");
+            printf("bank0(execute area) on code flash hash check...");
             R_Sha1((uint8_t*)BOOT_LOADER_UPDATE_EXECUTE_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
             		hash_sha1, (FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH);
             if(!memcmp(firmware_update_control_block_bank0->signature, hash_sha1, sizeof(hash_sha1)))
@@ -506,8 +508,21 @@ static int32_t secure_boot(void)
             break;
         default:
             printf("illegal flash rom status code 0x%x.\r\n", firmware_update_control_block_bank0->image_flag);
-            R_BSP_SoftwareDelay(1000, BSP_DELAY_MILLISECS);
-            software_reset();
+            printf("bank1(temporary area) on code flash hash check...");
+            R_Sha1((uint8_t*)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
+            		hash_sha1, (FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH);
+            if(!memcmp(firmware_update_control_block_bank1->signature, hash_sha1, sizeof(hash_sha1)))
+            {
+                printf("OK\r\n");
+                R_BSP_SoftwareDelay(1000, BSP_DELAY_MILLISECS);
+                bank_swap_with_software_reset();
+            }
+            else
+            {
+                printf("NG\r\n");
+                R_BSP_SoftwareDelay(1000, BSP_DELAY_MILLISECS);
+                software_reset();
+            }
             while(1);
     }
     return secure_boot_error_code;

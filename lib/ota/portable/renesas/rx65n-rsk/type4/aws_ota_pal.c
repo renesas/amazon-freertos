@@ -26,6 +26,7 @@
 /* C Runtime includes. */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /* Amazon FreeRTOS include. */
 #include "FreeRTOS.h"
@@ -37,7 +38,7 @@
 #include "r_flash_rx_if.h"
 
 /* Specify the OTA signature algorithm we support on this platform. */
-const char cOTA_JSON_FileSignatureKey[ OTA_FILE_SIG_KEY_STR_MAX_LENGTH ] = "sig-sha256-ecdsa";   /* FIX ME. */
+const char cOTA_JSON_FileSignatureKey[ OTA_FILE_SIG_KEY_STR_MAX_LENGTH ] = "sig-sha1-rsa";   /* FIX ME. */
 
 
 /* The static functions below (prvPAL_CheckFileSignature and prvPAL_ReadAndAssumeCertificate) 
@@ -101,24 +102,7 @@ static uint8_t * prvPAL_ReadAndAssumeCertificate( const uint8_t * const pucCertN
 #define BOOT_LOADER_UPDATE_EXECUTE_AREA_LOW_ADDRESS FLASH_CF_HI_BANK_LO_ADDR
 #define BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER (FLASH_NUM_BLOCKS_CF - BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_SMALL - BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_MEDIUM)
 
-#define FIRMWARE_UPDATE_STATE_CLOSED 0
-#define FIRMWARE_UPDATE_STATE_INITIALIZED 1
-#define FIRMWARE_UPDATE_STATE_ERASE 2
-#define FIRMWARE_UPDATE_STATE_ERASE_WAIT_COMPLETE 3
-#define FIRMWARE_UPDATE_STATE_READ_WAIT_COMPLETE 4
-#define FIRMWARE_UPDATE_STATE_WRITE_WAIT_COMPLETE 5
-#define FIRMWARE_UPDATE_STATE_FINALIZE 6
-#define FIRMWARE_UPDATE_STATE_FINALIZE_WAIT_ERASE_DATA_FLASH 7
-#define FIRMWARE_UPDATE_STATE_FINALIZE_WAIT_WRITE_DATA_FLASH 8
-#define FIRMWARE_UPDATE_STATE_FINALIZE_COMPLETED 9
-#define FIRMWARE_UPDATE_STATE_CAN_SWAP_BANK 100
-#define FIRMWARE_UPDATE_STATE_WAIT_START 101
-#define FIRMWARE_UPDATE_STATE_COMPLETED 102
-#define FIRMWARE_UPDATE_STATE_ERROR 103
-#define FIRMWARE_UPDATE_STATE_WRITE_COMPLETE 201
-#define FIRMWARE_UPDATE_STATE_ERASE_COMPLETE 202
-
-#define otaconfigMAX_NUM_BLOCKS_REQUEST        	64U	/* this value will be appeared after 201908.00 in aws_ota_agent_config.h */
+#define otaconfigMAX_NUM_BLOCKS_REQUEST        	128U	/* this value will be appeared after 201908.00 in aws_ota_agent_config.h */
 
 typedef struct _load_firmware_control_block {
 	uint32_t status;
@@ -130,7 +114,8 @@ typedef struct _load_firmware_control_block {
 typedef struct _packet_block_for_queue
 {
 	uint32_t ulOffset;
-	uint8_t	packet[(2 << otaconfigLOG2_FILE_BLOCK_SIZE)];
+	uint32_t length;
+	uint8_t	packet[(1 << otaconfigLOG2_FILE_BLOCK_SIZE)];
 }PACKET_BLOCK_FOR_QUEUE;
 
 static void ota_flashing_task(void);
@@ -140,7 +125,8 @@ static QueueHandle_t xQueue;
 static TaskHandle_t xTask;
 static xSemaphoreHandle xSemaphore;
 static volatile LOAD_FIRMWARE_CONTROL_BLOCK load_firmware_control_block;
-static PACKET_BLOCK_FOR_QUEUE packet_block_for_queue;
+static PACKET_BLOCK_FOR_QUEUE packet_block_for_queue1;
+static PACKET_BLOCK_FOR_QUEUE packet_block_for_queue2;
 
 /*-----------------------------------------------------------*/
 
@@ -163,8 +149,8 @@ OTA_Err_t prvPAL_CreateFileForRx( OTA_FileContext_t * const C )
 			C->pucFile = dummy_file_pointer;
 
 			/* create task/queue/semaphore for flashing */
+			xQueue = xQueueCreate(otaconfigMAX_NUM_BLOCKS_REQUEST, sizeof(PACKET_BLOCK_FOR_QUEUE));
 			xTaskCreate(ota_flashing_task, "OTA_FLASHING_TASK", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES, &xTask);
-			xQueue = xQueueCreate(otaconfigMAX_NUM_BLOCKS_REQUEST, (2 << otaconfigLOG2_FILE_BLOCK_SIZE));	/* 128KB = 128 * (2 ^ 10): otaconfigMAX_NUM_BLOCKS_REQUEST = 128, otaconfigLOG2_FILE_BLOCK_SIZE = 10 */
 			xSemaphore = xSemaphoreCreateMutex();
 
 			flash_err = R_FLASH_Open();
@@ -174,17 +160,8 @@ OTA_Err_t prvPAL_CreateFileForRx( OTA_FileContext_t * const C )
 
 			if(flash_err == FLASH_SUCCESS)
 			{
-				flash_err = R_FLASH_Erase((flash_block_address_t)BOOT_LOADER_UPDATE_TEMPORARY_AREA_HIGH_ADDRESS, BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER);
-				if(flash_err == FLASH_SUCCESS)
-				{
-					eResult = kOTA_Err_None;
-					OTA_LOG_L1( "[%s] Receive file created.\r\n", OTA_METHOD_NAME );
-				}
-				else
-				{
-					eResult = kOTA_Err_RxFileCreateFailed;
-					OTA_LOG_L1( "[%s] ERROR - R_FLASH_Erase() returns error.\r\n", OTA_METHOD_NAME );
-				}
+				eResult = kOTA_Err_None;
+				OTA_LOG_L1( "[%s] Receive file created.\r\n", OTA_METHOD_NAME );
 			}
 			else
 			{
@@ -223,19 +200,39 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
                            uint8_t * const pacData,
                            uint32_t ulBlockSize )
 {
-    DEFINE_OTA_METHOD_NAME( "prvPAL_WriteBlock" );
+    OTA_Err_t eResult = kOTA_Err_Uninitialized;
 
-    /* FIX ME. */
-    return -1;
+    DEFINE_OTA_METHOD_NAME( "prvPAL_WriteBlock" );
+    memcpy(packet_block_for_queue1.packet, pacData, ulBlockSize);
+    packet_block_for_queue1.ulOffset = ulOffset;
+    packet_block_for_queue1.length = ulBlockSize;
+	if(xQueueSend(xQueue, &packet_block_for_queue1, NULL) == pdPASS)
+	{
+		eResult = kOTA_Err_None;
+	}
+	else
+	{
+		OTA_LOG_L1("OTA flashing queue send error.\r\n");
+		eResult = kOTA_Err_OutOfMemory;
+	}
+	return eResult;
 }
 /*-----------------------------------------------------------*/
 
 OTA_Err_t prvPAL_CloseFile( OTA_FileContext_t * const C )
 {
+	OTA_Err_t eResult = kOTA_Err_None;
     DEFINE_OTA_METHOD_NAME( "prvPAL_CloseFile" );
 
-    /* FIX ME. */
-    return kOTA_Err_FileClose;
+	xSemaphoreTake(xSemaphore, portMAX_DELAY);
+
+	/* delete task/queue for flashing */
+	vTaskDelete(xTask);
+	vQueueDelete(xQueue);
+
+	OTA_LOG_L1( "[%s] OK\r\n", OTA_METHOD_NAME );
+	eResult = kOTA_Err_None;
+	return eResult;
 }
 /*-----------------------------------------------------------*/
 
@@ -243,8 +240,9 @@ OTA_Err_t prvPAL_CloseFile( OTA_FileContext_t * const C )
 static OTA_Err_t prvPAL_CheckFileSignature( OTA_FileContext_t * const C )
 {
     DEFINE_OTA_METHOD_NAME( "prvPAL_CheckFileSignature" );
+    OTA_LOG_L1("[%s] is called.\r\n", OTA_METHOD_NAME);
 
-    /* FIX ME. */
+    /* not implemented */
     return kOTA_Err_SignatureCheckFailed;
 }
 /*-----------------------------------------------------------*/
@@ -253,8 +251,9 @@ static uint8_t * prvPAL_ReadAndAssumeCertificate( const uint8_t * const pucCertN
                                                   uint32_t * const ulSignerCertSize )
 {
     DEFINE_OTA_METHOD_NAME( "prvPAL_ReadAndAssumeCertificate" );
+    OTA_LOG_L1("[%s] is called.\r\n", OTA_METHOD_NAME);
 
-    /* FIX ME. */
+    /* not implemented */
     return NULL;
 }
 /*-----------------------------------------------------------*/
@@ -263,8 +262,17 @@ OTA_Err_t prvPAL_ResetDevice( void )
 {
     DEFINE_OTA_METHOD_NAME("prvPAL_ResetDevice");
 
-    /* FIX ME. */
-    return kOTA_Err_ResetNotSupported;
+    OTA_LOG_L1( "[%s] Resetting the device.\r\n", OTA_METHOD_NAME );
+
+    /* Software reset issued (Not bank swap) */
+    R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_LPC_CGC_SWR);
+    SYSTEM.SWRR = 0xa501;
+	while(1);	/* software reset */
+
+    /* We shouldn't actually get here if the board supports the auto reset.
+     * But, it doesn't hurt anything if we do although someone will need to
+     * reset the device for the new image to boot. */
+    return kOTA_Err_None;
 }
 /*-----------------------------------------------------------*/
 
@@ -272,26 +280,65 @@ OTA_Err_t prvPAL_ActivateNewImage( void )
 {
     DEFINE_OTA_METHOD_NAME("prvPAL_ActivateNewImage");
 
-    /* FIX ME. */
-    return kOTA_Err_Uninitialized;
+    OTA_LOG_L1( "[%s] Changing the Startup Bank\r\n", OTA_METHOD_NAME );
+
+    /* reset for self testing */
+	vTaskDelay(5000);
+	prvPAL_ResetDevice();	/* no return from this function */
+
+    return kOTA_Err_None;
 }
 /*-----------------------------------------------------------*/
 
 OTA_Err_t prvPAL_SetPlatformImageState( OTA_ImageState_t eState )
 {
     DEFINE_OTA_METHOD_NAME( "prvPAL_SetPlatformImageState" );
+    OTA_LOG_L1("[%s] is called.\r\n", OTA_METHOD_NAME);
 
-    /* FIX ME. */
-    return kOTA_Err_BadImageState;
+    OTA_Err_t eResult = kOTA_Err_None;
+
+    if( eState != eOTA_ImageState_Unknown && eState <= eOTA_LastImageState )
+    {
+    	/* Save the image state to eSavedAgentState. */
+    	load_firmware_control_block.eSavedAgentState = eState;
+    }
+    else /* Image state invalid. */
+    {
+        OTA_LOG_L1( "[%s] ERROR - Invalid image state provided.\r\n", OTA_METHOD_NAME );
+        eResult = kOTA_Err_BadImageState;
+    }
+
+    return eResult;
 }
 /*-----------------------------------------------------------*/
 
 OTA_PAL_ImageState_t prvPAL_GetPlatformImageState( void )
 {
     DEFINE_OTA_METHOD_NAME( "prvPAL_GetPlatformImageState" );
+    OTA_LOG_L1("[%s] is called.\r\n", OTA_METHOD_NAME);
 
-    /* FIX ME. */
-    return eOTA_ImageState_Unknown;
+	OTA_PAL_ImageState_t ePalState = eOTA_PAL_ImageState_Unknown;
+
+	switch (load_firmware_control_block.eSavedAgentState)
+	{
+		case eOTA_ImageState_Testing:
+			ePalState = eOTA_PAL_ImageState_PendingCommit;
+			break;
+		case eOTA_ImageState_Accepted:
+			ePalState = eOTA_PAL_ImageState_Valid;
+			break;
+		case eOTA_ImageState_Unknown: // Uninitialized image state, assume a factory image
+			ePalState = eOTA_PAL_ImageState_Valid;
+			break;
+		case eOTA_ImageState_Rejected:
+		case eOTA_ImageState_Aborted:
+		default:
+			ePalState = eOTA_PAL_ImageState_Invalid;
+			break;
+	}
+
+	OTA_LOG_L1("Function call: prvPAL_GetPlatformImageState: [%d]\r\n", ePalState);
+    return ePalState; /*lint !e64 !e480 !e481 I/O calls and return type are used per design. */
 }
 /*-----------------------------------------------------------*/
 
@@ -300,22 +347,25 @@ OTA_PAL_ImageState_t prvPAL_GetPlatformImageState( void )
     #include "aws_ota_pal_test_access_define.h"
 #endif
 
-
 static void ota_flashing_task(void)
 {
 	flash_err_t flash_err;
-
-	while(load_firmware_control_block.status != FIRMWARE_UPDATE_STATE_ERASE_COMPLETE)
-	{
-		vTaskDelay(1);
-	}
+	static uint8_t block[(1 << otaconfigLOG2_FILE_BLOCK_SIZE)];
+	static uint32_t ulOffset;
+	static uint32_t length;
 
 	while(1)
 	{
-		xQueueReceive(xQueue, &packet_block_for_queue, portMAX_DELAY);
+		xQueueReceive(xQueue, &packet_block_for_queue2, portMAX_DELAY);
 		xSemaphoreTake(xSemaphore, portMAX_DELAY);
-		load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_WRITE_WAIT_COMPLETE;
-		flash_err = R_FLASH_Write((uint32_t)packet_block_for_queue.packet, packet_block_for_queue.ulOffset + BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS, FLASH_CF_MIN_PGM_SIZE);
+		memcpy(block, packet_block_for_queue2.packet, sizeof(block));
+		ulOffset = packet_block_for_queue2.ulOffset;
+		length = packet_block_for_queue2.length;
+		flash_err = R_FLASH_Write((uint32_t)block, ulOffset + BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS, length);
+		if(packet_block_for_queue2.length != 1024)
+		{
+			nop();
+		}
 		if(flash_err != FLASH_SUCCESS)
 		{
 			nop();
@@ -328,31 +378,11 @@ static void ota_flashing_callback(void *event)
 	uint32_t event_code;
 	event_code = *((uint32_t*)event);
 
+    if((event_code != FLASH_INT_EVENT_WRITE_COMPLETE) || (event_code == FLASH_INT_EVENT_ERASE_COMPLETE))
+    {
+    	nop(); /* trap */
+    }
 	static portBASE_TYPE xHigherPriorityTaskWoken;
 	xSemaphoreGiveFromISR(xSemaphore, &xHigherPriorityTaskWoken);
-
-    if(event_code == FLASH_INT_EVENT_WRITE_COMPLETE)
-    {
-		if(FIRMWARE_UPDATE_STATE_WRITE_WAIT_COMPLETE == load_firmware_control_block.status)
-		{
-			load_firmware_control_block.processed_byte += FLASH_CF_MIN_PGM_SIZE;
-			load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_WRITE_COMPLETE;
-    	}
-    }
-    else if(event_code == FLASH_INT_EVENT_ERASE_COMPLETE)
-    {
-		if(FIRMWARE_UPDATE_STATE_ERASE_WAIT_COMPLETE == load_firmware_control_block.status)
-		{
-			load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_ERASE_COMPLETE;
-		}
-		else
-		{
-			load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_ERROR;
-		}
-    }
-    else
-    {
-		load_firmware_control_block.status = FIRMWARE_UPDATE_STATE_ERROR;
-    }
 }
 
