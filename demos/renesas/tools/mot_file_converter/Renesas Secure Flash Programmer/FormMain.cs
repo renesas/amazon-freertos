@@ -114,6 +114,10 @@ namespace Renesas_Secure_Flash_Programmer
         public class AddressMap
         {
             /// <summary>
+            /// user program hardware id
+            /// </summary>
+            public uint hardwareId;
+            /// <summary>
             /// user program top address
             /// </summary>
             public uint userProgramTopAddress;
@@ -137,7 +141,6 @@ namespace Renesas_Secure_Flash_Programmer
             /// code flash bottom address
             /// </summary>
             public uint codeFlashBottomAddress;
-
             /// <summary>
             /// user const data top address
             /// </summary>
@@ -158,6 +161,7 @@ namespace Renesas_Secure_Flash_Programmer
             /// <summary>
             /// constructor
             /// </summary>
+            /// <param name="hardware_id"></param>
             /// <param name="user_program_top_address"></param>
             /// <param name="user_program_bottom_address"></param>
             /// <param name="user_program_mirror_top_address"></param>
@@ -181,6 +185,7 @@ namespace Renesas_Secure_Flash_Programmer
                 uint data_flash_top_address,
                 uint data_flash_bottom_address)
             {
+                hardwareId = hardware_id;
                 userProgramTopAddress = user_program_top_address;
                 userProgramBottomAddress = user_program_bottom_address;
                 userProgramMirrorTopAddress = user_program_mirror_top_address;
@@ -203,6 +208,7 @@ namespace Renesas_Secure_Flash_Programmer
         const string MCUROM_RX72T_1M_SB_64KB = "RX72T(ROM 1MB)/Secure Bootloader=64KB";
         const string MCUROM_RX72T_512K_SB_64KB = "RX72T(ROM 512KB)/Secure Bootloader=64KB";
 
+        const string FIRMWARE_VERIFICATION_TYPE_HASH_SHA1_STANDALONE = "hash-sha1-standalone";
         const string FIRMWARE_VERIFICATION_TYPE_HASH_SHA256_STANDALONE = "hash-sha256-standalone";
         const string FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA_WITH_AWS = "sig-sha256-ecdsa-with-aws";
         const string FIRMWARE_VERIFICATION_TYPE_MAC_AES128_CMAC_WITH_TSIP = "mac-aes128-cmac-with-tsip";
@@ -215,8 +221,8 @@ namespace Renesas_Secure_Flash_Programmer
         public static readonly Dictionary<string, AddressMap> McuSpecs = new Dictionary<string, AddressMap>()
         {
             /* name (SB means Secure Bootloader) */
-            { MCUROM_RX65N_2M_SB_64KB,                  new AddressMap(0x00000001, 0xfff00300, 0xfffeffff, 0xffe00300, 0xffefffff, 0xffe00000, 0xffffffff, 0x00102000, 0x00107fff, 0x00100000, 0x00107fff) },
-            { MCUROM_RX65N_2M_SB_256KB,                 new AddressMap(0x00000002, 0xfff00300, 0xfffbffff, 0xffe00300, 0xffebffff, 0xffe00000, 0xffffffff, 0x00102000, 0x00107fff, 0x00100000, 0x00107fff) },
+            { MCUROM_RX65N_2M_SB_64KB,                  new AddressMap(0x00000001, 0xfff00300, 0xfffeffff, 0xffe00300, 0xffffffff, 0xfff00000, 0xffffffff, 0x00100000, 0x00107fff, 0x00100000, 0x00107fff) },
+            { MCUROM_RX65N_2M_SB_256KB,                 new AddressMap(0x00000002, 0xfff00300, 0xfffbffff, 0xffe00300, 0xfffbffff, 0xfff00000, 0xffffffff, 0x00100000, 0x00107fff, 0x00100000, 0x00107fff) },
             { MCUROM_RX231_512K_SB_32KB,                new AddressMap(0x00000003, 0,0,0,0,0,0,0,0,0,0/* under construction */) },
             { MCUROM_RX231_384K_SB_32KB,                new AddressMap(0x00000004, 0,0,0,0,0,0,0,0,0,0/* under construction */) },
             { MCUROM_RX66T_512K_SB_64KB,                new AddressMap(0x00000005, 0,0,0,0,0,0,0,0,0,0/* under construction */) },
@@ -227,18 +233,90 @@ namespace Renesas_Secure_Flash_Programmer
 
         public static readonly Dictionary<string, uint> FirmVerificationType = new Dictionary<string, uint>()
         {
-            { FIRMWARE_VERIFICATION_TYPE_HASH_SHA256_STANDALONE, 1 },
-            { FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA_WITH_AWS, 2 },
-            { FIRMWARE_VERIFICATION_TYPE_MAC_AES128_CMAC_WITH_TSIP, 3 },
-            { FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA_WITH_TSIP, 4 },
-            { FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA_WITH_TSIP_AWS, 5 },
+            { FIRMWARE_VERIFICATION_TYPE_HASH_SHA1_STANDALONE, 1 },
+            { FIRMWARE_VERIFICATION_TYPE_HASH_SHA256_STANDALONE, 2 },
+            { FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA_WITH_AWS, 3 },
+            { FIRMWARE_VERIFICATION_TYPE_MAC_AES128_CMAC_WITH_TSIP, 4 },
+            { FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA_WITH_TSIP, 5 },
+            { FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA_WITH_TSIP_AWS, 6 },
         };
+
+        public class rsu_header
+        {
+            /*
+            ----------------------------------------------------------------------------------------------------
+            output *.rsu
+            reference: https://docs.aws.amazon.com/ja_jp/freertos/latest/userguide/microchip-bootloader.html
+            ----------------------------------------------------------------------------------------------------
+            offset              component           contents name               length(byte)    OTA Image(Signed area)
+            0x00000000          Header              Magic Code                  7
+            0x00000007                              Image Flags                 1
+            0x00000008          Signature           Firmware Verification Type  32
+            0x00000028                              Signature size              4
+            0x0000002c                              Signature                   256
+            0x0000012c          Option              Dataflash Flag              4
+            0x00000130                              Dataflash Start Address     4
+            0x00000134                              Dataflash End Address       4
+            0x00000138                              Resereved(0x00)             200
+            0x00000200          Descriptor          Sequence Number             4               ---
+            0x00000204                              Start Address               4                |
+            0x00000208                              End Address                 4                |
+            0x0000020c                              Execution Address           4                |
+            0x00000210                              Hardware ID                 4                |
+            0x00000214                              Resereved(0x00)             236              |
+            0x00000300          Application Binary                              N               --- <- provided as mot file
+            0x00000300 + N      Dataflash Binary                                M                   <- provided as mot file
+            ----------------------------------------------------------------------------------------------------
+            Magic Code              : Renesas
+            Image Flags             : 0xff アプリケーションイメージは新しく、決して実行されません。
+                                    　0xfe アプリケーションイメージにテスト実行のためのマークが付けられます。
+                                      0xfc アプリケーションイメージが有効とマークされ、コミットされます。
+                                      0xf8 アプリケーションイメージは無効とマークされています。
+            Firmware Verification Type
+                                    : ファームウェア検証方式を指定するための識別子です。
+                                      例: sig-sha256-ecdsa
+            Signature/MAC/Hash size : ファームウェア検証に用いる署名値やMAC値やハッシュ値などのデータサイズです。
+            Signature/MAC/Hash      : ファームウェア検証に用いる署名値やMAC値やハッシュ値です。
+            Sequence Number         : シーケンス番号は、新しい OTA イメージを構築する前に増加させる必要があります。
+                                    　Renesas Secure Flash Programmerにてユーザが指定可能です。
+                                      ブートローダーは、この番号を使用してブートするイメージを決定します。
+                                      有効な値の範囲は 1～ 4294967295‬ です。 
+            Start Address           : デバイス上のOTA Imageの開始アドレスです。
+                                      Renesas Secure Flash Programmerが自動的に設定するため、ユーザ指定は不要です。
+            End Address             : イメージトレーラーを除く、デバイス上のOTA Imageの終了アドレスです。
+                                      Renesas Secure Flash Programmerが自動的に設定するため、ユーザ指定は不要です。
+            Hardware ID             : OTA Imageが正しいプラットフォーム用に構築されているかどうかを検証するために
+                                      ブートローダーによって使用される一意のハードウェア ID です。
+                                      例: 0x00000001    MCUROM_RX65N_2M_SB_64KB
+            */
+            public byte[] magic_code = new byte[7];
+            public byte image_flag;
+            public byte[] signature_type = new byte[32];
+            public UInt32 signature_size;
+            public byte[] signature = new byte[256];
+            public UInt32 dataflash_flag;
+            public UInt32 dataflash_start_address;
+            public UInt32 dataflash_end_address;
+            public byte[] reserved1 = new byte[200];
+            public UInt32 sequence_number;
+            public UInt32 start_address;
+            public UInt32 end_address;
+            public UInt32 execution_address;
+            public UInt32 hardware_id;
+            public byte[] reserved2 = new byte[236];
+        }
+
         const string STR_RAMDOM_DATA_GENERATE = "(Random)";
         const int SESSION_KEY_BYTE_SIZE = 32;
         const int IV_MAC_BYTE_SIZE = 16;
         const int USER_PROGRAM_KEY_BYTE_SIZE = 16;
         const int HEADER_LINE_INSERT_INDEX = 72;
         const int SOURCE_LINE_INSERT_INDEX = 77;
+        const int CODE_FLASH_SIGNATURE_AREA_OFFSET = 0x200;
+        const int IMAGE_FLAG_BLANK = 0xff;
+        const int IMAGE_FLAG_TESTING = 0xfe;
+        const int IMAGE_FLAG_VALID = 0xfc;
+        const int IMAGE_FLAG_INVALID = 0xf8;
 
         private int log_count = 0;
 
@@ -1389,83 +1467,6 @@ namespace Renesas_Secure_Flash_Programmer
                         }
                     }
 
-                    /*
-                    ----------------------------------------------------------------------------------------------------
-                    output *.rsu
-                    reference: https://docs.aws.amazon.com/ja_jp/freertos/latest/userguide/microchip-bootloader.html
-                    ----------------------------------------------------------------------------------------------------
-                    offset      component           contents name       length(byte)    OTA Image(Signed by signer service)
-                    0x00000000  Header              Magic Code          7
-                    0x00000007                      Image Flags         1
-                    0x00000008  Signature           Signature Type      32
-                    0x00000028                      Signature size      4
-                    0x0000002c                      Signature           256
-                    0x0000012c                      Resereved           212
-                    0x00000200  Descriptor          Sequence Number     4               ---
-                    0x00000204                      Start Address       4                |
-                    0x00000208                      End Address         4                |
-                    0x0000020c                      Execution Address   4                |
-                    0x00000210                      Hardware ID         4                |
-                    0x00000214                      Resereved(0xff)     236              |
-                    0x00000300  Application Binary                      N               --- <- provided as mot file
-                    ----------------------------------------------------------------------------------------------------
-                    Magic Code        : Renesas
-                    Image Flags       : 0xff アプリケーションイメージは新しく、決して実行されません。
-                                        0xfe アプリケーションイメージにテスト実行のためのマークが付けられます。
-                                        0xfc アプリケーションイメージが有効とマークされ、コミットされます。
-                                        0xf8 アプリケーションイメージは無効とマークされています。
-                    Sequence Number   : シーケンス番号は、新しい OTA イメージを構築する前に増加させる必要があります。
-                                        Renesas Secure Flash Programmerにてユーザが指定可能です。
-                                        ブートローダーは、この番号を使用してブートするイメージを決定します。
-                                        有効な値の範囲は 1～ 4294967295‬ です。 
-                    Start Address     : デバイス上のOTA Imageの開始アドレスです。
-                                        Renesas Secure Flash Programmerが自動的に設定するため、ユーザ指定は不要です。
-                    End Address       : イメージトレーラーを除く、デバイス上のOTA Imageの終了アドレスです。
-                                        Renesas Secure Flash Programmerが自動的に設定するため、ユーザ指定は不要です。
-                    Hardware ID       : OTA Imageが正しいプラットフォーム用に構築されているかどうかを検証するために
-                                        ブートローダーによって使用される一意のハードウェア ID です。
-                                        0x00000001    MCUROM_RX65N_2M_SB_64KB
-                                        0x00000002    MCUROM_RX65N_2M_SB_256KB
-                                        0x00000003    MCUROM_RX231_512K_SB_32KB
-                                        0x00000004    MCUROM_RX231_384K_SB_32KB
-                                        0x00000005    MCUROM_RX66T_512K_SB_64KB
-                                        0x00000006    MCUROM_RX66T_256K_SB_64KB
-                                        0x00000007    MCUROM_RX72T_1M_SB_64KB
-                                        0x00000008    MCUROM_RX72T_512K_SB_64KB
-                                        to be continued.
-                    Firmware Verification Type
-                                      : ファームウェア検証方式を指定するための識別子です。
-                                        sig-sha256-ecdsa
-                                        hash-sha256
-                                        mac-aes128-cmac-with-tsip
-                                        sig-sha256-ecdsa-with-tsip
-                    Signature/MAC size: ファームウェア検証に用いる署名値やMAC値などのデータサイズです。
-                    Signature/MAC     : ファームウェア検証に用いる署名値やMAC値です。
-                    */
-
-                    if (!checkBox_CutOffDataFlashData.Checked)
-                    {
-                        if (checkBox1_OutputBinaryFormat.Checked)
-                        {
-                            bw.Write(data_flash_image);
-                        }
-                        else
-                        {
-                            for (int i = 0; i < (user_program_const_data_bottom_address - user_program_const_data_top_address) + 1; i += 16)
-                            {
-                                string script;
-                                string user_program_base64 = Convert.ToBase64String(data_flash_image, i, 16);
-                                script = "upconst ";
-                                script += Convert.ToString(user_program_const_data_top_address + i, 16);
-                                script += " ";
-                                script += user_program_base64;
-                                script += "\r\n";
-                                data = System.Text.Encoding.ASCII.GetBytes(script);
-                                bw.Write(data);
-                            }
-                        }
-                    }
-
                     if (comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_MAC_AES128_CMAC_WITH_TSIP)
                     {
                         // Execute encryption follow TSIP procedure
@@ -1561,24 +1562,101 @@ namespace Renesas_Secure_Flash_Programmer
                             bw.Write(data);
                         }
                     }
-                    else if (comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_HASH_SHA256_STANDALONE)
+                    else if ((comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_HASH_SHA1_STANDALONE) || (comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_HASH_SHA256_STANDALONE))
                     {
                         string script;
                         byte[] bs;
+                        int hash_size;
                         string hash_value;
                         string hash_string;
 
-                        // calculate hash
-                        System.Security.Cryptography.SHA256CryptoServiceProvider sha_256 =
-                            new System.Security.Cryptography.SHA256CryptoServiceProvider();
-                        int offset = Convert.ToInt32((user_program_bottom_address + 1) - user_program_top_address);
-                        bs = sha_256.ComputeHash(code_flash_image, 0, offset);
-                        sha_256.Clear();
-                        hash_value = Convert.ToBase64String(bs, 0, 20);
-
-                        if(checkBox1_OutputBinaryFormat.Checked)
+                        // prepair the rsu_header
+                        rsu_header rsu_header_data = new rsu_header();
+                        rsu_header_data.magic_code = System.Text.Encoding.ASCII.GetBytes("Renesas");
+                        rsu_header_data.image_flag = IMAGE_FLAG_TESTING;  
+                        if (checkBox_CutOffDataFlashData.Checked == false)
                         {
-                            bw.Write(code_flash_image, 0, total_length);
+                            rsu_header_data.dataflash_flag = 1;
+                            rsu_header_data.dataflash_start_address = McuSpecs[comboBoxMcu_firmupdate.Text].userProgramConstDataTopAddress;
+                            rsu_header_data.dataflash_end_address = McuSpecs[comboBoxMcu_firmupdate.Text].userProgramConstDataBottomAddress;
+                        }
+                        rsu_header_data.sequence_number = Convert.ToUInt32(textBoxFirmwareSequenceNumber.Text);
+                        rsu_header_data.start_address = McuSpecs[comboBoxMcu_firmupdate.Text].userProgramTopAddress;
+                        rsu_header_data.end_address = McuSpecs[comboBoxMcu_firmupdate.Text].userProgramBottomAddress;
+                        rsu_header_data.execution_address = McuSpecs[comboBoxMcu_firmupdate.Text].userProgramBottomAddress - 3;
+                        rsu_header_data.hardware_id = McuSpecs[comboBoxMcu_firmupdate.Text].hardwareId;
+
+                        // calculate hash
+                        if (comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_HASH_SHA1_STANDALONE)
+                        {
+                            System.Security.Cryptography.SHA1CryptoServiceProvider sha_1 =
+                            new System.Security.Cryptography.SHA1CryptoServiceProvider();
+
+                            byte[] tmp = new byte[0];
+                            tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.sequence_number)).ToArray();
+                            tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.start_address)).ToArray();
+                            tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.end_address)).ToArray();
+                            tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.execution_address)).ToArray();
+                            tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.hardware_id)).ToArray();
+                            tmp = tmp.Concat(rsu_header_data.reserved2).ToArray();
+                            tmp = tmp.Concat(code_flash_image).ToArray();
+
+                            int offset = CODE_FLASH_SIGNATURE_AREA_OFFSET;
+                            int size = Convert.ToInt32((user_program_bottom_address + 1) - code_flash_top_address) - offset;
+                            bs = sha_1.ComputeHash(tmp, 0, size);
+                            sha_1.Clear();
+                            hash_size = (sha_1.HashSize / 8);
+                            hash_value = Convert.ToBase64String(bs, 0, hash_size);
+                        }
+                        else if (comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_HASH_SHA256_STANDALONE)
+                        {
+                            System.Security.Cryptography.SHA256CryptoServiceProvider sha_256 =
+                            new System.Security.Cryptography.SHA256CryptoServiceProvider();
+
+                            byte[] tmp = new byte[0];
+                            tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.sequence_number)).ToArray();
+                            tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.start_address)).ToArray();
+                            tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.end_address)).ToArray();
+                            tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.execution_address)).ToArray();
+                            tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.hardware_id)).ToArray();
+                            tmp = tmp.Concat(rsu_header_data.reserved2).ToArray();
+                            tmp = tmp.Concat(code_flash_image).ToArray();
+
+                            int offset = CODE_FLASH_SIGNATURE_AREA_OFFSET;
+                            int size = Convert.ToInt32((user_program_bottom_address + 1) - code_flash_top_address) - offset;
+                            bs = sha_256.ComputeHash(tmp, 0, size);
+                            sha_256.Clear();
+                            hash_size = (sha_256.HashSize / 8);
+                            hash_value = Convert.ToBase64String(bs, 0, hash_size);
+
+                        }
+                        else
+                        {
+                            print_log(String.Format("This Firmware Verification Type is not implemented yet: [{0:s}]\r\n", comboBoxFirmwareVerificationType.Text));
+                            return;
+                        }
+                        Array.Copy(System.Text.Encoding.ASCII.GetBytes(comboBoxFirmwareVerificationType.Text), rsu_header_data.signature_type, comboBoxFirmwareVerificationType.Text.Length);
+                        rsu_header_data.signature_size = (uint)hash_size;
+                        Array.Copy(bs, rsu_header_data.signature, hash_size);
+
+                        if (checkBox1_OutputBinaryFormat.Checked)
+                        {
+                            bw.Write(rsu_header_data.magic_code);
+                            bw.Write(rsu_header_data.image_flag);
+                            bw.Write(rsu_header_data.signature_type);
+                            bw.Write(rsu_header_data.signature_size);
+                            bw.Write(rsu_header_data.signature);
+                            bw.Write(rsu_header_data.dataflash_flag);
+                            bw.Write(rsu_header_data.dataflash_start_address);
+                            bw.Write(rsu_header_data.dataflash_end_address);
+                            bw.Write(rsu_header_data.reserved1);
+                            bw.Write(rsu_header_data.sequence_number);
+                            bw.Write(rsu_header_data.start_address);
+                            bw.Write(rsu_header_data.end_address);
+                            bw.Write(rsu_header_data.execution_address);
+                            bw.Write(rsu_header_data.hardware_id);
+                            bw.Write(rsu_header_data.reserved2);
+                            bw.Write(code_flash_image, 0, (int)((user_program_bottom_address + 1) - user_program_top_address));
                         }
                         else
                         {
@@ -1608,6 +1686,30 @@ namespace Renesas_Secure_Flash_Programmer
                         print_log(String.Format("This Firmware Verification Type is not implemented yet: [{0:s}]\r\n", comboBoxFirmwareVerificationType.Text));
                         return;
                     }
+
+                    if (!checkBox_CutOffDataFlashData.Checked)
+                    {
+                        if (checkBox1_OutputBinaryFormat.Checked)
+                        {
+                            bw.Write(data_flash_image, 0, (int)(user_program_const_data_bottom_address - user_program_const_data_top_address) + 1);
+                        }
+                        else
+                        {
+                            for (int i = 0; i < (user_program_const_data_bottom_address - user_program_const_data_top_address) + 1; i += 16)
+                            {
+                                string script;
+                                string user_program_base64 = Convert.ToBase64String(data_flash_image, i, 16);
+                                script = "upconst ";
+                                script += Convert.ToString(user_program_const_data_top_address + i, 16);
+                                script += " ";
+                                script += user_program_base64;
+                                script += "\r\n";
+                                data = System.Text.Encoding.ASCII.GetBytes(script);
+                                bw.Write(data);
+                            }
+                        }
+                    }
+
                 }
                 print_log("generate succeeded.");
             }

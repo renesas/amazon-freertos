@@ -898,6 +898,65 @@ RX65N Envision Kit、RX65N RSK(2MB版/暗号器あり品)をターゲットに�
 --------------------------------------------------------------------------
 ■ポーティング記録	★印が解決すべき課題
 --------------------------------------------------------------------------
+2019/09/16
+　ブートローダを新フォーマットに対応するように作り直した。Windowsアプリも機能を足した。
+　色々未実装だが、hash-sha1-standalone のパタンは、ブートローダ起動→初期ファームインストール→起動→
+　まではうまく動くようになった。あとはAmazon FreeRTOS からのOTAダウンロードがうまくいけば一連の流れができる。
+　そのあとは、N倍化フェーズ。楕円とかに追加対応させていけばよい。
+　バイナリフォーマットにすることで、ファームウェアの読み込み、書き換えがよりスムーズに動くようになった。
+　10秒ほどかかっていたUSBからの読み込み&フラッシュへの書き込みが3秒ほどで終わるようになった。
+　まあ先の実装は実験的に作ったもので効率度外視していたので、1バイトずつUSBから読み込む実装になっていたから
+　遅いのは当たり前の状態ではあった。データフォーマットは最終的に以下のような感じになった。
+　マイクロチップのものを少々改造した格好となる。Signatureのところに色々入れられるようにしたのと、
+　Reservedを設けて後で何か足したくなったときに実装しやすいようにしておいた。ひとまずここでコミット。
+　
+　/*
+            ----------------------------------------------------------------------------------------------------
+            output *.rsu
+            reference: https://docs.aws.amazon.com/ja_jp/freertos/latest/userguide/microchip-bootloader.html
+            ----------------------------------------------------------------------------------------------------
+            offset              component           contents name               length(byte)    OTA Image(Signed area)
+            0x00000000          Header              Magic Code                  7
+            0x00000007                              Image Flags                 1
+            0x00000008          Signature           Firmware Verification Type  32
+            0x00000028                              Signature size              4
+            0x0000002c                              Signature                   256
+            0x0000012c          Option              Dataflash Flag              4
+            0x00000130                              Dataflash Start Address     4
+            0x00000134                              Dataflash End Address       4
+            0x00000138                              Resereved(0x00)             200
+            0x00000200          Descriptor          Sequence Number             4               ---
+            0x00000204                              Start Address               4                |
+            0x00000208                              End Address                 4                |
+            0x0000020c                              Execution Address           4                |
+            0x00000210                              Hardware ID                 4                |
+            0x00000214                              Resereved(0x00)             236              |
+            0x00000300          Application Binary                              N               --- <- provided as mot file
+            0x00000300 + N      Dataflash Binary                                M                   <- provided as mot file
+            ----------------------------------------------------------------------------------------------------
+            Magic Code              : Renesas
+            Image Flags             : 0xff アプリケーションイメージは新しく、決して実行されません。
+                                    　0xfe アプリケーションイメージにテスト実行のためのマークが付けられます。
+                                      0xfc アプリケーションイメージが有効とマークされ、コミットされます。
+                                      0xf8 アプリケーションイメージは無効とマークされています。
+            Firmware Verification Type
+                                    : ファームウェア検証方式を指定するための識別子です。
+                                      例: sig-sha256-ecdsa
+            Signature/MAC/Hash size : ファームウェア検証に用いる署名値やMAC値やハッシュ値などのデータサイズです。
+            Signature/MAC/Hash      : ファームウェア検証に用いる署名値やMAC値やハッシュ値です。
+            Sequence Number         : シーケンス番号は、新しい OTA イメージを構築する前に増加させる必要があります。
+                                    　Renesas Secure Flash Programmerにてユーザが指定可能です。
+                                      ブートローダーは、この番号を使用してブートするイメージを決定します。
+                                      有効な値の範囲は 1～ 4294967295‬ です。 
+            Start Address           : デバイス上のOTA Imageの開始アドレスです。
+                                      Renesas Secure Flash Programmerが自動的に設定するため、ユーザ指定は不要です。
+            End Address             : イメージトレーラーを除く、デバイス上のOTA Imageの終了アドレスです。
+                                      Renesas Secure Flash Programmerが自動的に設定するため、ユーザ指定は不要です。
+            Hardware ID             : OTA Imageが正しいプラットフォーム用に構築されているかどうかを検証するために
+                                      ブートローダーによって使用される一意のハードウェア ID です。
+                                      例: 0x00000001    MCUROM_RX65N_2M_SB_64KB
+            */
+
 2019/09/07
 　バイナリ化してECDSAとSHA256で署名をつけること自体は良いだろう。
 　ただし、Code signing for AWS IoTがどういったフォーマットで何を送ってくるのか

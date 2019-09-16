@@ -67,6 +67,7 @@
             this.label13 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.checkBox1_OutputBinaryFormat = new System.Windows.Forms.CheckBox();
             this.label10 = new System.Windows.Forms.Label();
             this.checkBox_CutOffDataFlashData = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -83,7 +84,8 @@
             this.textBoxUserProgramKey_Aes128 = new System.Windows.Forms.TextBox();
             this.info = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.checkBox1_OutputBinaryFormat = new System.Windows.Forms.CheckBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.textBoxFirmwareSequenceNumber = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -498,6 +500,8 @@
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.textBoxFirmwareSequenceNumber);
+            this.groupBox3.Controls.Add(this.label11);
             this.groupBox3.Controls.Add(this.checkBox1_OutputBinaryFormat);
             this.groupBox3.Controls.Add(this.label10);
             this.groupBox3.Controls.Add(this.checkBox_CutOffDataFlashData);
@@ -508,15 +512,26 @@
             this.groupBox3.Controls.Add(this.comboBoxMcu_firmupdate);
             this.groupBox3.Location = new System.Drawing.Point(6, 6);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(787, 188);
+            this.groupBox3.Size = new System.Drawing.Size(787, 234);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Settings";
             // 
+            // checkBox1_OutputBinaryFormat
+            // 
+            this.checkBox1_OutputBinaryFormat.AutoSize = true;
+            this.checkBox1_OutputBinaryFormat.Checked = true;
+            this.checkBox1_OutputBinaryFormat.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox1_OutputBinaryFormat.Location = new System.Drawing.Point(224, 205);
+            this.checkBox1_OutputBinaryFormat.Name = "checkBox1_OutputBinaryFormat";
+            this.checkBox1_OutputBinaryFormat.Size = new System.Drawing.Size(15, 14);
+            this.checkBox1_OutputBinaryFormat.TabIndex = 7;
+            this.checkBox1_OutputBinaryFormat.UseVisualStyleBackColor = true;
+            // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(6, 156);
+            this.label10.Location = new System.Drawing.Point(6, 205);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(116, 12);
             this.label10.TabIndex = 6;
@@ -525,7 +540,7 @@
             // checkBox_CutOffDataFlashData
             // 
             this.checkBox_CutOffDataFlashData.AutoSize = true;
-            this.checkBox_CutOffDataFlashData.Location = new System.Drawing.Point(224, 112);
+            this.checkBox_CutOffDataFlashData.Location = new System.Drawing.Point(224, 156);
             this.checkBox_CutOffDataFlashData.Name = "checkBox_CutOffDataFlashData";
             this.checkBox_CutOffDataFlashData.Size = new System.Drawing.Size(15, 14);
             this.checkBox_CutOffDataFlashData.TabIndex = 5;
@@ -534,7 +549,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 112);
+            this.label9.Location = new System.Drawing.Point(6, 156);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(101, 12);
             this.label9.TabIndex = 4;
@@ -587,7 +602,7 @@
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.textBoxUserProgramFilePath);
             this.groupBox2.Controls.Add(this.textBoxUserProgramKey_Aes128);
-            this.groupBox2.Location = new System.Drawing.Point(6, 200);
+            this.groupBox2.Location = new System.Drawing.Point(6, 246);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(787, 137);
             this.groupBox2.TabIndex = 1;
@@ -662,16 +677,22 @@
             this.info.Size = new System.Drawing.Size(806, 74);
             this.info.TabIndex = 1;
             // 
-            // checkBox1_OutputBinaryFormat
+            // label11
             // 
-            this.checkBox1_OutputBinaryFormat.AutoSize = true;
-            this.checkBox1_OutputBinaryFormat.Checked = true;
-            this.checkBox1_OutputBinaryFormat.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1_OutputBinaryFormat.Location = new System.Drawing.Point(224, 156);
-            this.checkBox1_OutputBinaryFormat.Name = "checkBox1_OutputBinaryFormat";
-            this.checkBox1_OutputBinaryFormat.Size = new System.Drawing.Size(15, 14);
-            this.checkBox1_OutputBinaryFormat.TabIndex = 7;
-            this.checkBox1_OutputBinaryFormat.UseVisualStyleBackColor = true;
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(6, 112);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(148, 12);
+            this.label11.TabIndex = 8;
+            this.label11.Text = "Firmware Sequence Number";
+            // 
+            // textBoxFirmwareSequenceNumber
+            // 
+            this.textBoxFirmwareSequenceNumber.Location = new System.Drawing.Point(224, 109);
+            this.textBoxFirmwareSequenceNumber.Name = "textBoxFirmwareSequenceNumber";
+            this.textBoxFirmwareSequenceNumber.Size = new System.Drawing.Size(156, 19);
+            this.textBoxFirmwareSequenceNumber.TabIndex = 9;
+            this.textBoxFirmwareSequenceNumber.Text = "(1 - 4294967295)";
             // 
             // FormMain
             // 
@@ -761,5 +782,7 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.CheckBox checkBox_CutOffDataFlashData;
         private System.Windows.Forms.CheckBox checkBox1_OutputBinaryFormat;
+        private System.Windows.Forms.TextBox textBoxFirmwareSequenceNumber;
+        private System.Windows.Forms.Label label11;
     }
 }
