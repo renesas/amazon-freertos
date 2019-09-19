@@ -435,7 +435,7 @@ int32_t esp8266_tcp_send(uint8_t socket_no, uint8_t *pdata, int32_t length, uint
 #endif
 				/* Give back the socketInUse mutex. */
 				( void ) xSemaphoreGive( g_esp8266_semaphore );
-				nop();
+				R_BSP_NOP();
 				return -1;
 			}
 
@@ -491,7 +491,7 @@ int32_t esp8266_tcp_send(uint8_t socket_no, uint8_t *pdata, int32_t length, uint
 #endif
 				/* Give back the socketInUse mutex. */
 				( void ) xSemaphoreGive( g_esp8266_semaphore );
-				nop();
+				R_BSP_NOP();
 				return -1;
 			}
 
@@ -1263,7 +1263,7 @@ int32_t esp8266_tcp_send_returncode_check(void)
 	}
 	if(timeout == 1)
 	{
-		nop();
+		R_BSP_NOP();
 		return -1;
 	}
 	return 0;

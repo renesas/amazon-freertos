@@ -175,11 +175,9 @@ static void esp8266_recv_task( void * pvParameters )
 									}
 									else
 									{
-										nop();
+										R_BSP_NOP();
 									}
-									R_BSP_CpuInterruptLevelWrite (14);
-									printf("ID:1 %s\r\n",recvbuff);
-									R_BSP_CpuInterruptLevelWrite (0);
+
 									memset(recvbuff,0,sizeof(recvbuff));
 									recv_count = 0;
 			    					receive_status = 0;
@@ -250,9 +248,9 @@ static void esp8266_recv_task( void * pvParameters )
 	    			esp8266_socket[socket_no].receive_count++;
 	    			if(esp8266_socket[socket_no].receive_count >= esp8266_socket[socket_no].receive_num)
 	    			{
-	    				R_BSP_CpuInterruptLevelWrite (14);
+
 						memset(recvbuff,0,sizeof(recvbuff));
-						R_BSP_CpuInterruptLevelWrite (0);
+
 						recv_count = 0;
 						receive_status = 0;
 						receive_sub_status1 = 0;
@@ -264,10 +262,9 @@ static void esp8266_recv_task( void * pvParameters )
 					{
 	    				if(6 == sscanf(&recvbuff[tmp_recvcnt],"\"%d:%d:%d:%d:%d:%d\"\r\n", &macaddress[0],&macaddress[1],&macaddress[2],&macaddress[3],&macaddress[4],&macaddress[5]))
 						{
-	    					printf("ID:2 %s\r\n",recvbuff);
-	    					R_BSP_CpuInterruptLevelWrite (14);
+
 							memset(recvbuff,0,sizeof(recvbuff));
-							R_BSP_CpuInterruptLevelWrite (0);
+
 							recv_count = 0;
 							receive_status = 0;
 							receive_sub_status1 = 0;
@@ -280,9 +277,7 @@ static void esp8266_recv_task( void * pvParameters )
 					{
 	    				if(6 == sscanf(&recvbuff[tmp_recvcnt],"%d:%d:%d:%d:%d:%d\r\n", &macaddress[0],&macaddress[1],&macaddress[2],&macaddress[3],&macaddress[4],&macaddress[5]))
 						{
-	    					R_BSP_CpuInterruptLevelWrite (14);
-	    					printf("ID:3 %s\r\n",recvbuff);
-	    					R_BSP_CpuInterruptLevelWrite (0);
+
 							memset(recvbuff,0,sizeof(recvbuff));
 							recv_count = 0;
 							receive_status = 0;
@@ -299,9 +294,7 @@ static void esp8266_recv_task( void * pvParameters )
 							{
 								receive_sub_status1 = 1;
 								sscanf(&recvbuff[tmp_recvcnt],"%s%s%d %d:%d:%d %d\n",sntp_week,sntp_mon,&sntp_day,&sntp_hour,&sntp_min,&sntp_sec,&sntp_year);
-								R_BSP_CpuInterruptLevelWrite (14);
-								printf("ID:4 %s\r\n",recvbuff);
-								R_BSP_CpuInterruptLevelWrite (0);
+
 								memset(recvbuff,0,sizeof(recvbuff));
 								recv_count = 0;
 								receive_status = 0;
@@ -315,9 +308,7 @@ static void esp8266_recv_task( void * pvParameters )
 	    			if(NULL != strstr(&recvbuff[tmp_recvcnt],"\r\n"))
 					{
 	    				sscanf(&recvbuff[tmp_recvcnt],"%d.%d.%d.%d\r\n",&dnsaddress[0],&dnsaddress[1],&dnsaddress[2],&dnsaddress[3]);
-	    				R_BSP_CpuInterruptLevelWrite (14);
-	    				printf("ID:5 %s\r\n",recvbuff);
-	    				R_BSP_CpuInterruptLevelWrite (0);
+
 						memset(recvbuff,0,sizeof(recvbuff));
 						recv_count = 0;
 						receive_status = 0;
@@ -329,9 +320,7 @@ static void esp8266_recv_task( void * pvParameters )
 	    			if(0 == strcmp(&recvbuff[tmp_recvcnt],"\r\n>"))
 					{
 						esp8266_response_set_result( ESP8266_RETURN_OK_GO_SEND );
-						R_BSP_CpuInterruptLevelWrite (14);
-						printf("ID:6 %s\r\n",recvbuff);
-						R_BSP_CpuInterruptLevelWrite (0);
+
 						memset(recvbuff,0,sizeof(recvbuff));
 						recv_count = 0;
 						receive_status = 0;
@@ -343,9 +332,7 @@ static void esp8266_recv_task( void * pvParameters )
 					if(data == ' ')
 					{
 						esp8266_response_set_result( ESP8266_RETURN_OK_GO_SEND );
-						R_BSP_CpuInterruptLevelWrite (14);
-						printf("ID:7 %s\r\n",recvbuff);
-						R_BSP_CpuInterruptLevelWrite (0);
+
 						memset(recvbuff,0,sizeof(recvbuff));
 						recv_count = 0;
 						receive_status = 0;
@@ -367,9 +354,7 @@ static void esp8266_recv_task( void * pvParameters )
 								}
 
 		    					/* 読み捨て */
-								R_BSP_CpuInterruptLevelWrite (14);
-								printf("ID:8 %s\r\n",recvbuff);
-								R_BSP_CpuInterruptLevelWrite (0);
+
 								memset(recvbuff,0,sizeof(recvbuff));
 								recv_count = 0;
 		    					receive_status = 0;
