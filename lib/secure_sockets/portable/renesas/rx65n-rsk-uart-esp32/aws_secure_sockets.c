@@ -41,7 +41,7 @@
 #include "aws_pkcs11.h"
 #include "aws_crypto.h"
 #include "platform.h"
-#include "esp8266_driver.h"
+#include "esp32_driver.h"
 //#include "machine.h"
 
 /* Internal context structure. */
@@ -105,7 +105,7 @@ static BaseType_t prvNetworkRecv( void * pvContext,
 
    if(xReceiveLength == 64)
    {
-   	nop();
+   	R_BSP_NOP();
    }
    return receive_byte;
 
