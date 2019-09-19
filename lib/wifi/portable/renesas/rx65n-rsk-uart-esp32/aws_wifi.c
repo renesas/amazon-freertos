@@ -41,7 +41,7 @@
 /* WiFi configuration includes. */
 #include "platform.h"
 #include "r_sci_rx_if.h"
-#include "esp8266_driver.h"
+#include "esp32_driver.h"
 
 /**
  * @brief Wi-Fi initialization status.
