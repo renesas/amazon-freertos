@@ -40,6 +40,11 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
+			<name>application_code/common_demo</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
 			<name>application_code/common_test</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
@@ -60,14 +65,9 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>src/FIT_modefied_code</name>
+			<name>application_code/common_demo/include</name>
 			<type>2</type>
-			<locationURI>virtual:/virtual</locationURI>
-		</link>
-		<link>
-			<name>src/amazon_freertos_common</name>
-			<type>2</type>
-			<locationURI>AWS_IOT_MCU_ROOT/lib/third_party/mcu_vendor/renesas/amazon_freertos_common</locationURI>
+			<locationURI>AWS_IOT_MCU_ROOT/demos/common/include</locationURI>
 		</link>
 		<link>
 			<name>application_code/common_test/crypto</name>
@@ -115,6 +115,11 @@
 			<locationURI>AWS_IOT_MCU_ROOT/tests/common/mqtt</locationURI>
 		</link>
 		<link>
+			<name>application_code/common_test/ota</name>
+			<type>2</type>
+			<locationURI>AWS_IOT_MCU_ROOT/tests/common/ota</locationURI>
+		</link>
+		<link>
 			<name>application_code/common_test/pkcs11</name>
 			<type>2</type>
 			<locationURI>AWS_IOT_MCU_ROOT/tests/common/pkcs11</locationURI>
@@ -138,6 +143,11 @@
 			<name>application_code/common_test/tls</name>
 			<type>2</type>
 			<locationURI>AWS_IOT_MCU_ROOT/tests/common/tls</locationURI>
+		</link>
+		<link>
+			<name>application_code/renesas_code/config_files</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
 			<name>lib/aws/FreeRTOS</name>
@@ -173,6 +183,11 @@
 			<name>lib/aws/mqtt</name>
 			<type>2</type>
 			<locationURI>AWS_IOT_MCU_ROOT/lib/mqtt</locationURI>
+		</link>
+		<link>
+			<name>lib/aws/ota</name>
+			<type>2</type>
+			<locationURI>AWS_IOT_MCU_ROOT/lib/ota</locationURI>
 		</link>
 		<link>
 			<name>lib/aws/pkcs11</name>
@@ -225,54 +240,34 @@
 			<locationURI>AWS_IOT_MCU_ROOT/lib/third_party/pkcs11</locationURI>
 		</link>
 		<link>
+			<name>lib/third_party/tinycbor</name>
+			<type>2</type>
+			<locationURI>AWS_IOT_MCU_ROOT/lib/third_party/tinycbor</locationURI>
+		</link>
+		<link>
 			<name>lib/third_party/unity</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>src/FIT_modefied_code/r_bsp</name>
-			<type>2</type>
-			<locationURI>AWS_IOT_MCU_ROOT/lib/third_party/mcu_vendor/renesas/FIT/RDP_v1.15_modified/r_bsp</locationURI>
+			<name>application_code/common_test/ota/aws_ota_update_demo.c</name>
+			<type>1</type>
+			<locationURI>AWS_IOT_MCU_ROOT/demos/common/ota/aws_ota_update_demo.c</locationURI>
 		</link>
 		<link>
-			<name>src/FIT_modefied_code/r_byteq</name>
+			<name>application_code/renesas_code/config_files/general</name>
 			<type>2</type>
-			<locationURI>AWS_IOT_MCU_ROOT/lib/third_party/mcu_vendor/renesas/FIT/RDP_v1.15_modified/r_byteq</locationURI>
+			<locationURI>PROJECT_LOC/src/smc_gen/general</locationURI>
 		</link>
 		<link>
-			<name>src/FIT_modefied_code/r_cmt_rx</name>
+			<name>application_code/renesas_code/config_files/r_config</name>
 			<type>2</type>
-			<locationURI>AWS_IOT_MCU_ROOT/lib/third_party/mcu_vendor/renesas/FIT/RDP_v1.15_modified/r_cmt_rx</locationURI>
+			<locationURI>PROJECT_LOC/src/smc_gen/r_config</locationURI>
 		</link>
 		<link>
-			<name>src/FIT_modefied_code/r_ether_rx</name>
+			<name>application_code/renesas_code/config_files/r_pincfg</name>
 			<type>2</type>
-			<locationURI>AWS_IOT_MCU_ROOT/lib/third_party/mcu_vendor/renesas/FIT/RDP_v1.15_modified/r_ether_rx</locationURI>
-		</link>
-		<link>
-			<name>src/FIT_modefied_code/r_flash_rx</name>
-			<type>2</type>
-			<locationURI>AWS_IOT_MCU_ROOT/lib/third_party/mcu_vendor/renesas/FIT/RDP_v1.15_modified/r_flash_rx</locationURI>
-		</link>
-		<link>
-			<name>src/FIT_modefied_code/r_riic_rx</name>
-			<type>2</type>
-			<locationURI>AWS_IOT_MCU_ROOT/lib/third_party/mcu_vendor/renesas/FIT/RDP_v1.15_modified/r_riic_rx</locationURI>
-		</link>
-		<link>
-			<name>src/FIT_modefied_code/r_s12ad_rx</name>
-			<type>2</type>
-			<locationURI>AWS_IOT_MCU_ROOT/lib/third_party/mcu_vendor/renesas/FIT/RDP_v1.15_modified/r_s12ad_rx</locationURI>
-		</link>
-		<link>
-			<name>src/FIT_modefied_code/r_sci_iic_rx</name>
-			<type>2</type>
-			<locationURI>AWS_IOT_MCU_ROOT/lib/third_party/mcu_vendor/renesas/FIT/RDP_v1.15_modified/r_sci_iic_rx</locationURI>
-		</link>
-		<link>
-			<name>src/FIT_modefied_code/r_sci_rx</name>
-			<type>2</type>
-			<locationURI>AWS_IOT_MCU_ROOT/lib/third_party/mcu_vendor/renesas/FIT/RDP_v1.15_modified/r_sci_rx</locationURI>
+			<locationURI>PROJECT_LOC/src/smc_gen/r_pincfg</locationURI>
 		</link>
 		<link>
 			<name>lib/aws/pkcs11/aws_pkcs11_mbedtls.c</name>
@@ -317,21 +312,12 @@
 	</linkedResources>
 	<filteredResources>
 		<filter>
-			<id>1542878700761</id>
-			<name>src/amazon_freertos_common/compiler_support</name>
-			<type>30</type>
+			<id>1568942715784</id>
+			<name>src/smc_gen</name>
+			<type>10</type>
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-false-gnuc</arguments>
-			</matcher>
-		</filter>
-		<filter>
-			<id>1542444634331</id>
-			<name>src/amazon_freertos_common/network_support</name>
-			<type>9</type>
-			<matcher>
-				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-false-onchip_rx_ether</arguments>
+				<arguments>1.0-name-matches-false-true-general|r_config|r_pincfg|UNUSED_generated_code|r_bsp|r_byteq|r_ether_rx|r_flash_rx|r_s12ad_rx|r_sci_rx</arguments>
 			</matcher>
 		</filter>
 		<filter>
@@ -341,6 +327,15 @@
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
 				<arguments>1.0-name-matches-false-true-renesas|MemMang</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1568942284254</id>
+			<name>lib/aws/ota/portable</name>
+			<type>9</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-true-renesas</arguments>
 			</matcher>
 		</filter>
 		<filter>
@@ -362,24 +357,6 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1542428195722</id>
-			<name>src/FIT_modefied_code/r_bsp/board</name>
-			<type>9</type>
-			<matcher>
-				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-true-all|rx65n|generic_rx65n</arguments>
-			</matcher>
-		</filter>
-		<filter>
-			<id>1542428218976</id>
-			<name>src/FIT_modefied_code/r_bsp/mcu</name>
-			<type>9</type>
-			<matcher>
-				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-true-all|rx65n</arguments>
-			</matcher>
-		</filter>
-		<filter>
 			<id>1542429657309</id>
 			<name>lib/aws/FreeRTOS/portable/MemMang</name>
 			<type>5</type>
@@ -398,6 +375,15 @@
 			</matcher>
 		</filter>
 		<filter>
+			<id>1568942310823</id>
+			<name>lib/aws/ota/portable/renesas</name>
+			<type>9</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-true-rx65n-rsk</arguments>
+			</matcher>
+		</filter>
+		<filter>
 			<id>1542430624266</id>
 			<name>lib/aws/pkcs11/portable/renesas</name>
 			<type>9</type>
@@ -413,69 +399,6 @@
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
 				<arguments>1.0-name-matches-false-false-rx65n-rsk</arguments>
-			</matcher>
-		</filter>
-		<filter>
-			<id>1542443319091</id>
-			<name>src/FIT_modefied_code/r_bsp/board/all</name>
-			<type>6</type>
-			<matcher>
-				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-true-reset_program\.S|iar_call_inits\.s</arguments>
-			</matcher>
-		</filter>
-		<filter>
-			<id>1542428240929</id>
-			<name>src/FIT_modefied_code/r_ether_rx/src/targets</name>
-			<type>9</type>
-			<matcher>
-				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-true-all|rx65n</arguments>
-			</matcher>
-		</filter>
-		<filter>
-			<id>1542428254767</id>
-			<name>src/FIT_modefied_code/r_flash_rx/src/targets</name>
-			<type>9</type>
-			<matcher>
-				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-true-all|rx65n</arguments>
-			</matcher>
-		</filter>
-		<filter>
-			<id>1542428266130</id>
-			<name>src/FIT_modefied_code/r_riic_rx/src/targets</name>
-			<type>9</type>
-			<matcher>
-				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-true-all|rx65n</arguments>
-			</matcher>
-		</filter>
-		<filter>
-			<id>1545470191103</id>
-			<name>src/FIT_modefied_code/r_s12ad_rx/src/targets</name>
-			<type>9</type>
-			<matcher>
-				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-false-rx65x</arguments>
-			</matcher>
-		</filter>
-		<filter>
-			<id>1542428276356</id>
-			<name>src/FIT_modefied_code/r_sci_iic_rx/src/targets</name>
-			<type>9</type>
-			<matcher>
-				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-true-all|rx65n</arguments>
-			</matcher>
-		</filter>
-		<filter>
-			<id>1542428285307</id>
-			<name>src/FIT_modefied_code/r_sci_rx/src/targets</name>
-			<type>9</type>
-			<matcher>
-				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-true-all|rx65n</arguments>
 			</matcher>
 		</filter>
 		<filter>
@@ -503,6 +426,96 @@
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
 				<arguments>1.0-name-matches-false-false-RX</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1568942324327</id>
+			<name>lib/aws/ota/portable/renesas/rx65n-rsk</name>
+			<type>9</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-true-type4</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1568942609685</id>
+			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/amazon_freertos_common/compiler_support</name>
+			<type>9</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-true-ccrx</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1568942627382</id>
+			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/amazon_freertos_common/network_support</name>
+			<type>9</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-true-onchip_rx_ether</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1568944409780</id>
+			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v120</name>
+			<type>9</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-true-r_bsp|r_byteq|r_ether_rx|r_flash_rx|r_s12ad_rx|r_sci_rx</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1568944457950</id>
+			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v120/r_bsp/board</name>
+			<type>9</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-true-generic_rx65n</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1568949247461</id>
+			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v120/r_bsp/mcu</name>
+			<type>9</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-true-rx65n|all</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1568944487651</id>
+			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v120/r_ether_rx/src/targets</name>
+			<type>9</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-true-rx65n</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1568944502064</id>
+			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v120/r_flash_rx/src/targets</name>
+			<type>9</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-true-rx65n</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1568944518527</id>
+			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v120/r_s12ad_rx/src/targets</name>
+			<type>9</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-true-rx65n</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1568944532834</id>
+			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v120/r_sci_rx/src/targets</name>
+			<type>9</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-true-rx65n</arguments>
 			</matcher>
 		</filter>
 	</filteredResources>
