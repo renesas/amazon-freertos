@@ -43,7 +43,7 @@ A high tick rate frequency will have the effect of reducing the 'time slice' giv
             <description>Generally this should not be reduced from the value set in the FreeRTOSConfig.h file provided with the demo application for the port you are using.
 The stack size is specified in words, not bytes.</description>
         </property>
-        <property id="configTOTAL_HEAP_SIZE" display="The total amount of RAM available in the FreeRTOS heap" default="( size_t ) ( 128U * 1024U )" type="textbox">
+        <property id="configTOTAL_HEAP_SIZE" display="The total amount of RAM available in the FreeRTOS heap" default="( size_t ) ( 256U * 1024U )" type="textbox">
             <description>This value will only be used if configSUPPORT_DYNAMIC_ALLOCATION is set to 1 and the application makes use of one of the sample memory allocation schemes provided in the FreeRTOS source code download.</description>
         </property>
         <property id="configMAX_TASK_NAME_LEN" display="The maximum permissible length of name" default="12" type="textbox">
@@ -357,7 +357,7 @@ Disable: exclude the xTaskAbortDelay() from your build</description>
             <description>Enable: enable stats formatting function
 Disable: disable stats formatting function</description>
         </property>
-        <property id="configPRINTF ( X )" display="configPRINTF ( X )" default="vLoggingPrintf X" type="textbox">
+        <property id="configPRINTF( X )" display="configPRINTF( X )" default="vLoggingPrintf X" type="textbox">
             <constraint display="default disable" actionOnFail="disable">("${configPRINTF ( X )}" == vLoggingPrintf X)</constraint>
             <description>The function that implements FreeRTOS printf style output, and the macro that maps the configPRINTF() macros to that function.</description>
         </property>
