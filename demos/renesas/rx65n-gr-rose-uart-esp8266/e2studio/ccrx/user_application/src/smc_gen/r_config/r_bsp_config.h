@@ -607,5 +607,7 @@ Configuration Options
 
 #define MY_BSP_CFG_SERIAL_TERM_SCI					(2)
 #define MY_BSP_CFG_UART_WIFI_SCI                    (3)
+#define WIFI_RESET_PORT_PDR    PORT2.PDR.BIT.B4     /*PMOD PinNo.8 */
+#define WIFI_RESET_PORT_PODR   PORT2.PODR.BIT.B4    /*PMOD PinNo.8 */
 #endif /* R_BSP_CONFIG_REF_HEADER_FILE */
 
