@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<refinfo>
+
+    <!-- multiple versions permitted -->
+    <toolchain>
+      <brand>GNU</brand>
+      <product>GNUARM</product>
+      <version>6.03.01</version>
+    </toolchain>
+
+    <!-- only one target entry allowed; multiple sub tags permitted -->
+    <target>
+      <family>RZ</family>
+      <series>RZA</series>
+      <group>RZA2M</group>
+    </target>
+
+    <!-- only one package entry allowed -->
+    <!-- multiple dependencies, applications, functions, and incdirs permitted -->
+    <package>
+      <type>RSCD</type>
+      <name>r_ether</name>
+      <version>1.00</version>
+      <zipsource>r_ether_ebk_rza2_v1.00.zip</zipsource>
+      <application>Common</application>
+      <details>Ethernet driver</details>
+      <function>drivers.communications</function>
+      <incdir>.</incdir>
+      <incdir>src</incdir>
+      <incdir>inc</incdir>
+    </package>
+
+</refinfo>
