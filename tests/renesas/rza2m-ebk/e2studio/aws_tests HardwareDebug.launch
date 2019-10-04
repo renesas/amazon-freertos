@@ -20,18 +20,18 @@
 <stringAttribute key="com.renesas.cdt.core.secondGDBExe" value="green_dsp-elf-gdb"/>
 <booleanAttribute key="com.renesas.cdt.core.secondGDBSupport" value="false"/>
 <intAttribute key="com.renesas.cdt.core.secondGdbPortNumber" value="61237"/>
-<stringAttribute key="com.renesas.cdt.core.serverParam" value="-g SEGGERJLINKARM -t R7S921053VCBG  -uSelect= USB -uJLinkSetting= ${workspace_loc:/${ProjName}}/${LaunchConfigName}.jlink -uLowPower= 0 -uInteface= JTAG -uIfSpeed= 4000 -uNoReset= 1 -uResetPreRun= 1 -uIdCodeBytes=  FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF -uresetOnReload= 1 -n 0 -uFlashBp= 0 -uSimulation= 0 -uCPUFrequency= 528000000 -uCECycle= 1"/>
+<stringAttribute key="com.renesas.cdt.core.serverParam" value="-g SEGGERJLINKARM -t R7S921053VCBG  -uSelect= USB -uJLinkSetting= ${workspace_loc:/${ProjName}}/${LaunchConfigName}.jlink -uLowPower= 0 -uInteface= JTAG -uIfSpeed= 4000 -uNoReset= 1 -uResetPreRun= 1 -uIdCodeBytes=  FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF -uresetOnReload= 1 -n 0 -uFlashBp= 0 -uSimulation= 0 -ucfiFlashWorkStart= 0x0 -ucfiFlashWorkEnd= 0x0 -uflashMemoryType= SerialFlash -uflashBusType= SPIBSC -uOSRestriction= 0 -uCPUFrequency= 528000000 -uCECycle= 1"/>
 <booleanAttribute key="com.renesas.cdt.core.startServer" value="true"/>
 <stringAttribute key="com.renesas.cdt.core.targetDevice" value="R7S921053"/>
 <booleanAttribute key="com.renesas.cdt.core.useRemoteTarget" value="true"/>
 <booleanAttribute key="com.renesas.cdt.core.verboseMode" value="false"/>
 <stringAttribute key="com.renesas.cdt.debug.ioview.dsf.registerSelection" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;selectedRegisterList ioFilePath=&quot;C:\Renesas\e2_studio_7_1_0_R20180921-1230\DebugComp\RZ\Iofiles\RZA2.sfrx&quot;/&gt;&#13;&#10;"/>
-<stringAttribute key="com.renesas.cdt.debug.ioview.dsf.registerSelection0" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;selectedRegisterList ioFilePath=&quot;C:\Renesas\e2_studio\DebugComp\RZ\Iofiles\RZA2.sfrx&quot;/&gt;&#13;&#10;"/>
+<stringAttribute key="com.renesas.cdt.debug.ioview.dsf.registerSelection0" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;selectedRegisterList ioFilePath=&quot;C:\Renesas\e2_studio_750_R20190628-1404\DebugComp\RZ\Iofiles\RZA2.sfrx&quot;/&gt;&#13;&#10;"/>
 <stringAttribute key="com.renesas.cdt.launch.dsf.IO_MAP" value="${support_area_loc}"/>
 <booleanAttribute key="com.renesas.cdt.launch.dsf.USE_DEFAULT_IO_MAP" value="true"/>
 <listAttribute key="com.renesas.cdt.launch.dsf.downloadImages">
 <listEntry value="|true|true|true|0|true|No core"/>
-<listEntry value="bootloader/rza2_qspi_flash_ddr_bootloader.elf|true|true|false|0|false|No core"/>
+<listEntry value="bootloader/rza2_qspi_flash_ddr_bootloader.elf|true|true|false|0|true|No core"/>
 </listAttribute>
 <booleanAttribute key="com.renesas.cdt.launch.dsf.downloadImagesUpgradedV30" value="true"/>
 <stringAttribute key="com.renesas.cdt.launch.dsf.launchSeqType" value="com.renesas.cdt.launch.dsf.launchSequence.e2GdbServer"/>
@@ -46,12 +46,15 @@
 <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.break.useFlashBreakpoints" value="false"/>
 <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.cfiFlash.enable" value="false"/>
 <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.cfiFlash.endAddr" value="0x0"/>
+<stringAttribute key="com.renesas.hardwaredebug.arm.jlink.cfiFlash.flashBusType" value="SPIBSC"/>
+<stringAttribute key="com.renesas.hardwaredebug.arm.jlink.cfiFlash.flashMemoryType" value="SerialFlash"/>
 <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.cfiFlash.startAddr" value="0x0"/>
 <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.cfiFlash.workRam.endAddr" value="0x0"/>
 <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.cfiFlash.workRam.startAddr" value="0x0"/>
 <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.connection.id_code2" value="FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"/>
 <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.connection.registerInit" value="false"/>
 <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.connection.reset" value="false"/>
+<booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.connection.resetAfterDownload" value="false"/>
 <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.connection.resetCon" value="false"/>
 <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.connection.resetPreRun" value="true"/>
 <stringAttribute key="com.renesas.hardwaredebug.arm.jlink.connection.swv.coreClockSpeed" value="0"/>
@@ -67,6 +70,8 @@
 <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.options.ArmJLinkDebugToolSettingsTree.rbtm.everycycleenable" value="true"/>
 <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.options.ArmJLinkDebugToolSettingsTree.resetAfterReload" value="true"/>
 <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.options.ArmJLinkDebugToolSettingsTree.rtosIntegrationInDebugView" value="true"/>
+<booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.options.ArmJLinkDebugToolSettingsTree.rtosintegrationthreadsrunning" value="false"/>
+<booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.release.reset" value="false"/>
 <intAttribute key="com.renesas.hardwaredebug.arm.jlink.scanChain.drPre" value="0"/>
 <intAttribute key="com.renesas.hardwaredebug.arm.jlink.scanChain.irPre" value="0"/>
 <booleanAttribute key="com.renesas.hardwaredebug.arm.jlink.scanChain.multiDevices" value="false"/>
@@ -102,9 +107,9 @@
 <intAttribute key="org.eclipse.cdt.debug.gdbjtag.core.delay" value="3"/>
 <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.doHalt" value="false"/>
 <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.doReset" value="false"/>
-<stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.imageFileName" value="C:\localdata\e2_studio\ws_V73\18-4Q\RZ_AmazonFreeRTOS_190218\RX_AmazonFreeRTOS\amazon-freertos-master\demos\renesas\rza2m-ebk\aws_tests\HardwareDebug\aws_tests.elf"/>
+<stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.imageFileName" value="C:\work\renesas-rz\amazon-freertos\tests\renesas\rza2m-ebk\e2studio\HardwareDebug\aws_tests.elf"/>
 <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.imageOffset" value="0"/>
-<stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.initCommands" value=""/>
+<stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.initCommands" value="set arm fallback-mode arm"/>
 <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.loadImage" value="true"/>
 <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.loadSymbols" value="true"/>
 <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.pcRegister" value=""/>
@@ -113,7 +118,7 @@
 <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.setResume" value="false"/>
 <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.setStopAt" value="true"/>
 <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.stopAt" value="main"/>
-<stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.symbolsFileName" value="C:\localdata\e2_studio\ws_V73\18-4Q\RZ_AmazonFreeRTOS_190218\RX_AmazonFreeRTOS\amazon-freertos-master\demos\renesas\rza2m-ebk\aws_tests\HardwareDebug\aws_tests.elf"/>
+<stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.symbolsFileName" value="C:\work\renesas-rz\amazon-freertos\tests\renesas\rza2m-ebk\e2studio\HardwareDebug\aws_tests.elf"/>
 <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.symbolsOffset" value="0"/>
 <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.useFileForImage" value="false"/>
 <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.useFileForSymbols" value="false"/>
