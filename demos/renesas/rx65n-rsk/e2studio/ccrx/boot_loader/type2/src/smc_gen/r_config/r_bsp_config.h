@@ -605,5 +605,11 @@ Configuration Options
 */
 #define BSP_CFG_FIT_IPL_MAX                         (0xF)
 
+/* This macro is used to select which SCI channel used for debug serial terminal.
+   RX65N-RSK Default: G1CUSB0(RL78/G1C), bit rate 115200bps
+             Option : PMOD1(FTDI)      , bit rate 921600bps
+ */
+#define MY_BSP_CFG_SERIAL_TERM_SCI                  (8)
+
 #endif /* R_BSP_CONFIG_REF_HEADER_FILE */
 

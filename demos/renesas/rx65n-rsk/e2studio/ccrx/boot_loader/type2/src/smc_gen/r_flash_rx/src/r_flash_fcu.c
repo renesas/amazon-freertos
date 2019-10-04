@@ -689,6 +689,9 @@ R_BSP_PRAGMA_STATIC_INTERRUPT(Excep_FCU_FRDYI,VECT(FCU,FRDYI))
 FLASH_PE_MODE_SECTION
 R_BSP_ATTRIB_STATIC_INTERRUPT void Excep_FCU_FRDYI(void)
 {
+    /* Cancel interrupt disable for serial USB boot. */
+    R_BSP_InterruptsEnable();
+
 #if (FLASH_CFG_CODE_FLASH_ENABLE == 1)
     uint32_t    size_boundary;
 #endif
