@@ -102,7 +102,8 @@ static uint8_t * prvPAL_ReadAndAssumeCertificate( const uint8_t * const pucCertN
 #define BOOT_LOADER_UPDATE_EXECUTE_AREA_LOW_ADDRESS FLASH_CF_HI_BANK_LO_ADDR
 #define BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER (FLASH_NUM_BLOCKS_CF - BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_SMALL - BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_MEDIUM)
 
-#define otaconfigMAX_NUM_BLOCKS_REQUEST        	128U	/* this value will be appeared after 201908.00 in aws_ota_agent_config.h */
+//#define otaconfigMAX_NUM_BLOCKS_REQUEST        	128U	/* this value will be appeared after 201908.00 in aws_ota_agent_config.h */
+#define otaconfigMAX_NUM_BLOCKS_REQUEST        	64U	/* this value will be appeared after 201908.00 in aws_ota_agent_config.h */
 
 typedef struct _load_firmware_control_block {
 	uint32_t status;
@@ -118,6 +119,7 @@ typedef struct _packet_block_for_queue
 	uint8_t	packet[(1 << otaconfigLOG2_FILE_BLOCK_SIZE)];
 }PACKET_BLOCK_FOR_QUEUE;
 
+static bool ota_context_validate( OTA_FileContext_t * C );
 static void ota_flashing_task(void);
 static void ota_flashing_callback(void *event);
 
@@ -189,8 +191,37 @@ OTA_Err_t prvPAL_Abort( OTA_FileContext_t * const C )
 {
     DEFINE_OTA_METHOD_NAME( "prvPAL_Abort" );
 
-    /* FIX ME. */
-    return kOTA_Err_FileAbort;
+    OTA_Err_t eResult = kOTA_Err_None;
+
+    if( ota_context_validate( C ) == ( bool_t ) pdFALSE )
+    {
+        eResult = kOTA_Err_FileClose;
+    }
+
+	if (kOTA_Err_None == eResult)
+	{
+		/* delete task/queue for flashing */
+		if (NULL != xTask)
+		{
+			vTaskDelete(xTask);
+			xTask = NULL;
+		}
+		if (NULL != xQueue)
+		{
+			vQueueDelete(xQueue);
+			xQueue = NULL;
+		}
+		if (NULL != xSemaphore)
+		{
+			vSemaphoreDelete(xSemaphore);
+			xSemaphore = NULL;
+		}
+
+		R_FLASH_Close();
+	}
+
+	OTA_LOG_L1( "[%s] OK\r\n", OTA_METHOD_NAME );
+    return kOTA_Err_None;
 }
 /*-----------------------------------------------------------*/
 
@@ -208,7 +239,7 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
     packet_block_for_queue1.length = ulBlockSize;
 	if(xQueueSend(xQueue, &packet_block_for_queue1, NULL) == pdPASS)
 	{
-		eResult = kOTA_Err_None;
+		eResult = ( int16_t ) ulBlockSize;
 	}
 	else
 	{
@@ -224,11 +255,37 @@ OTA_Err_t prvPAL_CloseFile( OTA_FileContext_t * const C )
 	OTA_Err_t eResult = kOTA_Err_None;
     DEFINE_OTA_METHOD_NAME( "prvPAL_CloseFile" );
 
-	xSemaphoreTake(xSemaphore, portMAX_DELAY);
+    if( ota_context_validate( C ) == ( bool_t ) pdFALSE )
+    {
+        eResult = kOTA_Err_FileClose;
+    }
 
-	/* delete task/queue for flashing */
-	vTaskDelete(xTask);
-	vQueueDelete(xQueue);
+    if( C->pxSignature == NULL )
+    {
+        eResult = kOTA_Err_SignatureCheckFailed;
+    }
+
+	if (kOTA_Err_None == eResult)
+	{
+		/* delete task/queue for flashing */
+		if (NULL != xTask)
+		{
+			vTaskDelete(xTask);
+			xTask = NULL;
+		}
+		if (NULL != xQueue)
+		{
+			vQueueDelete(xQueue);
+			xQueue = NULL;
+		}
+		if (NULL != xSemaphore)
+		{
+			vSemaphoreDelete(xSemaphore);
+			xSemaphore = NULL;
+		}
+
+		R_FLASH_Close();
+	}
 
 	OTA_LOG_L1( "[%s] OK\r\n", OTA_METHOD_NAME );
 	eResult = kOTA_Err_None;
@@ -346,6 +403,11 @@ OTA_PAL_ImageState_t prvPAL_GetPlatformImageState( void )
 #ifdef AMAZON_FREERTOS_ENABLE_UNIT_TESTS
     #include "aws_ota_pal_test_access_define.h"
 #endif
+
+static bool ota_context_validate( OTA_FileContext_t * C )
+{
+	return ( NULL != C );
+}
 
 static void ota_flashing_task(void)
 {
