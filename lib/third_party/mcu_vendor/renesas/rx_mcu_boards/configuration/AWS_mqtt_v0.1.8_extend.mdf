@@ -70,10 +70,10 @@
             <description>The maximum time in ticks for which the MQTT task is permitted to block</description>
         </property>
         <property id="mqttconfigENABLE_SUBSCRIPTION_MANAGEMENT" display="This gives the user flexibility of registering a callback per topic" default="1" type="combobox">
-            <option id="mqttconfigENABLE_SUBSCRIPTION_MANAGEMENT.0" display="Enable " value="0"/>
-            <option id="mqttconfigENABLE_SUBSCRIPTION_MANAGEMENT.1" display="Disable" value="1"/>
-            <description>0 = Enable flexibility.
-1 = Disable flexibility.</description>
+            <option id="mqttconfigENABLE_SUBSCRIPTION_MANAGEMENT.1" display="Enable " value="1"/>
+            <option id="mqttconfigENABLE_SUBSCRIPTION_MANAGEMENT.0" display="Disable" value="0"/>
+            <description>1 = Enable flexibility.
+0 = Disable flexibility.</description>
         </property>
         <property id="mqttconfigSUBSCRIPTION_MANAGER_MAX_TOPIC_LENGTH" display="Maximum length of the topic" default="128" type="textbox">
             <constraint display="Value must be an integer">testInteger("${mqttconfigSUBSCRIPTION_MANAGER_MAX_TOPIC_LENGTH}")</constraint>
@@ -86,10 +86,10 @@
             <description>Maximum number of subscriptions which can be stored in subscription manager</description>
         </property>
         <property id="mqttconfigENABLE_DEBUG_LOGS" display="Debug logs" default="0" type="combobox">
-            <option id="mqttconfigENABLE_DEBUG_LOGS.0" display="Enable " value="0"/>
-            <option id="mqttconfigENABLE_DEBUG_LOGS.1" display="Disable" value="1"/>
-            <description>0 = Enable logs.
-1 = Disable logs.</description>
+            <option id="mqttconfigENABLE_DEBUG_LOGS.1" display="Enable " value="1"/>
+            <option id="mqttconfigENABLE_DEBUG_LOGS.0" display="Disable" value="0"/>
+            <description>1 = Enable logs.
+0 = Disable logs.</description>
         </property>
     </configuration>
 </module>
