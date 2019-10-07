@@ -54,12 +54,12 @@
 
 /* Define the byte order of the target MCU (the MCU FreeRTOS+TCP is executing
  * on).  Valid options are pdFREERTOS_BIG_ENDIAN and pdFREERTOS_LITTLE_ENDIAN. */
-#define ipconfigBYTE_ORDER                         pdFREERTOS_LITTLE_ENDIAN     
+#define ipconfigBYTE_ORDER                         pdFREERTOS_LITTLE_ENDIAN      
 
 /* If the network card/driver includes checksum offloading (IP/TCP/UDP checksums)
  * then set ipconfigDRIVER_INCLUDED_RX_IP_CHECKSUM to 1 to prevent the software
  * stack repeating the checksum calculations. */
-#define ipconfigDRIVER_INCLUDED_RX_IP_CHECKSUM     1
+#define ipconfigDRIVER_INCLUDED_RX_IP_CHECKSUM     0
 
 /* Several API's will block until the result is known, or the action has been
  * performed, for example FreeRTOS_send() and FreeRTOS_recv().  The timeouts can be
@@ -183,7 +183,7 @@ uint32_t ulRand(void);
  * ipconfigINCLUDE_FULL_INET_ADDR is set to 1 then both FreeRTOS_inet_addr() and
  * FreeRTOS_indet_addr_quick() are available.  If ipconfigINCLUDE_FULL_INET_ADDR is
  * not set to 1 then only FreeRTOS_indet_addr_quick() is available. */
-#define ipconfigINCLUDE_FULL_INET_ADDR            0
+#define ipconfigINCLUDE_FULL_INET_ADDR            1
 
 /* ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS defines the total number of network buffer that
  * are available to the IP stack.  The total number of network buffers is limited
@@ -209,7 +209,7 @@ uint32_t ulRand(void);
  * ipconfigALLOW_SOCKET_SEND_WITHOUT_BIND is set to 0 then calling FreeRTOS_sendto()
  * on a socket that has not yet been bound will result in the send operation being
  * aborted. */
-#define ipconfigALLOW_SOCKET_SEND_WITHOUT_BIND         1
+#define ipconfigALLOW_SOCKET_SEND_WITHOUT_BIND         0
 
 /* Defines the Time To Live (TTL) values used in outgoing UDP packets. */
 #define ipconfigUDP_TIME_TO_LIVE                       128
