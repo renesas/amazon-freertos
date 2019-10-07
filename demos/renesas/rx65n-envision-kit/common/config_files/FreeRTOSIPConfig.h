@@ -38,7 +38,7 @@
 /* Set to 1 to print out debug messages.  If ipconfigHAS_DEBUG_PRINTF is set to
  * 1 then FreeRTOS_debug_printf should be defined to the function used to print
  * out the debugging messages. */
-#define ipconfigHAS_DEBUG_PRINTF    1
+#define ipconfigHAS_DEBUG_PRINTF    0
 #if ( ipconfigHAS_DEBUG_PRINTF == 1 )
     #define FreeRTOS_debug_printf( X )    configPRINTF( X )
 #endif
@@ -54,7 +54,7 @@
 
 /* Define the byte order of the target MCU (the MCU FreeRTOS+TCP is executing
  * on).  Valid options are pdFREERTOS_BIG_ENDIAN and pdFREERTOS_LITTLE_ENDIAN. */
-#define ipconfigBYTE_ORDER                         pdFREERTOS_LITTLE_ENDIAN        
+#define ipconfigBYTE_ORDER                         pdFREERTOS_LITTLE_ENDIAN           
 
 /* If the network card/driver includes checksum offloading (IP/TCP/UDP checksums)
  * then set ipconfigDRIVER_INCLUDED_RX_IP_CHECKSUM to 1 to prevent the software
@@ -220,7 +220,7 @@ uint32_t ulRand(void);
 #define ipconfigUSE_TCP                                (1)
 
 /* USE_WIN: Let TCP use windowing mechanism. */
-#define ipconfigUSE_TCP_WIN                            (0)
+#define ipconfigUSE_TCP_WIN                            (1)
 
 /* The MTU is the maximum number of bytes the payload of a network frame can
  * contain.  For normal Ethernet V2 frames the maximum MTU is 1500.  Setting a
@@ -288,7 +288,7 @@ uint32_t ulRand(void);
 #define ipconfigIS_VALID_PROG_ADDRESS( x )    ( ( x ) != NULL )
 
 /* Include support for TCP keep-alive messages. */
-#define ipconfigTCP_KEEP_ALIVE                   (1)
+#define ipconfigTCP_KEEP_ALIVE                   (0)
 #define ipconfigTCP_KEEP_ALIVE_INTERVAL          (20) /* Seconds. */
 
 /* The socket semaphore is used to unblock the MQTT task. */
