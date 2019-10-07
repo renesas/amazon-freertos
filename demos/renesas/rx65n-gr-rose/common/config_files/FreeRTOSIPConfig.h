@@ -54,7 +54,7 @@
 
 /* Define the byte order of the target MCU (the MCU FreeRTOS+TCP is executing
  * on).  Valid options are pdFREERTOS_BIG_ENDIAN and pdFREERTOS_LITTLE_ENDIAN. */
-#define ipconfigBYTE_ORDER                         pdFREERTOS_LITTLE_ENDIAN                   
+#define ipconfigBYTE_ORDER                         pdFREERTOS_LITTLE_ENDIAN                    
 
 /* If the network card/driver includes checksum offloading (IP/TCP/UDP checksums)
  * then set ipconfigDRIVER_INCLUDED_RX_IP_CHECKSUM to 1 to prevent the software
@@ -248,7 +248,7 @@ uint32_t ulRand(void);
 /* If ipconfigFILTER_OUT_NON_ETHERNET_II_FRAMES is set to 1 then Ethernet frames
  * that are not in Ethernet II format will be dropped.  This option is included for
  * potential future IP stack developments. */
-#define ipconfigFILTER_OUT_NON_ETHERNET_II_FRAMES      0
+#define ipconfigFILTER_OUT_NON_ETHERNET_II_FRAMES      1
 
 /* If ipconfigETHERNET_DRIVER_FILTERS_FRAME_TYPES is set to 1 then it is the
  * responsibility of the Ethernet interface to filter out packets that are of no
