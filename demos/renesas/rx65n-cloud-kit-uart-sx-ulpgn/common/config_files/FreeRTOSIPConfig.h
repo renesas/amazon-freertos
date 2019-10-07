@@ -60,12 +60,12 @@
 
 /* Define the byte order of the target MCU (the MCU FreeRTOS+TCP is executing
  * on).  Valid options are pdFREERTOS_BIG_ENDIAN and pdFREERTOS_LITTLE_ENDIAN. */
-#define ipconfigBYTE_ORDER                         pdFREERTOS_LITTLE_ENDIAN               
+#define ipconfigBYTE_ORDER                         pdFREERTOS_LITTLE_ENDIAN                
 
 /* If the network card/driver includes checksum offloading (IP/TCP/UDP checksums)
  * then set ipconfigDRIVER_INCLUDED_RX_IP_CHECKSUM to 1 to prevent the software
  * stack repeating the checksum calculations. */
-#define ipconfigDRIVER_INCLUDED_RX_IP_CHECKSUM     1
+#define ipconfigDRIVER_INCLUDED_RX_IP_CHECKSUM     0
 
 /* Several API's will block until the result is known, or the action has been
  * performed, for example FreeRTOS_send() and FreeRTOS_recv().  The timeouts can be
@@ -114,7 +114,7 @@ uint32_t ulRand(void);
  * is not set to 1 then the network event hook will never be called. See:
  * http://www.FreeRTOS.org/FreeRTOS-Plus/FreeRTOS_Plus_UDP/API/vApplicationIPNetworkEventHook.shtml.
  */
-#define ipconfigUSE_NETWORK_EVENT_HOOK           1
+#define ipconfigUSE_NETWORK_EVENT_HOOK           0
 
 /* Sockets have a send block time attribute.  If FreeRTOS_sendto() is called but
  * a network buffer cannot be obtained then the calling task is held in the Blocked
@@ -303,7 +303,7 @@ uint32_t ulRand(void);
 #define ipconfigSOCKET_HAS_USER_WAKE_CALLBACK    (1)
 #define ipconfigUSE_CALLBACKS                    (0)
 
-#define ipconfigZERO_COPY_TX_DRIVER              (0)
+#define ipconfigZERO_COPY_TX_DRIVER              (1)
 #define ipconfigZERO_COPY_RX_DRIVER              (0)
 
 /* Possible optimisation for expert users - requires network driver support.
