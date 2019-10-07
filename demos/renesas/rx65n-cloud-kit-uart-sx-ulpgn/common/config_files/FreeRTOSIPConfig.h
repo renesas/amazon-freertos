@@ -60,7 +60,7 @@
 
 /* Define the byte order of the target MCU (the MCU FreeRTOS+TCP is executing
  * on).  Valid options are pdFREERTOS_BIG_ENDIAN and pdFREERTOS_LITTLE_ENDIAN. */
-#define ipconfigBYTE_ORDER                         pdFREERTOS_LITTLE_ENDIAN                
+#define ipconfigBYTE_ORDER                         pdFREERTOS_LITTLE_ENDIAN                 
 
 /* If the network card/driver includes checksum offloading (IP/TCP/UDP checksums)
  * then set ipconfigDRIVER_INCLUDED_RX_IP_CHECKSUM to 1 to prevent the software
@@ -215,7 +215,7 @@ uint32_t ulRand(void);
  * ipconfigALLOW_SOCKET_SEND_WITHOUT_BIND is set to 0 then calling FreeRTOS_sendto()
  * on a socket that has not yet been bound will result in the send operation being
  * aborted. */
-#define ipconfigALLOW_SOCKET_SEND_WITHOUT_BIND         1
+#define ipconfigALLOW_SOCKET_SEND_WITHOUT_BIND         0
 
 /* Defines the Time To Live (TTL) values used in outgoing UDP packets. */
 #define ipconfigUDP_TIME_TO_LIVE                       128
@@ -303,7 +303,7 @@ uint32_t ulRand(void);
 #define ipconfigSOCKET_HAS_USER_WAKE_CALLBACK    (1)
 #define ipconfigUSE_CALLBACKS                    (0)
 
-#define ipconfigZERO_COPY_TX_DRIVER              (1)
+#define ipconfigZERO_COPY_TX_DRIVER              (0)
 #define ipconfigZERO_COPY_RX_DRIVER              (0)
 
 /* Possible optimisation for expert users - requires network driver support.
