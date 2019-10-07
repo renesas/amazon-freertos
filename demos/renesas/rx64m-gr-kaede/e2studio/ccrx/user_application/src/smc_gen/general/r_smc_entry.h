@@ -22,7 +22,7 @@
 * Version      : 1.3.3
 * Device(s)    : R5F564MLCxFB
 * Description  : SMC platform header file.
-* Creation Date: 2019-07-24
+* Creation Date: 2019-10-07
 ***********************************************************************************************************************/
 
 #ifndef SMC_ENTRY_H

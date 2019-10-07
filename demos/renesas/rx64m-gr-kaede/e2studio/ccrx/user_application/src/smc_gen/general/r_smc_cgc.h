@@ -22,7 +22,7 @@
 * Version      : 1.4.0
 * Device(s)    : R5F564MLCxFB
 * Description  : This file implements cgc setting.
-* Creation Date: 2019-07-24
+* Creation Date: 2019-10-07
 ***********************************************************************************************************************/
 
 #ifndef SMC_CGC_H
