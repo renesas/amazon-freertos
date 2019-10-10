@@ -96,7 +96,7 @@
  0 = unused  (use PHY-LSI status register)
  1 = use     (use LINKSTA signal)
  */
-    #define ETHER_CFG_USE_LINKSTA                       (0)     /* This setting is reflected in all channels */
+    #define ETHER_CFG_USE_LINKSTA                       (1)     /* This setting is reflected in all channels */
 
 /* Definition of whether or not to use KSZ8041NL of the Micrel Inc.
  0 = unused
