@@ -288,7 +288,7 @@ uint32_t ulRand(void);
 #define ipconfigIS_VALID_PROG_ADDRESS( x )    ( ( x ) != NULL )
 
 /* Include support for TCP keep-alive messages. */
-#define ipconfigTCP_KEEP_ALIVE                   (0)
+#define ipconfigTCP_KEEP_ALIVE                   (1)
 #define ipconfigTCP_KEEP_ALIVE_INTERVAL          (20) /* Seconds. */
 
 /* The socket semaphore is used to unblock the MQTT task. */
