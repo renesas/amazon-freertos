@@ -605,7 +605,7 @@
 <Item id="PERIA_INTA255" priority="15"/>
 </tool>
 <tool id="SWComponent" version="1.0.0.0">
-<configuration id="1192f50d-6fb3-42fc-946b-ca2aa631619e" inuse="true" name="FreeRTOS_Object">
+<configuration id="8fa5bbb7-6870-4a92-9621-1109cec8a750" inuse="true" name="FreeRTOS_Object">
 <allocatable id="OBJECT" name="OBJECT">
 <allocatable id="TASK" name="TASK">
 <option defaultValue="0" id="LinkNum" value=""/>
@@ -635,7 +635,7 @@
 </allocator>
 <source description="Code generator for Real-time OS" display="RTOS Configurator" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.source"/>
 </configuration>
-<configuration id="65b0e8b9-5689-4eac-8ccf-c6c67830ea70" inuse="true" name="FreeRTOS_Kernel">
+<configuration id="4e64096d-bdf9-43af-a958-fd368915b9ec" inuse="true" name="FreeRTOS_Kernel">
 <component description="This component is a part of RTOS Configurator feature that allow user to use the GUI to configure kernel setting of AFR" detailDescription="" display="FreeRTOS_kernel" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.freertos.amazon.kernel" version="1.0.0">
 <gridItem id="configENABLE_BACKWARD_COMPATIBILITY" selectedIndex="1"/>
 <gridItem id="configUSE_PREEMPTION" selectedIndex="1"/>
@@ -695,7 +695,7 @@
 <gridItem id="INCLUDE_xTaskGetCurrentTaskHandle" selectedIndex="1"/>
 <gridItem id="INCLUDE_xTaskAbortDelay" selectedIndex="1"/>
 <gridItem id="configUSE_STATS_FORMATTING_FUNCTIONS" selectedIndex="1"/>
-<gridItem id="configPRINTF ( X )" selectedIndex="vLoggingPrintf X"/>
+<gridItem id="configPRINTF( X )" selectedIndex="vLoggingPrintf X"/>
 <gridItem id="configPRINT( X )" selectedIndex="vLoggingPrint( X )"/>
 <gridItem id="configPRINT_STRING( x )" selectedIndex="uart_string_printf( x )"/>
 <gridItem id="configLOGGING_MAX_MESSAGE_LENGTH" selectedIndex="192"/>
@@ -742,77 +742,77 @@
 </allocator>
 <source description="Code generator for Real-time OS" display="RTOS Configurator" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.source"/>
 </configuration>
-<configuration id="79bab7c9-5db0-4bbc-a210-d31d51b5fcab" inuse="true" name="AWS_device_shadow">
+<configuration id="7bee1d7a-9a88-42fd-97dd-8bfc1a60544f" inuse="true" name="AWS_device_shadow">
 <component description="This component is a part of RTOS Configurator feature that allow user to use the GUI to configure kernel setting of AFR" detailDescription="" display="AWS_device_shadow" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.freertos.amazon.device_shadow" version="1.0.0">
 <gridItem id="shadowConfigJSON_JSMN_TOKENS" selectedIndex="64"/>
 <gridItem id="shadowConfigJSON_CLIENT_TOKEN" selectedIndex="&quot;clientToken&quot;"/>
-<gridItem id="shadowConfigUNIQUE_CLIENT_TOKEN_CHECK" selectedIndex="0"/>
+<gridItem id="shadowConfigUNIQUE_CLIENT_TOKEN_CHECK" selectedIndex="1"/>
 </component>
 <allocator description="FreeRTOS Amazon device shadow component" display="AWS_shadow" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.freertos.amazon.device_shadow.rx" type="gridConfiguration">
 <context/>
 </allocator>
 <source description="Code generator for Real-time OS" display="RTOS Configurator" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.source"/>
 </configuration>
-<configuration id="77fb5cf6-8ea6-49b7-83ea-660281dd1252" inuse="true" name="AWS_tcp_ip">
+<configuration id="f0073d2e-181d-4880-acee-6197e0ef420d" inuse="true" name="AWS_tcp_ip">
 <component description="This component is a part of RTOS Configurator feature that allow user to use the GUI to configure kernel setting of AFR" detailDescription="" display="AWS_tcp_ip" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.freertos.amazon.tcp_ip" version="1.0.0">
-<gridItem id="ipconfigHAS_DEBUG_PRINTF" selectedIndex="0"/>
-<gridItem id="ipconfigHAS_PRINTF" selectedIndex="1"/>
+<gridItem id="ipconfigHAS_DEBUG_PRINTF" selectedIndex="1"/>
+<gridItem id="ipconfigHAS_PRINTF" selectedIndex="0"/>
 <gridItem id="ipconfigBYTE_ORDER" selectedIndex="0"/>
-<gridItem id="ipconfigDRIVER_INCLUDED_RX_IP_CHECKSUM" selectedIndex="1"/>
+<gridItem id="ipconfigDRIVER_INCLUDED_RX_IP_CHECKSUM" selectedIndex="0"/>
 <gridItem id="ipconfigSOCK_DEFAULT_RECEIVE_BLOCK_TIME" selectedIndex="10000"/>
 <gridItem id="ipconfigSOCK_DEFAULT_SEND_BLOCK_TIME" selectedIndex="10000"/>
-<gridItem id="ipconfigUSE_DNS_CACHE" selectedIndex="1"/>
+<gridItem id="ipconfigUSE_DNS_CACHE" selectedIndex="0"/>
 <gridItem id="ipconfigDNS_REQUEST_ATTEMPTS" selectedIndex="2"/>
 <gridItem id="ipconfigIP_TASK_PRIORITY" selectedIndex="configMAX_PRIORITIES - 2"/>
 <gridItem id="ipconfigIP_TASK_STACK_SIZE_WORDS" selectedIndex="configMINIMAL_STACK_SIZE * 5"/>
-<gridItem id="ipconfigUSE_NETWORK_EVENT_HOOK" selectedIndex="1"/>
+<gridItem id="ipconfigUSE_NETWORK_EVENT_HOOK" selectedIndex="0"/>
 <gridItem id="ipconfigUDP_MAX_SEND_BLOCK_TIME_TICKS" selectedIndex="5000 / portTICK_PERIOD_MS"/>
-<gridItem id="ipconfigUSE_DHCP" selectedIndex="1"/>
-<gridItem id="ipconfigDHCP_REGISTER_HOSTNAME" selectedIndex="1"/>
-<gridItem id="ipconfigDHCP_USES_UNICAST" selectedIndex="1"/>
-<gridItem id="ipconfigDHCP_SEND_DISCOVER_AFTER_AUTO_IP" selectedIndex="0"/>
-<gridItem id="ipconfigUSE_DHCP_HOOK" selectedIndex="0"/>
+<gridItem id="ipconfigUSE_DHCP" selectedIndex="0"/>
+<gridItem id="ipconfigDHCP_REGISTER_HOSTNAME" selectedIndex="0"/>
+<gridItem id="ipconfigDHCP_USES_UNICAST" selectedIndex="0"/>
+<gridItem id="ipconfigDHCP_SEND_DISCOVER_AFTER_AUTO_IP" selectedIndex="1"/>
+<gridItem id="ipconfigUSE_DHCP_HOOK" selectedIndex="1"/>
 <gridItem id="ipconfigMAXIMUM_DISCOVER_TX_PERIOD" selectedIndex="120000 / portTICK_PERIOD_MS"/>
 <gridItem id="ipconfigARP_CACHE_ENTRIES" selectedIndex="6"/>
 <gridItem id="ipconfigMAX_ARP_RETRANSMISSIONS" selectedIndex="5"/>
 <gridItem id="ipconfigMAX_ARP_AGE" selectedIndex="150"/>
-<gridItem id="ipconfigINCLUDE_FULL_INET_ADDR" selectedIndex="0"/>
+<gridItem id="ipconfigINCLUDE_FULL_INET_ADDR" selectedIndex="1"/>
 <gridItem id="ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS" selectedIndex="ETHER_CFG_EMAC_TX_DESCRIPTORS"/>
 <gridItem id="ipconfigEVENT_QUEUE_LENGTH" selectedIndex="ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS + 5"/>
-<gridItem id="ipconfigALLOW_SOCKET_SEND_WITHOUT_BIND" selectedIndex="1"/>
+<gridItem id="ipconfigALLOW_SOCKET_SEND_WITHOUT_BIND" selectedIndex="0"/>
 <gridItem id="ipconfigUDP_TIME_TO_LIVE" selectedIndex="128"/>
 <gridItem id="ipconfigTCP_TIME_TO_LIVE" selectedIndex="128"/>
-<gridItem id="ipconfigUSE_TCP" selectedIndex="1"/>
-<gridItem id="ipconfigUSE_TCP_WIN" selectedIndex="1"/>
+<gridItem id="ipconfigUSE_TCP" selectedIndex="0"/>
+<gridItem id="ipconfigUSE_TCP_WIN" selectedIndex="0"/>
 <gridItem id="ipconfigNETWORK_MTU" selectedIndex="1500"/>
-<gridItem id="ipconfigUSE_DNS" selectedIndex="1"/>
-<gridItem id="ipconfigREPLY_TO_INCOMING_PINGS" selectedIndex="1"/>
-<gridItem id="ipconfigSUPPORT_OUTGOING_PINGS" selectedIndex="0"/>
-<gridItem id="ipconfigSUPPORT_SELECT_FUNCTION" selectedIndex="0"/>
-<gridItem id="ipconfigFILTER_OUT_NON_ETHERNET_II_FRAMES" selectedIndex="1"/>
-<gridItem id="ipconfigETHERNET_DRIVER_FILTERS_FRAME_TYPES" selectedIndex="0"/>
+<gridItem id="ipconfigUSE_DNS" selectedIndex="0"/>
+<gridItem id="ipconfigREPLY_TO_INCOMING_PINGS" selectedIndex="0"/>
+<gridItem id="ipconfigSUPPORT_OUTGOING_PINGS" selectedIndex="1"/>
+<gridItem id="ipconfigSUPPORT_SELECT_FUNCTION" selectedIndex="1"/>
+<gridItem id="ipconfigFILTER_OUT_NON_ETHERNET_II_FRAMES" selectedIndex="0"/>
+<gridItem id="ipconfigETHERNET_DRIVER_FILTERS_FRAME_TYPES" selectedIndex="1"/>
 <gridItem id="configWINDOWS_MAC_INTERRUPT_SIMULATOR_DELAY" selectedIndex="20 / portTICK_PERIOD_MS"/>
 <gridItem id="ipconfigPACKET_FILLER_SIZE" selectedIndex="2"/>
 <gridItem id="ipconfigTCP_WIN_SEG_COUNT" selectedIndex="240"/>
 <gridItem id="ipconfigTCP_RX_BUFFER_LENGTH" selectedIndex="3000"/>
 <gridItem id="ipconfigTCP_TX_BUFFER_LENGTH" selectedIndex="3000"/>
-<gridItem id="ipconfigTCP_KEEP_ALIVE" selectedIndex="1"/>
+<gridItem id="ipconfigTCP_KEEP_ALIVE" selectedIndex="0"/>
 <gridItem id="ipconfigTCP_KEEP_ALIVE_INTERVAL" selectedIndex="20"/>
-<gridItem id="ipconfigSOCKET_HAS_USER_SEMAPHORE" selectedIndex="0"/>
-<gridItem id="ipconfigSOCKET_HAS_USER_WAKE_CALLBACK" selectedIndex="1"/>
-<gridItem id="ipconfigUSE_CALLBACKS" selectedIndex="0"/>
-<gridItem id="ipconfigZERO_COPY_TX_DRIVER" selectedIndex="0"/>
-<gridItem id="ipconfigZERO_COPY_RX_DRIVER" selectedIndex="0"/>
-<gridItem id="ipconfigUSE_LINKED_RX_MESSAGES" selectedIndex="0"/>
+<gridItem id="ipconfigSOCKET_HAS_USER_SEMAPHORE" selectedIndex="1"/>
+<gridItem id="ipconfigSOCKET_HAS_USER_WAKE_CALLBACK" selectedIndex="0"/>
+<gridItem id="ipconfigUSE_CALLBACKS" selectedIndex="1"/>
+<gridItem id="ipconfigZERO_COPY_TX_DRIVER" selectedIndex="1"/>
+<gridItem id="ipconfigZERO_COPY_RX_DRIVER" selectedIndex="1"/>
+<gridItem id="ipconfigUSE_LINKED_RX_MESSAGES" selectedIndex="1"/>
 </component>
 <allocator description="FreeRTOS Amazon component for" display="AWS_tcp_ip" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.freertos.amazon.tcp_ip.rx" type="gridConfiguration">
 <context/>
 </allocator>
 <source description="Code generator for Real-time OS" display="RTOS Configurator" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.source"/>
 </configuration>
-<configuration id="dffb7e57-2f16-4877-bea0-afe5c15c22d1" inuse="true" name="AWS_mqtt">
+<configuration id="138a5979-4bec-43e1-adeb-decbd2339571" inuse="true" name="AWS_mqtt">
 <component description="This component is a part of RTOS Configurator feature that allow user to use the GUI to configure kernel setting of AFR" detailDescription="" display="AWS_mqtt" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.freertos.amazon.mqtt" version="1.0.0">
-<gridItem id="mqttconfigENABLE_METRICS" selectedIndex="1"/>
+<gridItem id="mqttconfigENABLE_METRICS" selectedIndex="0"/>
 <gridItem id="mqttOPERATION_TIMEOUT_MS" selectedIndex="120000"/>
 <gridItem id="mqttconfigKEEP_ALIVE_INTERVAL_SECONDS" selectedIndex="100"/>
 <gridItem id="mqttconfigKEEP_ALIVE_ACTUAL_INTERVAL_TICKS" selectedIndex="pdMS_TO_TICKS( 300000 )"/>
@@ -824,17 +824,17 @@
 <gridItem id="mqttconfigTCP_SEND_TIMEOUT_MS" selectedIndex="20"/>
 <gridItem id="mqttconfigRX_BUFFER_SIZE" selectedIndex="1024"/>
 <gridItem id="mqttconfigMQTT_TASK_MAX_BLOCK_TICKS" selectedIndex="100"/>
-<gridItem id="mqttconfigENABLE_SUBSCRIPTION_MANAGEMENT" selectedIndex="1"/>
+<gridItem id="mqttconfigENABLE_SUBSCRIPTION_MANAGEMENT" selectedIndex="0"/>
 <gridItem id="mqttconfigSUBSCRIPTION_MANAGER_MAX_TOPIC_LENGTH" selectedIndex="128"/>
 <gridItem id="mqttconfigSUBSCRIPTION_MANAGER_MAX_SUBSCRIPTIONS" selectedIndex="8"/>
-<gridItem id="mqttconfigENABLE_DEBUG_LOGS" selectedIndex="0"/>
+<gridItem id="mqttconfigENABLE_DEBUG_LOGS" selectedIndex="1"/>
 </component>
 <allocator description="FreeRTOS Amazon mqtt component" display="AWS_mqtt" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.freertos.amazon.mqtt.rx" type="gridConfiguration">
 <context/>
 </allocator>
 <source description="Code generator for Real-time OS" display="RTOS Configurator" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.source"/>
 </configuration>
-<configuration id="7492a8ac-4789-409a-9413-f69af50aea49" inuse="true" name="AWS_secure_socket">
+<configuration id="6cb31b69-f286-4139-a14b-5920bbc5eea3" inuse="true" name="AWS_secure_socket">
 <component description="This component is a part of RTOS Configurator feature that allow user to use the GUI to configure kernel setting of AFR" detailDescription="" display="AWS_secure_socket" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.freertos.amazon.secure_socket" version="1.0.0">
 <gridItem id="socketsconfigBYTE_ORDER" selectedIndex="0"/>
 <gridItem id="socketsconfigDEFAULT_SEND_TIMEOUT" selectedIndex="10000"/>
@@ -845,7 +845,7 @@
 </allocator>
 <source description="Code generator for Real-time OS" display="RTOS Configurator" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.source"/>
 </configuration>
-<configuration id="819d5766-7456-482e-ad38-8b91e26ee8a9" inuse="true" name="AWS_ggd">
+<configuration id="6253f468-c64a-469b-8f8a-30167231bcdc" inuse="true" name="AWS_ggd">
 <component description="This component is a part of RTOS Configurator feature that allow user to use the GUI to configure kernel setting of AFR" detailDescription="" display="AWS_ggd" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.freertos.amazon.ggd" version="1.0.0">
 <gridItem id="ggdconfigCORE_NETWORK_INTERFACE" selectedIndex="0"/>
 <gridItem id="ggdconfigJSON_MAX_TOKENS" selectedIndex="128"/>
