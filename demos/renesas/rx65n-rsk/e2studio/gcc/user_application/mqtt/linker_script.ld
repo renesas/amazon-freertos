@@ -111,6 +111,26 @@ SECTIONS
 	{
 		*(.gcc_exc)
 	} >RAM
+
+	B_ETHERNET_BUFFERS_1  (NOLOAD) :
+{
+	_B_ETHERNET_BUFFERS_1_start = .;
+	*(B_ETHERNET_BUFFERS_1)
+	_B_ETHERNET_BUFFERS_1_end = .;
+	} >RAM2
+	B_RX_DESC_1 (NOLOAD) :
+	{
+	_B_RX_DESC_1_start = .;
+	*(B_RX_DESC_1)
+	_B_RX_DESC_1_end = .;
+	} >RAM2
+	B_TX_DESC_1 (NOLOAD) :
+	{
+	_B_TX_DESC_1_start = .;
+	*(B_TX_DESC_1)
+	_B_TX_DESC_1_end = .;
+	} >RAM2
+
 	.bss :
 	{
 		_bss = .;
@@ -149,27 +169,7 @@ SECTIONS
 	} >DATAFLASH C_PKCS11_STORAGE_MIRROR_1 :
     {
     } >DATAFLASH
-	
-	B_ETHERNET_BUFFERS_1  (NOLOAD) :
-{
-	_B_ETHERNET_BUFFERS_1_start = .;
-	*(B_ETHERNET_BUFFERS_1)
-	_B_ETHERNET_BUFFERS_1_end = .;
-	} >RAM2
-	B_RX_DESC_1 (NOLOAD) :
-	{
-	_B_RX_DESC_1_start = .;
-	*(B_RX_DESC_1)
-	_B_RX_DESC_1_end = .;
-	} >RAM2
-	B_TX_DESC_1 (NOLOAD) :
-	{
-	_B_TX_DESC_1_start = .;
-	*(B_TX_DESC_1)
-	_B_TX_DESC_1_end = .;
-	} >RAM2
-	
-	
+		
 	.ofs1 0xFE7F5D00 : AT(0xFE7F5D00)
 	{
 		KEEP(*(.ofs1))
