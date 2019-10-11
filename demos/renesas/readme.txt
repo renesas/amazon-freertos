@@ -63,6 +63,60 @@ I hope this solution will be helpful for embedded system developer in W/W.
 --------------------------------------------------------------------------
 Change Logs
 --------------------------------------------------------------------------
+v0.1.15
+[UPDATED] Add RX71M-RSK project.
+Fixed some projects build error.
+[TESTED] demos MQTT echo behavior for
+RX65N RSK CC-RX e2 studio with E2 Emulator Lite
+RX65N RSK + Silex SX-ULPGN PMOD CC-RX e2 studio with E2 Emulator Lite
+RX65N RSK + Espressif ESP32 PMOD CC-RX e2 studio with E2 Emulator Lite
+RX65N Target Board + Silex SX-ULPGN PMOD CC-RX e2 studio with E2 Emulator Lite (on board)
+RX65N GR-ROSE CC-RX e2 studio with E2 Emulator Lite
+RX65N Envision Kit CC-RX e2 studio with E2 Emulator Lite (on board)
+RX64M GR-KAEDE CC-RX e2 studio with E2 Emulator Lite
+RX71M RSK CC-RX e2 studio with E2 Emulator Lite
+
+RX65N RSK GCC e2 studio with E2 Emulator Lite
+RX65N RSK + Silex SX-ULPGN PMOD GCC e2 studio with E2 Emulator Lite
+RX65N RSK + Espressif ESP32 PMOD GCC e2 studio with E2 Emulator Lite
+RX65N Target Board + Silex SX-ULPGN PMOD GCC e2 studio with E2 Emulator Lite (on board)
+RX65N GR-ROSE GCC e2 studio with E2 Emulator Lite
+RX65N Envision Kit GCC e2 studio with E2 Emulator Lite (on board)
+RX64M GR-KAEDE GCC e2 studio with E2 Emulator Lite
+RX71M RSK GCC e2 studio with E2 Emulator Lite
+
+[Note]
+Using Smart Configurator for GCC environment.
+Please chack the following note.
+https://github.com/renesas-rx/amazon-freertos/wiki/%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83%E3%82%92%E4%BD%BF%E3%81%86
+
+v0.1.14
+[UPDATED] Add GCC project.
+Fixed some projects build error.
+[TESTED] demos MQTT echo behavior for
+RX65N RSK CC-RX e2 studio with E2 Emulator Lite
+RX65N RSK + Silex SX-ULPGN PMOD CC-RX e2 studio with E2 Emulator Lite
+RX65N RSK + Espressif ESP32 PMOD CC-RX e2 studio with E2 Emulator Lite
+RX65N Target Board + Silex SX-ULPGN PMOD CC-RX e2 studio with E2 Emulator Lite (on board)
+RX65N GR-ROSE CC-RX e2 studio with E2 Emulator Lite
+RX65N GR-ROSE + Espressif ESP8266 CC-RX e2 studio with E2 Emulator Lite
+RX65N Envision Kit CC-RX e2 studio with E2 Emulator Lite (on board)
+RX64M GR-KAEDE CC-RX e2 studio with E2 Emulator Lite
+
+RX65N RSK GCC e2 studio with E2 Emulator Lite
+RX65N RSK + Silex SX-ULPGN PMOD GCC e2 studio with E2 Emulator Lite
+RX65N RSK + Espressif ESP32 PMOD GCC e2 studio with E2 Emulator Lite
+RX65N Target Board + Silex SX-ULPGN PMOD GCC e2 studio with E2 Emulator Lite (on board)
+RX65N GR-ROSE GCC e2 studio with E2 Emulator Lite
+RX65N GR-ROSE + Espressif ESP8266 GCC e2 studio with E2 Emulator Lite
+RX65N Envision Kit GCC e2 studio with E2 Emulator Lite (on board)
+RX64M GR-KAEDE GCC e2 studio with E2 Emulator Lite
+
+[Note]
+Using Smart Configurator for GCC environment.
+Please chack the following note.
+https://github.com/renesas-rx/amazon-freertos/wiki/%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83%E3%82%92%E4%BD%BF%E3%81%86
+
 v0.1.13
 [UPDATED] mcu vendor library rx_driver_package/v120
 [TESTED] demos MQTT echo behavior for
@@ -710,15 +764,17 @@ Development Environment (tested or no matrix)
 --------------------------------------------------------------------------
 
 Borad number:
- (1)rx65n-rsk				: Renesas Starter Kit+ for RX65N-2MB
+ (1)rx65n-rsk					: Renesas Starter Kit+ for RX65N-2MB
  (2)rx65n-rsk-uart-sx-ulpgn		: Renesas Starter Kit+ for RX65N-2MB + Silex SX-ULPGN PMOD
  (3)rx65n-envision-kit			: RX65N Envision Kit
  (4)rx65n-envision-kit-uart-sx-ulpgn	: RX65N Envision Kit + Silex SX-ULPGN PMOD
- (5)rx65n-gr-rose			: RX65N GR-ROSE
- (6)rx65n-gr-rose-uart-esp8266		: RX65N GR-ROSE (WIFI: ESP8266)
+ (5)rx65n-gr-rose				: RX65N GR-ROSE
+ (6)rx65n-gr-rose-uart-esp8266	: RX65N GR-ROSE (WIFI: ESP8266)
  (7)rx65n-cloud-kit-uart-sx-ulpgn	: RX65N Target Board + Silex SX-ULPGN PMOD
- (8)rx64m-gr-kaede			: RX64M GR-KAEDE
- (9)rx63n-gr-sakura2: RX63N GR-SAKURA II -> not available
+ (8)rx64m-gr-kaede				: RX64M GR-KAEDE
+ (9)rx63n-gr-sakura2			: RX63N GR-SAKURA II -> not available
+ (10)rx64m-rsk					: Renesas Starter Kit+ for RX64M -> not available
+ (11)rx71m-rsk					: Renesas Starter Kit+ for RX71M
 
 Connection pattern number:
  (1)pattern1: wifi module has TCP/IP and SSL/TLS, Amazon recommends this pattern as RAM<16KB.
@@ -740,15 +796,17 @@ Compiler number:
 
                  / IDE      (1)         (2)         (3)
 Board Connection / Compiler (1) (2) (3) (1) (2) (3) (1) (2) (3)
-(1)   (2)        /           x   -       -   -   -   -   -     
-(2)   (4)        /           x   -       -   -   -   -   -     
-(3)   (2)        /           x   -       -   -   -   -   -     
-(4)   (4)        /           *   -           -   -   -   -     
-(5)   (2)        /           x   *       -   -   -   -   -     
-(6)   (4)        /           x   -           -   -   -   -     
-(7)   (4)        /           X   -       -   -   -   -   -     
-(8)   (2)        /           x   -       -   -   -   -   -     
+(1)   (2)        /           X   x       -   -   -   -   -     
+(2)   (4)        /           x   x       -   -   -   -   -     
+(3)   (2)        /           x   x       -   -   -   -   -     
+(4)   (4)        /           *   *           -   -   -   -     
+(5)   (2)        /           x   x       -   -   -   -   -     
+(6)   (4)        /           *   *           -   -   -   -     
+(7)   (4)        /           X   x       -   -   -   -   -     
+(8)   (2)        /           x   x       -   -   -   -   -     
 (9)   (2)        /           -   -       -   -   -   -   -     
+(10)  (2)        /           *   *       -   -   -   -   -     
+(11)  (2)        /           x   x       -   -   -   -   -     
 
   X: tested (Amazon FreeRTOS Qualification)
   x: tested (MQTT echo demo)
