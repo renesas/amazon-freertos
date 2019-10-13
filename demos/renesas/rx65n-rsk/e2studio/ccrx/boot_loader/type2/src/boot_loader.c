@@ -12,7 +12,6 @@
 #include "r_smc_entry.h"
 #include "r_flash_rx_if.h"
 #include "r_sci_rx_if.h"
-#include "r_cryptogram.h"
 
 #include "r_sci_rx_pinset.h"
 
@@ -108,6 +107,9 @@
 #define SHA1_HASH_LENGTH_BYTE_SIZE 20
 
 #define FLASH_DF_TOTAL_BLOCK_SIZE (FLASH_DF_BLOCK_INVALID - FLASH_DF_BLOCK_0)
+
+#define INTEGRITY_CHECK_SCHEME_HASH_SHA256_STANDALONE "hash-sha256-standalone"
+#define INTEGRITY_CHECK_SCHEME_SIG_SHA256_ECDSA_STANDALONE "sig-sha256-ecdsa-standalone"
 
 #if !defined(MY_BSP_CFG_SERIAL_TERM_SCI)
 #error "Error! Need to define MY_BSP_CFG_SERIAL_TERM_SCI in r_bsp_config.h"
@@ -348,14 +350,19 @@ static int32_t secure_boot(void)
     	    	printf("bank1(temporary area) on code flash hash check...");
 
 				/* Firmware verification for the signature type. */
-				if (!strcmp((const char *)firmware_update_control_block_bank1->signature_type, "hash-sha1-standalone"))
+				if (!strcmp((const char *)firmware_update_control_block_bank1->signature_type, INTEGRITY_CHECK_SCHEME_HASH_SHA256_STANDALONE))
 				{
 					uint8_t hash_sha1[SHA1_HASH_LENGTH_BYTE_SIZE];
-	    	        R_Sha1((uint8_t*)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
-	    	        		hash_sha1, (FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH);
+				    /* Hash message */
+				    struct tc_sha256_state_struct xCtx;
+				    tc_sha256_init(&xCtx);
+				    tc_sha256_update(&xCtx,
+				    		(uint8_t*)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
+							(FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH);
+				    tc_sha256_final(hash_sha1, &xCtx);
 	    	        verification_result = memcmp(firmware_update_control_block_bank1->signature, hash_sha1, sizeof(hash_sha1));
 	    	    }
-	    	    else if (!strcmp((const char *)firmware_update_control_block_bank1->signature_type, "sig-sha256-ecdsa-standalone"))
+	    	    else if (!strcmp((const char *)firmware_update_control_block_bank1->signature_type, INTEGRITY_CHECK_SCHEME_SIG_SHA256_ECDSA_STANDALONE))
 	    	    {
 					verification_result = firmware_verification_sha256_ecdsa(
 														(const uint8_t *)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
@@ -365,7 +372,6 @@ static int32_t secure_boot(void)
 				}
 				else
 				{
-					printf("This Firmware Verification Type is not implemented yet.\r\n");
 					verification_result = -1;
 				}
 
@@ -695,14 +701,19 @@ static int32_t secure_boot(void)
 								printf("code flash hash check...");
 
 								/* Firmware verification for the signature type. */
-								if (!strcmp((const char *)firmware_update_control_block_bank1->signature_type, "hash-sha1-standalone"))
+								if (!strcmp((const char *)firmware_update_control_block_bank1->signature_type, INTEGRITY_CHECK_SCHEME_HASH_SHA256_STANDALONE))
 								{
 									uint8_t hash_sha1[SHA1_HASH_LENGTH_BYTE_SIZE];
-					    	        R_Sha1((uint8_t*)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
-					    	        		hash_sha1, (FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH);
+								    /* Hash message */
+								    struct tc_sha256_state_struct xCtx;
+								    tc_sha256_init(&xCtx);
+								    tc_sha256_update(&xCtx,
+								    		(uint8_t*)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
+											(FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH);
+								    tc_sha256_final(hash_sha1, &xCtx);
 	    							verification_result = memcmp(firmware_update_control_block_bank1->signature, hash_sha1, sizeof(hash_sha1));
 					    	    }
-					    	    else if (!strcmp((const char *)firmware_update_control_block_bank1->signature_type, "sig-sha256-ecdsa-standalone"))
+					    	    else if (!strcmp((const char *)firmware_update_control_block_bank1->signature_type, INTEGRITY_CHECK_SCHEME_SIG_SHA256_ECDSA_STANDALONE))
 					    	    {
 									verification_result = firmware_verification_sha256_ecdsa(
 																		(const uint8_t *)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
@@ -712,7 +723,6 @@ static int32_t secure_boot(void)
 								}
 								else
 								{
-									printf("This Firmware Verification Type is not implemented yet.\r\n");
 									verification_result = -1;
 								}
 
@@ -810,21 +820,26 @@ static int32_t secure_boot(void)
     	            bank_swap_with_software_reset();
     	            while(1);
     	            break;
+
     	        case LIFECYCLE_STATE_VALID:
 					switch(secure_boot_state)
 					{
 						case BOOT_LOADER_STATE_BANK0_UPDATE_CHECK:
 		    	            printf("bank0(execute area) on code flash hash check...");
-
 							/* Firmware verification for the signature type. */
-							if (!strcmp((const char *)firmware_update_control_block_bank0->signature_type, "hash-sha1-standalone"))
+							if (!strcmp((const char *)firmware_update_control_block_bank0->signature_type, INTEGRITY_CHECK_SCHEME_HASH_SHA256_STANDALONE))
 							{
+							    /* Hash message */
 								uint8_t hash_sha1[SHA1_HASH_LENGTH_BYTE_SIZE];
-				    	        R_Sha1((uint8_t*)BOOT_LOADER_UPDATE_EXECUTE_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
-				    	        		hash_sha1, (FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH);
+							    struct tc_sha256_state_struct xCtx;
+							    tc_sha256_init(&xCtx);
+							    tc_sha256_update(&xCtx,
+							    		(uint8_t*)BOOT_LOADER_UPDATE_EXECUTE_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
+										(FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH);
+							    tc_sha256_final(hash_sha1, &xCtx);
 				    	        verification_result = memcmp(firmware_update_control_block_bank0->signature, hash_sha1, sizeof(hash_sha1));
 				    	    }
-				    	    else if (!strcmp((const char *)firmware_update_control_block_bank0->signature_type, "sig-sha256-ecdsa-standalone"))
+				    	    else if (!strcmp((const char *)firmware_update_control_block_bank0->signature_type, INTEGRITY_CHECK_SCHEME_SIG_SHA256_ECDSA_STANDALONE))
 				    	    {
 								verification_result = firmware_verification_sha256_ecdsa(
 																	(const uint8_t *)BOOT_LOADER_UPDATE_EXECUTE_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
@@ -834,7 +849,6 @@ static int32_t secure_boot(void)
 							}
 							else
 							{
-								printf("This Firmware Verification Type is not implemented yet.\r\n");
 								verification_result = -1;
 							}
 
@@ -903,14 +917,19 @@ static int32_t secure_boot(void)
     	            printf("bank1(temporary area) on code flash hash check...");
 
 					/* Firmware verification for the signature type. */
-					if (!strcmp((const char *)firmware_update_control_block_bank1->signature_type, "hash-sha1-standalone"))
+					if (!strcmp((const char *)firmware_update_control_block_bank1->signature_type, INTEGRITY_CHECK_SCHEME_HASH_SHA256_STANDALONE))
 					{
 						uint8_t hash_sha1[SHA1_HASH_LENGTH_BYTE_SIZE];
-		    	        R_Sha1((uint8_t*)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
-		    	        		hash_sha1, (FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH);
+					    /* Hash message */
+					    struct tc_sha256_state_struct xCtx;
+					    tc_sha256_init(&xCtx);
+					    tc_sha256_update(&xCtx,
+					    		(uint8_t*)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
+								(FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH);
+					    tc_sha256_final(hash_sha1, &xCtx);
 						verification_result = memcmp(firmware_update_control_block_bank1->signature, hash_sha1, sizeof(hash_sha1));
 		    	    }
-		    	    else if (!strcmp((const char *)firmware_update_control_block_bank1->signature_type, "sig-sha256-ecdsa-standalone"))
+		    	    else if (!strcmp((const char *)firmware_update_control_block_bank1->signature_type, INTEGRITY_CHECK_SCHEME_SIG_SHA256_ECDSA_STANDALONE))
 		    	    {
 						verification_result = firmware_verification_sha256_ecdsa(
 															(const uint8_t *)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,

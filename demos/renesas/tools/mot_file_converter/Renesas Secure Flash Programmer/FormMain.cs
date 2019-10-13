@@ -214,12 +214,10 @@ namespace Renesas_Secure_Flash_Programmer
         const string MCUROM_RX72T_1M_SB_64KB = "RX72T(ROM 1MB)/Secure Bootloader=64KB";
         const string MCUROM_RX72T_512K_SB_64KB = "RX72T(ROM 512KB)/Secure Bootloader=64KB";
 
-        const string FIRMWARE_VERIFICATION_TYPE_HASH_SHA1_STANDALONE = "hash-sha1-standalone";
-        const string FIRMWARE_VERIFICATION_TYPE_HASH_SHA256_STANDALONE = "hash-sha256-standalone";
-        const string FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA_WITH_AWS = "sig-sha256-ecdsa-standalone";
+        const string FIRMWARE_VERIFICATION_TYPE_HASH_SHA256 = "hash-sha256";
+        const string FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA = "sig-sha256-ecdsa";
         const string FIRMWARE_VERIFICATION_TYPE_MAC_AES128_CMAC_WITH_TSIP = "mac-aes128-cmac-with-tsip";
         const string FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA_WITH_TSIP = "sig-sha256-ecdsa-with-tsip";
-        const string FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA_WITH_TSIP_AWS = "sig-sha256-ecdsa-with-tsip-aws";
 
         /// <summary>
         /// For Firm Update Tab - MCU name / Memory map
@@ -239,12 +237,10 @@ namespace Renesas_Secure_Flash_Programmer
 
         public static readonly Dictionary<string, uint> FirmVerificationType = new Dictionary<string, uint>()
         {
-            { FIRMWARE_VERIFICATION_TYPE_HASH_SHA1_STANDALONE, 1 },
-            { FIRMWARE_VERIFICATION_TYPE_HASH_SHA256_STANDALONE, 2 },
-            { FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA_WITH_AWS, 3 },
-            { FIRMWARE_VERIFICATION_TYPE_MAC_AES128_CMAC_WITH_TSIP, 4 },
-            { FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA_WITH_TSIP, 5 },
-            { FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA_WITH_TSIP_AWS, 6 },
+            { FIRMWARE_VERIFICATION_TYPE_HASH_SHA256, 1 },
+            { FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA, 2 },
+            { FIRMWARE_VERIFICATION_TYPE_MAC_AES128_CMAC_WITH_TSIP, 3 },
+            { FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA_WITH_TSIP, 4 },
         };
 
         public class rsu_header
@@ -1599,9 +1595,8 @@ namespace Renesas_Secure_Flash_Programmer
 							bw.Write(data);
 						}
 					}
-					else if ((comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_HASH_SHA1_STANDALONE) ||
-						     (comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_HASH_SHA256_STANDALONE) ||
-							 (comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA_WITH_AWS))
+					else if ((comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_HASH_SHA256) ||
+							 (comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA))
 					{
 						string script;
 						byte[] bs;
@@ -1626,10 +1621,10 @@ namespace Renesas_Secure_Flash_Programmer
 						rsu_header_data.hardware_id = McuSpecs[comboBoxMcu_firmupdate.Text].hardwareId;
 
 						// calculate hash
-						if (comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_HASH_SHA1_STANDALONE)
+						if (comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_HASH_SHA256)
 						{
-							System.Security.Cryptography.SHA1CryptoServiceProvider sha_1 =
-							new System.Security.Cryptography.SHA1CryptoServiceProvider();
+							System.Security.Cryptography.SHA256CryptoServiceProvider sha_1 =
+							new System.Security.Cryptography.SHA256CryptoServiceProvider();
 
 							byte[] tmp = new byte[0];
 							tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.sequence_number)).ToArray();
@@ -1651,7 +1646,7 @@ namespace Renesas_Secure_Flash_Programmer
 							rsu_header_data.signature_size = (uint)hash_size;
 							Array.Copy(bs, rsu_header_data.signature, hash_size);
 						}
-						else if (comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_HASH_SHA256_STANDALONE)
+						else if (comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_HASH_SHA256)
 						{
 							System.Security.Cryptography.SHA256CryptoServiceProvider sha_256 =
 							new System.Security.Cryptography.SHA256CryptoServiceProvider();
@@ -1676,7 +1671,7 @@ namespace Renesas_Secure_Flash_Programmer
 							rsu_header_data.signature_size = (uint)hash_size;
 							Array.Copy(bs, rsu_header_data.signature, hash_size);
 						}
-						else if (comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA_WITH_AWS)
+						else if (comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA)
 						{
 							hash_value = "dummy"; // FIX ME. Necessary when entering a value in hash_string later. But unnecessary data for ECDSA signature.
 
@@ -1729,7 +1724,7 @@ namespace Renesas_Secure_Flash_Programmer
 						}
 						else
 						{
-							hash_string = "sha1 ";
+							hash_string = "sha256 ";
 							hash_string += hash_value;
 							hash_string += "\r\n";
 							data = System.Text.Encoding.ASCII.GetBytes(hash_string);
@@ -1845,7 +1840,7 @@ namespace Renesas_Secure_Flash_Programmer
 
 		private void comboBoxFirmwareVerificationType_SelectedIndexChanged_1(object sender, EventArgs e)
 		{
-			if (comboBoxFirmwareVerificationType.Text == "mac-aes128-cmac-with-tsip")
+			if (comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_MAC_AES128_CMAC_WITH_TSIP)
 			{
 				textBoxUserProgramKey_Aes128.Enabled = true;
 			}
@@ -1854,8 +1849,10 @@ namespace Renesas_Secure_Flash_Programmer
 				textBoxUserProgramKey_Aes128.Enabled = false;
 			}
 
-			if (comboBoxFirmwareVerificationType.Text == "sig-sha256-ecdsa-standalone")
-			{
+			if ((comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA) ||
+                (comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA_WITH_TSIP))
+
+            {
 				textBoxUserPrivateKeyPath.Enabled = true;
 			}
 			else
