@@ -956,6 +956,280 @@ RX65N Envision Kit、RX65N RSK(2MB版/暗号器あり品)をターゲットに�
 --------------------------------------------------------------------------
 ■ポーティング記録	★印が解決すべき課題
 --------------------------------------------------------------------------
+2019/10/13
+　ブートローダの整理が完了した。UART経由でイニシャルファームウェアのロードができるようになった。
+　デフォルトは115200bpsだが、912600bpsまで上げても大丈夫になった。
+　ただしRX65N RSKに搭載されているUSB/シリアル変換チップのRL78/G1Cの現状仕様だとNG。115200bpsが限界。
+　
+　予定通りAmazon推奨方式である楕円曲線暗号でのファームウェア正当性検証を実装してみることにする。
+　具体的には、ECDSA+SHA256の組み合わせである。この処理を実装しなければならない部分を洗い出す。
+　
+　2019/09/07のメモを見直す。データフローは以下のようになっている。
+　
+　　ソースコード
+　　　↓(*.c file) = Application Source Code
+　　コンパイラ
+　　　↓(*.mot file) = Application Binary
+　　Renesas Secure Flash Programmer
+　　　↓(*.rsu file) = Descriptor + Application Binary
+　　Code signing for AWS IoT
+　　　↓(*.rsu file)  ↓
+　　AWS IoT(OTA Job)  ↓
+　　　↓(*.rsu file)  ↓(Trailer)
+　　RX65N(Amazon FreeRTOS)
+　
+　色々調べた結果を反映させると以下のようになる。
+　整理した結果大きく変わったのは、MOTファイル変換ツール経由で以下3パタンのデータを生成するようになったことか。
+　　パタン①：イニシャルファーム生成するパス(MOTファイル変換ツールで署名生成/データフラッシュデータ込み)
+　　パタン②：OTA用ファーム生成するパス(MOTファイル変換ツールで署名生成)
+　　パタン③：OTA用ファーム生成するパス(Code signing for AWS IoTで署名生成)
+　
+　<パタン①：イニシャルファーム生成するパス(MOTファイル変換ツールで署名生成/データフラッシュデータ込み)>
+　　ソースコード
+　　　↓(*.c file) = Application Source Code
+　　コンパイラ
+　　　↓(*.mot file) = Application Binary + Dataflash Binary
+　　Renesas Secure Flash Programmer
+　　　↓(*.rsu file) = Header + Signature + Option + Descriptor + Application Binary + Dataflash Binary
+　　Boot Loader
+
+　<パタン②：OTA用ファーム生成するパス(MOTファイル変換ツールで署名生成)>
+　　ソースコード
+　　　↓(*.c file) = Application Source Code
+　　コンパイラ
+　　　↓(*.mot file) = Application Binary + Dataflash Binary
+　　Renesas Secure Flash Programmer
+　　　↓(*.rsu file) = Header + Signature + Option + Descriptor + Application Binary
+　　Amazon Web Services: S3
+　　　↓
+　　Amazon Web Services: IoT Core/OTA Job
+　　　↓
+　　Amazon FreeRTOS OTA Library
+　　
+　<パタン③：OTA用ファーム生成するパス(Code signing for AWS IoTで署名生成)>
+　　ソースコード
+　　　↓(*.c file) = Application Source Code
+　　コンパイラ
+　　　↓(*.mot file) = Application Binary + Dataflash Binary
+　　Renesas Secure Flash Programmer
+　　　↓(*.rsu file) = Descriptor + Application Binary
+　　Amazon Web Services: S3
+　　　↓
+　　Amazon Web Services: IoT Core/OTA Job with Code signing for AWS IoT
+　　　↓
+　　Amazon FreeRTOS OTA Library
+　
+　パタン③に対してのステップとするため、まずパタン②まで実装を試みる。
+　そうすると、以下2点に対してECDSA+SHA256の署名生成/検証を実装してやる必要がある。
+　
+　(1)Boot LoaderにおけるECDSA+SHA256の署名検証
+　(2)MOTファイル変換ツールにおけるECDSA+SHA256の署名生成
+　
+　(1)はRX65Nマイコンで動作するものでなければならない。
+　先に調査した通り、tinycryptoを使えば良いだろう。
+　https://github.com/aws/amazon-freertos/tree/master/libraries/3rdparty/tinycrypt
+　
+　(2)はWindowsアプリにECDSA+SHA256の機能を追加する必要がある。
+　これはどのソフトを使えばよいか調査するところからだ。グーグル先生お願いします！
+　
+　グーグル先生に色々教えてもらいながら、Qiitaなどを色々物色していると
+　MIT LicenseのBouncyCastleがよさそうな感じ。
+　https://www.nuget.org/packages/BouncyCastle/
+　
+　MOTファイル変換ツールの開発にはVisual Studio 2015を使っている。
+　NuGetを使ってBouncyCastleをVisual Studioにインストール。
+　GitHubにはBouncyCastleのライブラリ込みで登録してあるので、使用者は特に意識することなくビルドできるはず。
+　
+　次にOpenSSLを使って楕円曲線暗号の鍵ペアを生成する。
+　tinycryptoでサポートしている鍵ペアはsecp256r1 である。
+　以下コマンドで、鍵を作る。Cygwin等OpenSSLコマンドが使える環境を用意してコマンドを打っていけばOK。
+
+　<楕円曲線暗号(パラメータはsecp256r1)の鍵ペアを生成>
+　$ openssl ecparam -genkey -name secp256r1 -out secp256r1.keypair
+　using curve name prime256v1 instead of secp256r1
+　
+　<楕円曲線暗号(パラメータはsecp256r1)の秘密鍵を抽出>
+　$ openssl ec -in secp256r1.keypair -outform PEM -out secp256r1.privatekey
+　read EC key
+　writing EC key
+　
+　<楕円曲線暗号(パラメータはsecp256r1)の公開鍵を抽出>
+　$ openssl ec -in secp256r1.keypair -outform PEM -pubout -out secp256r1.publickey
+　read EC key
+　writing EC key
+　
+　MOTファイル変換ツールには、上記コマンドで抽出した秘密鍵「secp256r1.privatekey」を
+　指定するようにする。
+　
+　さて、BouncyCastleを使ったC#によるECDSA+SHA256の実装は以下が参考になる。
+　https://qiita.com/rawr/items/1a11edf694f550596879#%E7%BD%B2%E5%90%8D%E3%81%99%E3%82%8B
+　
+　コードはほぼそのまま使わせていただいた。エンディアン変換のくだりは、こちらの環境では不要なのでコードを変更した。
+　以下のようにReverse()でひっくり返しているところをひっくり返さないようにした。
+　
+　var sign1 = signature.Take(32).Reverse().ToArray();
+　　↓
+　var sign1 = signature.Take(32).ToArray();
+　
+　また、BouncyCastleは署名生成(GenerateSignature)関数で、
+　デフォルトではプレインメッセージを受け取って中でSHA1でハッシュ値を
+　演算しているようだ。
+　ECDSASigner signer = new ECDSASigner();
+　var sign = signer.GenerateSignature(plain);
+　
+　だが、今回使いたいのはSHA256を使ったECDSA署名生成/検証である。このGenerateSignatureはオーバーライドで
+　ハッシュ値を入力できるようになっているのでは、と思ったがそうでもない。SHA256使えないのか？と思ったけど、
+　色々グーグル先生に聞いたら、以下サンプルコードを賜った。
+　https://www.programcreek.com/java-api-examples/?api=org.bouncycastle.crypto.signers.ECDSASigner
+　
+　なんだ。あるじゃない。
+　
+　ECDSASigner signer = new ECDsaSigner();
+　var sign = signer.GenerateSignature(plain);
+　　↓
+　ECDsaSigner signer = new ECDsaSigner(new HMacDsaKCalculator(new Sha256Digest()));
+　signer.Init(true, pair.Private);
+　SHA256 sha256 = new SHA256CryptoServiceProvider();
+　var hash = sha256.ComputeHash(plain);
+　var sign = signer.GenerateSignature(hash);
+　
+　以上の変更を加えることで、ECDSA+SHA256の署名生成・署名検証がC#でできるようになった。
+　BouncyCastleで作った署名が正しいのかどうか、OpenSSLで検証してみる。
+　
+　検証対象となるバイナリを作る。MOTファイル変換ツールでできた、*.rsuファイルを
+　バイナリエディタで編集して、署名対象である「Descriptor + Application Binary」のみに削り取り
+　test.rsuとする。
+　
+　　<パタン②：OTA用ファーム生成するパス(MOTファイル変換ツールで署名生成)>
+　　ソースコード
+　　　↓(*.c file) = Application Source Code
+　　コンパイラ
+　　　↓(*.mot file) = Application Binary + Dataflash Binary
+　　Renesas Secure Flash Programmer
+　　　↓(*.rsu file) = Header + Signature + Option + Descriptor + Application Binary
+　　Amazon Web Services: S3
+　　　↓
+　　Amazon Web Services: IoT Core/OTA Job
+　　　↓
+　　Amazon FreeRTOS OTA Library
+　　
+　test.rsuに先にOpenSSLで作った秘密鍵で署名を付ける。
+　$ openssl dgst -sha256 -sign secp256r1.privatekey test.rsu > signature.dat
+
+　次にOpenSSL作った公開鍵で検証してみる。当然成功する。
+　$ openssl dgst -sha256 -verify secp256r1.publickey -signature signature.dat test.rsu
+　Verified OK
+
+　まずECDSA+SHA256の署名データであるが、rとsの32バイトずつの塊、計64バイトとなっている。
+　このデータの塊の中身を見てみよう。asn1エンコードされており、このデータ列から
+　rとsがどこにあるかを割り出すことをすると理解が深まる。
+　
+　30 45 02 21 00 DF 95 8D E9 13 9B 8A D1 C9 33 8C
+　AA A8 44 F4 51 57 22 B4 96 4B F3 2F 3F B9 6C 2D
+　3E 1F A0 29 02 02 20 09 6B 27 E1 18 0E C9 63 13
+　0C 2F E4 6E 7B 5D A1 92 1E FA 68 7C AD 9B 85 70
+　31 3D 40 76 E6 B5 09
+　
+　1バイト目       ：30 ... SEQUENCEが続くことを意味する
+　2バイト目       ：45 ... SEQUENCEの全長バイト数を意味する。45は16進数なので、69バイト後ろにあることを意味する。
+　3バイト目       ：02 ... 続くデータがINTEGERであることを意味する。
+　4バイト目       ：21 ... 続くデータの全長バイト数を意味する。21は16進数なので、33バイト後ろにあることを意味する。
+　5-5+33バイト目  ：   ... 00 - 02 までのデータ。このデータは楕円曲線暗号の署名データであり、この部分が"r"である。
+　                         ★重要★ 先頭ビットが"1"だと負数を表すことになるのでこの場合、00が先頭に付加される
+　34バイト目      ：02 ... 続くデータがINTEGERであることを意味する。
+　35バイト目      ：20 ... くデータの全長バイト数を意味する。20は16進数なので、32バイト後ろにあることを意味する。
+　36-36+33バイト目：   ... 09 - 09 までのデータ。このデータは楕円曲線暗号の署名データであり、この部分が"s"である。
+　
+　この "r" と "s" の部分にBouncyCastleから出てきたsign1とsign2を当てはめてみる。
+　sign1とsign2の先頭ビットがONのときは、その前に00を挿入して全長バイト数を意味するフィールドも更新する。
+　sign1とsign2の先頭ビットがOFFのときは、その前に00を挿入せず全長バイト数を意味するフィールドも更新する。
+　
+　var sign = signer.GenerateSignature(plain);
+　// Convert signature value to byte [].
+　var sign1 = sign[0].ToByteArray().SkipWhile(b => b == 0x00);
+　var sign2 = sign[1].ToByteArray().SkipWhile(b => b == 0x00);
+　
+　このsign1とsign2は「Header + Signature + Option + Descriptor + Application Binary」の形式で
+　MOTファイル変換ツールからuserprog.rsuとして出力される。
+　
+　Signature(component)の中にSignature(contents name)がありそのオフセットは0x2cである。
+　ここから64バイト分が署名データ(先頭32バイトが"r"、後半32バイトが"s")である。
+　
+　この部分をuserprog.rsuからバイナリエディタで取り出し、test.rsuに移植する。
+　そののち、OpenSSL作った公開鍵で検証してみる。成功する。つまり、OpenSSLとBouncyCastleのECDSA+SHA256の互換性は
+　確認された。
+　$ openssl dgst -sha256 -verify secp256r1.publickey -signature signature.dat test.rsu
+　Verified OK
+　
+　------
+　
+　これで残るはRX65N側のECDSA+SHA256実装である。tinycryptoを使うのだが、この署名検証のAPIを分解してみる。
+　lReturn = uECC_verify( public_key, pucHash, TC_SHA256_DIGEST_SIZE, pucSignature, uECC_secp256r1() );
+　
+　戻り値は1が成功、それ以外が失敗である。
+　第1引数 = 公開鍵
+　第2引数 = メッセージハッシュ値
+　第3引数 = ハッシュサイズ
+　第4引数 = 署名値(64バイト分、"r", "s"の並び
+　第5引数 = 楕円パラメータ。tinycryptoでは secp256r1 のみの様子。
+　
+　第2-5引数までは簡単だ。ビッグエンディアンのバイト列を渡せ、とヘッダファイルに書いてある。
+　tinycryptoの中ではエンディアン変換を必要に応じて行い、計算しやすいようにデータの並び替えを行っているが
+　APIからはとにかくビッグエンディアンのバイト列を渡せばよい。
+　第1引数は何を渡すべきか。公開鍵はOpenSSLで作ってあるsecp256r1.publickeyであるが、
+　これはasn1方式をbase64エンコードされたPEM方式である。
+　asn1を解析してくれる、GUIdumpASNツールというのを使ってsecp256r1.publickeyの中身を見てみる。
+　以下ページで紹介されている。
+　http://blog.livedoor.jp/k_urushima/archives/834772.html
+　
+　そうすると以下のように見える。
+    <30 59>
+  0  89: SEQUENCE {
+    <30 13>
+  2  19:   SEQUENCE {
+    <06 07>
+  4   7:     OBJECT IDENTIFIER ecPublicKey (1 2 840 10045 2 1)
+    <06 08>
+ 13   8:     OBJECT IDENTIFIER prime256v1 (1 2 840 10045 3 1 7)
+       :     }
+    <03 42>
+ 23  66:   BIT STRING
+       :     04 F2 53 A8 DF B3 2E 93 42 A9 49 ED 7E 07 C6 F6
+       :     B1 66 32 AD 96 BB 9F 18 A7 D6 86 48 DE F9 27 1B
+       :     92 C0 79 A4 F4 5C 64 27 E0 A1 00 B5 79 59 7E 4E
+       :     73 94 BD 5B 67 8B 8F EE 7B B2 3B 11 28 6C B4 6C
+       :     81
+       :   }
+　
+　途中にあるBIT_STRINGの「04f253a8dfb32e9342a949ed7e07c6f6b16632ad96bb9f18a7d68648def9271b92c079a4f45c6427e0a100b579597e4e7394bd5b678b8fee7bb23b11286cb46c81」が公開鍵の生データであろう。
+　
+　全長130バイトあるが、バイナリ長としてはその半分の65バイト分となる。
+　先頭のバイナリ1バイト分にあたる、04を除いたデータをtinycryptoのuECC_verify()の
+　第1引数のpublic_keyとしたところ署名検証OKとなった。これで、OpenSSL、BouncyCastle、tinycryptoのECDSA+SHA256の実装が
+　それぞれ互換性があることが確認できた。
+　
+　https://tools.ietf.org/html/rfc5480#page-10
+　上記で取り除いた04であるが、先頭04は未圧縮であることを表すようだ。上記RFCに以下のように書いてある。
+　      o The first octet of the OCTET STRING indicates whether the key is
+        compressed or uncompressed.  The uncompressed form is indicated
+        by 0x04 and the compressed form is indicated by either 0x02 or
+        0x03 (see 2.3.3 in [SEC1]).  The public key MUST be rejected if
+        any other value is included in the first octet.
+        
+　ということで、PEM形式の楕円曲線暗号の公開鍵データ(secp256r1.publickey)から、
+　公開鍵のバイナリを抽出するためのパーサをこしらえる必要がある。
+　公開鍵データ(secp256r1.publickey)自体はPEM形式のバイト列を定義しそこからプログラムで
+　公開鍵のバイナリを抽出する。上記データ解析ツールで表示させたところ、<30 59>で全体長が59と分かるので
+　まずこれを記憶、配列上でポインタを進めていき、<30 13>から次の30を発見。
+　2個目のSEQUENCEの長さが0x13と分かるのでこれを配列上やはり読み飛ばして、次のタグが0x03=BIT_STRINGであることを確認し、
+　先頭が0x04であることを確認した後、次のデータのポインタから、データ長0x40分を指定配列にコピーして返す関数を
+　作ればよさそう。
+　
+　一通り作ってみて、ブートローダ書き込み→初期ファームインストール→ユーザプログラム起動→OTAでユーザプログラム更新の
+　一連の流れがECDSA+SHA256実装で動作することを確認。
+　
+　少しコードが汚いがここでいったんコミット。
+
 2019/09/17
 　OTA type4が一通り動いた。type3は不要になったかな。まだAWS標準のECDSA+SHA256では
 　署名検証できていない。現状SHA1でのハッシュチェックのみ。今後対応を追加していくつもり。

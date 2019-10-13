@@ -16,6 +16,15 @@
 
 #include "r_sci_rx_pinset.h"
 
+#include "base64_decode.h"
+#include "code_signer_public_key.h"
+
+/* tinycrypto */
+#include "tinycrypt/sha256.h"
+#include "tinycrypt/ecc.h"
+#include "tinycrypt/ecc_dsa.h"
+#include "tinycrypt/constants.h"
+
 /*------------------------------------------ firmware update configuration (start) --------------------------------------------*/
 /* R_FLASH_Write() arguments: specify "low address" and process to "high address" */
 #define BOOT_LOADER_LOW_ADDRESS FLASH_CF_BLOCK_13
@@ -105,55 +114,42 @@
 #elif MY_BSP_CFG_SERIAL_TERM_SCI == (0)
 #define R_SCI_PinSet_serial_term()  R_SCI_PinSet_SCI0()
 #define SCI_CH_serial_term          SCI_CH0
-#define SCI_BAUD_RATE               115200
 #elif MY_BSP_CFG_SERIAL_TERM_SCI == (1)
 #define R_SCI_PinSet_serial_term()  R_SCI_PinSet_SCI1()
 #define SCI_CH_serial_term          SCI_CH1
-#define SCI_BAUD_RATE               115200
 #elif MY_BSP_CFG_SERIAL_TERM_SCI == (2)
 #define R_SCI_PinSet_serial_term()  R_SCI_PinSet_SCI2()
 #define SCI_CH_serial_term          SCI_CH2
-#define SCI_BAUD_RATE               115200
 #elif MY_BSP_CFG_SERIAL_TERM_SCI == (3)
 #define R_SCI_PinSet_serial_term()  R_SCI_PinSet_SCI3()
 #define SCI_CH_serial_term          SCI_CH3
-#define SCI_BAUD_RATE               115200
 #elif MY_BSP_CFG_SERIAL_TERM_SCI == (4)
 #define R_SCI_PinSet_serial_term()  R_SCI_PinSet_SCI4()
 #define SCI_CH_serial_term          SCI_CH4
-#define SCI_BAUD_RATE               115200
 #elif MY_BSP_CFG_SERIAL_TERM_SCI == (5)
 #define R_SCI_PinSet_serial_term()  R_SCI_PinSet_SCI5()
 #define SCI_CH_serial_term          SCI_CH5
-#define SCI_BAUD_RATE               115200
 #elif MY_BSP_CFG_SERIAL_TERM_SCI == (6)
 #define R_SCI_PinSet_serial_term()  R_SCI_PinSet_SCI6()
 #define SCI_CH_serial_term          SCI_CH6
-#define SCI_BAUD_RATE               921600; // option : rx65n-rsk PMOD1(FTDI)
 #elif MY_BSP_CFG_SERIAL_TERM_SCI == (7)
 #define R_SCI_PinSet_serial_term()  R_SCI_PinSet_SCI7()
 #define SCI_CH_serial_term          SCI_CH7
-#define SCI_BAUD_RATE               115200
 #elif MY_BSP_CFG_SERIAL_TERM_SCI == (8)
 #define R_SCI_PinSet_serial_term()  R_SCI_PinSet_SCI8()
 #define SCI_CH_serial_term          SCI_CH8
-#define SCI_BAUD_RATE               115200
 #elif MY_BSP_CFG_SERIAL_TERM_SCI == (9)
 #define R_SCI_PinSet_serial_term()  R_SCI_PinSet_SCI9()
 #define SCI_CH_serial_term          SCI_CH9
-#define SCI_BAUD_RATE               115200
 #elif MY_BSP_CFG_SERIAL_TERM_SCI == (10)
 #define R_SCI_PinSet_serial_term()  R_SCI_PinSet_SCI10()
 #define SCI_CH_serial_term          SCI_CH10
-#define SCI_BAUD_RATE               115200
 #elif MY_BSP_CFG_SERIAL_TERM_SCI == (11)
 #define R_SCI_PinSet_serial_term()  R_SCI_PinSet_SCI11()
 #define SCI_CH_serial_term          SCI_CH11
-#define SCI_BAUD_RATE               115200
 #elif MY_BSP_CFG_SERIAL_TERM_SCI == (12)
 #define R_SCI_PinSet_serial_term()  R_SCI_PinSet_SCI12()
 #define SCI_CH_serial_term          SCI_CH12
-#define SCI_BAUD_RATE               115200
 #else
 #error "Error! Invalid setting for MY_BSP_CFG_SERIAL_TERM_SCI in r_bsp_config.h"
 #endif
@@ -226,10 +222,15 @@ sci_hdl_t     my_sci_handle;
 SCI_RECEIVE_CONTROL_BLOCK sci_receive_control_block;
 SCI_BUFFER_CONTROL sci_buffer_control[BOOT_LOADER_SCI_CONTROL_BLOCK_TOTAL_NUM];
 
+static int32_t firmware_verification_sha256_ecdsa(const uint8_t * pucData, uint32_t ulSize, const uint8_t * pucSignature, uint32_t ulSignatureSize);
+const uint8_t code_signer_public_key[] = CODE_SIGNENR_PUBLIC_KEY_PEM;
+const uint32_t code_signer_public_key_length = sizeof(code_signer_public_key);
+
 void main(void)
 {
     int32_t result_secure_boot;
     nop();
+
     while(1)
     {
 		result_secure_boot = secure_boot();
@@ -267,10 +268,10 @@ static int32_t secure_boot(void)
 {
     flash_err_t flash_api_error_code = FLASH_SUCCESS;
     int32_t secure_boot_error_code = BOOT_LOADER_IN_PROGRESS;
-    uint8_t hash_sha1[SHA1_HASH_LENGTH_BYTE_SIZE];
     uint32_t bank_info = 255;
     flash_interrupt_config_t cb_func_info;
 	FIRMWARE_UPDATE_CONTROL_BLOCK *firmware_update_control_block_tmp = (FIRMWARE_UPDATE_CONTROL_BLOCK*)load_firmware_control_block.flash_buffer;
+	int32_t verification_result = -1;
 
     switch(secure_boot_state)
     {
@@ -281,13 +282,13 @@ static int32_t secure_boot(void)
     	    sci_err_t   my_sci_err;
 
     	    /* Set up the configuration data structure for asynchronous (UART) operation. */
-    	    my_sci_config.async.baud_rate    = SCI_BAUD_RATE;
+    	    my_sci_config.async.baud_rate    = MY_BSP_CFG_SERIAL_TERM_SCI_BITRATE;
     	    my_sci_config.async.clk_src      = SCI_CLK_INT;
     	    my_sci_config.async.data_size    = SCI_DATA_8BIT;
     	    my_sci_config.async.parity_en    = SCI_PARITY_OFF;
     	    my_sci_config.async.parity_type  = SCI_EVEN_PARITY;
     	    my_sci_config.async.stop_bits    = SCI_STOPBITS_1;
-    	    my_sci_config.async.int_priority = SCI_INTERRUPT_PRIORITY;
+    	    my_sci_config.async.int_priority = MY_BSP_CFG_SERIAL_TERM_SCI_INTERRUPT_PRIORITY;
 
     	    /* OPEN ASYNC CHANNEL
     	    *  Provide address of the configure structure,
@@ -345,9 +346,30 @@ static int32_t secure_boot(void)
     	    	memcpy(load_firmware_control_block.flash_buffer, (void*)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS, FLASH_CF_MEDIUM_BLOCK_SIZE);
 
     	    	printf("bank1(temporary area) on code flash hash check...");
-    	        R_Sha1((uint8_t*)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
-    	        		hash_sha1, (FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH);
-    	        if(0 == memcmp(hash_sha1, firmware_update_control_block_bank1->signature, SHA1_HASH_LENGTH_BYTE_SIZE))
+
+				/* Firmware verification for the signature type. */
+				if (!strcmp((const char *)firmware_update_control_block_bank1->signature_type, "hash-sha1-standalone"))
+				{
+					uint8_t hash_sha1[SHA1_HASH_LENGTH_BYTE_SIZE];
+	    	        R_Sha1((uint8_t*)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
+	    	        		hash_sha1, (FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH);
+	    	        verification_result = memcmp(firmware_update_control_block_bank1->signature, hash_sha1, sizeof(hash_sha1));
+	    	    }
+	    	    else if (!strcmp((const char *)firmware_update_control_block_bank1->signature_type, "sig-sha256-ecdsa-standalone"))
+	    	    {
+					verification_result = firmware_verification_sha256_ecdsa(
+														(const uint8_t *)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
+														(FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
+														firmware_update_control_block_bank1->signature,
+														firmware_update_control_block_bank1->signature_size);
+				}
+				else
+				{
+					printf("This Firmware Verification Type is not implemented yet.\r\n");
+					verification_result = -1;
+				}
+
+    	        if(0 == verification_result)
     	        {
     	            printf("OK\r\n");
     	        	firmware_update_control_block_tmp->image_flag = LIFECYCLE_STATE_VALID;
@@ -671,9 +693,30 @@ static int32_t secure_boot(void)
 								printf("\n");
 								printf("completed installing firmware.\r\n");
 								printf("code flash hash check...");
-								R_Sha1((uint8_t*)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
-										hash_sha1, (FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH);
-								if(0 == memcmp(hash_sha1, firmware_update_control_block_bank1->signature, SHA1_HASH_LENGTH_BYTE_SIZE))
+
+								/* Firmware verification for the signature type. */
+								if (!strcmp((const char *)firmware_update_control_block_bank1->signature_type, "hash-sha1-standalone"))
+								{
+									uint8_t hash_sha1[SHA1_HASH_LENGTH_BYTE_SIZE];
+					    	        R_Sha1((uint8_t*)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
+					    	        		hash_sha1, (FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH);
+	    							verification_result = memcmp(firmware_update_control_block_bank1->signature, hash_sha1, sizeof(hash_sha1));
+					    	    }
+					    	    else if (!strcmp((const char *)firmware_update_control_block_bank1->signature_type, "sig-sha256-ecdsa-standalone"))
+					    	    {
+									verification_result = firmware_verification_sha256_ecdsa(
+																		(const uint8_t *)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
+																		(FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
+																		firmware_update_control_block_bank1->signature,
+																		firmware_update_control_block_bank1->signature_size);
+								}
+								else
+								{
+									printf("This Firmware Verification Type is not implemented yet.\r\n");
+									verification_result = -1;
+								}
+
+								if(0 == verification_result)
 								{
 									printf("OK\r\n");
 									load_const_data_control_block.offset = 0;
@@ -772,9 +815,30 @@ static int32_t secure_boot(void)
 					{
 						case BOOT_LOADER_STATE_BANK0_UPDATE_CHECK:
 		    	            printf("bank0(execute area) on code flash hash check...");
-		    	            R_Sha1((uint8_t*)BOOT_LOADER_UPDATE_EXECUTE_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
-		    	            		hash_sha1, (FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH);
-		    	            if(!memcmp(firmware_update_control_block_bank0->signature, hash_sha1, sizeof(hash_sha1)))
+
+							/* Firmware verification for the signature type. */
+							if (!strcmp((const char *)firmware_update_control_block_bank0->signature_type, "hash-sha1-standalone"))
+							{
+								uint8_t hash_sha1[SHA1_HASH_LENGTH_BYTE_SIZE];
+				    	        R_Sha1((uint8_t*)BOOT_LOADER_UPDATE_EXECUTE_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
+				    	        		hash_sha1, (FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH);
+				    	        verification_result = memcmp(firmware_update_control_block_bank0->signature, hash_sha1, sizeof(hash_sha1));
+				    	    }
+				    	    else if (!strcmp((const char *)firmware_update_control_block_bank0->signature_type, "sig-sha256-ecdsa-standalone"))
+				    	    {
+								verification_result = firmware_verification_sha256_ecdsa(
+																	(const uint8_t *)BOOT_LOADER_UPDATE_EXECUTE_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
+																	(FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
+																	firmware_update_control_block_bank0->signature,
+																	firmware_update_control_block_bank0->signature_size);
+							}
+							else
+							{
+								printf("This Firmware Verification Type is not implemented yet.\r\n");
+								verification_result = -1;
+							}
+
+							if(0 == verification_result)
 		    	            {
 		    	                printf("OK\r\n");
 		    	            	if(firmware_update_control_block_bank1->image_flag != LIFECYCLE_STATE_BLANK)
@@ -837,9 +901,30 @@ static int32_t secure_boot(void)
     	        default:
     	            printf("illegal flash rom status code 0x%x.\r\n", firmware_update_control_block_bank0->image_flag);
     	            printf("bank1(temporary area) on code flash hash check...");
-    	            R_Sha1((uint8_t*)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
-    	            		hash_sha1, (FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH);
-    	            if(!memcmp(firmware_update_control_block_bank1->signature, hash_sha1, sizeof(hash_sha1)))
+
+					/* Firmware verification for the signature type. */
+					if (!strcmp((const char *)firmware_update_control_block_bank1->signature_type, "hash-sha1-standalone"))
+					{
+						uint8_t hash_sha1[SHA1_HASH_LENGTH_BYTE_SIZE];
+		    	        R_Sha1((uint8_t*)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
+		    	        		hash_sha1, (FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH);
+						verification_result = memcmp(firmware_update_control_block_bank1->signature, hash_sha1, sizeof(hash_sha1));
+		    	    }
+		    	    else if (!strcmp((const char *)firmware_update_control_block_bank1->signature_type, "sig-sha256-ecdsa-standalone"))
+		    	    {
+						verification_result = firmware_verification_sha256_ecdsa(
+															(const uint8_t *)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
+															(FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
+															firmware_update_control_block_bank1->signature,
+															firmware_update_control_block_bank1->signature_size);
+					}
+					else
+					{
+						printf("This Firmware Verification Type is not implemented yet.\r\n");
+						verification_result = -1;
+					}
+
+					if(0 == verification_result)
     	            {
     	                printf("OK\r\n");
     	                R_BSP_SoftwareDelay(1000, BSP_DELAY_MILLISECS);
@@ -1124,3 +1209,61 @@ static const uint8_t *get_status_string(uint8_t status)
 	}
 	return tmp;
 }
+
+static int32_t firmware_verification_sha256_ecdsa(const uint8_t * pucData, uint32_t ulSize, const uint8_t * pucSignature, uint32_t ulSignatureSize)
+{
+    int32_t xResult = -1;
+    uint8_t pucHash[TC_SHA256_DIGEST_SIZE];
+    uint8_t data_length;
+    uint8_t public_key[64];
+    uint8_t binary[256];
+    uint8_t *head_pointer, *current_pointer, *tail_pointer;;
+
+    /* Hash message */
+    struct tc_sha256_state_struct xCtx;
+    tc_sha256_init(&xCtx);
+    tc_sha256_update(&xCtx, pucData, ulSize);
+    tc_sha256_final(pucHash, &xCtx);
+
+    /* extract public key from code_signer_public_key (pem format) */
+    head_pointer = (uint8_t*)strstr((char *)code_signer_public_key, "-----BEGIN PUBLIC KEY-----");
+    if(head_pointer)
+    {
+    	head_pointer += strlen("-----BEGIN PUBLIC KEY-----");
+        tail_pointer = (uint8_t*)strstr((char *)code_signer_public_key, "-----END PUBLIC KEY-----");
+    	base64_decode(head_pointer, binary, tail_pointer - head_pointer);
+    	current_pointer = binary;
+		data_length = *(current_pointer + 1);
+    	while(1)
+    	{
+    		switch(*current_pointer)
+    		{
+    			case 0x30: /* found "SEQUENCE" */
+    				current_pointer += 2;
+    				break;
+    			case 0x03: /* found BIT STRING (maybe public key) */
+        			if(*(current_pointer + 1) == 0x42)
+        			{
+        				memcpy(public_key, current_pointer + 4, 64);
+						/* Verify signature */
+						if(uECC_verify(public_key, pucHash, TC_SHA256_DIGEST_SIZE, pucSignature, uECC_secp256r1()))
+						{
+							xResult = 0;
+						}
+        			}
+    				current_pointer += *(current_pointer + 1) + 2;
+					break;
+    			default:
+    				current_pointer += *(current_pointer + 1) + 2;
+    				break;
+    		}
+			if((current_pointer - binary) > data_length)
+			{
+				/* parsing error */
+				break;
+			}
+    	}
+    }
+    return xResult;
+}
+

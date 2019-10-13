@@ -77,12 +77,15 @@
             this.comboBoxMcu_firmupdate = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.buttonGenerateUserprog = new System.Windows.Forms.Button();
-            this.buttonBrowseUserprog = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+			this.buttonBrowseUserPrivateKey = new System.Windows.Forms.Button();
+			this.buttonBrowseUserprog = new System.Windows.Forms.Button();
+            this.label40 = new System.Windows.Forms.Label();
+			this.label4 = new System.Windows.Forms.Label();
+			this.label3 = new System.Windows.Forms.Label();
             this.textBoxUserProgramFilePath = new System.Windows.Forms.TextBox();
             this.textBoxUserProgramKey_Aes128 = new System.Windows.Forms.TextBox();
-            this.info = new System.Windows.Forms.TextBox();
+			this.textBoxUserPrivateKeyPath = new System.Windows.Forms.TextBox();
+			this.info = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.label11 = new System.Windows.Forms.Label();
             this.textBoxFirmwareSequenceNumber = new System.Windows.Forms.TextBox();
@@ -597,10 +600,13 @@
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.buttonGenerateUserprog);
-            this.groupBox2.Controls.Add(this.buttonBrowseUserprog);
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.textBoxUserProgramFilePath);
+			this.groupBox2.Controls.Add(this.buttonBrowseUserPrivateKey);
+			this.groupBox2.Controls.Add(this.buttonBrowseUserprog);
+            this.groupBox2.Controls.Add(this.label40);
+			this.groupBox2.Controls.Add(this.label4);
+			this.groupBox2.Controls.Add(this.label3);
+			this.groupBox2.Controls.Add(this.textBoxUserPrivateKeyPath);
+			this.groupBox2.Controls.Add(this.textBoxUserProgramFilePath);
             this.groupBox2.Controls.Add(this.textBoxUserProgramKey_Aes128);
             this.groupBox2.Location = new System.Drawing.Point(6, 246);
             this.groupBox2.Name = "groupBox2";
@@ -619,10 +625,21 @@
             this.buttonGenerateUserprog.Text = "Generate...";
             this.buttonGenerateUserprog.UseVisualStyleBackColor = true;
             this.buttonGenerateUserprog.Click += new System.EventHandler(this.buttonGenerateUserprog_Click);
-            // 
-            // buttonBrowseUserprog
-            // 
-            this.buttonBrowseUserprog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			// 
+			// buttonBrowseUserPrivateKey
+			// 
+			this.buttonBrowseUserPrivateKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonBrowseUserPrivateKey.Location = new System.Drawing.Point(589, 105);
+			this.buttonBrowseUserPrivateKey.Name = "buttonBrowseUserPrivateKey";
+			this.buttonBrowseUserPrivateKey.Size = new System.Drawing.Size(75, 23);
+			this.buttonBrowseUserPrivateKey.TabIndex = 4;
+			this.buttonBrowseUserPrivateKey.Text = "Browse...";
+			this.buttonBrowseUserPrivateKey.UseVisualStyleBackColor = true;
+			this.buttonBrowseUserPrivateKey.Click += new System.EventHandler(this.buttonBrowseUserPrivateKey_Click);
+			// 
+			// buttonBrowseUserprog
+			// 
+			this.buttonBrowseUserprog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonBrowseUserprog.Location = new System.Drawing.Point(589, 65);
             this.buttonBrowseUserprog.Name = "buttonBrowseUserprog";
             this.buttonBrowseUserprog.Size = new System.Drawing.Size(75, 23);
@@ -630,10 +647,19 @@
             this.buttonBrowseUserprog.Text = "Browse...";
             this.buttonBrowseUserprog.UseVisualStyleBackColor = true;
             this.buttonBrowseUserprog.Click += new System.EventHandler(this.buttonBrowseUserprog_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
+			// 
+			// label40
+			// 
+			this.label40.AutoSize = true;
+			this.label40.Location = new System.Drawing.Point(6, 105);
+			this.label40.Name = "label40";
+			this.label40.Size = new System.Drawing.Size(125, 12);
+			this.label40.TabIndex = 2;
+			this.label40.Text = "User Private Key Path";
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(6, 70);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(125, 12);
@@ -648,10 +674,19 @@
             this.label3.Size = new System.Drawing.Size(157, 24);
             this.label3.TabIndex = 0;
             this.label3.Text = "User Program Key \r\n(16 byte hex / 32 characters)";
-            // 
-            // textBoxUserProgramFilePath
-            // 
-            this.textBoxUserProgramFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			//
+			// textBoxUserPrivateKeyPath
+			//
+			this.textBoxUserPrivateKeyPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.textBoxUserPrivateKeyPath.Location = new System.Drawing.Point(224, 105);
+			this.textBoxUserPrivateKeyPath.Name = "textBoxUserPrivateKeyPath";
+			this.textBoxUserPrivateKeyPath.Size = new System.Drawing.Size(359, 19);
+			this.textBoxUserPrivateKeyPath.TabIndex = 3;
+			// 
+			// textBoxUserProgramFilePath
+			// 
+			this.textBoxUserProgramFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxUserProgramFilePath.Location = new System.Drawing.Point(224, 67);
             this.textBoxUserProgramFilePath.Name = "textBoxUserProgramFilePath";
@@ -665,10 +700,10 @@
             this.textBoxUserProgramKey_Aes128.Name = "textBoxUserProgramKey_Aes128";
             this.textBoxUserProgramKey_Aes128.Size = new System.Drawing.Size(359, 19);
             this.textBoxUserProgramKey_Aes128.TabIndex = 1;
-            // 
-            // info
-            // 
-            this.info.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+			// 
+			// info
+			// 
+			this.info.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.info.BackColor = System.Drawing.SystemColors.Info;
             this.info.Location = new System.Drawing.Point(12, 439);
@@ -734,12 +769,15 @@
         private System.Windows.Forms.ComboBox comboBoxMcu_firmupdate;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button buttonGenerateUserprog;
-        private System.Windows.Forms.Button buttonBrowseUserprog;
-        private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.Button buttonBrowseUserPrivateKey;
+		private System.Windows.Forms.Button buttonBrowseUserprog;
+		private System.Windows.Forms.Label label40;
+		private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBoxUserProgramFilePath;
+		private System.Windows.Forms.TextBox textBoxUserPrivateKeyPath;
+		private System.Windows.Forms.TextBox textBoxUserProgramFilePath;
         private System.Windows.Forms.TextBox textBoxUserProgramKey_Aes128;
-        private System.Windows.Forms.TabPage tabPage4;
+		private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TabControl tabControl1;

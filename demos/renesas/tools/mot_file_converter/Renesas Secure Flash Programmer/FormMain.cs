@@ -8,6 +8,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Collections;
 using Renesas_Secure_Flash_Programmer.Properties;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.OpenSsl;
+using Org.BouncyCastle.Crypto.Signers;
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Crypto.Digests;
+using Org.BouncyCastle.Math;
 
 namespace Renesas_Secure_Flash_Programmer
 {
@@ -210,7 +216,7 @@ namespace Renesas_Secure_Flash_Programmer
 
         const string FIRMWARE_VERIFICATION_TYPE_HASH_SHA1_STANDALONE = "hash-sha1-standalone";
         const string FIRMWARE_VERIFICATION_TYPE_HASH_SHA256_STANDALONE = "hash-sha256-standalone";
-        const string FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA_WITH_AWS = "sig-sha256-ecdsa-with-aws";
+        const string FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA_WITH_AWS = "sig-sha256-ecdsa-standalone";
         const string FIRMWARE_VERIFICATION_TYPE_MAC_AES128_CMAC_WITH_TSIP = "mac-aes128-cmac-with-tsip";
         const string FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA_WITH_TSIP = "sig-sha256-ecdsa-with-tsip";
         const string FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA_WITH_TSIP_AWS = "sig-sha256-ecdsa-with-tsip-aws";
@@ -1231,16 +1237,36 @@ namespace Renesas_Secure_Flash_Programmer
             return new Tuple<uint, uint>(blockTopAddress, blockMirrorTopAddress);
         }
 
-        #endregion [Key Wrap] Tab
+		#endregion [Key Wrap] Tab
 
-        #region [Firm Update] Tab
+		#region [Firm Update] Tab
 
-        /// <summary>
-        /// [Firm Update] Tab - [Browse...] button of [User Program File Path]
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void buttonBrowseUserprog_Click(object sender, EventArgs e)
+		/// <summary>
+		/// [Firm Update] Tab - [Browse...] button of [User Private Key Path]
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void buttonBrowseUserPrivateKey_Click(object sender, EventArgs e)
+		{
+			openFileDialog.Filter = "User Private Key File|*.privatekey";
+			openFileDialog.Title = "Specify the User Private Key File Name";
+			openFileDialog.FileName = "";
+
+			if (openFileDialog.ShowDialog() != DialogResult.OK || openFileDialog.FileName == "")
+			{
+				print_log("please specify the user private key file name.");
+				return;
+			}
+
+			textBoxUserPrivateKeyPath.Text = openFileDialog.FileName;
+		}
+
+		/// <summary>
+		/// [Firm Update] Tab - [Browse...] button of [User Program File Path]
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void buttonBrowseUserprog_Click(object sender, EventArgs e)
         {
             // Displays a OpenFileDialog so the user can save the Image
             openFileDialog.Filter = "Motorola Format File|*.mot";
@@ -1288,8 +1314,19 @@ namespace Renesas_Secure_Flash_Programmer
                     print_log("please specify the motorola file name.");
                     return;
                 }
-                // Displays a SaveFileDialog so the user can save
-                saveFileDialog.Filter = "Renesas Secure Update|*.rsu";
+
+				if (comboBoxFirmwareVerificationType.Text == "sig-sha256-ecdsa-standalone")
+				{
+					// check user private key path
+					if (!File.Exists(textBoxUserPrivateKeyPath.Text))
+					{
+						print_log("please specify the user private key name.");
+						return;
+					}
+				}
+
+				// Displays a SaveFileDialog so the user can save
+				saveFileDialog.Filter = "Renesas Secure Update|*.rsu";
                 saveFileDialog.Title = "Save an (Encrypted(option)) User Program File";
                 saveFileDialog.FileName = "userprog.rsu";
 
@@ -1360,327 +1397,359 @@ namespace Renesas_Secure_Flash_Programmer
                 MemoryStream ms3 = new MemoryStream();
                 MemoryStream ms4 = new MemoryStream();
 
-                //Create CryptoStream
-                using (CryptoStream cs1 = new CryptoStream(ms1, encrypt1, CryptoStreamMode.Write))
-                using (CryptoStream cs2 = new CryptoStream(ms2, encrypt2, CryptoStreamMode.Write))
-                using (CryptoStream cs3 = new CryptoStream(ms3, encrypt3, CryptoStreamMode.Write))
-                using (CryptoStream cs4 = new CryptoStream(ms4, encrypt4, CryptoStreamMode.Write))
-                using (StreamReader sr = new StreamReader(textBoxUserProgramFilePath.Text))
-                using (BinaryWriter bw = new BinaryWriter(File.Open(saveFileDialog.FileName, FileMode.Create)))
-                {
-                    uint current_user_firm_address = 0;
-                    int total_length = 0;
-                    byte[] data;
+				//Create CryptoStream
+				using (CryptoStream cs1 = new CryptoStream(ms1, encrypt1, CryptoStreamMode.Write))
+				using (CryptoStream cs2 = new CryptoStream(ms2, encrypt2, CryptoStreamMode.Write))
+				using (CryptoStream cs3 = new CryptoStream(ms3, encrypt3, CryptoStreamMode.Write))
+				using (CryptoStream cs4 = new CryptoStream(ms4, encrypt4, CryptoStreamMode.Write))
+				using (StreamReader sr = new StreamReader(textBoxUserProgramFilePath.Text))
+				using (BinaryWriter bw = new BinaryWriter(File.Open(saveFileDialog.FileName, FileMode.Create)))
+				{
+					uint current_user_firm_address = 0;
+					int total_length = 0;
+					byte[] data;
 
-                    while (true)
-                    {
-                        string line = sr.ReadLine();
-                        if (line == null)
-                        {
-                            break;
-                        }
+					while (true)
+					{
+						string line = sr.ReadLine();
+						if (line == null)
+						{
+							break;
+						}
 
-                        string[] line_buf = new string[16];
+						string[] line_buf = new string[16];
 
-                        line_buf[0] = line.Substring(0, 2);    // type field
-                        line_buf[1] = line.Substring(2, 2);    // length
+						line_buf[0] = line.Substring(0, 2);    // type field
+						line_buf[1] = line.Substring(2, 2);    // length
 
-                        switch (line_buf[0])
-                        {
-                            case "S0":
-                                line_buf[2] = line.Substring(4, 4);                 // zero
-                                line_buf[3] = line.Substring(8, line.Length - 8);   // comment
-                                break;
-                            case "S1":
-                                line_buf[2] = line.Substring(4, 4);                 // address
-                                line_buf[3] = line.Substring(8, line.Length - 8);   // comment
-                                break;
-                            case "S2":
-                                line_buf[2] = line.Substring(4, 6);                 // address
-                                line_buf[3] = line.Substring(10, line.Length - 10); // comment
-                                break;
-                            case "S3":
-                                line_buf[2] = line.Substring(4, 8);                 // address
-                                line_buf[3] = line.Substring(12, line.Length - 12); // comment
-                                break;
-                            case "S4":
-                                break;
-                            case "S5":
-                                line_buf[2] = line.Substring(4, 4);                 // recode number
-                                break;
-                            case "S6":
-                                break;
-                            case "S7":
-                                break;
-                        }
+						switch (line_buf[0])
+						{
+							case "S0":
+								line_buf[2] = line.Substring(4, 4);                 // zero
+								line_buf[3] = line.Substring(8, line.Length - 8);   // comment
+								break;
+							case "S1":
+								line_buf[2] = line.Substring(4, 4);                 // address
+								line_buf[3] = line.Substring(8, line.Length - 8);   // comment
+								break;
+							case "S2":
+								line_buf[2] = line.Substring(4, 6);                 // address
+								line_buf[3] = line.Substring(10, line.Length - 10); // comment
+								break;
+							case "S3":
+								line_buf[2] = line.Substring(4, 8);                 // address
+								line_buf[3] = line.Substring(12, line.Length - 12); // comment
+								break;
+							case "S4":
+								break;
+							case "S5":
+								line_buf[2] = line.Substring(4, 4);                 // recode number
+								break;
+							case "S6":
+								break;
+							case "S7":
+								break;
+						}
 
-                        if ((line_buf[0] == "S3") || (line_buf[0] == "S2"))
-                        {
-                            int data_len;
-                            if (line_buf[0] == "S3")
-                            {
-                                data_len = Convert.ToByte(line_buf[1], 16) - 5;     // -5 means: (address = 4 byte + checksum = 1 byte)
-                            }
-                            else
-                            {
-                                data_len = Convert.ToByte(line_buf[1], 16) - 4;     // -4 means: (address = 3 byte + checksum = 1 byte)
-                            }
+						if ((line_buf[0] == "S3") || (line_buf[0] == "S2"))
+						{
+							int data_len;
+							if (line_buf[0] == "S3")
+							{
+								data_len = Convert.ToByte(line_buf[1], 16) - 5;     // -5 means: (address = 4 byte + checksum = 1 byte)
+							}
+							else
+							{
+								data_len = Convert.ToByte(line_buf[1], 16) - 4;     // -4 means: (address = 3 byte + checksum = 1 byte)
+							}
 
-                            current_user_firm_address = Convert.ToUInt32(line_buf[2], 16);
+							current_user_firm_address = Convert.ToUInt32(line_buf[2], 16);
 
-                            if ((current_user_firm_address >= data_flash_top_address)
-                                && (current_user_firm_address <= data_flash_bottom_address))
-                            {
-                                if ((current_user_firm_address < user_program_const_data_top_address)
-                                    || (current_user_firm_address > user_program_const_data_bottom_address))
-                                {
-                                    print_log(String.Format("your motorola file includes prohibited address 0x{0:x08} on data flash, out of 0x{1:x08}-0x{2:x08}.\r\n", current_user_firm_address, user_program_const_data_top_address, user_program_const_data_bottom_address));
-                                    return;
-                                }
-                                uint offset = Convert.ToUInt32(line_buf[2], 16) - user_program_const_data_top_address;
-                                for (int i = 0; (i / 2) < data_len; i += 2)
-                                {
-                                    data_flash_image[(i / 2) + offset] = Convert.ToByte(line_buf[3].Substring(i, 2), 16);
-                                }
-                                current_user_firm_address = 0;
-                                continue;
-                            }
+							if ((current_user_firm_address >= data_flash_top_address)
+								&& (current_user_firm_address <= data_flash_bottom_address))
+							{
+								if ((current_user_firm_address < user_program_const_data_top_address)
+									|| (current_user_firm_address > user_program_const_data_bottom_address))
+								{
+									print_log(String.Format("your motorola file includes prohibited address 0x{0:x08} on data flash, out of 0x{1:x08}-0x{2:x08}.\r\n", current_user_firm_address, user_program_const_data_top_address, user_program_const_data_bottom_address));
+									return;
+								}
+								uint offset = Convert.ToUInt32(line_buf[2], 16) - user_program_const_data_top_address;
+								for (int i = 0; (i / 2) < data_len; i += 2)
+								{
+									data_flash_image[(i / 2) + offset] = Convert.ToByte(line_buf[3].Substring(i, 2), 16);
+								}
+								current_user_firm_address = 0;
+								continue;
+							}
 
-                            if ((current_user_firm_address >= code_flash_top_address)
-                                && (current_user_firm_address <= code_flash_bottom_address))
-                            {
-                                if ((current_user_firm_address < user_program_top_address)
-                                    || (current_user_firm_address > (user_program_bottom_address + 1)))
-                                {
-                                    print_log(String.Format("your motorola file includes prohibited address 0x{0:x08} on code flash, out of 0x{1:x08}-0x{2:x08}.\r\n", current_user_firm_address, user_program_top_address, user_program_bottom_address));
-                                    return;
-                                }
-                                uint offset = Convert.ToUInt32(line_buf[2], 16) - user_program_top_address;
-                                for (int i = 0; (i / 2) < data_len; i += 2)
-                                {
-                                    code_flash_image[(i / 2) + offset] = Convert.ToByte(line_buf[3].Substring(i, 2), 16);
-                                }
-                                total_length += data_len;
-                                current_user_firm_address = 0;
-                                continue;
-                            }
-                        }
-                    }
+							if ((current_user_firm_address >= code_flash_top_address)
+								&& (current_user_firm_address <= code_flash_bottom_address))
+							{
+								if ((current_user_firm_address < user_program_top_address)
+									|| (current_user_firm_address > (user_program_bottom_address + 1)))
+								{
+									print_log(String.Format("your motorola file includes prohibited address 0x{0:x08} on code flash, out of 0x{1:x08}-0x{2:x08}.\r\n", current_user_firm_address, user_program_top_address, user_program_bottom_address));
+									return;
+								}
+								uint offset = Convert.ToUInt32(line_buf[2], 16) - user_program_top_address;
+								for (int i = 0; (i / 2) < data_len; i += 2)
+								{
+									code_flash_image[(i / 2) + offset] = Convert.ToByte(line_buf[3].Substring(i, 2), 16);
+								}
+								total_length += data_len;
+								current_user_firm_address = 0;
+								continue;
+							}
+						}
+					}
 
-                    if (comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_MAC_AES128_CMAC_WITH_TSIP)
-                    {
-                        // Execute encryption follow TSIP procedure
-                        byte[] tmp = new byte[16];
-                        byte[] UpProgram = new byte[16];
-                        byte[] checksum = new byte[16];
-                        byte[] SessionKey0 = new byte[16];
-                        byte[] SessionKey1 = new byte[16];
+					if (comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_MAC_AES128_CMAC_WITH_TSIP)
+					{
+						// Execute encryption follow TSIP procedure
+						byte[] tmp = new byte[16];
+						byte[] UpProgram = new byte[16];
+						byte[] checksum = new byte[16];
+						byte[] SessionKey0 = new byte[16];
+						byte[] SessionKey1 = new byte[16];
 
-                        for (int i = 0; i < (user_program_bottom_address + 1) - user_program_top_address; i += (aesCryptoProvider.BlockSize / 8))
-                        {
-                            for (int j = 0; j < aesCryptoProvider.BlockSize / 8; j++)
-                            {
-                                checksum[j] = Convert.ToByte(code_flash_image[i + j] ^ checksum[j]);
-                                UpProgram[j] = Convert.ToByte(code_flash_image[i + j] ^ iv[j]);
-                            }
-                            for (int j = 0; j < aesCryptoProvider.BlockSize / 8; j++)
-                            {
-                                cs2.Write(checksum, j, 1);  // encrypt using CBCMAC
-                            }
-                            tmp = ms2.GetBuffer();
-                            for (int j = 0; j < aesCryptoProvider.BlockSize / 8; j++)
-                            {
-                                checksum[j] = tmp[i + j];
-                            }
-                            for (int j = 0; j < aesCryptoProvider.BlockSize / 8; j++)
-                            {
-                                cs1.Write(UpProgram, j, 1);  // encrypt using CBC
-                            }
-                            tmp = ms1.GetBuffer();
-                            for (int j = 0; j < aesCryptoProvider.BlockSize / 8; j++)
-                            {
-                                UpProgram[j] = tmp[i + j];
-                            }
-                            for (int j = 0; j < aesCryptoProvider.BlockSize / 8; j++)
-                            {
-                                iv[j] = UpProgram[j];
-                            }
-                        }
-                        for (int i = 0; i < aesCryptoProvider.BlockSize / 8; i++)
-                        {
-                            checksum[i] = Convert.ToByte(iv[i] ^ checksum[i]);
-                        }
-                        cs4.Write(checksum, 0, aesCryptoProvider.BlockSize / 8);  // encrypt using CBCMAC
-                        tmp = ms4.GetBuffer();
-                        for (int i = 0; i < aesCryptoProvider.BlockSize / 8; i++)
-                        {
-                            checksum[i] = tmp[i];
-                        }
+						for (int i = 0; i < (user_program_bottom_address + 1) - user_program_top_address; i += (aesCryptoProvider.BlockSize / 8))
+						{
+							for (int j = 0; j < aesCryptoProvider.BlockSize / 8; j++)
+							{
+								checksum[j] = Convert.ToByte(code_flash_image[i + j] ^ checksum[j]);
+								UpProgram[j] = Convert.ToByte(code_flash_image[i + j] ^ iv[j]);
+							}
+							for (int j = 0; j < aesCryptoProvider.BlockSize / 8; j++)
+							{
+								cs2.Write(checksum, j, 1);  // encrypt using CBCMAC
+							}
+							tmp = ms2.GetBuffer();
+							for (int j = 0; j < aesCryptoProvider.BlockSize / 8; j++)
+							{
+								checksum[j] = tmp[i + j];
+							}
+							for (int j = 0; j < aesCryptoProvider.BlockSize / 8; j++)
+							{
+								cs1.Write(UpProgram, j, 1);  // encrypt using CBC
+							}
+							tmp = ms1.GetBuffer();
+							for (int j = 0; j < aesCryptoProvider.BlockSize / 8; j++)
+							{
+								UpProgram[j] = tmp[i + j];
+							}
+							for (int j = 0; j < aesCryptoProvider.BlockSize / 8; j++)
+							{
+								iv[j] = UpProgram[j];
+							}
+						}
+						for (int i = 0; i < aesCryptoProvider.BlockSize / 8; i++)
+						{
+							checksum[i] = Convert.ToByte(iv[i] ^ checksum[i]);
+						}
+						cs4.Write(checksum, 0, aesCryptoProvider.BlockSize / 8);  // encrypt using CBCMAC
+						tmp = ms4.GetBuffer();
+						for (int i = 0; i < aesCryptoProvider.BlockSize / 8; i++)
+						{
+							checksum[i] = tmp[i];
+						}
 
-                        cs3.Write(tmpCBCKey, 0, aesCryptoProvider.BlockSize / 8);  // encrypt using user_program_key
-                        cs3.Write(tmpCBCMACKey, 0, aesCryptoProvider.BlockSize / 8);
-                        tmp = ms3.GetBuffer();
-                        for (int i = 0; i < 2; i++)
-                        {
-                            for (int j = 0; j < aesCryptoProvider.BlockSize / 8; j++)
-                            {
-                                if (i == 0)
-                                {
-                                    SessionKey0[j] = tmp[(i * (aesCryptoProvider.BlockSize / 8)) + j];
-                                }
-                                else
-                                {
-                                    SessionKey1[j] = tmp[(i * (aesCryptoProvider.BlockSize / 8)) + j];
-                                }
-                            }
-                        }
+						cs3.Write(tmpCBCKey, 0, aesCryptoProvider.BlockSize / 8);  // encrypt using user_program_key
+						cs3.Write(tmpCBCMACKey, 0, aesCryptoProvider.BlockSize / 8);
+						tmp = ms3.GetBuffer();
+						for (int i = 0; i < 2; i++)
+						{
+							for (int j = 0; j < aesCryptoProvider.BlockSize / 8; j++)
+							{
+								if (i == 0)
+								{
+									SessionKey0[j] = tmp[(i * (aesCryptoProvider.BlockSize / 8)) + j];
+								}
+								else
+								{
+									SessionKey1[j] = tmp[(i * (aesCryptoProvider.BlockSize / 8)) + j];
+								}
+							}
+						}
 
-                        // Create pdate data①(iv, sessionkey0, sessionkey1, max_cnt, checksum)
-                        string iv_base64 = Convert.ToBase64String(iv_init, 0, 16);
-                        string sessionkey0_base64 = Convert.ToBase64String(SessionKey0, 0, 16);
-                        string sessionkey1_base64 = Convert.ToBase64String(SessionKey1, 0, 16);
-                        string max_cnt = Convert.ToString((((user_program_bottom_address + 1) - user_program_top_address) / 4) + 4, 16); // +4 means for checksum
-                        string checksum_base64 = Convert.ToBase64String(checksum, 0, 16);
-                        string script;
-                        script = $"iv {iv_base64}\r\n";
-                        script += $"sessionkey0 {sessionkey0_base64}\r\n";
-                        script += $"sessionkey1 {sessionkey1_base64}\r\n";
-                        script += $"max_cnt {max_cnt}\r\n";
-                        script += $"checksum {checksum_base64}\r\n";
-                        data = System.Text.Encoding.ASCII.GetBytes(script);
-                        bw.Write(data);
+						// Create pdate data①(iv, sessionkey0, sessionkey1, max_cnt, checksum)
+						string iv_base64 = Convert.ToBase64String(iv_init, 0, 16);
+						string sessionkey0_base64 = Convert.ToBase64String(SessionKey0, 0, 16);
+						string sessionkey1_base64 = Convert.ToBase64String(SessionKey1, 0, 16);
+						string max_cnt = Convert.ToString((((user_program_bottom_address + 1) - user_program_top_address) / 4) + 4, 16); // +4 means for checksum
+						string checksum_base64 = Convert.ToBase64String(checksum, 0, 16);
+						string script;
+						script = $"iv {iv_base64}\r\n";
+						script += $"sessionkey0 {sessionkey0_base64}\r\n";
+						script += $"sessionkey1 {sessionkey1_base64}\r\n";
+						script += $"max_cnt {max_cnt}\r\n";
+						script += $"checksum {checksum_base64}\r\n";
+						data = System.Text.Encoding.ASCII.GetBytes(script);
+						bw.Write(data);
 
-                        /* todo: upconst側と書き方を合わせる */
-                        for (int i = 0; i < ms2.Length; i += 16)
-                        {
-                            string user_program_address = Convert.ToString(user_program_top_address + i, 16);
-                            string user_program_base64 = Convert.ToBase64String(ms1.GetBuffer(), i, 16);
+						/* todo: upconst側と書き方を合わせる */
+						for (int i = 0; i < ms2.Length; i += 16)
+						{
+							string user_program_address = Convert.ToString(user_program_top_address + i, 16);
+							string user_program_base64 = Convert.ToBase64String(ms1.GetBuffer(), i, 16);
 
-                            // Create pdate data②(upprogram)
-                            script = $"upprogram {user_program_address} {user_program_base64}\r\n";
-                            data = System.Text.Encoding.ASCII.GetBytes(script);
-                            bw.Write(data);
-                        }
-                    }
-                    else if ((comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_HASH_SHA1_STANDALONE) || (comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_HASH_SHA256_STANDALONE))
-                    {
-                        string script;
-                        byte[] bs;
-                        int hash_size;
-                        string hash_value;
-                        string hash_string;
+							// Create pdate data②(upprogram)
+							script = $"upprogram {user_program_address} {user_program_base64}\r\n";
+							data = System.Text.Encoding.ASCII.GetBytes(script);
+							bw.Write(data);
+						}
+					}
+					else if ((comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_HASH_SHA1_STANDALONE) ||
+						     (comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_HASH_SHA256_STANDALONE) ||
+							 (comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA_WITH_AWS))
+					{
+						string script;
+						byte[] bs;
+						int hash_size;
+						string hash_value;
+						string hash_string;
 
-                        // prepair the rsu_header
-                        rsu_header rsu_header_data = new rsu_header();
-                        rsu_header_data.magic_code = System.Text.Encoding.ASCII.GetBytes("Renesas");
-                        rsu_header_data.image_flag = IMAGE_FLAG_TESTING;  
-                        if (checkBox_CutOffDataFlashData.Checked == false)
-                        {
-                            rsu_header_data.dataflash_flag = 1;
-                            rsu_header_data.dataflash_start_address = McuSpecs[comboBoxMcu_firmupdate.Text].userProgramConstDataTopAddress;
-                            rsu_header_data.dataflash_end_address = McuSpecs[comboBoxMcu_firmupdate.Text].userProgramConstDataBottomAddress;
-                        }
-                        rsu_header_data.sequence_number = Convert.ToUInt32(textBoxFirmwareSequenceNumber.Text);
-                        rsu_header_data.start_address = McuSpecs[comboBoxMcu_firmupdate.Text].userProgramTopAddress;
-                        rsu_header_data.end_address = McuSpecs[comboBoxMcu_firmupdate.Text].userProgramBottomAddress;
-                        rsu_header_data.execution_address = McuSpecs[comboBoxMcu_firmupdate.Text].userProgramBottomAddress - 3;
-                        rsu_header_data.hardware_id = McuSpecs[comboBoxMcu_firmupdate.Text].hardwareId;
+						// prepair the rsu_header
+						rsu_header rsu_header_data = new rsu_header();
+						rsu_header_data.magic_code = System.Text.Encoding.ASCII.GetBytes("Renesas");
+						rsu_header_data.image_flag = IMAGE_FLAG_TESTING;
+						if (checkBox_CutOffDataFlashData.Checked == false)
+						{
+							rsu_header_data.dataflash_flag = 1;
+							rsu_header_data.dataflash_start_address = McuSpecs[comboBoxMcu_firmupdate.Text].userProgramConstDataTopAddress;
+							rsu_header_data.dataflash_end_address = McuSpecs[comboBoxMcu_firmupdate.Text].userProgramConstDataBottomAddress;
+						}
+						rsu_header_data.sequence_number = Convert.ToUInt32(textBoxFirmwareSequenceNumber.Text);
+						rsu_header_data.start_address = McuSpecs[comboBoxMcu_firmupdate.Text].userProgramTopAddress;
+						rsu_header_data.end_address = McuSpecs[comboBoxMcu_firmupdate.Text].userProgramBottomAddress;
+						rsu_header_data.execution_address = McuSpecs[comboBoxMcu_firmupdate.Text].userProgramBottomAddress - 3;
+						rsu_header_data.hardware_id = McuSpecs[comboBoxMcu_firmupdate.Text].hardwareId;
 
-                        // calculate hash
-                        if (comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_HASH_SHA1_STANDALONE)
-                        {
-                            System.Security.Cryptography.SHA1CryptoServiceProvider sha_1 =
-                            new System.Security.Cryptography.SHA1CryptoServiceProvider();
+						// calculate hash
+						if (comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_HASH_SHA1_STANDALONE)
+						{
+							System.Security.Cryptography.SHA1CryptoServiceProvider sha_1 =
+							new System.Security.Cryptography.SHA1CryptoServiceProvider();
 
-                            byte[] tmp = new byte[0];
-                            tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.sequence_number)).ToArray();
-                            tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.start_address)).ToArray();
-                            tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.end_address)).ToArray();
-                            tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.execution_address)).ToArray();
-                            tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.hardware_id)).ToArray();
-                            tmp = tmp.Concat(rsu_header_data.reserved2).ToArray();
-                            tmp = tmp.Concat(code_flash_image).ToArray();
+							byte[] tmp = new byte[0];
+							tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.sequence_number)).ToArray();
+							tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.start_address)).ToArray();
+							tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.end_address)).ToArray();
+							tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.execution_address)).ToArray();
+							tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.hardware_id)).ToArray();
+							tmp = tmp.Concat(rsu_header_data.reserved2).ToArray();
+							tmp = tmp.Concat(code_flash_image).ToArray();
 
-                            int offset = CODE_FLASH_SIGNATURE_AREA_OFFSET;
-                            int size = Convert.ToInt32((user_program_bottom_address + 1) - code_flash_top_address) - offset;
-                            bs = sha_1.ComputeHash(tmp, 0, size);
-                            sha_1.Clear();
-                            hash_size = (sha_1.HashSize / 8);
-                            hash_value = Convert.ToBase64String(bs, 0, hash_size);
-                        }
-                        else if (comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_HASH_SHA256_STANDALONE)
-                        {
-                            System.Security.Cryptography.SHA256CryptoServiceProvider sha_256 =
-                            new System.Security.Cryptography.SHA256CryptoServiceProvider();
+							int offset = CODE_FLASH_SIGNATURE_AREA_OFFSET;
+							int size = Convert.ToInt32((user_program_bottom_address + 1) - code_flash_top_address) - offset;
+							bs = sha_1.ComputeHash(tmp, 0, size);
+							sha_1.Clear();
+							hash_size = (sha_1.HashSize / 8);
+							hash_value = Convert.ToBase64String(bs, 0, hash_size);
 
-                            byte[] tmp = new byte[0];
-                            tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.sequence_number)).ToArray();
-                            tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.start_address)).ToArray();
-                            tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.end_address)).ToArray();
-                            tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.execution_address)).ToArray();
-                            tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.hardware_id)).ToArray();
-                            tmp = tmp.Concat(rsu_header_data.reserved2).ToArray();
-                            tmp = tmp.Concat(code_flash_image).ToArray();
+							Array.Copy(System.Text.Encoding.ASCII.GetBytes(comboBoxFirmwareVerificationType.Text), rsu_header_data.signature_type, comboBoxFirmwareVerificationType.Text.Length);
+							rsu_header_data.signature_size = (uint)hash_size;
+							Array.Copy(bs, rsu_header_data.signature, hash_size);
+						}
+						else if (comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_HASH_SHA256_STANDALONE)
+						{
+							System.Security.Cryptography.SHA256CryptoServiceProvider sha_256 =
+							new System.Security.Cryptography.SHA256CryptoServiceProvider();
 
-                            int offset = CODE_FLASH_SIGNATURE_AREA_OFFSET;
-                            int size = Convert.ToInt32((user_program_bottom_address + 1) - code_flash_top_address) - offset;
-                            bs = sha_256.ComputeHash(tmp, 0, size);
-                            sha_256.Clear();
-                            hash_size = (sha_256.HashSize / 8);
-                            hash_value = Convert.ToBase64String(bs, 0, hash_size);
+							byte[] tmp = new byte[0];
+							tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.sequence_number)).ToArray();
+							tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.start_address)).ToArray();
+							tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.end_address)).ToArray();
+							tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.execution_address)).ToArray();
+							tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.hardware_id)).ToArray();
+							tmp = tmp.Concat(rsu_header_data.reserved2).ToArray();
+							tmp = tmp.Concat(code_flash_image).ToArray();
 
-                        }
-                        else
-                        {
-                            print_log(String.Format("This Firmware Verification Type is not implemented yet: [{0:s}]\r\n", comboBoxFirmwareVerificationType.Text));
-                            return;
-                        }
-                        Array.Copy(System.Text.Encoding.ASCII.GetBytes(comboBoxFirmwareVerificationType.Text), rsu_header_data.signature_type, comboBoxFirmwareVerificationType.Text.Length);
-                        rsu_header_data.signature_size = (uint)hash_size;
-                        Array.Copy(bs, rsu_header_data.signature, hash_size);
+							int offset = CODE_FLASH_SIGNATURE_AREA_OFFSET;
+							int size = Convert.ToInt32((user_program_bottom_address + 1) - code_flash_top_address) - offset;
+							bs = sha_256.ComputeHash(tmp, 0, size);
+							sha_256.Clear();
+							hash_size = (sha_256.HashSize / 8);
+							hash_value = Convert.ToBase64String(bs, 0, hash_size);
 
-                        if (checkBox1_OutputBinaryFormat.Checked)
-                        {
-                            bw.Write(rsu_header_data.magic_code);
-                            bw.Write(rsu_header_data.image_flag);
-                            bw.Write(rsu_header_data.signature_type);
-                            bw.Write(rsu_header_data.signature_size);
-                            bw.Write(rsu_header_data.signature);
-                            bw.Write(rsu_header_data.dataflash_flag);
-                            bw.Write(rsu_header_data.dataflash_start_address);
-                            bw.Write(rsu_header_data.dataflash_end_address);
-                            bw.Write(rsu_header_data.reserved1);
-                            bw.Write(rsu_header_data.sequence_number);
-                            bw.Write(rsu_header_data.start_address);
-                            bw.Write(rsu_header_data.end_address);
-                            bw.Write(rsu_header_data.execution_address);
-                            bw.Write(rsu_header_data.hardware_id);
-                            bw.Write(rsu_header_data.reserved2);
-                            bw.Write(code_flash_image, 0, (int)((user_program_bottom_address + 1) - user_program_top_address));
-                        }
-                        else
-                        {
-                            hash_string = "sha1 ";
-                            hash_string += hash_value;
-                            hash_string += "\r\n";
-                            data = System.Text.Encoding.ASCII.GetBytes(hash_string);
-                            bw.Write(data);
+							Array.Copy(System.Text.Encoding.ASCII.GetBytes(comboBoxFirmwareVerificationType.Text), rsu_header_data.signature_type, comboBoxFirmwareVerificationType.Text.Length);
+							rsu_header_data.signature_size = (uint)hash_size;
+							Array.Copy(bs, rsu_header_data.signature, hash_size);
+						}
+						else if (comboBoxFirmwareVerificationType.Text == FIRMWARE_VERIFICATION_TYPE_SIG_SHA256_ECDSA_WITH_AWS)
+						{
+							hash_value = "dummy"; // FIX ME. Necessary when entering a value in hash_string later. But unnecessary data for ECDSA signature.
 
-                            for (int i = 0; i < ((user_program_bottom_address + 1) - user_program_top_address); i += 16)
-                            {
-                                string user_program_base64 = Convert.ToBase64String(code_flash_image, i, 16);
+							byte[] tmp = new byte[0];
+							UInt32 Descriptor_address_size = 0x100;
+							tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.sequence_number)).ToArray();
+							tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.start_address)).ToArray();
+							tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.end_address)).ToArray();
+							tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.execution_address)).ToArray();
+							tmp = tmp.Concat(BitConverter.GetBytes(rsu_header_data.hardware_id)).ToArray();
+							tmp = tmp.Concat(rsu_header_data.reserved2).ToArray();
+							tmp = tmp.Concat(code_flash_image).ToArray();
+							Array.Resize(ref tmp, (Int32)(Descriptor_address_size + (user_program_bottom_address + 1) - user_program_top_address));
 
-                                script = "upprogram ";
-                                script += Convert.ToString(user_program_top_address + i, 16);
-                                script += " ";
-                                script += user_program_base64;
-                                script += "\r\n";
-                                data = System.Text.Encoding.ASCII.GetBytes(script);
-                                bw.Write(data);
-                            }
-                        }
-                    }
-                    else
+							byte[] signature = Sign(tmp, textBoxUserPrivateKeyPath.Text);
+							bool result = Verify(tmp, signature, textBoxUserPrivateKeyPath.Text);
+							if (false == result)
+							{
+								print_log(String.Format("Failed to signature\r\n"));
+								return;
+							}
+							Array.Copy(System.Text.Encoding.ASCII.GetBytes(comboBoxFirmwareVerificationType.Text), rsu_header_data.signature_type, comboBoxFirmwareVerificationType.Text.Length);
+							rsu_header_data.signature_size = (uint)signature.Length;
+							Array.Copy(signature, rsu_header_data.signature, rsu_header_data.signature_size);
+						}
+						else
+						{
+							print_log(String.Format("This Firmware Verification Type is not implemented yet: [{0:s}]\r\n", comboBoxFirmwareVerificationType.Text));
+							return;
+						}
+
+						if (checkBox1_OutputBinaryFormat.Checked)
+						{
+							bw.Write(rsu_header_data.magic_code);
+							bw.Write(rsu_header_data.image_flag);
+							bw.Write(rsu_header_data.signature_type);
+							bw.Write(rsu_header_data.signature_size);
+							bw.Write(rsu_header_data.signature);
+							bw.Write(rsu_header_data.dataflash_flag);
+							bw.Write(rsu_header_data.dataflash_start_address);
+							bw.Write(rsu_header_data.dataflash_end_address);
+							bw.Write(rsu_header_data.reserved1);
+							bw.Write(rsu_header_data.sequence_number);
+							bw.Write(rsu_header_data.start_address);
+							bw.Write(rsu_header_data.end_address);
+							bw.Write(rsu_header_data.execution_address);
+							bw.Write(rsu_header_data.hardware_id);
+							bw.Write(rsu_header_data.reserved2);
+							bw.Write(code_flash_image, 0, (int)((user_program_bottom_address + 1) - user_program_top_address));
+						}
+						else
+						{
+							hash_string = "sha1 ";
+							hash_string += hash_value;
+							hash_string += "\r\n";
+							data = System.Text.Encoding.ASCII.GetBytes(hash_string);
+							bw.Write(data);
+
+							for (int i = 0; i < ((user_program_bottom_address + 1) - user_program_top_address); i += 16)
+							{
+								string user_program_base64 = Convert.ToBase64String(code_flash_image, i, 16);
+
+								script = "upprogram ";
+								script += Convert.ToString(user_program_top_address + i, 16);
+								script += " ";
+								script += user_program_base64;
+								script += "\r\n";
+								data = System.Text.Encoding.ASCII.GetBytes(script);
+								bw.Write(data);
+							}
+						}
+					}
+					else
                     {
                         /* not implemented yet */
                         print_log(String.Format("This Firmware Verification Type is not implemented yet: [{0:s}]\r\n", comboBoxFirmwareVerificationType.Text));
@@ -1774,21 +1843,88 @@ namespace Renesas_Secure_Flash_Programmer
             }
         }
 
-        private void comboBoxFirmwareVerificationType_SelectedIndexChanged_1(object sender, EventArgs e)
+		private void comboBoxFirmwareVerificationType_SelectedIndexChanged_1(object sender, EventArgs e)
+		{
+			if (comboBoxFirmwareVerificationType.Text == "mac-aes128-cmac-with-tsip")
+			{
+				textBoxUserProgramKey_Aes128.Enabled = true;
+			}
+			else
+			{
+				textBoxUserProgramKey_Aes128.Enabled = false;
+			}
+
+			if (comboBoxFirmwareVerificationType.Text == "sig-sha256-ecdsa-standalone")
+			{
+				textBoxUserPrivateKeyPath.Enabled = true;
+			}
+			else
+			{
+				textBoxUserPrivateKeyPath.Enabled = false;
+			}
+		}
+
+		private void checkBox_CutOffDataFlashData_CheckedChanged(object sender, EventArgs e)
         {
-            if (comboBoxFirmwareVerificationType.Text == "mac-aes128-cmac-with-tsip")
-            {
-                textBoxUserProgramKey_Aes128.Enabled = true;
-            }
-            else
-            {
-                textBoxUserProgramKey_Aes128.Enabled = false;
-            }
+
         }
 
-        private void checkBox_CutOffDataFlashData_CheckedChanged(object sender, EventArgs e)
-        {
+		/// <summary>
+		/// Signature
+		/// </summary>
+		static byte[] Sign(byte[] plain, string key)
+		{
+			// Read the key.
+			AsymmetricCipherKeyPair pair = null;
+			using (var stream = new StreamReader(key))
+			{
+				var reader = new PemReader(stream);
+				pair = reader.ReadObject() as AsymmetricCipherKeyPair;
+			}
 
-        }
-    }
+            // Generate signature instance and signature.
+            ECDsaSigner signer = new ECDsaSigner(new HMacDsaKCalculator(new Sha256Digest()));
+            signer.Init(true, pair.Private);
+            SHA256 sha256 = new SHA256CryptoServiceProvider();
+            var hash = sha256.ComputeHash(plain);
+			var sign = signer.GenerateSignature(hash);
+
+			// Convert signature value to byte [].
+            var sign1 = sign[0].ToByteArray().SkipWhile(b => b == 0x00);
+            var sign2 = sign[1].ToByteArray().SkipWhile(b => b == 0x00);
+            byte[] signature = sign1.Concat(sign2).ToArray();
+
+			return signature;
+		}
+
+		/// <summary>
+		/// Verify signature
+		/// </summary>
+		static bool Verify(byte[] plain, byte[] signature, string key)
+		{
+			// Read the key.
+			AsymmetricCipherKeyPair pair = null;
+			using (var stream = new StreamReader(key))
+			{
+				var reader = new PemReader(stream);
+				pair = reader.ReadObject() as AsymmetricCipherKeyPair;
+			}
+
+			// Convert signature value to BigInteger.
+            var sign1 = signature.Take(32).ToArray();
+            if ((sign1[0] & 0x80) == 0x80) sign1 = new byte[] { 0x00 }.Concat(sign1).ToArray();
+            var sign2 = signature.Skip(32).ToArray();
+            if ((sign2[0] & 0x80) == 0x80) sign2 = new byte[] { 0x00 }.Concat(sign2).ToArray();
+			var sign = new BigInteger[] { new BigInteger(sign1), new BigInteger(sign2) };
+
+            // Verify signature.
+            ECDsaSigner signer = new ECDsaSigner(new HMacDsaKCalculator(new Sha256Digest()));
+            signer.Init(false, pair.Public);
+            SHA256 sha256 = new SHA256CryptoServiceProvider();
+            var hash = sha256.ComputeHash(plain);
+            var result = signer.VerifySignature(hash, sign[0], sign[1]);
+
+			return result;
+		}
+	}
 }
