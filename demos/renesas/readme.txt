@@ -956,6 +956,23 @@ RX65N Envision Kit、RX65N RSK(2MB版/暗号器あり品)をターゲットに�
 --------------------------------------------------------------------------
 ■ポーティング記録	★印が解決すべき課題
 --------------------------------------------------------------------------
+2019/10/17
+　$ openssl ecparam -genkey -name secp256r1 -out secp256r1.keypair
+　using curve name prime256v1 instead of secp256r1
+　
+　気がかりが残っている。
+　OpenSSLでsecp256r1を指定すると、なぜprime256v1として取り扱われるのか。
+　私はNIST P-256を指定したい。OpenSSLの対応楕円曲線暗号のパラメータリストは
+　以下コマンドで読み出せるが、secp256r1 が存在しない。なぜなのか。
+　$ openssl ecparam -list_curves
+　
+　Google先生に聞いたら以下答えをいただいた。
+　https://www.jnsa.org/seminar/pki-day/2011/data/02_kanaoka.pdf
+　⇒page8
+　
+　RFC4492に私の疑問に対する回答がマッピングされていた。ありがたい。
+　secp256r1 = prime256v1 = NIST P-256 が確定。
+　
 2019/10/13
 　ブートローダの整理が完了した。UART経由でイニシャルファームウェアのロードができるようになった。
 　デフォルトは115200bpsだが、912600bpsまで上げても大丈夫になった。
