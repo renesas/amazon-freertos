@@ -38,8 +38,8 @@
 #include "r_flash_rx_if.h"
 
 /* Specify the OTA signature algorithm we support on this platform. */
-const char cOTA_JSON_FileSignatureKey[ OTA_FILE_SIG_KEY_STR_MAX_LENGTH ] = "sig-sha1-rsa";   /* FIX ME. */
-//const char cOTA_JSON_FileSignatureKey[ OTA_FILE_SIG_KEY_STR_MAX_LENGTH ] = "sig-sha256-ecdsa";   /* FIX ME. */
+//const char cOTA_JSON_FileSignatureKey[ OTA_FILE_SIG_KEY_STR_MAX_LENGTH ] = "sig-sha1-rsa";   /* FIX ME. */
+const char cOTA_JSON_FileSignatureKey[ OTA_FILE_SIG_KEY_STR_MAX_LENGTH ] = "sig-sha256-ecdsa";   /* FIX ME. */
 
 
 /* The static functions below (prvPAL_CheckFileSignature and prvPAL_ReadAndAssumeCertificate) 
@@ -103,8 +103,7 @@ static uint8_t * prvPAL_ReadAndAssumeCertificate( const uint8_t * const pucCertN
 #define BOOT_LOADER_UPDATE_EXECUTE_AREA_LOW_ADDRESS FLASH_CF_HI_BANK_LO_ADDR
 #define BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER (FLASH_NUM_BLOCKS_CF - BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_SMALL - BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_MEDIUM)
 
-//#define otaconfigMAX_NUM_BLOCKS_REQUEST        	128U	/* this value will be appeared after 201908.00 in aws_ota_agent_config.h */
-#define otaconfigMAX_NUM_BLOCKS_REQUEST        	64U	/* this value will be appeared after 201908.00 in aws_ota_agent_config.h */
+#define otaconfigMAX_NUM_BLOCKS_REQUEST        	128U	/* this value will be appeared after 201908.00 in aws_ota_agent_config.h */
 
 #define BOOT_LOADER_CUT_OFF_FOR_OTA_OFFSET	0x200
 
@@ -124,7 +123,7 @@ typedef struct _packet_block_for_queue
 {
 	uint32_t ulOffset;
 	uint32_t length;
-	uint8_t	packet[(1 << otaconfigLOG2_FILE_BLOCK_SIZE)];
+	uint8_t *p_packet;
 }PACKET_BLOCK_FOR_QUEUE;
 
 typedef struct _firmware_update_control_block
@@ -261,10 +260,13 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
                            uint32_t ulBlockSize )
 {
     OTA_Err_t eResult = kOTA_Err_Uninitialized;
+	uint8_t *packet_buffer;
 
     DEFINE_OTA_METHOD_NAME( "prvPAL_WriteBlock" );
 	OTA_LOG_L1("[%s] is called.\r\n", OTA_METHOD_NAME);
-    memcpy(packet_block_for_queue1.packet, pacData, ulBlockSize);
+	packet_buffer = pvPortMalloc(ulBlockSize);
+    memcpy(packet_buffer, pacData, ulBlockSize);
+    packet_block_for_queue1.p_packet = packet_buffer;
     packet_block_for_queue1.ulOffset = ulOffset + BOOT_LOADER_CUT_OFF_FOR_OTA_OFFSET;
     packet_block_for_queue1.length = ulBlockSize;
 	if(xQueueSend(xQueue, &packet_block_for_queue1, NULL) == pdPASS)
@@ -283,10 +285,12 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
 		   Update image flag and signature before writing to code flash. */
 		FIRMWARE_UPDATE_CONTROL_BLOCK * p_block;
 
-	    memcpy(packet_block_for_queue1.packet, (const void *)firmware_update_control_block_bank0, BOOT_LOADER_CUT_OFF_FOR_OTA_OFFSET);
-		p_block = (FIRMWARE_UPDATE_CONTROL_BLOCK *)packet_block_for_queue1.packet;
+		packet_buffer = pvPortMalloc(ulBlockSize);
+		memcpy(packet_buffer, (const void *)firmware_update_control_block_bank0, BOOT_LOADER_CUT_OFF_FOR_OTA_OFFSET);
+		p_block = (FIRMWARE_UPDATE_CONTROL_BLOCK *)packet_buffer;
 		p_block->image_flag = LIFECYCLE_STATE_TESTING;
 	    memcpy(p_block->signature, C->pxSignature->ucData, sizeof(p_block->signature));
+	    packet_block_for_queue1.p_packet = packet_buffer;
 	    packet_block_for_queue1.ulOffset = 0;
 	    packet_block_for_queue1.length = BOOT_LOADER_CUT_OFF_FOR_OTA_OFFSET;
 		if(xQueueSend(xQueue, &packet_block_for_queue1, NULL) != pdPASS)
@@ -470,7 +474,7 @@ static void ota_flashing_task( void * pvParameters )
 	{
 		xQueueReceive(xQueue, &packet_block_for_queue2, portMAX_DELAY);
 		xSemaphoreTake(xSemaphore, portMAX_DELAY);
-		memcpy(block, packet_block_for_queue2.packet, sizeof(block));
+		memcpy(block, packet_block_for_queue2.p_packet, sizeof(block));
 		ulOffset = packet_block_for_queue2.ulOffset;
 		length = packet_block_for_queue2.length;
 		flash_err = R_FLASH_Write((uint32_t)block, ulOffset + (uint32_t)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS, length);
@@ -482,6 +486,7 @@ static void ota_flashing_task( void * pvParameters )
 		{
 			nop();
 		}
+		vPortFree(packet_block_for_queue2.p_packet);
 	}
 }
 
