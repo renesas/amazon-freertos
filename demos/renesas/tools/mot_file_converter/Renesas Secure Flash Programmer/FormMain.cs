@@ -1608,7 +1608,7 @@ namespace Renesas_Secure_Flash_Programmer
 						rsu_header rsu_header_data = new rsu_header();
 						rsu_header_data.magic_code = System.Text.Encoding.ASCII.GetBytes("Renesas");
 						rsu_header_data.image_flag = IMAGE_FLAG_TESTING;
-						if (checkBox_CutOffDataFlashData.Checked == false)
+						if (checkBox_CutOffForOTAData.Checked == false)
 						{
 							rsu_header_data.dataflash_flag = 1;
 							rsu_header_data.dataflash_start_address = McuSpecs[comboBoxMcu_firmupdate.Text].userProgramConstDataTopAddress;
@@ -1705,15 +1705,18 @@ namespace Renesas_Secure_Flash_Programmer
 
 						if (checkBox1_OutputBinaryFormat.Checked)
 						{
-							bw.Write(rsu_header_data.magic_code);
-							bw.Write(rsu_header_data.image_flag);
-							bw.Write(rsu_header_data.signature_type);
-							bw.Write(rsu_header_data.signature_size);
-							bw.Write(rsu_header_data.signature);
-							bw.Write(rsu_header_data.dataflash_flag);
-							bw.Write(rsu_header_data.dataflash_start_address);
-							bw.Write(rsu_header_data.dataflash_end_address);
-							bw.Write(rsu_header_data.reserved1);
+							if (!checkBox_CutOffForOTAData.Checked)
+							{
+								bw.Write(rsu_header_data.magic_code);
+								bw.Write(rsu_header_data.image_flag);
+								bw.Write(rsu_header_data.signature_type);
+								bw.Write(rsu_header_data.signature_size);
+								bw.Write(rsu_header_data.signature);
+								bw.Write(rsu_header_data.dataflash_flag);
+								bw.Write(rsu_header_data.dataflash_start_address);
+								bw.Write(rsu_header_data.dataflash_end_address);
+								bw.Write(rsu_header_data.reserved1);
+							}
 							bw.Write(rsu_header_data.sequence_number);
 							bw.Write(rsu_header_data.start_address);
 							bw.Write(rsu_header_data.end_address);
@@ -1751,7 +1754,7 @@ namespace Renesas_Secure_Flash_Programmer
                         return;
                     }
 
-                    if (!checkBox_CutOffDataFlashData.Checked)
+                    if (!checkBox_CutOffForOTAData.Checked)
                     {
                         if (checkBox1_OutputBinaryFormat.Checked)
                         {
@@ -1861,7 +1864,7 @@ namespace Renesas_Secure_Flash_Programmer
 			}
 		}
 
-		private void checkBox_CutOffDataFlashData_CheckedChanged(object sender, EventArgs e)
+		private void checkBox_CutOffForOTAData_CheckedChanged(object sender, EventArgs e)
         {
 
         }

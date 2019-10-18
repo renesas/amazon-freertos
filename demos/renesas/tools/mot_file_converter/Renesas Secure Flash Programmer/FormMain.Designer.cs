@@ -81,7 +81,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.textBoxUserPrivateKeyPath = new System.Windows.Forms.TextBox();
-            this.checkBox_CutOffDataFlashData = new System.Windows.Forms.CheckBox();
+            this.checkBox_CutOffForOTAData = new System.Windows.Forms.CheckBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label40 = new System.Windows.Forms.Label();
             this.checkBox1_OutputBinaryFormat = new System.Windows.Forms.CheckBox();
@@ -622,7 +622,7 @@
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(101, 12);
             this.label9.TabIndex = 4;
-            this.label9.Text = "Cut off Data Flash";
+            this.label9.Text = "Cut off For OTA";
             // 
             // label3
             // 
@@ -642,14 +642,14 @@
             this.textBoxUserPrivateKeyPath.Size = new System.Drawing.Size(359, 19);
             this.textBoxUserPrivateKeyPath.TabIndex = 3;
             // 
-            // checkBox_CutOffDataFlashData
+            // checkBox_CutOffForOTAData
             // 
-            this.checkBox_CutOffDataFlashData.AutoSize = true;
-            this.checkBox_CutOffDataFlashData.Location = new System.Drawing.Point(224, 156);
-            this.checkBox_CutOffDataFlashData.Name = "checkBox_CutOffDataFlashData";
-            this.checkBox_CutOffDataFlashData.Size = new System.Drawing.Size(15, 14);
-            this.checkBox_CutOffDataFlashData.TabIndex = 5;
-            this.checkBox_CutOffDataFlashData.UseVisualStyleBackColor = true;
+            this.checkBox_CutOffForOTAData.AutoSize = true;
+            this.checkBox_CutOffForOTAData.Location = new System.Drawing.Point(224, 156);
+            this.checkBox_CutOffForOTAData.Name = "checkBox_CutOffForOTAData";
+            this.checkBox_CutOffForOTAData.Size = new System.Drawing.Size(15, 14);
+            this.checkBox_CutOffForOTAData.TabIndex = 5;
+            this.checkBox_CutOffForOTAData.UseVisualStyleBackColor = true;
             // 
             // label10
             // 
@@ -705,7 +705,7 @@
             this.groupBox3.Controls.Add(this.label11);
             this.groupBox3.Controls.Add(this.checkBox1_OutputBinaryFormat);
             this.groupBox3.Controls.Add(this.label10);
-            this.groupBox3.Controls.Add(this.checkBox_CutOffDataFlashData);
+            this.groupBox3.Controls.Add(this.checkBox_CutOffForOTAData);
             this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.comboBoxFirmwareVerificationType);
             this.groupBox3.Controls.Add(this.label8);
@@ -816,7 +816,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox comboBoxFirmwareVerificationType;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.CheckBox checkBox_CutOffDataFlashData;
+        private System.Windows.Forms.CheckBox checkBox_CutOffForOTAData;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.CheckBox checkBox1_OutputBinaryFormat;
         private System.Windows.Forms.Label label11;

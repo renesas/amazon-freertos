@@ -39,6 +39,7 @@
 
 /* Specify the OTA signature algorithm we support on this platform. */
 const char cOTA_JSON_FileSignatureKey[ OTA_FILE_SIG_KEY_STR_MAX_LENGTH ] = "sig-sha1-rsa";   /* FIX ME. */
+//const char cOTA_JSON_FileSignatureKey[ OTA_FILE_SIG_KEY_STR_MAX_LENGTH ] = "sig-sha256-ecdsa";   /* FIX ME. */
 
 
 /* The static functions below (prvPAL_CheckFileSignature and prvPAL_ReadAndAssumeCertificate) 
@@ -105,6 +106,13 @@ static uint8_t * prvPAL_ReadAndAssumeCertificate( const uint8_t * const pucCertN
 //#define otaconfigMAX_NUM_BLOCKS_REQUEST        	128U	/* this value will be appeared after 201908.00 in aws_ota_agent_config.h */
 #define otaconfigMAX_NUM_BLOCKS_REQUEST        	64U	/* this value will be appeared after 201908.00 in aws_ota_agent_config.h */
 
+#define BOOT_LOADER_CUT_OFF_FOR_OTA_OFFSET	0x200
+
+#define LIFECYCLE_STATE_BLANK		(0xff)
+#define LIFECYCLE_STATE_TESTING		(0xfe)
+#define LIFECYCLE_STATE_VALID		(0xfc)
+#define LIFECYCLE_STATE_INVALID		(0xf8)
+
 typedef struct _load_firmware_control_block {
 	uint32_t status;
 	uint32_t processed_byte;
@@ -119,8 +127,27 @@ typedef struct _packet_block_for_queue
 	uint8_t	packet[(1 << otaconfigLOG2_FILE_BLOCK_SIZE)];
 }PACKET_BLOCK_FOR_QUEUE;
 
+typedef struct _firmware_update_control_block
+{
+	uint8_t magic_code[7];
+    uint8_t image_flag;
+    uint8_t signature_type[32];
+    uint32_t signature_size;
+    uint8_t signature[256];
+    uint32_t dataflash_flag;
+    uint32_t dataflash_start_address;
+    uint32_t dataflash_end_address;
+    uint8_t reserved1[200];
+    uint32_t sequence_number;
+    uint32_t start_address;
+    uint32_t end_address;
+    uint32_t execution_address;
+    uint32_t hardware_id;
+    uint8_t reserved2[236];
+}FIRMWARE_UPDATE_CONTROL_BLOCK;
+
 static bool ota_context_validate( OTA_FileContext_t * C );
-static void ota_flashing_task(void);
+static void ota_flashing_task( void * pvParameters );
 static void ota_flashing_callback(void *event);
 
 static QueueHandle_t xQueue;
@@ -129,6 +156,8 @@ static xSemaphoreHandle xSemaphore;
 static volatile LOAD_FIRMWARE_CONTROL_BLOCK load_firmware_control_block;
 static PACKET_BLOCK_FOR_QUEUE packet_block_for_queue1;
 static PACKET_BLOCK_FOR_QUEUE packet_block_for_queue2;
+
+static FIRMWARE_UPDATE_CONTROL_BLOCK *firmware_update_control_block_bank0 = (FIRMWARE_UPDATE_CONTROL_BLOCK*)BOOT_LOADER_UPDATE_EXECUTE_AREA_LOW_ADDRESS;
 
 /*-----------------------------------------------------------*/
 
@@ -234,8 +263,9 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
     OTA_Err_t eResult = kOTA_Err_Uninitialized;
 
     DEFINE_OTA_METHOD_NAME( "prvPAL_WriteBlock" );
+	OTA_LOG_L1("[%s] is called.\r\n", OTA_METHOD_NAME);
     memcpy(packet_block_for_queue1.packet, pacData, ulBlockSize);
-    packet_block_for_queue1.ulOffset = ulOffset;
+    packet_block_for_queue1.ulOffset = ulOffset + BOOT_LOADER_CUT_OFF_FOR_OTA_OFFSET;
     packet_block_for_queue1.length = ulBlockSize;
 	if(xQueueSend(xQueue, &packet_block_for_queue1, NULL) == pdPASS)
 	{
@@ -246,6 +276,26 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
 		OTA_LOG_L1("OTA flashing queue send error.\r\n");
 		eResult = kOTA_Err_OutOfMemory;
 	}
+	
+	if( ulOffset == 0U)
+	{
+		/* Write from 0 to 0x200 of code flash.
+		   Update image flag and signature before writing to code flash. */
+		FIRMWARE_UPDATE_CONTROL_BLOCK * p_block;
+
+	    memcpy(packet_block_for_queue1.packet, (const void *)firmware_update_control_block_bank0, BOOT_LOADER_CUT_OFF_FOR_OTA_OFFSET);
+		p_block = (FIRMWARE_UPDATE_CONTROL_BLOCK *)packet_block_for_queue1.packet;
+		p_block->image_flag = LIFECYCLE_STATE_TESTING;
+	    memcpy(p_block->signature, C->pxSignature->ucData, sizeof(p_block->signature));
+	    packet_block_for_queue1.ulOffset = 0;
+	    packet_block_for_queue1.length = BOOT_LOADER_CUT_OFF_FOR_OTA_OFFSET;
+		if(xQueueSend(xQueue, &packet_block_for_queue1, NULL) != pdPASS)
+		{
+			OTA_LOG_L1("OTA flashing queue send error.\r\n");
+			eResult = kOTA_Err_OutOfMemory;
+		}
+	}
+	
 	return eResult;
 }
 /*-----------------------------------------------------------*/
@@ -409,7 +459,7 @@ static bool ota_context_validate( OTA_FileContext_t * C )
 	return ( NULL != C );
 }
 
-static void ota_flashing_task(void)
+static void ota_flashing_task( void * pvParameters )
 {
 	flash_err_t flash_err;
 	static uint8_t block[(1 << otaconfigLOG2_FILE_BLOCK_SIZE)];
@@ -423,7 +473,7 @@ static void ota_flashing_task(void)
 		memcpy(block, packet_block_for_queue2.packet, sizeof(block));
 		ulOffset = packet_block_for_queue2.ulOffset;
 		length = packet_block_for_queue2.length;
-		flash_err = R_FLASH_Write((uint32_t)block, ulOffset + BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS, length);
+		flash_err = R_FLASH_Write((uint32_t)block, ulOffset + (uint32_t)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS, length);
 		if(packet_block_for_queue2.length != 1024)
 		{
 			nop();
