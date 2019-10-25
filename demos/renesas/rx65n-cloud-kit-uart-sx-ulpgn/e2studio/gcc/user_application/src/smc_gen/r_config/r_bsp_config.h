@@ -627,5 +627,14 @@ Configuration Options
 #define MY_BSP_CFG_UART_WIFI_SECOND_SCI             (1)
 #define ULPGN_RESET_PORT_PDR    PORTD.PDR.BIT.B0     /*PMOD PinNo.8 */
 #define ULPGN_RESET_PORT_PODR   PORTD.PODR.BIT.B0    /*PMOD PinNo.8 */
+/* This macro is used to select which SCI bit-rate.
+ */
+#define MY_BSP_CFG_SERIAL_TERM_SCI_BITRATE          (115200)
+
+/* This macro is used to select which SCI interrupt priority.
+   0(low) - 15(high)
+ */
+#define MY_BSP_CFG_SERIAL_TERM_SCI_INTERRUPT_PRIORITY   (15)
+
 #endif /* R_BSP_CONFIG_REF_HEADER_FILE */
 
