@@ -610,5 +610,15 @@ Configuration Options
 
 #define WIFI_RESET_PORT_PDR    PORT2.PDR.BIT.B4     /*PMOD PinNo.8 */
 #define WIFI_RESET_PORT_PODR   PORT2.PODR.BIT.B4    /*PMOD PinNo.8 */
+
+/* This macro is used to select which SCI bit-rate.
+ */
+#define MY_BSP_CFG_SERIAL_TERM_SCI_BITRATE          (115200)
+
+/* This macro is used to select which SCI interrupt priority.
+   0(low) - 15(high)
+ */
+#define MY_BSP_CFG_SERIAL_TERM_SCI_INTERRUPT_PRIORITY   (15)
+
 #endif /* R_BSP_CONFIG_REF_HEADER_FILE */
 
