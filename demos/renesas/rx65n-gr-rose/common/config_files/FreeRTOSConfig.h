@@ -53,7 +53,7 @@
 #define configUSE_PREEMPTION                       1
 #define configUSE_PORT_OPTIMISED_TASK_SELECTION    0
 #define configMAX_PRIORITIES                       (7)
-#define configTICK_RATE_HZ                         (1000)
+#define configTICK_RATE_HZ                         (( TickType_t ) 1000)
 #define configMINIMAL_STACK_SIZE                   (( unsigned short ) 512)
 #define configTOTAL_HEAP_SIZE                      (( size_t ) ( 256U * 1024U ))
 #define configMAX_TASK_NAME_LEN                    (12)
@@ -84,9 +84,9 @@
 
 /* Software timer related definitions. */
 #define configUSE_TIMERS                           1
-#define configTIMER_TASK_PRIORITY                  (6)
+#define configTIMER_TASK_PRIORITY                  (configMAX_PRIORITIES - 1)
 #define configTIMER_QUEUE_LENGTH                   5
-#define configTIMER_TASK_STACK_DEPTH               (configMINIMAL_STACK_SIZE * 6)
+#define configTIMER_TASK_STACK_DEPTH               (configMINIMAL_STACK_SIZE)
 
 /* The interrupt priority used by the kernel itself for the tick interrupt and
 the pended interrupt.  This would normally be the lowest priority. */
@@ -234,16 +234,16 @@ extern void vLoggingPrint( const char * pcMessage );
 #define configMAC_ADDR0                      0x74
 #define configMAC_ADDR1                      0x90
 #define configMAC_ADDR2                      0x50
-#define configMAC_ADDR3                      0x00
-#define configMAC_ADDR4                      0x79
-#define configMAC_ADDR5                      0x03
+#define configMAC_ADDR3                      0x10
+#define configMAC_ADDR4                      0x15
+#define configMAC_ADDR5                      0x11
 
 /* Default IP address configuration.  Used in ipconfigUSE_DHCP is set to 0, or
  * ipconfigUSE_DHCP is set to 1 but a DNS server cannot be contacted. */
-#define configIP_ADDR0                       172
-#define configIP_ADDR1                       27
-#define configIP_ADDR2                       49
-#define configIP_ADDR3                       127
+#define configIP_ADDR0                       192
+#define configIP_ADDR1                       168
+#define configIP_ADDR2                       0
+#define configIP_ADDR3                       200
 
 /* Default gateway IP address configuration.  Used in ipconfigUSE_DHCP is set to
  * 0, or ipconfigUSE_DHCP is set to 1 but a DNS server cannot be contacted. */
