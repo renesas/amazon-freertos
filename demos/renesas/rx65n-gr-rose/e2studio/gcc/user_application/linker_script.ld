@@ -28,7 +28,7 @@ SECTIONS
 	.rvectors ALIGN(4) :
 	{
 		_rvectors_start = .;
-		INCLUDE ../../../../../../../lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v120/r_bsp/mcu/all/linker_script_rvectors.inc
+		INCLUDE ../../../../../../../lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v122/r_bsp/mcu/all/linker_script_rvectors.inc
 		_rvectors_end = .;
 	} >ROM
 	.init :
@@ -118,7 +118,7 @@ SECTIONS
 		
 		_ebss = .;
 		_end = .;
-	} >RAM
+	} >RAM2
 	RPFRAM2   (NOLOAD) : 
 {
 	_RPFRAM2_start = .;
