@@ -223,14 +223,14 @@
 </tool>
 <tool id="Pins" version="1.0.1.0">
 <pinItem allocation="22" comments="" direction="None" id="XTAL" locked="false" status="0"/>
-<pinItem allocation="70" comments="" direction="None" id="RXD2" locked="false" status="0"/>
+<pinItem allocation="53" comments="" direction="None" id="RXD2" locked="false" status="0"/>
 <pinItem allocation="59" comments="" direction="None" id="RXD8" locked="false" status="0"/>
 <pinItem allocation="81" comments="" direction="None" id="ET0_TX_EN" locked="false" status="0"/>
 <pinItem allocation="83" comments="" direction="None" id="ET0_TX_ER" locked="false" status="0"/>
 <pinItem allocation="101" comments="" direction="None" id="ET0_MDC" locked="false" status="0"/>
 <pinItem allocation="76" comments="" direction="None" id="ET0_COL" locked="false" status="0"/>
 <pinItem allocation="74" comments="" direction="None" id="ET0_CRS" locked="false" status="0"/>
-<pinItem allocation="72" comments="" direction="None" id="TXD2" locked="false" status="0"/>
+<pinItem allocation="52" comments="" direction="None" id="TXD2" locked="false" status="0"/>
 <pinItem allocation="58" comments="" direction="None" id="TXD8" locked="false" status="0"/>
 <pinItem allocation="24" comments="" direction="None" id="EXTAL" locked="false" status="0"/>
 <pinItem allocation="86" comments="" direction="None" id="ET0_RX_DV" locked="false" status="0"/>
@@ -515,121 +515,8 @@
 <source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
 <source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
 </configuration>
-<configuration inuse="true" name="r_byteq">
-<component description="Dependency : r_bsp version(s) 3.10&#10;This module allocates a queue control block in an Open() call to handle indexing for buffers provided by the user application. Additional functions are provided to put and get data from the buffer queue, inspect the number of bytes available or in use, and to flush the queue. There is no limit to the number of queues supported, and queue control blocks can be allocated statically at build time or dynamically at run time." detailDescription="Byte-based circular buffer library." display="r_byteq" id="r_byteq1.80" version="1.80">
-<gridItem id="BYTEQ_CFG_PARAM_CHECKING_ENABLE" selectedIndex="0"/>
-<gridItem id="BYTEQ_CFG_USE_HEAP_FOR_CTRL_BLKS" selectedIndex="0"/>
-<gridItem id="BYTEQ_CFG_MAX_CTRL_BLKS" selectedIndex="32"/>
-</component>
-<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
-<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
-</configuration>
-<configuration inuse="true" name="r_ether_rx">
-<component description="Dependency : r_bsp version(s) 5.20&#10;The Ethernet fit module provides a method to send and receive Ethernet / IEEE802.3 frame using Ethernet controller (ETHERC), Ethernet DMA controller (EDMAC)." detailDescription="Ethernet Driver." display="r_ether_rx" id="r_ether_rx1.16" version="1.16">
-<gridItem id="ET0_TX_CLK" selectedIndex="1"/>
-<gridItem id="ET0_RX_CLK" selectedIndex="1"/>
-<gridItem id="ET0_TX_EN" selectedIndex="1"/>
-<gridItem id="ET0_ETXD3" selectedIndex="1"/>
-<gridItem id="ET0_ETXD2" selectedIndex="1"/>
-<gridItem id="ET0_ETXD1" selectedIndex="1"/>
-<gridItem id="ET0_ETXD0" selectedIndex="1"/>
-<gridItem id="ET0_TX_ER" selectedIndex="1"/>
-<gridItem id="ET0_RX_DV" selectedIndex="1"/>
-<gridItem id="ET0_ERXD3" selectedIndex="1"/>
-<gridItem id="ET0_ERXD2" selectedIndex="1"/>
-<gridItem id="ET0_ERXD1" selectedIndex="1"/>
-<gridItem id="ET0_ERXD0" selectedIndex="1"/>
-<gridItem id="ET0_RX_ER" selectedIndex="1"/>
-<gridItem id="ET0_CRS" selectedIndex="1"/>
-<gridItem id="ET0_COL" selectedIndex="1"/>
-<gridItem id="ET0_MDC" selectedIndex="1"/>
-<gridItem id="ET0_MDIO" selectedIndex="1"/>
-<gridItem id="ET0_LINKSTA" selectedIndex="1"/>
-<gridItem id="ET0_EXOUT" selectedIndex="0"/>
-<gridItem id="ET0_WOL" selectedIndex="0"/>
-<gridItem id="ETHERC0_MII" selectedIndex="1"/>
-<gridItem id="REF50CK0" selectedIndex="0"/>
-<gridItem id="RMII0_TXD_EN" selectedIndex="0"/>
-<gridItem id="RMII0_TXD1" selectedIndex="0"/>
-<gridItem id="RMII0_TXD0" selectedIndex="0"/>
-<gridItem id="RMII0_RXD1" selectedIndex="0"/>
-<gridItem id="RMII0_RXD0" selectedIndex="0"/>
-<gridItem id="RMII0_RX_ER" selectedIndex="0"/>
-<gridItem id="RMII0_CRS_DV" selectedIndex="0"/>
-<gridItem id="ET0_MDC" selectedIndex="1"/>
-<gridItem id="ET0_MDIO" selectedIndex="1"/>
-<gridItem id="ET0_LINKSTA" selectedIndex="1"/>
-<gridItem id="ET0_EXOUT" selectedIndex="0"/>
-<gridItem id="ET0_WOL" selectedIndex="0"/>
-<gridItem id="ETHERC0_RMII" selectedIndex="0"/>
-<gridItem id="ET1_TX_CLK" selectedIndex="0"/>
-<gridItem id="ET1_RX_CLK" selectedIndex="0"/>
-<gridItem id="ET1_TX_EN" selectedIndex="0"/>
-<gridItem id="ET1_ETXD3" selectedIndex="0"/>
-<gridItem id="ET1_ETXD2" selectedIndex="0"/>
-<gridItem id="ET1_ETXD1" selectedIndex="0"/>
-<gridItem id="ET1_ETXD0" selectedIndex="0"/>
-<gridItem id="ET1_TX_ER" selectedIndex="0"/>
-<gridItem id="ET1_RX_DV" selectedIndex="0"/>
-<gridItem id="ET1_ERXD3" selectedIndex="0"/>
-<gridItem id="ET1_ERXD2" selectedIndex="0"/>
-<gridItem id="ET1_ERXD1" selectedIndex="0"/>
-<gridItem id="ET1_ERXD0" selectedIndex="0"/>
-<gridItem id="ET1_RX_ER" selectedIndex="0"/>
-<gridItem id="ET1_CRS" selectedIndex="0"/>
-<gridItem id="ET1_COL" selectedIndex="0"/>
-<gridItem id="ET1_MDC" selectedIndex="0"/>
-<gridItem id="ET1_MDIO" selectedIndex="0"/>
-<gridItem id="ET1_LINKSTA" selectedIndex="0"/>
-<gridItem id="ET1_EXOUT" selectedIndex="0"/>
-<gridItem id="ET1_WOL" selectedIndex="0"/>
-<gridItem id="ETHERC1_MII" selectedIndex="0"/>
-<gridItem id="REF50CK1" selectedIndex="0"/>
-<gridItem id="RMII1_TXD_EN" selectedIndex="0"/>
-<gridItem id="RMII1_TXD1" selectedIndex="0"/>
-<gridItem id="RMII1_TXD0" selectedIndex="0"/>
-<gridItem id="RMII1_RXD1" selectedIndex="0"/>
-<gridItem id="RMII1_RXD0" selectedIndex="0"/>
-<gridItem id="RMII1_RX_ER" selectedIndex="0"/>
-<gridItem id="RMII1_CRS_DV" selectedIndex="0"/>
-<gridItem id="ET1_MDC" selectedIndex="0"/>
-<gridItem id="ET1_MDIO" selectedIndex="0"/>
-<gridItem id="ET1_LINKSTA" selectedIndex="0"/>
-<gridItem id="ET1_EXOUT" selectedIndex="0"/>
-<gridItem id="ET1_WOL" selectedIndex="0"/>
-<gridItem id="ETHERC1_RMII" selectedIndex="0"/>
-<gridItem id="ETHER_CFG_MODE_SEL" selectedIndex="0"/>
-<gridItem id="ETHER_CFG_CH0_PHY_ADDRESS" selectedIndex="30"/>
-<gridItem id="ETHER_CFG_CH1_PHY_ADDRESS" selectedIndex="1"/>
-<gridItem id="ETHER_CFG_EMAC_RX_DESCRIPTORS" selectedIndex="1"/>
-<gridItem id="ETHER_CFG_EMAC_TX_DESCRIPTORS" selectedIndex="1"/>
-<gridItem id="ETHER_CFG_BUFSIZE" selectedIndex="1536"/>
-<gridItem id="ETHER_CFG_EINT_INT_PRIORITY" selectedIndex="1"/>
-<gridItem id="ETHER_CFG_AL1_INT_PRIORTY" selectedIndex="1"/>
-<gridItem id="ETHER_CFG_CH0_PHY_ACCESS" selectedIndex="0"/>
-<gridItem id="ETHER_CFG_CH1_PHY_ACCESS" selectedIndex="1"/>
-<gridItem id="ETHER_CFG_PHY_MII_WAIT" selectedIndex="8"/>
-<gridItem id="ETHER_CFG_PHY_DELAY_RESET" selectedIndex="0x00020000L"/>
-<gridItem id="ETHER_CFG_LINK_PRESENT" selectedIndex="0"/>
-<gridItem id="ETHER_CFG_USE_LINKSTA" selectedIndex="0"/>
-<gridItem id="ETHER_CFG_USE_PHY_KSZ8041NL" selectedIndex="0"/>
-</component>
-<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
-<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
-</configuration>
-<configuration inuse="true" name="r_flash_rx">
-<component description="Dependency : r_bsp version(s) 5.00&#10;This module allows the user to program, erase, write and blankcheck the Code and/or Data flash." detailDescription="Flash API for RX100, RX200, RX600. and RX700." display="r_flash_rx" id="r_flash_rx4.00" version="4.00">
-<gridItem id="FLASH_CFG_PARAM_CHECKING_ENABLE" selectedIndex="1"/>
-<gridItem id="FLASH_CFG_CODE_FLASH_ENABLE" selectedIndex="1"/>
-<gridItem id="FLASH_CFG_DATA_FLASH_BGO" selectedIndex="1"/>
-<gridItem id="FLASH_CFG_CODE_FLASH_BGO" selectedIndex="1"/>
-<gridItem id="FLASH_CFG_CODE_FLASH_RUN_FROM_ROM" selectedIndex="1"/>
-</component>
-<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
-<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
-</configuration>
 <configuration inuse="true" name="r_s12ad_rx">
-<component description="Dependency : r_bsp version(s) 5.20&#10;This A/D driver supports the temperature sensor, internal reference voltage sensor, and all analog channels available on the MCU. Single scan and continuous scanning are supported. Group and Double Trigger modes are supported. Triggers may be synchronous, asynchronous, or initiated by software. The RX210 Sample and Hold, Self-Diagnosis, and Disconnect Detection Assist features are supported as well." detailDescription="Multi-Channel A/D and Sensor Driver." display="r_s12ad_rx" id="r_s12ad_rx4.00" version="4.00">
+<component description="Dependency : r_bsp version(s) 5.20&#10;This A/D driver supports the temperature sensor, internal reference voltage sensor, and all analog channels available on the MCU. Single scan and continuous scanning are supported. Group and Double Trigger modes are supported. Triggers may be synchronous, asynchronous, or initiated by software. " detailDescription="Multi-Channel A/D and Sensor Driver." display="r_s12ad_rx" id="r_s12ad_rx4.20" version="4.20">
 <gridItem id="AN000" selectedIndex="0"/>
 <gridItem id="AN001" selectedIndex="0"/>
 <gridItem id="AN002" selectedIndex="0"/>
@@ -717,8 +604,114 @@
 <source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
 <source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
 </configuration>
+<configuration inuse="true" name="r_flash_rx">
+<component description="Dependency : r_bsp version(s) 5.20&#10;This module allows the user to program, erase, write and blankcheck the Code and/or Data flash." detailDescription="Flash API for RX100, RX200, RX600. and RX700." display="r_flash_rx" id="r_flash_rx4.20" version="4.20">
+<gridItem id="FLASH_CFG_PARAM_CHECKING_ENABLE" selectedIndex="1"/>
+<gridItem id="FLASH_CFG_CODE_FLASH_ENABLE" selectedIndex="1"/>
+<gridItem id="FLASH_CFG_DATA_FLASH_BGO" selectedIndex="1"/>
+<gridItem id="FLASH_CFG_CODE_FLASH_BGO" selectedIndex="1"/>
+<gridItem id="FLASH_CFG_CODE_FLASH_RUN_FROM_ROM" selectedIndex="1"/>
+</component>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+</configuration>
+<configuration inuse="true" name="r_ether_rx">
+<component description="Dependency : r_bsp version(s) 5.20&#10;The Ethernet fit module provides a method to send and receive Ethernet / IEEE802.3 frame using Ethernet controller (ETHERC), Ethernet DMA controller (EDMAC)." detailDescription="Ethernet Driver." display="r_ether_rx" id="r_ether_rx1.17" version="1.17">
+<gridItem id="CLKOUT25M" selectedIndex="0"/>
+<gridItem id="ET0_TX_CLK" selectedIndex="1"/>
+<gridItem id="ET0_RX_CLK" selectedIndex="1"/>
+<gridItem id="ET0_TX_EN" selectedIndex="1"/>
+<gridItem id="ET0_ETXD3" selectedIndex="1"/>
+<gridItem id="ET0_ETXD2" selectedIndex="1"/>
+<gridItem id="ET0_ETXD1" selectedIndex="1"/>
+<gridItem id="ET0_ETXD0" selectedIndex="1"/>
+<gridItem id="ET0_TX_ER" selectedIndex="1"/>
+<gridItem id="ET0_RX_DV" selectedIndex="1"/>
+<gridItem id="ET0_ERXD3" selectedIndex="1"/>
+<gridItem id="ET0_ERXD2" selectedIndex="1"/>
+<gridItem id="ET0_ERXD1" selectedIndex="1"/>
+<gridItem id="ET0_ERXD0" selectedIndex="1"/>
+<gridItem id="ET0_RX_ER" selectedIndex="1"/>
+<gridItem id="ET0_CRS" selectedIndex="1"/>
+<gridItem id="ET0_COL" selectedIndex="1"/>
+<gridItem id="ET0_MDC" selectedIndex="1"/>
+<gridItem id="ET0_MDIO" selectedIndex="1"/>
+<gridItem id="ET0_LINKSTA" selectedIndex="1"/>
+<gridItem id="ET0_EXOUT" selectedIndex="0"/>
+<gridItem id="ET0_WOL" selectedIndex="0"/>
+<gridItem id="ETHERC0_MII" selectedIndex="1"/>
+<gridItem id="REF50CK0" selectedIndex="0"/>
+<gridItem id="RMII0_TXD_EN" selectedIndex="0"/>
+<gridItem id="RMII0_TXD1" selectedIndex="0"/>
+<gridItem id="RMII0_TXD0" selectedIndex="0"/>
+<gridItem id="RMII0_RXD1" selectedIndex="0"/>
+<gridItem id="RMII0_RXD0" selectedIndex="0"/>
+<gridItem id="RMII0_RX_ER" selectedIndex="0"/>
+<gridItem id="RMII0_CRS_DV" selectedIndex="0"/>
+<gridItem id="ET0_MDC" selectedIndex="1"/>
+<gridItem id="ET0_MDIO" selectedIndex="1"/>
+<gridItem id="ET0_LINKSTA" selectedIndex="1"/>
+<gridItem id="ET0_EXOUT" selectedIndex="0"/>
+<gridItem id="ET0_WOL" selectedIndex="0"/>
+<gridItem id="ETHERC0_RMII" selectedIndex="0"/>
+<gridItem id="CLKOUT25M" selectedIndex="0"/>
+<gridItem id="ET1_TX_CLK" selectedIndex="0"/>
+<gridItem id="ET1_RX_CLK" selectedIndex="0"/>
+<gridItem id="ET1_TX_EN" selectedIndex="0"/>
+<gridItem id="ET1_ETXD3" selectedIndex="0"/>
+<gridItem id="ET1_ETXD2" selectedIndex="0"/>
+<gridItem id="ET1_ETXD1" selectedIndex="0"/>
+<gridItem id="ET1_ETXD0" selectedIndex="0"/>
+<gridItem id="ET1_TX_ER" selectedIndex="0"/>
+<gridItem id="ET1_RX_DV" selectedIndex="0"/>
+<gridItem id="ET1_ERXD3" selectedIndex="0"/>
+<gridItem id="ET1_ERXD2" selectedIndex="0"/>
+<gridItem id="ET1_ERXD1" selectedIndex="0"/>
+<gridItem id="ET1_ERXD0" selectedIndex="0"/>
+<gridItem id="ET1_RX_ER" selectedIndex="0"/>
+<gridItem id="ET1_CRS" selectedIndex="0"/>
+<gridItem id="ET1_COL" selectedIndex="0"/>
+<gridItem id="ET1_MDC" selectedIndex="0"/>
+<gridItem id="ET1_MDIO" selectedIndex="0"/>
+<gridItem id="ET1_LINKSTA" selectedIndex="0"/>
+<gridItem id="ET1_EXOUT" selectedIndex="0"/>
+<gridItem id="ET1_WOL" selectedIndex="0"/>
+<gridItem id="ETHERC1_MII" selectedIndex="0"/>
+<gridItem id="REF50CK1" selectedIndex="0"/>
+<gridItem id="RMII1_TXD_EN" selectedIndex="0"/>
+<gridItem id="RMII1_TXD1" selectedIndex="0"/>
+<gridItem id="RMII1_TXD0" selectedIndex="0"/>
+<gridItem id="RMII1_RXD1" selectedIndex="0"/>
+<gridItem id="RMII1_RXD0" selectedIndex="0"/>
+<gridItem id="RMII1_RX_ER" selectedIndex="0"/>
+<gridItem id="RMII1_CRS_DV" selectedIndex="0"/>
+<gridItem id="ET1_MDC" selectedIndex="0"/>
+<gridItem id="ET1_MDIO" selectedIndex="0"/>
+<gridItem id="ET1_LINKSTA" selectedIndex="0"/>
+<gridItem id="ET1_EXOUT" selectedIndex="0"/>
+<gridItem id="ET1_WOL" selectedIndex="0"/>
+<gridItem id="ETHERC1_RMII" selectedIndex="0"/>
+<gridItem id="ETHER_CFG_MODE_SEL" selectedIndex="0"/>
+<gridItem id="ETHER_CFG_CH0_PHY_ADDRESS" selectedIndex="30"/>
+<gridItem id="ETHER_CFG_CH1_PHY_ADDRESS" selectedIndex="1"/>
+<gridItem id="ETHER_CFG_EMAC_RX_DESCRIPTORS" selectedIndex="1"/>
+<gridItem id="ETHER_CFG_EMAC_TX_DESCRIPTORS" selectedIndex="1"/>
+<gridItem id="ETHER_CFG_BUFSIZE" selectedIndex="1536"/>
+<gridItem id="ETHER_CFG_EINT_INT_PRIORITY" selectedIndex="1"/>
+<gridItem id="ETHER_CFG_AL1_INT_PRIORTY" selectedIndex="1"/>
+<gridItem id="ETHER_CFG_CH0_PHY_ACCESS" selectedIndex="0"/>
+<gridItem id="ETHER_CFG_CH1_PHY_ACCESS" selectedIndex="1"/>
+<gridItem id="ETHER_CFG_PHY_MII_WAIT" selectedIndex="8"/>
+<gridItem id="ETHER_CFG_PHY_DELAY_RESET" selectedIndex="0x00020000L"/>
+<gridItem id="ETHER_CFG_LINK_PRESENT" selectedIndex="0"/>
+<gridItem id="ETHER_CFG_USE_LINKSTA" selectedIndex="0"/>
+<gridItem id="ETHER_CFG_USE_PHY_KSZ8041NL" selectedIndex="0"/>
+</component>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+</configuration>
 <configuration inuse="true" name="r_sci_rx">
-<component description="Dependency : r_bsp version(s) 5.20&#10;Dependency : r_byteq version(s) 1.40, 1.50, 1.60, 1.70, 1.71&#10;This module allows any number of SCI channels on the MCU to run in full duplex Asynchronous mode, single master Simple SPI mode, or master Synchronous mode simultaneously. The driver is interrupt driven and non-blocking. Transmit and receive buffer queues are used in Asynchronous mode and their sizes may be configured independently for each channel. Resources for unused channels or modes may be removed via settings in the driver's config.h file." detailDescription="Multi-Channel Multi-Mode SCI Driver." display="r_sci_rx" id="r_sci_rx3.00" version="3.00">
+<component description="Dependency : r_bsp version(s) 5.20&#10;Dependency : r_byteq version(s) 1.40, 1.50, 1.60, 1.70, 1.71&#10;This module allows any number of SCI channels on the MCU to run in full duplex Asynchronous mode, single master Simple SPI mode, or master Synchronous mode simultaneously. The driver is interrupt driven and non-blocking. Transmit and receive buffer queues are used in Asynchronous mode and their sizes may be configured independently for each channel. Resources for unused channels or modes may be removed via settings in the driver's config.h file." detailDescription="Multi-Channel Multi-Mode SCI Driver." display="r_sci_rx" id="r_sci_rx3.20" version="3.20">
 <gridItem id="SCK0" selectedIndex="0"/>
 <gridItem id="RXD0/SMISO0" selectedIndex="0"/>
 <gridItem id="TXD0/SMOSI0" selectedIndex="0"/>
@@ -835,19 +828,42 @@
 <gridItem id="SCI_CFG_TEI_INCLUDED" selectedIndex="1"/>
 <gridItem id="SCI_CFG_RXERR_PRIORITY" selectedIndex="3"/>
 <gridItem id="SCI_CFG_ERI_TEI_PRIORITY" selectedIndex="3"/>
+<gridItem id="SCI_CFG_CH7_FIFO_INCLUDED" selectedIndex="0"/>
+<gridItem id="SCI_CFG_CH8_FIFO_INCLUDED" selectedIndex="0"/>
+<gridItem id="SCI_CFG_CH9_FIFO_INCLUDED" selectedIndex="0"/>
 <gridItem id="SCI_CFG_CH10_FIFO_INCLUDED" selectedIndex="0"/>
 <gridItem id="SCI_CFG_CH11_FIFO_INCLUDED" selectedIndex="0"/>
+<gridItem id="SCI_CFG_CH7_TX_FIFO_THRESH" selectedIndex="8"/>
+<gridItem id="SCI_CFG_CH8_TX_FIFO_THRESH" selectedIndex="8"/>
+<gridItem id="SCI_CFG_CH9_TX_FIFO_THRESH" selectedIndex="8"/>
 <gridItem id="SCI_CFG_CH10_TX_FIFO_THRESH" selectedIndex="8"/>
 <gridItem id="SCI_CFG_CH11_TX_FIFO_THRESH" selectedIndex="8"/>
+<gridItem id="SCI_CFG_CH7_RX_FIFO_THRESH" selectedIndex="8"/>
+<gridItem id="SCI_CFG_CH8_RX_FIFO_THRESH" selectedIndex="8"/>
+<gridItem id="SCI_CFG_CH9_RX_FIFO_THRESH" selectedIndex="8"/>
 <gridItem id="SCI_CFG_CH10_RX_FIFO_THRESH" selectedIndex="8"/>
 <gridItem id="SCI_CFG_CH11_RX_FIFO_THRESH" selectedIndex="8"/>
+<gridItem id="SCI_CFG_CH0_DATA_MATCH_INCLUDED" selectedIndex="0"/>
 <gridItem id="SCI_CFG_CH1_DATA_MATCH_INCLUDED" selectedIndex="0"/>
+<gridItem id="SCI_CFG_CH2_DATA_MATCH_INCLUDED" selectedIndex="0"/>
+<gridItem id="SCI_CFG_CH3_DATA_MATCH_INCLUDED" selectedIndex="0"/>
+<gridItem id="SCI_CFG_CH4_DATA_MATCH_INCLUDED" selectedIndex="0"/>
 <gridItem id="SCI_CFG_CH5_DATA_MATCH_INCLUDED" selectedIndex="0"/>
 <gridItem id="SCI_CFG_CH6_DATA_MATCH_INCLUDED" selectedIndex="0"/>
+<gridItem id="SCI_CFG_CH7_DATA_MATCH_INCLUDED" selectedIndex="0"/>
 <gridItem id="SCI_CFG_CH8_DATA_MATCH_INCLUDED" selectedIndex="0"/>
 <gridItem id="SCI_CFG_CH9_DATA_MATCH_INCLUDED" selectedIndex="0"/>
 <gridItem id="SCI_CFG_CH10_DATA_MATCH_INCLUDED" selectedIndex="0"/>
 <gridItem id="SCI_CFG_CH11_DATA_MATCH_INCLUDED" selectedIndex="0"/>
+</component>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+</configuration>
+<configuration inuse="true" name="r_byteq">
+<component description="Dependency : r_bsp version(s) 3.10&#10;This module allocates a queue control block in an Open() call to handle indexing for buffers provided by the user application. Additional functions are provided to put and get data from the buffer queue, inspect the number of bytes available or in use, and to flush the queue. There is no limit to the number of queues supported, and queue control blocks can be allocated statically at build time or dynamically at run time." detailDescription="Byte-based circular buffer library." display="r_byteq" id="r_byteq1.80" version="1.80">
+<gridItem id="BYTEQ_CFG_PARAM_CHECKING_ENABLE" selectedIndex="0"/>
+<gridItem id="BYTEQ_CFG_USE_HEAP_FOR_CTRL_BLKS" selectedIndex="0"/>
+<gridItem id="BYTEQ_CFG_MAX_CTRL_BLKS" selectedIndex="32"/>
 </component>
 <source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
 <source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
