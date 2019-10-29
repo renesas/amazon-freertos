@@ -543,6 +543,7 @@ Configuration Options
    Don't change if there is no special processing with higher priority than all fit modules.
 */
 #define BSP_CFG_FIT_IPL_MAX                         (0xF)
+
 /* This macro is used to select which SCI channel used for debug serial terminal.
  */
 #define MY_BSP_CFG_SERIAL_TERM_SCI                  (7)
@@ -567,3 +568,4 @@ Configuration Options
 #define MY_BSP_CFG_SERIAL_TERM_SCI_INTERRUPT_PRIORITY   (15)
 
 #endif /* R_BSP_CONFIG_REF_HEADER_FILE */
+
