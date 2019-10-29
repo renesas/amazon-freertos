@@ -38,8 +38,8 @@
 PIN ASSIGNMENT
 *************************************************************************************************/
 /* The #defines specify the ports used for SS#. */
-#define FLASH_SPI_CS_DEV0_CFG_PORTNO    '3'     /* Device 0 Port Number : FLASH SS#    */
-#define FLASH_SPI_CS_DEV0_CFG_BITNO     '1'     /* Device 0 Bit Number  : FLASH SS#    */
+#define FLASH_SPI_CS_DEV0_CFG_PORTNO    'C'     /* Device 0 Port Number : FLASH SS#    */
+#define FLASH_SPI_CS_DEV0_CFG_BITNO     '0'     /* Device 0 Bit Number  : FLASH SS#    */
 #define FLASH_SPI_CS_DEV1_CFG_PORTNO    'C'     /* Device 1 Port Number : FLASH SS#    */
 #define FLASH_SPI_CS_DEV1_CFG_BITNO     '0'     /* Device 1 Bit Number  : FLASH SS#    */
 

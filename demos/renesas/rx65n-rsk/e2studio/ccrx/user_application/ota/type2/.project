@@ -277,6 +277,15 @@
 			</matcher>
 		</filter>
 		<filter>
+			<id>1572328503048</id>
+			<name>lib/third_party/mcu_vendor/renesas</name>
+			<type>9</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-true-rx_mcu_boards</arguments>
+			</matcher>
+		</filter>
+		<filter>
 			<id>1558253088192</id>
 			<name>lib/aws/FreeRTOS/portable/MemMang</name>
 			<type>5</type>
@@ -367,6 +376,15 @@
 			</matcher>
 		</filter>
 		<filter>
+			<id>1572328592729</id>
+			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v122</name>
+			<type>9</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-true-r_bsp|r_byteq|r_ether_rx|r_flash_rx|r_flash_spi|r_memdrv_rx|r_qspi_smstr_rx|r_rspi_rx|r_s12ad_rx|r_sci_rx</arguments>
+			</matcher>
+		</filter>
+		<filter>
 			<id>1563764377907</id>
 			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v120/r_bsp/board</name>
 			<type>9</type>
@@ -378,6 +396,24 @@
 		<filter>
 			<id>1563764450961</id>
 			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v120/r_bsp/mcu</name>
+			<type>9</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-true-all|rx65n</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1572328615922</id>
+			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v122/r_bsp/board</name>
+			<type>9</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-true-generic_rx65n</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1572328628917</id>
+			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v122/r_bsp/mcu</name>
 			<type>9</type>
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
@@ -438,11 +474,64 @@
 				<arguments>1.0-name-matches-false-true-rx65n</arguments>
 			</matcher>
 		</filter>
+		<filter>
+			<id>1572328646951</id>
+			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v122/r_ether_rx/src/targets</name>
+			<type>9</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-true-rx65n</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1572328660441</id>
+			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v122/r_flash_rx/src/targets</name>
+			<type>9</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-true-rx65n</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1572328676245</id>
+			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v122/r_qspi_smstr_rx/src/targets</name>
+			<type>9</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-true-rx65n</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1572328692555</id>
+			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v122/r_s12ad_rx/src/targets</name>
+			<type>9</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-true-rx65n</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1572328707682</id>
+			<name>lib/third_party/mcu_vendor/renesas/rx_mcu_boards/rx_driver_package/v122/r_sci_rx/src/targets</name>
+			<type>9</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-true-rx65n</arguments>
+			</matcher>
+		</filter>
 	</filteredResources>
 	<variableList>
 		<variable>
 			<name>AFR_HOME</name>
 			<value>$%7BPARENT-8-PROJECT_LOC%7D</value>
+		</variable>
+		<variable>
+			<name>SMC_GENERATED_LOC</name>
+			<value>$%7BPROJECT_LOC%7D/src/smc_gen</value>
+		</variable>
+		<variable>
+			<name>SMC_LINKED_LOC</name>
+			<value>$%7BPROJECT_LOC%7D</value>
 		</variable>
 	</variableList>
 </projectDescription>
