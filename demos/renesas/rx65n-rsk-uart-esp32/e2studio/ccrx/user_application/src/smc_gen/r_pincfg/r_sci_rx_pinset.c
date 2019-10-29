@@ -46,12 +46,12 @@ void R_SCI_PinSet_SCI6()
     R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_MPC);
 
     /* Set RXD6/SMISO6 pin */
-    MPC.P33PFS.BYTE = 0x0AU;
-    PORT3.PMR.BIT.B3 = 1U;
+    MPC.P01PFS.BYTE = 0x0AU;
+    PORT0.PMR.BIT.B1 = 1U;
 
     /* Set TXD6/SMOSI6 pin */
-    MPC.P32PFS.BYTE = 0x0AU;
-    PORT3.PMR.BIT.B2 = 1U;
+    MPC.P00PFS.BYTE = 0x0AU;
+    PORT0.PMR.BIT.B0 = 1U;
 
     R_BSP_RegisterProtectEnable(BSP_REG_PROTECT_MPC);
 }
