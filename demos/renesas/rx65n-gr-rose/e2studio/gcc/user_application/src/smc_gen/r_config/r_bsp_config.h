@@ -484,7 +484,7 @@ Configuration Options
    3 = MicroC_OS is used.(This is not available.)
    4 = RI600V4 or RI600PX is used.(This is not available.)
 */
-#define BSP_CFG_RTOS_USED               (0) /* Generated value. Do not edit this manually */
+#define BSP_CFG_RTOS_USED               (1) /* Generated value. Do not edit this manually */
 
 /* This macro is used to select which CMT channel used for system timer of RTOS.
  * The setting of this macro is only valid if the macro BSP_CFG_RTOS_USED is set to a value other than 0. */
