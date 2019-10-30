@@ -46,6 +46,7 @@
 *         : 31.10.2018 1.04      Added support for RX651 with 64 pin package.
 *         : 28.02.2019 2.00      Added support for GNUC and ICCRX.
 *                                Fixed coding style.
+*         : 26.07.2019 2.01    Modified comment.
 ***********************************************************************************************************************/
 #ifndef R_BSP_CONFIG_REF_HEADER_FILE
 #define R_BSP_CONFIG_REF_HEADER_FILE
@@ -166,7 +167,7 @@ Configuration Options
    1) Set this macro (BSP_CFG_HEAP_BYTES) to 0.
    2) Set the macro BSP_CFG_IO_LIB_ENABLE to 0.
    3) Disable stdio from being built into the project library. This is done by going into the Renesas RX Toolchain 
-      settings and choosing the Standard Library section. After that choose 'Contents' in E2Studio.
+      settings and choosing the Standard Library section. After that choose 'Contents' in e2 studio.
       This will present a list of modules that can be included. Uncheck the box for stdio.h.
    NOTE: This setting is available only when using CCRX and GNUC. */
 #define BSP_CFG_HEAP_BYTES              (0x2000)
@@ -605,17 +606,6 @@ Configuration Options
 */
 #define BSP_CFG_FIT_IPL_MAX                         (0xF)
 
-
-/* For some BSP functions, it is necessary to ensure that, while these functions are executing, interrupts from other
-   FIT modules do not occur. By controlling the IPL, these functions disable interrupts that are at or below the
-   specified interrupt priority level.
-   This macro sets the IPL. Range is 0x0 - 0xF.
-   Please set this macro more than IPR for other FIT module interrupts.
-   The default value is 0xF (maximum value).
-   Don't change if there is no special processing with higher priority than all fit modules.
-*/
-#define BSP_CFG_FIT_IPL_MAX                         (0xF)
-
 /* This macro is used to select which SCI channel used for debug serial terminal.
  */
 #define MY_BSP_CFG_SERIAL_TERM_SCI                  (5)
@@ -637,7 +627,6 @@ Configuration Options
    0(low) - 15(high)
  */
 #define MY_BSP_CFG_SERIAL_TERM_SCI_INTERRUPT_PRIORITY   (15)
-
 
 #endif /* R_BSP_CONFIG_REF_HEADER_FILE */
 
