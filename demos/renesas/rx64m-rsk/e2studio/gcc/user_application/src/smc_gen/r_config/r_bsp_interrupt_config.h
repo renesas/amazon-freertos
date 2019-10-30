@@ -12,7 +12,7 @@
 * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of 
 * this software. By using this software, you agree to the additional terms and conditions found by accessing the 
 * following link:
-* http://www.renesas.com/disclaimer 
+* http://www.renesas.com/disclaimer
 *
 * Copyright (C) 2013 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
@@ -47,6 +47,7 @@
 *                               - From XXX_MTU8_TGIV8 to XXX_MTU8_TCIV8.
 *                               Removed the following macro definition.
 *                               - BSP_MAPPED_INT_CFG_A_VECT_MTU8_TGIU8
+*                               Fixed coding style.
 ***********************************************************************************************************************/
 #ifndef R_BSP_INTERRUPT_CONFIG_REF_HEADER_FILE
 #define R_BSP_INTERRUPT_CONFIG_REF_HEADER_FILE
@@ -234,3 +235,4 @@ Macro definitions
 #define BSP_MAPPED_INT_CFG_A_VECT_AES_AESEND                              253
  
 #endif /* R_BSP_INTERRUPT_CONFIG_REF_HEADER_FILE */
+
