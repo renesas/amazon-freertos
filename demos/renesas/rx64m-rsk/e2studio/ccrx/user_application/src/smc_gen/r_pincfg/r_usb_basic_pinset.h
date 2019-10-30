@@ -22,7 +22,7 @@
 * Device(s)    : R5F564MLCxFC
 * Tool-Chain   : RXC toolchain
 * Description  : Setting of port and mpc registers
-* Creation Date: 2019-10-29
+* Creation Date: 2019-10-30
 ***********************************************************************************************************************/
 
 #ifndef R_USB_BASIC_H
