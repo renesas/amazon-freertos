@@ -46,6 +46,7 @@
 *         : 31.10.2018 1.04      Added support for RX651 with 64 pin package.
 *         : 28.02.2019 2.00      Added support for GNUC and ICCRX.
 *                                Fixed coding style.
+*         : 26.07.2019 2.01    Modified comment.
 ***********************************************************************************************************************/
 #ifndef R_BSP_CONFIG_REF_HEADER_FILE
 #define R_BSP_CONFIG_REF_HEADER_FILE
@@ -166,7 +167,7 @@ Configuration Options
    1) Set this macro (BSP_CFG_HEAP_BYTES) to 0.
    2) Set the macro BSP_CFG_IO_LIB_ENABLE to 0.
    3) Disable stdio from being built into the project library. This is done by going into the Renesas RX Toolchain 
-      settings and choosing the Standard Library section. After that choose 'Contents' in E2Studio.
+      settings and choosing the Standard Library section. After that choose 'Contents' in e2 studio.
       This will present a list of modules that can be included. Uncheck the box for stdio.h.
    NOTE: This setting is available only when using CCRX and GNUC. */
 #define BSP_CFG_HEAP_BYTES              (0x1000)
@@ -604,6 +605,31 @@ Configuration Options
    Don't change if there is no special processing with higher priority than all fit modules.
 */
 #define BSP_CFG_FIT_IPL_MAX                         (0xF)
+
+/* This macro is used to select which SCI channel used for debug serial terminal.
+ */
+#define MY_BSP_CFG_SERIAL_TERM_SCI                  (8)
+
+/* This macro is used to select which SCI channel used for UART WiFi module.
+ */
+#define MY_BSP_CFG_UART_WIFI_SCI                    (6)
+#define ULPGN_HSUART1_RTS_PDR   PORT0.PDR.BIT.B2     /*PMOD PinNo.4 */
+#define ULPGN_HSUART1_RTS_PODR  PORT0.PODR.BIT.B2    /*PMOD PinNo.4 */
+#define MY_BSP_CFG_UART_WIFI_SECOND_SCI             (7)
+#define ULPGN_RESET_PORT_PDR    PORTF.PDR.BIT.B5     /*PMOD PinNo.8 */
+#define ULPGN_RESET_PORT_PODR   PORTF.PODR.BIT.B5    /*PMOD PinNo.8 */
+
+#define WIFI_RESET_PORT_PDR    PORTJ.PDR.BIT.B3     /*PMOD PinNo.8 */
+#define WIFI_RESET_PORT_PODR   PORTJ.PODR.BIT.B3    /*PMOD PinNo.8 */
+
+/* This macro is used to select which SCI bit-rate.
+ */
+#define MY_BSP_CFG_SERIAL_TERM_SCI_BITRATE          (115200)
+
+/* This macro is used to select which SCI interrupt priority.
+   0(low) - 15(high)
+ */
+#define MY_BSP_CFG_SERIAL_TERM_SCI_INTERRUPT_PRIORITY   (15)
 
 #endif /* R_BSP_CONFIG_REF_HEADER_FILE */
 
