@@ -14,7 +14,7 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
 * File Name    : r_bsp_interrupt_config.h
@@ -22,7 +22,7 @@
 ***********************************************************************************************************************/
 /**********************************************************************************************************************
 * History : DD.MM.YYYY Version  Description
-*         : 20.12.2018 0.50     First Release
+*         : 08.04.2019 1.00     First Release
 ***********************************************************************************************************************/
 #ifndef R_BSP_INTERRUPT_CONFIG_REF_HEADER_FILE
 #define R_BSP_INTERRUPT_CONFIG_REF_HEADER_FILE
@@ -104,10 +104,10 @@ Macro definitions
 #define BSP_MAPPED_INT_CFG_B_VECT_CAN1_TXF1                               182
 #define BSP_MAPPED_INT_CFG_B_VECT_CAN1_RXM1                               183
 #define BSP_MAPPED_INT_CFG_B_VECT_CAN1_TXM1                               184
-#define BSP_MAPPED_INT_CFG_B_VECT_CAN2_RXF2
-#define BSP_MAPPED_INT_CFG_B_VECT_CAN2_TXF2
-#define BSP_MAPPED_INT_CFG_B_VECT_CAN2_RXM2
-#define BSP_MAPPED_INT_CFG_B_VECT_CAN2_TXM2
+#define BSP_MAPPED_INT_CFG_B_VECT_CAN2_RXF2                               
+#define BSP_MAPPED_INT_CFG_B_VECT_CAN2_TXF2                               
+#define BSP_MAPPED_INT_CFG_B_VECT_CAN2_RXM2                               
+#define BSP_MAPPED_INT_CFG_B_VECT_CAN2_TXM2                               
 #define BSP_MAPPED_INT_CFG_B_VECT_USB0_USBI0                              185
 #define BSP_MAPPED_INT_CFG_B_VECT_S12ADC0_S12ADI0                         186
 #define BSP_MAPPED_INT_CFG_B_VECT_S12ADC0_S12GBADI0                       187
@@ -131,7 +131,7 @@ Macro definitions
 
 /* Interrupt A Sources.
  * -Valid vector numbers are 208-255.
- * -There are more A sources than A vector slots. By default none of the GPTW interrupts and the ESC interrupts are
+ * -There are more A sources than A vector slots. By default none of the GPTW interrupts and the ESC interrupts are 
  *  mapped.
  * -If using the 'MTU1, TGI1A' interrupt it must be vector 208 or 209. It is set to 208 by default.
  */
@@ -178,49 +178,49 @@ Macro definitions
 #define BSP_MAPPED_INT_CFG_A_VECT_MTU8_TGIC8                              248
 #define BSP_MAPPED_INT_CFG_A_VECT_MTU8_TGID8                              249
 #define BSP_MAPPED_INT_CFG_A_VECT_MTU8_TCIV8                              250
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW0_GTCIA0
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW0_GTCIB0
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW0_GTCIC0
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW0_GTCID0
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW0_GDTE0
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW0_GTCIE0
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW0_GTCIF0
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW0_GTCIV0
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW0_GTCIU0
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW1_GTCIA1
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW1_GTCIB1
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW1_GTCIC1
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW1_GTCID1
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW1_GDTE1
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW1_GTCIE1
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW1_GTCIF1
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW1_GTCIV1
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW1_GTCIU1
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW2_GTCIA2
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW2_GTCIB2
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW2_GTCIC2
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW2_GTCID2
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW2_GDTE2
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW2_GTCIE2
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW2_GTCIF2
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW2_GTCIV2
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW2_GTCIU2
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW3_GTCIA3
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW3_GTCIB3
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW3_GTCIC3
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW3_GTCID3
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW3_GDTE3
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW3_GTCIE3
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW3_GTCIF3
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW3_GTCIV3
-#define BSP_MAPPED_INT_CFG_A_VECT_GPTW3_GTCIU3
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW0_GTCIA0                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW0_GTCIB0                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW0_GTCIC0                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW0_GTCID0                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW0_GDTE0                             
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW0_GTCIE0                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW0_GTCIF0                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW0_GTCIV0                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW0_GTCIU0                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW1_GTCIA1                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW1_GTCIB1                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW1_GTCIC1                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW1_GTCID1                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW1_GDTE1                             
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW1_GTCIE1                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW1_GTCIF1                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW1_GTCIV1                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW1_GTCIU1                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW2_GTCIA2                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW2_GTCIB2                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW2_GTCIC2                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW2_GTCID2                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW2_GDTE2                             
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW2_GTCIE2                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW2_GTCIF2                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW2_GTCIV2                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW2_GTCIU2                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW3_GTCIA3                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW3_GTCIB3                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW3_GTCIC3                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW3_GTCID3                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW3_GDTE3                             
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW3_GTCIE3                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW3_GTCIF3                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW3_GTCIV3                            
+#define BSP_MAPPED_INT_CFG_A_VECT_GPTW3_GTCIU3                            
 #define BSP_MAPPED_INT_CFG_A_VECT_EPTPC_IPLS                              251
-#define BSP_MAPPED_INT_CFG_A_VECT_ESC_SYNC0
-#define BSP_MAPPED_INT_CFG_A_VECT_ESC_SYNC1
-#define BSP_MAPPED_INT_CFG_A_VECT_ESC_SOF
-#define BSP_MAPPED_INT_CFG_A_VECT_ESC_EOF
-#define BSP_MAPPED_INT_CFG_A_VECT_ESC_WDT
-#define BSP_MAPPED_INT_CFG_A_VECT_ESC_RESET
+#define BSP_MAPPED_INT_CFG_A_VECT_ESC_SYNC0                               
+#define BSP_MAPPED_INT_CFG_A_VECT_ESC_SYNC1                               
+#define BSP_MAPPED_INT_CFG_A_VECT_ESC_SOF                                 
+#define BSP_MAPPED_INT_CFG_A_VECT_ESC_EOF                                 
+#define BSP_MAPPED_INT_CFG_A_VECT_ESC_WDT                                 
+#define BSP_MAPPED_INT_CFG_A_VECT_ESC_RESET                               
 #define BSP_MAPPED_INT_CFG_A_VECT_PMGI0_PMGI0I                            252
 #define BSP_MAPPED_INT_CFG_A_VECT_PMGI1_PMGI1I                            253
 
