@@ -185,7 +185,7 @@ static volatile LOAD_FIRMWARE_CONTROL_BLOCK load_firmware_control_block;
 static PACKET_BLOCK_FOR_QUEUE packet_block_for_queue1;
 static PACKET_BLOCK_FOR_QUEUE packet_block_for_queue2;
 static FIRMWARE_UPDATE_CONTROL_BLOCK *firmware_update_control_block_bank0 = (FIRMWARE_UPDATE_CONTROL_BLOCK*)BOOT_LOADER_UPDATE_EXECUTE_AREA_LOW_ADDRESS;
-static uint32_t gs_header_flashing_task;
+static volatile uint32_t gs_header_flashing_task;
 
 /*-----------------------------------------------------------*/
 

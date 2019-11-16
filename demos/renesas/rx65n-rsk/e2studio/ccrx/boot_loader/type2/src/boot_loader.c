@@ -347,7 +347,8 @@ static int32_t secure_boot(void)
     		{
     	    	memcpy(load_firmware_control_block.flash_buffer, (void*)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS, FLASH_CF_MEDIUM_BLOCK_SIZE);
 
-    	    	printf("bank1(temporary area) on code flash hash check...");
+    	    	printf("integrity check scheme = %-.32s\r\n", firmware_update_control_block_bank1->signature_type);
+    	    	printf("bank1(temporary area) on code flash integrity check...");
 
 				/* Firmware verification for the signature type. */
 				if (!strcmp((const char *)firmware_update_control_block_bank1->signature_type, INTEGRITY_CHECK_SCHEME_HASH_SHA256_STANDALONE))
@@ -698,7 +699,8 @@ static int32_t secure_boot(void)
 							{
 								printf("\n");
 								printf("completed installing firmware.\r\n");
-								printf("code flash hash check...");
+				    	    	printf("integrity check scheme = %-.32s\r\n", firmware_update_control_block_bank1->signature_type);
+			    	            printf("bank1(temporary area) on code flash integrity check...");
 
 								/* Firmware verification for the signature type. */
 								if (!strcmp((const char *)firmware_update_control_block_bank1->signature_type, INTEGRITY_CHECK_SCHEME_HASH_SHA256_STANDALONE))
@@ -825,7 +827,8 @@ static int32_t secure_boot(void)
 					switch(secure_boot_state)
 					{
 						case BOOT_LOADER_STATE_BANK0_UPDATE_CHECK:
-		    	            printf("bank0(execute area) on code flash hash check...");
+			    	    	printf("integrity check scheme = %-.32s\r\n", firmware_update_control_block_bank0->signature_type);
+		    	            printf("bank0(execute area) on code flash integrity check...");
 							/* Firmware verification for the signature type. */
 							if (!strcmp((const char *)firmware_update_control_block_bank0->signature_type, INTEGRITY_CHECK_SCHEME_HASH_SHA256_STANDALONE))
 							{
@@ -914,7 +917,8 @@ static int32_t secure_boot(void)
 
     	        default:
     	            printf("illegal flash rom status code 0x%x.\r\n", firmware_update_control_block_bank0->image_flag);
-    	            printf("bank1(temporary area) on code flash hash check...");
+        	    	printf("integrity check scheme = %-.32s\r\n", firmware_update_control_block_bank1->signature_type);
+    	            printf("bank1(temporary area) on code flash integrity check...");
 
 					/* Firmware verification for the signature type. */
 					if (!strcmp((const char *)firmware_update_control_block_bank1->signature_type, INTEGRITY_CHECK_SCHEME_HASH_SHA256_STANDALONE))
