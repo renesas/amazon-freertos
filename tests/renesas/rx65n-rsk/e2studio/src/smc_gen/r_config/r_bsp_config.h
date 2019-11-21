@@ -607,19 +607,20 @@ Configuration Options
 
 /* This macro is used to select which SCI channel used for debug serial terminal.
  */
-#define MY_BSP_CFG_SERIAL_TERM_SCI                  (8)
-
-/* OTA setting
- * (0) : Disable
- * (1) : Enable (file system on USB)
- * (2) : Enable (Serial flash)
- * (3) : Enable (on-the-fly)
+/* This macro is used to select which SCI channel used for debug serial terminal.
+   RX65N-RSK Default: SCI8 - G1CUSB0(RL78/G1C), bit rate 115200bps
+             Option : SCI6 - PMOD1(FTDI)      , bit rate 921600bps
  */
-#define MY_BSP_CFG_OTA_ENABLE                       (3)
+#define MY_BSP_CFG_SERIAL_TERM_SCI                  (6)
 
-/* This macro is used to select which SCI channel used for OTA.
+/* This macro is used to select which SCI bit-rate.
  */
-#define MY_BSP_CFG_USE_USBIP                        (0)
+#define MY_BSP_CFG_SERIAL_TERM_SCI_BITRATE          (115200)
+
+/* This macro is used to select which SCI interrupt priority.
+   0(low) - 15(high)
+ */
+#define MY_BSP_CFG_SERIAL_TERM_SCI_INTERRUPT_PRIORITY   (15)
 
 #endif /* R_BSP_CONFIG_REF_HEADER_FILE */
 
