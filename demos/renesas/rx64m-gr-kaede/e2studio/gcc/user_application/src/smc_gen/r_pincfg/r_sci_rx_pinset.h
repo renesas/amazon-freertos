@@ -22,7 +22,7 @@
 * Device(s)    : R5F564MLCxFB
 * Tool-Chain   : RXC toolchain
 * Description  : Setting of port and mpc registers
-* Creation Date: 2019-10-30
+* Creation Date: 2019-12-02
 ***********************************************************************************************************************/
 
 #ifndef R_SCI_RX_H
