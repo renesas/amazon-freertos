@@ -26,7 +26,6 @@
 ************************************************************************************************************************
 * History : DD.MM.YYYY Version  Description
 *         : 08.04.2019 1.00     First Release.
-*         : 26.07.2019 1.01     Modified comment.
 ***********************************************************************************************************************/
 #ifndef R_BSP_CONFIG_REF_HEADER_FILE
 #define R_BSP_CONFIG_REF_HEADER_FILE
@@ -116,7 +115,7 @@ NOTE: The RAM areas are not contiguous.It is separated by 512 KB each.
  * 1 = Use 2 stacks. User stack and interrupt stack will both be used.
  * NOTE: This setting is available only when using CCRX and GNUC.
  */
-#define BSP_CFG_USER_STACK_ENABLE       (1)
+#define BSP_CFG_USER_STACK_ENABLE       (0)
 
 /* If only 1 stack is chosen using BSP_CFG_USER_STACK_ENABLE then no RAM will be allocated for the user stack. */
 #if BSP_CFG_USER_STACK_ENABLE == 1
@@ -127,14 +126,14 @@ NOTE: The RAM areas are not contiguous.It is separated by 512 KB each.
 
 /* Interrupt Stack size in bytes.
  * NOTE: This setting is available only when using CCRX and GNUC. */
-#define BSP_CFG_ISTACK_BYTES            (0x400)
+#define BSP_CFG_ISTACK_BYTES            (0x1000)
 
 /* Heap size in bytes.
    To disable the heap you must follow these steps:
    1) Set this macro (BSP_CFG_HEAP_BYTES) to 0.
    2) Set the macro BSP_CFG_IO_LIB_ENABLE to 0.
    3) Disable stdio from being built into the project library. This is done by going into the Renesas RX Toolchain 
-      settings and choosing the Standard Library section. After that choose 'Contents' in e2 studio.
+      settings and choosing the Standard Library section. After that choose 'Contents' in E2Studio.
       This will present a list of modules that can be included. Uncheck the box for stdio.h.
    NOTE: This setting is available only when using CCRX and GNUC. */
 #define BSP_CFG_HEAP_BYTES              (0x400)
@@ -730,7 +729,6 @@ NOTE: The RAM areas are not contiguous.It is separated by 512 KB each.
    Don't change if there is no special processing with higher priority than all fit modules.
 */
 #define BSP_CFG_FIT_IPL_MAX                         (0xF)
-
 /* This macro is used to select which SCI channel used for debug serial terminal.
  */
 #define MY_BSP_CFG_SERIAL_TERM_SCI                  (6)
@@ -753,5 +751,6 @@ NOTE: The RAM areas are not contiguous.It is separated by 512 KB each.
    0(low) - 15(high)
  */
 #define MY_BSP_CFG_SERIAL_TERM_SCI_INTERRUPT_PRIORITY   (15)
+
 #endif /* R_BSP_CONFIG_REF_HEADER_FILE */
 
