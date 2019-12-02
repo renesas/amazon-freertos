@@ -66,7 +66,6 @@
 *                                 - BSP_CFG_FIT_IPL_MAX
 *         : 28.02.2019 3.00    Added support for GNUC and ICCRX.
 *                              Fixed coding style.
-*         : 26.07.2019 3.01    Modified comment.
 ***********************************************************************************************************************/
 #ifndef R_BSP_CONFIG_REF_HEADER_FILE
 #define R_BSP_CONFIG_REF_HEADER_FILE
@@ -181,7 +180,7 @@ Configuration Options
    1) Set this macro (BSP_CFG_HEAP_BYTES) to 0.
    2) Set the macro BSP_CFG_IO_LIB_ENABLE to 0.
    3) Disable stdio from being built into the project library. This is done by going into the Renesas RX Toolchain 
-      settings and choosing the Standard Library section. After that choose 'Contents' in e2 studio.
+      settings and choosing the Standard Library section. After that choose 'Contents' in E2Studio.
       This will present a list of modules that can be included. Uncheck the box for stdio.h.
    NOTE: This setting is available only when using CCRX and GNUC. */
 #define BSP_CFG_HEAP_BYTES              (0x1000)
@@ -544,7 +543,6 @@ Configuration Options
    Don't change if there is no special processing with higher priority than all fit modules.
 */
 #define BSP_CFG_FIT_IPL_MAX                         (0xF)
-
 /* This macro is used to select which SCI channel used for debug serial terminal.
  */
 #define MY_BSP_CFG_SERIAL_TERM_SCI                  (7)
