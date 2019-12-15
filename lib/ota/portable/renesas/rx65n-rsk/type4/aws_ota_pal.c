@@ -113,8 +113,9 @@ static uint8_t * prvPAL_ReadAndAssumeCertificate( const uint8_t * const pucCertN
 
 #define LIFECYCLE_STATE_BLANK		(0xff)
 #define LIFECYCLE_STATE_TESTING		(0xfe)
-#define LIFECYCLE_STATE_VALID		(0xfc)
-#define LIFECYCLE_STATE_INVALID		(0xf8)
+#define LIFECYCLE_STATE_INSTALLING	(0xfc)
+#define LIFECYCLE_STATE_VALID		(0xf8)
+#define LIFECYCLE_STATE_INVALID		(0xf0)
 
 #define OTA_PAL_SUCCESS     (0)
 #define OTA_PAL_FAIL        (-1)
@@ -210,7 +211,8 @@ OTA_Err_t prvPAL_CreateFileForRx( OTA_FileContext_t * const C )
 			/* create task/queue/semaphore for flashing */
 			xQueue = xQueueCreate(otaconfigMAX_NUM_BLOCKS_REQUEST, sizeof(PACKET_BLOCK_FOR_QUEUE));
 			xTaskCreate(ota_flashing_task, "OTA_FLASHING_TASK", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES, &xTask);
-			xSemaphoreFlashig = xSemaphoreCreateMutex();
+			xSemaphoreFlashig = xSemaphoreCreateBinary();
+			xSemaphoreGive(xSemaphoreFlashig);
 			xSemaphoreWriteBlock = xSemaphoreCreateMutex();
 
 			flash_err = R_FLASH_Open();
@@ -248,6 +250,7 @@ OTA_Err_t prvPAL_CreateFileForRx( OTA_FileContext_t * const C )
 OTA_Err_t prvPAL_Abort( OTA_FileContext_t * const C )
 {
     DEFINE_OTA_METHOD_NAME( "prvPAL_Abort" );
+    OTA_LOG_L1("[%s] is called.\r\n", OTA_METHOD_NAME);
 
     OTA_Err_t eResult = kOTA_Err_None;
 
@@ -284,8 +287,7 @@ OTA_Err_t prvPAL_Abort( OTA_FileContext_t * const C )
 	}
 
 	ota_context_close(C);
-	OTA_LOG_L1( "[%s] OK\r\n", OTA_METHOD_NAME );
-    return kOTA_Err_None;
+    return eResult;
 }
 /*-----------------------------------------------------------*/
 
@@ -394,7 +396,6 @@ OTA_Err_t prvPAL_CloseFile( OTA_FileContext_t * const C )
 	}
 
 	ota_context_close(C);
-	OTA_LOG_L1( "[%s] OK\r\n", OTA_METHOD_NAME );
 	return eResult;
 }
 /*-----------------------------------------------------------*/
@@ -433,10 +434,14 @@ static OTA_Err_t prvPAL_CheckFileSignature( OTA_FileContext_t * const C )
             if( CRYPTO_SignatureVerificationFinal( pvSigVerifyContext, ( char * ) pucSignerCert, ulSignerCertSize,
                                                    C->pxSignature->ucData, C->pxSignature->usSize ) == pdFALSE )
             {
+                OTA_LOG_L1( "[%s] ERROR: Finished %s signature verification, but signature verification failed\r\n", OTA_METHOD_NAME,
+                    cOTA_JSON_FileSignatureKey );
                 eResult = kOTA_Err_SignatureCheckFailed;
             }
             else
             {
+                OTA_LOG_L1( "[%s] PASS: Finished %s signature verification, signature verification passed\r\n", OTA_METHOD_NAME,
+                    cOTA_JSON_FileSignatureKey );
                 eResult = kOTA_Err_None;
             }
         }
@@ -501,10 +506,27 @@ OTA_Err_t prvPAL_ResetDevice( void )
 
     OTA_LOG_L1( "[%s] Resetting the device.\r\n", OTA_METHOD_NAME );
 
-    /* Software reset issued (Not bank swap) */
-    R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_LPC_CGC_SWR);
-    SYSTEM.SWRR = 0xa501;
-	while(1);	/* software reset */
+	if ((eOTA_ImageState_Accepted == load_firmware_control_block.eSavedAgentState) ||
+	    (eOTA_ImageState_Testing == load_firmware_control_block.eSavedAgentState))
+	{
+	    /* Software reset issued (Not swap bank) */
+	    set_psw(0);
+	    R_BSP_InterruptsDisable();
+	    R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_LPC_CGC_SWR);
+	    SYSTEM.SWRR = 0xa501;
+		while(1);	/* software reset */
+	}
+	else
+	{
+		/* If the status is rejected, aborted, or error, swap bank and return to the previous image.
+		   Then the boot loader will start and erase the image that failed to update. */
+	    set_psw(0);
+    	R_BSP_InterruptsDisable();
+    	R_FLASH_Control(FLASH_CMD_BANK_TOGGLE, NULL);
+    	R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_LPC_CGC_SWR);
+    	SYSTEM.SWRR = 0xa501;
+    	while(1);   /* software reset */
+	}
 
     /* We shouldn't actually get here if the board supports the auto reset.
      * But, it doesn't hurt anything if we do although someone will need to
@@ -529,21 +551,85 @@ OTA_Err_t prvPAL_ActivateNewImage( void )
 
 OTA_Err_t prvPAL_SetPlatformImageState( OTA_ImageState_t eState )
 {
+	flash_interrupt_config_t cb_func_info;
+
     DEFINE_OTA_METHOD_NAME( "prvPAL_SetPlatformImageState" );
     OTA_LOG_L1("[%s] is called.\r\n", OTA_METHOD_NAME);
 
-    OTA_Err_t eResult = kOTA_Err_None;
+    OTA_Err_t eResult = kOTA_Err_Uninitialized;
 
-    if( eState != eOTA_ImageState_Unknown && eState <= eOTA_LastImageState )
-    {
-    	/* Save the image state to eSavedAgentState. */
-    	load_firmware_control_block.eSavedAgentState = eState;
-    }
-    else /* Image state invalid. */
-    {
-        OTA_LOG_L1( "[%s] ERROR - Invalid image state provided.\r\n", OTA_METHOD_NAME );
-        eResult = kOTA_Err_BadImageState;
-    }
+	/* Save the image state to eSavedAgentState. */
+	load_firmware_control_block.eSavedAgentState = eState;
+	if (firmware_update_control_block_bank0->image_flag == LIFECYCLE_STATE_VALID)
+	{
+		switch (eState)
+		{
+			case eOTA_ImageState_Accepted:
+				R_FLASH_Close();
+				R_FLASH_Open();
+				cb_func_info.pcallback = ota_header_flashing_callback;
+				cb_func_info.int_priority = FLASH_INTERRUPT_PRIORITY;
+				R_FLASH_Control(FLASH_CMD_SET_BGO_CALLBACK, (void *)&cb_func_info);
+
+				gs_header_flashing_task = OTA_FLASHING_IN_PROGRESS;
+				if (R_FLASH_Erase((flash_block_address_t)BOOT_LOADER_UPDATE_TEMPORARY_AREA_HIGH_ADDRESS, BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) == FLASH_SUCCESS)
+				{
+					while (OTA_FLASHING_IN_PROGRESS == gs_header_flashing_task);
+					OTA_LOG_L1( "[%s] erase install area (code flash):OK\r\n", OTA_METHOD_NAME );
+					OTA_LOG_L1( "[%s] Accepted and committed final image.\r\n", OTA_METHOD_NAME );
+					eResult = kOTA_Err_None;
+				}
+				else
+				{
+					OTA_LOG_L1( "[%s] erase install area (code flash):NG\r\n", OTA_METHOD_NAME );
+					OTA_LOG_L1( "[%s] Accepted final image but commit failed (%d).\r\n", OTA_METHOD_NAME );
+					eResult = kOTA_Err_CommitFailed;
+				}
+				break;
+			case eOTA_ImageState_Rejected:
+				OTA_LOG_L1( "[%s] Rejected image.\r\n", OTA_METHOD_NAME );
+				eResult = kOTA_Err_None;
+				break;
+			case eOTA_ImageState_Aborted:
+				OTA_LOG_L1( "[%s] Aborted image.\r\n", OTA_METHOD_NAME );
+				eResult = kOTA_Err_None;
+				break;
+			case eOTA_ImageState_Testing:
+				OTA_LOG_L1( "[%s] Testing.\r\n", OTA_METHOD_NAME );
+				eResult = kOTA_Err_None;
+				break;
+			default:
+				OTA_LOG_L1( "[%s] Unknown state received %d.\r\n", OTA_METHOD_NAME, ( int32_t ) eState );
+		        eResult = kOTA_Err_BadImageState;
+				break;
+		}
+	}
+	else
+	{
+		switch (eState)
+		{
+			case eOTA_ImageState_Accepted:
+				OTA_LOG_L1( "[%s] Not in commit pending so can not mark image valid (%d).\r\n", OTA_METHOD_NAME);
+				eResult = kOTA_Err_CommitFailed;
+				break;
+			case eOTA_ImageState_Rejected:
+				OTA_LOG_L1( "[%s] Rejected image.\r\n", OTA_METHOD_NAME );
+				eResult = kOTA_Err_None;
+				break;
+			case eOTA_ImageState_Aborted:
+				OTA_LOG_L1( "[%s] Aborted image.\r\n", OTA_METHOD_NAME );
+				eResult = kOTA_Err_None;
+				break;
+			case eOTA_ImageState_Testing:
+				OTA_LOG_L1( "[%s] Testing.\r\n", OTA_METHOD_NAME );
+				eResult = kOTA_Err_None;
+				break;
+			default:
+				OTA_LOG_L1( "[%s] Unknown state received %d.\r\n", OTA_METHOD_NAME, ( int32_t ) eState );
+		        eResult = kOTA_Err_BadImageState;
+				break;
+		}
+	}
 
     return eResult;
 }
@@ -729,6 +815,9 @@ static int32_t ota_context_update_user_firmware_header( OTA_FileContext_t * C )
 	/* Update image flag. */
 	p_block_header->image_flag = LIFECYCLE_STATE_TESTING;
 
+	/* Update signature type. */
+	memcpy(p_block_header->signature_type, cOTA_JSON_FileSignatureKey,sizeof(cOTA_JSON_FileSignatureKey));
+
 	/* Parse the signature and extract ECDSA-SHA256 signature data. */
 	source_pointer = C->pxSignature->ucData;
 	destination_pointer = p_block_header->signature;
@@ -769,7 +858,6 @@ static int32_t ota_context_update_user_firmware_header( OTA_FileContext_t * C )
 
 	if (OTA_PAL_SUCCESS == ret)
 	{
-		xSemaphoreTake(xSemaphoreFlashig, portMAX_DELAY);
 		R_FLASH_Close();
 		R_FLASH_Open();
 		cb_func_info.pcallback = ota_header_flashing_callback;
@@ -822,6 +910,9 @@ static void ota_flashing_task( void * pvParameters )
 			nop();
 		}
 		vPortFree(packet_block_for_queue2.p_packet);
+#ifdef otatestFLASHING_WAIT_ENABLE
+		R_BSP_SoftwareDelay(300, BSP_DELAY_MILLISECS);
+#endif
 	}
 }
 
@@ -850,6 +941,5 @@ static void ota_header_flashing_callback(void *event)
     	nop(); /* trap */
     }
 	static portBASE_TYPE xHigherPriorityTaskWoken;
-	xSemaphoreGiveFromISR(xSemaphoreFlashig, &xHigherPriorityTaskWoken);
 }
 
