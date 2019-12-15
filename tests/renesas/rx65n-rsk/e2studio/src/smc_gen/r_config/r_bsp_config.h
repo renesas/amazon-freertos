@@ -611,7 +611,7 @@ Configuration Options
    RX65N-RSK Default: SCI8 - G1CUSB0(RL78/G1C), bit rate 115200bps
              Option : SCI6 - PMOD1(FTDI)      , bit rate 921600bps
  */
-#define MY_BSP_CFG_SERIAL_TERM_SCI                  (6)
+#define MY_BSP_CFG_SERIAL_TERM_SCI                  (8)
 
 /* This macro is used to select which SCI bit-rate.
  */
