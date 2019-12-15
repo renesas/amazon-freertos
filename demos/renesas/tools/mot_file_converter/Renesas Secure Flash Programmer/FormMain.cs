@@ -363,6 +363,7 @@ namespace Renesas_Secure_Flash_Programmer
             if ((args.Length != 0) && (args[ARGUMENT_INTERFACE_TYPE] == "CUI"))
             {
                 string mcuName;
+                checkBox1_InitialOutputBinaryFormat.Checked = false;
                 if (args[ARGUMENT_FIRMWARE_TYPE] == FIRMWARE_TYPE_INITIAL)
                 {
                     Console.WriteLine("Reneas Secure Flash Programmer CUI");
@@ -389,7 +390,6 @@ namespace Renesas_Secure_Flash_Programmer
                     textBoxUserProgramFilePath.Text = args[ARGUMENT_UPDATE_INPUT_FIRMWARE_FILE_PATH];
                     saveFileDialog.FileName = args[ARGUMENT_UPDATE_OUTPUT_FILE_PATH];
                     comboBoxMcu_firmupdate.Text = mcuName;
-                    checkBox1_InitialOutputBinaryFormat.Checked = false;
                     GenerateUserprog(mcuName);
                 }
                 else
