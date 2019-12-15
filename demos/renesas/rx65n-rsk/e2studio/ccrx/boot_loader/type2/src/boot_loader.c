@@ -494,23 +494,25 @@ static int32_t secure_boot(void)
     	        	switch(secure_boot_state)
 					{
     	        		case BOOT_LOADER_STATE_BANK0_CHECK:
-#if 1 // ブランク状態が前提なので、消去する必要がない。
 							printf("start installing user program.\r\n");
-							secure_boot_state = BOOT_LOADER_STATE_BANK0_INSTALL_SECURE_BOOT_ERASE_COMPLETE;
-#else
-							printf("start installing user program.\r\n");
-							printf("erase bank1 secure boot mirror area...");
-							flash_api_error_code = R_FLASH_Erase(BOOT_LOADER_MIRROR_HIGH_ADDRESS, BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_SMALL + BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_MEDIUM);
-							if(FLASH_SUCCESS != flash_api_error_code)
+							if (firmware_update_control_block_bank1->image_flag == LIFECYCLE_STATE_INSTALLING)
 							{
-								printf("NG\r\n");
-								printf("R_FLASH_Erase() returns error code = %d.\r\n", flash_error_code);
-								secure_boot_state = BOOT_LOADER_STATE_FATAL_ERROR;
-								secure_boot_error_code = BOOT_LOADER_FAIL;
-								break;
+								secure_boot_state = BOOT_LOADER_STATE_BANK0_INSTALL_SECURE_BOOT_ERASE_COMPLETE;
 							}
-							secure_boot_state = BOOT_LOADER_STATE_BANK0_INSTALL_SECURE_BOOT_ERASE_WAIT;
-#endif
+							else
+							{
+								printf("erase bank1 secure boot mirror area...");
+								flash_api_error_code = R_FLASH_Erase(BOOT_LOADER_MIRROR_HIGH_ADDRESS, BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_SMALL + BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_MEDIUM);
+								if(FLASH_SUCCESS != flash_api_error_code)
+								{
+									printf("NG\r\n");
+									printf("R_FLASH_Erase() returns error code = %d.\r\n", flash_error_code);
+									secure_boot_state = BOOT_LOADER_STATE_FATAL_ERROR;
+									secure_boot_error_code = BOOT_LOADER_FAIL;
+									break;
+								}
+								secure_boot_state = BOOT_LOADER_STATE_BANK0_INSTALL_SECURE_BOOT_ERASE_WAIT;
+							}
 							break;
 
     	        		case BOOT_LOADER_STATE_BANK0_INSTALL_SECURE_BOOT_ERASE_WAIT:
@@ -518,20 +520,21 @@ static int32_t secure_boot(void)
     	        			break;
 
     	        		case BOOT_LOADER_STATE_BANK0_INSTALL_SECURE_BOOT_ERASE_COMPLETE:
-#if 0 // ブランク状態が前提なので、消去する必要がない。
-    	        	        if (FLASH_SUCCESS == flash_error_code)
-    	        	        {
-    	        	            printf("OK\r\n");
-    	        	        }
-    	        	        else
-    	        	        {
-    	        	            printf("R_FLASH_Erase() callback error. %d.\r\n", flash_error_code);
-    	        	            printf("system error.\r\n");
-    	        				secure_boot_state = BOOT_LOADER_STATE_FATAL_ERROR;
-    	        				secure_boot_error_code = BOOT_LOADER_FAIL;
-    	        	            break;
-    	        	        }
-#endif
+							if (firmware_update_control_block_bank1->image_flag != LIFECYCLE_STATE_INSTALLING)
+							{
+	    	        	        if (FLASH_SUCCESS == flash_error_code)
+	    	        	        {
+	    	        	            printf("OK\r\n");
+	    	        	        }
+	    	        	        else
+	    	        	        {
+	    	        	            printf("R_FLASH_Erase() callback error. %d.\r\n", flash_error_code);
+	    	        	            printf("system error.\r\n");
+	    	        				secure_boot_state = BOOT_LOADER_STATE_FATAL_ERROR;
+	    	        				secure_boot_error_code = BOOT_LOADER_FAIL;
+	    	        	            break;
+	    	        	        }
+	    	        	    }
     	        	        printf("copy secure boot (part1) from bank0 to bank1...");
     	        	        flash_api_error_code = R_FLASH_Write((uint32_t)BOOT_LOADER_LOW_ADDRESS, (uint32_t)BOOT_LOADER_MIRROR_LOW_ADDRESS, ((uint32_t)BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_MEDIUM) * FLASH_CF_MEDIUM_BLOCK_SIZE);
 							if(FLASH_SUCCESS != flash_api_error_code)
@@ -857,10 +860,6 @@ static int32_t secure_boot(void)
 						case BOOT_LOADER_STATE_BANK0_UPDATE_CHECK:
 			    	    	printf("integrity check scheme = %-.32s\r\n", firmware_update_control_block_bank0->signature_type);
 		    	            printf("bank0(execute area) on code flash integrity check...");
-#if 1
-							printf("!!!!!!SKIP checking!!!!!!\r\n");
-							verification_result = 0;
-#else
 							/* Firmware verification for the signature type. */
 							if (!strcmp((const char *)firmware_update_control_block_bank0->signature_type, INTEGRITY_CHECK_SCHEME_HASH_SHA256_STANDALONE))
 							{
@@ -886,7 +885,7 @@ static int32_t secure_boot(void)
 							{
 								verification_result = -1;
 							}
-#endif
+
 							if(0 == verification_result)
 		    	            {
 		    	                printf("OK\r\n");
