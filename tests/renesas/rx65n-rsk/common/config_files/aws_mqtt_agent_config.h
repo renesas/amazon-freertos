@@ -57,7 +57,7 @@
  * invalid now onwards.
  * _TODO_ - Finalize what to do on Timeout.
  */
-#define mqttOPERATION_TIMEOUT_MS                      ( 120000 )
+#define mqttOPERATION_TIMEOUT_MS                      ( 480000 )
 
 /**
  * @brief The maximum time interval in seconds allowed to elapse between 2 consecutive
@@ -75,7 +75,7 @@
  * This macro defines the interval of inactivity after which a keep alive messages
  * is sent.
  */
-#define mqttconfigKEEP_ALIVE_ACTUAL_INTERVAL_TICKS    ( pdMS_TO_TICKS( 300000 ) )
+#define mqttconfigKEEP_ALIVE_ACTUAL_INTERVAL_TICKS    ( pdMS_TO_TICKS( 30000 ) )
 
 /**
  * @brief The maximum interval in ticks to wait for PINGRESP.
@@ -90,7 +90,8 @@
  */
 /** @{ */
 //#define mqttconfigMQTT_TASK_STACK_DEPTH    ( configMINIMAL_STACK_SIZE * 4 )
-#define mqttconfigMQTT_TASK_STACK_DEPTH    ( 2048 )
+//#define mqttconfigMQTT_TASK_STACK_DEPTH    ( 2048 )
+#define mqttconfigMQTT_TASK_STACK_DEPTH    ( 6114 )
 #define mqttconfigMQTT_TASK_PRIORITY       ( configMAX_PRIORITIES - 3 )
 /** @} */
 

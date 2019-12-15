@@ -35,7 +35,7 @@
  * If applicable, the device must be pre-provisioned with this certificate. Please see
  * test/common/ota/test_files for the set of certificates.
  */
-#define otatestpalCERTIFICATE_FILE    "ecdsa-sha256-signer.crt.pem" /* FIX ME. */
+#define otatestpalCERTIFICATE_FILE    "secp256r1.crt" /* FIX ME. */
 
  /**
  * @brief Some boards have a hard-coded name for the firmware image to boot.
