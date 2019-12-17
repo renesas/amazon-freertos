@@ -102,9 +102,9 @@ static uint8_t * prvPAL_ReadAndAssumeCertificate( const uint8_t * const pucCertN
 #define FLASH_INTERRUPT_PRIORITY 15	/* 0(low) - 15(high) */
 /*------------------------------------------ firmware update configuration (end) --------------------------------------------*/
 
-#define BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS FLASH_CF_LO_BANK_LO_ADDR
-#define BOOT_LOADER_UPDATE_EXECUTE_AREA_LOW_ADDRESS FLASH_CF_HI_BANK_LO_ADDR
-#define BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER (FLASH_NUM_BLOCKS_CF - BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_SMALL - BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_MEDIUM)
+#define BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS (uint32_t)FLASH_CF_LO_BANK_LO_ADDR
+#define BOOT_LOADER_UPDATE_EXECUTE_AREA_LOW_ADDRESS (uint32_t)FLASH_CF_HI_BANK_LO_ADDR
+#define BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER (uint32_t)(FLASH_NUM_BLOCKS_CF - BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_SMALL - BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_MEDIUM)
 
 #define otaconfigMAX_NUM_BLOCKS_REQUEST        	128U	/* this value will be appeared after 201908.00 in aws_ota_agent_config.h */
 
@@ -131,12 +131,28 @@ static uint8_t * prvPAL_ReadAndAssumeCertificate( const uint8_t * const pucCertN
 #define OTA_SIGUNATURE_SEQUENCE_INFO_LENGTH					(2)
 #define OTA_SIGUNATURE_SKIP									(2)
 
+#define OTA_FLASH_MIN_PGM_SIZE_MASK (0xFFFFFFFF - FLASH_CF_MIN_PGM_SIZE + 1)
+
 typedef struct _load_firmware_control_block {
 	uint32_t status;
 	uint32_t processed_byte;
+	uint32_t total_image_length;
 	OTA_ImageState_t eSavedAgentState;
-	OTA_FileContext_t OTA_FileContext;
+	OTA_FileContext_t * OTA_FileContext;
 }LOAD_FIRMWARE_CONTROL_BLOCK;
+
+typedef struct _flash_block
+{
+	uint32_t offset;
+	uint8_t	*binary;
+	uint32_t length;
+}FLASH_BLOCK;
+
+typedef struct _fragmented_flash_block_list
+{
+	FLASH_BLOCK content;
+	struct _fragmented_flash_block_list *next;
+}FRAGMENTED_FLASH_BLOCK_LIST;
 
 typedef struct _packet_block_for_queue
 {
@@ -178,11 +194,17 @@ static CK_RV prvGetCertificate( const char * pcLabelName,
                                 uint8_t ** ppucData,
                                 uint32_t * pulDataSize );
 
+static FRAGMENTED_FLASH_BLOCK_LIST *fragmented_flash_block_list_insert(FRAGMENTED_FLASH_BLOCK_LIST *head, uint32_t offset, uint8_t *binary, uint32_t length);
+static FRAGMENTED_FLASH_BLOCK_LIST *fragmented_flash_block_list_delete(FRAGMENTED_FLASH_BLOCK_LIST *head, uint32_t offset);
+static FRAGMENTED_FLASH_BLOCK_LIST *fragmented_flash_block_list_print(FRAGMENTED_FLASH_BLOCK_LIST *head);
+static FRAGMENTED_FLASH_BLOCK_LIST *fragmented_flash_block_list_assemble(FRAGMENTED_FLASH_BLOCK_LIST *head, FLASH_BLOCK *flash_block);
+
 static QueueHandle_t xQueue;
 static TaskHandle_t xTask;
 static xSemaphoreHandle xSemaphoreFlashig;
 static xSemaphoreHandle xSemaphoreWriteBlock;
 static volatile LOAD_FIRMWARE_CONTROL_BLOCK load_firmware_control_block;
+static FRAGMENTED_FLASH_BLOCK_LIST *fragmented_flash_block_list;
 static PACKET_BLOCK_FOR_QUEUE packet_block_for_queue1;
 static PACKET_BLOCK_FOR_QUEUE packet_block_for_queue2;
 static FIRMWARE_UPDATE_CONTROL_BLOCK *firmware_update_control_block_bank0 = (FIRMWARE_UPDATE_CONTROL_BLOCK*)BOOT_LOADER_UPDATE_EXECUTE_AREA_LOW_ADDRESS;
@@ -196,34 +218,44 @@ OTA_Err_t prvPAL_CreateFileForRx( OTA_FileContext_t * const C )
     OTA_LOG_L1("[%s] is called.\r\n", OTA_METHOD_NAME);
     OTA_LOG_L1("Compiled in [%s] [%s].\r\n", __DATE__, __TIME__);
     OTA_Err_t eResult = kOTA_Err_Uninitialized;
-    static uint8_t *dummy_file_pointer;
-    static uint8_t dummy_file;
-    dummy_file_pointer = &dummy_file;
-    flash_err_t flash_err;
     flash_interrupt_config_t cb_func_info;
 
     if( C != NULL )
     {
         if( C->pucFilePath != NULL )
         {
-			C->pucFile = dummy_file_pointer;
-
 			/* create task/queue/semaphore for flashing */
 			xQueue = xQueueCreate(otaconfigMAX_NUM_BLOCKS_REQUEST, sizeof(PACKET_BLOCK_FOR_QUEUE));
 			xTaskCreate(ota_flashing_task, "OTA_FLASHING_TASK", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES, &xTask);
 			xSemaphoreFlashig = xSemaphoreCreateBinary();
 			xSemaphoreGive(xSemaphoreFlashig);
 			xSemaphoreWriteBlock = xSemaphoreCreateMutex();
+			xSemaphoreGive(xSemaphoreWriteBlock);
+			fragmented_flash_block_list = NULL;
 
-			flash_err = R_FLASH_Open();
-			cb_func_info.pcallback = ota_flashing_callback;
-			cb_func_info.int_priority = FLASH_INTERRUPT_PRIORITY;
-			R_FLASH_Control(FLASH_CMD_SET_BGO_CALLBACK, (void *)&cb_func_info);
-
-			if(flash_err == FLASH_SUCCESS)
+			if(R_FLASH_Open() == FLASH_SUCCESS)
 			{
-				eResult = kOTA_Err_None;
+#ifdef otatestFLASHING_WAIT_ENABLE
+				cb_func_info.pcallback = ota_header_flashing_callback;
+				cb_func_info.int_priority = FLASH_INTERRUPT_PRIORITY;
+				R_FLASH_Control(FLASH_CMD_SET_BGO_CALLBACK, (void *)&cb_func_info);
+				gs_header_flashing_task = OTA_FLASHING_IN_PROGRESS;
+				if (R_FLASH_Erase((flash_block_address_t)BOOT_LOADER_UPDATE_TEMPORARY_AREA_HIGH_ADDRESS, BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) != FLASH_SUCCESS)
+				{
+					eResult = kOTA_Err_RxFileCreateFailed;
+					OTA_LOG_L1( "[%s] ERROR - R_FLASH_Erase() returns error.\r\n", OTA_METHOD_NAME );
+				}
+				while(OTA_FLASHING_IN_PROGRESS == gs_header_flashing_task);
+#endif
+				R_FLASH_Open();
+				cb_func_info.pcallback = ota_flashing_callback;
+				cb_func_info.int_priority = FLASH_INTERRUPT_PRIORITY;
+				R_FLASH_Control(FLASH_CMD_SET_BGO_CALLBACK, (void *)&cb_func_info);
+				load_firmware_control_block.OTA_FileContext = C;
+				load_firmware_control_block.total_image_length = 0;
 				OTA_LOG_L1( "[%s] Receive file created.\r\n", OTA_METHOD_NAME );
+				C->pucFile = (uint8_t *)&load_firmware_control_block;
+				eResult = kOTA_Err_None;
 			}
 			else
 			{
@@ -298,6 +330,8 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
                            uint32_t ulBlockSize )
 {
     OTA_Err_t eResult = kOTA_Err_Uninitialized;
+	FLASH_BLOCK flash_block;
+    static uint8_t flash_block_array[FLASH_CF_MIN_PGM_SIZE];
 	uint8_t *packet_buffer;
 
     DEFINE_OTA_METHOD_NAME( "prvPAL_WriteBlock" );
@@ -305,24 +339,62 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
 
 	xSemaphoreTake(xSemaphoreWriteBlock, portMAX_DELAY);
 
-	packet_buffer = pvPortMalloc(ulBlockSize);
-    memcpy(packet_buffer, pacData, ulBlockSize);
-    packet_block_for_queue1.p_packet = packet_buffer;
-    packet_block_for_queue1.ulOffset = ulOffset + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH;
-    packet_block_for_queue1.length = ulBlockSize;
-	if(xQueueSend(xQueue, &packet_block_for_queue1, NULL) == pdPASS)
+	if ((!(ulOffset % FLASH_CF_MIN_PGM_SIZE)) && (!(ulBlockSize % FLASH_CF_MIN_PGM_SIZE)))
 	{
-		eResult = ( int16_t ) ulBlockSize;
+		packet_buffer = pvPortMalloc(ulBlockSize);
+	    memcpy(packet_buffer, pacData, ulBlockSize);
+	    packet_block_for_queue1.p_packet = packet_buffer;
+	    packet_block_for_queue1.ulOffset = ulOffset;
+	    packet_block_for_queue1.length = ulBlockSize;
+		if(xQueueSend(xQueue, &packet_block_for_queue1, NULL) == pdPASS)
+		{
+			eResult = ( int16_t ) ulBlockSize;
+		}
+		else
+		{
+			vPortFree(packet_block_for_queue1.p_packet);
+			OTA_LOG_L1("OTA flashing queue send error.\r\n");
+			eResult = kOTA_Err_OutOfMemory;
+		}
 	}
 	else
 	{
-		vPortFree(packet_block_for_queue1.p_packet);
-		OTA_LOG_L1("OTA flashing queue send error.\r\n");
-		eResult = kOTA_Err_OutOfMemory;
+		flash_block.binary = flash_block_array;
+
+		fragmented_flash_block_list = fragmented_flash_block_list_insert(fragmented_flash_block_list, ulOffset, pacData, ulBlockSize);
+
+		if (fragmented_flash_block_list != NULL)
+		{
+			while(1)
+			{
+				fragmented_flash_block_list = fragmented_flash_block_list_assemble(fragmented_flash_block_list, &flash_block);
+				if (flash_block.binary != NULL)
+				{
+					packet_buffer = pvPortMalloc(flash_block.length);
+				    memcpy(packet_buffer, flash_block.binary, flash_block.length);
+				    packet_block_for_queue1.p_packet = packet_buffer;
+				    packet_block_for_queue1.ulOffset = flash_block.offset;
+				    packet_block_for_queue1.length   = flash_block.length;
+					if(xQueueSend(xQueue, &packet_block_for_queue1, NULL) != pdPASS)
+					{
+						vPortFree(packet_block_for_queue1.p_packet);
+						OTA_LOG_L1("OTA flashing queue send error.\r\n");
+						eResult = kOTA_Err_OutOfMemory;
+					}
+				}
+				else
+				{
+					eResult = ( int16_t ) ulBlockSize;
+					break;
+				}
+			}
+		}
+		/*----------- finalize phase ----------*/
+		fragmented_flash_block_list_print(fragmented_flash_block_list);
 	}
-	
+
 	xSemaphoreGive(xSemaphoreWriteBlock);
-	
+
 	return eResult;
 }
 /*-----------------------------------------------------------*/
@@ -330,12 +402,46 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
 OTA_Err_t prvPAL_CloseFile( OTA_FileContext_t * const C )
 {
 	OTA_Err_t eResult = kOTA_Err_None;
+	uint32_t flash_aligned_address = 0;
+	uint8_t assembled_flash_buffer[FLASH_CF_MIN_PGM_SIZE];
+    flash_err_t flash_err;
+    flash_interrupt_config_t cb_func_info;
+
     DEFINE_OTA_METHOD_NAME( "prvPAL_CloseFile" );
 
     if( ota_context_validate(C) == OTA_PAL_FAIL )
     {
         eResult = kOTA_Err_FileClose;
     }
+
+	if (fragmented_flash_block_list != NULL)
+	{
+		FRAGMENTED_FLASH_BLOCK_LIST *tmp = fragmented_flash_block_list;
+		do
+		{
+			/* Read one page from flash memory. */
+			flash_aligned_address = ((tmp->content.offset & OTA_FLASH_MIN_PGM_SIZE_MASK) + BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH);
+			memcpy((uint8_t *)assembled_flash_buffer, (uint8_t *)flash_aligned_address, FLASH_CF_MIN_PGM_SIZE);
+			/* Replace length bytes from offset. */
+			memcpy(&assembled_flash_buffer[tmp->content.offset], tmp->content.binary, tmp->content.length);
+			/* Flashing memory. */
+			R_FLASH_Close();
+			R_FLASH_Open();
+			cb_func_info.pcallback = ota_header_flashing_callback;
+			cb_func_info.int_priority = FLASH_INTERRUPT_PRIORITY;
+			R_FLASH_Control(FLASH_CMD_SET_BGO_CALLBACK, (void *)&cb_func_info);
+			gs_header_flashing_task = OTA_FLASHING_IN_PROGRESS;
+			flash_err = R_FLASH_Write((uint32_t)assembled_flash_buffer, (uint32_t)flash_aligned_address, FLASH_CF_MIN_PGM_SIZE);
+			if(flash_err != FLASH_SUCCESS)
+			{
+				nop();
+			}
+			while (OTA_FLASHING_IN_PROGRESS == gs_header_flashing_task);
+			load_firmware_control_block.total_image_length += tmp->content.length;
+			tmp = fragmented_flash_block_list_delete(tmp, tmp->content.offset);
+		}
+		while(tmp != NULL);
+	}
 
     if( C->pxSignature != NULL )
     {
@@ -429,7 +535,7 @@ static OTA_Err_t prvPAL_CheckFileSignature( OTA_FileContext_t * const C )
         {
             CRYPTO_SignatureVerificationUpdate( pvSigVerifyContext,
                                                 (const uint8_t*)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
-                                                (FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH);
+                                                load_firmware_control_block.total_image_length);
 
             if( CRYPTO_SignatureVerificationFinal( pvSigVerifyContext, ( char * ) pucSignerCert, ulSignerCertSize,
                                                    C->pxSignature->ucData, C->pxSignature->usSize ) == pdFALSE )
@@ -885,6 +991,221 @@ static void ota_context_close( OTA_FileContext_t * C )
     }
 }
 
+static FRAGMENTED_FLASH_BLOCK_LIST *fragmented_flash_block_list_insert(FRAGMENTED_FLASH_BLOCK_LIST *head, uint32_t offset, uint8_t *binary, uint32_t length)
+{
+	FRAGMENTED_FLASH_BLOCK_LIST *tmp, *current, *previous, *new;
+
+    new = pvPortMalloc(sizeof(FLASH_BLOCK));
+    new->content.binary = pvPortMalloc(length);
+
+    if((new != NULL) && (new->content.binary != NULL))
+    {
+        memcpy(new->content.binary, binary, length);
+    	new->content.offset = offset;
+    	new->content.length = length;
+    	new->next = NULL;
+
+    	/* new head would be returned when head would be specified as NULL. */
+    	if(head == NULL)
+    	{
+    		tmp = new;
+    	}
+    	else
+    	{
+			/* search the list to insert new node */
+			current = head;
+			while(1)
+			{
+				if((new->content.offset < current->content.offset) || (current == NULL))
+				{
+					break;
+				}
+				previous = current;
+				current = current->next;
+			}
+			/* insert the searched node when current != head */
+			if(current != head)
+			{
+				previous->next = new;
+				new->next = current;
+				tmp = head;
+			}
+			else
+			{
+				new->next = current;
+				tmp = new;
+			}
+		}
+    }
+    else
+    {
+    	tmp = NULL;
+    }
+    return tmp;
+}
+
+static FRAGMENTED_FLASH_BLOCK_LIST *fragmented_flash_block_list_delete(FRAGMENTED_FLASH_BLOCK_LIST *head, uint32_t offset)
+{
+	FRAGMENTED_FLASH_BLOCK_LIST *tmp = head, *previous = NULL;
+
+	if(head != NULL)
+	{
+		while(1)
+		{
+			if(tmp->content.offset == offset)
+			{
+				break;
+			}
+			if(tmp->next == NULL)
+			{
+				tmp = NULL;
+				break;
+			}
+			previous = tmp;
+			tmp = tmp->next;
+		}
+		if(tmp != NULL)
+		{
+			/* delete target exists on not head, remove specified and return head in this case */
+			if(previous != NULL)
+			{
+				previous->next = tmp->next;
+				vPortFree(tmp->content.binary);
+				vPortFree(tmp);
+				tmp = head;
+			}
+			else
+			{
+				/* delete target exists on head with subsequent data, remove head and return specified (as new head) in this case */
+				if(head->next != NULL)
+				{
+					tmp = head->next;
+				}
+				/* delete target exists on head without subsequent data, remove head and return NULL in this case */
+				else
+				{
+					tmp = NULL;
+				}
+				vPortFree(head->content.binary);
+				vPortFree(head);
+			}
+		}
+	}
+	return tmp;
+}
+
+static FRAGMENTED_FLASH_BLOCK_LIST *fragmented_flash_block_list_print(FRAGMENTED_FLASH_BLOCK_LIST *head)
+{
+	FRAGMENTED_FLASH_BLOCK_LIST *tmp = head;
+	uint32_t total_heap_length, total_list_count;
+
+	total_heap_length = 0;
+	total_list_count = 0;
+
+	if(head != NULL)
+	{
+		while(1){
+			total_heap_length += sizeof(FRAGMENTED_FLASH_BLOCK_LIST);
+			total_heap_length += tmp->content.length;
+			total_list_count++;
+			if(tmp->next == NULL)
+			{
+				break;
+			}
+			tmp = tmp->next;
+		};
+	}
+    OTA_LOG_L2("FRAGMENTED_FLASH_BLOCK_LIST: total_heap_length = [%d], total_list_count = [%d].\r\n", total_heap_length, total_list_count);
+
+	return tmp;
+}
+
+static FRAGMENTED_FLASH_BLOCK_LIST *fragmented_flash_block_list_assemble(FRAGMENTED_FLASH_BLOCK_LIST *head, FLASH_BLOCK *flash_block)
+{
+	FRAGMENTED_FLASH_BLOCK_LIST *tmp = head;
+	FRAGMENTED_FLASH_BLOCK_LIST *flash_block_candidate[FLASH_CF_MIN_PGM_SIZE];
+	uint32_t assembled_length = 0;
+	uint32_t fragmented_length = 0;
+	uint32_t loop_counter = 0;
+	uint32_t index = 0;
+
+	/* search aligned FLASH_CF_MIN_PGM_SIZE top offset */
+	while(1)
+	{
+		if(!(tmp->content.offset % FLASH_CF_MIN_PGM_SIZE))
+		{
+			/* extract continuous flash_block candidate */
+			assembled_length = 0;
+			loop_counter = 0;
+			while(1)
+			{
+				if ((tmp != NULL) && (assembled_length < FLASH_CF_MIN_PGM_SIZE))
+				{
+					if(loop_counter < FLASH_CF_MIN_PGM_SIZE)
+					{
+						if((tmp->content.offset + tmp->content.length) > ((tmp->content.offset & OTA_FLASH_MIN_PGM_SIZE_MASK) + FLASH_CF_MIN_PGM_SIZE))
+						{
+							fragmented_length = (FLASH_CF_MIN_PGM_SIZE - assembled_length);
+							assembled_length += fragmented_length;
+							flash_block_candidate[loop_counter] = tmp;
+					        tmp->next = fragmented_flash_block_list_insert(tmp->next, tmp->content.offset + fragmented_length, &tmp->content.binary[fragmented_length], tmp->content.length - fragmented_length);
+							tmp->content.length = fragmented_length;
+						}
+						else
+						{
+							assembled_length += tmp->content.length;
+							flash_block_candidate[loop_counter] = tmp;
+						}
+					}
+					else
+					{
+						break;
+					}
+					tmp = tmp->next;
+					loop_counter++;
+				}
+				else
+				{
+					break;
+				}
+			}
+		}
+
+		/* break if found completed flash_block_candidate or found end of list */
+		if((assembled_length == FLASH_CF_MIN_PGM_SIZE) || (tmp == NULL))
+		{
+			break;
+		}
+		/* search next candidate */
+		else
+		{
+			tmp = tmp->next;
+		}
+	}
+
+	/* assemble flash_block */
+	if(assembled_length == FLASH_CF_MIN_PGM_SIZE)
+	{
+		tmp = head;
+		/* remove flash_block from list */
+		flash_block->offset = flash_block_candidate[0]->content.offset;
+		flash_block->length = assembled_length;
+		for(uint32_t i = 0; i < loop_counter; i++)
+		{
+			memcpy(&flash_block->binary[index], flash_block_candidate[i]->content.binary, flash_block_candidate[i]->content.length);
+			index = flash_block_candidate[i]->content.length;
+			tmp = fragmented_flash_block_list_delete(tmp, flash_block_candidate[i]->content.offset);
+		}
+	}
+	else
+	{
+		tmp = head;
+		flash_block->offset = NULL;
+		flash_block->binary = NULL;
+		flash_block->length = NULL;
+	}
+	return tmp;
+}
 
 static void ota_flashing_task( void * pvParameters )
 {
@@ -897,10 +1218,10 @@ static void ota_flashing_task( void * pvParameters )
 	{
 		xQueueReceive(xQueue, &packet_block_for_queue2, portMAX_DELAY);
 		xSemaphoreTake(xSemaphoreFlashig, portMAX_DELAY);
-		memcpy(block, packet_block_for_queue2.p_packet, sizeof(block));
+		memcpy(block, packet_block_for_queue2.p_packet, packet_block_for_queue2.length);
 		ulOffset = packet_block_for_queue2.ulOffset;
 		length = packet_block_for_queue2.length;
-		flash_err = R_FLASH_Write((uint32_t)block, ulOffset + (uint32_t)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS, length);
+		flash_err = R_FLASH_Write((uint32_t)block, ulOffset + BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH, length);
 		if(packet_block_for_queue2.length != 1024)
 		{
 			nop();
@@ -909,11 +1230,13 @@ static void ota_flashing_task( void * pvParameters )
 		{
 			nop();
 		}
+		load_firmware_control_block.total_image_length += length;
 		vPortFree(packet_block_for_queue2.p_packet);
 #ifdef otatestFLASHING_WAIT_ENABLE
-		R_BSP_SoftwareDelay(300, BSP_DELAY_MILLISECS);
+		R_BSP_SoftwareDelay(500, BSP_DELAY_MILLISECS);
 #endif
 	}
+
 }
 
 static void ota_flashing_callback(void *event)
@@ -940,6 +1263,5 @@ static void ota_header_flashing_callback(void *event)
     {
     	nop(); /* trap */
     }
-	static portBASE_TYPE xHigherPriorityTaskWoken;
 }
 
