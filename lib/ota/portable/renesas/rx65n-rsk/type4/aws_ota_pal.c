@@ -235,7 +235,7 @@ OTA_Err_t prvPAL_CreateFileForRx( OTA_FileContext_t * const C )
 
 			if(R_FLASH_Open() == FLASH_SUCCESS)
 			{
-#ifdef otatestFLASHING_WAIT_ENABLE
+#ifdef otatestCREATE_FILE_FOR_RX_ERASE_ENABLE
 				cb_func_info.pcallback = ota_header_flashing_callback;
 				cb_func_info.int_priority = FLASH_INTERRUPT_PRIORITY;
 				R_FLASH_Control(FLASH_CMD_SET_BGO_CALLBACK, (void *)&cb_func_info);
@@ -402,10 +402,6 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
 OTA_Err_t prvPAL_CloseFile( OTA_FileContext_t * const C )
 {
 	OTA_Err_t eResult = kOTA_Err_None;
-	uint32_t flash_aligned_address = 0;
-	uint8_t assembled_flash_buffer[FLASH_CF_MIN_PGM_SIZE];
-    flash_err_t flash_err;
-    flash_interrupt_config_t cb_func_info;
 
     DEFINE_OTA_METHOD_NAME( "prvPAL_CloseFile" );
 
@@ -413,35 +409,6 @@ OTA_Err_t prvPAL_CloseFile( OTA_FileContext_t * const C )
     {
         eResult = kOTA_Err_FileClose;
     }
-
-	if (fragmented_flash_block_list != NULL)
-	{
-		FRAGMENTED_FLASH_BLOCK_LIST *tmp = fragmented_flash_block_list;
-		do
-		{
-			/* Read one page from flash memory. */
-			flash_aligned_address = ((tmp->content.offset & OTA_FLASH_MIN_PGM_SIZE_MASK) + BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH);
-			memcpy((uint8_t *)assembled_flash_buffer, (uint8_t *)flash_aligned_address, FLASH_CF_MIN_PGM_SIZE);
-			/* Replace length bytes from offset. */
-			memcpy(&assembled_flash_buffer[tmp->content.offset], tmp->content.binary, tmp->content.length);
-			/* Flashing memory. */
-			R_FLASH_Close();
-			R_FLASH_Open();
-			cb_func_info.pcallback = ota_header_flashing_callback;
-			cb_func_info.int_priority = FLASH_INTERRUPT_PRIORITY;
-			R_FLASH_Control(FLASH_CMD_SET_BGO_CALLBACK, (void *)&cb_func_info);
-			gs_header_flashing_task = OTA_FLASHING_IN_PROGRESS;
-			flash_err = R_FLASH_Write((uint32_t)assembled_flash_buffer, (uint32_t)flash_aligned_address, FLASH_CF_MIN_PGM_SIZE);
-			if(flash_err != FLASH_SUCCESS)
-			{
-				nop();
-			}
-			while (OTA_FLASHING_IN_PROGRESS == gs_header_flashing_task);
-			load_firmware_control_block.total_image_length += tmp->content.length;
-			tmp = fragmented_flash_block_list_delete(tmp, tmp->content.offset);
-		}
-		while(tmp != NULL);
-	}
 
     if( C->pxSignature != NULL )
     {
@@ -518,6 +485,39 @@ static OTA_Err_t prvPAL_CheckFileSignature( OTA_FileContext_t * const C )
     uint32_t ulSignerCertSize;
     void * pvSigVerifyContext;
     uint8_t * pucSignerCert = NULL;
+	uint32_t flash_aligned_address = 0;
+	uint8_t assembled_flash_buffer[FLASH_CF_MIN_PGM_SIZE];
+    flash_err_t flash_err;
+    flash_interrupt_config_t cb_func_info;
+
+	if (fragmented_flash_block_list != NULL)
+	{
+		FRAGMENTED_FLASH_BLOCK_LIST *tmp = fragmented_flash_block_list;
+		do
+		{
+			/* Read one page from flash memory. */
+			flash_aligned_address = ((tmp->content.offset & OTA_FLASH_MIN_PGM_SIZE_MASK) + BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH);
+			memcpy((uint8_t *)assembled_flash_buffer, (uint8_t *)flash_aligned_address, FLASH_CF_MIN_PGM_SIZE);
+			/* Replace length bytes from offset. */
+			memcpy(&assembled_flash_buffer[tmp->content.offset], tmp->content.binary, tmp->content.length);
+			/* Flashing memory. */
+			R_FLASH_Close();
+			R_FLASH_Open();
+			cb_func_info.pcallback = ota_header_flashing_callback;
+			cb_func_info.int_priority = FLASH_INTERRUPT_PRIORITY;
+			R_FLASH_Control(FLASH_CMD_SET_BGO_CALLBACK, (void *)&cb_func_info);
+			gs_header_flashing_task = OTA_FLASHING_IN_PROGRESS;
+			flash_err = R_FLASH_Write((uint32_t)assembled_flash_buffer, (uint32_t)flash_aligned_address, FLASH_CF_MIN_PGM_SIZE);
+			if(flash_err != FLASH_SUCCESS)
+			{
+				nop();
+			}
+			while (OTA_FLASHING_IN_PROGRESS == gs_header_flashing_task);
+			load_firmware_control_block.total_image_length += tmp->content.length;
+			tmp = fragmented_flash_block_list_delete(tmp, tmp->content.offset);
+		}
+		while(tmp != NULL);
+	}
 
     /* Verify an ECDSA-SHA256 signature. */
     if( CRYPTO_SignatureVerificationStart( &pvSigVerifyContext, cryptoASYMMETRIC_ALGORITHM_ECDSA,
@@ -1236,9 +1236,6 @@ static void ota_flashing_task( void * pvParameters )
 		}
 		load_firmware_control_block.total_image_length += length;
 		vPortFree(packet_block_for_queue2.p_packet);
-#ifdef otatestFLASHING_WAIT_ENABLE
-		R_BSP_SoftwareDelay(500, BSP_DELAY_MILLISECS);
-#endif
 	}
 
 }
