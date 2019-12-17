@@ -1434,15 +1434,18 @@ namespace Renesas_Secure_Flash_Programmer
 
             //Check File lock
             int file_check_cnt = 0;
-            while (IsFileLocked(saveFileDialog.FileName))
+            if (File.Exists(saveFileDialog.FileName))
             {
-                if (file_check_cnt==0)
+                while (IsFileLocked(saveFileDialog.FileName))
                 {
-                    Console.WriteLine("...Checking File Lock...\r\n");
+                    if (file_check_cnt == 0)
+                    {
+                        Console.WriteLine("...Checking File Lock...\r\n");
+                    }
+                    file_check_cnt++;
                 }
-                file_check_cnt++;
+                file_check_cnt = 0;
             }
-            file_check_cnt= 0;
 
             //Create CryptoStream
             using (CryptoStream cs1 = new CryptoStream(ms1, encrypt1, CryptoStreamMode.Write))
@@ -2229,15 +2232,18 @@ namespace Renesas_Secure_Flash_Programmer
 
             //Check File lock
             int file_check_cnt = 0;
-            while (IsFileLocked(saveFileDialog.FileName))
+            if (File.Exists(saveFileDialog.FileName))
             {
-                if (file_check_cnt == 0)
+                while (IsFileLocked(saveFileDialog.FileName) == true)
                 {
-                    Console.WriteLine("... Checking File Lock ...\r\n");
+                    if (file_check_cnt == 0)
+                    {
+                        Console.WriteLine("... Checking File Lock ...\r\n");
+                    }
+                    file_check_cnt++;
                 }
-                file_check_cnt++;
+                file_check_cnt = 0;
             }
-            file_check_cnt = 0;
 
             //Create CryptoStream
             using (CryptoStream cs1 = new CryptoStream(ms1, encrypt1, CryptoStreamMode.Write))
