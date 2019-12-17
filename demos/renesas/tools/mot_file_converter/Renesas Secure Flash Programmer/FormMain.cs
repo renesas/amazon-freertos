@@ -367,7 +367,7 @@ namespace Renesas_Secure_Flash_Programmer
                 if (args[ARGUMENT_FIRMWARE_TYPE] == FIRMWARE_TYPE_INITIAL)
                 {
                     Console.WriteLine("Reneas Secure Flash Programmer CUI");
-                    Console.WriteLine("Start generating initial firmware in Motorola S Format File");
+                    Console.WriteLine("Start generating initial firmware in Renesas Secure Update File");
                     /* 引数設定  */
                     mcuName = args[ARGUMENT_INITIAL_MCU];
                     comboBoxInitialFirmwareVerificationType.Text = args[ARGUMENT_INITIAL_INPUT_FIRMWARE_VERIFICATION_TYPE];
@@ -1432,6 +1432,18 @@ namespace Renesas_Secure_Flash_Programmer
             MemoryStream ms3 = new MemoryStream();
             MemoryStream ms4 = new MemoryStream();
 
+            //Check File lock
+            int file_check_cnt = 0;
+            while (IsFileLocked(saveFileDialog.FileName))
+            {
+                if (file_check_cnt==0)
+                {
+                    Console.WriteLine("...Checking File Lock...\r\n");
+                }
+                file_check_cnt++;
+            }
+            file_check_cnt= 0;
+
             //Create CryptoStream
             using (CryptoStream cs1 = new CryptoStream(ms1, encrypt1, CryptoStreamMode.Write))
             using (CryptoStream cs2 = new CryptoStream(ms2, encrypt2, CryptoStreamMode.Write))
@@ -2215,6 +2227,18 @@ namespace Renesas_Secure_Flash_Programmer
 
             rsu_header rsu_header_data = new rsu_header();
 
+            //Check File lock
+            int file_check_cnt = 0;
+            while (IsFileLocked(saveFileDialog.FileName))
+            {
+                if (file_check_cnt == 0)
+                {
+                    Console.WriteLine("... Checking File Lock ...\r\n");
+                }
+                file_check_cnt++;
+            }
+            file_check_cnt = 0;
+
             //Create CryptoStream
             using (CryptoStream cs1 = new CryptoStream(ms1, encrypt1, CryptoStreamMode.Write))
             using (CryptoStream cs2 = new CryptoStream(ms2, encrypt2, CryptoStreamMode.Write))
@@ -2764,6 +2788,45 @@ namespace Renesas_Secure_Flash_Programmer
             }
 
             textBoxInitialBootLoaderUserProgramFilePath.Text = openFileDialog.FileName;
+        }
+
+        /// <summary>
+        /// 指定されたファイルがロックされているかどうかを返します。
+        /// </summary>
+        /// <param name="path">検証したいファイルへのフルパス</param>
+        /// <returns>ロックされているかどうか</returns>
+        private bool IsFileLocked(string path)
+        {
+            FileStream stream = null;
+
+            try
+            {
+                stream = new FileStream(path, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+            }
+            catch
+            {
+                return true;
+            }
+            finally
+            {
+                if (stream != null)
+                {
+                    stream.Close();
+                }
+            }
+
+            return false;
+        }
+
+        private void checkBox1_InitialOutputBinaryFormat_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1_InitialOutputBinaryFormat.Checked)
+            {
+                textBoxInitialBootLoaderUserProgramFilePath.Enabled = false;
+            } else
+            {
+                textBoxInitialBootLoaderUserProgramFilePath.Enabled = true;
+            }
         }
     }
 }

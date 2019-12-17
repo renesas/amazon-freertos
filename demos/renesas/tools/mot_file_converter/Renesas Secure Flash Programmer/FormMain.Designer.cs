@@ -127,8 +127,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage4);
-            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(12, 10);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -517,7 +517,7 @@
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage3.Size = new System.Drawing.Size(797, 389);
             this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Firm Update";
+            this.tabPage3.Text = "Update Firm";
             // 
             // groupBox3
             // 
@@ -663,9 +663,11 @@
             this.textBoxUserProgramKey_Aes128.Name = "textBoxUserProgramKey_Aes128";
             this.textBoxUserProgramKey_Aes128.Size = new System.Drawing.Size(359, 19);
             this.textBoxUserProgramKey_Aes128.TabIndex = 1;
+            this.textBoxUserProgramKey_Aes128.Enabled = false;
             // 
             // tabPage2
             // 
+            this.tabPage2.BackColor = System.Drawing.Color.WhiteSmoke;
             this.tabPage2.Controls.Add(this.groupBox5);
             this.tabPage2.Controls.Add(this.groupBox4);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
@@ -674,7 +676,6 @@
             this.tabPage2.Size = new System.Drawing.Size(797, 389);
             this.tabPage2.TabIndex = 5;
             this.tabPage2.Text = "Initial Firm";
-            this.tabPage2.UseVisualStyleBackColor = true;
             this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
             // 
             // groupBox5
@@ -726,6 +727,7 @@
             // 
             this.textBoxInitialBootLoaderUserProgramFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxInitialBootLoaderUserProgramFilePath.Enabled = false;
             this.textBoxInitialBootLoaderUserProgramFilePath.Location = new System.Drawing.Point(224, 110);
             this.textBoxInitialBootLoaderUserProgramFilePath.Name = "textBoxInitialBootLoaderUserProgramFilePath";
             this.textBoxInitialBootLoaderUserProgramFilePath.Size = new System.Drawing.Size(359, 19);
@@ -816,11 +818,13 @@
             this.textBoxInitialUserProgramKey_Aes128.Name = "textBoxInitialUserProgramKey_Aes128";
             this.textBoxInitialUserProgramKey_Aes128.Size = new System.Drawing.Size(359, 19);
             this.textBoxInitialUserProgramKey_Aes128.TabIndex = 1;
+            this.textBoxInitialUserProgramKey_Aes128.Enabled = false;
             // 
             // groupBox4
             // 
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.BackColor = System.Drawing.Color.WhiteSmoke;
             this.groupBox4.Controls.Add(this.textBoxInitialFirmwareSequenceNumber);
             this.groupBox4.Controls.Add(this.label12);
             this.groupBox4.Controls.Add(this.checkBox1_InitialOutputBinaryFormat);
@@ -863,6 +867,7 @@
             this.checkBox1_InitialOutputBinaryFormat.Size = new System.Drawing.Size(15, 14);
             this.checkBox1_InitialOutputBinaryFormat.TabIndex = 7;
             this.checkBox1_InitialOutputBinaryFormat.UseVisualStyleBackColor = true;
+            this.checkBox1_InitialOutputBinaryFormat.CheckedChanged += new System.EventHandler(this.checkBox1_InitialOutputBinaryFormat_CheckedChanged);
             // 
             // label17
             // 
