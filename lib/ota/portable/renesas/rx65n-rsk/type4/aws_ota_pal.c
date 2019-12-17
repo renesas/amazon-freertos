@@ -500,6 +500,10 @@ OTA_Err_t prvPAL_CloseFile( OTA_FileContext_t * const C )
 
 		R_FLASH_Close();
 	}
+	else
+	{
+		load_firmware_control_block.eSavedAgentState = eOTA_ImageState_Rejected;
+	}
 
 	ota_context_close(C);
 	return eResult;
