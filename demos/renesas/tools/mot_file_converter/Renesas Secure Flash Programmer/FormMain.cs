@@ -367,7 +367,7 @@ namespace Renesas_Secure_Flash_Programmer
                 if (args[ARGUMENT_FIRMWARE_TYPE] == FIRMWARE_TYPE_INITIAL)
                 {
                     Console.WriteLine("Reneas Secure Flash Programmer CUI");
-                    Console.WriteLine("Start generating initial firmware in Renesas Secure Update File");
+                    Console.WriteLine("Start generating update firmware in Motorola S Format File");
                     /* 引数設定  */
                     mcuName = args[ARGUMENT_INITIAL_MCU];
                     comboBoxInitialFirmwareVerificationType.Text = args[ARGUMENT_INITIAL_INPUT_FIRMWARE_VERIFICATION_TYPE];
@@ -382,7 +382,7 @@ namespace Renesas_Secure_Flash_Programmer
                 else if (args[ARGUMENT_FIRMWARE_TYPE] == FIRMWARE_TYPE_UPDATE)
                 {/* FIRMWARE_TYPE_UPDATE */
                     Console.WriteLine("Reneas Secure Flash Programmer CUI");
-                    Console.WriteLine("Start generating update firmware in Motorola S Format File");
+                    Console.WriteLine("Start generating initial firmware in Renesas Secure Update File");
 
                     mcuName = args[ARGUMENT_INITIAL_MCU];
                     comboBoxFirmwareVerificationType.Text = args[ARGUMENT_UPDATE_INPUT_FIRMWARE_VERIFICATION_TYPE];
@@ -1433,6 +1433,7 @@ namespace Renesas_Secure_Flash_Programmer
             MemoryStream ms4 = new MemoryStream();
 
             //Check File lock
+            /*
             int file_check_cnt = 0;
             if (File.Exists(saveFileDialog.FileName))
             {
@@ -1446,7 +1447,7 @@ namespace Renesas_Secure_Flash_Programmer
                 }
                 file_check_cnt = 0;
             }
-
+*/
             //Create CryptoStream
             using (CryptoStream cs1 = new CryptoStream(ms1, encrypt1, CryptoStreamMode.Write))
             using (CryptoStream cs2 = new CryptoStream(ms2, encrypt2, CryptoStreamMode.Write))
@@ -2231,7 +2232,7 @@ namespace Renesas_Secure_Flash_Programmer
             rsu_header rsu_header_data = new rsu_header();
 
             //Check File lock
-            int file_check_cnt = 0;
+/*            int file_check_cnt = 0;
             if (File.Exists(saveFileDialog.FileName))
             {
                 while (IsFileLocked(saveFileDialog.FileName) == true)
@@ -2244,7 +2245,7 @@ namespace Renesas_Secure_Flash_Programmer
                 }
                 file_check_cnt = 0;
             }
-
+            */
             //Create CryptoStream
             using (CryptoStream cs1 = new CryptoStream(ms1, encrypt1, CryptoStreamMode.Write))
             using (CryptoStream cs2 = new CryptoStream(ms2, encrypt2, CryptoStreamMode.Write))
