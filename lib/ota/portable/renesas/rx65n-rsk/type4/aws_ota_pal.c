@@ -253,6 +253,7 @@ OTA_Err_t prvPAL_CreateFileForRx( OTA_FileContext_t * const C )
 				R_FLASH_Control(FLASH_CMD_SET_BGO_CALLBACK, (void *)&cb_func_info);
 				load_firmware_control_block.OTA_FileContext = C;
 				load_firmware_control_block.total_image_length = 0;
+				load_firmware_control_block.eSavedAgentState = eOTA_ImageState_Unknown;
 				OTA_LOG_L1( "[%s] Receive file created.\r\n", OTA_METHOD_NAME );
 				C->pucFile = (uint8_t *)&load_firmware_control_block;
 				eResult = kOTA_Err_None;
@@ -669,8 +670,7 @@ OTA_Err_t prvPAL_SetPlatformImageState( OTA_ImageState_t eState )
     OTA_Err_t eResult = kOTA_Err_Uninitialized;
 
 	/* Save the image state to eSavedAgentState. */
-	load_firmware_control_block.eSavedAgentState = eState;
-	if (firmware_update_control_block_bank0->image_flag == LIFECYCLE_STATE_VALID)
+	if (eOTA_ImageState_Testing == load_firmware_control_block.eSavedAgentState)
 	{
 		switch (eState)
 		{
@@ -680,7 +680,6 @@ OTA_Err_t prvPAL_SetPlatformImageState( OTA_ImageState_t eState )
 				cb_func_info.pcallback = ota_header_flashing_callback;
 				cb_func_info.int_priority = FLASH_INTERRUPT_PRIORITY;
 				R_FLASH_Control(FLASH_CMD_SET_BGO_CALLBACK, (void *)&cb_func_info);
-
 				gs_header_flashing_task = OTA_FLASHING_IN_PROGRESS;
 				if (R_FLASH_Erase((flash_block_address_t)BOOT_LOADER_UPDATE_TEMPORARY_AREA_HIGH_ADDRESS, BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) == FLASH_SUCCESS)
 				{
@@ -740,6 +739,8 @@ OTA_Err_t prvPAL_SetPlatformImageState( OTA_ImageState_t eState )
 				break;
 		}
 	}
+
+	load_firmware_control_block.eSavedAgentState = eState;
 
     return eResult;
 }
