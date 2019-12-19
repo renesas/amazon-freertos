@@ -56,7 +56,6 @@
 #define configTICK_RATE_HZ                         ( 1000 )
 #define configMINIMAL_STACK_SIZE                   ( ( unsigned short ) 512 )
 #define configTOTAL_HEAP_SIZE                      ( ( size_t ) ( 256U * 1024U ) )
-//#define configTOTAL_HEAP_SIZE                      ( ( size_t ) ( 300U * 1024U ) )
 #define configMAX_TASK_NAME_LEN                    ( 15 )
 #define configUSE_TRACE_FACILITY                   1
 #define configUSE_16_BIT_TICKS                     0
@@ -85,7 +84,7 @@
 
 /* Software timer related definitions. */
 #define configUSE_TIMERS                           1
-#define configTIMER_TASK_PRIORITY                  ( configMAX_PRIORITIES - 1 )
+#define configTIMER_TASK_PRIORITY                  (6)
 #define configTIMER_QUEUE_LENGTH                   5
 #define configTIMER_TASK_STACK_DEPTH               ( configMINIMAL_STACK_SIZE * 6 )
 
@@ -215,7 +214,7 @@ extern void vLoggingPrint( const char * pcMessage );
  * results in the wired network being used, while setting
  * configNETWORK_INTERFACE_TO_USE to 2 results in the wireless network being
  * used. */
-#define configNETWORK_INTERFACE_TO_USE 2L
+#define configNETWORK_INTERFACE_TO_USE       2L
 
 /* The address of an echo server that will be used by the two demo echo client
  * tasks:

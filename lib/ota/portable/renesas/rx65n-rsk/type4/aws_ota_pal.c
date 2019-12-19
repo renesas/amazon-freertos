@@ -99,7 +99,7 @@ static uint8_t * prvPAL_ReadAndAssumeCertificate( const uint8_t * const pucCertN
 #define BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_SMALL 8
 #define BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_MEDIUM 6
 
-#define FLASH_INTERRUPT_PRIORITY 15	/* 0(low) - 15(high) */
+#define FLASH_INTERRUPT_PRIORITY configMAX_SYSCALL_INTERRUPT_PRIORITY	/* 0(low) - 15(high) */
 /*------------------------------------------ firmware update configuration (end) --------------------------------------------*/
 
 #define BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS (uint32_t)FLASH_CF_LO_BANK_LO_ADDR
@@ -117,8 +117,9 @@ static uint8_t * prvPAL_ReadAndAssumeCertificate( const uint8_t * const pucCertN
 #define LIFECYCLE_STATE_VALID		(0xf8)
 #define LIFECYCLE_STATE_INVALID		(0xf0)
 
-#define OTA_PAL_SUCCESS     (0)
-#define OTA_PAL_FAIL        (-1)
+#define R_OTA_ERR_NONE     			(0)
+#define R_OTA_ERR_INVALID_CONTEXT   (-1)
+#define R_OTA_ERR_QUEUE_SEND_FAIL	(-2)
 
 #define OTA_FLASHING_IN_PROGRESS    (0)
 #define OTA_FLASHING_COMPLETE       (1)
@@ -287,7 +288,7 @@ OTA_Err_t prvPAL_Abort( OTA_FileContext_t * const C )
 
     OTA_Err_t eResult = kOTA_Err_None;
 
-    if( ota_context_validate(C) == OTA_PAL_FAIL )
+    if( ota_context_validate(C) == R_OTA_ERR_INVALID_CONTEXT )
     {
         eResult = kOTA_Err_FileClose;
     }
@@ -330,7 +331,7 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
                            uint8_t * const pacData,
                            uint32_t ulBlockSize )
 {
-    OTA_Err_t eResult = kOTA_Err_Uninitialized;
+    int16_t sNumBytesWritten = R_OTA_ERR_QUEUE_SEND_FAIL;
 	FLASH_BLOCK flash_block;
     static uint8_t flash_block_array[FLASH_CF_MIN_PGM_SIZE];
 	uint8_t *packet_buffer;
@@ -349,13 +350,13 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
 	    packet_block_for_queue1.length = ulBlockSize;
 		if(xQueueSend(xQueue, &packet_block_for_queue1, NULL) == pdPASS)
 		{
-			eResult = ( int16_t ) ulBlockSize;
+			sNumBytesWritten = ( int16_t ) ulBlockSize;
 		}
 		else
 		{
 			vPortFree(packet_block_for_queue1.p_packet);
 			OTA_LOG_L1("OTA flashing queue send error.\r\n");
-			eResult = kOTA_Err_OutOfMemory;
+			sNumBytesWritten = R_OTA_ERR_QUEUE_SEND_FAIL;
 		}
 	}
 	else
@@ -380,23 +381,28 @@ int16_t prvPAL_WriteBlock( OTA_FileContext_t * const C,
 					{
 						vPortFree(packet_block_for_queue1.p_packet);
 						OTA_LOG_L1("OTA flashing queue send error.\r\n");
-						eResult = kOTA_Err_OutOfMemory;
+						sNumBytesWritten = R_OTA_ERR_QUEUE_SEND_FAIL;
+						break;
 					}
 				}
 				else
 				{
-					eResult = ( int16_t ) ulBlockSize;
+					sNumBytesWritten = ( int16_t ) ulBlockSize;
 					break;
 				}
 			}
+			/*----------- finalize phase ----------*/
+			fragmented_flash_block_list_print(fragmented_flash_block_list);
 		}
-		/*----------- finalize phase ----------*/
-		fragmented_flash_block_list_print(fragmented_flash_block_list);
+		else
+		{
+			sNumBytesWritten = ( int16_t ) ulBlockSize;
+		}
 	}
 
 	xSemaphoreGive(xSemaphoreWriteBlock);
 
-	return eResult;
+	return sNumBytesWritten;
 }
 /*-----------------------------------------------------------*/
 
@@ -406,7 +412,7 @@ OTA_Err_t prvPAL_CloseFile( OTA_FileContext_t * const C )
 
     DEFINE_OTA_METHOD_NAME( "prvPAL_CloseFile" );
 
-    if( ota_context_validate(C) == OTA_PAL_FAIL )
+    if( ota_context_validate(C) == R_OTA_ERR_INVALID_CONTEXT )
     {
         eResult = kOTA_Err_FileClose;
     }
@@ -423,7 +429,7 @@ OTA_Err_t prvPAL_CloseFile( OTA_FileContext_t * const C )
 	if (kOTA_Err_None == eResult)
 	{
 		/* Update the user firmware header. */
-		if (ota_context_update_user_firmware_header(C) == OTA_PAL_SUCCESS)
+		if (ota_context_update_user_firmware_header(C) == R_OTA_ERR_NONE)
 		{
 			OTA_LOG_L1( "[%s] User firmware header updated.\r\n", OTA_METHOD_NAME );
 		}
@@ -911,7 +917,7 @@ static int32_t ota_context_validate( OTA_FileContext_t * C )
 
 static int32_t ota_context_update_user_firmware_header( OTA_FileContext_t * C )
 {
-    int32_t ret = OTA_PAL_FAIL;
+    int32_t ret = R_OTA_ERR_INVALID_CONTEXT;
 	uint8_t block[BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH];
 	FIRMWARE_UPDATE_CONTROL_BLOCK * p_block_header;
 	uint32_t length;
@@ -955,7 +961,7 @@ static int32_t ota_context_update_user_firmware_header( OTA_FileContext_t * C )
 				destination_pointer += OTA_SIGUNATURE_DATA_HALF_LENGTH;
 				if ((source_pointer - C->pxSignature->ucData) == data_length)
 				{
-					ret = OTA_PAL_SUCCESS;
+					ret = R_OTA_ERR_NONE;
 					break;
 				}
 			}
@@ -967,7 +973,7 @@ static int32_t ota_context_update_user_firmware_header( OTA_FileContext_t * C )
 		}
 	}
 
-	if (OTA_PAL_SUCCESS == ret)
+	if (R_OTA_ERR_NONE == ret)
 	{
 		R_FLASH_Close();
 		R_FLASH_Open();

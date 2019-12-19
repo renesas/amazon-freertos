@@ -52,6 +52,7 @@
 *                               Fixed coding style.
 *         : 29.03.2019 1.30     Changed Minor version to 5.10.
 *         : 08.04.2019 1.31     Changed Minor version to 5.20.
+*         : 23.07.2019 1.32     Changed Minor version to 5.21.
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -95,7 +96,7 @@ Macro definitions
 
 /* Version Number of r_bsp. */
 #define R_BSP_VERSION_MAJOR           (5)
-#define R_BSP_VERSION_MINOR           (20)
+#define R_BSP_VERSION_MINOR           (21)
 
 /* This macro is used to suppress compiler messages about not only a parameter but also a auto variable not being used
  * in a function. The nice thing about using this implementation is that it does not take any extra RAM or ROM.

@@ -38,8 +38,8 @@
 /* Demo declarations. */
 /* extern void vStartDeviceDefenderDemo( void ); */
 /* extern void vStartGreenGrassDiscoveryTask( void ); */
-extern void vStartMQTTEchoDemo( void );
-/* extern void vStartOTAUpdateDemoTask( void );*/
+//extern void vStartMQTTEchoDemo( void );
+extern void vStartOTAUpdateDemoTask( void );
 /* extern void vStartShadowDemoTasks( void ); */
 /* extern void vStartSimpleTCPServerTasks( void ); */
 /* extern void vStartSubpubDemoTasks( void ); */
@@ -55,8 +55,8 @@ void DEMO_RUNNER_RunDemos( void )
 {
     /* vStartDeviceDefenderDemo(); */
     /* vStartGreenGrassDiscoveryTask(); */
-     vStartMQTTEchoDemo();
-    /*vStartOTAUpdateDemoTask();*/
+	//vStartMQTTEchoDemo();
+	vStartOTAUpdateDemoTask();
     /* vStartShadowDemoTasks(); */
     /* vStartSimpleTCPServerTasks(); */
     /* vStartSubpubDemoTasks(); */

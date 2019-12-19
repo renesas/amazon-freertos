@@ -609,7 +609,7 @@ static CK_RV prvSocketsGetCryptoSession( CK_SESSION_HANDLE * pxSession,
 }
 /*-----------------------------------------------------------*/
 
-#if 0
+#if 1
 uint32_t ulRand( void )
 {
     CK_RV xResult = 0;
