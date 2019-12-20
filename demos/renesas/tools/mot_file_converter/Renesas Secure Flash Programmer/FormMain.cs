@@ -2231,21 +2231,6 @@ namespace Renesas_Secure_Flash_Programmer
 
             rsu_header rsu_header_data = new rsu_header();
 
-            //Check File lock
-/*            int file_check_cnt = 0;
-            if (File.Exists(saveFileDialog.FileName))
-            {
-                while (IsFileLocked(saveFileDialog.FileName) == true)
-                {
-                    if (file_check_cnt == 0)
-                    {
-                        Console.WriteLine("... Checking File Lock ...\r\n");
-                    }
-                    file_check_cnt++;
-                }
-                file_check_cnt = 0;
-            }
-            */
             //Create CryptoStream
             using (CryptoStream cs1 = new CryptoStream(ms1, encrypt1, CryptoStreamMode.Write))
             using (CryptoStream cs2 = new CryptoStream(ms2, encrypt2, CryptoStreamMode.Write))
@@ -2718,15 +2703,18 @@ namespace Renesas_Secure_Flash_Programmer
                 // check user proguram file path
                 if (!File.Exists(textBoxInitialUserProgramFilePath.Text))
                 {
-                    print_log("please specify the motorola file name.");
+                    print_log("please specify the userprog motorola file name.");
                     return;
                 }
 
-                // check BootLoader user proguram file path
-                if (!File.Exists(textBoxInitialBootLoaderUserProgramFilePath.Text))
+                // check Boot Loader program file path
+                if (checkBox1_InitialOutputBinaryFormat.Enabled == true)
                 {
-                    print_log("please specify the motorola file name.");
-                    return;
+                    if (!File.Exists(textBoxInitialBootLoaderUserProgramFilePath.Text))
+                    {
+                        print_log("please specify the Boot Loader motorola file name.");
+                        return;
+                    }
                 }
 
                 if (comboBoxInitialFirmwareVerificationType.Text == "sig-sha256-ecdsa-standalone")

@@ -65,21 +65,6 @@
             this.textBoxIV = new System.Windows.Forms.TextBox();
             this.label25 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.textBoxFirmwareSequenceNumber = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.comboBoxFirmwareVerificationType = new System.Windows.Forms.ComboBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.comboBoxMcu_firmupdate = new System.Windows.Forms.ComboBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.buttonGenerateUserprog = new System.Windows.Forms.Button();
-            this.buttonBrowseUserprog = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.textBoxUserProgramFilePath = new System.Windows.Forms.TextBox();
-            this.textBoxUserProgramKey_Aes128 = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.buttonBrowseInitialBootLoaderUserprog = new System.Windows.Forms.Button();
@@ -103,6 +88,21 @@
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.comboBox_Initial_Mcu_firmupdate = new System.Windows.Forms.ComboBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.textBoxFirmwareSequenceNumber = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.comboBoxFirmwareVerificationType = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.comboBoxMcu_firmupdate = new System.Windows.Forms.ComboBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.buttonGenerateUserprog = new System.Windows.Forms.Button();
+            this.buttonBrowseUserprog = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.textBoxUserProgramFilePath = new System.Windows.Forms.TextBox();
+            this.textBoxUserProgramKey_Aes128 = new System.Windows.Forms.TextBox();
             this.info = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tabControl1.SuspendLayout();
@@ -112,12 +112,12 @@
             this.groupBox7.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.groupBox6.SuspendLayout();
-            this.tabPage3.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -507,164 +507,6 @@
             this.label13.TabIndex = 3;
             this.label13.Text = "encrypted session key File Path";
             // 
-            // tabPage3
-            // 
-            this.tabPage3.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabPage3.Controls.Add(this.groupBox3);
-            this.tabPage3.Controls.Add(this.groupBox2);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(797, 389);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Update Firm";
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox3.Controls.Add(this.textBoxFirmwareSequenceNumber);
-            this.groupBox3.Controls.Add(this.label11);
-            this.groupBox3.Controls.Add(this.comboBoxFirmwareVerificationType);
-            this.groupBox3.Controls.Add(this.label8);
-            this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Controls.Add(this.comboBoxMcu_firmupdate);
-            this.groupBox3.Location = new System.Drawing.Point(6, 6);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(787, 153);
-            this.groupBox3.TabIndex = 0;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Settings";
-            // 
-            // textBoxFirmwareSequenceNumber
-            // 
-            this.textBoxFirmwareSequenceNumber.Location = new System.Drawing.Point(224, 109);
-            this.textBoxFirmwareSequenceNumber.Name = "textBoxFirmwareSequenceNumber";
-            this.textBoxFirmwareSequenceNumber.Size = new System.Drawing.Size(156, 19);
-            this.textBoxFirmwareSequenceNumber.TabIndex = 9;
-            this.textBoxFirmwareSequenceNumber.Text = "(1 - 4294967295)";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(6, 112);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(148, 12);
-            this.label11.TabIndex = 8;
-            this.label11.Text = "Firmware Sequence Number";
-            // 
-            // comboBoxFirmwareVerificationType
-            // 
-            this.comboBoxFirmwareVerificationType.FormattingEnabled = true;
-            this.comboBoxFirmwareVerificationType.Location = new System.Drawing.Point(224, 64);
-            this.comboBoxFirmwareVerificationType.Name = "comboBoxFirmwareVerificationType";
-            this.comboBoxFirmwareVerificationType.Size = new System.Drawing.Size(303, 20);
-            this.comboBoxFirmwareVerificationType.TabIndex = 3;
-            this.comboBoxFirmwareVerificationType.Text = "(select Firmware Verification Type)";
-            this.comboBoxFirmwareVerificationType.SelectedIndexChanged += new System.EventHandler(this.comboBoxFirmwareVerificationType_SelectedIndexChanged_1);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 67);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(180, 12);
-            this.label8.TabIndex = 2;
-            this.label8.Text = "Select Firmware Verification Type";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 25);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(66, 12);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "Select MCU";
-            // 
-            // comboBoxMcu_firmupdate
-            // 
-            this.comboBoxMcu_firmupdate.FormattingEnabled = true;
-            this.comboBoxMcu_firmupdate.Location = new System.Drawing.Point(224, 22);
-            this.comboBoxMcu_firmupdate.Name = "comboBoxMcu_firmupdate";
-            this.comboBoxMcu_firmupdate.Size = new System.Drawing.Size(303, 20);
-            this.comboBoxMcu_firmupdate.TabIndex = 1;
-            this.comboBoxMcu_firmupdate.Text = "(select MCU)";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.buttonGenerateUserprog);
-            this.groupBox2.Controls.Add(this.buttonBrowseUserprog);
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.textBoxUserProgramFilePath);
-            this.groupBox2.Controls.Add(this.textBoxUserProgramKey_Aes128);
-            this.groupBox2.Location = new System.Drawing.Point(6, 217);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(787, 166);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "User Program";
-            // 
-            // buttonGenerateUserprog
-            // 
-            this.buttonGenerateUserprog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonGenerateUserprog.Location = new System.Drawing.Point(668, 136);
-            this.buttonGenerateUserprog.Name = "buttonGenerateUserprog";
-            this.buttonGenerateUserprog.Size = new System.Drawing.Size(113, 23);
-            this.buttonGenerateUserprog.TabIndex = 5;
-            this.buttonGenerateUserprog.Text = "Generate...";
-            this.buttonGenerateUserprog.UseVisualStyleBackColor = true;
-            this.buttonGenerateUserprog.Click += new System.EventHandler(this.buttonGenerateUserprog_Click);
-            // 
-            // buttonBrowseUserprog
-            // 
-            this.buttonBrowseUserprog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonBrowseUserprog.Location = new System.Drawing.Point(589, 107);
-            this.buttonBrowseUserprog.Name = "buttonBrowseUserprog";
-            this.buttonBrowseUserprog.Size = new System.Drawing.Size(75, 23);
-            this.buttonBrowseUserprog.TabIndex = 4;
-            this.buttonBrowseUserprog.Text = "Browse...";
-            this.buttonBrowseUserprog.UseVisualStyleBackColor = true;
-            this.buttonBrowseUserprog.Click += new System.EventHandler(this.buttonBrowseUserprog_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 112);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(141, 12);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "File Path (Motrola Format)";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 25);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(157, 24);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "AES MAC Key \r\n(16 byte hex / 32 characters)";
-            // 
-            // textBoxUserProgramFilePath
-            // 
-            this.textBoxUserProgramFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxUserProgramFilePath.Location = new System.Drawing.Point(224, 109);
-            this.textBoxUserProgramFilePath.Name = "textBoxUserProgramFilePath";
-            this.textBoxUserProgramFilePath.Size = new System.Drawing.Size(359, 19);
-            this.textBoxUserProgramFilePath.TabIndex = 3;
-            // 
-            // textBoxUserProgramKey_Aes128
-            // 
-            this.textBoxUserProgramKey_Aes128.Location = new System.Drawing.Point(224, 30);
-            this.textBoxUserProgramKey_Aes128.MaxLength = 32;
-            this.textBoxUserProgramKey_Aes128.Name = "textBoxUserProgramKey_Aes128";
-            this.textBoxUserProgramKey_Aes128.Size = new System.Drawing.Size(359, 19);
-            this.textBoxUserProgramKey_Aes128.TabIndex = 1;
-            this.textBoxUserProgramKey_Aes128.Enabled = false;
-            // 
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.WhiteSmoke;
@@ -694,9 +536,9 @@
             this.groupBox5.Controls.Add(this.textBoxInitialUserPrivateKeyPath);
             this.groupBox5.Controls.Add(this.textBoxInitialUserProgramFilePath);
             this.groupBox5.Controls.Add(this.textBoxInitialUserProgramKey_Aes128);
-            this.groupBox5.Location = new System.Drawing.Point(4, 207);
+            this.groupBox5.Location = new System.Drawing.Point(3, 207);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(787, 176);
+            this.groupBox5.Size = new System.Drawing.Size(787, 180);
             this.groupBox5.TabIndex = 2;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "User Program";
@@ -705,7 +547,7 @@
             // buttonBrowseInitialBootLoaderUserprog
             // 
             this.buttonBrowseInitialBootLoaderUserprog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonBrowseInitialBootLoaderUserprog.Location = new System.Drawing.Point(589, 108);
+            this.buttonBrowseInitialBootLoaderUserprog.Location = new System.Drawing.Point(589, 109);
             this.buttonBrowseInitialBootLoaderUserprog.Name = "buttonBrowseInitialBootLoaderUserprog";
             this.buttonBrowseInitialBootLoaderUserprog.Size = new System.Drawing.Size(75, 23);
             this.buttonBrowseInitialBootLoaderUserprog.TabIndex = 8;
@@ -728,7 +570,7 @@
             this.textBoxInitialBootLoaderUserProgramFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxInitialBootLoaderUserProgramFilePath.Enabled = false;
-            this.textBoxInitialBootLoaderUserProgramFilePath.Location = new System.Drawing.Point(224, 110);
+            this.textBoxInitialBootLoaderUserProgramFilePath.Location = new System.Drawing.Point(224, 109);
             this.textBoxInitialBootLoaderUserProgramFilePath.Name = "textBoxInitialBootLoaderUserProgramFilePath";
             this.textBoxInitialBootLoaderUserProgramFilePath.Size = new System.Drawing.Size(359, 19);
             this.textBoxInitialBootLoaderUserProgramFilePath.TabIndex = 7;
@@ -736,7 +578,7 @@
             // Generate_Init_Firm
             // 
             this.Generate_Init_Firm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Generate_Init_Firm.Location = new System.Drawing.Point(688, 146);
+            this.Generate_Init_Firm.Location = new System.Drawing.Point(688, 150);
             this.Generate_Init_Firm.Name = "Generate_Init_Firm";
             this.Generate_Init_Firm.Size = new System.Drawing.Size(93, 23);
             this.Generate_Init_Firm.TabIndex = 5;
@@ -813,12 +655,12 @@
             // 
             // textBoxInitialUserProgramKey_Aes128
             // 
+            this.textBoxInitialUserProgramKey_Aes128.Enabled = false;
             this.textBoxInitialUserProgramKey_Aes128.Location = new System.Drawing.Point(224, 30);
             this.textBoxInitialUserProgramKey_Aes128.MaxLength = 32;
             this.textBoxInitialUserProgramKey_Aes128.Name = "textBoxInitialUserProgramKey_Aes128";
             this.textBoxInitialUserProgramKey_Aes128.Size = new System.Drawing.Size(359, 19);
             this.textBoxInitialUserProgramKey_Aes128.TabIndex = 1;
-            this.textBoxInitialUserProgramKey_Aes128.Enabled = false;
             // 
             // groupBox4
             // 
@@ -916,6 +758,164 @@
             this.comboBox_Initial_Mcu_firmupdate.Text = "(select MCU)";
             this.comboBox_Initial_Mcu_firmupdate.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
+            // tabPage3
+            // 
+            this.tabPage3.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabPage3.Controls.Add(this.groupBox3);
+            this.tabPage3.Controls.Add(this.groupBox2);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(797, 389);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Update Firm";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.textBoxFirmwareSequenceNumber);
+            this.groupBox3.Controls.Add(this.label11);
+            this.groupBox3.Controls.Add(this.comboBoxFirmwareVerificationType);
+            this.groupBox3.Controls.Add(this.label8);
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Controls.Add(this.comboBoxMcu_firmupdate);
+            this.groupBox3.Location = new System.Drawing.Point(3, 6);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(787, 184);
+            this.groupBox3.TabIndex = 0;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Settings";
+            // 
+            // textBoxFirmwareSequenceNumber
+            // 
+            this.textBoxFirmwareSequenceNumber.Location = new System.Drawing.Point(224, 109);
+            this.textBoxFirmwareSequenceNumber.Name = "textBoxFirmwareSequenceNumber";
+            this.textBoxFirmwareSequenceNumber.Size = new System.Drawing.Size(156, 19);
+            this.textBoxFirmwareSequenceNumber.TabIndex = 9;
+            this.textBoxFirmwareSequenceNumber.Text = "(1 - 4294967295)";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(6, 112);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(148, 12);
+            this.label11.TabIndex = 8;
+            this.label11.Text = "Firmware Sequence Number";
+            // 
+            // comboBoxFirmwareVerificationType
+            // 
+            this.comboBoxFirmwareVerificationType.FormattingEnabled = true;
+            this.comboBoxFirmwareVerificationType.Location = new System.Drawing.Point(224, 64);
+            this.comboBoxFirmwareVerificationType.Name = "comboBoxFirmwareVerificationType";
+            this.comboBoxFirmwareVerificationType.Size = new System.Drawing.Size(303, 20);
+            this.comboBoxFirmwareVerificationType.TabIndex = 3;
+            this.comboBoxFirmwareVerificationType.Text = "(select Firmware Verification Type)";
+            this.comboBoxFirmwareVerificationType.SelectedIndexChanged += new System.EventHandler(this.comboBoxFirmwareVerificationType_SelectedIndexChanged_1);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 67);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(180, 12);
+            this.label8.TabIndex = 2;
+            this.label8.Text = "Select Firmware Verification Type";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 25);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(66, 12);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Select MCU";
+            // 
+            // comboBoxMcu_firmupdate
+            // 
+            this.comboBoxMcu_firmupdate.FormattingEnabled = true;
+            this.comboBoxMcu_firmupdate.Location = new System.Drawing.Point(224, 22);
+            this.comboBoxMcu_firmupdate.Name = "comboBoxMcu_firmupdate";
+            this.comboBoxMcu_firmupdate.Size = new System.Drawing.Size(303, 20);
+            this.comboBoxMcu_firmupdate.TabIndex = 1;
+            this.comboBoxMcu_firmupdate.Text = "(select MCU)";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.buttonGenerateUserprog);
+            this.groupBox2.Controls.Add(this.buttonBrowseUserprog);
+            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.textBoxUserProgramFilePath);
+            this.groupBox2.Controls.Add(this.textBoxUserProgramKey_Aes128);
+            this.groupBox2.Location = new System.Drawing.Point(3, 207);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(787, 180);
+            this.groupBox2.TabIndex = 1;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "User Program";
+            // 
+            // buttonGenerateUserprog
+            // 
+            this.buttonGenerateUserprog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonGenerateUserprog.Location = new System.Drawing.Point(688, 150);
+            this.buttonGenerateUserprog.Name = "buttonGenerateUserprog";
+            this.buttonGenerateUserprog.Size = new System.Drawing.Size(93, 23);
+            this.buttonGenerateUserprog.TabIndex = 5;
+            this.buttonGenerateUserprog.Text = "Generate...";
+            this.buttonGenerateUserprog.UseVisualStyleBackColor = true;
+            this.buttonGenerateUserprog.Click += new System.EventHandler(this.buttonGenerateUserprog_Click);
+            // 
+            // buttonBrowseUserprog
+            // 
+            this.buttonBrowseUserprog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonBrowseUserprog.Location = new System.Drawing.Point(589, 109);
+            this.buttonBrowseUserprog.Name = "buttonBrowseUserprog";
+            this.buttonBrowseUserprog.Size = new System.Drawing.Size(75, 23);
+            this.buttonBrowseUserprog.TabIndex = 4;
+            this.buttonBrowseUserprog.Text = "Browse...";
+            this.buttonBrowseUserprog.UseVisualStyleBackColor = true;
+            this.buttonBrowseUserprog.Click += new System.EventHandler(this.buttonBrowseUserprog_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 113);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(141, 12);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "File Path (Motrola Format)";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 25);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(157, 24);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "AES MAC Key \r\n(16 byte hex / 32 characters)";
+            // 
+            // textBoxUserProgramFilePath
+            // 
+            this.textBoxUserProgramFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxUserProgramFilePath.Location = new System.Drawing.Point(224, 109);
+            this.textBoxUserProgramFilePath.Name = "textBoxUserProgramFilePath";
+            this.textBoxUserProgramFilePath.Size = new System.Drawing.Size(359, 19);
+            this.textBoxUserProgramFilePath.TabIndex = 3;
+            // 
+            // textBoxUserProgramKey_Aes128
+            // 
+            this.textBoxUserProgramKey_Aes128.Enabled = false;
+            this.textBoxUserProgramKey_Aes128.Location = new System.Drawing.Point(224, 30);
+            this.textBoxUserProgramKey_Aes128.MaxLength = 32;
+            this.textBoxUserProgramKey_Aes128.Name = "textBoxUserProgramKey_Aes128";
+            this.textBoxUserProgramKey_Aes128.Size = new System.Drawing.Size(359, 19);
+            this.textBoxUserProgramKey_Aes128.TabIndex = 1;
+            // 
             // info
             // 
             this.info.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -949,16 +949,16 @@
             this.groupBox8.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
-            this.tabPage3.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
