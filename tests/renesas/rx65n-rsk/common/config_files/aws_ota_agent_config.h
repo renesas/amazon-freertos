@@ -64,7 +64,7 @@
 /**
  * @brief The OTA agent task priority. Normally it runs at a low priority.
  */
-#define otaconfigAGENT_PRIORITY                 tskIDLE_PRIORITY
+#define otaconfigAGENT_PRIORITY                 tskIDLE_PRIORITY + 1
 
 /**
  * @brief The maximum allowed length of the thing name used by the OTA agent.
