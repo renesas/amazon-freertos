@@ -234,9 +234,9 @@ OTA_Err_t prvPAL_CreateFileForRx( OTA_FileContext_t * const C )
 			xSemaphoreGive(xSemaphoreWriteBlock);
 			fragmented_flash_block_list = NULL;
 
+			R_FLASH_Close();
 			if(R_FLASH_Open() == FLASH_SUCCESS)
 			{
-#ifdef otatestCREATE_FILE_FOR_RX_ERASE_ENABLE
 				cb_func_info.pcallback = ota_header_flashing_callback;
 				cb_func_info.int_priority = FLASH_INTERRUPT_PRIORITY;
 				R_FLASH_Control(FLASH_CMD_SET_BGO_CALLBACK, (void *)&cb_func_info);
@@ -247,7 +247,7 @@ OTA_Err_t prvPAL_CreateFileForRx( OTA_FileContext_t * const C )
 					OTA_LOG_L1( "[%s] ERROR - R_FLASH_Erase() returns error.\r\n", OTA_METHOD_NAME );
 				}
 				while(OTA_FLASHING_IN_PROGRESS == gs_header_flashing_task);
-#endif
+				R_FLASH_Close();
 				R_FLASH_Open();
 				cb_func_info.pcallback = ota_flashing_callback;
 				cb_func_info.int_priority = FLASH_INTERRUPT_PRIORITY;
