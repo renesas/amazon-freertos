@@ -40,7 +40,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "aws_dev_mode_key_provisioning.h"
 
 /* FreeRTOS+TCP includes. */
-#include "FreeRTOS_IP.h"
+//#include "FreeRTOS_IP.h"
 
 /* Demo includes */
 #include "aws_demo.h"
@@ -126,6 +126,7 @@ static void prvMiscInitialization( void )
 {
     /* Initialize UART for serial terminal. */
     uart_config();
+    configPRINT_STRING(("Hello World.\r\n"));
 
     /* Start logging task. */
     xLoggingTaskInitialize( mainLOGGING_TASK_STACK_SIZE,
@@ -164,13 +165,13 @@ void vApplicationDaemonTaskStartupHook( void )
     }
 }
 
-BaseType_t FreeRTOS_IPInit( const uint8_t ucIPAddress[ ipIP_ADDRESS_LENGTH_BYTES ],
-	const uint8_t ucNetMask[ ipIP_ADDRESS_LENGTH_BYTES ],
-	const uint8_t ucGatewayAddress[ ipIP_ADDRESS_LENGTH_BYTES ],
-	const uint8_t ucDNSServerAddress[ ipIP_ADDRESS_LENGTH_BYTES ],
-	const uint8_t ucMACAddress[ ipMAC_ADDRESS_LENGTH_BYTES ] )
-{
-	return 0;
-}
+//BaseType_t FreeRTOS_IPInit( const uint8_t ucIPAddress[ ipIP_ADDRESS_LENGTH_BYTES ],
+//	const uint8_t ucNetMask[ ipIP_ADDRESS_LENGTH_BYTES ],
+//	const uint8_t ucGatewayAddress[ ipIP_ADDRESS_LENGTH_BYTES ],
+//	const uint8_t ucDNSServerAddress[ ipIP_ADDRESS_LENGTH_BYTES ],
+//	const uint8_t ucMACAddress[ ipMAC_ADDRESS_LENGTH_BYTES ] )
+//{
+//	return 0;
+//}
 
 /*-----------------------------------------------------------*/

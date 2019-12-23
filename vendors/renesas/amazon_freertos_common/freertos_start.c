@@ -264,17 +264,17 @@ void vApplicationSetupTimerInterrupt(void)
 * Arguments    : none
 * Return value : end (failure) but vAssertCalled() may not return
 ******************************************************************************/
-#if defined(__GNUC__)
-extern int8_t end;
-int8_t *_heap_of_memory = (int8_t *)&end;
-int8_t *_last_heap_object = (int8_t *)&end;
-extern int8_t *_top_of_heap(void);
-int8_t *_top_of_heap(void)
-{
-    vAssertCalled();
-    return &end;
-}
-#endif
+//#if defined(__GNUC__)
+//extern int8_t end;
+//int8_t *_heap_of_memory = (int8_t *)&end;
+//int8_t *_last_heap_object = (int8_t *)&end;
+//extern int8_t *_top_of_heap(void);
+//int8_t *_top_of_heap(void)
+//{
+//    vAssertCalled();
+//    return &end;
+//}
+//#endif
 
 /******************************************************************************
 * Function Name: vAssertCalled

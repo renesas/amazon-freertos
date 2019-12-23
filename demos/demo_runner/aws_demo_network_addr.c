@@ -83,14 +83,14 @@ static const uint8_t ucDNSServerAddress[ 4 ] =
 };
 
 
-void vApplicationIPInit( void )
-{
-    FreeRTOS_IPInit( ucIPAddress,
-                     ucNetMask,
-                     ucGatewayAddress,
-                     ucDNSServerAddress,
-                     ucMACAddress );
-}
+//void vApplicationIPInit( void )
+//{
+//    FreeRTOS_IPInit( ucIPAddress,
+//                     ucNetMask,
+//                     ucGatewayAddress,
+//                     ucDNSServerAddress,
+//                     ucMACAddress );
+//}
 
 
 #if ( ipconfigUSE_LLMNR != 0 ) || ( ipconfigUSE_NBNS != 0 ) || ( ipconfigDHCP_REGISTER_HOSTNAME == 1 )
