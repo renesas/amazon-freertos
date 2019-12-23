@@ -146,6 +146,9 @@
 /***********************************************************************************************************************
 DEFINE YOUR SYSTEM - UNCOMMENT THE INCLUDE PATH FOR THE PLATFORM YOU ARE USING.
 ***********************************************************************************************************************/
+
+#include "r_bsp.h"
+
 /* RSKRX63N */
 //#include "./board/rskrx63n/r_bsp.h"
 
@@ -153,7 +156,7 @@ DEFINE YOUR SYSTEM - UNCOMMENT THE INCLUDE PATH FOR THE PLATFORM YOU ARE USING.
 //#include "./board/generic_rx64m/r_bsp.h"
 
 /* GENERIC_RX65N */
-#include "./board/generic_rx65n/r_bsp.h"
+//#include "./board/generic_rx65n/r_bsp.h"
 
 /* GENERIC_RX66T */
 //#include "./board/generic_rx66t/r_bsp.h"
