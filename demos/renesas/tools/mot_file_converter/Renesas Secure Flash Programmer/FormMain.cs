@@ -367,7 +367,7 @@ namespace Renesas_Secure_Flash_Programmer
                 if (args[ARGUMENT_FIRMWARE_TYPE] == FIRMWARE_TYPE_INITIAL)
                 {
                     Console.WriteLine("Reneas Secure Flash Programmer CUI");
-                    Console.WriteLine("Start generating update firmware in Motorola S Format File");
+                    Console.WriteLine("Start generating initial firmware in Renesas Secure Update File");
                     /* 引数設定  */
                     mcuName = args[ARGUMENT_INITIAL_MCU];
                     comboBoxInitialFirmwareVerificationType.Text = args[ARGUMENT_INITIAL_INPUT_FIRMWARE_VERIFICATION_TYPE];
@@ -382,7 +382,7 @@ namespace Renesas_Secure_Flash_Programmer
                 else if (args[ARGUMENT_FIRMWARE_TYPE] == FIRMWARE_TYPE_UPDATE)
                 {/* FIRMWARE_TYPE_UPDATE */
                     Console.WriteLine("Reneas Secure Flash Programmer CUI");
-                    Console.WriteLine("Start generating initial firmware in Renesas Secure Update File");
+                    Console.WriteLine("Start generating update firmware in Motorola S Format File");
 
                     mcuName = args[ARGUMENT_INITIAL_MCU];
                     comboBoxFirmwareVerificationType.Text = args[ARGUMENT_UPDATE_INPUT_FIRMWARE_VERIFICATION_TYPE];
@@ -1433,21 +1433,17 @@ namespace Renesas_Secure_Flash_Programmer
             MemoryStream ms4 = new MemoryStream();
 
             //Check File lock
-            /*
             int file_check_cnt = 0;
-            if (File.Exists(saveFileDialog.FileName))
+            while (IsFileLocked(saveFileDialog.FileName))
             {
-                while (IsFileLocked(saveFileDialog.FileName))
+                if (file_check_cnt==0)
                 {
-                    if (file_check_cnt == 0)
-                    {
-                        Console.WriteLine("...Checking File Lock...\r\n");
-                    }
-                    file_check_cnt++;
+                    Console.WriteLine("...Checking File Lock...\r\n");
                 }
-                file_check_cnt = 0;
+                file_check_cnt++;
             }
-*/
+            file_check_cnt= 0;
+
             //Create CryptoStream
             using (CryptoStream cs1 = new CryptoStream(ms1, encrypt1, CryptoStreamMode.Write))
             using (CryptoStream cs2 = new CryptoStream(ms2, encrypt2, CryptoStreamMode.Write))
@@ -2231,6 +2227,18 @@ namespace Renesas_Secure_Flash_Programmer
 
             rsu_header rsu_header_data = new rsu_header();
 
+            //Check File lock
+            int file_check_cnt = 0;
+            while (IsFileLocked(saveFileDialog.FileName))
+            {
+                if (file_check_cnt == 0)
+                {
+                    Console.WriteLine("... Checking File Lock ...\r\n");
+                }
+                file_check_cnt++;
+            }
+            file_check_cnt = 0;
+
             //Create CryptoStream
             using (CryptoStream cs1 = new CryptoStream(ms1, encrypt1, CryptoStreamMode.Write))
             using (CryptoStream cs2 = new CryptoStream(ms2, encrypt2, CryptoStreamMode.Write))
@@ -2703,18 +2711,15 @@ namespace Renesas_Secure_Flash_Programmer
                 // check user proguram file path
                 if (!File.Exists(textBoxInitialUserProgramFilePath.Text))
                 {
-                    print_log("please specify the userprog motorola file name.");
+                    print_log("please specify the motorola file name.");
                     return;
                 }
 
-                // check Boot Loader program file path
-                if (checkBox1_InitialOutputBinaryFormat.Enabled == true)
+                // check BootLoader user proguram file path
+                if (!File.Exists(textBoxInitialBootLoaderUserProgramFilePath.Text))
                 {
-                    if (!File.Exists(textBoxInitialBootLoaderUserProgramFilePath.Text))
-                    {
-                        print_log("please specify the Boot Loader motorola file name.");
-                        return;
-                    }
+                    print_log("please specify the motorola file name.");
+                    return;
                 }
 
                 if (comboBoxInitialFirmwareVerificationType.Text == "sig-sha256-ecdsa-standalone")
