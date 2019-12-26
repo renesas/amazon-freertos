@@ -521,6 +521,7 @@ static OTA_Err_t prvPAL_CheckFileSignature( OTA_FileContext_t * const C )
 				nop();
 			}
 			while (OTA_FLASHING_IN_PROGRESS == gs_header_flashing_task);
+			xSemaphoreGive(xSemaphoreFlashig);
 			load_firmware_control_block.total_image_length += tmp->content.length;
 			tmp = fragmented_flash_block_list_delete(tmp, tmp->content.offset);
 		}
@@ -976,7 +977,6 @@ static int32_t ota_context_update_user_firmware_header( OTA_FileContext_t * C )
 
 	if (R_OTA_ERR_NONE == ret)
 	{
-		xSemaphoreTake(xSemaphoreFlashig, portMAX_DELAY);
 		R_FLASH_Close();
 		R_FLASH_Open();
 		cb_func_info.pcallback = ota_header_flashing_callback;
@@ -1272,7 +1272,5 @@ static void ota_header_flashing_callback(void *event)
     {
     	nop(); /* trap */
     }
-	static portBASE_TYPE xHigherPriorityTaskWoken;
-	xSemaphoreGiveFromISR(xSemaphoreFlashig, &xHigherPriorityTaskWoken);
 }
 
