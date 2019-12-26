@@ -508,6 +508,7 @@ static OTA_Err_t prvPAL_CheckFileSignature( OTA_FileContext_t * const C )
 			/* Replace length bytes from offset. */
 			memcpy(&assembled_flash_buffer[tmp->content.offset], tmp->content.binary, tmp->content.length);
 			/* Flashing memory. */
+			xSemaphoreTake(xSemaphoreFlashig, portMAX_DELAY);
 			R_FLASH_Close();
 			R_FLASH_Open();
 			cb_func_info.pcallback = ota_header_flashing_callback;
@@ -975,12 +976,12 @@ static int32_t ota_context_update_user_firmware_header( OTA_FileContext_t * C )
 
 	if (R_OTA_ERR_NONE == ret)
 	{
+		xSemaphoreTake(xSemaphoreFlashig, portMAX_DELAY);
 		R_FLASH_Close();
 		R_FLASH_Open();
 		cb_func_info.pcallback = ota_header_flashing_callback;
 		cb_func_info.int_priority = FLASH_INTERRUPT_PRIORITY;
 		R_FLASH_Control(FLASH_CMD_SET_BGO_CALLBACK, (void *)&cb_func_info);
-
 		gs_header_flashing_task = OTA_FLASHING_IN_PROGRESS;
 		length = BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH;
 		flash_err = R_FLASH_Write((uint32_t)block, (uint32_t)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS, length);
@@ -1271,5 +1272,7 @@ static void ota_header_flashing_callback(void *event)
     {
     	nop(); /* trap */
     }
+	static portBASE_TYPE xHigherPriorityTaskWoken;
+	xSemaphoreGiveFromISR(xSemaphoreFlashig, &xHigherPriorityTaskWoken);
 }
 
