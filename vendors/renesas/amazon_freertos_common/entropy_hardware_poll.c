@@ -18,20 +18,23 @@ Functions : hardware entropy collector(repeatedly called until enough gathered)
 int mbedtls_hardware_poll( void *data,
                            unsigned char *output, size_t len, size_t *olen )
 {
-    uint32_t random_number = 0;
-    size_t num_bytes = ( len < sizeof( uint32_t ) ) ? len : sizeof( uint32_t );
+	INTERNAL_NOT_USED(data);
+	INTERNAL_NOT_USED(len);
 
-    get_random_number( ( uint8_t * ) &random_number, sizeof( uint32_t ) );
+    uint32_t random_number = 0;
+
+    get_random_number((uint8_t *)&random_number, sizeof(uint32_t));
     *olen = 0;
 
-    memcpy( output, &random_number, num_bytes );
-    *olen = num_bytes;
+    memcpy(output, &random_number, sizeof(uint32_t));
+    *olen = sizeof(uint32_t);
 
     return 0;
 }
 
 /******************************************************************************
 Functions : random number generator(XorShift method)
+<<<<<<< HEAD
 
 WARNING: For best security practice, it is recommended to utilize a
     random number generation solution that is truly randomized and conforms to
@@ -46,6 +49,15 @@ WARNING: For best security practice, it is recommended to utilize a
     https://www.renesas.com/us/en/products/software-tools/software-os-middleware-driver/security-crypto/trusted-secure-ip-driver.html.
     Please contact the silicon vendor for details regarding the method implemented.
 
+=======
+WARNING: The random number generation solution presented in this application is
+    for demonstration purposes only. It is not recommended to go into production with
+    the logic presented here. The current solution takes entropy from the a
+    temperature sensor on the board and from the current system time. For
+    production development, Renesas RX65x customers are recommended to use the
+    TRNG included in the Trusted Secure IP Driver. Please see the following for more information
+    on the Trusted Secure IP Driver: https://www.renesas.com/us/en/products/software-tools/software-os-middleware-driver/security-crypto/trusted-secure-ip-driver.html
+>>>>>>> [ADDED] Boot loader project for GCC compiler and fixed RX65N Target Board + Silex SX-ULPGN PMOD GCC e2 studio with E2 Emulator Lite (on board)
 ******************************************************************************/
 void get_random_number(uint8_t *data, uint32_t len)
 {
