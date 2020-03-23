@@ -14,7 +14,11 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
+<<<<<<< HEAD
 * Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+=======
+* Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
+>>>>>>> eaab5d0be... [UPDATED] pin settings for lastest FIT modules v123 for aws_demos project
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
 * File Name    : r_ether_rx_pinset.h
@@ -22,7 +26,11 @@
 * Device(s)    : R5F565NEDxFC
 * Tool-Chain   : RXC toolchain
 * Description  : Setting of port and mpc registers
+<<<<<<< HEAD
 * Creation Date: 2018-08-10
+=======
+* Creation Date: 2020-03-23
+>>>>>>> eaab5d0be... [UPDATED] pin settings for lastest FIT modules v123 for aws_demos project
 ***********************************************************************************************************************/
 
 #ifndef R_ETHER_RX_H

@@ -14,13 +14,21 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
+<<<<<<< HEAD
 * Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+=======
+* Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
+>>>>>>> eaab5d0be... [UPDATED] pin settings for lastest FIT modules v123 for aws_demos project
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
 * File Name    : r_pinset.h.h
 * Version      : 1.0.1
 * Description  : Declares all pin code headers into a single file
+<<<<<<< HEAD
 * Creation Date: 2018-07-22
+=======
+* Creation Date: 2020-03-23
+>>>>>>> eaab5d0be... [UPDATED] pin settings for lastest FIT modules v123 for aws_demos project
 ***********************************************************************************************************************/
 
 #ifndef R_PINSET_H
@@ -29,7 +37,8 @@
 /***********************************************************************************************************************
 Includes
 ***********************************************************************************************************************/
-#include "r_sci_rx_pinset.h"
 #include "r_ether_rx_pinset.h"
+#include "r_s12ad_rx_pinset.h"
+#include "r_sci_rx_pinset.h"
 
 #endif /* R_PINSET_H */

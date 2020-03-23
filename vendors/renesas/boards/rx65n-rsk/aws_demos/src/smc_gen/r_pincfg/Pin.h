@@ -22,7 +22,11 @@
 * Version      : 1.0.2
 * Device(s)    : R5F565NEDxFC
 * Description  : This file implements SMC pin code generation.
+<<<<<<< HEAD
 * Creation Date: 2018-08-10
+=======
+* Creation Date: 2020-03-23
+>>>>>>> eaab5d0be... [UPDATED] pin settings for lastest FIT modules v123 for aws_demos project
 ***********************************************************************************************************************/
 
 #ifndef PIN_H
