@@ -90,8 +90,13 @@
  */
 /** @{ */
 //#define mqttconfigMQTT_TASK_STACK_DEPTH    ( configMINIMAL_STACK_SIZE * 4 )
+<<<<<<< HEAD
 #define mqttconfigMQTT_TASK_STACK_DEPTH    ( 2048 )
 #define mqttconfigMQTT_TASK_PRIORITY       ( configMAX_PRIORITIES - 3 )
+=======
+#define mqttconfigMQTT_TASK_STACK_DEPTH    (6144)
+#define mqttconfigMQTT_TASK_PRIORITY       (configMAX_PRIORITIES - 3)
+>>>>>>> d4c1257d4... [UPDATED] config settings for aws_demos project in config_files folder
 /** @} */
 
 /**

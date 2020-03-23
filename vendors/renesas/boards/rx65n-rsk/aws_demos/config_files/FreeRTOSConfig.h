@@ -52,11 +52,19 @@
 #define configENABLE_BACKWARD_COMPATIBILITY        1
 #define configUSE_PREEMPTION                       1
 #define configUSE_PORT_OPTIMISED_TASK_SELECTION    0
+<<<<<<< HEAD
 #define configMAX_PRIORITIES                       ( 7 )
 #define configTICK_RATE_HZ                         ( 1000 )
 #define configMINIMAL_STACK_SIZE                   ( ( unsigned short ) 512 )
 #define configTOTAL_HEAP_SIZE                      ( ( size_t ) ( 256U * 1024U ) )
 #define configMAX_TASK_NAME_LEN                    ( 12 )
+=======
+#define configMAX_PRIORITIES                       (7)
+#define configTICK_RATE_HZ                         (1000)
+#define configMINIMAL_STACK_SIZE                   (( unsigned short ) 512)
+#define configTOTAL_HEAP_SIZE                      (( size_t ) ( 128U * 1024U ))
+#define configMAX_TASK_NAME_LEN                    (12)
+>>>>>>> d4c1257d4... [UPDATED] config settings for aws_demos project in config_files folder
 #define configUSE_TRACE_FACILITY                   1
 #define configUSE_16_BIT_TICKS                     0
 #define configIDLE_SHOULD_YIELD                    1
@@ -84,7 +92,11 @@
 
 /* Software timer related definitions. */
 #define configUSE_TIMERS                           1
+<<<<<<< HEAD
 #define configTIMER_TASK_PRIORITY                  ( configMAX_PRIORITIES - 1 )
+=======
+#define configTIMER_TASK_PRIORITY                  (6)
+>>>>>>> d4c1257d4... [UPDATED] config settings for aws_demos project in config_files folder
 #define configTIMER_QUEUE_LENGTH                   5
 #define configTIMER_TASK_STACK_DEPTH               ( configMINIMAL_STACK_SIZE * 6 )
 

@@ -36,7 +36,11 @@
  *
  * Valid values are pdLITTLE_ENDIAN and pdBIG_ENDIAN.
  */
+<<<<<<< HEAD
 #define socketsconfigBYTE_ORDER                   pdLITTLE_ENDIAN
+=======
+#define socketsconfigBYTE_ORDER                   pdLITTLE_ENDIAN           
+>>>>>>> d4c1257d4... [UPDATED] config settings for aws_demos project in config_files folder
 
 /**
  * @brief Default socket send timeout.
