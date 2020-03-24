@@ -62,7 +62,7 @@
 #define configMAX_PRIORITIES                       (7)
 #define configTICK_RATE_HZ                         (1000)
 #define configMINIMAL_STACK_SIZE                   (( unsigned short ) 512)
-#define configTOTAL_HEAP_SIZE                      (( size_t ) ( 128U * 1024U ))
+#define configTOTAL_HEAP_SIZE                      (( size_t ) ( 256U * 1024U ))
 #define configMAX_TASK_NAME_LEN                    (12)
 >>>>>>> d4c1257d4... [UPDATED] config settings for aws_demos project in config_files folder
 #define configUSE_TRACE_FACILITY                   1
