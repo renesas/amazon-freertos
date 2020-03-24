@@ -14,51 +14,47 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
-
 /***********************************************************************************************************************
-* File Name    : r_smc_cgc_user.c
-* Version      : 1.6.1
+* File Name    : r_s12ad_rx_pinset.c
+* Version      : 1.0.2
 * Device(s)    : R5F565NEDxFC
-* Description  : None
+* Tool-Chain   : RXC toolchain
+* Description  : Setting of port and mpc registers
 * Creation Date: 2020-03-24
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-Pragma directive
-***********************************************************************************************************************/
-/* Start user code for pragma. Do not edit comment generated here */
-/* End user code. Do not edit comment generated here */
-
-/***********************************************************************************************************************
 Includes
 ***********************************************************************************************************************/
-#include "r_cg_macrodriver.h"
-/* Start user code for include. Do not edit comment generated here */
-#include "r_smc_cgc.h"
-/* End user code. Do not edit comment generated here */
-#include "r_cg_userdefine.h"
+#include "r_s12ad_rx_pinset.h"
+#include "platform.h"
 
 /***********************************************************************************************************************
 Global variables and functions
 ***********************************************************************************************************************/
-/* Start user code for global. Do not edit comment generated here */
-/* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
-* Function Name: R_CGC_Create_UserInit
-* Description  : This function adds user code after initializing CGC
-* Arguments    : None
-* Return Value : None
+* Function Name: R_ADC_PinSet_S12AD0
+* Description  : This function initializes pins for r_s12ad_rx module
+* Arguments    : none
+* Return Value : none
 ***********************************************************************************************************************/
-
-void R_CGC_Create_UserInit(void)
+void R_ADC_PinSet_S12AD0()
 {
-    /* Start user code for code init. Do not edit comment generated here */
-    /* End user code. Do not edit comment generated here */
-}
+    R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_MPC);
 
-/* Start user code for adding. Do not edit comment generated here */
-/* End user code. Do not edit comment generated here */   
+    /* Set AN000 pin */
+    PORT4.PCR.BIT.B0 = 0U;
+    PORT4.PDR.BIT.B0 = 0U;
+    PORT4.PMR.BIT.B0 = 0U;
+    MPC.P40PFS.BYTE = 0x80U;
+
+    /* Set ADTRG0# pin */
+    MPC.P07PFS.BYTE = 0x09U;
+    PORT0.PMR.BIT.B7 = 1U;
+
+    R_BSP_RegisterProtectEnable(BSP_REG_PROTECT_MPC);
+}
 
