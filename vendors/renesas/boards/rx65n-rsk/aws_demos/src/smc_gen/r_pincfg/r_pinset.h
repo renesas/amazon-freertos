@@ -25,10 +25,14 @@
 * Version      : 1.0.1
 * Description  : Declares all pin code headers into a single file
 <<<<<<< HEAD
+<<<<<<< HEAD
 * Creation Date: 2018-07-22
 =======
 * Creation Date: 2020-03-23
 >>>>>>> eaab5d0be... [UPDATED] pin settings for lastest FIT modules v123 for aws_demos project
+=======
+* Creation Date: 2020-03-24
+>>>>>>> 1532f9cbd... [FIXED] Added s12ad pin set and re-generate code by Smart Configurator
 ***********************************************************************************************************************/
 
 #ifndef R_PINSET_H

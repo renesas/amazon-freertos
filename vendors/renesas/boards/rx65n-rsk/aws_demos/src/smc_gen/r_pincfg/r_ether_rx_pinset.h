@@ -27,10 +27,14 @@
 * Tool-Chain   : RXC toolchain
 * Description  : Setting of port and mpc registers
 <<<<<<< HEAD
+<<<<<<< HEAD
 * Creation Date: 2018-08-10
 =======
 * Creation Date: 2020-03-23
 >>>>>>> eaab5d0be... [UPDATED] pin settings for lastest FIT modules v123 for aws_demos project
+=======
+* Creation Date: 2020-03-24
+>>>>>>> 1532f9cbd... [FIXED] Added s12ad pin set and re-generate code by Smart Configurator
 ***********************************************************************************************************************/
 
 #ifndef R_ETHER_RX_H

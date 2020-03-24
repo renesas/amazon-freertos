@@ -55,10 +55,14 @@
 /* Define the byte order of the target MCU (the MCU FreeRTOS+TCP is executing
  * on).  Valid options are pdFREERTOS_BIG_ENDIAN and pdFREERTOS_LITTLE_ENDIAN. */
 <<<<<<< HEAD
+<<<<<<< HEAD
 #define ipconfigBYTE_ORDER                         pdFREERTOS_LITTLE_ENDIAN
 =======
 #define ipconfigBYTE_ORDER                         pdFREERTOS_LITTLE_ENDIAN           
 >>>>>>> d4c1257d4... [UPDATED] config settings for aws_demos project in config_files folder
+=======
+#define ipconfigBYTE_ORDER                         pdFREERTOS_LITTLE_ENDIAN              
+>>>>>>> 1532f9cbd... [FIXED] Added s12ad pin set and re-generate code by Smart Configurator
 
 /* If the network card/driver includes checksum offloading (IP/TCP/UDP checksums)
  * then set ipconfigDRIVER_INCLUDED_RX_IP_CHECKSUM to 1 to prevent the software

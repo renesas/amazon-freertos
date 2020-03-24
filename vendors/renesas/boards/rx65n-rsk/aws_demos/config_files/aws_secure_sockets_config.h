@@ -37,10 +37,14 @@
  * Valid values are pdLITTLE_ENDIAN and pdBIG_ENDIAN.
  */
 <<<<<<< HEAD
+<<<<<<< HEAD
 #define socketsconfigBYTE_ORDER                   pdLITTLE_ENDIAN
 =======
 #define socketsconfigBYTE_ORDER                   pdLITTLE_ENDIAN           
 >>>>>>> d4c1257d4... [UPDATED] config settings for aws_demos project in config_files folder
+=======
+#define socketsconfigBYTE_ORDER                   pdLITTLE_ENDIAN              
+>>>>>>> 1532f9cbd... [FIXED] Added s12ad pin set and re-generate code by Smart Configurator
 
 /**
  * @brief Default socket send timeout.
