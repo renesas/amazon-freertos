@@ -14,51 +14,28 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
-
 /***********************************************************************************************************************
-* File Name    : r_smc_cgc_user.c
-* Version      : 1.6.1
+* File Name    : r_s12ad_rx_pinset.h
+* Version      : 1.0.2
 * Device(s)    : R5F565NEDxFC
-* Description  : None
+* Tool-Chain   : RXC toolchain
+* Description  : Setting of port and mpc registers
 * Creation Date: 2020-03-24
 ***********************************************************************************************************************/
 
-/***********************************************************************************************************************
-Pragma directive
-***********************************************************************************************************************/
-/* Start user code for pragma. Do not edit comment generated here */
-/* End user code. Do not edit comment generated here */
+#ifndef R_S12AD_RX_H
+#define R_S12AD_RX_H
 
 /***********************************************************************************************************************
 Includes
 ***********************************************************************************************************************/
-#include "r_cg_macrodriver.h"
-/* Start user code for include. Do not edit comment generated here */
-#include "r_smc_cgc.h"
-/* End user code. Do not edit comment generated here */
-#include "r_cg_userdefine.h"
 
 /***********************************************************************************************************************
 Global variables and functions
 ***********************************************************************************************************************/
-/* Start user code for global. Do not edit comment generated here */
-/* End user code. Do not edit comment generated here */
 
-/***********************************************************************************************************************
-* Function Name: R_CGC_Create_UserInit
-* Description  : This function adds user code after initializing CGC
-* Arguments    : None
-* Return Value : None
-***********************************************************************************************************************/
+void R_ADC_PinSet_S12AD0();
 
-void R_CGC_Create_UserInit(void)
-{
-    /* Start user code for code init. Do not edit comment generated here */
-    /* End user code. Do not edit comment generated here */
-}
-
-/* Start user code for adding. Do not edit comment generated here */
-/* End user code. Do not edit comment generated here */   
-
+#endif
