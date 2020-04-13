@@ -38,6 +38,7 @@
  */
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 #define socketsconfigBYTE_ORDER                   pdLITTLE_ENDIAN
 =======
 #define socketsconfigBYTE_ORDER                   pdLITTLE_ENDIAN           
@@ -45,6 +46,9 @@
 =======
 #define socketsconfigBYTE_ORDER                   pdLITTLE_ENDIAN              
 >>>>>>> 1532f9cbd... [FIXED] Added s12ad pin set and re-generate code by Smart Configurator
+=======
+#define socketsconfigBYTE_ORDER                   pdLITTLE_ENDIAN                     
+>>>>>>> c1c476b0e... [ADDED] Updated lastest FIT modules v125 for aws_demos, aws_tests and boot_loader projects
 
 /**
  * @brief Default socket send timeout.

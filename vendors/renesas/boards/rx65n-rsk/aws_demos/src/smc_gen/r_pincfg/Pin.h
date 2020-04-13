@@ -24,6 +24,7 @@
 * Description  : This file implements SMC pin code generation.
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 * Creation Date: 2018-08-10
 =======
 * Creation Date: 2020-03-23
@@ -31,6 +32,9 @@
 =======
 * Creation Date: 2020-03-24
 >>>>>>> 1532f9cbd... [FIXED] Added s12ad pin set and re-generate code by Smart Configurator
+=======
+* Creation Date: 2020-04-09
+>>>>>>> c1c476b0e... [ADDED] Updated lastest FIT modules v125 for aws_demos, aws_tests and boot_loader projects
 ***********************************************************************************************************************/
 
 #ifndef PIN_H
