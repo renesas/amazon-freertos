@@ -18,10 +18,10 @@
 * you agree to the additional terms and conditions found by accessing the
 * following link:
 * http://www.renesas.com/disclaimer
-* Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
 *******************************************************************************/ 
 /*******************************************************************************
-* Rev: 2.00
+* Rev: 3.01
 * Description : IO define header
 *******************************************************************************/
 
@@ -136,8 +136,7 @@ struct st_octa
             unsigned long DVRDCMD0:3;
             unsigned long DVRDHI0:3;
             unsigned long DVRDLO0:2;
-            unsigned long CTRW1:7;
-            unsigned long CTR1:1;
+            unsigned long :8;
             unsigned long DVRDCMD1:3;
             unsigned long DVRDHI1:3;
             unsigned long DVRDLO1:2;

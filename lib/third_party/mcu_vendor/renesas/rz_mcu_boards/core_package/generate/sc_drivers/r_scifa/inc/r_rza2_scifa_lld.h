@@ -75,7 +75,7 @@
 /** Major Version Number of API. */
     #define STDIO_SCIFA_RZ_LLD_VERSION_MAJOR      (2)
 /** Minor Version Number of API. */
-    #define STDIO_SCIFA_RZ_LLD_VERSION_MINOR      (2)
+    #define STDIO_SCIFA_RZ_LLD_VERSION_MINOR      (3)
 /** Minor Version Number of API. */
     #define STDIO_SCIFA_RZ_LLD_BUILD_NUM          (0)
 /** Unique ID. */

@@ -93,7 +93,7 @@
 
 /** Minor Version Number of API.
  * Updated by developer */
-#define STDIO_SCIFA_RZ_HLD_VERSION_MINOR (0)
+#define STDIO_SCIFA_RZ_HLD_VERSION_MINOR (1)
 
 /** Build Number of API.
  * Generated during customer release */

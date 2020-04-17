@@ -44,8 +44,8 @@
 /* List channels supported */
 #define R_CFG_CPG_CHANNELS_SUPPORTED         (0)
 
-/* Maximum number of modules that can be granted simultaneous access to this driver  */
-#define  R_CFG_CPG_DRV_MAXIMUM_ACCESS_PRV    (1)
+/* Maximum number of modules that can be granted simultaneous write access to this driver  */
+#define  R_CFG_CPG_DRV_MAXIMUM_WRITE_ACCESS_PRV    (1)
 
 /******************************************************************************
  Enumerated Types
@@ -114,8 +114,6 @@ const st_r_driver_t g_cpg_driver =
  ******************************************************************************/
 static int_t cpg_open (st_stream_ptr_t stream_ptr)
 {
-    /* unused argument, kept to maintain defined API */
-    (void) stream_ptr;
     int_t ret = DRV_SUCCESS;
 
     if (!gs_drv_cpg_is_initialized)
@@ -124,15 +122,25 @@ static int_t cpg_open (st_stream_ptr_t stream_ptr)
         R_CPG_InitialiseHwIf();
     }
 
-    if (s_drv_config.gs_channel_open < R_CFG_CPG_DRV_MAXIMUM_ACCESS_PRV)
+    if ((stream_ptr->file_mode & __SWR) > 0)
     {
-        /* driver already opened, just store the reference count */
-        s_drv_config.gs_channel_open++;
+        /* write access requested */
+
+        if (s_drv_config.gs_channel_open < R_CFG_CPG_DRV_MAXIMUM_WRITE_ACCESS_PRV)
+        {
+            /* driver already opened, just store the reference count */
+            s_drv_config.gs_channel_open++;
+        }
+        else
+        {
+            /* return DRV_ERROR when too many write references to the driver are attempted */
+            ret = DRV_ERROR;
+        }
     }
     else
     {
-        /* return DRV_ERROR when too many references to the driver are attempted */
-        ret = DRV_ERROR;
+        /* driver already opened, just store the reference count */
+        s_drv_config.gs_channel_open++;
     }
 
     return (ret);
@@ -186,6 +194,26 @@ static int_t cpg_control (st_stream_ptr_t stream_ptr, uint32_t ctrl_code, void *
     if (NULL == ctrl_ptr)
     {
         return (DRV_ERROR);
+    }
+
+    /* check if handle has write access */
+    if (0 == (stream_ptr->file_mode & __SWR))
+    {
+        /* no write access - fail as handle trying to call a write function */
+        if (CTL_CPG_GET_CLK != ctrl_code)
+        {
+            return (DRV_ERROR);
+        }
+    }
+
+    /* check if handle has read access */
+    if (0 == (stream_ptr->file_mode & __SRD))
+    {
+        /* no read access - fail as handle trying to call a read function */
+        if (CTL_CPG_GET_CLK == ctrl_code)
+        {
+            return (DRV_ERROR);
+        }
     }
 
     switch (ctrl_code)

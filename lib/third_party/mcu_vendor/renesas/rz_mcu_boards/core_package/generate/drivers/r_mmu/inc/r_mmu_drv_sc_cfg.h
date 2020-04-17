@@ -22,8 +22,8 @@
 *******************************************************************************/
 /******************************************************************************
 * File Name    : r_mmu_drv_sc_cfg.h
-* Date         : 2019-09-04
-* version      : 1.0.0
+* Date         : 2020-04-16
+* version      : 1.0.5
 * Description  : MMU configuration table updated by Smart Configurator
 ******************************************************************************/
 
@@ -48,7 +48,7 @@ typedef struct
 /******************************************************************************
 Variable Externs
 ******************************************************************************/
-const static st_r_mmu_sc_config_t MMU_SC_TABLE[] =
+static const st_r_mmu_sc_config_t MMU_SC_TABLE[] =
 {
     /* This code is auto-generated. Do not edit manually */
     {0x00000000uL, 0x00000000uL, 4096, MMU_ATTR_UNUSED | MMU_ATTR_DOMAIN(15) },             /* default */

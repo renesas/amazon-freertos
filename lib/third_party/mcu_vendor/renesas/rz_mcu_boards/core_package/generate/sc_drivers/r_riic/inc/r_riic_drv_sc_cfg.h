@@ -88,7 +88,7 @@ typedef struct
 /**
  * @section R_RIIC_SC_CFG_80_TABLE Smart Configurator settings table.
  */
-static const st_r_drv_riic_sc_config_t RIIC_SC_TABLE[] = // @suppress("Global static variable naming")
+static const st_r_drv_riic_sc_config_t RIIC_SC_TABLE[] =
 {
     /* This code is auto-generated. Do not edit manually */
     { 3, 

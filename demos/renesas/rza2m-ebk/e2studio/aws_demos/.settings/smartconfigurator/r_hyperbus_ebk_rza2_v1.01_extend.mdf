@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+/***********************************************************************************************************************
+  Purpose: Module Description File (MDF) Example (Schema Version 2.1)
+           This is a description of a sample module configuration file
+***********************************************************************************************************************/
+-->
+<module xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="2.1" xs:noNamespaceSchemaLocation="schema_mdf_2.10.xsd">
+    <fileVersion>1.00</fileVersion>
+    <formatVersion>2.11</formatVersion>
+
+    <configuration>
+      <category id="HYPERBUS_CS0" display="HyperFlash Access Setting"/>
+      <category id="HYPERBUS_CS1" display="HyperRAM Access Setting"/>
+      <property id="HYPERBUS_CS0_INIT" display="Controller initialize project assignment of CS0 area" default="HYPERBUS_INIT_AT_LOADER" type="combobox" category="HYPERBUS_CS0">
+        <option id="HYPERBUS_CS0_INIT.HYPERBUS_NO_INIT" display="No initialize at this time" value="HYPERBUS_NO_INIT"/>
+        <option id="HYPERBUS_CS0_INIT.HYPERBUS_INIT_AT_LOADER" display="Initialise at Loader project" value="HYPERBUS_INIT_AT_LOADER"/>
+        <option id="HYPERBUS_CS0_INIT.HYPERBUS_INIT_AT_APP" display="Initialize at Application project" value="HYPERBUS_INIT_AT_APP"/>
+        <description>Controller initialize project assignment of CS0 area</description>
+      </property>
+      <property id="HYPERBUS_MCR0_MAXEN" display="Maximum time setting enable of HM_CS0#" default="HYPERBUS_MAXEN_OFF" type="checkbox" category="HYPERBUS_CS0">
+        <option id="HYPERBUS_MCR0_MAXEN.HYPERBUS_MAXEN_OFF" display="Disable" value="HYPERBUS_MAXEN_OFF"/>
+        <option id="HYPERBUS_MCR0_MAXEN.HYPERBUS_MAXEN_ON" display="Enable" value="HYPERBUS_MAXEN_ON"/>
+        <constraint display="This parameter cannot be editable when Controller initialize project assignment of CS0 area is no No initialize in this case." actionOnFail="disable">("${HYPERBUS_CS0_INIT}" == "HYPERBUS_INIT_AT_LOADER") || ("${HYPERBUS_CS0_INIT}" == "HYPERBUS_INIT_AT_APP")</constraint>
+        <description>Maximum time setting enable of HM_CS0#
+This bit sets whether the time at low level of the HM_CS0# signal is to be controlled by MAXLEN.
+HYPERBUS_MAXEN_OFF = Disabled
+HYPERBUS_MAXEN_ON = Enabled</description>
+      </property>
+      <property id="HYPERBUS_MCR0_MAXLEN" display="Maximum time setting of HM_CS0#" default="0" type="textbox" category="HYPERBUS_CS0">
+        <constraint display="The parameter cannot be editable when the Maximum time setting enable of HM_CS0# is HYPERBUS_MAXEN_OFF" actionOnFail="disable">("${HYPERBUS_CS0_INIT}" != "HYPERBUS_NO_INIT") &amp;&amp; ("${HYPERBUS_MCR0_MAXEN}" == "HYPERBUS_MAXEN_ON")</constraint>
+        <constraint display="Value must be in the range 0 - 511" actionOnFail="error">("${HYPERBUS_MCR0_MAXLEN}" &gt;= 0) &amp;&amp; ("${HYPERBUS_MCR0_MAXLEN}" &lt;= 511)</constraint>
+        <description>Maximum time setting of HM_CS0#
+Sets the maximun read/write transaction time (the time at low level of the HM_CS0# signal).
+    0 = 1 clock cycle(sufficient for 2 bytes)
+    1 = 2 clock cycle(sufficient for 4 bytes)
+...
+511 = 512 clock cycle(sufficient for 1024 bytes)</description>
+      </property>
+      <property id="HYPERBUS_MTR0_RCSHI" display="Read Chip Select timing of HM_CS0#" default="HYPERBUS_CSHI_1P5_CYCLE" type="combobox" category="HYPERBUS_CS0">
+        <option id="HYPERBUS_MTR0_RCSHI.HYPERBUS_CSHI_1P5_CYCLE" display="1.5 clock cycles" value="HYPERBUS_CSHI_1P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSHI.HYPERBUS_CSHI_2P5_CYCLE" display="2.5 clock cycles" value="HYPERBUS_CSHI_2P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSHI.HYPERBUS_CSHI_3P5_CYCLE" display="3.5 clock cycles" value="HYPERBUS_CSHI_3P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSHI.HYPERBUS_CSHI_4P5_CYCLE" display="4.5 clock cycles" value="HYPERBUS_CSHI_4P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSHI.HYPERBUS_CSHI_5P5_CYCLE" display="5.5 clock cycles" value="HYPERBUS_CSHI_5P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSHI.HYPERBUS_CSHI_6P5_CYCLE" display="6.5 clock cycles" value="HYPERBUS_CSHI_6P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSHI.HYPERBUS_CSHI_7P5_CYCLE" display="7.5 clock cycles" value="HYPERBUS_CSHI_7P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSHI.HYPERBUS_CSHI_8P5_CYCLE" display="8.5 clock cycles" value="HYPERBUS_CSHI_8P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSHI.HYPERBUS_CSHI_9P5_CYCLE" display="9.5 clock cycles" value="HYPERBUS_CSHI_9P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSHI.HYPERBUS_CSHI_10P5_CYCLE" display="10.5 clock cycles" value="HYPERBUS_CSHI_10P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSHI.HYPERBUS_CSHI_11P5_CYCLE" display="11.5 clock cycles" value="HYPERBUS_CSHI_11P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSHI.HYPERBUS_CSHI_12P5_CYCLE" display="12.5 clock cycles" value="HYPERBUS_CSHI_12P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSHI.HYPERBUS_CSHI_13P5_CYCLE" display="13.5 clock cycles" value="HYPERBUS_CSHI_13P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSHI.HYPERBUS_CSHI_14P5_CYCLE" display="14.5 clock cycles" value="HYPERBUS_CSHI_14P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSHI.HYPERBUS_CSHI_15P5_CYCLE" display="15.5 clock cycles" value="HYPERBUS_CSHI_15P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSHI.HYPERBUS_CSHI_16P5_CYCLE" display="16.5 clock cycles" value="HYPERBUS_CSHI_16P5_CYCLE"/>
+        <constraint display="This parameter cannot be editable when Controller initialize project assignment of CS0 area is no No initialize in this case." actionOnFail="disable">("${HYPERBUS_CS0_INIT}" == "HYPERBUS_INIT_AT_LOADER") || ("${HYPERBUS_CS0_INIT}" == "HYPERBUS_INIT_AT_APP")</constraint>
+        <description>Read Chip Select timing of HM_CS0#
+Mimimum wait time between negating the HM_CS0# pin and starting the next read access.
+HYPERBUS_CSHI_1P5_CYCLE = 1.5 clock cycles
+HYPERBUS_CSHI_2P5_CYCLE = 2.5 clock cycles
+HYPERBUS_CSHI_3P5_CYCLE = 3.5 clock cycles
+HYPERBUS_CSHI_4P5_CYCLE = 4.5 clock cycles
+HYPERBUS_CSHI_5P5_CYCLE = 5.5 clock cycles
+HYPERBUS_CSHI_6P5_CYCLE = 6.5 clock cycles
+HYPERBUS_CSHI_7P5_CYCLE = 7.5 clock cycles
+HYPERBUS_CSHI_8P5_CYCLE = 8.5 clock cycles
+HYPERBUS_CSHI_9P5_CYCLE = 9.5 clock cycles
+HYPERBUS_CSHI_10P5_CYCLE = 10.5 clock cycles
+HYPERBUS_CSHI_11P5_CYCLE = 11.5 clock cycles
+HYPERBUS_CSHI_12P5_CYCLE = 12.5 clock cycles
+HYPERBUS_CSHI_13P5_CYCLE = 13.5 clock cycles
+HYPERBUS_CSHI_14P5_CYCLE = 14.5 clock cycles
+HYPERBUS_CSHI_15P5_CYCLE = 15.5 clock cycles
+HYPERBUS_CSHI_16P5_CYCLE = 16.5 clock cycles</description>
+      </property>
+      <property id="HYPERBUS_MTR0_WCSHI" display="Write Chip Select timing of HM_CS0#" default="HYPERBUS_CSHI_1P5_CYCLE" type="combobox" category="HYPERBUS_CS0">
+        <option id="HYPERBUS_MTR0_WCSHI.HYPERBUS_CSHI_1P5_CYCLE" display="1.5 clock cycles" value="HYPERBUS_CSHI_1P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSHI.HYPERBUS_CSHI_2P5_CYCLE" display="2.5 clock cycles" value="HYPERBUS_CSHI_2P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSHI.HYPERBUS_CSHI_3P5_CYCLE" display="3.5 clock cycles" value="HYPERBUS_CSHI_3P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSHI.HYPERBUS_CSHI_4P5_CYCLE" display="4.5 clock cycles" value="HYPERBUS_CSHI_4P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSHI.HYPERBUS_CSHI_5P5_CYCLE" display="5.5 clock cycles" value="HYPERBUS_CSHI_5P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSHI.HYPERBUS_CSHI_6P5_CYCLE" display="6.5 clock cycles" value="HYPERBUS_CSHI_6P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSHI.HYPERBUS_CSHI_7P5_CYCLE" display="7.5 clock cycles" value="HYPERBUS_CSHI_7P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSHI.HYPERBUS_CSHI_8P5_CYCLE" display="8.5 clock cycles" value="HYPERBUS_CSHI_8P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSHI.HYPERBUS_CSHI_9P5_CYCLE" display="9.5 clock cycles" value="HYPERBUS_CSHI_9P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSHI.HYPERBUS_CSHI_10P5_CYCLE" display="10.5 clock cycles" value="HYPERBUS_CSHI_10P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSHI.HYPERBUS_CSHI_11P5_CYCLE" display="11.5 clock cycles" value="HYPERBUS_CSHI_11P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSHI.HYPERBUS_CSHI_12P5_CYCLE" display="12.5 clock cycles" value="HYPERBUS_CSHI_12P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSHI.HYPERBUS_CSHI_13P5_CYCLE" display="13.5 clock cycles" value="HYPERBUS_CSHI_13P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSHI.HYPERBUS_CSHI_14P5_CYCLE" display="14.5 clock cycles" value="HYPERBUS_CSHI_14P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSHI.HYPERBUS_CSHI_15P5_CYCLE" display="15.5 clock cycles" value="HYPERBUS_CSHI_15P5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSHI.HYPERBUS_CSHI_16P5_CYCLE" display="16.5 clock cycles" value="HYPERBUS_CSHI_16P5_CYCLE"/>
+        <constraint display="This parameter cannot be editable when Controller initialize project assignment of CS0 area is no No initialize in this case." actionOnFail="disable">("${HYPERBUS_CS0_INIT}" == "HYPERBUS_INIT_AT_LOADER") || ("${HYPERBUS_CS0_INIT}" == "HYPERBUS_INIT_AT_APP")</constraint>
+        <description>Write Chip Select timing of HM_CS0#
+Mimimum wait time between negating the HM_CS0# pin and starting the next write access
+HYPERBUS_CSHI_1P5_CYCLE = 1.5 clock cycles
+HYPERBUS_CSHI_2P5_CYCLE = 2.5 clock cycles
+HYPERBUS_CSHI_3P5_CYCLE = 3.5 clock cycles
+HYPERBUS_CSHI_4P5_CYCLE = 4.5 clock cycles
+HYPERBUS_CSHI_5P5_CYCLE = 5.5 clock cycles
+HYPERBUS_CSHI_6P5_CYCLE = 6.5 clock cycles
+HYPERBUS_CSHI_7P5_CYCLE = 7.5 clock cycles
+HYPERBUS_CSHI_8P5_CYCLE = 8.5 clock cycles
+HYPERBUS_CSHI_9P5_CYCLE = 9.5 clock cycles
+HYPERBUS_CSHI_10P5_CYCLE = 10.5 clock cycles
+HYPERBUS_CSHI_11P5_CYCLE = 11.5 clock cycles
+HYPERBUS_CSHI_12P5_CYCLE = 12.5 clock cycles
+HYPERBUS_CSHI_13P5_CYCLE = 13.5 clock cycles
+HYPERBUS_CSHI_14P5_CYCLE = 14.5 clock cycles
+HYPERBUS_CSHI_15P5_CYCLE = 15.5 clock cycles
+HYPERBUS_CSHI_16P5_CYCLE = 16.5 clock cycles</description>
+      </property>
+      <property id="HYPERBUS_MTR0_RCSS" display="Read Chip Select Setup timing of HM_CS0#" default="HYPERBUS_CSS_1_CYCLE" type="combobox" category="HYPERBUS_CS0">
+        <option id="HYPERBUS_MTR0_RCSS.HYPERBUS_CSS_1_CYCLE" display="1 clock cycle" value="HYPERBUS_CSS_1_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSS.HYPERBUS_CSS_2_CYCLE" display="2 clock cycles" value="HYPERBUS_CSS_2_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSS.HYPERBUS_CSS_3_CYCLE" display="3 clock cycles" value="HYPERBUS_CSS_3_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSS.HYPERBUS_CSS_4_CYCLE" display="4 clock cycles" value="HYPERBUS_CSS_4_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSS.HYPERBUS_CSS_5_CYCLE" display="5 clock cycles" value="HYPERBUS_CSS_5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSS.HYPERBUS_CSS_6_CYCLE" display="6 clock cycles" value="HYPERBUS_CSS_6_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSS.HYPERBUS_CSS_7_CYCLE" display="7 clock cycles" value="HYPERBUS_CSS_7_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSS.HYPERBUS_CSS_8_CYCLE" display="8 clock cycles" value="HYPERBUS_CSS_8_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSS.HYPERBUS_CSS_9_CYCLE" display="9 clock cycles" value="HYPERBUS_CSS_9_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSS.HYPERBUS_CSS_10_CYCLE" display="10 clock cycles" value="HYPERBUS_CSS_10_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSS.HYPERBUS_CSS_11_CYCLE" display="11 clock cycles" value="HYPERBUS_CSS_11_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSS.HYPERBUS_CSS_12_CYCLE" display="12 clock cycles" value="HYPERBUS_CSS_12_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSS.HYPERBUS_CSS_13_CYCLE" display="13 clock cycles" value="HYPERBUS_CSS_13_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSS.HYPERBUS_CSS_14_CYCLE" display="14 clock cycles" value="HYPERBUS_CSS_14_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSS.HYPERBUS_CSS_15_CYCLE" display="15 clock cycles" value="HYPERBUS_CSS_15_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSS.HYPERBUS_CSS_16_CYCLE" display="16 clock cycles" value="HYPERBUS_CSS_16_CYCLE"/>
+        <constraint display="This parameter cannot be editable when Controller initialize project assignment of CS0 area is no No initialize in this case." actionOnFail="disable">("${HYPERBUS_CS0_INIT}" == "HYPERBUS_INIT_AT_LOADER") || ("${HYPERBUS_CS0_INIT}" == "HYPERBUS_INIT_AT_APP")</constraint>
+        <description>Read Chip Select Setup timing of HM_CS0#
+Setting Read Chip Select Setup timing
+HYPERBUS_CSS_1_CYCLE = 1 clock cycle
+HYPERBUS_CSS_2_CYCLE = 2 clock cycles
+HYPERBUS_CSS_3_CYCLE = 3 clock cycles
+HYPERBUS_CSS_4_CYCLE = 4 clock cycles
+HYPERBUS_CSS_5_CYCLE = 5 clock cycles
+HYPERBUS_CSS_6_CYCLE = 6 clock cycles
+HYPERBUS_CSS_7_CYCLE = 7 clock cycles
+HYPERBUS_CSS_8_CYCLE = 8 clock cycles
+HYPERBUS_CSS_9_CYCLE = 9 clock cycles
+HYPERBUS_CSS_10_CYCLE = 10 clock cycles
+HYPERBUS_CSS_11_CYCLE = 11 clock cycles
+HYPERBUS_CSS_12_CYCLE = 12 clock cycles
+HYPERBUS_CSS_13_CYCLE = 13 clock cycles
+HYPERBUS_CSS_14_CYCLE = 14 clock cycles
+HYPERBUS_CSS_15_CYCLE = 15 clock cycles
+HYPERBUS_CSS_16_CYCLE = 16 clock cycles</description>
+      </property>
+      <property id="HYPERBUS_MTR0_WCSS" display="Write Chip Select Setup timing of HM_CS0#" default="HYPERBUS_CSS_1_CYCLE" type="combobox" category="HYPERBUS_CS0">
+        <option id="HYPERBUS_MTR0_WCSS.HYPERBUS_CSS_1_CYCLE" display="1 clock cycle" value="HYPERBUS_CSS_1_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSS.HYPERBUS_CSS_2_CYCLE" display="2 clock cycles" value="HYPERBUS_CSS_2_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSS.HYPERBUS_CSS_3_CYCLE" display="3 clock cycles" value="HYPERBUS_CSS_3_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSS.HYPERBUS_CSS_4_CYCLE" display="4 clock cycles" value="HYPERBUS_CSS_4_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSS.HYPERBUS_CSS_5_CYCLE" display="5 clock cycles" value="HYPERBUS_CSS_5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSS.HYPERBUS_CSS_6_CYCLE" display="6 clock cycles" value="HYPERBUS_CSS_6_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSS.HYPERBUS_CSS_7_CYCLE" display="7 clock cycles" value="HYPERBUS_CSS_7_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSS.HYPERBUS_CSS_8_CYCLE" display="8 clock cycles" value="HYPERBUS_CSS_8_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSS.HYPERBUS_CSS_9_CYCLE" display="9 clock cycles" value="HYPERBUS_CSS_9_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSS.HYPERBUS_CSS_10_CYCLE" display="10 clock cycles" value="HYPERBUS_CSS_10_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSS.HYPERBUS_CSS_11_CYCLE" display="11 clock cycles" value="HYPERBUS_CSS_11_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSS.HYPERBUS_CSS_12_CYCLE" display="12 clock cycles" value="HYPERBUS_CSS_12_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSS.HYPERBUS_CSS_13_CYCLE" display="13 clock cycles" value="HYPERBUS_CSS_13_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSS.HYPERBUS_CSS_14_CYCLE" display="14 clock cycles" value="HYPERBUS_CSS_14_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSS.HYPERBUS_CSS_15_CYCLE" display="15 clock cycles" value="HYPERBUS_CSS_15_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSS.HYPERBUS_CSS_16_CYCLE" display="16 clock cycles" value="HYPERBUS_CSS_16_CYCLE"/>
+        <constraint display="This parameter cannot be editable when Controller initialize project assignment of CS0 area is no No initialize in this case." actionOnFail="disable">("${HYPERBUS_CS0_INIT}" == "HYPERBUS_INIT_AT_LOADER") || ("${HYPERBUS_CS0_INIT}" == "HYPERBUS_INIT_AT_APP")</constraint>
+        <description>Write Chip Select Setup timing of HM_CS0#
+Setting Write Chip Select Setup timing
+HYPERBUS_CSS_1_CYCLE = 1 clock cycle
+HYPERBUS_CSS_2_CYCLE = 2 clock cycles
+HYPERBUS_CSS_3_CYCLE = 3 clock cycles
+HYPERBUS_CSS_4_CYCLE = 4 clock cycles
+HYPERBUS_CSS_5_CYCLE = 5 clock cycles
+HYPERBUS_CSS_6_CYCLE = 6 clock cycles
+HYPERBUS_CSS_7_CYCLE = 7 clock cycles
+HYPERBUS_CSS_8_CYCLE = 8 clock cycles
+HYPERBUS_CSS_9_CYCLE = 9 clock cycles
+HYPERBUS_CSS_10_CYCLE = 10 clock cycles
+HYPERBUS_CSS_11_CYCLE = 11 clock cycles
+HYPERBUS_CSS_12_CYCLE = 12 clock cycles
+HYPERBUS_CSS_13_CYCLE = 13 clock cycles
+HYPERBUS_CSS_14_CYCLE = 14 clock cycles
+HYPERBUS_CSS_15_CYCLE = 15 clock cycles
+HYPERBUS_CSS_16_CYCLE = 16 clock cycles</description>
+      </property>
+      <property id="HYPERBUS_MTR0_RCSH" display="Read Chip Select Hold timing of HM_CS0#" default="HYPERBUS_CSH_1_CYCLE" type="combobox" category="HYPERBUS_CS0">
+        <option id="HYPERBUS_MTR0_RCSH.HYPERBUS_CSH_1_CYCLE" display="1 clock cycle" value="HYPERBUS_CSH_1_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSH.HYPERBUS_CSH_2_CYCLE" display="2 clock cycles" value="HYPERBUS_CSH_2_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSH.HYPERBUS_CSH_3_CYCLE" display="3 clock cycles" value="HYPERBUS_CSH_3_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSH.HYPERBUS_CSH_4_CYCLE" display="4 clock cycles" value="HYPERBUS_CSH_4_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSH.HYPERBUS_CSH_5_CYCLE" display="5 clock cycles" value="HYPERBUS_CSH_5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSH.HYPERBUS_CSH_6_CYCLE" display="6 clock cycles" value="HYPERBUS_CSH_6_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSH.HYPERBUS_CSH_7_CYCLE" display="7 clock cycles" value="HYPERBUS_CSH_7_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSH.HYPERBUS_CSH_8_CYCLE" display="8 clock cycles" value="HYPERBUS_CSH_8_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSH.HYPERBUS_CSH_9_CYCLE" display="9 clock cycles" value="HYPERBUS_CSH_9_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSH.HYPERBUS_CSH_10_CYCLE" display="10 clock cycles" value="HYPERBUS_CSH_10_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSH.HYPERBUS_CSH_11_CYCLE" display="11 clock cycles" value="HYPERBUS_CSH_11_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSH.HYPERBUS_CSH_12_CYCLE" display="12 clock cycles" value="HYPERBUS_CSH_12_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSH.HYPERBUS_CSH_13_CYCLE" display="13 clock cycles" value="HYPERBUS_CSH_13_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSH.HYPERBUS_CSH_14_CYCLE" display="14 clock cycles" value="HYPERBUS_CSH_14_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSH.HYPERBUS_CSH_15_CYCLE" display="15 clock cycles" value="HYPERBUS_CSH_15_CYCLE"/>
+        <option id="HYPERBUS_MTR0_RCSH.HYPERBUS_CSH_16_CYCLE" display="16 clock cycles" value="HYPERBUS_CSH_16_CYCLE"/>
+        <constraint display="This parameter cannot be editable when Controller initialize project assignment of CS0 area is no No initialize in this case." actionOnFail="disable">("${HYPERBUS_CS0_INIT}" == "HYPERBUS_INIT_AT_LOADER") || ("${HYPERBUS_CS0_INIT}" == "HYPERBUS_INIT_AT_APP")</constraint>
+        <description>Read Chip Select Hold timing of HM_CS0#
+Setting Read Chip Select Hold timing
+HYPERBUS_CSH_1_CYCLE = 1 clock cycle
+HYPERBUS_CSH_2_CYCLE = 2 clock cycles
+HYPERBUS_CSH_3_CYCLE = 3 clock cycles
+HYPERBUS_CSH_4_CYCLE = 4 clock cycles
+HYPERBUS_CSH_5_CYCLE = 5 clock cycles
+HYPERBUS_CSH_6_CYCLE = 6 clock cycles
+HYPERBUS_CSH_7_CYCLE = 7 clock cycles
+HYPERBUS_CSH_8_CYCLE = 8 clock cycles
+HYPERBUS_CSH_9_CYCLE = 9 clock cycles
+HYPERBUS_CSH_10_CYCLE = 10 clock cycles
+HYPERBUS_CSH_11_CYCLE = 11 clock cycles
+HYPERBUS_CSH_12_CYCLE = 12 clock cycles
+HYPERBUS_CSH_13_CYCLE = 13 clock cycles
+HYPERBUS_CSH_14_CYCLE = 14 clock cycles
+HYPERBUS_CSH_15_CYCLE = 15 clock cycles
+HYPERBUS_CSH_16_CYCLE = 16 clock cycles</description>
+      </property>
+      <property id="HYPERBUS_MTR0_WCSH" display="Write Chip Select Hold timing of HM_CS0#" default="HYPERBUS_CSH_1_CYCLE" type="combobox" category="HYPERBUS_CS0">
+        <option id="HYPERBUS_MTR0_WCSH.HYPERBUS_CSH_1_CYCLE" display="1 clock cycle" value="HYPERBUS_CSH_1_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSH.HYPERBUS_CSH_2_CYCLE" display="2 clock cycles" value="HYPERBUS_CSH_2_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSH.HYPERBUS_CSH_3_CYCLE" display="3 clock cycles" value="HYPERBUS_CSH_3_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSH.HYPERBUS_CSH_4_CYCLE" display="4 clock cycles" value="HYPERBUS_CSH_4_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSH.HYPERBUS_CSH_5_CYCLE" display="5 clock cycles" value="HYPERBUS_CSH_5_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSH.HYPERBUS_CSH_6_CYCLE" display="6 clock cycles" value="HYPERBUS_CSH_6_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSH.HYPERBUS_CSH_7_CYCLE" display="7 clock cycles" value="HYPERBUS_CSH_7_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSH.HYPERBUS_CSH_8_CYCLE" display="8 clock cycles" value="HYPERBUS_CSH_8_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSH.HYPERBUS_CSH_9_CYCLE" display="9 clock cycles" value="HYPERBUS_CSH_9_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSH.HYPERBUS_CSH_10_CYCLE" display="10 clock cycles" value="HYPERBUS_CSH_10_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSH.HYPERBUS_CSH_11_CYCLE" display="11 clock cycles" value="HYPERBUS_CSH_11_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSH.HYPERBUS_CSH_12_CYCLE" display="12 clock cycles" value="HYPERBUS_CSH_12_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSH.HYPERBUS_CSH_13_CYCLE" display="13 clock cycles" value="HYPERBUS_CSH_13_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSH.HYPERBUS_CSH_14_CYCLE" display="14 clock cycles" value="HYPERBUS_CSH_14_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSH.HYPERBUS_CSH_15_CYCLE" display="15 clock cycles" value="HYPERBUS_CSH_15_CYCLE"/>
+        <option id="HYPERBUS_MTR0_WCSH.HYPERBUS_CSH_16_CYCLE" display="16 clock cycles" value="HYPERBUS_CSH_16_CYCLE"/>
+        <constraint display="This parameter cannot be editable when Controller initialize project assignment of CS0 area is no No initialize in this case." actionOnFail="disable">("${HYPERBUS_CS0_INIT}" == "HYPERBUS_INIT_AT_LOADER") || ("${HYPERBUS_CS0_INIT}" == "HYPERBUS_INIT_AT_APP")</constraint>
+        <description>Write Chip Select Hold timing of HM_CS0#
+Setting Write Chip Select Hold timing
+HYPERBUS_CSH_1_CYCLE = 1 clock cycle
+HYPERBUS_CSH_2_CYCLE = 2 clock cycles
+HYPERBUS_CSH_3_CYCLE = 3 clock cycles
+HYPERBUS_CSH_4_CYCLE = 4 clock cycles
+HYPERBUS_CSH_5_CYCLE = 5 clock cycles
+HYPERBUS_CSH_6_CYCLE = 6 clock cycles
+HYPERBUS_CSH_7_CYCLE = 7 clock cycles
+HYPERBUS_CSH_8_CYCLE = 8 clock cycles
+HYPERBUS_CSH_9_CYCLE = 9 clock cycles
+HYPERBUS_CSH_10_CYCLE = 10 clock cycles
+HYPERBUS_CSH_11_CYCLE = 11 clock cycles
+HYPERBUS_CSH_12_CYCLE = 12 clock cycles
+HYPERBUS_CSH_13_CYCLE = 13 clock cycles
+HYPERBUS_CSH_14_CYCLE = 14 clock cycles
+HYPERBUS_CSH_15_CYCLE = 15 clock cycles
+HYPERBUS_CSH_16_CYCLE = 16 clock cycles</description>
+      </property>
+      <property id="HYPERBUS_OPERATE_LTCY0" display="Operate Latency Cycle of HM_CS0#" default="HYPERBUS_LTCY_16_CYCLE" type="combobox" category="HYPERBUS_CS0">
+        <option id="HYPERBUS_OPERATE_LTCY0.HYPERBUS_LTCY_5_CYCLE" display="5 clock cycles" value="HYPERBUS_LTCY_5_CYCLE"/>
+        <option id="HYPERBUS_OPERATE_LTCY0.HYPERBUS_LTCY_6_CYCLE" display="6 clock cycles" value="HYPERBUS_LTCY_6_CYCLE"/>
+        <option id="HYPERBUS_OPERATE_LTCY0.HYPERBUS_LTCY_7_CYCLE" display="7 clock cycles" value="HYPERBUS_LTCY_7_CYCLE"/>
+        <option id="HYPERBUS_OPERATE_LTCY0.HYPERBUS_LTCY_8_CYCLE" display="8 clock cycles" value="HYPERBUS_LTCY_8_CYCLE"/>
+        <option id="HYPERBUS_OPERATE_LTCY0.HYPERBUS_LTCY_9_CYCLE" display="9 clock cycles" value="HYPERBUS_LTCY_9_CYCLE"/>
+        <option id="HYPERBUS_OPERATE_LTCY0.HYPERBUS_LTCY_10_CYCLE" display="10 clock cycles" value="HYPERBUS_LTCY_10_CYCLE"/>
+        <option id="HYPERBUS_OPERATE_LTCY0.HYPERBUS_LTCY_11_CYCLE" display="11 clock cycles" value="HYPERBUS_LTCY_11_CYCLE"/>
+        <option id="HYPERBUS_OPERATE_LTCY0.HYPERBUS_LTCY_12_CYCLE" display="12 clock cycles" value="HYPERBUS_LTCY_12_CYCLE"/>
+        <option id="HYPERBUS_OPERATE_LTCY0.HYPERBUS_LTCY_13_CYCLE" display="13 clock cycles" value="HYPERBUS_LTCY_13_CYCLE"/>
+        <option id="HYPERBUS_OPERATE_LTCY0.HYPERBUS_LTCY_14_CYCLE" display="14 clock cycles" value="HYPERBUS_LTCY_14_CYCLE"/>
+        <option id="HYPERBUS_OPERATE_LTCY0.HYPERBUS_LTCY_15_CYCLE" display="15 clock cycles" value="HYPERBUS_LTCY_15_CYCLE"/>
+        <option id="HYPERBUS_OPERATE_LTCY0.HYPERBUS_LTCY_16_CYCLE" display="16 clock cycles" value="HYPERBUS_LTCY_16_CYCLE"/>
+        <constraint display="This parameter cannot be editable when Controller initialize project assignment of CS0 area is no No initialize in this case." actionOnFail="disable">("${HYPERBUS_CS0_INIT}" == "HYPERBUS_INIT_AT_LOADER") || ("${HYPERBUS_CS0_INIT}" == "HYPERBUS_INIT_AT_APP")</constraint>
+        <description>Operate Latency Cycle of HM_CS0#
+These bits specify the read and write latency.
+HYPERBUS_LTCY_5_CYCLE = 5 clock cycles
+HYPERBUS_LTCY_6_CYCLE = 6 clock cycles
+HYPERBUS_LTCY_7_CYCLE = 7 clock cycles
+HYPERBUS_LTCY_8_CYCLE = 8 clock cycles
+HYPERBUS_LTCY_9_CYCLE = 9 clock cycles
+HYPERBUS_LTCY_10_CYCLE = 10 clock cycles
+HYPERBUS_LTCY_11_CYCLE = 11 clock cycles
+HYPERBUS_LTCY_12_CYCLE = 12 clock cycles
+HYPERBUS_LTCY_13_CYCLE = 13 clock cycles
+HYPERBUS_LTCY_14_CYCLE = 14 clock cycles
+HYPERBUS_LTCY_15_CYCLE = 15 clock cycles
+HYPERBUS_LTCY_16_CYCLE = 16 clock cycles</description>
+      </property>
+      <property id="HYPERBUS_CS1_INIT" display="Controller initialize project assignment of CS1 area" default="HYPERBUS_INIT_AT_APP" type="combobox" category="HYPERBUS_CS1">
+        <option id="HYPERBUS_CS1_INIT.HYPERBUS_NO_INIT" display="No initialize at this time" value="HYPERBUS_NO_INIT"/>
+        <option id="HYPERBUS_CS1_INIT.HYPERBUS_INIT_AT_LOADER" display="Initialise at Loader project" value="HYPERBUS_INIT_AT_LOADER"/>
+        <option id="HYPERBUS_CS1_INIT.HYPERBUS_INIT_AT_APP" display="Initialize at Application project" value="HYPERBUS_INIT_AT_APP"/>
+        <description>Controller initialize project assignment of CS1 area</description>
+      </property>
+      <property id="HYPERBUS_MCR1_MAXEN" display="Maximum time setting enable of HM_CS1#" default="HYPERBUS_MAXEN_OFF" type="checkbox" category="HYPERBUS_CS1">
+        <option id="HYPERBUS_MCR1_MAXEN.HYPERBUS_MAXEN_OFF" display="Disable" value="HYPERBUS_MAXEN_OFF"/>
+        <option id="HYPERBUS_MCR1_MAXEN.HYPERBUS_MAXEN_ON" display="Enable" value="HYPERBUS_MAXEN_ON"/>
+        <constraint display="This parameter cannot be editable when Controller initialize project assignment of CS1 area is no No initialize in this case." actionOnFail="disable">("${HYPERBUS_CS1_INIT}" == "HYPERBUS_INIT_AT_LOADER") || ("${HYPERBUS_CS1_INIT}" == "HYPERBUS_INIT_AT_APP")</constraint>
+        <description>Maximum time setting enable of HM_CS0#
+This bit sets whether the time at low level of the HM_CS0# signal is to be controlled by MAXLEN.
+HYPERBUS_MAXEN_OFF = Disabled
+HYPERBUS_MAXEN_ON = Enabled</description>
+      </property>
+      <property id="HYPERBUS_MCR1_MAXLEN" display="Maximum time setting of HM_CS1#" default="0" type="textbox" category="HYPERBUS_CS1">
+        <constraint display="The parameter cannot be editable when the Maximum time setting enable of HM_CS1# is HYPERBUS_MAXEN_OFF" actionOnFail="disable">("${HYPERBUS_CS1_INIT}" != "HYPERBUS_NO_INIT") &amp;&amp; ("${HYPERBUS_MCR1_MAXEN}" == "HYPERBUS_MAXEN_ON")</constraint>
+        <constraint display="Value must be in the range 0 - 511" actionOnFail="error">("${HYPERBUS_MCR1_MAXLEN}" &gt;= 0) &amp;&amp; ("${HYPERBUS_MCR1_MAXLEN}" &lt;= 511)</constraint>
+        <description>Maximum time setting of HM_CS1#
+Sets the maximun read/write transaction time (the time at low level of the HM_CS0# signal).
+    0 = 1 clock cycle(sufficient for 2 bytes)
+    1 = 2 clock cycle(sufficient for 4 bytes)
+...
+511 = 512 clock cycle(sufficient for 1024 bytes)</description>
+      </property>
+      <property id="HYPERBUS_MTR1_RCSHI" display="Read Chip Select timing of HM_CS1#" default="HYPERBUS_CSHI_1P5_CYCLE" type="combobox" category="HYPERBUS_CS1">
+        <option id="HYPERBUS_MTR1_RCSHI.HYPERBUS_CSHI_1P5_CYCLE" display="1.5 clock cycles" value="HYPERBUS_CSHI_1P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSHI.HYPERBUS_CSHI_2P5_CYCLE" display="2.5 clock cycles" value="HYPERBUS_CSHI_2P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSHI.HYPERBUS_CSHI_3P5_CYCLE" display="3.5 clock cycles" value="HYPERBUS_CSHI_3P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSHI.HYPERBUS_CSHI_4P5_CYCLE" display="4.5 clock cycles" value="HYPERBUS_CSHI_4P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSHI.HYPERBUS_CSHI_5P5_CYCLE" display="5.5 clock cycles" value="HYPERBUS_CSHI_5P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSHI.HYPERBUS_CSHI_6P5_CYCLE" display="6.5 clock cycles" value="HYPERBUS_CSHI_6P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSHI.HYPERBUS_CSHI_7P5_CYCLE" display="7.5 clock cycles" value="HYPERBUS_CSHI_7P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSHI.HYPERBUS_CSHI_8P5_CYCLE" display="8.5 clock cycles" value="HYPERBUS_CSHI_8P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSHI.HYPERBUS_CSHI_9P5_CYCLE" display="9.5 clock cycles" value="HYPERBUS_CSHI_9P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSHI.HYPERBUS_CSHI_10P5_CYCLE" display="10.5 clock cycles" value="HYPERBUS_CSHI_10P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSHI.HYPERBUS_CSHI_11P5_CYCLE" display="11.5 clock cycles" value="HYPERBUS_CSHI_11P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSHI.HYPERBUS_CSHI_12P5_CYCLE" display="12.5 clock cycles" value="HYPERBUS_CSHI_12P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSHI.HYPERBUS_CSHI_13P5_CYCLE" display="13.5 clock cycles" value="HYPERBUS_CSHI_13P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSHI.HYPERBUS_CSHI_14P5_CYCLE" display="14.5 clock cycles" value="HYPERBUS_CSHI_14P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSHI.HYPERBUS_CSHI_15P5_CYCLE" display="15.5 clock cycles" value="HYPERBUS_CSHI_15P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSHI.HYPERBUS_CSHI_16P5_CYCLE" display="16.5 clock cycles" value="HYPERBUS_CSHI_16P5_CYCLE"/>
+        <constraint display="This parameter cannot be editable when Controller initialize project assignment of CS1 area is no No initialize in this case." actionOnFail="disable">("${HYPERBUS_CS1_INIT}" == "HYPERBUS_INIT_AT_LOADER") || ("${HYPERBUS_CS1_INIT}" == "HYPERBUS_INIT_AT_APP")</constraint>
+        <description>Read Chip Select timing of HM_CS0#
+Mimimum wait time between negating the HM_CS0# pin and starting the next read access.
+HYPERBUS_CSHI_1P5_CYCLE = 1.5 clock cycles
+HYPERBUS_CSHI_2P5_CYCLE = 2.5 clock cycles
+HYPERBUS_CSHI_3P5_CYCLE = 3.5 clock cycles
+HYPERBUS_CSHI_4P5_CYCLE = 4.5 clock cycles
+HYPERBUS_CSHI_5P5_CYCLE = 5.5 clock cycles
+HYPERBUS_CSHI_6P5_CYCLE = 6.5 clock cycles
+HYPERBUS_CSHI_7P5_CYCLE = 7.5 clock cycles
+HYPERBUS_CSHI_8P5_CYCLE = 8.5 clock cycles
+HYPERBUS_CSHI_9P5_CYCLE = 9.5 clock cycles
+HYPERBUS_CSHI_10P5_CYCLE = 10.5 clock cycles
+HYPERBUS_CSHI_11P5_CYCLE = 11.5 clock cycles
+HYPERBUS_CSHI_12P5_CYCLE = 12.5 clock cycles
+HYPERBUS_CSHI_13P5_CYCLE = 13.5 clock cycles
+HYPERBUS_CSHI_14P5_CYCLE = 14.5 clock cycles
+HYPERBUS_CSHI_15P5_CYCLE = 15.5 clock cycles
+HYPERBUS_CSHI_16P5_CYCLE = 16.5 clock cycles</description>
+      </property>
+      <property id="HYPERBUS_MTR1_WCSHI" display="Write Chip Select timing of HM_CS1#" default="HYPERBUS_CSHI_1P5_CYCLE" type="combobox" category="HYPERBUS_CS1">
+        <option id="HYPERBUS_MTR1_WCSHI.HYPERBUS_CSHI_1P5_CYCLE" display="1.5 clock cycles" value="HYPERBUS_CSHI_1P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSHI.HYPERBUS_CSHI_2P5_CYCLE" display="2.5 clock cycles" value="HYPERBUS_CSHI_2P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSHI.HYPERBUS_CSHI_3P5_CYCLE" display="3.5 clock cycles" value="HYPERBUS_CSHI_3P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSHI.HYPERBUS_CSHI_4P5_CYCLE" display="4.5 clock cycles" value="HYPERBUS_CSHI_4P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSHI.HYPERBUS_CSHI_5P5_CYCLE" display="5.5 clock cycles" value="HYPERBUS_CSHI_5P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSHI.HYPERBUS_CSHI_6P5_CYCLE" display="6.5 clock cycles" value="HYPERBUS_CSHI_6P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSHI.HYPERBUS_CSHI_7P5_CYCLE" display="7.5 clock cycles" value="HYPERBUS_CSHI_7P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSHI.HYPERBUS_CSHI_8P5_CYCLE" display="8.5 clock cycles" value="HYPERBUS_CSHI_8P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSHI.HYPERBUS_CSHI_9P5_CYCLE" display="9.5 clock cycles" value="HYPERBUS_CSHI_9P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSHI.HYPERBUS_CSHI_10P5_CYCLE" display="10.5 clock cycles" value="HYPERBUS_CSHI_10P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSHI.HYPERBUS_CSHI_11P5_CYCLE" display="11.5 clock cycles" value="HYPERBUS_CSHI_11P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSHI.HYPERBUS_CSHI_12P5_CYCLE" display="12.5 clock cycles" value="HYPERBUS_CSHI_12P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSHI.HYPERBUS_CSHI_13P5_CYCLE" display="13.5 clock cycles" value="HYPERBUS_CSHI_13P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSHI.HYPERBUS_CSHI_14P5_CYCLE" display="14.5 clock cycles" value="HYPERBUS_CSHI_14P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSHI.HYPERBUS_CSHI_15P5_CYCLE" display="15.5 clock cycles" value="HYPERBUS_CSHI_15P5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSHI.HYPERBUS_CSHI_16P5_CYCLE" display="16.5 clock cycles" value="HYPERBUS_CSHI_16P5_CYCLE"/>
+        <constraint display="This parameter cannot be editable when Controller initialize project assignment of CS1 area is no No initialize in this case." actionOnFail="disable">("${HYPERBUS_CS1_INIT}" == "HYPERBUS_INIT_AT_LOADER") || ("${HYPERBUS_CS1_INIT}" == "HYPERBUS_INIT_AT_APP")</constraint>
+        <description>Write Chip Select timing of HM_CS0#
+Mimimum wait time between negating the HM_CS0# pin and starting the next write access
+HYPERBUS_CSHI_1P5_CYCLE = 1.5 clock cycles
+HYPERBUS_CSHI_2P5_CYCLE = 2.5 clock cycles
+HYPERBUS_CSHI_3P5_CYCLE = 3.5 clock cycles
+HYPERBUS_CSHI_4P5_CYCLE = 4.5 clock cycles
+HYPERBUS_CSHI_5P5_CYCLE = 5.5 clock cycles
+HYPERBUS_CSHI_6P5_CYCLE = 6.5 clock cycles
+HYPERBUS_CSHI_7P5_CYCLE = 7.5 clock cycles
+HYPERBUS_CSHI_8P5_CYCLE = 8.5 clock cycles
+HYPERBUS_CSHI_9P5_CYCLE = 9.5 clock cycles
+HYPERBUS_CSHI_10P5_CYCLE = 10.5 clock cycles
+HYPERBUS_CSHI_11P5_CYCLE = 11.5 clock cycles
+HYPERBUS_CSHI_12P5_CYCLE = 12.5 clock cycles
+HYPERBUS_CSHI_13P5_CYCLE = 13.5 clock cycles
+HYPERBUS_CSHI_14P5_CYCLE = 14.5 clock cycles
+HYPERBUS_CSHI_15P5_CYCLE = 15.5 clock cycles
+HYPERBUS_CSHI_16P5_CYCLE = 16.5 clock cycles</description>
+      </property>
+      <property id="HYPERBUS_MTR1_RCSS" display="Read Chip Select Setup timing of HM_CS1#" default="HYPERBUS_CSS_1_CYCLE" type="combobox" category="HYPERBUS_CS1">
+        <option id="HYPERBUS_MTR1_RCSS.HYPERBUS_CSS_1_CYCLE" display="1 clock cycle" value="HYPERBUS_CSS_1_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSS.HYPERBUS_CSS_2_CYCLE" display="2 clock cycles" value="HYPERBUS_CSS_2_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSS.HYPERBUS_CSS_3_CYCLE" display="3 clock cycles" value="HYPERBUS_CSS_3_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSS.HYPERBUS_CSS_4_CYCLE" display="4 clock cycles" value="HYPERBUS_CSS_4_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSS.HYPERBUS_CSS_5_CYCLE" display="5 clock cycles" value="HYPERBUS_CSS_5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSS.HYPERBUS_CSS_6_CYCLE" display="6 clock cycles" value="HYPERBUS_CSS_6_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSS.HYPERBUS_CSS_7_CYCLE" display="7 clock cycles" value="HYPERBUS_CSS_7_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSS.HYPERBUS_CSS_8_CYCLE" display="8 clock cycles" value="HYPERBUS_CSS_8_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSS.HYPERBUS_CSS_9_CYCLE" display="9 clock cycles" value="HYPERBUS_CSS_9_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSS.HYPERBUS_CSS_10_CYCLE" display="10 clock cycles" value="HYPERBUS_CSS_10_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSS.HYPERBUS_CSS_11_CYCLE" display="11 clock cycles" value="HYPERBUS_CSS_11_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSS.HYPERBUS_CSS_12_CYCLE" display="12 clock cycles" value="HYPERBUS_CSS_12_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSS.HYPERBUS_CSS_13_CYCLE" display="13 clock cycles" value="HYPERBUS_CSS_13_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSS.HYPERBUS_CSS_14_CYCLE" display="14 clock cycles" value="HYPERBUS_CSS_14_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSS.HYPERBUS_CSS_15_CYCLE" display="15 clock cycles" value="HYPERBUS_CSS_15_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSS.HYPERBUS_CSS_16_CYCLE" display="16 clock cycles" value="HYPERBUS_CSS_16_CYCLE"/>
+        <constraint display="This parameter cannot be editable when Controller initialize project assignment of CS1 area is no No initialize in this case." actionOnFail="disable">("${HYPERBUS_CS1_INIT}" == "HYPERBUS_INIT_AT_LOADER") || ("${HYPERBUS_CS1_INIT}" == "HYPERBUS_INIT_AT_APP")</constraint>
+        <description>Read Chip Select Setup timing of HM_CS0#
+Setting Read Chip Select Setup timing
+HYPERBUS_CSS_1_CYCLE = 1 clock cycle
+HYPERBUS_CSS_2_CYCLE = 2 clock cycles
+HYPERBUS_CSS_3_CYCLE = 3 clock cycles
+HYPERBUS_CSS_4_CYCLE = 4 clock cycles
+HYPERBUS_CSS_5_CYCLE = 5 clock cycles
+HYPERBUS_CSS_6_CYCLE = 6 clock cycles
+HYPERBUS_CSS_7_CYCLE = 7 clock cycles
+HYPERBUS_CSS_8_CYCLE = 8 clock cycles
+HYPERBUS_CSS_9_CYCLE = 9 clock cycles
+HYPERBUS_CSS_10_CYCLE = 10 clock cycles
+HYPERBUS_CSS_11_CYCLE = 11 clock cycles
+HYPERBUS_CSS_12_CYCLE = 12 clock cycles
+HYPERBUS_CSS_13_CYCLE = 13 clock cycles
+HYPERBUS_CSS_14_CYCLE = 14 clock cycles
+HYPERBUS_CSS_15_CYCLE = 15 clock cycles
+HYPERBUS_CSS_16_CYCLE = 16 clock cycles</description>
+      </property>
+      <property id="HYPERBUS_MTR1_WCSS" display="Write Chip Select Setup timing of HM_CS1#" default="HYPERBUS_CSS_1_CYCLE" type="combobox" category="HYPERBUS_CS1">
+        <option id="HYPERBUS_MTR1_WCSS.HYPERBUS_CSS_1_CYCLE" display="1 clock cycle" value="HYPERBUS_CSS_1_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSS.HYPERBUS_CSS_2_CYCLE" display="2 clock cycles" value="HYPERBUS_CSS_2_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSS.HYPERBUS_CSS_3_CYCLE" display="3 clock cycles" value="HYPERBUS_CSS_3_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSS.HYPERBUS_CSS_4_CYCLE" display="4 clock cycles" value="HYPERBUS_CSS_4_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSS.HYPERBUS_CSS_5_CYCLE" display="5 clock cycles" value="HYPERBUS_CSS_5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSS.HYPERBUS_CSS_6_CYCLE" display="6 clock cycles" value="HYPERBUS_CSS_6_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSS.HYPERBUS_CSS_7_CYCLE" display="7 clock cycles" value="HYPERBUS_CSS_7_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSS.HYPERBUS_CSS_8_CYCLE" display="8 clock cycles" value="HYPERBUS_CSS_8_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSS.HYPERBUS_CSS_9_CYCLE" display="9 clock cycles" value="HYPERBUS_CSS_9_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSS.HYPERBUS_CSS_10_CYCLE" display="10 clock cycles" value="HYPERBUS_CSS_10_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSS.HYPERBUS_CSS_11_CYCLE" display="11 clock cycles" value="HYPERBUS_CSS_11_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSS.HYPERBUS_CSS_12_CYCLE" display="12 clock cycles" value="HYPERBUS_CSS_12_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSS.HYPERBUS_CSS_13_CYCLE" display="13 clock cycles" value="HYPERBUS_CSS_13_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSS.HYPERBUS_CSS_14_CYCLE" display="14 clock cycles" value="HYPERBUS_CSS_14_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSS.HYPERBUS_CSS_15_CYCLE" display="15 clock cycles" value="HYPERBUS_CSS_15_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSS.HYPERBUS_CSS_16_CYCLE" display="16 clock cycles" value="HYPERBUS_CSS_16_CYCLE"/>
+        <constraint display="This parameter cannot be editable when Controller initialize project assignment of CS1 area is no No initialize in this case." actionOnFail="disable">("${HYPERBUS_CS1_INIT}" == "HYPERBUS_INIT_AT_LOADER") || ("${HYPERBUS_CS1_INIT}" == "HYPERBUS_INIT_AT_APP")</constraint>
+        <description>Write Chip Select Setup timing of HM_CS0#
+Setting Write Chip Select Setup timing
+HYPERBUS_CSS_1_CYCLE = 1 clock cycle
+HYPERBUS_CSS_2_CYCLE = 2 clock cycles
+HYPERBUS_CSS_3_CYCLE = 3 clock cycles
+HYPERBUS_CSS_4_CYCLE = 4 clock cycles
+HYPERBUS_CSS_5_CYCLE = 5 clock cycles
+HYPERBUS_CSS_6_CYCLE = 6 clock cycles
+HYPERBUS_CSS_7_CYCLE = 7 clock cycles
+HYPERBUS_CSS_8_CYCLE = 8 clock cycles
+HYPERBUS_CSS_9_CYCLE = 9 clock cycles
+HYPERBUS_CSS_10_CYCLE = 10 clock cycles
+HYPERBUS_CSS_11_CYCLE = 11 clock cycles
+HYPERBUS_CSS_12_CYCLE = 12 clock cycles
+HYPERBUS_CSS_13_CYCLE = 13 clock cycles
+HYPERBUS_CSS_14_CYCLE = 14 clock cycles
+HYPERBUS_CSS_15_CYCLE = 15 clock cycles
+HYPERBUS_CSS_16_CYCLE = 16 clock cycles</description>
+      </property>
+      <property id="HYPERBUS_MTR1_RCSH" display="Read Chip Select Hold timing of HM_CS1#" default="HYPERBUS_CSH_1_CYCLE" type="combobox" category="HYPERBUS_CS1">
+        <option id="HYPERBUS_MTR1_RCSH.HYPERBUS_CSH_1_CYCLE" display="1 clock cycle" value="HYPERBUS_CSH_1_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSH.HYPERBUS_CSH_2_CYCLE" display="2 clock cycles" value="HYPERBUS_CSH_2_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSH.HYPERBUS_CSH_3_CYCLE" display="3 clock cycles" value="HYPERBUS_CSH_3_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSH.HYPERBUS_CSH_4_CYCLE" display="4 clock cycles" value="HYPERBUS_CSH_4_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSH.HYPERBUS_CSH_5_CYCLE" display="5 clock cycles" value="HYPERBUS_CSH_5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSH.HYPERBUS_CSH_6_CYCLE" display="6 clock cycles" value="HYPERBUS_CSH_6_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSH.HYPERBUS_CSH_7_CYCLE" display="7 clock cycles" value="HYPERBUS_CSH_7_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSH.HYPERBUS_CSH_8_CYCLE" display="8 clock cycles" value="HYPERBUS_CSH_8_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSH.HYPERBUS_CSH_9_CYCLE" display="9 clock cycles" value="HYPERBUS_CSH_9_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSH.HYPERBUS_CSH_10_CYCLE" display="10 clock cycles" value="HYPERBUS_CSH_10_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSH.HYPERBUS_CSH_11_CYCLE" display="11 clock cycles" value="HYPERBUS_CSH_11_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSH.HYPERBUS_CSH_12_CYCLE" display="12 clock cycles" value="HYPERBUS_CSH_12_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSH.HYPERBUS_CSH_13_CYCLE" display="13 clock cycles" value="HYPERBUS_CSH_13_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSH.HYPERBUS_CSH_14_CYCLE" display="14 clock cycles" value="HYPERBUS_CSH_14_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSH.HYPERBUS_CSH_15_CYCLE" display="15 clock cycles" value="HYPERBUS_CSH_15_CYCLE"/>
+        <option id="HYPERBUS_MTR1_RCSH.HYPERBUS_CSH_16_CYCLE" display="16 clock cycles" value="HYPERBUS_CSH_16_CYCLE"/>
+        <constraint display="This parameter cannot be editable when Controller initialize project assignment of CS1 area is no No initialize in this case." actionOnFail="disable">("${HYPERBUS_CS1_INIT}" == "HYPERBUS_INIT_AT_LOADER") || ("${HYPERBUS_CS1_INIT}" == "HYPERBUS_INIT_AT_APP")</constraint>
+        <description>Read Chip Select Hold timing of HM_CS0#
+Setting Read Chip Select Hold timing
+HYPERBUS_CSH_1_CYCLE = 1 clock cycle
+HYPERBUS_CSH_2_CYCLE = 2 clock cycles
+HYPERBUS_CSH_3_CYCLE = 3 clock cycles
+HYPERBUS_CSH_4_CYCLE = 4 clock cycles
+HYPERBUS_CSH_5_CYCLE = 5 clock cycles
+HYPERBUS_CSH_6_CYCLE = 6 clock cycles
+HYPERBUS_CSH_7_CYCLE = 7 clock cycles
+HYPERBUS_CSH_8_CYCLE = 8 clock cycles
+HYPERBUS_CSH_9_CYCLE = 9 clock cycles
+HYPERBUS_CSH_10_CYCLE = 10 clock cycles
+HYPERBUS_CSH_11_CYCLE = 11 clock cycles
+HYPERBUS_CSH_12_CYCLE = 12 clock cycles
+HYPERBUS_CSH_13_CYCLE = 13 clock cycles
+HYPERBUS_CSH_14_CYCLE = 14 clock cycles
+HYPERBUS_CSH_15_CYCLE = 15 clock cycles
+HYPERBUS_CSH_16_CYCLE = 16 clock cycles</description>
+      </property>
+      <property id="HYPERBUS_MTR1_WCSH" display="Write Chip Select Hold timing of HM_CS1#" default="HYPERBUS_CSH_1_CYCLE" type="combobox" category="HYPERBUS_CS1">
+        <option id="HYPERBUS_MTR1_WCSH.HYPERBUS_CSH_1_CYCLE" display="1 clock cycle" value="HYPERBUS_CSH_1_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSH.HYPERBUS_CSH_2_CYCLE" display="2 clock cycles" value="HYPERBUS_CSH_2_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSH.HYPERBUS_CSH_3_CYCLE" display="3 clock cycles" value="HYPERBUS_CSH_3_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSH.HYPERBUS_CSH_4_CYCLE" display="4 clock cycles" value="HYPERBUS_CSH_4_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSH.HYPERBUS_CSH_5_CYCLE" display="5 clock cycles" value="HYPERBUS_CSH_5_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSH.HYPERBUS_CSH_6_CYCLE" display="6 clock cycles" value="HYPERBUS_CSH_6_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSH.HYPERBUS_CSH_7_CYCLE" display="7 clock cycles" value="HYPERBUS_CSH_7_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSH.HYPERBUS_CSH_8_CYCLE" display="8 clock cycles" value="HYPERBUS_CSH_8_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSH.HYPERBUS_CSH_9_CYCLE" display="9 clock cycles" value="HYPERBUS_CSH_9_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSH.HYPERBUS_CSH_10_CYCLE" display="10 clock cycles" value="HYPERBUS_CSH_10_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSH.HYPERBUS_CSH_11_CYCLE" display="11 clock cycles" value="HYPERBUS_CSH_11_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSH.HYPERBUS_CSH_12_CYCLE" display="12 clock cycles" value="HYPERBUS_CSH_12_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSH.HYPERBUS_CSH_13_CYCLE" display="13 clock cycles" value="HYPERBUS_CSH_13_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSH.HYPERBUS_CSH_14_CYCLE" display="14 clock cycles" value="HYPERBUS_CSH_14_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSH.HYPERBUS_CSH_15_CYCLE" display="15 clock cycles" value="HYPERBUS_CSH_15_CYCLE"/>
+        <option id="HYPERBUS_MTR1_WCSH.HYPERBUS_CSH_16_CYCLE" display="16 clock cycles" value="HYPERBUS_CSH_16_CYCLE"/>
+        <constraint display="This parameter cannot be editable when Controller initialize project assignment of CS1 area is no No initialize in this case." actionOnFail="disable">("${HYPERBUS_CS1_INIT}" == "HYPERBUS_INIT_AT_LOADER") || ("${HYPERBUS_CS1_INIT}" == "HYPERBUS_INIT_AT_APP")</constraint>
+        <description>Write Chip Select Hold timing of HM_CS0#
+Setting Write Chip Select Hold timing
+HYPERBUS_CSH_1_CYCLE = 1 clock cycle
+HYPERBUS_CSH_2_CYCLE = 2 clock cycles
+HYPERBUS_CSH_3_CYCLE = 3 clock cycles
+HYPERBUS_CSH_4_CYCLE = 4 clock cycles
+HYPERBUS_CSH_5_CYCLE = 5 clock cycles
+HYPERBUS_CSH_6_CYCLE = 6 clock cycles
+HYPERBUS_CSH_7_CYCLE = 7 clock cycles
+HYPERBUS_CSH_8_CYCLE = 8 clock cycles
+HYPERBUS_CSH_9_CYCLE = 9 clock cycles
+HYPERBUS_CSH_10_CYCLE = 10 clock cycles
+HYPERBUS_CSH_11_CYCLE = 11 clock cycles
+HYPERBUS_CSH_12_CYCLE = 12 clock cycles
+HYPERBUS_CSH_13_CYCLE = 13 clock cycles
+HYPERBUS_CSH_14_CYCLE = 14 clock cycles
+HYPERBUS_CSH_15_CYCLE = 15 clock cycles
+HYPERBUS_CSH_16_CYCLE = 16 clock cycles</description>
+      </property>
+      <property id="HYPERBUS_OPERATE_LTCY1" display="Operate Latency Cycle of HM_CS1#" default="HYPERBUS_LTCY_6_CYCLE" type="combobox" category="HYPERBUS_CS1">
+        <option id="HYPERBUS_OPERATE_LTCY1.HYPERBUS_LTCY_5_CYCLE" display="5 clock cycles" value="HYPERBUS_LTCY_5_CYCLE"/>
+        <option id="HYPERBUS_OPERATE_LTCY1.HYPERBUS_LTCY_6_CYCLE" display="6 clock cycles" value="HYPERBUS_LTCY_6_CYCLE"/>
+        <constraint display="This parameter cannot be editable when Controller initialize project assignment of CS1 area is no No initialize in this case." actionOnFail="disable">("${HYPERBUS_CS1_INIT}" == "HYPERBUS_INIT_AT_LOADER") || ("${HYPERBUS_CS1_INIT}" == "HYPERBUS_INIT_AT_APP")</constraint>
+        <description>Operate Latency Cycle of HM_CS1#
+These bits specify the read and write latency.
+HYPERBUS_LTCY_5_CYCLE = 5 clock cycles
+HYPERBUS_LTCY_6_CYCLE = 6 clock cycles</description>
+      </property>
+    </configuration>
+</module>

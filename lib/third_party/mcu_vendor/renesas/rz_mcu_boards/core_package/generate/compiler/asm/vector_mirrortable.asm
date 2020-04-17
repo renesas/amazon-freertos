@@ -45,14 +45,14 @@
     .global  vector_table2
 
 vector_table2:
-    LDR pc, =R_OS_ABSTRACTION_CFG_PRV_RESET_HANDLER
-    LDR pc, =R_OS_ABSTRACTION_CFG_PRV_UNDEFINED_HANDLER
-    LDR pc, =R_OS_ABSTRACTION_CFG_PRV_SVC_HANDLER
-    LDR pc, =R_OS_ABSTRACTION_CFG_PRV_PREFETCH_HANDLER
-    LDR pc, =R_OS_ABSTRACTION_CFG_PRV_ABORT_HANDLER
-    LDR pc, =R_OS_ABSTRACTION_CFG_PRV_RESERVED_HANDLER
-    LDR pc, =R_OS_ABSTRACTION_CFG_PRV_IRQ_HANDLER
-    LDR pc, =R_OS_ABSTRACTION_CFG_PRV_FIQ_HANDLER
+    LDR pc, =reset_handler
+    LDR pc, =undefined_handler
+    LDR pc, =FreeRTOS_SWI_Handler
+    LDR pc, =prefetch_handler
+    LDR pc, =abort_handler
+    LDR pc, =reserved_handler
+    LDR pc, =FreeRTOS_IRQ_Handler
+    LDR pc, =fiq_handler
 
 Literals:
     .LTORG

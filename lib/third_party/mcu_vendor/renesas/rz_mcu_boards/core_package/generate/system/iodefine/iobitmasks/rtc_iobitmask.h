@@ -18,10 +18,10 @@
 * you agree to the additional terms and conditions found by accessing the
 * following link:
 * http://www.renesas.com/disclaimer
-* Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
 *******************************************************************************/ 
 /*******************************************************************************
-* Rev: 2.00
+* Rev: 3.01
 * Description : IO bitmask header
 *******************************************************************************/
 
@@ -157,27 +157,27 @@
 #define RTC_RADJ_PMADJ_SHIFT                                                   (6u)
 #define RTC_BCNT0_BCNT                                                         (0xFFu)
 #define RTC_BCNT0_BCNT_SHIFT                                                   (0u)
-#define RTC_BCNT1_BCNT                                                         (0x00u)
+#define RTC_BCNT1_BCNT                                                         (0xFFu)
 #define RTC_BCNT1_BCNT_SHIFT                                                   (0u)
-#define RTC_BCNT2_BCNT                                                         (0x00u)
+#define RTC_BCNT2_BCNT                                                         (0xFFu)
 #define RTC_BCNT2_BCNT_SHIFT                                                   (0u)
-#define RTC_BCNT3_BCNT                                                         (0x00u)
+#define RTC_BCNT3_BCNT                                                         (0xFFu)
 #define RTC_BCNT3_BCNT_SHIFT                                                   (0u)
 #define RTC_BCNT0AR_BCNTAR                                                     (0xFFu)
 #define RTC_BCNT0AR_BCNTAR_SHIFT                                               (0u)
-#define RTC_BCNT1AR_BCNTAR                                                     (0x00u)
+#define RTC_BCNT1AR_BCNTAR                                                     (0xFFu)
 #define RTC_BCNT1AR_BCNTAR_SHIFT                                               (0u)
-#define RTC_BCNT2AR_BCNTAR                                                     (0x00u)
+#define RTC_BCNT2AR_BCNTAR                                                     (0xFFu)
 #define RTC_BCNT2AR_BCNTAR_SHIFT                                               (0u)
-#define RTC_BCNT3AR_BCNTAR                                                     (0x00u)
+#define RTC_BCNT3AR_BCNTAR                                                     (0xFFu)
 #define RTC_BCNT3AR_BCNTAR_SHIFT                                               (0u)
 #define RTC_BCNT0AER_ENB                                                       (0xFFu)
 #define RTC_BCNT0AER_ENB_SHIFT                                                 (0u)
-#define RTC_BCNT1AER_ENB                                                       (0x00u)
+#define RTC_BCNT1AER_ENB                                                       (0xFFu)
 #define RTC_BCNT1AER_ENB_SHIFT                                                 (0u)
-#define RTC_BCNT2AER_ENB                                                       (0x0000u)
+#define RTC_BCNT2AER_ENB                                                       (0x00FFu)
 #define RTC_BCNT2AER_ENB_SHIFT                                                 (0u)
-#define RTC_BCNT3AER_ENB                                                       (0x00u)
+#define RTC_BCNT3AER_ENB                                                       (0xFFu)
 #define RTC_BCNT3AER_ENB_SHIFT                                                 (0u)
 
 #endif

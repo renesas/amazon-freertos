@@ -178,7 +178,7 @@ static int_t scifa_hld_read (st_stream_ptr_t p_stream, uint8_t *p_buffer, uint32
  * @param[in] p_buffer The intended buffer of data intended to be written
  * @param[in] count    The amount of data in the p_buffer
  *
- * @retval 0  DRV_SUCCESS
+ * @retval >0 The number of bytes written
  * @retval -1 DRV_ERROR 
  */
 static int_t scifa_hld_write (st_stream_ptr_t p_stream, const uint8_t *p_buffer, uint32_t count)

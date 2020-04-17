@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+/***********************************************************************************************************************
+  Purpose: Module Description File (MDF) Example (Schema Version 2.1)
+           This is a description of a sample module configuration file
+***********************************************************************************************************************/
+-->
+<module xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="2.1" xs:noNamespaceSchemaLocation="schema_mdf_2.10.xsd">
+    <fileVersion>1.00</fileVersion>
+    <formatVersion>2.11</formatVersion>
+
+    <resourceInfo>
+      <peripheral name="SDMMC">
+        <channel number="SDMMC0">
+          <pin name="SD0_CD"/>
+          <pin name="SD0_CLK"/>
+          <pin name="SD0_CMD"/>
+          <pin name="SD0_DAT0"/>
+          <pin name="SD0_DAT1"/>
+          <pin name="SD0_DAT2"/>
+          <pin name="SD0_DAT3"/>
+          <pin name="SD0_DAT4"/>
+          <pin name="SD0_DAT5"/>
+          <pin name="SD0_DAT6"/>
+          <pin name="SD0_DAT7"/>
+          <pin name="SD0_RST#"/>
+          <pin name="SD0_WP"/>
+        </channel>
+        <channel number="SDMMC1">
+          <pin name="SD1_CD"/>
+          <pin name="SD1_CLK"/>
+          <pin name="SD1_CMD"/>
+          <pin name="SD1_DAT0"/>
+          <pin name="SD1_DAT1"/>
+          <pin name="SD1_DAT2"/>
+          <pin name="SD1_DAT3"/>
+          <pin name="SD1_WP"/>
+        </channel>
+      </peripheral>
+    </resourceInfo>
+    <configuration>
+      <property id="SDHI_CD_LAYOUT" display="SD card detection option" default="SD_CD_ENABLED" type="combobox">
+        <option id="SDHI_CD_LAYOUT.SD_CD_ENABLED" display="CD is enabled" value="SD_CD_ENABLED"/>
+        <option id="SDHI_CD_LAYOUT.SD_CD_DISABLED" display="CD is disabled" value="SD_CD_DISABLED"/>
+        <description>SD card detection option.
+SD_CD_ENABLED = SD card detection is enabled.
+SD_CD_DISABLED = When SD card detection is disabled, the status is always loading.</description>
+      </property>
+      <property id="SDHI_WP_LAYOUT" display="SD write protection signal detection option" default="SD_WP_DISABLED" type="combobox">
+        <option id="SDHI_WP_LAYOUT.SD_WP_ENABLED" display="WP is enabled" value="SD_WP_ENABLED"/>
+        <option id="SDHI_WP_LAYOUT.SD_WP_DISABLED" display="WP is disabled" value="SD_WP_DISABLED"/>
+        <description>SD write protection signal detection option.
+SD_WP_ENABLED = Write protection signal detection is enabled.
+SD_WP_DISABLED = When write protection signal detection is disabled, the status is always write protection signal off.</description>
+      </property>
+      <property id="SDHI_CB_SETTING" display="SD card detection callback function setting" default="SD_CB_UNUSED" type="checkbox">
+        <option id="SDHI_CB_SETTING.SD_CB_UNUSED" display="Unused" value="SD_CB_UNUSED"/>
+        <option id="SDHI_CB_SETTING.SD_CB_USED" display="Used" value="SD_CB_USED"/>
+        <description>SD card detection callback function setting
+SD_CB_USED = SD card detection callback function setting is used.
+SD_CB_UNUSED = SD card detection callback function setting is unused.</description>
+      </property>
+      <property id="SDHI_CB_FUNCTION" display="SD card detection callback function" default="NULL" type="textbox" keyword="extern int32_t ${SDHI_CB_FUNCTION}(int32_t sd_port, int32_t cd);">
+        <constraint display="SD card detection callback function is not allowed to be NULL or empty, it must be a valid function name." actionOnFail="error">(/^[a-zA-Z_]\w*$/.test("${SDHI_CB_FUNCTION}") &amp;&amp; ("${SDHI_CB_FUNCTION}" != "NULL"))</constraint>
+        <constraint display="The SD card detection callback function cannot be editable when the SD card detection callback function setting is unused." actionOnFail="disable">("${SDHI_CB_SETTING}" == "SD_CB_USED")</constraint>
+        <description>SD card detection callback function
+Please input the callback function name.
+If SD card detection callback function setting is used, the SD card detection callback function is not allowed to be NULL or empty.</description>
+      </property>
+    </configuration>
+</module>

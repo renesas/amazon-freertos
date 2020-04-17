@@ -280,6 +280,12 @@ int_t r_scifa_hld_prv_open(r_sc_index_t sc_config_index, int_t file_mode)
         }
     }
 
+    /* open the DMA driver if configured */
+    if (DRV_SUCCESS == ret)
+    {
+        r_scifa_hld_prv_configure_dma(channel, &gs_ch_ctrl[channel].cfg);
+    }
+
     /* if we were successful then update the open counter */
     if (DRV_SUCCESS == ret)
     {
@@ -644,7 +650,7 @@ int32_t r_scifa_hld_prv_read(r_sc_index_t sc_config_index, uint8_t *p_buffer, in
  * @param[in] channel: Channel to be written to
  * @param[in] p_buffer: Buffer of data to be written
  * @param[in] count: Number of bytes to be written
- * @retval 0  Success
+ * @retval >0 The number of bytes written
  * @retval -1 Fail
  */
 static int32_t r_scifa_hld_prv_dma_write(r_channel_t channel, const uint8_t *p_buffer, int32_t count)
@@ -829,7 +835,7 @@ int32_t r_scifa_hld_prv_write(r_sc_index_t sc_config_index, const uint8_t *p_buf
     if (!R_OS_Running())
     {
     	r_scifa_hld_prv_direct_write(channel, p_buffer, count);
-        return (DRV_SUCCESS);
+        return (count);
     }
 
     /* control access by multiple threads */
@@ -890,6 +896,12 @@ int32_t r_scifa_hld_prv_write(r_sc_index_t sc_config_index, const uint8_t *p_buf
     }
 
     R_OS_MutexRelease(gs_ch_ctrl[channel].tx_mutex);
+
+    /* return the number of bytes written */
+    if (DRV_SUCCESS == ret)
+    {
+    	ret = count;
+    }
 
     return (ret);
 }

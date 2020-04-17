@@ -27,7 +27,6 @@
 #define FREERTOS_CONFIG_H
 
 #include "r_task_priority.h"
-//#include "serial_term_uart.h"    //190325 modified for RZ/A2M. It is for RX.
 
 /* Unity includes. */
 #if defined(AMAZON_FREERTOS_ENABLE_UNIT_TESTS)
@@ -51,7 +50,6 @@
 * the demo) are contained in FreeRTOSIPConfig.h.
 *----------------------------------------------------------*/
 
-//190325 modified for RZ/A2M. It is change of the description position -->
 /*
  * The FreeRTOS Cortex-A port implements a full interrupt nesting model.
  *
@@ -94,10 +92,6 @@ used. */
 
     /* Normal assert() semantics without relying on the provision of an assert.h
     header file. */
-//190325 modified for RZ/A2M. move to below.
-//  void R_OS_AssertCalled( const char * pcFile,  unsigned long ulLine );
-//  #define configASSERT( x ) if( ( x ) == 0 ) R_OS_AssertCalled( __FILE__, __LINE__ );
-
     /****** Hardware specific settings. *******************************************/
     /*
      * The application must provide a function that configures a peripheral to
@@ -120,7 +114,6 @@ Renesas RZ MPU. */
 code (which is where the vector table is defined). */
 #define FreeRTOS_IRQ_Handler IRQ_Handler
 #define FreeRTOS_SWI_Handler SWI_Handler
-//190325 modified for RZ/A2M. It is change of the description position <--
 
 #define configENABLE_BACKWARD_COMPATIBILITY        1
 #define configUSE_PREEMPTION                       1
@@ -128,7 +121,7 @@ code (which is where the vector table is defined). */
 #define configMAX_PRIORITIES                       ( TASK_NUMBER_OF_PRIORITIES )
 #define configTICK_RATE_HZ                         ( ( portTickType ) 1000 )
 #define configMINIMAL_STACK_SIZE                   ( ( unsigned short ) 512 )
-#define configTOTAL_HEAP_SIZE                      ( ( size_t ) ( 1024U * 1024U ) )
+#define configTOTAL_HEAP_SIZE                      ( ( size_t ) ( 4 * 1024U * 1024U ) )
 #define configMAX_TASK_NAME_LEN                    ( 24 )
 #define configUSE_TRACE_FACILITY                   1
 #define configUSE_16_BIT_TICKS                     0
@@ -173,7 +166,7 @@ kernel is doing. */
 /* The peripheral used to generate the tick interrupt is configured as part of
 the application code.  This constant should be set to the vector number of the
 peripheral chosen.  As supplied this is CMT0. */
-//#define configTICK_VECTOR                     _CMT0_CMI0      //CMT0    //190325 modified for RZ/A2M. It is for RX.
+//#define configTICK_VECTOR                     _CMT0_CMI0      //CMT0
 //#define configTICK_VECTOR                     _CMT1_CMI1      //CMT1
 //#define configTICK_VECTOR                     _CMT2_CMI2      //CMT2
 //#define configTICK_VECTOR                     _CMT3_CMI3      //CMT3
@@ -185,11 +178,10 @@ peripheral chosen.  As supplied this is CMT0. */
 unsigned long ulGetRunTimeCounterValue( void );
 void vConfigureTimerForRunTimeStats( void );
 #define configGENERATE_RUN_TIME_STATS    1
-//#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()    vConfigureTimerForRunTimeStats()
 #define portGET_RUN_TIME_COUNTER_VALUE()            ulGetRunTimeCounterValue()
 
 /* Co-routine definitions. */
-#define configUSE_CO_ROUTINES                   0    //190325 multiple definition. (line 137)
+#define configUSE_CO_ROUTINES                   0
 #define configMAX_CO_ROUTINE_PRIORITIES         ( 2 )
 
 /* Currently the TCP/IP stack is using dynamic allocation, and the MQTT task is

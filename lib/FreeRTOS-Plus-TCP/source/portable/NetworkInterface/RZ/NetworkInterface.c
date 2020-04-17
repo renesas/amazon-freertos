@@ -85,6 +85,7 @@ static void clear_all_ether_rx_discriptors(uint32_t event);
  * Arguments    : none
  * Return Value : pdPASS, pdFAIL
  *********************************************************************************************************************/
+BaseType_t xNetworkInterfaceInitialise( void )  __attribute((weak));
 BaseType_t xNetworkInterfaceInitialise( void )
 {
     BaseType_t x_return;
@@ -116,6 +117,7 @@ BaseType_t xNetworkInterfaceInitialise( void )
  * Arguments    : pxDescriptor, xReleaseAfterSend
  * Return Value : pdTRUE, pdFALSE
  *********************************************************************************************************************/
+BaseType_t xNetworkInterfaceOutput( NetworkBufferDescriptor_t * const pxDescriptor, BaseType_t xReleaseAfterSend )  __attribute((weak));
 BaseType_t xNetworkInterfaceOutput( NetworkBufferDescriptor_t * const pxDescriptor, BaseType_t xReleaseAfterSend )
 {
     /* Simple network interfaces (as opposed to more efficient zero copy network

@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<smc>
+<general version="2.0.0.0">
+<configuration active="true" id="com.renesas.smc.toolchain.gnuarm.configuration.release">
+<property id="com.renesas.smc.service.project.buildArtefactType" values="com.renesas.smc.service.project.buildArtefactType.exe"/>
+<toolchain id="com.renesas.smc.toolchain.gnuarm.noneeabi">
+<option id="com.renesas.smc.toolchain.option.rtos" key="com.renesas.smc.toolchain.option.rtos.none">
+<item id="com.renesas.smc.toolchain.option.rtos.freertos" value=""/>
+</option>
+</toolchain>
+</configuration>
+<platform id="R7S921053"/>
+</general>
+<tool id="Clock">
+<option enabled="true" id="ckioen2" selection="unstable">
+<Item enabled="true" id="unstable"/>
+<Item enabled="true" id="low"/>
+</option>
+<option enabled="true" id="hypeclk" selection="textoutputitem">
+<Item enabled="true" id="textoutputitem" value="264.0"/>
+</option>
+<option enabled="true" id="mdclk" selection="uncheck">
+<Item enabled="true" id="check"/>
+<Item enabled="true" id="uncheck"/>
+</option>
+<option enabled="true" id="clockfrequency" selection="textinputitem">
+<Item enabled="true" id="textinputitem" value="24"/>
+</option>
+<option enabled="true" id="divider1" selection="select2">
+<Item enabled="false" id="select1"/>
+<Item enabled="true" id="select2"/>
+</option>
+<option enabled="true" id="octclk" selection="textoutputitem">
+<Item enabled="true" id="textoutputitem" value="264.0"/>
+</option>
+<option enabled="true" id="spiclkswitcher" selection="Bj">
+<Item enabled="true" id="Gj"/>
+<Item enabled="true" id="Bj"/>
+<Item enabled="true" id="P1j"/>
+<Item enabled="true" id="P0j"/>
+</option>
+<option enabled="true" id="mdclks" selection="check">
+<Item enabled="true" id="check"/>
+<Item enabled="true" id="uncheck"/>
+</option>
+<option enabled="true" id="ckio" selection="check">
+<Item enabled="true" id="check"/>
+<Item enabled="true" id="uncheck"/>
+</option>
+<option enabled="true" id="clockmode" selection="mode1">
+<Item enabled="true" id="mode0"/>
+<Item enabled="true" id="mode1"/>
+</option>
+<option enabled="true" id="imageclk" selection="textoutputitem">
+<Item enabled="true" id="textoutputitem" value="264.0"/>
+</option>
+<option enabled="true" id="octclk2" selection="textoutputitem">
+<Item enabled="true" id="textoutputitem" value="132.0"/>
+</option>
+<option enabled="true" id="octclkswitcher" selection="Gj">
+<Item enabled="true" id="Gj"/>
+<Item enabled="true" id="Bj"/>
+<Item enabled="true" id="P1j"/>
+<Item enabled="true" id="P0j"/>
+</option>
+<option enabled="true" id="clkdivider2" selection="select0">
+<Item enabled="true" id="select0"/>
+<Item enabled="true" id="select1"/>
+<Item enabled="true" id="select2"/>
+<Item enabled="true" id="select3"/>
+<Item enabled="true" id="select4"/>
+</option>
+<option enabled="true" id="pclk0" selection="textoutputitem">
+<Item enabled="true" id="textoutputitem" value="33.0"/>
+</option>
+<option enabled="true" id="pclk1" selection="textoutputitem">
+<Item enabled="true" id="textoutputitem" value="66.0"/>
+</option>
+<option enabled="true" id="hypeswitcher" selection="Gj">
+<Item enabled="true" id="Gj"/>
+<Item enabled="true" id="Bj"/>
+<Item enabled="true" id="P1j"/>
+<Item enabled="true" id="P0j"/>
+</option>
+<option enabled="true" id="cpuclk" selection="textoutputitem">
+<Item enabled="true" id="textoutputitem" value="528.0"/>
+</option>
+<option enabled="true" id="bclk" selection="textoutputitem">
+<Item enabled="true" id="textoutputitem" value="132.0"/>
+</option>
+<option enabled="true" id="spiclk" selection="textoutputitem">
+<Item enabled="true" id="textoutputitem" value="132.0"/>
+</option>
+<option enabled="true" id="eclk" selection="textoutputitem">
+<Item enabled="true" id="textoutputitem" value="132.0"/>
+</option>
+<option enabled="true" id="ckioen" selection="hiz">
+<Item enabled="true" id="hiz"/>
+<Item enabled="true" id="low"/>
+<Item enabled="true" id="unstable"/>
+<Item enabled="true" id="hizdisable"/>
+</option>
+<option enabled="true" id="clockfrequencyerror" selection="visiable">
+<Item enabled="true" id="visiable"/>
+</option>
+<option enabled="true" id="eclkswitcher" selection="Bj">
+<Item enabled="true" id="Bj"/>
+<Item enabled="true" id="P1j"/>
+</option>
+<option enabled="true" id="spiclk2" selection="textoutputitem">
+<Item enabled="true" id="textoutputitem" value="66.0"/>
+</option>
+<option enabled="true" id="hypeclk2" selection="textoutputitem">
+<Item enabled="true" id="textoutputitem" value="132.0"/>
+</option>
+</tool>
+<tool enable="true" id="Mmu" import="resources\importtemplate\bootmode.xml" version="1.0.0.0">
+<entry attribute="1" id="" name="CS0 space" physicalAddress="0x00000000" size="64" virtualAddress="0x00000000"/>
+<entry attribute="1" id="" name="CS1 space" physicalAddress="0x04000000" size="64" virtualAddress="0x04000000"/>
+<entry attribute="1" id="" name="CS2 space" physicalAddress="0x08000000" size="64" virtualAddress="0x08000000"/>
+<entry attribute="7" id="" name="CS3(SDRAM)" physicalAddress="0x0C000000" size="64" virtualAddress="0x0C000000"/>
+<entry attribute="1" id="" name="CS4 space" physicalAddress="0x10000000" size="64" virtualAddress="0x10000000"/>
+<entry attribute="1" id="" name="CS5 space" physicalAddress="0x14000000" size="64" virtualAddress="0x14000000"/>
+<entry attribute="9" id="" name="Reserved" physicalAddress="0x18000000" size="112" virtualAddress="0x18000000"/>
+<entry attribute="0" id="" name="Peripheral I/O" physicalAddress="0x1F000000" size="16" virtualAddress="0x1F000000"/>
+<entry attribute="7" id="" name="SPI multi I/O bus area" physicalAddress="0x20000000" size="256" virtualAddress="0x20000000"/>
+<entry attribute="7" id="" name="Hyper Flash area" physicalAddress="0x30000000" size="256" virtualAddress="0x30000000"/>
+<entry attribute="7" id="" name="Hyper RAM area" physicalAddress="0x40000000" size="256" virtualAddress="0x40000000"/>
+<entry attribute="7" id="" name="Octa Flash area" physicalAddress="0x50000000" size="256" virtualAddress="0x50000000"/>
+<entry attribute="7" id="" name="Octa RAM area" physicalAddress="0x60000000" size="256" virtualAddress="0x60000000"/>
+<entry attribute="2" id="" name="SPI multi I/O bus area" physicalAddress="0x20000000" size="256" virtualAddress="0x70000000"/>
+<entry attribute="5" id="" name="Internal RAM area" physicalAddress="0x80000000" size="4" virtualAddress="0x80000000"/>
+<entry attribute="9" id="" name="Reserved" physicalAddress="0x80400000" size="28" virtualAddress="0x80400000"/>
+<entry attribute="8" id="" name="Internal RAM area" physicalAddress="0x80000000" size="4" virtualAddress="0x82000000"/>
+<entry attribute="9" id="" name="Reserved" physicalAddress="0x82400000" size="92" virtualAddress="0x82400000"/>
+<entry attribute="1" id="" name="CS0 space" physicalAddress="0x00000000" size="64" virtualAddress="0x88000000"/>
+<entry attribute="1" id="" name="CS1 space" physicalAddress="0x04000000" size="64" virtualAddress="0x8C000000"/>
+<entry attribute="1" id="" name="CS2 space" physicalAddress="0x08000000" size="64" virtualAddress="0x90000000"/>
+<entry attribute="8" id="" name="CS3 (SDRAM)" physicalAddress="0x0C000000" size="64" virtualAddress="0x94000000"/>
+<entry attribute="1" id="" name="CS4 space" physicalAddress="0x10000000" size="64" virtualAddress="0x98000000"/>
+<entry attribute="1" id="" name="CS5 space" physicalAddress="0x14000000" size="64" virtualAddress="0x9C000000"/>
+<entry attribute="2" id="" name="Hyper Flash area" physicalAddress="0x30000000" size="256" virtualAddress="0xA0000000"/>
+<entry attribute="8" id="" name="Hyper RAM area" physicalAddress="0x40000000" size="256" virtualAddress="0xB0000000"/>
+<entry attribute="2" id="" name="Octa Flash area" physicalAddress="0x50000000" size="256" virtualAddress="0xC0000000"/>
+<entry attribute="8" id="" name="Octa RAM area" physicalAddress="0x60000000" size="256" virtualAddress="0xD0000000"/>
+<entry attribute="9" id="" name="Reserved" physicalAddress="0xE0000000" size="128" virtualAddress="0xE0000000"/>
+<entry attribute="0" id="" name="Peripheral I/O" physicalAddress="0xE8000000" size="384" virtualAddress="0xE8000000"/>
+</tool>
+<tool id="Pins" version="1.0.1.0">
+<extendedItem direction="I" drvctrl="4mA" id="A16" initSource="ByDriver" interrupt="Disabled" outdt="Low"/>
+<extendedItem direction="O" drvctrl="4mA" id="M20" initSource="ByManual" interrupt="Disabled" outdt="Low"/>
+<extendedItem direction="O" drvctrl="4mA" id="C15" initSource="ByDriver" interrupt="Disabled" outdt="Low"/>
+<pinItem allocation="M20" comments="" direction="None" id="P6_0" locked="false" status="0"/>
+<pinItem allocation="A16" comments="" direction="None" id="RxD4" locked="false" status="0"/>
+<pinItem allocation="C15" comments="" direction="None" id="TxD4" locked="false" status="0"/>
+</tool>
+<tool id="SWComponent" version="1.0.0.0">
+<configuration channel="r_cbuffer" inuse="true" name="cbuffer0">
+<component description="Dependencies : None&#10;Common software for buffer processing" detailDescription="" display="r_cbuffer" id="r_cbuffer1.03" version="1.03"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+</configuration>
+<configuration channel="r_os_abstraction_osless" inuse="true" name="os_abstraction_osless">
+<component description="Dependency : r_ostm version(s) 1.04&#10;os abstraction layer for os less applications" detailDescription="" display="r_os_abstraction_osless" id="r_os_abstraction_osless3.03" version="3.03"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+</configuration>
+<configuration channel="SCIFA4" inuse="true" name="scifa4">
+<component description="Dependency : r_cbuffer version(s) 1.03&#10;Dependency : r_cpg version(s) 1.03&#10;SCIFA Driver IMPORTANT - Prior to using this module please ensure os_abstraction &#10;&#9;  driver version 3.03 (or later) is included in your project (any variant)" detailDescription="" display="r_scifa" id="r_scifa2.00" version="2.00">
+<gridItem id="TxD4" selectedIndex="1"/>
+<gridItem id="RxD4" selectedIndex="1"/>
+<gridItem id="SCK4" selectedIndex="0"/>
+<gridItem id="SCIFA4" selectedIndex="1"/>
+<gridItem id="SCIFA_OPERATION_MODE" selectedIndex="0"/>
+<gridItem id="SCIFA_CFG_BITRATE_BPS" selectedIndex="115200"/>
+<gridItem id="SCIFA_TRANSFER_CLOCK" selectedIndex="0"/>
+<gridItem id="SCIFA_BASE_CLOCK_SELECT" selectedIndex="0"/>
+<gridItem id="SCIFA_DATA_BIT_LENGTH" selectedIndex="1"/>
+<gridItem id="SCIFA_PARITY_ENABLE" selectedIndex="0"/>
+<gridItem id="SCIFA_PARITY_TYPE" selectedIndex="0"/>
+<gridItem id="SCIFA_STOP" selectedIndex="0"/>
+<gridItem id="SCIFA_NOISE_FILTER" selectedIndex="0"/>
+<gridItem id="SCIFA_TRANSFER_DIRECTION" selectedIndex="0"/>
+<gridItem id="SCIFA_FIFO_DATA_SETTING" selectedIndex="0"/>
+<gridItem id="SCIFA_MODULATION_DUTY_CORRECTON" selectedIndex="0"/>
+<gridItem id="SCIFA_RTS_TRIGGER_NUMBER" selectedIndex="0"/>
+<gridItem id="SCIFA_TX_FIFO_DATA_TRIGGER" selectedIndex="15"/>
+<gridItem id="SCIFA_RX_FIFO_DATA_TRIGGER" selectedIndex="1"/>
+<gridItem id="SCIFA_SERIAL_PORT_BREAK_DATA" selectedIndex="1"/>
+<gridItem id="SCIFA_SCK_PORT_DATA_SELECT" selectedIndex="1"/>
+<gridItem id="SCIFA_CTS_PORT_DATA_SELECT" selectedIndex="1"/>
+<gridItem id="SCIFA_RTS_PORT_DATA_SELECT" selectedIndex="1"/>
+<gridItem id="SCIFA_TX_DATA_MODE" selectedIndex="2"/>
+<gridItem id="SCIFA_RX_DATA_MODE" selectedIndex="2"/>
+<gridItem id="SCIFA_ERI_BRI_INTERRUPT_PRORITY" selectedIndex="0"/>
+<gridItem id="SCIFA_RX_INTERRUPT_PRORITY" selectedIndex="30"/>
+<gridItem id="SCIFA_TXI_INTERRUPT_PRORITY" selectedIndex="30"/>
+<gridItem id="SCIFA_TEI_DRI_INTERRUPT_PRORITY" selectedIndex="0"/>
+<gridItem id="SCIFA_TX_DMA_CALLBACK_FUNCTION" selectedIndex="NULL"/>
+<gridItem id="SCIFA_RX_DMA_CALLBACK_FUNCTION" selectedIndex="NULL"/>
+<gridItem id="SCIFA_TX_DMA_MODULE" selectedIndex="NULL"/>
+<gridItem id="SCIFA_RX_DMA_MODULE" selectedIndex="NULL"/>
+<gridItem id="SCIFA_READ_BLOCKING_MODE_SELECT" selectedIndex="0"/>
+<gridItem id="SCIFA_WRITE_BLOCKING_MODE_SELECT" selectedIndex="0"/>
+<gridItem id="SCIFA_RXI_DRIVER_BUFFER" selectedIndex="1024"/>
+<gridItem id="SCIFA_TXI_DRIVER_BUFFER" selectedIndex="1024"/>
+</component>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+</configuration>
+<configuration channel="r_cache" inuse="true" name="cache">
+<component description="Dependencies : None&#10;Cache Module (Configure Memory using MMU TAB)" detailDescription="" display="r_cache" id="r_cache1.03" version="1.03"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+</configuration>
+<configuration channel="r_cpg" inuse="true" name="cpg">
+<component description="Dependencies : None&#10;Clock Pulse Generator Module (Configure using Clocks TAB)" detailDescription="" display="r_cpg" id="r_cpg1.03" version="1.03"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+</configuration>
+<configuration channel="r_gpio" inuse="true" name="gpio">
+<component description="Dependencies : None&#10;General Purpose Input/Output Pin Module (Configure using Pins TAB)" detailDescription="" display="r_gpio" id="r_gpio1.04" version="1.04"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+</configuration>
+<configuration channel="r_intc" inuse="true" name="intc">
+<component description="Dependencies : None&#10;Interrupt Controller Module" detailDescription="" display="r_intc" id="r_intc1.04" version="1.04"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+</configuration>
+<configuration channel="r_mmu" inuse="true" name="mmu">
+<component description="Dependencies : None&#10;Memory Management Module (Configure Memory using MMU TAB)" detailDescription="" display="r_mmu" id="r_mmu1.03" version="1.03"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+</configuration>
+<configuration channel="r_stb" inuse="true" name="stb">
+<component description="Dependencies : None&#10;Standby control Management Module" detailDescription="" display="r_stb" id="r_stb1.03" version="1.03"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+</configuration>
+<configuration channel="r_iodefine" inuse="true" name="iodefine">
+<component description="Dependencies : None&#10;Hardware access to I/O peripherals on RZA2M device&#10;IMPORTANT - Please read if using projects generated by e2sudio 7.1-7.4&#10;&#9;  Remove the following files from project prior to installing this module:&#10;&#9;  generate\system\inc\iobitmask.h&#10;&#9;  generate\system\inc\iodefine.h&#10;&#9;  Remove the following folders from project prior to installing this module:&#10;&#9;  generate\system\inc\iobitmasks&#10;&#9;  generate\system\inc\iodefines&#10;&#9;  Remove the following folders from &#10;&#9;  Settings -&gt; C/C++ Build -&gt; Cross ARM C++ Compiler --&gt; Includes dialog&#10;&#9;  &quot;${ProjDirPath}/generate/system/inc/iobitmasks&quot;&#10;&#9;  &quot;${ProjDirPath}/generate/system/inc/iodefines&quot;" detailDescription="" display="r_iodefine" id="r_iodefine3.00" version="3.00"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+</configuration>
+<configuration channel="OSTM2" inuse="true" name="ostm_reserved" required="true">
+<component description="Dependency : r_cpg version(s) 1.03&#10;OS Timer Driver" detailDescription="" display="r_ostm" id="r_ostm1.05" version="1.05">
+<gridItem id="OSTM_MODE" selectedIndex="0"/>
+<gridItem id="OSTM_COUNTER_FORMAT" selectedIndex="0"/>
+<gridItem id="OSTM_TIME" selectedIndex="1"/>
+<gridItem id="OSTM_START_GENERATE_INTERRUPT" selectedIndex="0"/>
+<gridItem id="OSTM_INTC_SETTING" selectedIndex="1"/>
+<gridItem id="OSTM_INTC_PRIORITY" selectedIndex="30"/>
+<gridItem id="OSTM_INTC_FUNCTION" selectedIndex="os_abstraction_isr"/>
+</component>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+</configuration>
+<configuration channel="OSTM0" inuse="true" name="ostm0">
+<component description="Dependency : r_cpg version(s) 1.03&#10;OS Timer Driver" detailDescription="" display="r_ostm" id="r_ostm1.05" version="1.05">
+<gridItem id="OSTM_MODE" selectedIndex="0"/>
+<gridItem id="OSTM_COUNTER_FORMAT" selectedIndex="0"/>
+<gridItem id="OSTM_TIME" selectedIndex="500"/>
+<gridItem id="OSTM_START_GENERATE_INTERRUPT" selectedIndex="0"/>
+<gridItem id="OSTM_INTC_SETTING" selectedIndex="1"/>
+<gridItem id="OSTM_INTC_PRIORITY" selectedIndex="3"/>
+<gridItem id="OSTM_INTC_FUNCTION" selectedIndex="Sample_LED_Blink"/>
+</component>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+<source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+</configuration>
+</tool>
+</smc>

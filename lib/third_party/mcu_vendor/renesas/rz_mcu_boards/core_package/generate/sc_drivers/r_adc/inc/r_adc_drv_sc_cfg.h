@@ -89,8 +89,8 @@ static const st_r_drv_adc_sc_config_t ADC_SC_TABLE_SC[] =
         {
         }, 
         {
-            &GPIO_SC_TABLE_adc[0], 
-            sizeof(GPIO_SC_TABLE_adc)/sizeof(st_r_drv_gpio_sc_config_t), 
+            &GPIO_SC_TABLE_adc0[0], 
+            sizeof(GPIO_SC_TABLE_adc0)/sizeof(st_r_drv_gpio_sc_config_t), 
         }
     },
     /* End of modification */

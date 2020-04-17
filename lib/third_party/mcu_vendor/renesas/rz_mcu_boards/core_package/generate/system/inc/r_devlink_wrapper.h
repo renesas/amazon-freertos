@@ -105,7 +105,7 @@ Macro definitions
 #define FIRST_FILE                  (0)
 
 /** The maximum number of driver descriptor available to the user */
-#define DEV_MAX_DRIVER_DEVICES      (64)
+#define DEV_MAX_DRIVER_DEVICES      (32)
 
 /** Define the maximum string size for the device information strings */
 #define DEVICE_MAX_STRING_SIZE      (128)

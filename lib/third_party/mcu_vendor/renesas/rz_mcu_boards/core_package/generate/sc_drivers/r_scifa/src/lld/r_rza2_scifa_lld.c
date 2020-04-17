@@ -692,7 +692,7 @@ int_t R_SCIFA_ChannelConfigure (r_channel_t channel, const scifa_config_t *p_con
     uint32_t current_clk_hz;
 
     /* open the CPG driver */
-    cpg_handle = direct_open("cpg", O_RDWR);
+    cpg_handle = direct_open("cpg", O_RDONLY);
     if (cpg_handle < 0)
     {
         return (DRV_ERROR);

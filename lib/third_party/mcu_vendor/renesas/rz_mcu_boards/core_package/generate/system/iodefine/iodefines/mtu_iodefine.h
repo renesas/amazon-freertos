@@ -18,10 +18,10 @@
 * you agree to the additional terms and conditions found by accessing the
 * following link:
 * http://www.renesas.com/disclaimer
-* Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
 *******************************************************************************/ 
 /*******************************************************************************
-* Rev: 2.00
+* Rev: 3.01
 * Description : IO define header
 *******************************************************************************/
 
@@ -528,7 +528,7 @@ struct st_mtu0
             unsigned char NFBEN:1;
             unsigned char NFCEN:1;
             unsigned char NFDEN:1;
-            unsigned char NFCSC:2;
+            unsigned char NFCS:2;
             unsigned char :2;
         } BIT;
     } NFCRC;

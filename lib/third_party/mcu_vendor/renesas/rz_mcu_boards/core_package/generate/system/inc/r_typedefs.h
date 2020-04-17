@@ -70,7 +70,7 @@ Macro definitions
 Typedef definitions
 ******************************************************************************/
 typedef char                char_t;
-typedef unsigned int        bool_t;
+typedef uint8_t             bool_t;
 typedef int                 int_t;
 
 /* typedef signed char         int8_t;   defined stdint.h */

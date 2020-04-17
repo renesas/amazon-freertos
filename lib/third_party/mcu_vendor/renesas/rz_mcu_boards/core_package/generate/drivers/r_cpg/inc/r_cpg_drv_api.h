@@ -58,7 +58,7 @@ typedef enum
 
 /** Minor Version Number of API.
  * Updated by developer */
-#define STDIO_CPG_RZ_HLD_VERSION_MINOR   (2)
+#define STDIO_CPG_RZ_HLD_VERSION_MINOR   (3)
 
 /** Build Number of API.
  * Generated during customer release */

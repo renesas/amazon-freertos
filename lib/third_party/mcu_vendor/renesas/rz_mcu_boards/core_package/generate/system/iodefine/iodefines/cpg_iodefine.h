@@ -18,10 +18,10 @@
 * you agree to the additional terms and conditions found by accessing the
 * following link:
 * http://www.renesas.com/disclaimer
-* Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
 *******************************************************************************/ 
 /*******************************************************************************
-* Rev: 2.00
+* Rev: 3.01
 * Description : IO define header
 *******************************************************************************/
 
@@ -244,7 +244,7 @@ struct st_cpg
         struct
         {
             unsigned char MSTP30:1;
-            unsigned char MSTP31:1;
+            unsigned char :1;
             unsigned char MSTP32:1;
             unsigned char MSTP33:1;
             unsigned char MSTP34:1;

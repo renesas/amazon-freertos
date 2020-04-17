@@ -18,10 +18,10 @@
 * you agree to the additional terms and conditions found by accessing the
 * following link:
 * http://www.renesas.com/disclaimer
-* Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
 *******************************************************************************/ 
 /*******************************************************************************
-* Rev: 2.00
+* Rev: 3.01
 * Description : IO define header
 *******************************************************************************/
 
@@ -3374,11 +3374,7 @@ struct st_rcanfd
             unsigned char RFDMAE7:1;
             unsigned char CFDMAE0:1;
             unsigned char CFDMAE1:1;
-            unsigned char CFDMAE2:1;
-            unsigned char CFDMAE3:1;
-            unsigned char CFDMAE4:1;
-            unsigned char CFDMAE5:1;
-            unsigned char :2;
+            unsigned char :6;
             unsigned char :8;
             unsigned char :8;
         } BIT;
@@ -3410,11 +3406,7 @@ struct st_rcanfd
             unsigned char RFDMASTS7:1;
             unsigned char CFDMASTS0:1;
             unsigned char CFDMASTS1:1;
-            unsigned char CFDMASTS2:1;
-            unsigned char CFDMASTS3:1;
-            unsigned char CFDMASTS4:1;
-            unsigned char CFDMASTS5:1;
-            unsigned char :2;
+            unsigned char :6;
             unsigned char :8;
             unsigned char :8;
         } BIT;

@@ -34,9 +34,9 @@
 #include "r_cpg_drv_api.h"
 #include "r_gpio_drv_api.h"
 /* This code is auto-generated. Do not edit manually */
+#include "r_riic_drv_api.h"
 #include "r_adc_drv_api.h"
 #include "r_scifa_drv_api.h"
-#include "r_riic_drv_api.h"
 #include "r_ostm_drv_api.h"
 /* End of modification */
  /* Modified by user, drivers that are not under the control of sc added here */
@@ -56,10 +56,11 @@ static st_mount_table_t gs_mount_table[] =
         {"cpg",    (st_r_driver_t *)&g_cpg_driver,   R_SC0},
         {"gpio",   (st_r_driver_t *)&g_gpio_driver,  R_SC0},
         /* This code is auto-generated. Do not edit manually */
-        { "adc", (st_r_driver_t *)&g_adc_driver, R_SC0 },
-        { "scifa4", (st_r_driver_t *)&g_scifa_driver, R_SC0 },
         { "riic3", (st_r_driver_t *)&g_riic_driver, R_SC0 },
+        { "adc0", (st_r_driver_t *)&g_adc_driver, R_SC0 },
+        { "scifa4", (st_r_driver_t *)&g_scifa_driver, R_SC0 },
         { "ostm_reserved", (st_r_driver_t *)&g_ostm_driver, R_SC0 },
+        { "runtime_stats_timer", (st_r_driver_t *)&g_ostm_driver, R_SC1 },
         /* End of modification */
 
  /* Modified by user, drivers that are not under the control of sc added here */

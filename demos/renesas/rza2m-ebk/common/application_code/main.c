@@ -47,7 +47,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "aws_clientcredential.h"
 
 
-//190325 modified for RZ/A2M. It is for RZ/A2M. -->
 /*from app.c*/
 #include "queue.h"
 #include <stdio.h>
@@ -78,25 +77,17 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "r_os_abstraction_api.h"
 #include "r_task_priority.h"
 #include "version.h"
-//190325 modified for RZ/A2M. It is for RZ/A2M. <--
 
 #define mainLOGGING_TASK_STACK_SIZE         ( configMINIMAL_STACK_SIZE * 6 )
 #define mainLOGGING_MESSAGE_QUEUE_LENGTH    ( 15 )
 #define mainTEST_RUNNER_TASK_STACK_SIZE    ( configMINIMAL_STACK_SIZE * 8 )
 
-// Modify 2018.08.31 -->
-#define IGMP_TEST1  0
-#define IGMP_TEST3  0
-// Modify 2018.08.31 <--
-
-#if 0    //190325 modified for RZ/A2M. It is for RX. -->
 /* Declare the firmware version structure for all to see. */
 const AppVersion32_t xAppFirmwareVersion = {
    .u.x.ucMajor = APP_VERSION_MAJOR,
    .u.x.ucMinor = APP_VERSION_MINOR,
    .u.x.usBuild = APP_VERSION_BUILD,
 };
-#endif    //190325 modified for RZ/A2M. It is for RX.  <--
 
 /* The MAC address array is not declared const as the MAC address will
 normally be read from an EEPROM and not hard coded (in real deployed
@@ -109,7 +100,7 @@ static uint8_t ucMACAddress[ 6 ] =
     configMAC_ADDR3,
     configMAC_ADDR4,
     configMAC_ADDR5
-}; //XXX
+};
 
 /* Define the network addressing.  These parameters will be used if either
 ipconfigUDE_DHCP is 0 or if ipconfigUSE_DHCP is 1 but DHCP auto configuration
@@ -199,8 +190,6 @@ void os_main_task_t( void )
 
 static void prvMiscInitialization( void )
 {
-    /* Initialize UART for serial terminal. */
-//    uart_config();    //190325 modified for RZ/A2M. It is for RX.
 
     /* Start logging task. */
     xLoggingTaskInitialize( mainLOGGING_TASK_STACK_SIZE,
@@ -223,15 +212,6 @@ void vApplicationDaemonTaskStartupHook( void )
                          ucGatewayAddress,
                          ucDNSServerAddress,
                          ucMACAddress );
-
-#if 0    //190325 modified for RZ/A2M. It is for RX. -->
-        /* We should wait for the network to be up before we run any demos. */
-        while( FreeRTOS_IsNetworkUp() == pdFALSE )
-        {
-            vTaskDelay(3000);
-        }
-#endif  //190325 modified for RZ/A2M. It is for RX. <--
-
 
         /* Provision the device with AWS certificate and private key. */
         vDevModeKeyProvisioning();

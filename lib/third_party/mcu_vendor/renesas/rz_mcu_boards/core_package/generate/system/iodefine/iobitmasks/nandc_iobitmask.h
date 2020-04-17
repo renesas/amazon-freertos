@@ -18,10 +18,10 @@
 * you agree to the additional terms and conditions found by accessing the
 * following link:
 * http://www.renesas.com/disclaimer
-* Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
 *******************************************************************************/ 
 /*******************************************************************************
-* Rev: 2.00
+* Rev: 3.01
 * Description : IO bitmask header
 *******************************************************************************/
 
@@ -145,7 +145,7 @@
 #define NANDC_DATA_REG_DATA_REG_SHIFT                                          (0u)
 #define NANDC_DATA_REG_SIZE_DATA_REG_SIZE                                      (0x00000003u)
 #define NANDC_DATA_REG_SIZE_DATA_REG_SIZE_SHIFT                                (0u)
-#define NANDC_DEV0_PTR_PTR_ADDR                                                (0x00000FF0u)
+#define NANDC_DEV0_PTR_PTR_ADDR                                                (0x00000FFCu)
 #define NANDC_DEV0_PTR_PTR_ADDR_SHIFT                                          (2u)
 #define NANDC_DMA_ADDR_L_DMA_ADDR_L                                            (0xFFFFFFFFu)
 #define NANDC_DMA_ADDR_L_DMA_ADDR_L_SHIFT                                      (0u)

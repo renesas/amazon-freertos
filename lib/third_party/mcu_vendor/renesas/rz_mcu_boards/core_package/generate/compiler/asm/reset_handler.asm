@@ -50,6 +50,8 @@
 
     .weak    DTBL_F
     .weak    BTBL_F
+    .weak    DTBL_F2
+    .weak    BTBL_F2
     .weak    DTBL
     .weak    BTBL
 
@@ -61,6 +63,7 @@
     .extern  __libc_init_array
     .extern  main
     .extern  exit
+    .extern  r_memclk_setup
 
     .global  reset_handler
     .global  undefined_handler
@@ -78,6 +81,22 @@
 @               : function to execute.
 @******************************************************************************
 reset_handler:
+
+@===================================================================
+@ Clock Setting
+@ Set FRQCR.IFC : CPU Clock 1/8(132MHz) -> 1/2(528MHz)
+@===================================================================
+    @; Set standby_mode_en of REG15 Power Control Register
+    LDR  r0, =0x1F003F80            @;; Address(REG15 Power Control Register)
+    LDR  r1, =0x00000001            @;; Setting Value (REG15 Power Control Register)
+    STR  r1, [r0]                   @;; REG15_POWER_CTRL = 0x00000001
+    LDR  r1, [r0]                   @;; dummy read
+
+    @; FRQCR = 0x0012 PLL(x88), I:B:P1:P0 = 22:5.5:2.75:1.375
+    LDR  r0, =0xFCFE0010            @;; Address(FRQCR Register)
+    LDR  r1, =0x0012                @;; Setting Value(FRQCR Register)
+    STRH r1, [r0]                   @;; FRQCR = 0x0012
+    LDRH r0, [r0]                   @;; dummy read
 
 @===================================================================
 @ Set Vector Base Address Register (VBAR) to point to initializer routine
@@ -121,6 +140,20 @@ reset_handler:
     LDR  r12,=Enable_VFP            @;; Save this in register for possible long jump
     BLX  r12                        @;; Call to enable the vfp
 #endif
+
+@==================================================================
+@ Section initialize for r_memclk_setup
+@==================================================================
+    LDR  r0, =DTBL_F2                @;; ROM to RAM table for r_memclk_setup
+    LDR  r1, =BTBL_F2                @;; RAM zero fill table for r_memclk_setup
+    LDR  r12,=INITSCT                @;; Function for Initialize sections
+    BLX  r12                         @;; Call
+
+@==================================================================
+@ setting memory clock before R_SC_HardwareSetup function
+@==================================================================
+    LDR  r12,=r_memclk_setup       @;; Save this in register for possible long jump
+    BLX  r12                       @;; Hardware Initialize
 
 @==================================================================
 @ Section initialize for R_SC_HardwareSetup

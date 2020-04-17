@@ -26,7 +26,13 @@
 *******************************************************************************/
 
 MEMORY {
+    /* Debugging or without OTA update */
     ROM               (rx)  : ORIGIN = 0x20010000, LENGTH = 0x04000000
+    /* OTA update */
+/*
+    ROM               (rx)  : ORIGIN = 0x20200300, LENGTH = 0x04000000
+*/
+    CACHED_HYPER_RAM  (rwx) : ORIGIN = 0x40000000, LENGTH = 0x00800000
     MMU_PAGE_TABLE    (rw)  : ORIGIN = 0x80020000, LENGTH = 0x00004000
     HARDWARE_INIT_RAM (rwx) : ORIGIN = 0x80024000, LENGTH = 0x00004000
     STACK             (rw)  : ORIGIN = 0x80028000, LENGTH = 0x00010000
@@ -43,11 +49,32 @@ SECTIONS
     __vector_table_base = ADDR(LOAD_MODULE1);
 
 
+    .data.memclk_setup : ALIGN( 0x20 ) {
+        */r_spibsc_setup.o (.text .text.* .rodata .rodata.* .data .data.*)
+        */r_memclk_setup.o (.text .text.* .rodata .rodata.* .data .data.*)
+        */r_*_memclk_setup.o (.text .text.* .rodata .rodata.* .data .data.*)
+        . = ALIGN( 0x4 );
+    } > HARDWARE_INIT_RAM AT > ROM
+
+    __data_memclk_setup_load_start  = LOADADDR(.data.memclk_setup);
+    __data_memclk_setup_exec_start  = ADDR(.data.memclk_setup);
+    __data_memclk_setup_load_end    = LOADADDR(.data.memclk_setup) + SIZEOF(.data.memclk_setup);
+
+    .bss.memclk_setup (NOLOAD) : ALIGN( 0x20 ) {
+        */r_spibsc_setup.o (.bss .bss.* COMMON)
+        */r_memclk_setup.o (.bss .bss.* COMMON)
+        */r_*_memclk_setup.o (.bss .bss.* COMMON)
+        . = ALIGN( 0x4 );
+    } > HARDWARE_INIT_RAM
+
+    __bss_memclk_setup_start  = ADDR(.bss.memclk_setup);
+    __bss_memclk_setup_end    = ADDR(.bss.memclk_setup) + SIZEOF(.bss.memclk_setup);
+
     LOAD_MODULE2 : ALIGN( 0x200 ) {
         /* This section used by "hardware setup" and must to be assigned to the Internal RAM. */
         "*/r_cpg/*.o"       (.text .text.* .rodata .rodata.* .data .data.*)
-        "*/rza_io_regrw.o" (.text .text.* .rodata .rodata.*)
-        "*/rza_io_regrw.o" (.data .data.*)
+        "*/rza_io_regrw.o" (.text .text.* .rodata .rodata.* .data .data.*)
+        "*/hwsetup*.o"     (.text .text.* .rodata .rodata.* .data .data.*)
 
         . = ALIGN( 0x4 );
     } > HARDWARE_INIT_RAM AT > ROM
@@ -106,8 +133,11 @@ SECTIONS
 
         __data_exec_start = .;
         __data_load_start = LOADADDR(.data) + ( . - ADDR(.data) );
-
-
+        /*tmp*/
+        *(RAM_CODE)
+        *(RAM_CONST)
+        *(.text.r_mmu_tlbiall)
+        /*tmpend*/
         . = ALIGN( 0x4 );
         __data_load_end = LOADADDR(.data) + ( . - ADDR(.data) );
 
@@ -244,11 +274,12 @@ SECTIONS
     } > CACHED_RAM
 
     .freertos_heap (NOLOAD) : ALIGN( 0x10 ) {
+        * (HYPER_RAM)
         PROVIDE(__freertos_heap_start = .);
         *(.freertos_heap)
         PROVIDE(__freertos_heap_end = .);
         /* heap end */
 
-    } > CACHED_RAM
+    } > CACHED_HYPER_RAM
 }
 /*EOF*/

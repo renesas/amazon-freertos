@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+/***********************************************************************************************************************
+  Purpose: Module Description File (MDF) Example (Schema Version 2.1)
+           This is a description of a sample module configuration file
+***********************************************************************************************************************/
+-->
+<module xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="2.1" xs:noNamespaceSchemaLocation="schema_mdf_2.10.xsd">
+    <fileVersion>1.00</fileVersion>
+    <formatVersion>2.11</formatVersion>
+
+    <resourceInfo>
+      <peripheral name="ETERC_MII/RMII">
+        <pin name="ET0_COL"/>
+        <pin name="ET0_CRS">
+          <constraint display="Pin only valid for MII_MODE" actionOnFail="disable">("${ETHER_MODE}" == 0)</constraint>
+        </pin>
+        <pin name="ET0_EXOUT/ET0_SCLKIN"/>
+        <pin name="ET0_LINKSTA"/>
+        <pin name="ET0_MDC"/>
+        <pin name="ET0_MDIO"/>
+        <pin name="ET0_RXCLK">
+          <constraint display="Pin only valid for MII_MODE" actionOnFail="disable">("${ETHER_MODE}" == 0)</constraint>
+        </pin>
+        <pin name="ET0_RXD0">
+          <constraint display="Pin only valid for MII_MODE" actionOnFail="disable">("${ETHER_MODE}" == 0)</constraint>
+        </pin>
+        <pin name="ET0_RXD1">
+          <constraint display="Pin only valid for MII_MODE" actionOnFail="disable">("${ETHER_MODE}" == 0)</constraint>
+        </pin>
+        <pin name="ET0_RXD2"/>
+        <pin name="ET0_RXD3"/>
+        <pin name="ET0_RXDV"/>
+        <pin name="ET0_RXER">
+          <constraint display="Pin only valid for MII_MODE" actionOnFail="disable">("${ETHER_MODE}" == 0)</constraint>
+        </pin>
+        <pin name="ET0_TXCLK"/>
+        <pin name="ET0_TXD0">
+          <constraint display="Pin only valid for MII_MODE" actionOnFail="disable">("${ETHER_MODE}" == 0)</constraint>
+        </pin>
+        <pin name="ET0_TXD1">
+          <constraint display="Pin only valid for MII_MODE" actionOnFail="disable">("${ETHER_MODE}" == 0)</constraint>
+        </pin>
+        <pin name="ET0_TXD2"/>
+        <pin name="ET0_TXD3"/>
+        <pin name="ET0_TXEN">
+          <constraint display="Pin only valid for MII_MODE" actionOnFail="disable">("${ETHER_MODE}" == 0)</constraint>
+        </pin>
+        <pin name="ET0_TXER"/>
+        <pin name="ET0_WOL"/>
+        <pin name="REF50CK0">
+          <constraint display="Pin only valid for RMII_MODE" actionOnFail="disable">("${ETHER_MODE}" != 0)</constraint>
+        </pin>
+        <pin name="RMII0_CRS_DV">
+          <constraint display="Pin only valid for RMII_MODE" actionOnFail="disable">("${ETHER_MODE}" != 0)</constraint>
+        </pin>
+        <pin name="RMII0_RXD0">
+          <constraint display="Pin only valid for RMII_MODE" actionOnFail="disable">("${ETHER_MODE}" != 0)</constraint>
+        </pin>
+        <pin name="RMII0_RXD1">
+          <constraint display="Pin only valid for RMII_MODE" actionOnFail="disable">("${ETHER_MODE}" != 0)</constraint>
+        </pin>
+        <pin name="RMII0_RXER">
+          <constraint display="Pin only valid for RMII_MODE" actionOnFail="disable">("${ETHER_MODE}" != 0)</constraint>
+        </pin>
+        <pin name="RMII0_TXD0">
+          <constraint display="Pin only valid for RMII_MODE" actionOnFail="disable">("${ETHER_MODE}" != 0)</constraint>
+        </pin>
+        <pin name="RMII0_TXD1">
+          <constraint display="Pin only valid for RMII_MODE" actionOnFail="disable">("${ETHER_MODE}" != 0)</constraint>
+        </pin>
+        <pin name="RMII0_TXD_EN">
+          <constraint display="Pin only valid for RMII_MODE" actionOnFail="disable">("${ETHER_MODE}" != 0)</constraint>
+        </pin>
+        <pin name="ET1_COL"/>
+        <pin name="ET1_CRS">
+          <constraint display="Pin only valid for MII_MODE" actionOnFail="disable">("${ETHER_MODE}" == 0)</constraint>
+        </pin>
+        <pin name="ET1_EXOUT/ET1_SCLKIN"/>
+        <pin name="ET1_LINKSTA"/>
+        <pin name="ET1_MDC"/>
+        <pin name="ET1_MDIO"/>
+        <pin name="ET1_RXCLK">
+          <constraint display="Pin only valid for MII_MODE" actionOnFail="disable">("${ETHER_MODE}" == 0)</constraint>
+        </pin>
+        <pin name="ET1_RXD0">
+          <constraint display="Pin only valid for MII_MODE" actionOnFail="disable">("${ETHER_MODE}" == 0)</constraint>
+        </pin>
+        <pin name="ET1_RXD1">
+          <constraint display="Pin only valid for MII_MODE" actionOnFail="disable">("${ETHER_MODE}" == 0)</constraint>
+        </pin>
+        <pin name="ET1_RXD2"/>
+        <pin name="ET1_RXD3"/>
+        <pin name="ET1_RXDV"/>
+        <pin name="ET1_RXER">
+          <constraint display="Pin only valid for MII_MODE" actionOnFail="disable">("${ETHER_MODE}" == 0)</constraint>
+        </pin>
+        <pin name="ET1_TXCLK"/>
+        <pin name="ET1_TXD0">
+          <constraint display="Pin only valid for MII_MODE" actionOnFail="disable">("${ETHER_MODE}" == 0)</constraint>
+        </pin>
+        <pin name="ET1_TXD1">
+          <constraint display="Pin only valid for MII_MODE" actionOnFail="disable">("${ETHER_MODE}" == 0)</constraint>
+        </pin>
+        <pin name="ET1_TXD2"/>
+        <pin name="ET1_TXD3"/>
+        <pin name="ET1_TXEN">
+          <constraint display="Pin only valid for MII_MODE" actionOnFail="disable">("${ETHER_MODE}" == 0)</constraint>
+        </pin>
+        <pin name="ET1_TXER"/>
+        <pin name="ET1_WOL"/>
+        <pin name="REF50CK1">
+          <constraint display="Pin only valid for RMII_MODE" actionOnFail="disable">("${ETHER_MODE}" != 0)</constraint>
+        </pin>
+        <pin name="RMII1_CRS_DV">
+          <constraint display="Pin only valid for RMII_MODE" actionOnFail="disable">("${ETHER_MODE}" != 0)</constraint>
+        </pin>
+        <pin name="RMII1_RXD0">
+          <constraint display="Pin only valid for RMII_MODE" actionOnFail="disable">("${ETHER_MODE}" != 0)</constraint>
+        </pin>
+        <pin name="RMII1_RXD1">
+          <constraint display="Pin only valid for RMII_MODE" actionOnFail="disable">("${ETHER_MODE}" != 0)</constraint>
+        </pin>
+        <pin name="RMII1_RXER">
+          <constraint display="Pin only valid for RMII_MODE" actionOnFail="disable">("${ETHER_MODE}" != 0)</constraint>
+        </pin>
+        <pin name="RMII1_TXD0">
+          <constraint display="Pin only valid for RMII_MODE" actionOnFail="disable">("${ETHER_MODE}" != 0)</constraint>
+        </pin>
+        <pin name="RMII1_TXD1">
+          <constraint display="Pin only valid for RMII_MODE" actionOnFail="disable">("${ETHER_MODE}" != 0)</constraint>
+        </pin>
+        <pin name="RMII1_TXD_EN">
+          <constraint display="Pin only valid for RMII_MODE" actionOnFail="disable">("${ETHER_MODE}" != 0)</constraint>
+        </pin>
+      </peripheral>
+    </resourceInfo>
+    <configuration>
+      <property id="ETHER0_ENABLE" display="Ethernet channel 0" default="1" type="combobox">
+        <option id="ETHER0_ENABLE.0" display="Disabled" value="0"/>
+        <option id="ETHER0_ENABLE.1" display="Enabled" value="1"/>
+        <description>Enable or disable Ethernet channel 0 </description>
+      </property>
+      <property id="ETHER1_ENABLE" display="Ethernet channel 1" default="1" type="combobox">
+        <option id="ETHER1_ENABLE.0" display="Disabled" value="0"/>
+        <option id="ETHER1_ENABLE.1" display="Enabled" value="1"/>
+        <description>Enable or disable Ethernet channel 1</description>
+      </property>
+      <property id="ETHER_MODE" display="Ethernet interface select." default="1" type="combobox">
+        <option id="ETHER_MODE.0" display="MII  (Media Independent Interface)" value="0"/>
+        <option id="ETHER_MODE.1" display="RMII (Reduced Media Independent Interface)" value="1"/>
+        <constraint display="All Ethernet chanels are disabled." actionOnFail="disable">("${ETHER0_ENABLE}" != 0) || ("${ETHER1_ENABLE}" != 0)</constraint>
+        <description>Select interface.</description>
+      </property>
+      <property id="ETHER0_PHY_ADDRESS" display="PHY-LSI address setting for ETHER0." default="7" type="textbox">
+        <constraint display="Ethernet chanel 0 is disabled." actionOnFail="disable">("${ETHER0_ENABLE}" != 0) </constraint>
+        <constraint display="Values from 0 to 31 are supported." actionOnFail="error">(("${ETHER0_PHY_ADDRESS}"&gt;=0) &amp;&amp; ("${ETHER0_PHY_ADDRESS}"&lt;=31) )</constraint>
+        <description>PHY-LSI address setting for ETHER0.
+Specify a value between 0 and 31.
+The value for RZ/A2 Evaluation Board Kit is 7.</description>
+      </property>
+      <property id="ETHER1_PHY_ADDRESS" display="PHY-LSI address setting for ETHER1." default="7" type="textbox">
+        <constraint display="Ethernet chanel 1 is disabled." actionOnFail="disable">("${ETHER1_ENABLE}" != 0)</constraint>
+        <constraint display="Values from 0 to 31 are supported." actionOnFail="error">(("${ETHER1_PHY_ADDRESS}"&gt;=0) &amp;&amp; ("${ETHER1_PHY_ADDRESS}"&lt;=31) )</constraint>
+        <description>PHY-LSI address setting for ETHER1.
+Specify a value between 0 and 31.
+The value for RZ/A2 Evaluation Board Kit is 7.</description>
+      </property>
+      <property id="ETHER_PHY_MII_WAIT" display="Loop count for write PIR register." default="8" type="textbox">
+        <constraint display="All Ethernet chanels are disabled." actionOnFail="disable">(("${ETHER0_ENABLE}" != 0) || ("${ETHER1_ENABLE}" != 0))</constraint>
+        <constraint display="Minimum value is 1." actionOnFail="error">("${ETHER_PHY_MII_WAIT}"&gt;=1)</constraint>
+        <description>Specify the loop count of software loop used for read or write in PHY-LSI. Set the number of loops according to the PHY-LSI to be used.
+Specify a value of 1 or greater.</description>
+      </property>
+      <property id="ETHER_PHY_DELAY_RESET" display="Define the waiting time for reset completion of PHY-LSI" default="0x00020000" type="textbox">
+        <constraint display="All Ethernet chanels are disabled." actionOnFail="disable">(("${ETHER0_ENABLE}" != 0) || ("${ETHER1_ENABLE}" != 0))</constraint>
+        <constraint display="Minimum value is 0." actionOnFail="error">("${ETHER_PHY_DELAY_RESET}"&gt;=0)</constraint>
+        <description>Specify the loop count used for timeout processing of PHY-LSI reset completion wait. Set the number of loops according to the PHY-LSI to be used.</description>
+      </property>
+      <property id="ETHER_LINK_PRESENT" display="Link status read from LMON bit of ETHERC PSR register." default="0" type="combobox">
+        <option id="ETHER_LINK_PRESENT.0" display="(Link up/Link down)=(Falling/Rising)" value="0"/>
+        <option id="ETHER_LINK_PRESENT.1" display="(Link up/Link down)=(Rising/Falling)" value="1"/>
+        <constraint display="All Ethernet chanels are disabled." actionOnFail="disable">(("${ETHER0_ENABLE}" != 0) || ("${ETHER1_ENABLE}" != 0))</constraint>
+        <description>Specify the polarity of the link signal output by the PHY-LSI.
+When 0 is specified, link-up and link-down correspond respectively to the fall and rise of the LINKSTA signal.
+When 1 is specified, link-up and link-down correspond respectively to the rise and fall of the LINKSTA signal.</description>
+      </property>
+      <property id="ETHER_USE_LINKSTA" display="LINKSTA signal for detect link status changes" default="0" type="combobox">
+        <option id="ETHER_USE_LINKSTA.0" display="the PHY-LSI status register is used." value="0"/>
+        <option id="ETHER_USE_LINKSTA.1" display="the LINKSTA signal is used." value="1"/>
+        <constraint display="All Ethernet chanels are disabled." actionOnFail="disable">(("${ETHER0_ENABLE}" != 0) || ("${ETHER1_ENABLE}" != 0))</constraint>
+        <description>Specify whether or not to use the PHY-LSI status register instead of the LINKSTA signal when a change in the link status is detected.
+When 0 is specified, the PHY-LSI status register is used.
+When 1 is specified, the LINKSTA signal is used.</description>
+      </property>
+      <property id="ETHER_MMU_UNCAHCED_DIFF" display="Difference between physical address and virtual address of un-cached RAM." default="0x02000000" type="textbox">
+        <constraint display="All Ethernet chanels are disabled." actionOnFail="disable">(("${ETHER0_ENABLE}" != 0) || ("${ETHER1_ENABLE}" != 0))</constraint>
+        <description>Specify the difference between physical address and virtual address of the uncached RAM.
+If MMU is not used, specify 0.
+If physical address is same to virtual address, specify 0.
+If the start address of physical address of un-cached RAM is 0x80000000 and the start address of virtual address if un-cached RAM is 0x82000000, specify 0x02000000.</description>
+      </property>
+    </configuration>
+</module>
