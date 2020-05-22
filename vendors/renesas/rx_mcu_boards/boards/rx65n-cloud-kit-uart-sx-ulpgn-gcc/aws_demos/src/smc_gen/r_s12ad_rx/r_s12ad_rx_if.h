@@ -40,10 +40,14 @@
 *                              Modified include pass of RX65N.
 *           06.28.2019 4.10    Added RX23W support.
 *           07.31.2019 4.20    Added RX72M support.
+*           08.30.2019 4.30    Added RX13T support.
+*           22.11.2019 4.40    Added RX66N and RX72N support.
+*           31.01.2020 4.41    Added support for RX13T with IAR Compiler.
+*           28.02.2020 4.50    Added RX23E-A support.
 ***********************************************************************************************************************/
 
-#ifndef S12AD_IF_H
-#define S12AD_IF_H
+#ifndef S12AD_PRV_IF_H
+#define S12AD_PRV_IF_H
 
 /******************************************************************************
 Includes   <System Includes> , "Project Includes"
@@ -60,16 +64,22 @@ Includes   <System Includes> , "Project Includes"
 #include "./src/targets/rx113/r_s12ad_rx113_if.h"
 #elif defined(BSP_MCU_RX130)
 #include "./src/targets/rx130/r_s12ad_rx130_if.h"
+#elif defined(BSP_MCU_RX13T)
+#include "./src/targets/rx13T/r_s12ad_rx13t_if.h"
 #elif defined(BSP_MCU_RX230)
 #include "./src/targets/rx230/r_s12ad_rx230_if.h"
 #elif defined(BSP_MCU_RX231)
 #include "./src/targets/rx231/r_s12ad_rx231_if.h"
+#elif defined(BSP_MCU_RX23E_A)
+#include "./src/targets/rx23e-a/r_s12ad_rx23e-a_if.h"
 #elif defined(BSP_MCU_RX23W)
 #include "./src/targets/rx23w/r_s12ad_rx23w_if.h"
 #elif defined(BSP_MCU_RX64M)
 #include "./src/targets/rx64m/r_s12ad_rx64m_if.h"
 #elif defined(BSP_MCU_RX65_ALL)
 #include "./src/targets/rx65n/r_s12ad_rx65n_if.h"
+#elif defined(BSP_MCU_RX66N)
+#include "./src/targets/rx66n/r_s12ad_rx66n_if.h"
 #elif defined(BSP_MCU_RX66T)
 #include "./src/targets/rx66t/r_s12ad_rx66t_if.h"
 #elif defined(BSP_MCU_RX71M)
@@ -78,6 +88,8 @@ Includes   <System Includes> , "Project Includes"
 #include "./src/targets/rx72t/r_s12ad_rx72t_if.h"
 #elif defined(BSP_MCU_RX72M)
 #include "./src/targets/rx72m/r_s12ad_rx72m_if.h"
+#elif defined(BSP_MCU_RX72N)
+#include "./src/targets/rx72n/r_s12ad_rx72n_if.h"
 #endif
 
 /******************************************************************************
@@ -85,7 +97,7 @@ Macro definitions
 *******************************************************************************/
 /* Version Number of API. */
 #define ADC_VERSION_MAJOR       (4)
-#define ADC_VERSION_MINOR       (20)
+#define ADC_VERSION_MINOR       (50)
 
 /*****************************************************************************
 Typedef definitions
@@ -102,6 +114,7 @@ typedef enum e_adc_err      // ADC API error codes
     ADC_ERR_SCAN_NOT_DONE,      // default, Group A, or Group B scan not done
     ADC_ERR_TRIG_ENABLED,       // scan running, cannot configure comparator
     ADC_ERR_CONDITION_NOT_MET,  // no chans/sensors passed comparator condition
+    ADC_ERR_CONFIGURABLE_INT,   // vector number of software configurable interrupt B is out of range
     ADC_ERR_UNKNOWN             // unknown hardware error
 } adc_err_t;
 
@@ -113,15 +126,17 @@ typedef enum e_adc_cb_evt           // callback function events
     ADC_EVT_SCAN_COMPLETE,          // normal/Group A scan complete
     ADC_EVT_SCAN_COMPLETE_GROUPB,   // Group B scan complete
 #if (defined(BSP_MCU_RX65_ALL) || defined(BSP_MCU_RX66T) || defined(BSP_MCU_RX72T) \
-  || defined(BSP_MCU_RX72M))
+    || defined(BSP_MCU_RX72M) || defined(BSP_MCU_RX13T) || defined(BSP_MCU_RX66N) \
+    || defined(BSP_MCU_RX72N))
     ADC_EVT_SCAN_COMPLETE_GROUPC,   // Group C scan complete
 #endif    
 #if (defined(BSP_MCU_RX64M) || defined(BSP_MCU_RX65_ALL) || defined(BSP_MCU_RX66T) \
-  || defined(BSP_MCU_RX71M) || defined(BSP_MCU_RX72T) || defined(BSP_MCU_RX72M))
+    || defined(BSP_MCU_RX71M) || defined(BSP_MCU_RX72T) || defined(BSP_MCU_RX72M) \
+    || defined(BSP_MCU_RX66N) || defined(BSP_MCU_RX72N))
     ADC_EVT_CONDITION_MET,          // chans/sensors met comparator condition
 #endif
 #if (defined(BSP_MCU_RX65_ALL) || defined(BSP_MCU_RX66T) || defined(BSP_MCU_RX72T) \
-  || defined(BSP_MCU_RX72M))
+    || defined(BSP_MCU_RX72M) || defined(BSP_MCU_RX66N) || defined(BSP_MCU_RX72N))
     ADC_EVT_CONDITION_METB          // chans/sensors met comparator condition
 #endif
 } adc_cb_evt_t;
@@ -130,10 +145,11 @@ typedef struct st_adc_cb_args       // callback arguments
 {
     adc_cb_evt_t   event;
 #if (defined(BSP_MCU_RX64M) || defined(BSP_MCU_RX65_ALL) || defined(BSP_MCU_RX66T) \
-  || defined(BSP_MCU_RX71M) || defined(BSP_MCU_RX72T) || defined(BSP_MCU_RX72M))
+    || defined(BSP_MCU_RX71M) || defined(BSP_MCU_RX72T) || defined(BSP_MCU_RX72M) \
+    || defined(BSP_MCU_RX66N) || defined(BSP_MCU_RX72N))
     uint32_t       compare_flags;   // valid only for compare event in Window A
 #if (defined(BSP_MCU_RX65_ALL) || defined(BSP_MCU_RX66T) || defined(BSP_MCU_RX72T) \
-  || defined(BSP_MCU_RX72M))
+    || defined(BSP_MCU_RX72M)  || defined(BSP_MCU_RX66N) || defined(BSP_MCU_RX72N))
     uint32_t       compare_flagsb;  // valid only for compare event in Window B
 #endif
     uint8_t        unit;
@@ -144,24 +160,135 @@ typedef struct st_adc_cb_args       // callback arguments
 /*****************************************************************************
 Public Functions
 ******************************************************************************/
+/******************************************************************************
+* Function Name: R_ADC_Open
+* Description  : This function applies power to the A/D peripheral, sets the
+*                operational mode, trigger sources, interrupt priority, and
+*                configurations common to all channels and sensors. If interrupt
+*                priority is non-zero, the function takes a callback function
+*                pointer for notifying the user at interrupt level whenever a
+*                scan has completed.
+*
+* Arguments    : unit -
+*                    Unit number
+*                mode-
+*                    Operational mode (see enumeration below)
+*                p_cfg-
+*                    Pointer to configuration structure (see below)
+*                p_callback-
+*                    Optional pointer to function called from interrupt when
+*                    a scan completes
+* Return Value : ADC_SUCCESS-
+*                    Successful
+*                ADC_ERR_AD_LOCKED-
+*                    Open() call is in progress elsewhere
+*                ADC_ERR_AD_NOT_CLOSED-
+*                    Peripheral is still running in another mode; Perform
+*                    R_ADC_Close() first
+*                ADC_ERR_INVALID_ARG-
+*                    mode or element of p_cfg structure has invalid value.
+*                ADC_ERR_ILLEGAL_ARG-
+*                    an argument is illegal based upon mode
+*                ADC_ERR_MISSING_PTR-
+*                    p_cfg pointer is FIT_NO_PTR/NULL
+*******************************************************************************/
 adc_err_t R_ADC_Open(uint8_t const      unit,
-                     adc_mode_t const   mode,
-                     adc_cfg_t * const  p_cfg,
-                     void               (* const p_callback)(void *p_args));
+                    adc_mode_t const   mode,
+                    adc_cfg_t * const  p_cfg,
+                    void               (* const p_callback)(void *p_args));
 
+/******************************************************************************
+* Function Name: R_ADC_Control
+* Description  : This function provides commands for enabling channels and
+*                sensors and for runtime operations. These include enabling/
+*                disabling trigger sources and interrupts, initiating a
+*                software trigger, and checking for scan completion.
+*
+* NOTE: Enabling a channel or a sensor, or setting the sample state count reg
+*       cannot be done while the ADCSR.ADST bit is set (conversion in progress).
+*       Because these commands should only be called once during initialization
+*       before triggers are enabled, this should not be an issue. Registers
+*       with this restriction include ADANSA, ADANSB, ADADS, ADADC, ADSSTR,
+*       ADEXICR, and some bits in ADCSR and TSCR.
+*       No runtime operational sequence checking of any kind is performed.
+*
+* Arguments    : unit -
+*                    Unit number
+*                cmd-
+*                    Command to run
+*                p_args-
+*                    Pointer to optional configuration structure
+* Return Value : ADC_SUCCESS-
+*                    Successful
+*                ADC_ERR_MISSING_PTR-
+*                    p_args pointer is FIT_NO_PTR/NULL when required as an argument
+*                ADC_ERR_INVALID_ARG-
+*                    cmd or element of p_args structure has invalid value.
+*                ADC_ERR_ILLEGAL_CMD-
+*                    cmd is illegal based upon mode
+*                ADC_ERR_SCAN_NOT_DONE-
+*                    The requested scan has not completed
+*                ADC_ERR_UNKNOWN
+*                    Did not receive expected hardware response
+*******************************************************************************/
 adc_err_t R_ADC_Control(uint8_t const   unit,
                         adc_cmd_t const cmd,
                         void * const    p_args);
 
+/******************************************************************************
+* Function Name: R_ADC_Read
+* Description  : This function reads conversion results from a single channel,
+*                sensor, or the double trigger register.
+* Arguments    : unit -
+*                    Unit number
+*                reg_id-
+*                    Id for the register to read (see enum below)
+*                p_data-
+*                    Pointer to variable to load value into.
+* Return Value : ADC_SUCCESS-
+*                    Successful
+*                ADC_ERR_INVALID_ARG-
+*                    reg_id contains an invalid value.
+*                ADC_ERR_MISSING _PTR-
+*                    p_data is FIT_NO_PTR/NULL
+*******************************************************************************/
 adc_err_t R_ADC_Read(uint8_t const      unit,
-                     adc_reg_t const    reg_id,
-                     uint16_t * const   p_data);
+                    adc_reg_t const    reg_id,
+                    uint16_t * const   p_data);
 
+
+/******************************************************************************
+* Function Name: R_ADC_ReadAll
+* Description  : This function reads conversion results from all potential
+*                sources, enabled or not.
+* Arguments    : p_all_data-
+*                    Pointer to structure to load register values into.
+* Return Value : ADC_SUCCESS-
+*                    Successful
+*                ADC_ERR_MISSING _PTR-
+*                    p_data is FIT_NO_PTR/NULL
+*******************************************************************************/
 adc_err_t R_ADC_ReadAll(adc_data_t * const  p_all_data);
 
+/******************************************************************************
+* Function Name: R_ADC_Close
+* Description  : This function ends any scan in progress, disables interrupts,
+*                and removes power to the A/D peripheral.
+* Arguments    : unit - Unit number
+* Return Value : ADC_SUCCESS - Successful
+*                ADC_ERR_INVALID_ARG - unit contains an invalid value.
+*******************************************************************************/
 adc_err_t R_ADC_Close(uint8_t const unit);
 
+/*****************************************************************************
+* Function Name: R_ADC_GetVersion
+* Description  : Returns the version of this module. The version number is
+*                encoded such that the top two bytes are the major version
+*                number and the bottom two bytes are the minor version number.
+* Arguments    : none
+* Return Value : version number
+******************************************************************************/
 uint32_t  R_ADC_GetVersion(void);
 
                                     
-#endif /* S12AD_IF_H */
+#endif /* S12AD_PRV_IF_H */
