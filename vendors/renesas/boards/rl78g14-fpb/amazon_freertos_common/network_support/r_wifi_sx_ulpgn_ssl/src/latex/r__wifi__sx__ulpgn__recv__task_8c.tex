@@ -1,0 +1,238 @@
+\hypertarget{r__wifi__sx__ulpgn__recv__task_8c}{}\doxysection{r\+\_\+wifi\+\_\+sx\+\_\+ulpgn\+\_\+recv\+\_\+task.\+c File Reference}
+\label{r__wifi__sx__ulpgn__recv__task_8c}\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}Free\+R\+T\+O\+S.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}platform.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}r\+\_\+sci\+\_\+rx\+\_\+if.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}r\+\_\+byteq\+\_\+if.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}r\+\_\+wifi\+\_\+sx\+\_\+ulpgn\+\_\+if.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}r\+\_\+wifi\+\_\+sx\+\_\+ulpgn\+\_\+private.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{r__wifi__sx__ulpgn__recv__task_8c_a7e25425a9ebe6cc5757f4792c7cbdade}{wifi\+\_\+analyze\+\_\+get\+\_\+socket\+\_\+status\+\_\+string}} (uint8\+\_\+t $\ast$pstring)
+\item 
+int32\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__recv__task_8c_a36adb3011ad8946dc669017de568a20f}{wifi\+\_\+start\+\_\+recv\+\_\+task}} (void)
+\item 
+void \mbox{\hyperlink{r__wifi__sx__ulpgn__recv__task_8c_ae610239f8765fc3df65cc8c18941d7f6}{wifi\+\_\+delete\+\_\+recv\+\_\+task}} (void)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+void($\ast$const \mbox{\hyperlink{r__wifi__sx__ulpgn__recv__task_8c_a8049571e2a2afd419e52076b13e54eb5}{p\+\_\+wifi\+\_\+callback}} )(void $\ast$p\+\_\+args) = N\+U\+LL
+\item 
+uint32\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__recv__task_8c_a4cc412bc73b21e6b9492a4e4a9bca304}{g\+\_\+wifi\+\_\+response\+\_\+recv\+\_\+count}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__recv__task_8c_a58b87dcea897f0a243dfc550b43e9bd3}{tmp\+\_\+recvcnt}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__recv__task_8c_aed7f12ca8d99c69a2c60c859e0108c9e}{g\+\_\+wifi\+\_\+response\+\_\+recv\+\_\+status}}
+\item 
+char \mbox{\hyperlink{r__wifi__sx__ulpgn__recv__task_8c_ac9dbadccbee392cddd3527a15f92fcf7}{g\+\_\+wifi\+\_\+response\+\_\+last\+\_\+string}} \mbox{[}15\mbox{]}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__recv__task_8c_a83a8358672a56583244e54f9ff99d930}{g\+\_\+wifi\+\_\+response\+\_\+last\+\_\+string\+\_\+recv\+\_\+count}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__recv__task_8c_a123d345dab9200eb384d61982f348b98}{g\+\_\+wifi\+\_\+macaddress}} \mbox{[}6\mbox{]}
+\item 
+wifi\+\_\+ip\+\_\+configuration\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__recv__task_8c_ab542f019d93c10c1c6786251b072efa9}{g\+\_\+wifi\+\_\+ipconfig}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__recv__task_8c_a373959c78dd2fa839a99a151770163a8}{g\+\_\+wifi\+\_\+dnsaddress}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__recv__task_8c_ac183e1db2a645501f8c68d68ae6ac8de}{g\+\_\+wifi\+\_\+dnsquery\+\_\+subcount}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__recv__task_8c_a384fde4594591b6bcf2d48cd126f0c13}{g\+\_\+wifi\+\_\+atustat\+\_\+recv}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__recv__task_8c_a6b1452846c29a3e6048127fdd89c2db6}{g\+\_\+wifi\+\_\+atustat\+\_\+sent}}
+\item 
+wifi\+\_\+scan\+\_\+result\+\_\+t $\ast$ \mbox{\hyperlink{r__wifi__sx__ulpgn__recv__task_8c_a2e6cfd1d9ca518ba44d13ba05bcc7a6d}{gp\+\_\+wifi\+\_\+ap\+\_\+results}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__recv__task_8c_ad4cd614ab2f913912a1a4d256d668180}{g\+\_\+wifi\+\_\+aplistmax}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__recv__task_8c_a2ddffd01d027a25e46f433275f6930ea}{g\+\_\+wifi\+\_\+aplist\+\_\+stored\+\_\+num}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__recv__task_8c_a22ed798d921dffe982acad92f4f2cef8}{g\+\_\+wifi\+\_\+aplist\+\_\+count}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__recv__task_8c_a3827d62227b51f74114baa64b8bdeb53}{g\+\_\+wifi\+\_\+aplist\+\_\+subcount}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__recv__task_8c_ad74e20c257a9dfd539a0147e241b7838}{g\+\_\+wifi\+\_\+current\+\_\+ssid}} \mbox{[}33\mbox{]}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__recv__task_8c_aaf13ee4461f2056a002bba056574d48d}{g\+\_\+wifi\+\_\+socket\+\_\+status}}
+\item 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_aeb9cdd7bb8976379bf064cce230aebce}{wifi\+\_\+socket\+\_\+t}} \mbox{\hyperlink{r__wifi__sx__ulpgn__recv__task_8c_a603e1c616616c169e63e4e881f3c6802}{g\+\_\+wifi\+\_\+socket}} \mbox{[}W\+I\+F\+I\+\_\+\+C\+F\+G\+\_\+\+C\+R\+E\+A\+T\+A\+B\+L\+E\+\_\+\+S\+O\+C\+K\+E\+TS\mbox{]}
+\item 
+\mbox{\hyperlink{structwifi__at__execute__queue__t}{wifi\+\_\+at\+\_\+execute\+\_\+queue\+\_\+t}} \mbox{\hyperlink{r__wifi__sx__ulpgn__recv__task_8c_a49692d9fafebaadd7fc1e1d84977ffd1}{g\+\_\+wifi\+\_\+at\+\_\+execute\+\_\+queue}} \mbox{[}10\mbox{]}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__recv__task_8c_a1a2f69620e717e113898b61e17c76b5a}{g\+\_\+wifi\+\_\+set\+\_\+queue\+\_\+index}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__recv__task_8c_adf4544084346b4798c28a341123c8bc2}{g\+\_\+wifi\+\_\+get\+\_\+queue\+\_\+index}}
+\item 
+Task\+Handle\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__recv__task_8c_a9de9a832353107911931f1ee28db7a84}{g\+\_\+wifi\+\_\+recv\+\_\+task\+\_\+handle}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__recv__task_8c_a7e25425a9ebe6cc5757f4792c7cbdade}\label{r__wifi__sx__ulpgn__recv__task_8c_a7e25425a9ebe6cc5757f4792c7cbdade}} 
+\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}!wifi\_analyze\_get\_socket\_status\_string@{wifi\_analyze\_get\_socket\_status\_string}}
+\index{wifi\_analyze\_get\_socket\_status\_string@{wifi\_analyze\_get\_socket\_status\_string}!r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+\doxysubsubsection{\texorpdfstring{wifi\_analyze\_get\_socket\_status\_string()}{wifi\_analyze\_get\_socket\_status\_string()}}
+{\footnotesize\ttfamily void wifi\+\_\+analyze\+\_\+get\+\_\+socket\+\_\+status\+\_\+string (\begin{DoxyParamCaption}\item[{uint8\+\_\+t $\ast$}]{pstring }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__recv__task_8c_ae610239f8765fc3df65cc8c18941d7f6}\label{r__wifi__sx__ulpgn__recv__task_8c_ae610239f8765fc3df65cc8c18941d7f6}} 
+\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}!wifi\_delete\_recv\_task@{wifi\_delete\_recv\_task}}
+\index{wifi\_delete\_recv\_task@{wifi\_delete\_recv\_task}!r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+\doxysubsubsection{\texorpdfstring{wifi\_delete\_recv\_task()}{wifi\_delete\_recv\_task()}}
+{\footnotesize\ttfamily void wifi\+\_\+delete\+\_\+recv\+\_\+task (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__recv__task_8c_a36adb3011ad8946dc669017de568a20f}\label{r__wifi__sx__ulpgn__recv__task_8c_a36adb3011ad8946dc669017de568a20f}} 
+\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}!wifi\_start\_recv\_task@{wifi\_start\_recv\_task}}
+\index{wifi\_start\_recv\_task@{wifi\_start\_recv\_task}!r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+\doxysubsubsection{\texorpdfstring{wifi\_start\_recv\_task()}{wifi\_start\_recv\_task()}}
+{\footnotesize\ttfamily int32\+\_\+t wifi\+\_\+start\+\_\+recv\+\_\+task (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__recv__task_8c_a22ed798d921dffe982acad92f4f2cef8}\label{r__wifi__sx__ulpgn__recv__task_8c_a22ed798d921dffe982acad92f4f2cef8}} 
+\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}!g\_wifi\_aplist\_count@{g\_wifi\_aplist\_count}}
+\index{g\_wifi\_aplist\_count@{g\_wifi\_aplist\_count}!r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_aplist\_count}{g\_wifi\_aplist\_count}}
+{\footnotesize\ttfamily uint32\+\_\+t g\+\_\+wifi\+\_\+aplist\+\_\+count}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__recv__task_8c_a2ddffd01d027a25e46f433275f6930ea}\label{r__wifi__sx__ulpgn__recv__task_8c_a2ddffd01d027a25e46f433275f6930ea}} 
+\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}!g\_wifi\_aplist\_stored\_num@{g\_wifi\_aplist\_stored\_num}}
+\index{g\_wifi\_aplist\_stored\_num@{g\_wifi\_aplist\_stored\_num}!r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_aplist\_stored\_num}{g\_wifi\_aplist\_stored\_num}}
+{\footnotesize\ttfamily uint32\+\_\+t g\+\_\+wifi\+\_\+aplist\+\_\+stored\+\_\+num}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__recv__task_8c_a3827d62227b51f74114baa64b8bdeb53}\label{r__wifi__sx__ulpgn__recv__task_8c_a3827d62227b51f74114baa64b8bdeb53}} 
+\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}!g\_wifi\_aplist\_subcount@{g\_wifi\_aplist\_subcount}}
+\index{g\_wifi\_aplist\_subcount@{g\_wifi\_aplist\_subcount}!r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_aplist\_subcount}{g\_wifi\_aplist\_subcount}}
+{\footnotesize\ttfamily uint32\+\_\+t g\+\_\+wifi\+\_\+aplist\+\_\+subcount}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__recv__task_8c_ad4cd614ab2f913912a1a4d256d668180}\label{r__wifi__sx__ulpgn__recv__task_8c_ad4cd614ab2f913912a1a4d256d668180}} 
+\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}!g\_wifi\_aplistmax@{g\_wifi\_aplistmax}}
+\index{g\_wifi\_aplistmax@{g\_wifi\_aplistmax}!r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_aplistmax}{g\_wifi\_aplistmax}}
+{\footnotesize\ttfamily uint32\+\_\+t g\+\_\+wifi\+\_\+aplistmax}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__recv__task_8c_a49692d9fafebaadd7fc1e1d84977ffd1}\label{r__wifi__sx__ulpgn__recv__task_8c_a49692d9fafebaadd7fc1e1d84977ffd1}} 
+\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}!g\_wifi\_at\_execute\_queue@{g\_wifi\_at\_execute\_queue}}
+\index{g\_wifi\_at\_execute\_queue@{g\_wifi\_at\_execute\_queue}!r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_at\_execute\_queue}{g\_wifi\_at\_execute\_queue}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structwifi__at__execute__queue__t}{wifi\+\_\+at\+\_\+execute\+\_\+queue\+\_\+t}} g\+\_\+wifi\+\_\+at\+\_\+execute\+\_\+queue\mbox{[}10\mbox{]}}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__recv__task_8c_a384fde4594591b6bcf2d48cd126f0c13}\label{r__wifi__sx__ulpgn__recv__task_8c_a384fde4594591b6bcf2d48cd126f0c13}} 
+\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}!g\_wifi\_atustat\_recv@{g\_wifi\_atustat\_recv}}
+\index{g\_wifi\_atustat\_recv@{g\_wifi\_atustat\_recv}!r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_atustat\_recv}{g\_wifi\_atustat\_recv}}
+{\footnotesize\ttfamily uint32\+\_\+t g\+\_\+wifi\+\_\+atustat\+\_\+recv}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__recv__task_8c_a6b1452846c29a3e6048127fdd89c2db6}\label{r__wifi__sx__ulpgn__recv__task_8c_a6b1452846c29a3e6048127fdd89c2db6}} 
+\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}!g\_wifi\_atustat\_sent@{g\_wifi\_atustat\_sent}}
+\index{g\_wifi\_atustat\_sent@{g\_wifi\_atustat\_sent}!r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_atustat\_sent}{g\_wifi\_atustat\_sent}}
+{\footnotesize\ttfamily uint32\+\_\+t g\+\_\+wifi\+\_\+atustat\+\_\+sent}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__recv__task_8c_ad74e20c257a9dfd539a0147e241b7838}\label{r__wifi__sx__ulpgn__recv__task_8c_ad74e20c257a9dfd539a0147e241b7838}} 
+\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}!g\_wifi\_current\_ssid@{g\_wifi\_current\_ssid}}
+\index{g\_wifi\_current\_ssid@{g\_wifi\_current\_ssid}!r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_current\_ssid}{g\_wifi\_current\_ssid}}
+{\footnotesize\ttfamily uint8\+\_\+t g\+\_\+wifi\+\_\+current\+\_\+ssid\mbox{[}33\mbox{]}}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__recv__task_8c_a373959c78dd2fa839a99a151770163a8}\label{r__wifi__sx__ulpgn__recv__task_8c_a373959c78dd2fa839a99a151770163a8}} 
+\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}!g\_wifi\_dnsaddress@{g\_wifi\_dnsaddress}}
+\index{g\_wifi\_dnsaddress@{g\_wifi\_dnsaddress}!r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_dnsaddress}{g\_wifi\_dnsaddress}}
+{\footnotesize\ttfamily uint32\+\_\+t g\+\_\+wifi\+\_\+dnsaddress}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__recv__task_8c_ac183e1db2a645501f8c68d68ae6ac8de}\label{r__wifi__sx__ulpgn__recv__task_8c_ac183e1db2a645501f8c68d68ae6ac8de}} 
+\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}!g\_wifi\_dnsquery\_subcount@{g\_wifi\_dnsquery\_subcount}}
+\index{g\_wifi\_dnsquery\_subcount@{g\_wifi\_dnsquery\_subcount}!r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_dnsquery\_subcount}{g\_wifi\_dnsquery\_subcount}}
+{\footnotesize\ttfamily uint32\+\_\+t g\+\_\+wifi\+\_\+dnsquery\+\_\+subcount}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__recv__task_8c_adf4544084346b4798c28a341123c8bc2}\label{r__wifi__sx__ulpgn__recv__task_8c_adf4544084346b4798c28a341123c8bc2}} 
+\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}!g\_wifi\_get\_queue\_index@{g\_wifi\_get\_queue\_index}}
+\index{g\_wifi\_get\_queue\_index@{g\_wifi\_get\_queue\_index}!r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_get\_queue\_index}{g\_wifi\_get\_queue\_index}}
+{\footnotesize\ttfamily uint8\+\_\+t g\+\_\+wifi\+\_\+get\+\_\+queue\+\_\+index}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__recv__task_8c_ab542f019d93c10c1c6786251b072efa9}\label{r__wifi__sx__ulpgn__recv__task_8c_ab542f019d93c10c1c6786251b072efa9}} 
+\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}!g\_wifi\_ipconfig@{g\_wifi\_ipconfig}}
+\index{g\_wifi\_ipconfig@{g\_wifi\_ipconfig}!r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_ipconfig}{g\_wifi\_ipconfig}}
+{\footnotesize\ttfamily wifi\+\_\+ip\+\_\+configuration\+\_\+t g\+\_\+wifi\+\_\+ipconfig}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__recv__task_8c_a123d345dab9200eb384d61982f348b98}\label{r__wifi__sx__ulpgn__recv__task_8c_a123d345dab9200eb384d61982f348b98}} 
+\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}!g\_wifi\_macaddress@{g\_wifi\_macaddress}}
+\index{g\_wifi\_macaddress@{g\_wifi\_macaddress}!r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_macaddress}{g\_wifi\_macaddress}}
+{\footnotesize\ttfamily uint8\+\_\+t g\+\_\+wifi\+\_\+macaddress\mbox{[}6\mbox{]}}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__recv__task_8c_a9de9a832353107911931f1ee28db7a84}\label{r__wifi__sx__ulpgn__recv__task_8c_a9de9a832353107911931f1ee28db7a84}} 
+\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}!g\_wifi\_recv\_task\_handle@{g\_wifi\_recv\_task\_handle}}
+\index{g\_wifi\_recv\_task\_handle@{g\_wifi\_recv\_task\_handle}!r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_recv\_task\_handle}{g\_wifi\_recv\_task\_handle}}
+{\footnotesize\ttfamily Task\+Handle\+\_\+t g\+\_\+wifi\+\_\+recv\+\_\+task\+\_\+handle}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__recv__task_8c_ac9dbadccbee392cddd3527a15f92fcf7}\label{r__wifi__sx__ulpgn__recv__task_8c_ac9dbadccbee392cddd3527a15f92fcf7}} 
+\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}!g\_wifi\_response\_last\_string@{g\_wifi\_response\_last\_string}}
+\index{g\_wifi\_response\_last\_string@{g\_wifi\_response\_last\_string}!r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_response\_last\_string}{g\_wifi\_response\_last\_string}}
+{\footnotesize\ttfamily char g\+\_\+wifi\+\_\+response\+\_\+last\+\_\+string\mbox{[}15\mbox{]}}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__recv__task_8c_a83a8358672a56583244e54f9ff99d930}\label{r__wifi__sx__ulpgn__recv__task_8c_a83a8358672a56583244e54f9ff99d930}} 
+\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}!g\_wifi\_response\_last\_string\_recv\_count@{g\_wifi\_response\_last\_string\_recv\_count}}
+\index{g\_wifi\_response\_last\_string\_recv\_count@{g\_wifi\_response\_last\_string\_recv\_count}!r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_response\_last\_string\_recv\_count}{g\_wifi\_response\_last\_string\_recv\_count}}
+{\footnotesize\ttfamily uint8\+\_\+t g\+\_\+wifi\+\_\+response\+\_\+last\+\_\+string\+\_\+recv\+\_\+count}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__recv__task_8c_a4cc412bc73b21e6b9492a4e4a9bca304}\label{r__wifi__sx__ulpgn__recv__task_8c_a4cc412bc73b21e6b9492a4e4a9bca304}} 
+\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}!g\_wifi\_response\_recv\_count@{g\_wifi\_response\_recv\_count}}
+\index{g\_wifi\_response\_recv\_count@{g\_wifi\_response\_recv\_count}!r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_response\_recv\_count}{g\_wifi\_response\_recv\_count}}
+{\footnotesize\ttfamily uint32\+\_\+t g\+\_\+wifi\+\_\+response\+\_\+recv\+\_\+count}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__recv__task_8c_aed7f12ca8d99c69a2c60c859e0108c9e}\label{r__wifi__sx__ulpgn__recv__task_8c_aed7f12ca8d99c69a2c60c859e0108c9e}} 
+\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}!g\_wifi\_response\_recv\_status@{g\_wifi\_response\_recv\_status}}
+\index{g\_wifi\_response\_recv\_status@{g\_wifi\_response\_recv\_status}!r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_response\_recv\_status}{g\_wifi\_response\_recv\_status}}
+{\footnotesize\ttfamily uint32\+\_\+t g\+\_\+wifi\+\_\+response\+\_\+recv\+\_\+status}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__recv__task_8c_a1a2f69620e717e113898b61e17c76b5a}\label{r__wifi__sx__ulpgn__recv__task_8c_a1a2f69620e717e113898b61e17c76b5a}} 
+\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}!g\_wifi\_set\_queue\_index@{g\_wifi\_set\_queue\_index}}
+\index{g\_wifi\_set\_queue\_index@{g\_wifi\_set\_queue\_index}!r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_set\_queue\_index}{g\_wifi\_set\_queue\_index}}
+{\footnotesize\ttfamily uint8\+\_\+t g\+\_\+wifi\+\_\+set\+\_\+queue\+\_\+index}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__recv__task_8c_a603e1c616616c169e63e4e881f3c6802}\label{r__wifi__sx__ulpgn__recv__task_8c_a603e1c616616c169e63e4e881f3c6802}} 
+\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}!g\_wifi\_socket@{g\_wifi\_socket}}
+\index{g\_wifi\_socket@{g\_wifi\_socket}!r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_socket}{g\_wifi\_socket}}
+{\footnotesize\ttfamily \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_aeb9cdd7bb8976379bf064cce230aebce}{wifi\+\_\+socket\+\_\+t}} g\+\_\+wifi\+\_\+socket\mbox{[}W\+I\+F\+I\+\_\+\+C\+F\+G\+\_\+\+C\+R\+E\+A\+T\+A\+B\+L\+E\+\_\+\+S\+O\+C\+K\+E\+TS\mbox{]}}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__recv__task_8c_aaf13ee4461f2056a002bba056574d48d}\label{r__wifi__sx__ulpgn__recv__task_8c_aaf13ee4461f2056a002bba056574d48d}} 
+\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}!g\_wifi\_socket\_status@{g\_wifi\_socket\_status}}
+\index{g\_wifi\_socket\_status@{g\_wifi\_socket\_status}!r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_socket\_status}{g\_wifi\_socket\_status}}
+{\footnotesize\ttfamily uint8\+\_\+t g\+\_\+wifi\+\_\+socket\+\_\+status}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__recv__task_8c_a2e6cfd1d9ca518ba44d13ba05bcc7a6d}\label{r__wifi__sx__ulpgn__recv__task_8c_a2e6cfd1d9ca518ba44d13ba05bcc7a6d}} 
+\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}!gp\_wifi\_ap\_results@{gp\_wifi\_ap\_results}}
+\index{gp\_wifi\_ap\_results@{gp\_wifi\_ap\_results}!r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+\doxysubsubsection{\texorpdfstring{gp\_wifi\_ap\_results}{gp\_wifi\_ap\_results}}
+{\footnotesize\ttfamily wifi\+\_\+scan\+\_\+result\+\_\+t$\ast$ gp\+\_\+wifi\+\_\+ap\+\_\+results}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__recv__task_8c_a8049571e2a2afd419e52076b13e54eb5}\label{r__wifi__sx__ulpgn__recv__task_8c_a8049571e2a2afd419e52076b13e54eb5}} 
+\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}!p\_wifi\_callback@{p\_wifi\_callback}}
+\index{p\_wifi\_callback@{p\_wifi\_callback}!r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+\doxysubsubsection{\texorpdfstring{p\_wifi\_callback}{p\_wifi\_callback}}
+{\footnotesize\ttfamily void($\ast$ const p\+\_\+wifi\+\_\+callback) (void $\ast$p\+\_\+args) = N\+U\+LL}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__recv__task_8c_a58b87dcea897f0a243dfc550b43e9bd3}\label{r__wifi__sx__ulpgn__recv__task_8c_a58b87dcea897f0a243dfc550b43e9bd3}} 
+\index{r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}!tmp\_recvcnt@{tmp\_recvcnt}}
+\index{tmp\_recvcnt@{tmp\_recvcnt}!r\_wifi\_sx\_ulpgn\_recv\_task.c@{r\_wifi\_sx\_ulpgn\_recv\_task.c}}
+\doxysubsubsection{\texorpdfstring{tmp\_recvcnt}{tmp\_recvcnt}}
+{\footnotesize\ttfamily uint32\+\_\+t tmp\+\_\+recvcnt}
+

@@ -1,0 +1,885 @@
+\hypertarget{r__wifi__sx__ulpgn__private_8h}{}\doxysection{r\+\_\+wifi\+\_\+sx\+\_\+ulpgn\+\_\+private.\+h File Reference}
+\label{r__wifi__sx__ulpgn__private_8h}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+{\ttfamily \#include \char`\"{}r\+\_\+wifi\+\_\+sx\+\_\+ulpgn\+\_\+if.\+h\char`\"{}}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structwifi__socket__tag}{wifi\+\_\+socket\+\_\+tag}}
+\item 
+struct \mbox{\hyperlink{structwifi__at__communication__info__t}{wifi\+\_\+at\+\_\+communication\+\_\+info\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structwifi__at__execute__queue__t}{wifi\+\_\+at\+\_\+execute\+\_\+queue\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_aee402b5efbcf7450fc9b320863d7af78}{W\+I\+F\+I\+\_\+\+N\+U\+M\+B\+E\+R\+\_\+\+O\+F\+\_\+\+U\+S\+E\+\_\+\+U\+A\+RT}}~(2)
+\item 
+\#define \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_ab86625aef6e27c182034f5d12b468023}{W\+I\+F\+I\+\_\+\+U\+A\+R\+T\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+P\+O\+RT}}~(0)
+\item 
+\#define \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a4c962f139335b20052afad251d93caf0}{W\+I\+F\+I\+\_\+\+U\+A\+R\+T\+\_\+\+D\+A\+T\+A\+\_\+\+P\+O\+RT}}~(1)
+\item 
+\#define \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_abd79ac6d1ca2ebcad5c4f9e9441bcac4}{W\+I\+F\+I\+\_\+\+R\+E\+S\+E\+T\+\_\+\+D\+DR}}(x,  y)~(\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a757bcaa53e5e27a5cb62625027c6ac4d}{W\+I\+F\+I\+\_\+\+R\+E\+S\+E\+T\+\_\+\+D\+D\+R\+\_\+\+P\+R\+E\+P\+R\+OC}}(x, y))
+\item 
+\#define \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a757bcaa53e5e27a5cb62625027c6ac4d}{W\+I\+F\+I\+\_\+\+R\+E\+S\+E\+T\+\_\+\+D\+D\+R\+\_\+\+P\+R\+E\+P\+R\+OC}}(x,  y)~((P\+O\+RT \#\# x .P\+D\+R.\+B\+I\+T.\+B \#\# y))
+\item 
+\#define \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_af17dcb6ab73335e407b9c2746a4fb246}{W\+I\+F\+I\+\_\+\+R\+E\+S\+E\+T\+\_\+\+DR}}(x,  y)~(\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a978550b02cd9f0061466545a5f12af75}{W\+I\+F\+I\+\_\+\+R\+E\+S\+E\+T\+\_\+\+D\+R\+\_\+\+P\+R\+E\+P\+R\+OC}}(x, y))
+\item 
+\#define \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a978550b02cd9f0061466545a5f12af75}{W\+I\+F\+I\+\_\+\+R\+E\+S\+E\+T\+\_\+\+D\+R\+\_\+\+P\+R\+E\+P\+R\+OC}}(x,  y)~((P\+O\+RT \#\# x .P\+O\+D\+R.\+B\+I\+T.\+B \#\# y))
+\item 
+\#define \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a8cd6f673736eb4fc8c6738c948122f44}{W\+I\+F\+I\+\_\+\+R\+T\+S\+\_\+\+D\+DR}}(x,  y)~(\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a99d91e443fbc016b3beb04a2de99684e}{W\+I\+F\+I\+\_\+\+R\+T\+S\+\_\+\+D\+D\+R\+\_\+\+P\+R\+E\+P\+R\+OC}}(x, y))
+\item 
+\#define \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a99d91e443fbc016b3beb04a2de99684e}{W\+I\+F\+I\+\_\+\+R\+T\+S\+\_\+\+D\+D\+R\+\_\+\+P\+R\+E\+P\+R\+OC}}(x,  y)~((P\+O\+RT \#\# x .P\+D\+R.\+B\+I\+T.\+B \#\# y))
+\item 
+\#define \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a7f8ee9c228f7671316033ca04f312de1}{W\+I\+F\+I\+\_\+\+R\+T\+S\+\_\+\+DR}}(x,  y)~(\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a324054d1d7d5661d3115b3da99b79a6d}{W\+I\+F\+I\+\_\+\+R\+T\+S\+\_\+\+D\+R\+\_\+\+P\+R\+E\+P\+R\+OC}}(x, y))
+\item 
+\#define \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a324054d1d7d5661d3115b3da99b79a6d}{W\+I\+F\+I\+\_\+\+R\+T\+S\+\_\+\+D\+R\+\_\+\+P\+R\+E\+P\+R\+OC}}(x,  y)~((P\+O\+RT \#\# x .P\+O\+D\+R.\+B\+I\+T.\+B \#\# y))
+\item 
+\#define \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a5bb9089ffbf895a70b66f8cc043fd350}{W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+T\+E\+X\+T\+\_\+\+OK}}~\char`\"{}O\+K\textbackslash{}r\textbackslash{}n\char`\"{}
+\item 
+\#define \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a30e3685ace146944c509db344bb39439}{W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+T\+E\+X\+T\+\_\+\+E\+R\+R\+OR}}~\char`\"{}E\+R\+R\+O\+R\textbackslash{}r\textbackslash{}n\char`\"{}
+\item 
+\#define \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a89188c1ab810f10fecb0819e05f0e9d0}{W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+T\+E\+X\+T\+\_\+\+R\+E\+A\+DY}}~\char`\"{}ready\textbackslash{}r\textbackslash{}n\char`\"{}
+\item 
+\#define \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a65a3b41ead4d48bfd4227075c1165abe}{W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+T\+E\+X\+T\+\_\+\+O\+K\+\_\+\+G\+O\+\_\+\+S\+E\+ND}}~\char`\"{}O\+K\textbackslash{}r\textbackslash{}n$>$ \char`\"{}
+\item 
+\#define \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a14ff1b230f88d03308c3c8b554dbc27c}{W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+T\+E\+X\+T\+\_\+\+S\+E\+N\+D\+\_\+\+B\+Y\+TE}}~\char`\"{} bytes\textbackslash{}r\textbackslash{}n\char`\"{}
+\item 
+\#define \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_ae725bf9157844344ea5b6c7401aec3eb}{W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+T\+E\+X\+T\+\_\+\+S\+E\+N\+D\+\_\+\+OK}}~\char`\"{}S\+E\+ND O\+K\textbackslash{}r\textbackslash{}n\char`\"{}
+\item 
+\#define \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a014c1a604bd168a50fdd02e8a98483e7}{W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+T\+E\+X\+T\+\_\+\+S\+E\+N\+D\+\_\+\+F\+A\+IL}}~\char`\"{}S\+E\+ND F\+A\+I\+L\textbackslash{}r\textbackslash{}n\char`\"{}
+\item 
+\#define \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a28f74f9aac617ae185af88186ee24f3d}{W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+T\+E\+X\+T\+\_\+\+C\+O\+N\+N\+E\+CT}}~\char`\"{}C\+O\+N\+N\+E\+C\+T\textbackslash{}r\textbackslash{}n\char`\"{}
+\item 
+\#define \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a2acefd456b03bf84c48cc54eb74aa4c6}{W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+T\+E\+X\+T\+\_\+\+B\+U\+SY}}~\char`\"{}B\+U\+S\+Y\textbackslash{}r\textbackslash{}n\char`\"{}
+\item 
+\#define \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_ad1a4a9eb0a3ed3d293b05cbd64dc3d03}{W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+T\+E\+X\+T\+\_\+\+N\+O\+C\+A\+R\+R\+I\+ER}}~\char`\"{}NO C\+A\+R\+R\+I\+E\+R\textbackslash{}r\textbackslash{}n\char`\"{}
+\item 
+\#define \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_ac1851d167a19c8daf5906be5de3bc251}{W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+T\+E\+X\+T\+\_\+\+N\+O\+A\+N\+S\+W\+ER}}~\char`\"{}NO A\+N\+S\+W\+E\+R\textbackslash{}r\textbackslash{}n\char`\"{}
+\item 
+\#define \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_afe0074c6af427f25b880b13b52419524}{W\+I\+F\+I\+\_\+\+A\+T\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+B\+U\+F\+F\+\_\+\+S\+I\+ZE}}~256
+\item 
+\#define \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_aa7b36657986b850710e293f02a626438}{W\+I\+F\+I\+\_\+\+A\+T\+\_\+\+R\+E\+S\+P\+O\+N\+S\+E\+\_\+\+B\+U\+F\+F\+\_\+\+S\+I\+ZE}}~256
+\item 
+\#define \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_ace871b5f66585c4cc35fdc595f0e2dcc}{W\+I\+F\+I\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+S\+E\+N\+D\+A\+B\+L\+E\+\_\+\+D\+A\+T\+A\+S\+I\+ZE}}~1420
+\item 
+\#define \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_aff29995738eb532dc99bc8ce5ea01be3}{W\+I\+F\+I\+\_\+\+U\+A\+R\+T\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+\+D\+E\+F\+A\+U\+LT}}~115200
+\item 
+\#define \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_acd3b081168031c74052081ddfcd66573}{D\+E\+B\+U\+G\+L\+OG}}~2
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structwifi__socket__tag}{wifi\+\_\+socket\+\_\+tag}} \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_aeb9cdd7bb8976379bf064cce230aebce}{wifi\+\_\+socket\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9}{wifi\+\_\+return\+\_\+code\+\_\+t}} \{ \newline
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9a23f027fe01cbf8ed97b39be25b26968b}{W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+E\+N\+U\+M\+\_\+\+OK}} = 0, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9af3c3fd3da771210c747ace12a982a4b8}{W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+E\+N\+U\+M\+\_\+\+E\+R\+R\+OR}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9aa9eab523a291ffffc48fb46d75f553d3}{W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+E\+N\+U\+M\+\_\+\+R\+E\+A\+DY}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9a2c0dc9e64767df5218f9c2e03bcad098}{W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+E\+N\+U\+M\+\_\+\+C\+O\+N\+N\+E\+CT}}, 
+\newline
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9a8a780ba36e38958bc30d387abad7f234}{W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+E\+N\+U\+M\+\_\+\+B\+U\+SY}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9aa6903ee39c653eab1aaa815991cfcb9d}{W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+E\+N\+U\+M\+\_\+\+N\+O\+C\+A\+R\+R\+I\+ER}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9a3eeb9fd98860f570ac5c8e7ae6e786a5}{W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+E\+N\+U\+M\+\_\+\+P\+R\+O\+C\+E\+S\+S\+I\+NG}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9a66c21749e69373f3bd363feaacfb0d85}{W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+E\+N\+U\+M\+\_\+\+I\+N\+T\+E\+R\+N\+A\+L\+\_\+\+T\+I\+M\+E\+O\+UT}}, 
+\newline
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9a1317b0016f91dcf48912961277745146}{W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+E\+N\+U\+M\+\_\+\+M\+AX}}
+ \}
+\item 
+enum \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a3d783c5a203dac7098be1a579c804f19}{wifi\+\_\+system\+\_\+status\+\_\+t}} \{ \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a3d783c5a203dac7098be1a579c804f19a14cb80d1420c356e9eaede905f8266fc}{W\+I\+F\+I\+\_\+\+S\+Y\+S\+T\+E\+M\+\_\+\+C\+L\+O\+SE}} =0, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a3d783c5a203dac7098be1a579c804f19a35b1ee18131958ce49cfb89f0f266908}{W\+I\+F\+I\+\_\+\+S\+Y\+S\+T\+E\+M\+\_\+\+O\+P\+EN}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a3d783c5a203dac7098be1a579c804f19a7f99ffb2ad1ad69f50109f637ce03e9f}{W\+I\+F\+I\+\_\+\+S\+Y\+S\+T\+E\+M\+\_\+\+C\+O\+N\+N\+E\+CT}}
+ \}
+\item 
+enum \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a1b9a2a5203448fa792bacfc6e39fb5ea}{wifi\+\_\+socket\+\_\+status\+\_\+t}} \{ \newline
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a1b9a2a5203448fa792bacfc6e39fb5eaa10f9a92fd4ada01cef1ed0ac6bc642ae}{W\+I\+F\+I\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+C\+L\+O\+S\+ED}} =0, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a1b9a2a5203448fa792bacfc6e39fb5eaaa9e238f7f4a6f0a71cd0f6bd8903e977}{W\+I\+F\+I\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+S\+O\+C\+K\+ET}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a1b9a2a5203448fa792bacfc6e39fb5eaac2e8e060965d7969a555a883cf5a230c}{W\+I\+F\+I\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+B\+O\+U\+ND}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a1b9a2a5203448fa792bacfc6e39fb5eaabe161838b3f18f28804b0fbccb1ff8a4}{W\+I\+F\+I\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+L\+I\+S\+T\+EN}}, 
+\newline
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a1b9a2a5203448fa792bacfc6e39fb5eaa5927a40020de4598311d4a03eb554f6d}{W\+I\+F\+I\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+C\+O\+N\+N\+E\+C\+T\+ED}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a1b9a2a5203448fa792bacfc6e39fb5eaadc3e02cb775fe8f75cc92de960041569}{W\+I\+F\+I\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+M\+AX}}
+ \}
+\item 
+enum \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2}{wifi\+\_\+command\+\_\+list\+\_\+t}} \{ \newline
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a29f5ca5d5b46a87b530ebbeb68db3ed5}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+N\+O\+NE}} = 0, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a24eec9279c77ae1c0cb3180936ad6cdc}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+R\+E\+B\+O\+OT}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a422fe9300914e535174ff525cc253c0c}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+E\+C\+H\+O\+\_\+\+O\+FF}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a4feca64963ddace87f92d66fc2da7a85}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+U\+A\+R\+T\+\_\+\+C\+H\+A\+N\+G\+E\+\_\+\+T\+O\+\_\+2}}, 
+\newline
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2af80a2e11fb38cc1dbc45dfe3682cc688}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+U\+A\+R\+T\+\_\+\+C\+H\+A\+N\+G\+E\+\_\+\+T\+O\+\_\+21}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2aaeeb41376068d46106efafb704285080}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+U\+A\+R\+T\+\_\+\+H\+I\+S\+P\+E\+ED}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a33382286dc1988873915aef6301dbc30}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+U\+A\+R\+T\+\_\+\+F\+L\+O\+W\+\_\+\+T\+I\+M\+E\+O\+UT}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2aef75a534c79956f9477a064d78e76b3e}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+E\+S\+C\+A\+P\+E\+\_\+\+G\+U\+A\+R\+D\+\_\+\+T\+I\+ME}}, 
+\newline
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a80ed5498b15e71dbdb48c70dab267925}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+T\+H\+R\+E\+S\+H\+O\+LD}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a083a08cf50558f67cce61ca68633e647}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+W\+I\+F\+I\+\_\+\+D\+I\+S\+C\+O\+N\+N\+E\+CT}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2ab237013f8af3a6ad8f2fd033f4272a79}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+A\+T\+\_\+\+R\+E\+C\+V\+\_\+\+T\+I\+M\+E\+O\+UT}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2acafa90895eb119713cf20d871ea2cc99}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+A\+U\+T\+O\+C\+L\+O\+SE}}, 
+\newline
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a5e403a7eb435010591b289e28cfa92be}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+A\+U\+T\+O\+\_\+\+T\+R\+A\+N\+S\+P\+A\+R\+E\+N\+T\+\_\+\+M\+O\+DE}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2aedef5e7390c37185dfbf0f46c489e319}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+D\+N\+S\+\_\+\+S\+R\+V\+\_\+\+A\+D\+D\+R\+E\+SS}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a90939293754a906302e0020056be9b1e}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+S\+T\+A\+T\+I\+C\+\_\+\+IP}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2ad42770aac64a384f748a1af637f4c171}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+W\+I\+F\+I\+\_\+\+A\+U\+T\+O\+C\+O\+N\+N\+E\+CT}}, 
+\newline
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a07da03a6a54717e8228a81d56bec85cc}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+W\+I\+F\+I\+\_\+\+A\+C\+T\+\_\+\+M\+O\+DE}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a5a408c62d504a6c0f25d878caa2ab0aa}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+D\+H\+C\+P\+\_\+\+M\+O\+DE}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a1583a6b22a5e29a773961aee7c06e665}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+M\+U\+L\+T\+I\+P\+L\+E\+\_\+\+S\+O\+C\+K\+ET}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2aa057ee99d9a393afb2f5eb9ed566a4be}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+W\+I\+F\+I\+\_\+\+C\+O\+N\+N\+E\+CT}}, 
+\newline
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a9473b7ffac729469cf9d5e028bbd3c63}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+D\+N\+S\+Q\+U\+E\+RY}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a5088fa3bdcc9946105b04440e3a01322}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+P\+I\+NG}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2ac0804c14f604a1003ce49ed4f129908b}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+S\+S\+L\+C\+O\+N\+F\+IG}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2af1031f2e5b716d73a272378d38391ecd}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+C\+R\+E\+A\+TE}}, 
+\newline
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2afd4a35e3cbe8702e780c25732b9811a5}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+C\+O\+N\+N\+E\+CT}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a68e4e5a19aceee1541ddff357f31b9fa}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+S\+E\+N\+D\+\_\+\+S\+T\+A\+RT}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a5a13710f1e02f7edaef6f1549dc9f620}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+S\+E\+N\+D\+\_\+\+D\+A\+TA}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a524a75abedc5a7f8694443a5d342042c}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+C\+L\+O\+SE}}, 
+\newline
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2acfc939dfaaf1b56f3112260547ef3d75}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+C\+H\+A\+N\+GE}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a27a6f3365091d001b5074236cb1af69a}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+T\+R\+A\+N\+S\+P\+A\+R\+E\+N\+T\+\_\+\+M\+O\+DE}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a5ba0ef634f4a28909cad2d5c071300e9}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+M\+O\+DE}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a72d3952e181f490f5c29ce3b4b24a64b}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+G\+E\+T\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+S\+T\+A\+T\+US}}, 
+\newline
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a91f5cc90a48a3e7d4693bc24935ba105}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+G\+E\+T\+\_\+\+M\+O\+D\+U\+L\+E\+\_\+\+V\+E\+R\+S\+I\+ON}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a7b009e17c06b23b98187b8782241be8e}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+G\+E\+T\+\_\+\+U\+A\+R\+T\+\_\+\+B\+A\+U\+D\+R\+A\+TE}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2ae2ec8510069d4b54173ae48ca810e60a}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+G\+E\+T\+\_\+\+A\+P\+L\+I\+ST}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2aca7bbc61753ca73a3292d666147ad430}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+G\+E\+T\+\_\+\+M\+A\+C\+A\+D\+D\+R\+E\+SS}}, 
+\newline
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a69a9a095bac8d00c37952508183f23e9}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+G\+E\+T\+\_\+\+I\+P\+A\+D\+D\+R\+E\+SS}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a844bafd2bab7b06f2f35a7ae8d1deb2a}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+G\+E\+T\+\_\+\+S\+E\+N\+T\+\_\+\+R\+E\+C\+V\+\_\+\+S\+I\+ZE}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a1ad63f429317d3eaf90629ff4801c1ce}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+G\+E\+T\+\_\+\+C\+U\+R\+R\+E\+N\+T\+\_\+\+S\+S\+ID}}, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2aca6b4b9e9aaef1fd7d9f16cb49b84d4f}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+S\+Y\+S\+F\+A\+L\+S\+H\+\_\+\+W\+R\+I\+T\+E\+\_\+\+D\+A\+TA}}, 
+\newline
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a15199371c7eed968a55b088cc8e47eee}{W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+L\+I\+S\+T\+\_\+\+M\+AX}}
+ \}
+\item 
+enum \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a26c7e7bfeda4c4d570cc4796580b9bc8}{wifi\+\_\+return\+\_\+string\+\_\+t}} \{ \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a26c7e7bfeda4c4d570cc4796580b9bc8ab9c315de78ca534f1012ddf06504895b}{W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+S\+T\+R\+I\+N\+G\+\_\+\+T\+E\+XT}} = 0, 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a26c7e7bfeda4c4d570cc4796580b9bc8a6d9b4f0205bad1551205671ffd173a70}{W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+S\+T\+R\+I\+N\+G\+\_\+\+M\+AX}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_ae9e8c883024f7523195012164c088794}{wifi\+\_\+init\+\_\+at\+\_\+execute\+\_\+queue}} (void)
+\item 
+uint32\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_afa79d3de74d276a2f1b30a421b384653}{wifi\+\_\+set\+\_\+request\+\_\+in\+\_\+queue}} (\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2}{wifi\+\_\+command\+\_\+list\+\_\+t}} command, int32\+\_\+t socket)
+\item 
+\mbox{\hyperlink{structwifi__at__execute__queue__t}{wifi\+\_\+at\+\_\+execute\+\_\+queue\+\_\+t}} $\ast$ \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_ae2b34574db20d3345e9ed564e3fe4af7}{wifi\+\_\+get\+\_\+current\+\_\+running\+\_\+queue}} (void)
+\item 
+void \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a4133a9558881d0d3ae785b3ecedd7160}{wifi\+\_\+set\+\_\+result\+\_\+to\+\_\+current\+\_\+running\+\_\+queue}} (\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9}{wifi\+\_\+return\+\_\+code\+\_\+t}} result)
+\item 
+int8\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a491098093f61016b954d6f6adc568e6a}{wifi\+\_\+get\+\_\+result\+\_\+from\+\_\+queue}} (uint32\+\_\+t ticket\+\_\+no, \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9}{wifi\+\_\+return\+\_\+code\+\_\+t}} $\ast$result)
+\item 
+int32\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a36adb3011ad8946dc669017de568a20f}{wifi\+\_\+start\+\_\+recv\+\_\+task}} (void)
+\item 
+void \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_ae610239f8765fc3df65cc8c18941d7f6}{wifi\+\_\+delete\+\_\+recv\+\_\+task}} (void)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structwifi__at__communication__info__t}{wifi\+\_\+at\+\_\+communication\+\_\+info\+\_\+t}} \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a6ae725f0c4a865d67a9f06b118c954de}{g\+\_\+wifi\+\_\+uart}} \mbox{[}\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_aee402b5efbcf7450fc9b320863d7af78}{W\+I\+F\+I\+\_\+\+N\+U\+M\+B\+E\+R\+\_\+\+O\+F\+\_\+\+U\+S\+E\+\_\+\+U\+A\+RT}}\mbox{]}
+\item 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a3d783c5a203dac7098be1a579c804f19}{wifi\+\_\+system\+\_\+status\+\_\+t}} \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a61633898b612e60c704052f74602802b}{g\+\_\+wifi\+\_\+system\+\_\+state}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a284f80f656e17200e6cc3cefabb0dcb7}{g\+\_\+wifi\+\_\+at\+\_\+command\+\_\+buff}} \mbox{[}\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_afe0074c6af427f25b880b13b52419524}{W\+I\+F\+I\+\_\+\+A\+T\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+B\+U\+F\+F\+\_\+\+S\+I\+ZE}}\mbox{]}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_aa0ea88af9842e5b5dee6f151e4a182ee}{g\+\_\+wifi\+\_\+at\+\_\+response\+\_\+buff}} \mbox{[}\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_aa7b36657986b850710e293f02a626438}{W\+I\+F\+I\+\_\+\+A\+T\+\_\+\+R\+E\+S\+P\+O\+N\+S\+E\+\_\+\+B\+U\+F\+F\+\_\+\+S\+I\+ZE}}\mbox{]}
+\item 
+\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_aeb9cdd7bb8976379bf064cce230aebce}{wifi\+\_\+socket\+\_\+t}} \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a603e1c616616c169e63e4e881f3c6802}{g\+\_\+wifi\+\_\+socket}} \mbox{[}W\+I\+F\+I\+\_\+\+C\+F\+G\+\_\+\+C\+R\+E\+A\+T\+A\+B\+L\+E\+\_\+\+S\+O\+C\+K\+E\+TS\mbox{]}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a123d345dab9200eb384d61982f348b98}{g\+\_\+wifi\+\_\+macaddress}} \mbox{[}6\mbox{]}
+\item 
+wifi\+\_\+ip\+\_\+configuration\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_ab542f019d93c10c1c6786251b072efa9}{g\+\_\+wifi\+\_\+ipconfig}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a373959c78dd2fa839a99a151770163a8}{g\+\_\+wifi\+\_\+dnsaddress}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_ac183e1db2a645501f8c68d68ae6ac8de}{g\+\_\+wifi\+\_\+dnsquery\+\_\+subcount}}
+\item 
+wifi\+\_\+scan\+\_\+result\+\_\+t $\ast$ \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a2e6cfd1d9ca518ba44d13ba05bcc7a6d}{gp\+\_\+wifi\+\_\+ap\+\_\+results}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_ad4cd614ab2f913912a1a4d256d668180}{g\+\_\+wifi\+\_\+aplistmax}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a2ddffd01d027a25e46f433275f6930ea}{g\+\_\+wifi\+\_\+aplist\+\_\+stored\+\_\+num}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a22ed798d921dffe982acad92f4f2cef8}{g\+\_\+wifi\+\_\+aplist\+\_\+count}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a3827d62227b51f74114baa64b8bdeb53}{g\+\_\+wifi\+\_\+aplist\+\_\+subcount}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_ad74e20c257a9dfd539a0147e241b7838}{g\+\_\+wifi\+\_\+current\+\_\+ssid}} \mbox{[}33\mbox{]}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a384fde4594591b6bcf2d48cd126f0c13}{g\+\_\+wifi\+\_\+atustat\+\_\+recv}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a6b1452846c29a3e6048127fdd89c2db6}{g\+\_\+wifi\+\_\+atustat\+\_\+sent}}
+\item 
+\mbox{\hyperlink{structwifi__at__execute__queue__t}{wifi\+\_\+at\+\_\+execute\+\_\+queue\+\_\+t}} \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a49692d9fafebaadd7fc1e1d84977ffd1}{g\+\_\+wifi\+\_\+at\+\_\+execute\+\_\+queue}} \mbox{[}10\mbox{]}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a1a2f69620e717e113898b61e17c76b5a}{g\+\_\+wifi\+\_\+set\+\_\+queue\+\_\+index}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_adf4544084346b4798c28a341123c8bc2}{g\+\_\+wifi\+\_\+get\+\_\+queue\+\_\+index}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a4513081c2c00e0f249833c956752909b}{g\+\_\+wifi\+\_\+sci\+\_\+err\+\_\+flag}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_aaf13ee4461f2056a002bba056574d48d}{g\+\_\+wifi\+\_\+socket\+\_\+status}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0d0d91783b348f04fb7dcfb84e463ea0}{g\+\_\+wifi\+\_\+transparent\+\_\+mode}}
+\item 
+const uint8\+\_\+t $\ast$const \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a53672e614e2977ad091cde3a9a8d62db}{wifi\+\_\+socket\+\_\+status\+\_\+tbl}} \mbox{[}$\,$\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_acd3b081168031c74052081ddfcd66573}\label{r__wifi__sx__ulpgn__private_8h_acd3b081168031c74052081ddfcd66573}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!DEBUGLOG@{DEBUGLOG}}
+\index{DEBUGLOG@{DEBUGLOG}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{DEBUGLOG}{DEBUGLOG}}
+{\footnotesize\ttfamily \#define D\+E\+B\+U\+G\+L\+OG~2}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_afe0074c6af427f25b880b13b52419524}\label{r__wifi__sx__ulpgn__private_8h_afe0074c6af427f25b880b13b52419524}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_AT\_COMMAND\_BUFF\_SIZE@{WIFI\_AT\_COMMAND\_BUFF\_SIZE}}
+\index{WIFI\_AT\_COMMAND\_BUFF\_SIZE@{WIFI\_AT\_COMMAND\_BUFF\_SIZE}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{WIFI\_AT\_COMMAND\_BUFF\_SIZE}{WIFI\_AT\_COMMAND\_BUFF\_SIZE}}
+{\footnotesize\ttfamily \#define W\+I\+F\+I\+\_\+\+A\+T\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+B\+U\+F\+F\+\_\+\+S\+I\+ZE~256}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_aa7b36657986b850710e293f02a626438}\label{r__wifi__sx__ulpgn__private_8h_aa7b36657986b850710e293f02a626438}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_AT\_RESPONSE\_BUFF\_SIZE@{WIFI\_AT\_RESPONSE\_BUFF\_SIZE}}
+\index{WIFI\_AT\_RESPONSE\_BUFF\_SIZE@{WIFI\_AT\_RESPONSE\_BUFF\_SIZE}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{WIFI\_AT\_RESPONSE\_BUFF\_SIZE}{WIFI\_AT\_RESPONSE\_BUFF\_SIZE}}
+{\footnotesize\ttfamily \#define W\+I\+F\+I\+\_\+\+A\+T\+\_\+\+R\+E\+S\+P\+O\+N\+S\+E\+\_\+\+B\+U\+F\+F\+\_\+\+S\+I\+ZE~256}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_aee402b5efbcf7450fc9b320863d7af78}\label{r__wifi__sx__ulpgn__private_8h_aee402b5efbcf7450fc9b320863d7af78}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_NUMBER\_OF\_USE\_UART@{WIFI\_NUMBER\_OF\_USE\_UART}}
+\index{WIFI\_NUMBER\_OF\_USE\_UART@{WIFI\_NUMBER\_OF\_USE\_UART}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{WIFI\_NUMBER\_OF\_USE\_UART}{WIFI\_NUMBER\_OF\_USE\_UART}}
+{\footnotesize\ttfamily \#define W\+I\+F\+I\+\_\+\+N\+U\+M\+B\+E\+R\+\_\+\+O\+F\+\_\+\+U\+S\+E\+\_\+\+U\+A\+RT~(2)}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_abd79ac6d1ca2ebcad5c4f9e9441bcac4}\label{r__wifi__sx__ulpgn__private_8h_abd79ac6d1ca2ebcad5c4f9e9441bcac4}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RESET\_DDR@{WIFI\_RESET\_DDR}}
+\index{WIFI\_RESET\_DDR@{WIFI\_RESET\_DDR}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{WIFI\_RESET\_DDR}{WIFI\_RESET\_DDR}}
+{\footnotesize\ttfamily \#define W\+I\+F\+I\+\_\+\+R\+E\+S\+E\+T\+\_\+\+D\+DR(\begin{DoxyParamCaption}\item[{}]{x,  }\item[{}]{y }\end{DoxyParamCaption})~(\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a757bcaa53e5e27a5cb62625027c6ac4d}{W\+I\+F\+I\+\_\+\+R\+E\+S\+E\+T\+\_\+\+D\+D\+R\+\_\+\+P\+R\+E\+P\+R\+OC}}(x, y))}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a757bcaa53e5e27a5cb62625027c6ac4d}\label{r__wifi__sx__ulpgn__private_8h_a757bcaa53e5e27a5cb62625027c6ac4d}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RESET\_DDR\_PREPROC@{WIFI\_RESET\_DDR\_PREPROC}}
+\index{WIFI\_RESET\_DDR\_PREPROC@{WIFI\_RESET\_DDR\_PREPROC}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{WIFI\_RESET\_DDR\_PREPROC}{WIFI\_RESET\_DDR\_PREPROC}}
+{\footnotesize\ttfamily \#define W\+I\+F\+I\+\_\+\+R\+E\+S\+E\+T\+\_\+\+D\+D\+R\+\_\+\+P\+R\+E\+P\+R\+OC(\begin{DoxyParamCaption}\item[{}]{x,  }\item[{}]{y }\end{DoxyParamCaption})~((P\+O\+RT \#\# x .P\+D\+R.\+B\+I\+T.\+B \#\# y))}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_af17dcb6ab73335e407b9c2746a4fb246}\label{r__wifi__sx__ulpgn__private_8h_af17dcb6ab73335e407b9c2746a4fb246}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RESET\_DR@{WIFI\_RESET\_DR}}
+\index{WIFI\_RESET\_DR@{WIFI\_RESET\_DR}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{WIFI\_RESET\_DR}{WIFI\_RESET\_DR}}
+{\footnotesize\ttfamily \#define W\+I\+F\+I\+\_\+\+R\+E\+S\+E\+T\+\_\+\+DR(\begin{DoxyParamCaption}\item[{}]{x,  }\item[{}]{y }\end{DoxyParamCaption})~(\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a978550b02cd9f0061466545a5f12af75}{W\+I\+F\+I\+\_\+\+R\+E\+S\+E\+T\+\_\+\+D\+R\+\_\+\+P\+R\+E\+P\+R\+OC}}(x, y))}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a978550b02cd9f0061466545a5f12af75}\label{r__wifi__sx__ulpgn__private_8h_a978550b02cd9f0061466545a5f12af75}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RESET\_DR\_PREPROC@{WIFI\_RESET\_DR\_PREPROC}}
+\index{WIFI\_RESET\_DR\_PREPROC@{WIFI\_RESET\_DR\_PREPROC}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{WIFI\_RESET\_DR\_PREPROC}{WIFI\_RESET\_DR\_PREPROC}}
+{\footnotesize\ttfamily \#define W\+I\+F\+I\+\_\+\+R\+E\+S\+E\+T\+\_\+\+D\+R\+\_\+\+P\+R\+E\+P\+R\+OC(\begin{DoxyParamCaption}\item[{}]{x,  }\item[{}]{y }\end{DoxyParamCaption})~((P\+O\+RT \#\# x .P\+O\+D\+R.\+B\+I\+T.\+B \#\# y))}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a2acefd456b03bf84c48cc54eb74aa4c6}\label{r__wifi__sx__ulpgn__private_8h_a2acefd456b03bf84c48cc54eb74aa4c6}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RETURN\_TEXT\_BUSY@{WIFI\_RETURN\_TEXT\_BUSY}}
+\index{WIFI\_RETURN\_TEXT\_BUSY@{WIFI\_RETURN\_TEXT\_BUSY}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{WIFI\_RETURN\_TEXT\_BUSY}{WIFI\_RETURN\_TEXT\_BUSY}}
+{\footnotesize\ttfamily \#define W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+T\+E\+X\+T\+\_\+\+B\+U\+SY~\char`\"{}B\+U\+S\+Y\textbackslash{}r\textbackslash{}n\char`\"{}}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a28f74f9aac617ae185af88186ee24f3d}\label{r__wifi__sx__ulpgn__private_8h_a28f74f9aac617ae185af88186ee24f3d}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RETURN\_TEXT\_CONNECT@{WIFI\_RETURN\_TEXT\_CONNECT}}
+\index{WIFI\_RETURN\_TEXT\_CONNECT@{WIFI\_RETURN\_TEXT\_CONNECT}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{WIFI\_RETURN\_TEXT\_CONNECT}{WIFI\_RETURN\_TEXT\_CONNECT}}
+{\footnotesize\ttfamily \#define W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+T\+E\+X\+T\+\_\+\+C\+O\+N\+N\+E\+CT~\char`\"{}C\+O\+N\+N\+E\+C\+T\textbackslash{}r\textbackslash{}n\char`\"{}}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a30e3685ace146944c509db344bb39439}\label{r__wifi__sx__ulpgn__private_8h_a30e3685ace146944c509db344bb39439}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RETURN\_TEXT\_ERROR@{WIFI\_RETURN\_TEXT\_ERROR}}
+\index{WIFI\_RETURN\_TEXT\_ERROR@{WIFI\_RETURN\_TEXT\_ERROR}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{WIFI\_RETURN\_TEXT\_ERROR}{WIFI\_RETURN\_TEXT\_ERROR}}
+{\footnotesize\ttfamily \#define W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+T\+E\+X\+T\+\_\+\+E\+R\+R\+OR~\char`\"{}E\+R\+R\+O\+R\textbackslash{}r\textbackslash{}n\char`\"{}}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_ac1851d167a19c8daf5906be5de3bc251}\label{r__wifi__sx__ulpgn__private_8h_ac1851d167a19c8daf5906be5de3bc251}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RETURN\_TEXT\_NOANSWER@{WIFI\_RETURN\_TEXT\_NOANSWER}}
+\index{WIFI\_RETURN\_TEXT\_NOANSWER@{WIFI\_RETURN\_TEXT\_NOANSWER}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{WIFI\_RETURN\_TEXT\_NOANSWER}{WIFI\_RETURN\_TEXT\_NOANSWER}}
+{\footnotesize\ttfamily \#define W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+T\+E\+X\+T\+\_\+\+N\+O\+A\+N\+S\+W\+ER~\char`\"{}NO A\+N\+S\+W\+E\+R\textbackslash{}r\textbackslash{}n\char`\"{}}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_ad1a4a9eb0a3ed3d293b05cbd64dc3d03}\label{r__wifi__sx__ulpgn__private_8h_ad1a4a9eb0a3ed3d293b05cbd64dc3d03}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RETURN\_TEXT\_NOCARRIER@{WIFI\_RETURN\_TEXT\_NOCARRIER}}
+\index{WIFI\_RETURN\_TEXT\_NOCARRIER@{WIFI\_RETURN\_TEXT\_NOCARRIER}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{WIFI\_RETURN\_TEXT\_NOCARRIER}{WIFI\_RETURN\_TEXT\_NOCARRIER}}
+{\footnotesize\ttfamily \#define W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+T\+E\+X\+T\+\_\+\+N\+O\+C\+A\+R\+R\+I\+ER~\char`\"{}NO C\+A\+R\+R\+I\+E\+R\textbackslash{}r\textbackslash{}n\char`\"{}}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a5bb9089ffbf895a70b66f8cc043fd350}\label{r__wifi__sx__ulpgn__private_8h_a5bb9089ffbf895a70b66f8cc043fd350}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RETURN\_TEXT\_OK@{WIFI\_RETURN\_TEXT\_OK}}
+\index{WIFI\_RETURN\_TEXT\_OK@{WIFI\_RETURN\_TEXT\_OK}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{WIFI\_RETURN\_TEXT\_OK}{WIFI\_RETURN\_TEXT\_OK}}
+{\footnotesize\ttfamily \#define W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+T\+E\+X\+T\+\_\+\+OK~\char`\"{}O\+K\textbackslash{}r\textbackslash{}n\char`\"{}}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a65a3b41ead4d48bfd4227075c1165abe}\label{r__wifi__sx__ulpgn__private_8h_a65a3b41ead4d48bfd4227075c1165abe}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RETURN\_TEXT\_OK\_GO\_SEND@{WIFI\_RETURN\_TEXT\_OK\_GO\_SEND}}
+\index{WIFI\_RETURN\_TEXT\_OK\_GO\_SEND@{WIFI\_RETURN\_TEXT\_OK\_GO\_SEND}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{WIFI\_RETURN\_TEXT\_OK\_GO\_SEND}{WIFI\_RETURN\_TEXT\_OK\_GO\_SEND}}
+{\footnotesize\ttfamily \#define W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+T\+E\+X\+T\+\_\+\+O\+K\+\_\+\+G\+O\+\_\+\+S\+E\+ND~\char`\"{}O\+K\textbackslash{}r\textbackslash{}n$>$ \char`\"{}}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a89188c1ab810f10fecb0819e05f0e9d0}\label{r__wifi__sx__ulpgn__private_8h_a89188c1ab810f10fecb0819e05f0e9d0}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RETURN\_TEXT\_READY@{WIFI\_RETURN\_TEXT\_READY}}
+\index{WIFI\_RETURN\_TEXT\_READY@{WIFI\_RETURN\_TEXT\_READY}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{WIFI\_RETURN\_TEXT\_READY}{WIFI\_RETURN\_TEXT\_READY}}
+{\footnotesize\ttfamily \#define W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+T\+E\+X\+T\+\_\+\+R\+E\+A\+DY~\char`\"{}ready\textbackslash{}r\textbackslash{}n\char`\"{}}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a14ff1b230f88d03308c3c8b554dbc27c}\label{r__wifi__sx__ulpgn__private_8h_a14ff1b230f88d03308c3c8b554dbc27c}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RETURN\_TEXT\_SEND\_BYTE@{WIFI\_RETURN\_TEXT\_SEND\_BYTE}}
+\index{WIFI\_RETURN\_TEXT\_SEND\_BYTE@{WIFI\_RETURN\_TEXT\_SEND\_BYTE}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{WIFI\_RETURN\_TEXT\_SEND\_BYTE}{WIFI\_RETURN\_TEXT\_SEND\_BYTE}}
+{\footnotesize\ttfamily \#define W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+T\+E\+X\+T\+\_\+\+S\+E\+N\+D\+\_\+\+B\+Y\+TE~\char`\"{} bytes\textbackslash{}r\textbackslash{}n\char`\"{}}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a014c1a604bd168a50fdd02e8a98483e7}\label{r__wifi__sx__ulpgn__private_8h_a014c1a604bd168a50fdd02e8a98483e7}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RETURN\_TEXT\_SEND\_FAIL@{WIFI\_RETURN\_TEXT\_SEND\_FAIL}}
+\index{WIFI\_RETURN\_TEXT\_SEND\_FAIL@{WIFI\_RETURN\_TEXT\_SEND\_FAIL}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{WIFI\_RETURN\_TEXT\_SEND\_FAIL}{WIFI\_RETURN\_TEXT\_SEND\_FAIL}}
+{\footnotesize\ttfamily \#define W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+T\+E\+X\+T\+\_\+\+S\+E\+N\+D\+\_\+\+F\+A\+IL~\char`\"{}S\+E\+ND F\+A\+I\+L\textbackslash{}r\textbackslash{}n\char`\"{}}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_ae725bf9157844344ea5b6c7401aec3eb}\label{r__wifi__sx__ulpgn__private_8h_ae725bf9157844344ea5b6c7401aec3eb}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RETURN\_TEXT\_SEND\_OK@{WIFI\_RETURN\_TEXT\_SEND\_OK}}
+\index{WIFI\_RETURN\_TEXT\_SEND\_OK@{WIFI\_RETURN\_TEXT\_SEND\_OK}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{WIFI\_RETURN\_TEXT\_SEND\_OK}{WIFI\_RETURN\_TEXT\_SEND\_OK}}
+{\footnotesize\ttfamily \#define W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+T\+E\+X\+T\+\_\+\+S\+E\+N\+D\+\_\+\+OK~\char`\"{}S\+E\+ND O\+K\textbackslash{}r\textbackslash{}n\char`\"{}}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a8cd6f673736eb4fc8c6738c948122f44}\label{r__wifi__sx__ulpgn__private_8h_a8cd6f673736eb4fc8c6738c948122f44}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RTS\_DDR@{WIFI\_RTS\_DDR}}
+\index{WIFI\_RTS\_DDR@{WIFI\_RTS\_DDR}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{WIFI\_RTS\_DDR}{WIFI\_RTS\_DDR}}
+{\footnotesize\ttfamily \#define W\+I\+F\+I\+\_\+\+R\+T\+S\+\_\+\+D\+DR(\begin{DoxyParamCaption}\item[{}]{x,  }\item[{}]{y }\end{DoxyParamCaption})~(\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a99d91e443fbc016b3beb04a2de99684e}{W\+I\+F\+I\+\_\+\+R\+T\+S\+\_\+\+D\+D\+R\+\_\+\+P\+R\+E\+P\+R\+OC}}(x, y))}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a99d91e443fbc016b3beb04a2de99684e}\label{r__wifi__sx__ulpgn__private_8h_a99d91e443fbc016b3beb04a2de99684e}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RTS\_DDR\_PREPROC@{WIFI\_RTS\_DDR\_PREPROC}}
+\index{WIFI\_RTS\_DDR\_PREPROC@{WIFI\_RTS\_DDR\_PREPROC}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{WIFI\_RTS\_DDR\_PREPROC}{WIFI\_RTS\_DDR\_PREPROC}}
+{\footnotesize\ttfamily \#define W\+I\+F\+I\+\_\+\+R\+T\+S\+\_\+\+D\+D\+R\+\_\+\+P\+R\+E\+P\+R\+OC(\begin{DoxyParamCaption}\item[{}]{x,  }\item[{}]{y }\end{DoxyParamCaption})~((P\+O\+RT \#\# x .P\+D\+R.\+B\+I\+T.\+B \#\# y))}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a7f8ee9c228f7671316033ca04f312de1}\label{r__wifi__sx__ulpgn__private_8h_a7f8ee9c228f7671316033ca04f312de1}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RTS\_DR@{WIFI\_RTS\_DR}}
+\index{WIFI\_RTS\_DR@{WIFI\_RTS\_DR}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{WIFI\_RTS\_DR}{WIFI\_RTS\_DR}}
+{\footnotesize\ttfamily \#define W\+I\+F\+I\+\_\+\+R\+T\+S\+\_\+\+DR(\begin{DoxyParamCaption}\item[{}]{x,  }\item[{}]{y }\end{DoxyParamCaption})~(\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a324054d1d7d5661d3115b3da99b79a6d}{W\+I\+F\+I\+\_\+\+R\+T\+S\+\_\+\+D\+R\+\_\+\+P\+R\+E\+P\+R\+OC}}(x, y))}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a324054d1d7d5661d3115b3da99b79a6d}\label{r__wifi__sx__ulpgn__private_8h_a324054d1d7d5661d3115b3da99b79a6d}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RTS\_DR\_PREPROC@{WIFI\_RTS\_DR\_PREPROC}}
+\index{WIFI\_RTS\_DR\_PREPROC@{WIFI\_RTS\_DR\_PREPROC}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{WIFI\_RTS\_DR\_PREPROC}{WIFI\_RTS\_DR\_PREPROC}}
+{\footnotesize\ttfamily \#define W\+I\+F\+I\+\_\+\+R\+T\+S\+\_\+\+D\+R\+\_\+\+P\+R\+E\+P\+R\+OC(\begin{DoxyParamCaption}\item[{}]{x,  }\item[{}]{y }\end{DoxyParamCaption})~((P\+O\+RT \#\# x .P\+O\+D\+R.\+B\+I\+T.\+B \#\# y))}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_ace871b5f66585c4cc35fdc595f0e2dcc}\label{r__wifi__sx__ulpgn__private_8h_ace871b5f66585c4cc35fdc595f0e2dcc}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_SOCKET\_SENDABLE\_DATASIZE@{WIFI\_SOCKET\_SENDABLE\_DATASIZE}}
+\index{WIFI\_SOCKET\_SENDABLE\_DATASIZE@{WIFI\_SOCKET\_SENDABLE\_DATASIZE}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{WIFI\_SOCKET\_SENDABLE\_DATASIZE}{WIFI\_SOCKET\_SENDABLE\_DATASIZE}}
+{\footnotesize\ttfamily \#define W\+I\+F\+I\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+S\+E\+N\+D\+A\+B\+L\+E\+\_\+\+D\+A\+T\+A\+S\+I\+ZE~1420}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_aff29995738eb532dc99bc8ce5ea01be3}\label{r__wifi__sx__ulpgn__private_8h_aff29995738eb532dc99bc8ce5ea01be3}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_UART\_BAUDRATE\_DEFAULT@{WIFI\_UART\_BAUDRATE\_DEFAULT}}
+\index{WIFI\_UART\_BAUDRATE\_DEFAULT@{WIFI\_UART\_BAUDRATE\_DEFAULT}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{WIFI\_UART\_BAUDRATE\_DEFAULT}{WIFI\_UART\_BAUDRATE\_DEFAULT}}
+{\footnotesize\ttfamily \#define W\+I\+F\+I\+\_\+\+U\+A\+R\+T\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+\+D\+E\+F\+A\+U\+LT~115200}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_ab86625aef6e27c182034f5d12b468023}\label{r__wifi__sx__ulpgn__private_8h_ab86625aef6e27c182034f5d12b468023}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_UART\_COMMAND\_PORT@{WIFI\_UART\_COMMAND\_PORT}}
+\index{WIFI\_UART\_COMMAND\_PORT@{WIFI\_UART\_COMMAND\_PORT}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{WIFI\_UART\_COMMAND\_PORT}{WIFI\_UART\_COMMAND\_PORT}}
+{\footnotesize\ttfamily \#define W\+I\+F\+I\+\_\+\+U\+A\+R\+T\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+P\+O\+RT~(0)}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a4c962f139335b20052afad251d93caf0}\label{r__wifi__sx__ulpgn__private_8h_a4c962f139335b20052afad251d93caf0}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_UART\_DATA\_PORT@{WIFI\_UART\_DATA\_PORT}}
+\index{WIFI\_UART\_DATA\_PORT@{WIFI\_UART\_DATA\_PORT}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{WIFI\_UART\_DATA\_PORT}{WIFI\_UART\_DATA\_PORT}}
+{\footnotesize\ttfamily \#define W\+I\+F\+I\+\_\+\+U\+A\+R\+T\+\_\+\+D\+A\+T\+A\+\_\+\+P\+O\+RT~(1)}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_aeb9cdd7bb8976379bf064cce230aebce}\label{r__wifi__sx__ulpgn__private_8h_aeb9cdd7bb8976379bf064cce230aebce}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!wifi\_socket\_t@{wifi\_socket\_t}}
+\index{wifi\_socket\_t@{wifi\_socket\_t}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{wifi\_socket\_t}{wifi\_socket\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structwifi__socket__tag}{wifi\+\_\+socket\+\_\+tag}} \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_aeb9cdd7bb8976379bf064cce230aebce}{wifi\+\_\+socket\+\_\+t}}}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!wifi\_command\_list\_t@{wifi\_command\_list\_t}}
+\index{wifi\_command\_list\_t@{wifi\_command\_list\_t}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{wifi\_command\_list\_t}{wifi\_command\_list\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2}{wifi\+\_\+command\+\_\+list\+\_\+t}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_NONE@{WIFI\_COMMAND\_NONE}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_NONE@{WIFI\_COMMAND\_NONE}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a29f5ca5d5b46a87b530ebbeb68db3ed5}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a29f5ca5d5b46a87b530ebbeb68db3ed5}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+N\+O\+NE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_REBOOT@{WIFI\_COMMAND\_SET\_REBOOT}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_REBOOT@{WIFI\_COMMAND\_SET\_REBOOT}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a24eec9279c77ae1c0cb3180936ad6cdc}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a24eec9279c77ae1c0cb3180936ad6cdc}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+R\+E\+B\+O\+OT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_ECHO\_OFF@{WIFI\_COMMAND\_SET\_ECHO\_OFF}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_ECHO\_OFF@{WIFI\_COMMAND\_SET\_ECHO\_OFF}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a422fe9300914e535174ff525cc253c0c}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a422fe9300914e535174ff525cc253c0c}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+E\+C\+H\+O\+\_\+\+O\+FF&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_UART\_CHANGE\_TO\_2@{WIFI\_COMMAND\_SET\_UART\_CHANGE\_TO\_2}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_UART\_CHANGE\_TO\_2@{WIFI\_COMMAND\_SET\_UART\_CHANGE\_TO\_2}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a4feca64963ddace87f92d66fc2da7a85}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a4feca64963ddace87f92d66fc2da7a85}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+U\+A\+R\+T\+\_\+\+C\+H\+A\+N\+G\+E\+\_\+\+T\+O\+\_\+2&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_UART\_CHANGE\_TO\_21@{WIFI\_COMMAND\_SET\_UART\_CHANGE\_TO\_21}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_UART\_CHANGE\_TO\_21@{WIFI\_COMMAND\_SET\_UART\_CHANGE\_TO\_21}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2af80a2e11fb38cc1dbc45dfe3682cc688}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2af80a2e11fb38cc1dbc45dfe3682cc688}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+U\+A\+R\+T\+\_\+\+C\+H\+A\+N\+G\+E\+\_\+\+T\+O\+\_\+21&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_UART\_HISPEED@{WIFI\_COMMAND\_SET\_UART\_HISPEED}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_UART\_HISPEED@{WIFI\_COMMAND\_SET\_UART\_HISPEED}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2aaeeb41376068d46106efafb704285080}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2aaeeb41376068d46106efafb704285080}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+U\+A\+R\+T\+\_\+\+H\+I\+S\+P\+E\+ED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_UART\_FLOW\_TIMEOUT@{WIFI\_COMMAND\_SET\_UART\_FLOW\_TIMEOUT}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_UART\_FLOW\_TIMEOUT@{WIFI\_COMMAND\_SET\_UART\_FLOW\_TIMEOUT}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a33382286dc1988873915aef6301dbc30}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a33382286dc1988873915aef6301dbc30}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+U\+A\+R\+T\+\_\+\+F\+L\+O\+W\+\_\+\+T\+I\+M\+E\+O\+UT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_ESCAPE\_GUARD\_TIME@{WIFI\_COMMAND\_SET\_ESCAPE\_GUARD\_TIME}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_ESCAPE\_GUARD\_TIME@{WIFI\_COMMAND\_SET\_ESCAPE\_GUARD\_TIME}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2aef75a534c79956f9477a064d78e76b3e}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2aef75a534c79956f9477a064d78e76b3e}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+E\+S\+C\+A\+P\+E\+\_\+\+G\+U\+A\+R\+D\+\_\+\+T\+I\+ME&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_BUFFER\_THRESHOLD@{WIFI\_COMMAND\_SET\_BUFFER\_THRESHOLD}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_BUFFER\_THRESHOLD@{WIFI\_COMMAND\_SET\_BUFFER\_THRESHOLD}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a80ed5498b15e71dbdb48c70dab267925}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a80ed5498b15e71dbdb48c70dab267925}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+T\+H\+R\+E\+S\+H\+O\+LD&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_WIFI\_DISCONNECT@{WIFI\_COMMAND\_SET\_WIFI\_DISCONNECT}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_WIFI\_DISCONNECT@{WIFI\_COMMAND\_SET\_WIFI\_DISCONNECT}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a083a08cf50558f67cce61ca68633e647}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a083a08cf50558f67cce61ca68633e647}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+W\+I\+F\+I\+\_\+\+D\+I\+S\+C\+O\+N\+N\+E\+CT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_AT\_RECV\_TIMEOUT@{WIFI\_COMMAND\_SET\_AT\_RECV\_TIMEOUT}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_AT\_RECV\_TIMEOUT@{WIFI\_COMMAND\_SET\_AT\_RECV\_TIMEOUT}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2ab237013f8af3a6ad8f2fd033f4272a79}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2ab237013f8af3a6ad8f2fd033f4272a79}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+A\+T\+\_\+\+R\+E\+C\+V\+\_\+\+T\+I\+M\+E\+O\+UT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_AUTOCLOSE@{WIFI\_COMMAND\_SET\_AUTOCLOSE}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_AUTOCLOSE@{WIFI\_COMMAND\_SET\_AUTOCLOSE}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2acafa90895eb119713cf20d871ea2cc99}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2acafa90895eb119713cf20d871ea2cc99}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+A\+U\+T\+O\+C\+L\+O\+SE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_AUTO\_TRANSPARENT\_MODE@{WIFI\_COMMAND\_SET\_AUTO\_TRANSPARENT\_MODE}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_AUTO\_TRANSPARENT\_MODE@{WIFI\_COMMAND\_SET\_AUTO\_TRANSPARENT\_MODE}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a5e403a7eb435010591b289e28cfa92be}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a5e403a7eb435010591b289e28cfa92be}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+A\+U\+T\+O\+\_\+\+T\+R\+A\+N\+S\+P\+A\+R\+E\+N\+T\+\_\+\+M\+O\+DE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_DNS\_SRV\_ADDRESS@{WIFI\_COMMAND\_SET\_DNS\_SRV\_ADDRESS}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_DNS\_SRV\_ADDRESS@{WIFI\_COMMAND\_SET\_DNS\_SRV\_ADDRESS}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2aedef5e7390c37185dfbf0f46c489e319}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2aedef5e7390c37185dfbf0f46c489e319}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+D\+N\+S\+\_\+\+S\+R\+V\+\_\+\+A\+D\+D\+R\+E\+SS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_STATIC\_IP@{WIFI\_COMMAND\_SET\_STATIC\_IP}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_STATIC\_IP@{WIFI\_COMMAND\_SET\_STATIC\_IP}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a90939293754a906302e0020056be9b1e}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a90939293754a906302e0020056be9b1e}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+S\+T\+A\+T\+I\+C\+\_\+\+IP&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_WIFI\_AUTOCONNECT@{WIFI\_COMMAND\_SET\_WIFI\_AUTOCONNECT}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_WIFI\_AUTOCONNECT@{WIFI\_COMMAND\_SET\_WIFI\_AUTOCONNECT}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2ad42770aac64a384f748a1af637f4c171}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2ad42770aac64a384f748a1af637f4c171}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+W\+I\+F\+I\+\_\+\+A\+U\+T\+O\+C\+O\+N\+N\+E\+CT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_WIFI\_ACT\_MODE@{WIFI\_COMMAND\_SET\_WIFI\_ACT\_MODE}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_WIFI\_ACT\_MODE@{WIFI\_COMMAND\_SET\_WIFI\_ACT\_MODE}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a07da03a6a54717e8228a81d56bec85cc}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a07da03a6a54717e8228a81d56bec85cc}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+W\+I\+F\+I\+\_\+\+A\+C\+T\+\_\+\+M\+O\+DE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_DHCP\_MODE@{WIFI\_COMMAND\_SET\_DHCP\_MODE}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_DHCP\_MODE@{WIFI\_COMMAND\_SET\_DHCP\_MODE}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a5a408c62d504a6c0f25d878caa2ab0aa}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a5a408c62d504a6c0f25d878caa2ab0aa}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+D\+H\+C\+P\+\_\+\+M\+O\+DE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_MULTIPLE\_SOCKET@{WIFI\_COMMAND\_SET\_MULTIPLE\_SOCKET}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_MULTIPLE\_SOCKET@{WIFI\_COMMAND\_SET\_MULTIPLE\_SOCKET}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a1583a6b22a5e29a773961aee7c06e665}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a1583a6b22a5e29a773961aee7c06e665}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+M\+U\+L\+T\+I\+P\+L\+E\+\_\+\+S\+O\+C\+K\+ET&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_WIFI\_CONNECT@{WIFI\_COMMAND\_SET\_WIFI\_CONNECT}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_WIFI\_CONNECT@{WIFI\_COMMAND\_SET\_WIFI\_CONNECT}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2aa057ee99d9a393afb2f5eb9ed566a4be}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2aa057ee99d9a393afb2f5eb9ed566a4be}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+W\+I\+F\+I\+\_\+\+C\+O\+N\+N\+E\+CT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_DNSQUERY@{WIFI\_COMMAND\_SET\_DNSQUERY}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_DNSQUERY@{WIFI\_COMMAND\_SET\_DNSQUERY}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a9473b7ffac729469cf9d5e028bbd3c63}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a9473b7ffac729469cf9d5e028bbd3c63}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+D\+N\+S\+Q\+U\+E\+RY&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_PING@{WIFI\_COMMAND\_SET\_PING}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_PING@{WIFI\_COMMAND\_SET\_PING}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a5088fa3bdcc9946105b04440e3a01322}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a5088fa3bdcc9946105b04440e3a01322}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+P\+I\+NG&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_SSLCONFIG@{WIFI\_COMMAND\_SET\_SSLCONFIG}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_SSLCONFIG@{WIFI\_COMMAND\_SET\_SSLCONFIG}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2ac0804c14f604a1003ce49ed4f129908b}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2ac0804c14f604a1003ce49ed4f129908b}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+S\+S\+L\+C\+O\+N\+F\+IG&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_SOCKET\_CREATE@{WIFI\_COMMAND\_SET\_SOCKET\_CREATE}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_SOCKET\_CREATE@{WIFI\_COMMAND\_SET\_SOCKET\_CREATE}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2af1031f2e5b716d73a272378d38391ecd}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2af1031f2e5b716d73a272378d38391ecd}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+C\+R\+E\+A\+TE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_SOCKET\_CONNECT@{WIFI\_COMMAND\_SET\_SOCKET\_CONNECT}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_SOCKET\_CONNECT@{WIFI\_COMMAND\_SET\_SOCKET\_CONNECT}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2afd4a35e3cbe8702e780c25732b9811a5}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2afd4a35e3cbe8702e780c25732b9811a5}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+C\+O\+N\+N\+E\+CT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_SOCKET\_SEND\_START@{WIFI\_COMMAND\_SET\_SOCKET\_SEND\_START}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_SOCKET\_SEND\_START@{WIFI\_COMMAND\_SET\_SOCKET\_SEND\_START}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a68e4e5a19aceee1541ddff357f31b9fa}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a68e4e5a19aceee1541ddff357f31b9fa}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+S\+E\+N\+D\+\_\+\+S\+T\+A\+RT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_SOCKET\_SEND\_DATA@{WIFI\_COMMAND\_SET\_SOCKET\_SEND\_DATA}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_SOCKET\_SEND\_DATA@{WIFI\_COMMAND\_SET\_SOCKET\_SEND\_DATA}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a5a13710f1e02f7edaef6f1549dc9f620}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a5a13710f1e02f7edaef6f1549dc9f620}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+S\+E\+N\+D\+\_\+\+D\+A\+TA&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_SOCKET\_CLOSE@{WIFI\_COMMAND\_SET\_SOCKET\_CLOSE}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_SOCKET\_CLOSE@{WIFI\_COMMAND\_SET\_SOCKET\_CLOSE}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a524a75abedc5a7f8694443a5d342042c}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a524a75abedc5a7f8694443a5d342042c}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+C\+L\+O\+SE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_SOCKET\_CHANGE@{WIFI\_COMMAND\_SET\_SOCKET\_CHANGE}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_SOCKET\_CHANGE@{WIFI\_COMMAND\_SET\_SOCKET\_CHANGE}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2acfc939dfaaf1b56f3112260547ef3d75}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2acfc939dfaaf1b56f3112260547ef3d75}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+C\+H\+A\+N\+GE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_TRANSPARENT\_MODE@{WIFI\_COMMAND\_SET\_TRANSPARENT\_MODE}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_TRANSPARENT\_MODE@{WIFI\_COMMAND\_SET\_TRANSPARENT\_MODE}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a27a6f3365091d001b5074236cb1af69a}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a27a6f3365091d001b5074236cb1af69a}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+T\+R\+A\+N\+S\+P\+A\+R\+E\+N\+T\+\_\+\+M\+O\+DE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_COMMAND\_MODE@{WIFI\_COMMAND\_SET\_COMMAND\_MODE}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_COMMAND\_MODE@{WIFI\_COMMAND\_SET\_COMMAND\_MODE}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a5ba0ef634f4a28909cad2d5c071300e9}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a5ba0ef634f4a28909cad2d5c071300e9}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+M\+O\+DE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_GET\_SOCKET\_STATUS@{WIFI\_COMMAND\_GET\_SOCKET\_STATUS}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_GET\_SOCKET\_STATUS@{WIFI\_COMMAND\_GET\_SOCKET\_STATUS}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a72d3952e181f490f5c29ce3b4b24a64b}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a72d3952e181f490f5c29ce3b4b24a64b}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+G\+E\+T\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+S\+T\+A\+T\+US&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_GET\_MODULE\_VERSION@{WIFI\_COMMAND\_GET\_MODULE\_VERSION}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_GET\_MODULE\_VERSION@{WIFI\_COMMAND\_GET\_MODULE\_VERSION}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a91f5cc90a48a3e7d4693bc24935ba105}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a91f5cc90a48a3e7d4693bc24935ba105}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+G\+E\+T\+\_\+\+M\+O\+D\+U\+L\+E\+\_\+\+V\+E\+R\+S\+I\+ON&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_GET\_UART\_BAUDRATE@{WIFI\_COMMAND\_GET\_UART\_BAUDRATE}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_GET\_UART\_BAUDRATE@{WIFI\_COMMAND\_GET\_UART\_BAUDRATE}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a7b009e17c06b23b98187b8782241be8e}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a7b009e17c06b23b98187b8782241be8e}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+G\+E\+T\+\_\+\+U\+A\+R\+T\+\_\+\+B\+A\+U\+D\+R\+A\+TE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_GET\_APLIST@{WIFI\_COMMAND\_GET\_APLIST}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_GET\_APLIST@{WIFI\_COMMAND\_GET\_APLIST}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2ae2ec8510069d4b54173ae48ca810e60a}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2ae2ec8510069d4b54173ae48ca810e60a}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+G\+E\+T\+\_\+\+A\+P\+L\+I\+ST&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_GET\_MACADDRESS@{WIFI\_COMMAND\_GET\_MACADDRESS}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_GET\_MACADDRESS@{WIFI\_COMMAND\_GET\_MACADDRESS}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2aca7bbc61753ca73a3292d666147ad430}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2aca7bbc61753ca73a3292d666147ad430}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+G\+E\+T\+\_\+\+M\+A\+C\+A\+D\+D\+R\+E\+SS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_GET\_IPADDRESS@{WIFI\_COMMAND\_GET\_IPADDRESS}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_GET\_IPADDRESS@{WIFI\_COMMAND\_GET\_IPADDRESS}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a69a9a095bac8d00c37952508183f23e9}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a69a9a095bac8d00c37952508183f23e9}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+G\+E\+T\+\_\+\+I\+P\+A\+D\+D\+R\+E\+SS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_GET\_SENT\_RECV\_SIZE@{WIFI\_COMMAND\_GET\_SENT\_RECV\_SIZE}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_GET\_SENT\_RECV\_SIZE@{WIFI\_COMMAND\_GET\_SENT\_RECV\_SIZE}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a844bafd2bab7b06f2f35a7ae8d1deb2a}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a844bafd2bab7b06f2f35a7ae8d1deb2a}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+G\+E\+T\+\_\+\+S\+E\+N\+T\+\_\+\+R\+E\+C\+V\+\_\+\+S\+I\+ZE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_GET\_CURRENT\_SSID@{WIFI\_COMMAND\_GET\_CURRENT\_SSID}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_GET\_CURRENT\_SSID@{WIFI\_COMMAND\_GET\_CURRENT\_SSID}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a1ad63f429317d3eaf90629ff4801c1ce}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a1ad63f429317d3eaf90629ff4801c1ce}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+G\+E\+T\+\_\+\+C\+U\+R\+R\+E\+N\+T\+\_\+\+S\+S\+ID&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_SET\_SYSFALSH\_WRITE\_DATA@{WIFI\_COMMAND\_SET\_SYSFALSH\_WRITE\_DATA}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_SET\_SYSFALSH\_WRITE\_DATA@{WIFI\_COMMAND\_SET\_SYSFALSH\_WRITE\_DATA}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2aca6b4b9e9aaef1fd7d9f16cb49b84d4f}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2aca6b4b9e9aaef1fd7d9f16cb49b84d4f}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+E\+T\+\_\+\+S\+Y\+S\+F\+A\+L\+S\+H\+\_\+\+W\+R\+I\+T\+E\+\_\+\+D\+A\+TA&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_COMMAND\_LIST\_MAX@{WIFI\_COMMAND\_LIST\_MAX}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_COMMAND\_LIST\_MAX@{WIFI\_COMMAND\_LIST\_MAX}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a15199371c7eed968a55b088cc8e47eee}\label{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2a15199371c7eed968a55b088cc8e47eee}} 
+W\+I\+F\+I\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+L\+I\+S\+T\+\_\+\+M\+AX&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9}\label{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!wifi\_return\_code\_t@{wifi\_return\_code\_t}}
+\index{wifi\_return\_code\_t@{wifi\_return\_code\_t}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{wifi\_return\_code\_t}{wifi\_return\_code\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9}{wifi\+\_\+return\+\_\+code\+\_\+t}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_RETURN\_ENUM\_OK@{WIFI\_RETURN\_ENUM\_OK}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RETURN\_ENUM\_OK@{WIFI\_RETURN\_ENUM\_OK}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9a23f027fe01cbf8ed97b39be25b26968b}\label{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9a23f027fe01cbf8ed97b39be25b26968b}} 
+W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+E\+N\+U\+M\+\_\+\+OK&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_RETURN\_ENUM\_ERROR@{WIFI\_RETURN\_ENUM\_ERROR}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RETURN\_ENUM\_ERROR@{WIFI\_RETURN\_ENUM\_ERROR}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9af3c3fd3da771210c747ace12a982a4b8}\label{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9af3c3fd3da771210c747ace12a982a4b8}} 
+W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+E\+N\+U\+M\+\_\+\+E\+R\+R\+OR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_RETURN\_ENUM\_READY@{WIFI\_RETURN\_ENUM\_READY}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RETURN\_ENUM\_READY@{WIFI\_RETURN\_ENUM\_READY}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9aa9eab523a291ffffc48fb46d75f553d3}\label{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9aa9eab523a291ffffc48fb46d75f553d3}} 
+W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+E\+N\+U\+M\+\_\+\+R\+E\+A\+DY&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_RETURN\_ENUM\_CONNECT@{WIFI\_RETURN\_ENUM\_CONNECT}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RETURN\_ENUM\_CONNECT@{WIFI\_RETURN\_ENUM\_CONNECT}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9a2c0dc9e64767df5218f9c2e03bcad098}\label{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9a2c0dc9e64767df5218f9c2e03bcad098}} 
+W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+E\+N\+U\+M\+\_\+\+C\+O\+N\+N\+E\+CT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_RETURN\_ENUM\_BUSY@{WIFI\_RETURN\_ENUM\_BUSY}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RETURN\_ENUM\_BUSY@{WIFI\_RETURN\_ENUM\_BUSY}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9a8a780ba36e38958bc30d387abad7f234}\label{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9a8a780ba36e38958bc30d387abad7f234}} 
+W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+E\+N\+U\+M\+\_\+\+B\+U\+SY&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_RETURN\_ENUM\_NOCARRIER@{WIFI\_RETURN\_ENUM\_NOCARRIER}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RETURN\_ENUM\_NOCARRIER@{WIFI\_RETURN\_ENUM\_NOCARRIER}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9aa6903ee39c653eab1aaa815991cfcb9d}\label{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9aa6903ee39c653eab1aaa815991cfcb9d}} 
+W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+E\+N\+U\+M\+\_\+\+N\+O\+C\+A\+R\+R\+I\+ER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_RETURN\_ENUM\_PROCESSING@{WIFI\_RETURN\_ENUM\_PROCESSING}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RETURN\_ENUM\_PROCESSING@{WIFI\_RETURN\_ENUM\_PROCESSING}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9a3eeb9fd98860f570ac5c8e7ae6e786a5}\label{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9a3eeb9fd98860f570ac5c8e7ae6e786a5}} 
+W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+E\+N\+U\+M\+\_\+\+P\+R\+O\+C\+E\+S\+S\+I\+NG&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_RETURN\_ENUM\_INTERNAL\_TIMEOUT@{WIFI\_RETURN\_ENUM\_INTERNAL\_TIMEOUT}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RETURN\_ENUM\_INTERNAL\_TIMEOUT@{WIFI\_RETURN\_ENUM\_INTERNAL\_TIMEOUT}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9a66c21749e69373f3bd363feaacfb0d85}\label{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9a66c21749e69373f3bd363feaacfb0d85}} 
+W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+E\+N\+U\+M\+\_\+\+I\+N\+T\+E\+R\+N\+A\+L\+\_\+\+T\+I\+M\+E\+O\+UT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_RETURN\_ENUM\_MAX@{WIFI\_RETURN\_ENUM\_MAX}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RETURN\_ENUM\_MAX@{WIFI\_RETURN\_ENUM\_MAX}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9a1317b0016f91dcf48912961277745146}\label{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9a1317b0016f91dcf48912961277745146}} 
+W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+E\+N\+U\+M\+\_\+\+M\+AX&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a26c7e7bfeda4c4d570cc4796580b9bc8}\label{r__wifi__sx__ulpgn__private_8h_a26c7e7bfeda4c4d570cc4796580b9bc8}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!wifi\_return\_string\_t@{wifi\_return\_string\_t}}
+\index{wifi\_return\_string\_t@{wifi\_return\_string\_t}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{wifi\_return\_string\_t}{wifi\_return\_string\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a26c7e7bfeda4c4d570cc4796580b9bc8}{wifi\+\_\+return\+\_\+string\+\_\+t}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_RETURN\_STRING\_TEXT@{WIFI\_RETURN\_STRING\_TEXT}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RETURN\_STRING\_TEXT@{WIFI\_RETURN\_STRING\_TEXT}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a26c7e7bfeda4c4d570cc4796580b9bc8ab9c315de78ca534f1012ddf06504895b}\label{r__wifi__sx__ulpgn__private_8h_a26c7e7bfeda4c4d570cc4796580b9bc8ab9c315de78ca534f1012ddf06504895b}} 
+W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+S\+T\+R\+I\+N\+G\+\_\+\+T\+E\+XT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_RETURN\_STRING\_MAX@{WIFI\_RETURN\_STRING\_MAX}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_RETURN\_STRING\_MAX@{WIFI\_RETURN\_STRING\_MAX}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a26c7e7bfeda4c4d570cc4796580b9bc8a6d9b4f0205bad1551205671ffd173a70}\label{r__wifi__sx__ulpgn__private_8h_a26c7e7bfeda4c4d570cc4796580b9bc8a6d9b4f0205bad1551205671ffd173a70}} 
+W\+I\+F\+I\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+S\+T\+R\+I\+N\+G\+\_\+\+M\+AX&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a1b9a2a5203448fa792bacfc6e39fb5ea}\label{r__wifi__sx__ulpgn__private_8h_a1b9a2a5203448fa792bacfc6e39fb5ea}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!wifi\_socket\_status\_t@{wifi\_socket\_status\_t}}
+\index{wifi\_socket\_status\_t@{wifi\_socket\_status\_t}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{wifi\_socket\_status\_t}{wifi\_socket\_status\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a1b9a2a5203448fa792bacfc6e39fb5ea}{wifi\+\_\+socket\+\_\+status\+\_\+t}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_SOCKET\_STATUS\_CLOSED@{WIFI\_SOCKET\_STATUS\_CLOSED}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_SOCKET\_STATUS\_CLOSED@{WIFI\_SOCKET\_STATUS\_CLOSED}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a1b9a2a5203448fa792bacfc6e39fb5eaa10f9a92fd4ada01cef1ed0ac6bc642ae}\label{r__wifi__sx__ulpgn__private_8h_a1b9a2a5203448fa792bacfc6e39fb5eaa10f9a92fd4ada01cef1ed0ac6bc642ae}} 
+W\+I\+F\+I\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+C\+L\+O\+S\+ED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_SOCKET\_STATUS\_SOCKET@{WIFI\_SOCKET\_STATUS\_SOCKET}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_SOCKET\_STATUS\_SOCKET@{WIFI\_SOCKET\_STATUS\_SOCKET}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a1b9a2a5203448fa792bacfc6e39fb5eaaa9e238f7f4a6f0a71cd0f6bd8903e977}\label{r__wifi__sx__ulpgn__private_8h_a1b9a2a5203448fa792bacfc6e39fb5eaaa9e238f7f4a6f0a71cd0f6bd8903e977}} 
+W\+I\+F\+I\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+S\+O\+C\+K\+ET&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_SOCKET\_STATUS\_BOUND@{WIFI\_SOCKET\_STATUS\_BOUND}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_SOCKET\_STATUS\_BOUND@{WIFI\_SOCKET\_STATUS\_BOUND}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a1b9a2a5203448fa792bacfc6e39fb5eaac2e8e060965d7969a555a883cf5a230c}\label{r__wifi__sx__ulpgn__private_8h_a1b9a2a5203448fa792bacfc6e39fb5eaac2e8e060965d7969a555a883cf5a230c}} 
+W\+I\+F\+I\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+B\+O\+U\+ND&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_SOCKET\_STATUS\_LISTEN@{WIFI\_SOCKET\_STATUS\_LISTEN}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_SOCKET\_STATUS\_LISTEN@{WIFI\_SOCKET\_STATUS\_LISTEN}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a1b9a2a5203448fa792bacfc6e39fb5eaabe161838b3f18f28804b0fbccb1ff8a4}\label{r__wifi__sx__ulpgn__private_8h_a1b9a2a5203448fa792bacfc6e39fb5eaabe161838b3f18f28804b0fbccb1ff8a4}} 
+W\+I\+F\+I\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+L\+I\+S\+T\+EN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_SOCKET\_STATUS\_CONNECTED@{WIFI\_SOCKET\_STATUS\_CONNECTED}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_SOCKET\_STATUS\_CONNECTED@{WIFI\_SOCKET\_STATUS\_CONNECTED}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a1b9a2a5203448fa792bacfc6e39fb5eaa5927a40020de4598311d4a03eb554f6d}\label{r__wifi__sx__ulpgn__private_8h_a1b9a2a5203448fa792bacfc6e39fb5eaa5927a40020de4598311d4a03eb554f6d}} 
+W\+I\+F\+I\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+C\+O\+N\+N\+E\+C\+T\+ED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_SOCKET\_STATUS\_MAX@{WIFI\_SOCKET\_STATUS\_MAX}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_SOCKET\_STATUS\_MAX@{WIFI\_SOCKET\_STATUS\_MAX}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a1b9a2a5203448fa792bacfc6e39fb5eaadc3e02cb775fe8f75cc92de960041569}\label{r__wifi__sx__ulpgn__private_8h_a1b9a2a5203448fa792bacfc6e39fb5eaadc3e02cb775fe8f75cc92de960041569}} 
+W\+I\+F\+I\+\_\+\+S\+O\+C\+K\+E\+T\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+M\+AX&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a3d783c5a203dac7098be1a579c804f19}\label{r__wifi__sx__ulpgn__private_8h_a3d783c5a203dac7098be1a579c804f19}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!wifi\_system\_status\_t@{wifi\_system\_status\_t}}
+\index{wifi\_system\_status\_t@{wifi\_system\_status\_t}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{wifi\_system\_status\_t}{wifi\_system\_status\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a3d783c5a203dac7098be1a579c804f19}{wifi\+\_\+system\+\_\+status\+\_\+t}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_SYSTEM\_CLOSE@{WIFI\_SYSTEM\_CLOSE}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_SYSTEM\_CLOSE@{WIFI\_SYSTEM\_CLOSE}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a3d783c5a203dac7098be1a579c804f19a14cb80d1420c356e9eaede905f8266fc}\label{r__wifi__sx__ulpgn__private_8h_a3d783c5a203dac7098be1a579c804f19a14cb80d1420c356e9eaede905f8266fc}} 
+W\+I\+F\+I\+\_\+\+S\+Y\+S\+T\+E\+M\+\_\+\+C\+L\+O\+SE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_SYSTEM\_OPEN@{WIFI\_SYSTEM\_OPEN}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_SYSTEM\_OPEN@{WIFI\_SYSTEM\_OPEN}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a3d783c5a203dac7098be1a579c804f19a35b1ee18131958ce49cfb89f0f266908}\label{r__wifi__sx__ulpgn__private_8h_a3d783c5a203dac7098be1a579c804f19a35b1ee18131958ce49cfb89f0f266908}} 
+W\+I\+F\+I\+\_\+\+S\+Y\+S\+T\+E\+M\+\_\+\+O\+P\+EN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WIFI\_SYSTEM\_CONNECT@{WIFI\_SYSTEM\_CONNECT}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!WIFI\_SYSTEM\_CONNECT@{WIFI\_SYSTEM\_CONNECT}}}\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a3d783c5a203dac7098be1a579c804f19a7f99ffb2ad1ad69f50109f637ce03e9f}\label{r__wifi__sx__ulpgn__private_8h_a3d783c5a203dac7098be1a579c804f19a7f99ffb2ad1ad69f50109f637ce03e9f}} 
+W\+I\+F\+I\+\_\+\+S\+Y\+S\+T\+E\+M\+\_\+\+C\+O\+N\+N\+E\+CT&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_ae610239f8765fc3df65cc8c18941d7f6}\label{r__wifi__sx__ulpgn__private_8h_ae610239f8765fc3df65cc8c18941d7f6}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!wifi\_delete\_recv\_task@{wifi\_delete\_recv\_task}}
+\index{wifi\_delete\_recv\_task@{wifi\_delete\_recv\_task}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{wifi\_delete\_recv\_task()}{wifi\_delete\_recv\_task()}}
+{\footnotesize\ttfamily void wifi\+\_\+delete\+\_\+recv\+\_\+task (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_ae2b34574db20d3345e9ed564e3fe4af7}\label{r__wifi__sx__ulpgn__private_8h_ae2b34574db20d3345e9ed564e3fe4af7}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!wifi\_get\_current\_running\_queue@{wifi\_get\_current\_running\_queue}}
+\index{wifi\_get\_current\_running\_queue@{wifi\_get\_current\_running\_queue}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{wifi\_get\_current\_running\_queue()}{wifi\_get\_current\_running\_queue()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structwifi__at__execute__queue__t}{wifi\+\_\+at\+\_\+execute\+\_\+queue\+\_\+t}}$\ast$ wifi\+\_\+get\+\_\+current\+\_\+running\+\_\+queue (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a491098093f61016b954d6f6adc568e6a}\label{r__wifi__sx__ulpgn__private_8h_a491098093f61016b954d6f6adc568e6a}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!wifi\_get\_result\_from\_queue@{wifi\_get\_result\_from\_queue}}
+\index{wifi\_get\_result\_from\_queue@{wifi\_get\_result\_from\_queue}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{wifi\_get\_result\_from\_queue()}{wifi\_get\_result\_from\_queue()}}
+{\footnotesize\ttfamily int8\+\_\+t wifi\+\_\+get\+\_\+result\+\_\+from\+\_\+queue (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{ticket\+\_\+no,  }\item[{\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9}{wifi\+\_\+return\+\_\+code\+\_\+t}} $\ast$}]{result }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_ae9e8c883024f7523195012164c088794}\label{r__wifi__sx__ulpgn__private_8h_ae9e8c883024f7523195012164c088794}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!wifi\_init\_at\_execute\_queue@{wifi\_init\_at\_execute\_queue}}
+\index{wifi\_init\_at\_execute\_queue@{wifi\_init\_at\_execute\_queue}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{wifi\_init\_at\_execute\_queue()}{wifi\_init\_at\_execute\_queue()}}
+{\footnotesize\ttfamily void wifi\+\_\+init\+\_\+at\+\_\+execute\+\_\+queue (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_afa79d3de74d276a2f1b30a421b384653}\label{r__wifi__sx__ulpgn__private_8h_afa79d3de74d276a2f1b30a421b384653}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!wifi\_set\_request\_in\_queue@{wifi\_set\_request\_in\_queue}}
+\index{wifi\_set\_request\_in\_queue@{wifi\_set\_request\_in\_queue}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{wifi\_set\_request\_in\_queue()}{wifi\_set\_request\_in\_queue()}}
+{\footnotesize\ttfamily uint32\+\_\+t wifi\+\_\+set\+\_\+request\+\_\+in\+\_\+queue (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a0f34c4d7090571e04af5706a5ae262e2}{wifi\+\_\+command\+\_\+list\+\_\+t}}}]{command,  }\item[{int32\+\_\+t}]{socket }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a4133a9558881d0d3ae785b3ecedd7160}\label{r__wifi__sx__ulpgn__private_8h_a4133a9558881d0d3ae785b3ecedd7160}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!wifi\_set\_result\_to\_current\_running\_queue@{wifi\_set\_result\_to\_current\_running\_queue}}
+\index{wifi\_set\_result\_to\_current\_running\_queue@{wifi\_set\_result\_to\_current\_running\_queue}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{wifi\_set\_result\_to\_current\_running\_queue()}{wifi\_set\_result\_to\_current\_running\_queue()}}
+{\footnotesize\ttfamily void wifi\+\_\+set\+\_\+result\+\_\+to\+\_\+current\+\_\+running\+\_\+queue (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a07fc72b718ee10699a7ddd5a4650d0a9}{wifi\+\_\+return\+\_\+code\+\_\+t}}}]{result }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a36adb3011ad8946dc669017de568a20f}\label{r__wifi__sx__ulpgn__private_8h_a36adb3011ad8946dc669017de568a20f}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!wifi\_start\_recv\_task@{wifi\_start\_recv\_task}}
+\index{wifi\_start\_recv\_task@{wifi\_start\_recv\_task}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{wifi\_start\_recv\_task()}{wifi\_start\_recv\_task()}}
+{\footnotesize\ttfamily int32\+\_\+t wifi\+\_\+start\+\_\+recv\+\_\+task (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a22ed798d921dffe982acad92f4f2cef8}\label{r__wifi__sx__ulpgn__private_8h_a22ed798d921dffe982acad92f4f2cef8}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!g\_wifi\_aplist\_count@{g\_wifi\_aplist\_count}}
+\index{g\_wifi\_aplist\_count@{g\_wifi\_aplist\_count}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_aplist\_count}{g\_wifi\_aplist\_count}}
+{\footnotesize\ttfamily uint32\+\_\+t g\+\_\+wifi\+\_\+aplist\+\_\+count}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a2ddffd01d027a25e46f433275f6930ea}\label{r__wifi__sx__ulpgn__private_8h_a2ddffd01d027a25e46f433275f6930ea}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!g\_wifi\_aplist\_stored\_num@{g\_wifi\_aplist\_stored\_num}}
+\index{g\_wifi\_aplist\_stored\_num@{g\_wifi\_aplist\_stored\_num}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_aplist\_stored\_num}{g\_wifi\_aplist\_stored\_num}}
+{\footnotesize\ttfamily uint32\+\_\+t g\+\_\+wifi\+\_\+aplist\+\_\+stored\+\_\+num}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a3827d62227b51f74114baa64b8bdeb53}\label{r__wifi__sx__ulpgn__private_8h_a3827d62227b51f74114baa64b8bdeb53}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!g\_wifi\_aplist\_subcount@{g\_wifi\_aplist\_subcount}}
+\index{g\_wifi\_aplist\_subcount@{g\_wifi\_aplist\_subcount}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_aplist\_subcount}{g\_wifi\_aplist\_subcount}}
+{\footnotesize\ttfamily uint32\+\_\+t g\+\_\+wifi\+\_\+aplist\+\_\+subcount}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_ad4cd614ab2f913912a1a4d256d668180}\label{r__wifi__sx__ulpgn__private_8h_ad4cd614ab2f913912a1a4d256d668180}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!g\_wifi\_aplistmax@{g\_wifi\_aplistmax}}
+\index{g\_wifi\_aplistmax@{g\_wifi\_aplistmax}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_aplistmax}{g\_wifi\_aplistmax}}
+{\footnotesize\ttfamily uint32\+\_\+t g\+\_\+wifi\+\_\+aplistmax}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a284f80f656e17200e6cc3cefabb0dcb7}\label{r__wifi__sx__ulpgn__private_8h_a284f80f656e17200e6cc3cefabb0dcb7}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!g\_wifi\_at\_command\_buff@{g\_wifi\_at\_command\_buff}}
+\index{g\_wifi\_at\_command\_buff@{g\_wifi\_at\_command\_buff}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_at\_command\_buff}{g\_wifi\_at\_command\_buff}}
+{\footnotesize\ttfamily uint8\+\_\+t g\+\_\+wifi\+\_\+at\+\_\+command\+\_\+buff\mbox{[}\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_afe0074c6af427f25b880b13b52419524}{W\+I\+F\+I\+\_\+\+A\+T\+\_\+\+C\+O\+M\+M\+A\+N\+D\+\_\+\+B\+U\+F\+F\+\_\+\+S\+I\+ZE}}\mbox{]}}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a49692d9fafebaadd7fc1e1d84977ffd1}\label{r__wifi__sx__ulpgn__private_8h_a49692d9fafebaadd7fc1e1d84977ffd1}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!g\_wifi\_at\_execute\_queue@{g\_wifi\_at\_execute\_queue}}
+\index{g\_wifi\_at\_execute\_queue@{g\_wifi\_at\_execute\_queue}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_at\_execute\_queue}{g\_wifi\_at\_execute\_queue}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structwifi__at__execute__queue__t}{wifi\+\_\+at\+\_\+execute\+\_\+queue\+\_\+t}} g\+\_\+wifi\+\_\+at\+\_\+execute\+\_\+queue\mbox{[}10\mbox{]}}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_aa0ea88af9842e5b5dee6f151e4a182ee}\label{r__wifi__sx__ulpgn__private_8h_aa0ea88af9842e5b5dee6f151e4a182ee}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!g\_wifi\_at\_response\_buff@{g\_wifi\_at\_response\_buff}}
+\index{g\_wifi\_at\_response\_buff@{g\_wifi\_at\_response\_buff}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_at\_response\_buff}{g\_wifi\_at\_response\_buff}}
+{\footnotesize\ttfamily uint8\+\_\+t g\+\_\+wifi\+\_\+at\+\_\+response\+\_\+buff\mbox{[}\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_aa7b36657986b850710e293f02a626438}{W\+I\+F\+I\+\_\+\+A\+T\+\_\+\+R\+E\+S\+P\+O\+N\+S\+E\+\_\+\+B\+U\+F\+F\+\_\+\+S\+I\+ZE}}\mbox{]}}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a384fde4594591b6bcf2d48cd126f0c13}\label{r__wifi__sx__ulpgn__private_8h_a384fde4594591b6bcf2d48cd126f0c13}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!g\_wifi\_atustat\_recv@{g\_wifi\_atustat\_recv}}
+\index{g\_wifi\_atustat\_recv@{g\_wifi\_atustat\_recv}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_atustat\_recv}{g\_wifi\_atustat\_recv}}
+{\footnotesize\ttfamily uint32\+\_\+t g\+\_\+wifi\+\_\+atustat\+\_\+recv}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a6b1452846c29a3e6048127fdd89c2db6}\label{r__wifi__sx__ulpgn__private_8h_a6b1452846c29a3e6048127fdd89c2db6}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!g\_wifi\_atustat\_sent@{g\_wifi\_atustat\_sent}}
+\index{g\_wifi\_atustat\_sent@{g\_wifi\_atustat\_sent}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_atustat\_sent}{g\_wifi\_atustat\_sent}}
+{\footnotesize\ttfamily uint32\+\_\+t g\+\_\+wifi\+\_\+atustat\+\_\+sent}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_ad74e20c257a9dfd539a0147e241b7838}\label{r__wifi__sx__ulpgn__private_8h_ad74e20c257a9dfd539a0147e241b7838}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!g\_wifi\_current\_ssid@{g\_wifi\_current\_ssid}}
+\index{g\_wifi\_current\_ssid@{g\_wifi\_current\_ssid}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_current\_ssid}{g\_wifi\_current\_ssid}}
+{\footnotesize\ttfamily uint8\+\_\+t g\+\_\+wifi\+\_\+current\+\_\+ssid\mbox{[}33\mbox{]}}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a373959c78dd2fa839a99a151770163a8}\label{r__wifi__sx__ulpgn__private_8h_a373959c78dd2fa839a99a151770163a8}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!g\_wifi\_dnsaddress@{g\_wifi\_dnsaddress}}
+\index{g\_wifi\_dnsaddress@{g\_wifi\_dnsaddress}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_dnsaddress}{g\_wifi\_dnsaddress}}
+{\footnotesize\ttfamily uint32\+\_\+t g\+\_\+wifi\+\_\+dnsaddress}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_ac183e1db2a645501f8c68d68ae6ac8de}\label{r__wifi__sx__ulpgn__private_8h_ac183e1db2a645501f8c68d68ae6ac8de}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!g\_wifi\_dnsquery\_subcount@{g\_wifi\_dnsquery\_subcount}}
+\index{g\_wifi\_dnsquery\_subcount@{g\_wifi\_dnsquery\_subcount}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_dnsquery\_subcount}{g\_wifi\_dnsquery\_subcount}}
+{\footnotesize\ttfamily uint32\+\_\+t g\+\_\+wifi\+\_\+dnsquery\+\_\+subcount}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_adf4544084346b4798c28a341123c8bc2}\label{r__wifi__sx__ulpgn__private_8h_adf4544084346b4798c28a341123c8bc2}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!g\_wifi\_get\_queue\_index@{g\_wifi\_get\_queue\_index}}
+\index{g\_wifi\_get\_queue\_index@{g\_wifi\_get\_queue\_index}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_get\_queue\_index}{g\_wifi\_get\_queue\_index}}
+{\footnotesize\ttfamily uint8\+\_\+t g\+\_\+wifi\+\_\+get\+\_\+queue\+\_\+index}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_ab542f019d93c10c1c6786251b072efa9}\label{r__wifi__sx__ulpgn__private_8h_ab542f019d93c10c1c6786251b072efa9}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!g\_wifi\_ipconfig@{g\_wifi\_ipconfig}}
+\index{g\_wifi\_ipconfig@{g\_wifi\_ipconfig}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_ipconfig}{g\_wifi\_ipconfig}}
+{\footnotesize\ttfamily wifi\+\_\+ip\+\_\+configuration\+\_\+t g\+\_\+wifi\+\_\+ipconfig}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a123d345dab9200eb384d61982f348b98}\label{r__wifi__sx__ulpgn__private_8h_a123d345dab9200eb384d61982f348b98}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!g\_wifi\_macaddress@{g\_wifi\_macaddress}}
+\index{g\_wifi\_macaddress@{g\_wifi\_macaddress}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_macaddress}{g\_wifi\_macaddress}}
+{\footnotesize\ttfamily uint8\+\_\+t g\+\_\+wifi\+\_\+macaddress\mbox{[}6\mbox{]}}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a4513081c2c00e0f249833c956752909b}\label{r__wifi__sx__ulpgn__private_8h_a4513081c2c00e0f249833c956752909b}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!g\_wifi\_sci\_err\_flag@{g\_wifi\_sci\_err\_flag}}
+\index{g\_wifi\_sci\_err\_flag@{g\_wifi\_sci\_err\_flag}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_sci\_err\_flag}{g\_wifi\_sci\_err\_flag}}
+{\footnotesize\ttfamily uint32\+\_\+t g\+\_\+wifi\+\_\+sci\+\_\+err\+\_\+flag}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a1a2f69620e717e113898b61e17c76b5a}\label{r__wifi__sx__ulpgn__private_8h_a1a2f69620e717e113898b61e17c76b5a}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!g\_wifi\_set\_queue\_index@{g\_wifi\_set\_queue\_index}}
+\index{g\_wifi\_set\_queue\_index@{g\_wifi\_set\_queue\_index}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_set\_queue\_index}{g\_wifi\_set\_queue\_index}}
+{\footnotesize\ttfamily uint8\+\_\+t g\+\_\+wifi\+\_\+set\+\_\+queue\+\_\+index}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a603e1c616616c169e63e4e881f3c6802}\label{r__wifi__sx__ulpgn__private_8h_a603e1c616616c169e63e4e881f3c6802}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!g\_wifi\_socket@{g\_wifi\_socket}}
+\index{g\_wifi\_socket@{g\_wifi\_socket}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_socket}{g\_wifi\_socket}}
+{\footnotesize\ttfamily \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_aeb9cdd7bb8976379bf064cce230aebce}{wifi\+\_\+socket\+\_\+t}} g\+\_\+wifi\+\_\+socket\mbox{[}W\+I\+F\+I\+\_\+\+C\+F\+G\+\_\+\+C\+R\+E\+A\+T\+A\+B\+L\+E\+\_\+\+S\+O\+C\+K\+E\+TS\mbox{]}}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_aaf13ee4461f2056a002bba056574d48d}\label{r__wifi__sx__ulpgn__private_8h_aaf13ee4461f2056a002bba056574d48d}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!g\_wifi\_socket\_status@{g\_wifi\_socket\_status}}
+\index{g\_wifi\_socket\_status@{g\_wifi\_socket\_status}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_socket\_status}{g\_wifi\_socket\_status}}
+{\footnotesize\ttfamily uint8\+\_\+t g\+\_\+wifi\+\_\+socket\+\_\+status}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a61633898b612e60c704052f74602802b}\label{r__wifi__sx__ulpgn__private_8h_a61633898b612e60c704052f74602802b}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!g\_wifi\_system\_state@{g\_wifi\_system\_state}}
+\index{g\_wifi\_system\_state@{g\_wifi\_system\_state}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_system\_state}{g\_wifi\_system\_state}}
+{\footnotesize\ttfamily \mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_a3d783c5a203dac7098be1a579c804f19}{wifi\+\_\+system\+\_\+status\+\_\+t}} g\+\_\+wifi\+\_\+system\+\_\+state}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a0d0d91783b348f04fb7dcfb84e463ea0}\label{r__wifi__sx__ulpgn__private_8h_a0d0d91783b348f04fb7dcfb84e463ea0}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!g\_wifi\_transparent\_mode@{g\_wifi\_transparent\_mode}}
+\index{g\_wifi\_transparent\_mode@{g\_wifi\_transparent\_mode}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_transparent\_mode}{g\_wifi\_transparent\_mode}}
+{\footnotesize\ttfamily uint8\+\_\+t g\+\_\+wifi\+\_\+transparent\+\_\+mode}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a6ae725f0c4a865d67a9f06b118c954de}\label{r__wifi__sx__ulpgn__private_8h_a6ae725f0c4a865d67a9f06b118c954de}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!g\_wifi\_uart@{g\_wifi\_uart}}
+\index{g\_wifi\_uart@{g\_wifi\_uart}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{g\_wifi\_uart}{g\_wifi\_uart}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structwifi__at__communication__info__t}{wifi\+\_\+at\+\_\+communication\+\_\+info\+\_\+t}} g\+\_\+wifi\+\_\+uart\mbox{[}\mbox{\hyperlink{r__wifi__sx__ulpgn__private_8h_aee402b5efbcf7450fc9b320863d7af78}{W\+I\+F\+I\+\_\+\+N\+U\+M\+B\+E\+R\+\_\+\+O\+F\+\_\+\+U\+S\+E\+\_\+\+U\+A\+RT}}\mbox{]}}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a2e6cfd1d9ca518ba44d13ba05bcc7a6d}\label{r__wifi__sx__ulpgn__private_8h_a2e6cfd1d9ca518ba44d13ba05bcc7a6d}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!gp\_wifi\_ap\_results@{gp\_wifi\_ap\_results}}
+\index{gp\_wifi\_ap\_results@{gp\_wifi\_ap\_results}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{gp\_wifi\_ap\_results}{gp\_wifi\_ap\_results}}
+{\footnotesize\ttfamily wifi\+\_\+scan\+\_\+result\+\_\+t$\ast$ gp\+\_\+wifi\+\_\+ap\+\_\+results}
+
+\mbox{\Hypertarget{r__wifi__sx__ulpgn__private_8h_a53672e614e2977ad091cde3a9a8d62db}\label{r__wifi__sx__ulpgn__private_8h_a53672e614e2977ad091cde3a9a8d62db}} 
+\index{r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}!wifi\_socket\_status\_tbl@{wifi\_socket\_status\_tbl}}
+\index{wifi\_socket\_status\_tbl@{wifi\_socket\_status\_tbl}!r\_wifi\_sx\_ulpgn\_private.h@{r\_wifi\_sx\_ulpgn\_private.h}}
+\doxysubsubsection{\texorpdfstring{wifi\_socket\_status\_tbl}{wifi\_socket\_status\_tbl}}
+{\footnotesize\ttfamily const uint8\+\_\+t$\ast$ const wifi\+\_\+socket\+\_\+status\+\_\+tbl\mbox{[}$\,$\mbox{]}}
+
