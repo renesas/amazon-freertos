@@ -1,0 +1,19 @@
+var searchData=
+[
+  ['sci_5fconfig_328',['sci_config',['../structwifi__at__communication__info__t.html#a3cd54248dcf709aba36daae8b7c692ba',1,'wifi_at_communication_info_t']]],
+  ['send_5fendtime_329',['send_endtime',['../structwifi__socket__tag.html#a2c522b9d867f38d101011ef01a5a14b9',1,'wifi_socket_tag']]],
+  ['send_5fstarttime_330',['send_starttime',['../structwifi__socket__tag.html#a2a4ef23c173881f02f28399aba82617f',1,'wifi_socket_tag']]],
+  ['send_5fthistime_331',['send_thistime',['../structwifi__socket__tag.html#ad9806ed4d24df0d40845d219b6317ef2',1,'wifi_socket_tag']]],
+  ['send_5ftimeout_5foverflow_5fflag_332',['send_timeout_overflow_flag',['../structwifi__socket__tag.html#a671fb1572087ee024254b99825a21373',1,'wifi_socket_tag']]],
+  ['socket_5fbyteq_5fhdl_333',['socket_byteq_hdl',['../structwifi__socket__tag.html#a2c234c2c39f1d04bb68dbcb135c8de03',1,'wifi_socket_tag']]],
+  ['socket_5fcreate_5fflag_334',['socket_create_flag',['../structwifi__socket__tag.html#a79f3aeb194baaec2dd9899c1298e93f8',1,'wifi_socket_tag']]],
+  ['socket_5fno_335',['socket_no',['../structwifi__at__execute__queue__t.html#a74bd5966bb68d6a347430539954d4401',1,'wifi_at_execute_queue_t']]],
+  ['socket_5frecv_5fbuff_336',['socket_recv_buff',['../structwifi__socket__tag.html#a93a9b719af70d147b82f8af91f303ca4',1,'wifi_socket_tag']]],
+  ['socket_5fstatus_337',['socket_status',['../structwifi__socket__tag.html#a34e2fbbc0f44f3f058e68f1038df7986',1,'wifi_socket_tag']]],
+  ['ssl_5fca_5fid_338',['ssl_ca_id',['../structwifi__socket__tag.html#a7f1e321e19f4d49d5ec28589ed718b73',1,'wifi_socket_tag']]],
+  ['ssl_5fcert_5fkey_5fid_339',['ssl_cert_key_id',['../structwifi__socket__tag.html#abd1d6d36a998beac2afe28fe26d2514c',1,'wifi_socket_tag']]],
+  ['ssl_5fflag_340',['ssl_flag',['../structwifi__socket__tag.html#ac670c4a9e0b732980cf7a3e47f0b1ca2',1,'wifi_socket_tag']]],
+  ['ssl_5ftype_341',['ssl_type',['../structwifi__socket__tag.html#a3e5d29491175080bfc06bf0d0b641d86',1,'wifi_socket_tag']]],
+  ['startbytetime_342',['startbytetime',['../structwifi__at__communication__info__t.html#a0ced3844383051ace85d7e687273c2fb',1,'wifi_at_communication_info_t']]],
+  ['starttime_343',['starttime',['../structwifi__at__communication__info__t.html#a7ddb7682cb9e498952ef5469ab2c7136',1,'wifi_at_communication_info_t']]]
+];

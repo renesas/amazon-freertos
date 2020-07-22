@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['ulpgn_5fcfg_5fsocket_5fchange_5ftimeout_5fperiod_42',['ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_PERIOD',['../r__wifi__sx__ulpgn__if_8h.html#a68b8a8b9b15ce944d7780cd8ba53a74e',1,'r_wifi_sx_ulpgn_if.h']]],
+  ['ulpgn_5fcfg_5fsocket_5fchange_5ftimeout_5fvalue_43',['ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_VALUE',['../r__wifi__sx__ulpgn__if_8h.html#a35cf8277ebba41e29b190b68cbf614b1',1,'r_wifi_sx_ulpgn_if.h']]],
+  ['ulpgn_5freturn_5ftext_5fbusy_44',['ULPGN_RETURN_TEXT_BUSY',['../r__wifi__sx__ulpgn__if_8h.html#ad89014806b272d568a2a06d234d86bbe',1,'r_wifi_sx_ulpgn_if.h']]],
+  ['ulpgn_5freturn_5ftext_5fconnect_45',['ULPGN_RETURN_TEXT_CONNECT',['../r__wifi__sx__ulpgn__if_8h.html#a9dd42045147b2a259f0f96eaeed2cc6f',1,'r_wifi_sx_ulpgn_if.h']]],
+  ['ulpgn_5freturn_5ftext_5ferror_46',['ULPGN_RETURN_TEXT_ERROR',['../r__wifi__sx__ulpgn__if_8h.html#a8e33fa85f2a167c1e21b594116b24ccc',1,'r_wifi_sx_ulpgn_if.h']]],
+  ['ulpgn_5freturn_5ftext_5flength_47',['ULPGN_RETURN_TEXT_LENGTH',['../r__wifi__sx__ulpgn__if_8h.html#ae4d9a9308a4e29c8cff6a814cf126c55',1,'r_wifi_sx_ulpgn_if.h']]],
+  ['ulpgn_5freturn_5ftext_5fno_5fanswer_48',['ULPGN_RETURN_TEXT_NO_ANSWER',['../r__wifi__sx__ulpgn__if_8h.html#a00c2379889e58b7d80735aad538deff8',1,'r_wifi_sx_ulpgn_if.h']]],
+  ['ulpgn_5freturn_5ftext_5fno_5fcarrier_49',['ULPGN_RETURN_TEXT_NO_CARRIER',['../r__wifi__sx__ulpgn__if_8h.html#a75093e1a2b9579dd9081ac73512751d4',1,'r_wifi_sx_ulpgn_if.h']]],
+  ['ulpgn_5freturn_5ftext_5fno_5fdialtone_50',['ULPGN_RETURN_TEXT_NO_DIALTONE',['../r__wifi__sx__ulpgn__if_8h.html#a342dfc224effe12bccebffac5b769ab2',1,'r_wifi_sx_ulpgn_if.h']]],
+  ['ulpgn_5freturn_5ftext_5fok_51',['ULPGN_RETURN_TEXT_OK',['../r__wifi__sx__ulpgn__if_8h.html#a8b6951e561cdc2881241a3cbadd66a67',1,'r_wifi_sx_ulpgn_if.h']]],
+  ['ulpgn_5freturn_5ftext_5fring_52',['ULPGN_RETURN_TEXT_RING',['../r__wifi__sx__ulpgn__if_8h.html#ad0c276be5aa75cbd2b964757d9149ed3',1,'r_wifi_sx_ulpgn_if.h']]],
+  ['ulpgn_5fsocket_5fstatus_5fbound_53',['ULPGN_SOCKET_STATUS_BOUND',['../r__wifi__sx__ulpgn__if_8h.html#a487798a94eaafdb1cb15cac5e9a3dfc1a515a76a35d43aec8cb730f39f49b248c',1,'r_wifi_sx_ulpgn_if.h']]],
+  ['ulpgn_5fsocket_5fstatus_5fclosed_54',['ULPGN_SOCKET_STATUS_CLOSED',['../r__wifi__sx__ulpgn__if_8h.html#a487798a94eaafdb1cb15cac5e9a3dfc1a805c58e38db2323ba130419e6ea8f3ff',1,'r_wifi_sx_ulpgn_if.h']]],
+  ['ulpgn_5fsocket_5fstatus_5fconnected_55',['ULPGN_SOCKET_STATUS_CONNECTED',['../r__wifi__sx__ulpgn__if_8h.html#a487798a94eaafdb1cb15cac5e9a3dfc1a20b99da1cce1b5d71f3bcd99e98599ff',1,'r_wifi_sx_ulpgn_if.h']]],
+  ['ulpgn_5fsocket_5fstatus_5flisten_56',['ULPGN_SOCKET_STATUS_LISTEN',['../r__wifi__sx__ulpgn__if_8h.html#a487798a94eaafdb1cb15cac5e9a3dfc1a74042ad77bf828f4d848138bb817898a',1,'r_wifi_sx_ulpgn_if.h']]],
+  ['ulpgn_5fsocket_5fstatus_5fmax_57',['ULPGN_SOCKET_STATUS_MAX',['../r__wifi__sx__ulpgn__if_8h.html#a487798a94eaafdb1cb15cac5e9a3dfc1a221bd676f23287464a34ff2a7cf2cac2',1,'r_wifi_sx_ulpgn_if.h']]],
+  ['ulpgn_5fsocket_5fstatus_5fsocket_58',['ULPGN_SOCKET_STATUS_SOCKET',['../r__wifi__sx__ulpgn__if_8h.html#a487798a94eaafdb1cb15cac5e9a3dfc1ae04f49f634f9346d532fb79103d372fc',1,'r_wifi_sx_ulpgn_if.h']]],
+  ['ulpgn_5fsocket_5fstatus_5ftext_5fbound_59',['ULPGN_SOCKET_STATUS_TEXT_BOUND',['../r__wifi__sx__ulpgn__if_8h.html#a2d44ffd130a9fcbde78d35011d997795',1,'r_wifi_sx_ulpgn_if.h']]],
+  ['ulpgn_5fsocket_5fstatus_5ftext_5fclosed_60',['ULPGN_SOCKET_STATUS_TEXT_CLOSED',['../r__wifi__sx__ulpgn__if_8h.html#ae51d5e5e91a3a7ca8f4fda5cae02bfec',1,'r_wifi_sx_ulpgn_if.h']]],
+  ['ulpgn_5fsocket_5fstatus_5ftext_5fconnected_61',['ULPGN_SOCKET_STATUS_TEXT_CONNECTED',['../r__wifi__sx__ulpgn__if_8h.html#aa6da6f9b2190db49a94702f7c7223b4f',1,'r_wifi_sx_ulpgn_if.h']]],
+  ['ulpgn_5fsocket_5fstatus_5ftext_5flisten_62',['ULPGN_SOCKET_STATUS_TEXT_LISTEN',['../r__wifi__sx__ulpgn__if_8h.html#a79b1fa32b3177994640abc0e72b2b127',1,'r_wifi_sx_ulpgn_if.h']]],
+  ['ulpgn_5fsocket_5fstatus_5ftext_5fsocket_63',['ULPGN_SOCKET_STATUS_TEXT_SOCKET',['../r__wifi__sx__ulpgn__if_8h.html#a426a4190bbf35a12ddafb1acb27cf090',1,'r_wifi_sx_ulpgn_if.h']]],
+  ['ulpgn_5fuse_5fuart_5fnum_64',['ULPGN_USE_UART_NUM',['../r__wifi__sx__ulpgn__if_8h.html#a703c4ec923f19a3212a616a368d8752b',1,'r_wifi_sx_ulpgn_if.h']]]
+];
