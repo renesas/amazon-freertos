@@ -17,6 +17,9 @@
     <version>6.3.1</version>
   </toolchain>
   <!-- only one target entry allowed; multiple sub tags permitted -->
+<memoryreq>
+    <RAM>256</RAM>
+</memoryreq>
   <target>
     <toolchain>RXC</toolchain>
     <family>RX</family>
@@ -88,11 +91,7 @@
     <sections>
       <toolchain>RXC</toolchain>
       <series>RX600</series>
-      <series>RX700</series>
-      <group>RX64M</group>
       <group>RX65N</group>
-      <group>RX71M</group>
-      <group>RX72M</group>
       <section>
         <name>SU</name>
         <name>SI</name>
@@ -121,6 +120,89 @@
         <name>B_1</name>
         <name>B_2</name>
         <address>0x00800000</address>
+      </section>
+    </sections>
+    <sections>
+      <toolchain>RXC</toolchain>
+      <series>RX700</series>
+      <group>RX71M</group>
+      <section>
+        <name>SU</name>
+        <name>SI</name>
+        <name>B_1</name>
+        <name>R_1</name>
+        <name>B_2</name>
+        <name>R_2</name>
+        <name>B</name>
+        <name>R</name>
+        <name>RPFRAM2</name>
+        <address>0x00000004</address>
+      </section>
+      <section>
+        <name>B_ETHERNET_BUFFERS_1</name>
+        <name>B_RX_DESC_1</name>
+        <name>B_TX_DESC_1</name>
+        <address>0x00065000</address>
+      </section>
+      <section>
+        <name>C_PKCS11_STORAGE*</name>
+        <address>0x00100000</address>
+      </section>
+    </sections>
+    <sections>
+      <toolchain>RXC</toolchain>
+      <series>RX700</series>
+      <group>RX72M</group>
+      <section>
+        <name>SU</name>
+        <name>SI</name>
+        <name>B_1</name>
+        <name>R_1</name>
+        <name>B_2</name>
+        <name>R_2</name>
+        <name>B</name>
+        <name>R</name>
+        <name>B_8</name>
+        <name>R_8</name>
+        <name>RPFRAM2</name>
+        <address>0x00000004</address>
+      </section>
+      <section>
+        <name>C_PKCS11_STORAGE*</name>
+        <address>0x00102000</address>
+      </section>
+      <section>
+        <name>B_ETHERNET_BUFFERS_1</name>
+        <name>B_RX_DESC_1</name>
+        <name>B_TX_DESC_1</name>
+        <address>0x00840000</address>
+      </section>
+    </sections>
+    <sections>
+      <toolchain>RXC</toolchain>
+      <series>RX600</series>
+      <group>RX64M</group>
+      <section>
+        <name>SU</name>
+        <name>SI</name>
+        <name>B_1</name>
+        <name>R_1</name>
+        <name>B_2</name>
+        <name>R_2</name>
+        <name>B</name>
+        <name>R</name>
+        <name>RPFRAM2</name>
+        <address>0x00000004</address>
+      </section>
+      <section>
+        <name>B_ETHERNET_BUFFERS_1</name>
+        <name>B_RX_DESC_1</name>
+        <name>B_TX_DESC_1</name>
+        <address>0x00050000</address>
+      </section>
+      <section>
+        <name>C_PKCS11_STORAGE*</name>
+        <address>0x00100000</address>
       </section>
     </sections>
     <preinc>
@@ -295,15 +377,16 @@
       <group>RX72M</group>
       <path>${ProjDirPath}/application_code/renesas_code/smc_gen/r_s12ad_rx/src/targets/rx72m</path>
     </incdir>
-    <additionalincdir>
+    <incdir>
         <toolchain>GNURX</toolchain>
         <series>RX600</series>
+        <series>RX700</series>
         <group>RX64M</group>
         <group>RX65N</group>
         <group>RX71M</group>
         <group>RX72M</group>
         <path>${AFR_HOME}/freertos_kernel/portable/GCC/RX600v2</path>
-    </additionalincdir>
+    </incdir>
     <incdir>
       <toolchain>RXC</toolchain>
       <series>RX600</series>
@@ -335,8 +418,8 @@
     </incdir>
 	<incdir>
       <toolchain>GNURX</toolchain>
-      <group>RX64N</group>
-      <path>${AFR_HOME}/vendors/renesas/rx_mcu_boards/rx_driver_package/v125/r_bsp/mcu/rx64n/register_access/gnuc</path>
+      <group>RX64M</group>
+      <path>${AFR_HOME}/vendors/renesas/rx_mcu_boards/rx_driver_package/v125/r_bsp/mcu/rx64m/register_access/gnuc</path>
     </incdir>
     <incdir>
       <toolchain>GNURX</toolchain>
@@ -355,8 +438,8 @@
     </incdir>
 	<incdir>
       <toolchain>RXC</toolchain>
-      <group>RX64N</group>
-      <path>${AFR_HOME}/vendors/renesas/rx_mcu_boards/rx_driver_package/v125/r_bsp/mcu/rx64n/register_access/ccrx</path>
+      <group>RX64M</group>
+      <path>${AFR_HOME}/vendors/renesas/rx_mcu_boards/rx_driver_package/v125/r_bsp/mcu/rx64m/register_access/ccrx</path>
     </incdir>
 	<incdir>
       <toolchain>RXC</toolchain>
@@ -596,7 +679,7 @@
       <toolchain>GNURX</toolchain>
       <series>RX600</series>
       <group>RX64M</group>
-      <file>projects/renesas/rx64n-rsk/e2studio-gcc/aws_demos/linker_script.ld</file>
+      <file>projects/renesas/rx64m-rsk/e2studio-gcc/aws_demos/linker_script.ld</file>
       <path></path>
     </impdir>
     <impdir>
@@ -654,7 +737,6 @@
       <path>application_code/renesas_code/smc_gen/r_bsp/mcu/rx64m</path>
     </impdir>
     <impdir>
-      <toolchain>GNURX</toolchain>
       <series>RX600</series>
       <group>RX65N</group>
       <folder>vendors/renesas/rx_mcu_boards/rx_driver_package/v125/r_bsp/mcu/rx65n</folder>
@@ -709,6 +791,7 @@
       <path>application_code/renesas_code/smc_gen/r_ether_rx/src/targets/rx72m</path>
     </impdir>
     <impdir>
+      <toolchain>RXC</toolchain>
       <series>RX600</series>
       <series>RX700</series>
       <file>vendors/renesas/rx_mcu_boards/rx_driver_package/v125/r_ether_rx/src/r_ether_rx_private.h</file>
@@ -716,11 +799,29 @@
       <path>application_code/renesas_code/smc_gen/r_ether_rx/src</path>
     </impdir>
     <impdir>
+      <toolchain>RXC</toolchain>
       <series>RX600</series>
       <series>RX700</series>
 	  <folder>vendors/renesas/rx_mcu_boards/rx_driver_package/v125/r_ether_rx/ref</folder>
       <file>vendors/renesas/rx_mcu_boards/rx_driver_package/v125/r_ether_rx/r_ether_rx_if.h</file>
       <file>vendors/renesas/rx_mcu_boards/rx_driver_package/v125/r_ether_rx/readme.txt</file>
+      <path>application_code/renesas_code/smc_gen/r_ether_rx</path>
+    </impdir>
+	<impdir>
+      <toolchain>GNURX</toolchain>
+      <series>RX600</series>
+      <series>RX700</series>
+      <file>vendors/renesas/rx_mcu_boards/rx_driver_package/v123/r_ether_rx/src/r_ether_rx_private.h</file>
+      <file>vendors/renesas/rx_mcu_boards/rx_driver_package/v123/r_ether_rx/src/r_ether_rx.c</file>
+      <path>application_code/renesas_code/smc_gen/r_ether_rx/src</path>
+    </impdir>
+    <impdir>
+      <toolchain>GNURX</toolchain>
+      <series>RX600</series>
+      <series>RX700</series>
+	  <folder>vendors/renesas/rx_mcu_boards/rx_driver_package/v123/r_ether_rx/ref</folder>
+      <file>vendors/renesas/rx_mcu_boards/rx_driver_package/v123/r_ether_rx/r_ether_rx_if.h</file>
+      <file>vendors/renesas/rx_mcu_boards/rx_driver_package/v123/r_ether_rx/readme.txt</file>
       <path>application_code/renesas_code/smc_gen/r_ether_rx</path>
     </impdir>
     <impdir>
@@ -735,10 +836,25 @@
       <series>RX600</series>
       <series>RX700</series>
       <folder>vendors/renesas/rx_mcu_boards/rx_driver_package/v125/r_flash_rx/src/flash_type_1</folder>
+      <path>application_code/renesas_code/smc_gen/r_flash_rx/src/flash_type_1</path>
+    </impdir>
+	<impdir>
+      <series>RX600</series>
+      <series>RX700</series>
       <folder>vendors/renesas/rx_mcu_boards/rx_driver_package/v125/r_flash_rx/src/flash_type_2</folder>
+      <path>application_code/renesas_code/smc_gen/r_flash_rx/src/flash_type_2</path>
+    </impdir>
+	<impdir>
+      <series>RX600</series>
+      <series>RX700</series>
       <folder>vendors/renesas/rx_mcu_boards/rx_driver_package/v125/r_flash_rx/src/flash_type_3</folder>
+      <path>application_code/renesas_code/smc_gen/r_flash_rx/src/flash_type_3</path>
+    </impdir>
+	<impdir>
+      <series>RX600</series>
+      <series>RX700</series>
       <folder>vendors/renesas/rx_mcu_boards/rx_driver_package/v125/r_flash_rx/src/flash_type_4</folder>
-      <path>application_code/renesas_code/smc_gen/r_flash_rx/src</path>
+      <path>application_code/renesas_code/smc_gen/r_flash_rx/src/flash_type_4</path>
     </impdir>
     <impdir>
       <series>RX600</series>
@@ -875,7 +991,7 @@
       <toolchain>GNURX</toolchain>
       <series>RX600</series>
       <group>RX64M</group>
-      <folder>vendors/renesas/rx_mcu_boards/boards/rx64m-rsk-gcc/aws_demos/gcc/src/smc_gen/general</folder>
+      <folder>vendors/renesas/rx_mcu_boards/boards/rx64m-rsk-gcc/aws_demos/src/smc_gen/</folder>
       <path>application_code/renesas_code/smc_gen</path>
     </impdir>
     <impdir>
@@ -889,7 +1005,7 @@
       <toolchain>GNURX</toolchain>
       <series>RX600</series>
       <group>RX65N</group>
-      <folder>vendors/renesas/rx_mcu_boards/boards/rx65n-rsk-gcc/aws_demos/gcc/src/smc_gen</folder>
+      <folder>vendors/renesas/rx_mcu_boards/boards/rx65n-rsk-gcc/aws_demos/src/smc_gen</folder>
       <path>application_code/renesas_code/smc_gen</path>
     </impdir>
     <impdir>
@@ -903,7 +1019,7 @@
       <toolchain>GNURX</toolchain>
       <series>RX700</series>
       <group>RX71M</group>
-      <folder>vendors/renesas/rx_mcu_boards/boards/rx71m-rsk-gcc/aws_demos/gcc/src/smc_gen</folder>
+      <folder>vendors/renesas/rx_mcu_boards/boards/rx71m-rsk-gcc/aws_demos/src/smc_gen</folder>
       <path>application_code/renesas_code/smc_gen</path>
     </impdir>
     <impdir>
@@ -924,7 +1040,7 @@
       <toolchain>GNURX</toolchain>
       <series>RX700</series>
       <group>RX72M</group>
-      <folder>vendors/renesas/rx_mcu_boards/boards/rx72m-rsk-gcc/aws_demos/gcc/src/smc_gen</folder>
+      <folder>vendors/renesas/rx_mcu_boards/boards/rx72m-rsk-gcc/aws_demos/src/smc_gen</folder>
       <path>application_code/renesas_code/smc_gen</path>
     </impdir>
     <!--RZA2M -->
@@ -1748,22 +1864,50 @@
     <scfgtemplate>
       <toolchain>RXC</toolchain>
       <series>RX600</series>
-      <series>RX700</series>
       <group>RX64M</group>
+      <path>vendors/renesas/configuration/64m_rx_scfg.ftl</path>
+    </scfgtemplate>
+    <scfgtemplate>
+      <toolchain>RXC</toolchain>
+      <series>RX600</series>
       <group>RX65N</group>
+      <path>vendors/renesas/configuration/65n_rx_scfg.ftl</path>
+    </scfgtemplate>
+    <scfgtemplate>
+      <toolchain>RXC</toolchain>
+      <series>RX700</series>
       <group>RX71M</group>
+      <path>vendors/renesas/configuration/71m_rx_scfg.ftl</path>
+    </scfgtemplate>
+    <scfgtemplate>
+      <toolchain>RXC</toolchain>
+      <series>RX700</series>
       <group>RX72M</group>
-      <path>vendors/renesas/configuration/rx_scfg.ftl</path>
+      <path>vendors/renesas/configuration/72m_rx_scfg.ftl</path>
     </scfgtemplate>
     <scfgtemplate>
       <toolchain>GNURX</toolchain>
       <series>RX600</series>
-      <series>RX700</series>
       <group>RX64M</group>
+      <path>vendors/renesas/configuration/64m_rx_scfg.ftl</path>
+    </scfgtemplate>
+    <scfgtemplate>
+      <toolchain>GNURX</toolchain>
+      <series>RX600</series>
       <group>RX65N</group>
+      <path>vendors/renesas/configuration/65n_rx_scfg.ftl</path>
+    </scfgtemplate>
+    <scfgtemplate>
+      <toolchain>GNURX</toolchain>
+      <series>RX700</series>
       <group>RX71M</group>
+      <path>vendors/renesas/configuration/71m_rx_scfg.ftl</path>
+    </scfgtemplate>
+    <scfgtemplate>
+      <toolchain>GNURX</toolchain>
+      <series>RX700</series>
       <group>RX72M</group>
-      <path>vendors/renesas/configuration/rx_scfg.ftl</path>
+      <path>vendors/renesas/configuration/72m_rx_scfg.ftl</path>
     </scfgtemplate>
     <scfgtemplate>
       <toolchain>GNUARM</toolchain>
