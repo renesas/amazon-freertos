@@ -21,9 +21,7 @@ v202002.00-rx-1.0.0
  [UPDATED] Updated FreeRTOS version 202002.00.
  [TESTED] demos MQTT echo behavior for
           RX65N RSK CC-RX e2 studio with E2 Emulator Lite.
-          RX65N RSK GCC e2 studio with E2 Emulator Lite.
           RX65N Cloud kit CC-RX e2 studio with E2 Emulator Lite (on board).
-          RX65N Cloud kit GCC e2 studio with E2 Emulator Lite (on board).
 --------------------------------------------------------------------------
 Development Environment (recommended)
 --------------------------------------------------------------------------
