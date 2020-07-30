@@ -19,6 +19,11 @@
 <tool id="SWComponent" version="1.0.0.0">
 <configuration inuse="true" name="r_bsp">
 <component display="r_bsp" id="r_bsp5.50" version="5.50">
+<gridItem id="BSP_CFG_USER_STACK_ENABLE" selectedIndex="0"/>
+<gridItem id="BSP_CFG_ISTACK_BYTES" selectedIndex="0x1000"/>
+<gridItem id="BSP_CFG_HEAP_BYTES" selectedIndex="0x1000"/>
+<gridItem id="BSP_CFG_CODE_FLASH_BANK_MODE" selectedIndex="0"/>
+<gridItem id="BSP_CFG_SWINT_UNIT2_ENABLE" selectedIndex="0"/>
 <gridItem id="BSP_CFG_ROM_CACHE_ENABLE" selectedIndex="0"/>
 </component>
 <source id="com.renesas.smc.tools.swcomponent.fit.source"/>
@@ -39,7 +44,15 @@
 </configuration>
 <configuration inuse="true" name="r_sci_rx">
 <component display="r_sci_rx" id="r_sci_rx3.40" version="3.40">
-<gridItem id="SCI_CFG_CH6_INCLUDED" selectedIndex="1"/>
+<gridItem id="RXD2/SMISO2" selectedIndex="1"/>
+<gridItem id="TXD2/SMOSI2" selectedIndex="1"/>
+<gridItem id="SCI2" selectedIndex="1"/>
+<gridItem id="RXD7/SMISO7" selectedIndex="1"/>
+<gridItem id="TXD7/SMOSI7" selectedIndex="1"/>
+<gridItem id="SCI7" selectedIndex="1"/>
+<gridItem id="SCI_CFG_TEI_INCLUDED" selectedIndex="1"/>
+<gridItem id="SCI_CFG_CH2_INCLUDED" selectedIndex="1"/>
+<gridItem id="SCI_CFG_CH7_INCLUDED" selectedIndex="1"/>
 <gridItem id="SCI_CFG_CH1_INCLUDED" selectedIndex="0"/>
 </component>
 <source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
@@ -50,14 +63,40 @@
 </configuration>
 <configuration inuse="true" name="r_ether_rx">
 <component display="r_ether_rx" id="r_ether_rx1.20" version="1.20">
+<gridItem id="CLKOUT25M" selectedIndex="1"/>
+<gridItem id="ET0_TX_CLK" selectedIndex="1"/>
+<gridItem id="ET0_RX_CLK" selectedIndex="1"/>
+<gridItem id="ET0_TX_EN" selectedIndex="1"/>
+<gridItem id="ET0_ETXD3" selectedIndex="1"/>
+<gridItem id="ET0_ETXD2" selectedIndex="1"/>
+<gridItem id="ET0_ETXD1" selectedIndex="1"/>
+<gridItem id="ET0_ETXD0" selectedIndex="1"/>
+<gridItem id="ET0_TX_ER" selectedIndex="1"/>
+<gridItem id="ET0_RX_DV" selectedIndex="1"/>
+<gridItem id="ET0_ERXD3" selectedIndex="1"/>
+<gridItem id="ET0_ERXD2" selectedIndex="1"/>
+<gridItem id="ET0_ERXD1" selectedIndex="1"/>
+<gridItem id="ET0_ERXD0" selectedIndex="1"/>
+<gridItem id="ET0_RX_ER" selectedIndex="1"/>
+<gridItem id="ET0_CRS" selectedIndex="1"/>
+<gridItem id="ET0_COL" selectedIndex="1"/>
+<gridItem id="ET0_MDC" selectedIndex="1"/>
+<gridItem id="ET0_MDIO" selectedIndex="1"/>
+<gridItem id="ET0_MDC" selectedIndex="1"/>
+<gridItem id="ET0_MDIO" selectedIndex="1"/>
+<gridItem id="CLKOUT25M" selectedIndex="1"/>
+<gridItem id="ETHERC0_MII" selectedIndex="1"/>
 <gridItem id="ETHER_CFG_CH0_PHY_ACCESS" selectedIndex="0"/>
 <gridItem id="ETHER_CFG_CH1_PHY_ACCESS" selectedIndex="0"/>
 <gridItem id="ETHER_CFG_USE_LINKSTA" selectedIndex="0"/>
-<gridItem id="ETHER_CFG_CH0_PHY_ADDRESS" selectedIndex="1"/>
-<gridItem id="ETHER_CFG_CH1_PHY_ADDRESS" selectedIndex="2"/>
-<gridItem id="ETHER_CFG_EMAC_RX_DESCRIPTORS" selectedIndex="12"/>
+<gridItem id="ETHER_CFG_CH0_PHY_ADDRESS" selectedIndex="0"/>
+<gridItem id="ETHER_CFG_CH1_PHY_ADDRESS" selectedIndex="1"/>
+<gridItem id="ETHER_CFG_EMAC_RX_DESCRIPTORS" selectedIndex="4"/>
 <gridItem id="ETHER_CFG_EMAC_TX_DESCRIPTORS" selectedIndex="4"/>
-<gridItem id="ETHER_CFG_BUFSIZE" selectedIndex="2048"/>
+<gridItem id="ETHER_CFG_BUFSIZE" selectedIndex="1536"/>
+<gridItem id="ETHER_CFG_AL1_INT_PRIORTY" selectedIndex="13"/>
+<gridItem id="ETHER_CFG_CH1_PHY_ACCESS" selectedIndex="1"/>
+<gridItem id="ETHER_CFG_USE_PHY_KSZ8041NL" selectedIndex="1"/>
 </component>
 <source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
 </configuration>
@@ -99,6 +138,34 @@
 </configuration>
 </tool>
     <tool id="Clock">
+<Item current="16 MHz" id="mainclock.OutputValue"/>
+<Item current="16" error="false" id="mainclock.frequencyTxt"/>
+<Item current="16 MHz" id="pllSourceSelect.InputValue"/>
+<Item current="16 MHz" id="pllSourceSelect.OutputValue"/>
+<Item current="16 MHz" id="pll.InputValue"/>
+<Item current="mul15-1" error="false" id="pll.multiplyBox"/>
+<Item current="16.0 MHz" error="false" id="pll.MiddleValue"/>
+<Item current="16 MHz" id="ppll.InputValue"/>
+<Item current="mul12_5-1" error="false" id="ppll.multiplyBox"/>
+<Item current="div1-1" error="false" id="ppll.dividerBox"/>
+<Item current="16.0 MHz" error="false" id="ppll.MiddleValue"/>
+<Item current="16 MHz" id="ckoselector.InputValue"/>
+<Item current="16 MHz" id="ckoselector.OutputValue"/>
+<Item current="16 MHz" id="ckodivider.InputValue"/>
+<Item current="16.0 MHz" id="ckodivider.OutputValue"/>
+<Item current="16 MHz" error="false" id="ckodivider.PreOutput"/>
+<Item current="120.0 MHz" id="bck.InputValue"/>
+<Item current="120.0 MHz" id="bck.OutputValue"/>
+<Item current="120.0" id="bck.frequencyTxt"/>
+<Item current="120.0" id="bck.CurrentValue"/>
+<Item current="120.0 MHz" id="sdclk.InputValue"/>
+<Item current="true" id="sdclk.SelectBoxDisabled"/>
+<Item current="16.0 MHz" id="clkout.InputValue"/>
+<Item current="16.0" id="clkout.CurrentValue"/>
+<Item current="16 MHz" id="cacmclk.InputValue"/>
+<Item current="16 MHz" id="cacmclk.OutputValue"/>
+<Item current="16" id="cacmclk.frequencyTxt"/>
+<Item current="16" id="cacmclk.CurrentValue"/>
 <Item current="true" id="bckdivider.isSelected"/>
 <Item current="240.0 MHz" id="bckdivider.InputValue"/>
 <Item current="120.0 MHz" id="bckdivider.OutputValue"/>
