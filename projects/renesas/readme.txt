@@ -14,6 +14,8 @@ And Thanks for Renesas RX MCUs business unit member funds for me,
 and helps some hardware/software development.
 I hope this solution will be helpful for embedded system developer in W/W.
 
+Renesas Electronics, Ishiguro
+
 --------------------------------------------------------------------------
 Change Logs
 --------------------------------------------------------------------------
