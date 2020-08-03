@@ -55,7 +55,7 @@
 #define configMAX_PRIORITIES                       (7)
 #define configTICK_RATE_HZ                         (1000)
 #define configMINIMAL_STACK_SIZE                   (( unsigned short ) 512)
-#define configTOTAL_HEAP_SIZE                      (( size_t ) ( 256U * 1024U ))
+#define configTOTAL_HEAP_SIZE                      (( size_t ) ( 128U * 1024U ))
 #define configMAX_TASK_NAME_LEN                    (12)
 #define configUSE_TRACE_FACILITY                   1
 #define configUSE_16_BIT_TICKS                     0
@@ -84,7 +84,7 @@
 
 /* Software timer related definitions. */
 #define configUSE_TIMERS                           1
-#define configTIMER_TASK_PRIORITY                  (configMAX_PRIORITIES - 1)
+#define configTIMER_TASK_PRIORITY                  (6)
 #define configTIMER_QUEUE_LENGTH                   5
 #define configTIMER_TASK_STACK_DEPTH               (configMINIMAL_STACK_SIZE * 6)
 
