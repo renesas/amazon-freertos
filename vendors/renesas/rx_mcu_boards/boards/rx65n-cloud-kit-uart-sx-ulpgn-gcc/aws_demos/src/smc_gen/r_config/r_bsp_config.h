@@ -650,5 +650,7 @@ Configuration Options
 */
 #define BSP_CFG_SWINT_IPR_INITIAL_VALUE     (0x1)
 
+#define MY_BSP_CFG_SERIAL_TERM_SCI                  (5)
+
 #endif /* R_BSP_CONFIG_REF_HEADER_FILE */
 
