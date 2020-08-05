@@ -669,7 +669,7 @@ static void _sendPuback( _mqttConnection_t * pMqttConnection,
     IotMqttError_t ( * serializePuback )( uint16_t,
                                           uint8_t **,
                                           size_t * ) = _IotMqtt_SerializePuback;
-    void ( * freePacket )( uint8_t * ) = _IotMqtt_FreePacket;
+    void ( * freePacket )( const uint8_t * ) = _IotMqtt_FreePacket;
 
     IotLogDebug( "(MQTT connection %p) Sending PUBACK for received PUBLISH %hu.",
                  pMqttConnection,

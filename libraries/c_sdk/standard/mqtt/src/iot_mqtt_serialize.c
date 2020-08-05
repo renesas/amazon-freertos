@@ -1830,7 +1830,7 @@ IotMqttError_t _IotMqtt_DeserializeUnsuback( _mqttPacket_t * pUnsuback )
 
 /*-----------------------------------------------------------*/
 
-IotMqttError_t _IotMqtt_SerializePingreq( uint8_t ** pPingreqPacket,
+IotMqttError_t _IotMqtt_SerializePingreq( const uint8_t ** pPingreqPacket,
                                           size_t * pPacketSize )
 {
     /* PINGREQ packets are always the same. */
@@ -1841,7 +1841,7 @@ IotMqttError_t _IotMqtt_SerializePingreq( uint8_t ** pPingreqPacket,
     };
 
     /* Set the output parameters. */
-    *pPingreqPacket = ( uint8_t * ) pPingreq;
+    *pPingreqPacket = ( const uint8_t * ) pPingreq;
     *pPacketSize = MQTT_PACKET_PINGREQ_SIZE;
 
     /* Print out the PINGREQ packet for debugging purposes. */
@@ -1891,7 +1891,7 @@ IotMqttError_t _IotMqtt_DeserializePingresp( _mqttPacket_t * pPingresp )
 
 /*-----------------------------------------------------------*/
 
-IotMqttError_t _IotMqtt_SerializeDisconnect( uint8_t ** pDisconnectPacket,
+IotMqttError_t _IotMqtt_SerializeDisconnect( const uint8_t ** pDisconnectPacket,
                                              size_t * pPacketSize )
 {
     /* DISCONNECT packets are always the same. */
@@ -1902,7 +1902,7 @@ IotMqttError_t _IotMqtt_SerializeDisconnect( uint8_t ** pDisconnectPacket,
     };
 
     /* Set the output parameters. */
-    *pDisconnectPacket = ( uint8_t * ) pDisconnect;
+    *pDisconnectPacket = ( const uint8_t * ) pDisconnect;
     *pPacketSize = MQTT_PACKET_DISCONNECT_SIZE;
 
     /* Print out the DISCONNECT packet for debugging purposes. */
@@ -1913,7 +1913,7 @@ IotMqttError_t _IotMqtt_SerializeDisconnect( uint8_t ** pDisconnectPacket,
 
 /*-----------------------------------------------------------*/
 
-void _IotMqtt_FreePacket( uint8_t * pPacket )
+void _IotMqtt_FreePacket( const uint8_t * pPacket )
 {
     uint8_t packetType = *pPacket;
 

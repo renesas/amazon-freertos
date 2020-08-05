@@ -276,7 +276,7 @@ typedef struct _mqttConnection
     uint32_t nextKeepAliveMs;                    /**< @brief Relative delay for next keep-alive job. */
     IotTaskPoolJobStorage_t keepAliveJobStorage; /**< @brief Task pool job for processing this connection's keep-alive. */
     IotTaskPoolJob_t keepAliveJob;               /**< @brief Task pool job for processing this connection's keep-alive. */
-    uint8_t * pPingreqPacket;                    /**< @brief An MQTT PINGREQ packet, allocated if keep-alive is active. */
+    const uint8_t * pPingreqPacket;                    /**< @brief An MQTT PINGREQ packet, allocated if keep-alive is active. */
     size_t pingreqPacketSize;                    /**< @brief The size of an allocated PINGREQ packet. */
 } _mqttConnection_t;
 
@@ -341,7 +341,7 @@ typedef struct _mqttOperation
             uint16_t packetIdentifier;   /**< @brief The packet identifier used with this operation. */
 
             /* Serialized packet and size. */
-            uint8_t * pMqttPacket;           /**< @brief The MQTT packet to send over the network. */
+            const uint8_t * pMqttPacket;           /**< @brief The MQTT packet to send over the network. */
             uint8_t * pPacketIdentifierHigh; /**< @brief The location of the high byte of the packet identifier in the MQTT packet. */
             size_t packetSize;               /**< @brief Size of `pMqttPacket`. */
 
@@ -646,7 +646,7 @@ IotMqttError_t _IotMqtt_DeserializeUnsuback( _mqttPacket_t * pUnsuback );
  *
  * @return Always returns #IOT_MQTT_SUCCESS.
  */
-IotMqttError_t _IotMqtt_SerializePingreq( uint8_t ** pPingreqPacket,
+IotMqttError_t _IotMqtt_SerializePingreq( const uint8_t ** pPingreqPacket,
                                           size_t * pPacketSize );
 
 /**
@@ -670,7 +670,7 @@ IotMqttError_t _IotMqtt_DeserializePingresp( _mqttPacket_t * pPingresp );
  *
  * @return Always returns #IOT_MQTT_SUCCESS.
  */
-IotMqttError_t _IotMqtt_SerializeDisconnect( uint8_t ** pDisconnectPacket,
+IotMqttError_t _IotMqtt_SerializeDisconnect( const uint8_t ** pDisconnectPacket,
                                              size_t * pPacketSize );
 
 /**
@@ -678,7 +678,7 @@ IotMqttError_t _IotMqtt_SerializeDisconnect( uint8_t ** pDisconnectPacket,
  *
  * @param[in] pPacket The packet to free.
  */
-void _IotMqtt_FreePacket( uint8_t * pPacket );
+void _IotMqtt_FreePacket( const uint8_t * pPacket );
 
 /*-------------------- MQTT operation record functions ----------------------*/
 
