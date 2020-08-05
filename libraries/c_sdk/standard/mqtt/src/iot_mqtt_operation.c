@@ -543,7 +543,7 @@ void _IotMqtt_DestroyOperation( _mqttOperation_t * pOperation )
     _mqttConnection_t * pMqttConnection = pOperation->pMqttConnection;
 
     /* Default free packet function. */
-    void ( * freePacket )( uint8_t * ) = _IotMqtt_FreePacket;
+    void ( * freePacket )(const uint8_t * ) = _IotMqtt_FreePacket;
 
     IotLogDebug( "(MQTT connection %p, %s operation %p) Destroying operation.",
                  pMqttConnection,
