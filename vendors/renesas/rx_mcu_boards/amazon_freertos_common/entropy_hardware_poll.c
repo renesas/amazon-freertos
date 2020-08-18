@@ -9,10 +9,9 @@
 #include "platform.h"   // __LIT for all compilers
 #include "r_s12ad_rx_if.h"
 #include "mbedtls/entropy_poll.h"
-#include "r_tsip_rx_if.h"
 
-void get_random_number(uint8_t *data, uint32_t len);
-//extern e_tsip_err_t R_TSIP_GenerateRandomNumber(uint32_t *random);
+#if BSP_CFG_MCU_PART_ENCRYPTION_INCLUDED == true
+#include "r_tsip_rx_if.h"
 
 tsip_tls_ca_certification_public_key_index_t s_inst1 =
 {
@@ -24,6 +23,10 @@ tsip_update_key_ring_t s_inst2 =
     0
 };
 
+#endif
+
+void get_random_number(uint8_t *data, uint32_t len);
+
 /******************************************************************************
 Functions : hardware entropy collector(repeatedly called until enough gathered)
 ******************************************************************************/
@@ -32,25 +35,40 @@ int mbedtls_hardware_poll( void *data,
 {
     INTERNAL_NOT_USED(data);
 	INTERNAL_NOT_USED(len);
-	e_tsip_err_t error_code = TSIP_SUCCESS;
+	#if BSP_CFG_MCU_PART_ENCRYPTION_INCLUDED == true
+		e_tsip_err_t error_code = TSIP_SUCCESS;
 
-	static uint32_t gs_random_number_buffer[4] =
-	{
-	    0
-	};
+		static uint32_t gs_random_number_buffer[4] =
+		{
+			0
+		};
 
-	size_t num_bytes = ( len < sizeof( uint32_t ) ) ? len : sizeof( uint32_t );
+		size_t num_bytes = ( len < sizeof( uint32_t ) ) ? len : sizeof( uint32_t );
 
-    error_code = R_TSIP_Open(&s_inst1, &s_inst2);
-    R_TSIP_GenerateRandomNumber(( uint8_t * ) &gs_random_number_buffer);
-    *olen = 0;
+		error_code = R_TSIP_Open(&s_inst1, &s_inst2);
+		R_TSIP_GenerateRandomNumber(( uint32_t * ) &gs_random_number_buffer);
+		*olen = 0;
 
-    memcpy( output, &gs_random_number_buffer, num_bytes );
-    *olen = num_bytes;
+		memcpy( output, &gs_random_number_buffer, num_bytes );
+		*olen = num_bytes;
 
-    error_code = R_TSIP_Close();
+		error_code = R_TSIP_Close();
 
-    return error_code;
+		return error_code;
+	#else
+		uint32_t random_number = 0;
+		size_t num_bytes = ( len < sizeof( uint32_t ) ) ? len : sizeof( uint32_t );
+
+		get_random_number( ( uint8_t * ) &random_number, sizeof( uint32_t ) );
+		*olen = 0;
+
+		memcpy( output, &random_number, num_bytes );
+		*olen = num_bytes;
+
+		return 0;
+
+
+	#endif
 }
 
 /******************************************************************************
