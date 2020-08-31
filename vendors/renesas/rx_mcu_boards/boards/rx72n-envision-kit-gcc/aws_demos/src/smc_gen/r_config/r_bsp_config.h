@@ -336,7 +336,7 @@ NOTE: The RAM areas are not contiguous.It is separated by 512 KB each.
 /* PPLL Input Frequency Division Ratio Select (PPLIDIV).
    Available divisors = /1 (no division), /2, /3
 */
-#define BSP_CFG_PPLL_DIV                (3) /* Generated value. Do not edit this manually */
+#define BSP_CFG_PPLL_DIV                (2) /* Generated value. Do not edit this manually */
 
 /* PPLL Frequency Multiplication Factor Select (PPLSTC). 
    Available multipliers = x10.0 to x30.0 in 0.5 increments (e.g. 10.0, 10.5, 11.0, 11.5, ..., 29.0, 29.5, 30.0)

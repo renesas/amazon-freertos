@@ -22,7 +22,7 @@
 * Version      : 1.1.0
 * Device(s)    : R5F572NNHxFB
 * Description  : This file implements interrupt setting.
-* Creation Date: 2020-08-27
+* Creation Date: 2020-08-31
 ***********************************************************************************************************************/
 
 #ifndef SMC_INTERRUPT_H
@@ -141,7 +141,7 @@ Macro definitions
 #define ICU_ICU_GROUPBL0_PRIORITY                  (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_ICU_GROUPBL1_PRIORITY                  (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_ICU_GROUPAL0_PRIORITY                  (_0F_ICU_PRIORITY_LEVEL15)
-#define ICU_ICU_GROUPAL1_PRIORITY                  (_0E_ICU_PRIORITY_LEVEL14)
+#define ICU_ICU_GROUPAL1_PRIORITY                  (_02_ICU_PRIORITY_LEVEL2)
 #define ICU_SCI11_RXI11_PRIORITY                   (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_SCI11_TXI11_PRIORITY                   (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_SCI12_RXI12_PRIORITY                   (_0F_ICU_PRIORITY_LEVEL15)

@@ -54,7 +54,7 @@
  Please set the value 1 ETHER_CFG_CH0_PHY_ADDRESS and value 2 ETHER_CFG_CH1_PHY_ADDRESS when use default setting of the RSK+RX72M.
  Please set the value 1 ETHER_CFG_CH1_PHY_ADDRESS when use default setting of the RSK+RX72N.
  */
-    #define ETHER_CFG_CH0_PHY_ADDRESS                   (1)     /* Please define the PHY-LSI address in the range of 0-31. */
+    #define ETHER_CFG_CH0_PHY_ADDRESS                   (0)     /* Please define the PHY-LSI address in the range of 0-31. */
     #define ETHER_CFG_CH1_PHY_ADDRESS                   (1)     /* Please define the PHY-LSI address in the range of 0-31. */
 
 /* The number of Rx descriptors. */
@@ -72,7 +72,7 @@
 
 /* Group AL1 interrupt priority level. This definition is not used when EINT interrupt is assigned to Peripheral 
  interrupt. */
-    #define ETHER_CFG_AL1_INT_PRIORTY                   (14)     /* Please define the interruption level within the range of 1-15. */
+    #define ETHER_CFG_AL1_INT_PRIORTY                   (2)     /* Please define the interruption level within the range of 1-15. */
 
 /* The register bus of PHY0/1 for ETHER0/1 select
  0 = The access of the register of PHY uses ETHER0.

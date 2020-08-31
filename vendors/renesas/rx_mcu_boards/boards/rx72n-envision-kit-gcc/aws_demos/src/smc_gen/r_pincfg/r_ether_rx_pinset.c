@@ -22,7 +22,7 @@
 * Device(s)    : R5F572NNHxFB
 * Tool-Chain   : RXC toolchain
 * Description  : Setting of port and mpc registers
-* Creation Date: 2020-08-27
+* Creation Date: 2020-08-31
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -120,14 +120,6 @@ void R_ETHER_PinSet_ETHERC0_MII()
     /* Set ET0_MDIO pin */
     MPC.P71PFS.BYTE = 0x11U;
     PORT7.PMR.BIT.B1 = 1U;
-
-    /* Set PMGI0_MDC pin */
-    MPC.PA4PFS.BYTE = 0x28U;
-    PORTA.PMR.BIT.B4 = 1U;
-
-    /* Set PMGI0_MDIO pin */
-    MPC.PA3PFS.BYTE = 0x28U;
-    PORTA.PMR.BIT.B3 = 1U;
 
     R_BSP_RegisterProtectEnable(BSP_REG_PROTECT_MPC);
 }
