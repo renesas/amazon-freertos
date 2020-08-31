@@ -59,6 +59,7 @@ static st_mount_table_t gs_mount_table[] =
         { "riic3", (st_r_driver_t *)&g_riic_driver, R_SC0 },
         { "adc0", (st_r_driver_t *)&g_adc_driver, R_SC0 },
         { "scifa4", (st_r_driver_t *)&g_scifa_driver, R_SC0 },
+        { "scifa3", (st_r_driver_t *)&g_scifa_driver, R_SC1 },
         { "ostm_reserved", (st_r_driver_t *)&g_ostm_driver, R_SC0 },
         { "runtime_stats_timer", (st_r_driver_t *)&g_ostm_driver, R_SC1 },
         /* End of modification */

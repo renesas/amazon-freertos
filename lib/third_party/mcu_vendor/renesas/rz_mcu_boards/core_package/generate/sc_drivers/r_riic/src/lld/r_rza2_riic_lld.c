@@ -539,10 +539,6 @@ void R_RIIC_ClearStop (int_t channel)
     RZA_IO_RegWrite_32((volatile uint32_t *) &gsp_riic[channel]->ICIER.LONG, (uint32_t) 0, RIIC_ICIER_TIE_SHIFT,
     RIIC_ICIER_TIE);
 
-    /* disable transmit end interrupt */
-    RZA_IO_RegWrite_32((volatile uint32_t *) &gsp_riic[channel]->ICIER.LONG, (uint32_t) 0, RIIC_ICIER_TEIE_SHIFT,
-    RIIC_ICIER_TEIE);
-
     /* disable receive interrupt */
     RZA_IO_RegWrite_32((volatile uint32_t *) &gsp_riic[channel]->ICIER.LONG, (uint32_t) 0, RIIC_ICIER_RIE_SHIFT,
     RIIC_ICIER_RIE);
@@ -568,10 +564,6 @@ void R_RIIC_TransmitStart (int_t channel)
     /* enable transmit interrupt */
     RZA_IO_RegWrite_32((volatile uint32_t *) &gsp_riic[channel]->ICIER.LONG, (uint32_t) 1, RIIC_ICIER_TIE_SHIFT,
     RIIC_ICIER_TIE);
-
-    /* enable transmit end interrupt */
-    RZA_IO_RegWrite_32((volatile uint32_t *) &gsp_riic[channel]->ICIER.LONG, (uint32_t) 1, RIIC_ICIER_TEIE_SHIFT,
-    RIIC_ICIER_TEIE);
 
     /* enable receive interrupt */
     RZA_IO_RegWrite_32((volatile uint32_t *) &gsp_riic[channel]->ICIER.LONG, (uint32_t) 1, RIIC_ICIER_RIE_SHIFT,
@@ -602,10 +594,6 @@ void R_RIIC_TransmitRestart (int_t channel)
     /* enable transmit interrupt */
     RZA_IO_RegWrite_32((volatile uint32_t *) &gsp_riic[channel]->ICIER.LONG, (uint32_t) 1, RIIC_ICIER_TIE_SHIFT,
     RIIC_ICIER_TIE);
-
-    /* enable transmit end interrupt */
-    RZA_IO_RegWrite_32((volatile uint32_t *) &gsp_riic[channel]->ICIER.LONG, (uint32_t) 1, RIIC_ICIER_TEIE_SHIFT,
-    RIIC_ICIER_TEIE);
 
     /* enable receive interrupt */
     RZA_IO_RegWrite_32((volatile uint32_t *) &gsp_riic[channel]->ICIER.LONG, (uint32_t) 1, RIIC_ICIER_RIE_SHIFT,
@@ -757,6 +745,44 @@ void R_RIIC_ReleaseLowHold (int_t channel)
  *****************************************************************************/
 
 /******************************************************************************
+* Function Name: R_RIIC_EnableTransEndIntr
+* Description  : This function is called by HLD, and enable transfer end 
+*                interrupt.
+* Arguments    : channel - Channel that enable transfer end.
+* Return Value : None.
+******************************************************************************/
+void R_RIIC_EnableTransEndIntr (int_t channel)
+{
+    /* enable transmit end interrupt*/
+    RZA_IO_RegWrite_32((volatile uint32_t *) &gsp_riic[channel]->ICIER.LONG, (uint32_t) 1, RIIC_ICIER_TEIE_SHIFT,
+    RIIC_ICIER_TEIE);
+
+    return;
+}
+/******************************************************************************
+ * End of Function R_RIIC_EnableTransEndIntr  
+ *****************************************************************************/
+
+/******************************************************************************
+* Function Name: R_RIIC_DisableTransEndIntr
+* Description  : This function is called by HLD, and disable transfer end 
+*                interrupt.
+* Arguments    : channel - Channel that disable transfer end.
+* Return Value : None.
+******************************************************************************/
+void R_RIIC_DisableTransEndIntr (int_t channel)
+{
+    /* enable transmit end interrupt*/
+    RZA_IO_RegWrite_32((volatile uint32_t *) &gsp_riic[channel]->ICIER.LONG, (uint32_t) 0, RIIC_ICIER_TEIE_SHIFT,
+    RIIC_ICIER_TEIE);
+
+    return;
+}
+/******************************************************************************
+ * End of Function R_RIIC_EnableTransEndIntr  
+ *****************************************************************************/
+
+/******************************************************************************
 * Function Name: R_RIIC_WriteByte
 * Description  : This function is called by HLD, and write to the 
 *                data register.
@@ -865,10 +891,6 @@ int_t R_RIIC_WaitSlaveAddr (int_t channel)
     /* enable transmit interrupt*/
     RZA_IO_RegWrite_32((volatile uint32_t *) &gsp_riic[channel]->ICIER.LONG, (uint32_t) 1, RIIC_ICIER_TIE_SHIFT,
     RIIC_ICIER_TIE);
-
-    /* enable transmit end interrupt*/
-    RZA_IO_RegWrite_32((volatile uint32_t *) &gsp_riic[channel]->ICIER.LONG, (uint32_t) 1, RIIC_ICIER_TEIE_SHIFT,
-    RIIC_ICIER_TEIE);
 
     /* enable nak interrupt*/
     RZA_IO_RegWrite_32((volatile uint32_t *) &gsp_riic[channel]->ICIER.LONG, (uint32_t) 1, RIIC_ICIER_NAKIE_SHIFT,

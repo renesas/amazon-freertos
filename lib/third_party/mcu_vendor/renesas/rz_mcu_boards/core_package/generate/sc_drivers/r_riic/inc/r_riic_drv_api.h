@@ -93,7 +93,7 @@
 
 /** Minor Version Number of API.
  * Updated by developer */
-    #define STDIO_RIIC_HLD_VERSION_MINOR        (3)
+    #define STDIO_RIIC_HLD_VERSION_MINOR        (4)
 
 /** Build Number of API.
  * Generated during customer release */

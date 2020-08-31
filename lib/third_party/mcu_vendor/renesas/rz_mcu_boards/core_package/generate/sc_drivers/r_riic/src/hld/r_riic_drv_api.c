@@ -30,6 +30,7 @@
  *              : 08.05.2019 1.01    Fixed minor issue in riic_hld_open fn
  *              : 01.08.2019 1.03    Bump version number for V5 release
  *                                   Get clock speed from CPG driver
+ *              : 30.06.2020 1.04    Fixed transfer end interrupt enable
  *****************************************************************************/
 
 /******************************************************************************
@@ -142,7 +143,7 @@ static int_t get_p1clk(float64_t *p1clk)
  ******************************************************************************/
 static int_t riic_hld_open (st_stream_ptr_t p_stream)
 {
-	float64_t p1clk;
+    float64_t p1clk;
     int_t ret_value = DRV_ERROR;
 
     /* determine hardware channel number */

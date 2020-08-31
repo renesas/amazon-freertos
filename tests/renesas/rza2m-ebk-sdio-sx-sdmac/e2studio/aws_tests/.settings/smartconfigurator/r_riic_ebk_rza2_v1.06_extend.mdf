@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+/***********************************************************************************************************************
+  Purpose: Module Description File (MDF) Example (Schema Version 2.1)
+           This is a description of a sample module configuration file
+***********************************************************************************************************************/
+-->
+<module xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="2.1" xs:noNamespaceSchemaLocation="schema_mdf_2.10.xsd">
+    <fileVersion>1.00</fileVersion>
+    <formatVersion>2.12</formatVersion>
+
+    <resourceInfo>
+      <peripheral name="RIIC">
+        <channel number="RIIC0">
+          <pin name="RIIC0SCL"/>
+          <pin name="RIIC0SDA"/>
+        </channel>
+        <channel number="RIIC1">
+          <pin name="RIIC1SCL"/>
+          <pin name="RIIC1SDA"/>
+        </channel>
+        <channel number="RIIC2">
+          <pin name="RIIC2SCL"/>
+          <pin name="RIIC2SDA"/>
+        </channel>
+        <channel number="RIIC3">
+          <pin name="RIIC3SCL"/>
+          <pin name="RIIC3SDA"/>
+        </channel>
+      </peripheral>
+    </resourceInfo>
+    <configuration>
+      <property id="RIIC_OPERATION_MODE" display="RIIC Transfer Mode" default="RIIC_MODE_MASTER" type="combobox">
+        <option id="RIIC_OPERATION_MODE.RIIC_MODE_MASTER" display="Master Mode" value="RIIC_MODE_MASTER"/>
+        <option id="RIIC_OPERATION_MODE.RIIC_MODE_SLAVE" display="Slave Mode" value="RIIC_MODE_SLAVE"/>
+        <constraint display="Slave mode is scheduled for later versions" actionOnFail="disable">("${RIIC_OPERATION_MODE}" == "RIIC_MODE_SLAVE")</constraint>
+        <description>RIIC communication Modes.
+RIIC_MODE_MASTER = Master Mode
+RIIC_MODE_SLAVE = Slave Mode
+
+*Slave mode is scheduled for later versions.</description>
+      </property>
+      <property id="RIIC_SLAVE_ADDRESS0_ENABLE" display="Own Slave Address0 Enable" default="true" type="checkbox">
+        <option id="RIIC_SLAVE_ADDRESS0_ENABLE.false" display="Unused" value="false"/>
+        <option id="RIIC_SLAVE_ADDRESS0_ENABLE.true" display="Used" value="true"/>
+        <constraint display="Slave address 0 is always used." actionOnFail="disable">("${RIIC_SLAVE_ADDRESS0_ENABLE}" == "true")</constraint>
+        <constraint display="Slave address 0 is always used." actionOnFail="disable">("${RIIC_SLAVE_ADDRESS0_ENABLE}" == "false")</constraint>
+        <description>Slave address 0 is always used.</description>
+      </property>
+      <property id="RIIC_SLAVE_ADDRESS1_ENABLE" display="Own Slave Address1 Enable" default="false" type="checkbox">
+        <option id="RIIC_SLAVE_ADDRESS1_ENABLE.false" display="Unused" value="false"/>
+        <option id="RIIC_SLAVE_ADDRESS1_ENABLE.true" display="Used" value="true"/>
+        <constraint display="Slave mode is scheduled for later versions" actionOnFail="disable">("${RIIC_OPERATION_MODE}" == "RIIC_MODE_SLAVE")</constraint>
+        <description>In the case of "Used", the slave address registered in "Own Slave Address1" is used.</description>
+      </property>
+      <property id="RIIC_SLAVE_ADDRESS2_ENABLE" display="Own Slave Address2 Enable" default="false" type="checkbox">
+        <option id="RIIC_SLAVE_ADDRESS2_ENABLE.false" display="Unused" value="false"/>
+        <option id="RIIC_SLAVE_ADDRESS2_ENABLE.true" display="Used" value="true"/>
+        <constraint display="Slave mode is scheduled for later versions" actionOnFail="disable">("${RIIC_OPERATION_MODE}" == "RIIC_MODE_SLAVE")</constraint>
+        <description>In the case of "Used", the slave address registered in "Own Slave Address2" is used.</description>
+      </property>
+      <property id="RIIC_SLAVE_ADDRESS0" display="Own Slave Address0" default="1" type="textbox">
+        <constraint display="Slave mode is scheduled for later versions." actionOnFail="disable">("${RIIC_OPERATION_MODE}" == "RIIC_MODE_SLAVE")</constraint>
+        <constraint display="Value must be an integer.Please set a value between 0x01 and 0x3FF.Please set a value between 0x01 and 0x7F when slave address length is 7bit Address mode" actionOnFail="error">(("${RIIC_SLAVE_ADDRESS0_LENGTH}" == "RIIC_DEVICE_ADDR_7") &amp;&amp; ("${RIIC_SLAVE_ADDRESS0}" &lt;= 0x7F)) || (("${RIIC_SLAVE_ADDRESS0_LENGTH}" == "RIIC_DEVICE_ADDR_10") &amp;&amp; ("${RIIC_SLAVE_ADDRESS0}" &lt;= 0x3FF))</constraint>
+        <description>Slave address to be registered in slave address 0 (0x01 - 0x3FF).
+The value to be set is a slave address of only 7 bits except the bit indicating read/write.
+When setting 7bit slave address mode, do not set an address of 0x80 or more.</description>
+      </property>
+      <property id="RIIC_SLAVE_ADDRESS1" display="Own Slave Address1" default="1" type="textbox">
+        <constraint display="Slave mode is scheduled for later versions." actionOnFail="disable">("${RIIC_OPERATION_MODE}" == "RIIC_MODE_SLAVE")</constraint>
+        <constraint display="Value must be an integer.Please set a value between 0x01 and 0x3FF.Please set a value between 0x01 and 0x7F when slave address length is 7bit Address mode" actionOnFail="error">(("${RIIC_SLAVE_ADDRESS1_LENGTH}" == "RIIC_DEVICE_ADDR_7") &amp;&amp; ("${RIIC_SLAVE_ADDRESS1}" &lt;= 0x7F)) || (("${RIIC_SLAVE_ADDRESS1_LENGTH}" == "RIIC_DEVICE_ADDR_10") &amp;&amp; ("${RIIC_SLAVE_ADDRESS1}" &lt;= 0x3FF))</constraint>
+        <description>Slave address to be registered in slave address 1 (0x01 - 0x3FF).
+The value to be set is a slave address of only 7 bits except the bit indicating read/write.
+When setting 7bit slave address mode, do not set an address of 0x80 or more.</description>
+      </property>
+      <property id="RIIC_SLAVE_ADDRESS2" display="Own Slave Address2" default="1" type="textbox">
+        <constraint display="Slave mode is scheduled for later versions." actionOnFail="disable">("${RIIC_OPERATION_MODE}" == "RIIC_MODE_SLAVE")</constraint>
+        <constraint display="Value must be an integer.Please set a value between 0x01 and 0x3FF.Please set a value between 0x01 and 0x7F when slave address length is 7bit Address mode" actionOnFail="error">(("${RIIC_SLAVE_ADDRESS2_LENGTH}" == "RIIC_DEVICE_ADDR_7") &amp;&amp; ("${RIIC_SLAVE_ADDRESS2}" &lt;= 0x7F)) || (("${RIIC_SLAVE_ADDRESS2_LENGTH}" == "RIIC_DEVICE_ADDR_10") &amp;&amp; ("${RIIC_SLAVE_ADDRESS2}" &lt;= 0x3FF))</constraint>
+        <description>Slave address to be registered in slave address 2 (0x01 - 0x3FF).
+The value to be set is a slave address of only 7 bits except the bit indicating read/write.
+When setting 7bit slave address mode, do not set an address of 0x80 or more.</description>
+      </property>
+      <property id="RIIC_SLAVE_ADDRESS0_LENGTH" display="Own Slave Address0 Length" default="RIIC_DEVICE_ADDR_7" type="combobox">
+        <option id="RIIC_SLAVE_ADDRESS0_LENGTH.RIIC_DEVICE_ADDR_7" display="7bit Address Mode" value="RIIC_DEVICE_ADDR_7"/>
+        <option id="RIIC_SLAVE_ADDRESS0_LENGTH.RIIC_DEVICE_ADDR_10" display="10bit Address Mode" value="RIIC_DEVICE_ADDR_10"/>
+        <constraint display="Slave mode is scheduled for later versions" actionOnFail="disable">("${RIIC_OPERATION_MODE}" == "RIIC_MODE_SLAVE")</constraint>
+        <description>Slave address format for Slave address0.
+RIIC_DEVICE_ADDR_7 = Slave Address0 format is 7bit slave address mode
+RIIC_DEVICE_ADDR_10 = Slave Address0 format is 10bit slave address mode</description>
+      </property>
+      <property id="RIIC_SLAVE_ADDRESS1_LENGTH" display="Own Slave Address1 Length" default="RIIC_DEVICE_ADDR_7" type="combobox">
+        <option id="RIIC_SLAVE_ADDRESS1_LENGTH.RIIC_DEVICE_ADDR_7" display="7bit Address Mode" value="RIIC_DEVICE_ADDR_7"/>
+        <option id="RIIC_SLAVE_ADDRESS1_LENGTH.RIIC_DEVICE_ADDR_10" display="10bit Address Mode" value="RIIC_DEVICE_ADDR_10"/>
+        <constraint display="Slave mode is scheduled for later versions" actionOnFail="disable">("${RIIC_OPERATION_MODE}" == "RIIC_MODE_SLAVE")</constraint>
+        <description>Slave address format for Slave address1.
+RIIC_DEVICE_ADDR_7 = Slave Address1 format is 7bit slave address mode
+RIIC_DEVICE_ADDR_10 = Slave Address1 format is 10bit slave address mode</description>
+      </property>
+      <property id="RIIC_SLAVE_ADDRESS2_LENGTH" display="Own Slave Address2 Length" default="RIIC_DEVICE_ADDR_7" type="combobox">
+        <option id="RIIC_SLAVE_ADDRESS2_LENGTH.RIIC_DEVICE_ADDR_7" display="7bit Address Mode" value="RIIC_DEVICE_ADDR_7"/>
+        <option id="RIIC_SLAVE_ADDRESS2_LENGTH.RIIC_DEVICE_ADDR_10" display="10bit Address Mode" value="RIIC_DEVICE_ADDR_10"/>
+        <constraint display="Slave mode is scheduled for later versions" actionOnFail="disable">("${RIIC_OPERATION_MODE}" == "RIIC_MODE_SLAVE")</constraint>
+        <description>Slave address format for Slave address2.
+RIIC_DEVICE_ADDR_7 = Slave Address2 format is 7bit slave address mode
+RIIC_DEVICE_ADDR_10 = Slave Address2 format is 10bit slave address mode</description>
+      </property>
+      <property id="RIIC_FREQUENCY" display="SCL Clock Frequency" default="RIIC_FREQUENCY_100KHZ" type="combobox">
+        <option id="RIIC_FREQUENCY.RIIC_FREQUENCY_100KHZ" display="100KHz" value="RIIC_FREQUENCY_100KHZ"/>
+        <option id="RIIC_FREQUENCY.RIIC_FREQUENCY_400KHZ" display="400KHz" value="RIIC_FREQUENCY_400KHZ"/>
+        <option id="RIIC_FREQUENCY.RIIC_FREQUENCY_1MHZ" display="1MHz" value="RIIC_FREQUENCY_1MHZ"/>
+        <description>Frequency of RIIC SCL clock on Master Mode.
+When the noise filter is enabled, settings of 1MHz are not allowed as the filter may eliminate the clock.
+RIIC_FREQUENCY_100KHZ = Frequency  is 100KHz
+RIIC_FREQUENCY_400KHZ = Frequency is 400KHz
+RIIC_FREQUENCY_1MHZ = Frequency is 1MHz</description>
+      </property>
+      <property id="RIIC_DUTY" display="SCL Duty Cycle" default="RIIC_DUTY_50" type="combobox">
+        <option id="RIIC_DUTY.RIIC_DUTY_10" display="10%" value="RIIC_DUTY_10"/>
+        <option id="RIIC_DUTY.RIIC_DUTY_20" display="20%" value="RIIC_DUTY_20"/>
+        <option id="RIIC_DUTY.RIIC_DUTY_30" display="30%" value="RIIC_DUTY_30"/>
+        <option id="RIIC_DUTY.RIIC_DUTY_40" display="40%" value="RIIC_DUTY_40"/>
+        <option id="RIIC_DUTY.RIIC_DUTY_50" display="50%" value="RIIC_DUTY_50"/>
+        <option id="RIIC_DUTY.RIIC_DUTY_60" display="60%" value="RIIC_DUTY_60"/>
+        <option id="RIIC_DUTY.RIIC_DUTY_70" display="70%" value="RIIC_DUTY_70"/>
+        <option id="RIIC_DUTY.RIIC_DUTY_80" display="80%" value="RIIC_DUTY_80"/>
+        <option id="RIIC_DUTY.RIIC_DUTY_90" display="90%" value="RIIC_DUTY_90"/>
+        <constraint display="When the frequency is 100kHz or 400kHz, the Duty cycle can not be set to 10% and 90%." actionOnFail="error">(("${RIIC_DUTY}" == "RIIC_DUTY_10") &amp;&amp; ("${RIIC_FREQUENCY}" != "RIIC_FREQUENCY_1MHZ")) == 0</constraint>
+        <constraint display="When the frequency is 100kHz or 400kHz, the Duty cycle can not be set to 10% and 90%" actionOnFail="error">(("${RIIC_DUTY}" == "RIIC_DUTY_90") &amp;&amp; ("${RIIC_FREQUENCY}" != "RIIC_FREQUENCY_1MHZ")) == 0</constraint>
+        <description>Duty cycle of RIIC SCL clock on Master Mode.
+% Indicates the high width ratio of SCL.
+When the noise filter is enabled, settings of 10% and 90% are not allowed as the filter may eliminate the clock.
+When the frequency is 100KHz or 400KHz, settings of 10% and 90% are not allowed as the filter may eliminate the clock.
+10% = Duty Cycle 10%
+20% = Duty Cycle 20%
+30% = Duty Cycle 30%
+40% = Duty Cycle 40%
+50% = Duty Cycle 50%
+60% = Duty Cycle 60%
+70% = Duty Cycle 70%
+80% = Duty Cycle 80%
+90% = Duty Cycle 90%</description>
+      </property>
+      <property id="RIIC_SCL_RISE_TIME" display="SCL Rise Time (nsec)" default="0" type="textbox">
+        <constraint display="Value must be an integer" actionOnFail="error">testInteger("${RIIC_SCL_RISE_TIME}")</constraint>
+        <constraint display="Value must be in the range 0 ~ 1000" actionOnFail="error">("${RIIC_SCL_RISE_TIME}" &gt;= 0) &amp;&amp; ("${RIIC_SCL_RISE_TIME}" &lt;= 1000)</constraint>
+        <description>Rise time value of SCL clock (0 - 1000nsec)
+Please set the measured value of the SCL clock rise time.
+This value changes depending on the configuration of the circuit such as the pull-up registor.
+The high width of SCL is shortened for the set time.
+Even if this value is 0, RIIC communication is possible. However, the output clock may be slightly smaller than the set frequency.</description>
+      </property>
+      <property id="RIIC_SCL_FALL_TIME" display="SCL Fall Time (nsec)" default="0" type="textbox">
+        <constraint display="Value must be an integer" actionOnFail="error">testInteger("${RIIC_SCL_FALL_TIME}")</constraint>
+        <constraint display="Value must be in the range 0 ~ 300" actionOnFail="error">("${RIIC_SCL_FALL_TIME}" &gt;= 0) &amp;&amp; ("${RIIC_SCL_FALL_TIME}" &lt;= 300)</constraint>
+        <description>Fall time value of SCL clock (0 - 300nsec)
+Please set the measured value of the SCL clock fall time.
+This value changes depending on the configuration of the circuit such as the pull-up registor.
+The low width of SCL is shortened for the set time.
+Even if this value is 0, RIIC communication is possible. However, the output clock may be slightly smaller than the set frequency.</description>
+      </property>
+      <property id="RIIC_FILTER_STAGE" display="Noise Filter" default="RIIC_FILTER_NOT_USED" type="combobox">
+        <option id="RIIC_FILTER_STAGE.RIIC_FILTER_NOT_USED" display="Unused" value="RIIC_FILTER_NOT_USED"/>
+        <option id="RIIC_FILTER_STAGE.RIIC_FILTER_STAGE_1" display="Filter 1stage" value="RIIC_FILTER_STAGE_1"/>
+        <option id="RIIC_FILTER_STAGE.RIIC_FILTER_STAGE_2" display="Filter 2stage" value="RIIC_FILTER_STAGE_2"/>
+        <option id="RIIC_FILTER_STAGE.RIIC_FILTER_STAGE_3" display="Filter 3stage" value="RIIC_FILTER_STAGE_3"/>
+        <option id="RIIC_FILTER_STAGE.RIIC_FILTER_STAGE_4" display="Filter 4stage" value="RIIC_FILTER_STAGE_4"/>
+        <constraint display="Valid signals are also removed. Noise Filter can't  be used when setting RIIC_FREQUENCY_1MHZ." actionOnFail="error">(("${RIIC_FILTER_STAGE}"  != "RIIC_FILTER_NOT_USED") &amp;&amp;  ("${RIIC_FREQUENCY}" == "RIIC_FREQUENCY_1MHZ")) == 0</constraint>
+        <constraint display="Valid signals are also removed. Noise Filter can't  be used when setting RIIC_DUTY_10." actionOnFail="error">(("${RIIC_FILTER_STAGE}"  != "RIIC_FILTER_NOT_USED") &amp;&amp; ("${RIIC_DUTY}" == "RIIC_DUTY_10")) == 0</constraint>
+        <constraint display="Valid signals are also removed. Noise Filter can't  be used when setting RIIC_DUTY_90." actionOnFail="error">(("${RIIC_FILTER_STAGE}"  != "RIIC_FILTER_NOT_USED") &amp;&amp; ("${RIIC_DUTY}" == "RIIC_DUTY_90")) == 0</constraint>
+        <description>Degital noise filter settings.
+RIIC_FILTER_NO_USE = Noise filter is disabled
+RIIC_FILTER_STAGE_1 = 1stage noise filter is used
+RIIC_FILTER_STAGE_2 = 2stage noise filter is used
+RIIC_FILTER_STAGE_3 = 3stage noise filter is used
+RIIC_FILTER_STAGE_4 = 4stage noise filter is used</description>
+      </property>
+      <property id="RIIC_TIMEOUT" display="SCL Timeout Mode" default="RIIC_TIMEOUT_NOT_USED" type="combobox">
+        <option id="RIIC_TIMEOUT.RIIC_TIMEOUT_NOT_USED" display="Unused" value="RIIC_TIMEOUT_NOT_USED"/>
+        <option id="RIIC_TIMEOUT.RIIC_TIMEOUT_LONG" display="Long Mode" value="RIIC_TIMEOUT_LONG"/>
+        <option id="RIIC_TIMEOUT.RIIC_TIMEOUT_SHORT" display="Short Mode" value="RIIC_TIMEOUT_SHORT"/>
+        <description>SCL Timeout counter settings.
+RIIC_TIMEOUT_NO_USED = It does not detect timeout.
+RIIC_TIMEOUT_LONG = Detect timeout in Long Mode(timeout counter = 16bit)
+RIIC_TIMEOUT_SHORT = Detect timeout in Short Mode(timeout counter = 14bit)</description>
+      </property>
+      <property id="RIIC_BUS_FORMAT" display="RIIC Bus Format" default="RIIC_FORMAT_I2C" type="combobox">
+        <option id="RIIC_BUS_FORMAT.RIIC_FORMAT_I2C" display="I2C Format" value="RIIC_FORMAT_I2C"/>
+        <option id="RIIC_BUS_FORMAT.RIIC_FORMAT_SMBUS" display="SMBus Format" value="RIIC_FORMAT_SMBUS"/>
+        <constraint display="SMBus format is scheduled for later versions" actionOnFail="disable">("${RIIC_BUS_FORMAT}" == "RIIC_FORMAT_SMBUS")</constraint>
+        <description>RIIC Bus Format.
+RIIC_FORMAT_I2C = I2C Format
+RIIC_SMBUS_FORMAT = SMBus format
+
+*SMBus format is scheduled for later versions.</description>
+      </property>
+      <property id="RIIC_HOST_ADDRESS_DETECTION" display="SMBus Host address detection" default="false" type="checkbox">
+        <option id="RIIC_HOST_ADDRESS_DETECTION.false" display="Unsed" value="false"/>
+        <option id="RIIC_HOST_ADDRESS_DETECTION.true" display="Used" value="true"/>
+        <constraint display="SMBus format is scheduled for later versions" actionOnFail="disable">("${RIIC_BUS_FORMAT}" == "RIIC_FORMAT_SMBUS")</constraint>
+        <description>Detection of Host Address on SMBus format.
+RIIC_FORMAT_I2C = I2C Format
+RIIC_SMBUS_FORMAT = SMBus format
+
+*SMBus format is scheduled for later versions.</description>
+      </property>
+      <property id="RIIC_TEND_INTERRUPT_PRIORITY" display="TEND Interrupt priority level (0 - 31)" default="9" type="textbox">
+        <constraint display="Value must be an integer" actionOnFail="error">testInteger("${RIIC_TEND_INTERRUPT_PRIORITY}")</constraint>
+        <constraint display="Value must be in the range 0 ~ 31" actionOnFail="error">("${RIIC_TEND_INTERRUPT_PRIORITY}" &gt;= 0) &amp;&amp; ("${RIIC_TEND_INTERRUPT_PRIORITY}" &lt;= 31)</constraint>
+        <description>TEND Interrupt priority level (0 - 31)</description>
+      </property>
+      <property id="RIIC_RDRF_INTERRUPT_PRIORITY" display="RDRF Interrupt priority level (0 - 31)" default="9" type="textbox">
+        <constraint display="Value must be an integer" actionOnFail="error">testInteger("${RIIC_RDRF_INTERRUPT_PRIORITY}")</constraint>
+        <constraint display="Value must be in the range 0 ~ 31" actionOnFail="error">("${RIIC_RDRF_INTERRUPT_PRIORITY}" &gt;= 0) &amp;&amp; ("${RIIC_RDRF_INTERRUPT_PRIORITY}" &lt;= 31)</constraint>
+        <description>RDRF Interrupt priority level (0 - 31)</description>
+      </property>
+      <property id="RIIC_TDRE_INTERRUPT_PRIORITY" display="TDRE Interrupt priority level (0 - 31)" default="9" type="textbox">
+        <constraint display="Value must be an integer" actionOnFail="error">testInteger("${RIIC_TDRE_INTERRUPT_PRIORITY}")</constraint>
+        <constraint display="Value must be in the range 0 ~ 31" actionOnFail="error">("${RIIC_TDRE_INTERRUPT_PRIORITY}" &gt;= 0) &amp;&amp; ("${RIIC_TDRE_INTERRUPT_PRIORITY}" &lt;= 31)</constraint>
+        <description>TDRE Interrupt priority level (0 - 31)</description>
+      </property>
+      <property id="RIIC_STOP_INTERRUPT_PRIORITY" display="STOP Interrupt priority level (0 - 31)" default="9" type="textbox">
+        <constraint display="Value must be an integer" actionOnFail="error">testInteger("${RIIC_STOP_INTERRUPT_PRIORITY}")</constraint>
+        <constraint display="Value must be in the range 0 ~ 31" actionOnFail="error">("${RIIC_STOP_INTERRUPT_PRIORITY}" &gt;= 0) &amp;&amp; ("${RIIC_STOP_INTERRUPT_PRIORITY}" &lt;= 31)</constraint>
+        <description>STOP Interrupt priority level (0 - 31)</description>
+      </property>
+      <property id="RIIC_START_INTERRUPT_PRIORITY" display="START Interrupt priority level (0 - 31)" default="9" type="textbox">
+        <constraint display="Value must be an integer" actionOnFail="error">testInteger("${RIIC_START_INTERRUPT_PRIORITY}")</constraint>
+        <constraint display="Value must be in the range 0 ~ 31" actionOnFail="error">("${RIIC_START_INTERRUPT_PRIORITY}" &gt;= 0) &amp;&amp; ("${RIIC_START_INTERRUPT_PRIORITY}" &lt;= 31)</constraint>
+        <description>START Interrupt priority level (0 - 31)</description>
+      </property>
+      <property id="RIIC_NACKF_INTERRUPT_PRIORITY" display="NACKF Interrupt priority level (0 - 31)" default="9" type="textbox">
+        <constraint display="Value must be an integer" actionOnFail="error">testInteger("${RIIC_NACKF_INTERRUPT_PRIORITY}")</constraint>
+        <constraint display="Value must be in the range 0 ~ 31" actionOnFail="error">("${RIIC_NACKF_INTERRUPT_PRIORITY}" &gt;= 0) &amp;&amp; ("${RIIC_NACKF_INTERRUPT_PRIORITY}" &lt;= 31)</constraint>
+        <description>NACKF Interrupt priority level (0 - 31)</description>
+      </property>
+      <property id="RIIC_AL_INTERRUPT_PRIORITY" display="AL Interrupt priority level (0 - 31)" default="9" type="textbox">
+        <constraint display="Value must be an integer" actionOnFail="error">testInteger("${RIIC_AL_INTERRUPT_PRIORITY}")</constraint>
+        <constraint display="Value must be in the range 0 ~ 31" actionOnFail="error">("${RIIC_AL_INTERRUPT_PRIORITY}" &gt;= 0) &amp;&amp; ("${RIIC_AL_INTERRUPT_PRIORITY}" &lt;= 31)</constraint>
+        <description>AL Interrupt priority level (0 - 31)</description>
+      </property>
+      <property id="RIIC_TMOF_INTERRUPT_PRIORITY" display="TMOF Interrupt priority level (0 - 31)" default="9" type="textbox">
+        <constraint display="Value must be an integer" actionOnFail="error">testInteger("${RIIC_TMOF_INTERRUPT_PRIORITY}")</constraint>
+        <constraint display="Value must be in the range 0 ~ 31" actionOnFail="error">("${RIIC_TMOF_INTERRUPT_PRIORITY}" &gt;= 0) &amp;&amp; ("${RIIC_TMOF_INTERRUPT_PRIORITY}" &lt;= 31)</constraint>
+        <description>TMOF Interrupt priority level (0 - 31)</description>
+      </property>
+    </configuration>
+</module>

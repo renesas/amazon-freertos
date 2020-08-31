@@ -126,6 +126,8 @@ static uint8_t hyper[0x400000] __attribute((section("HYPER_RAM")));
 #define BOOT_LOADER_UPDATE_EXECUTE_AREA_LOW_ADDRESS 	(uint32_t)(0x20200000)
 #define BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER (uint32_t)(FLASH_NUM_BLOCKS_CF - BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_SMALL - BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_MEDIUM)
 
+#define otaconfigMAX_NUM_BLOCKS_REQUEST        	128U
+
 #define BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH 0x200
 #define BOOT_LOADER_USER_FIRMWARE_DESCRIPTOR_LENGTH 0x100
 
@@ -532,6 +534,9 @@ static uint8_t * prvPAL_ReadAndAssumeCertificate( const uint8_t * const pucCertN
     return pucSignerCert;
 }
 /*-----------------------------------------------------------*/
+__attribute__((weak)) void WIFI_Off(void)
+{
+}
 
 OTA_Err_t prvPAL_ResetDevice( void )
 {
@@ -576,6 +581,7 @@ OTA_Err_t prvPAL_ActivateNewImage( void )
 
     OTA_LOG_L1( "[%s] Changing the Startup Bank\r\n", OTA_METHOD_NAME );
  
+	WIFI_Off();
     /* reset for self testing */
 	vTaskDelay(5000);
 	prvPAL_ResetDevice();	/* no return from this function */

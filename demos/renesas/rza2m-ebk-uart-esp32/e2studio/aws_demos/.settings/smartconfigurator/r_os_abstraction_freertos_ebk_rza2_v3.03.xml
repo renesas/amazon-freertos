@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<refinfo>
+
+    <!-- multiple versions permitted -->
+    <toolchain>
+      <brand>GNU</brand>
+      <product>GNUARM</product>
+      <version>6.03.01</version>
+    </toolchain>
+
+    <!-- only one target entry allowed; multiple sub tags permitted -->
+    <target>
+      <family>RZ</family>
+      <series>RZA</series>
+      <group>RZA2M</group>
+    </target>
+
+    <!-- only one package entry allowed -->
+    <!-- multiple dependencies, applications, functions, and incdirs permitted -->
+    <package>
+      <type maxconfig="1">RSCD</type>
+      <name>r_os_abstraction_freertos</name>
+      <version>3.03</version>
+      <zipsource>r_os_abstraction_freertos_ebk_rza2_v3.03.zip</zipsource>
+      <dependency>
+        <module>r_ostm</module>
+        <version>1.04</version>
+      </dependency>
+      <application>Common</application>
+      <details>os abstraction layer for FreeRTOS
+IMPORTANT - Prior to using this module please add 
+	  #define R_COMPILER_WEAK __attribute__((weak))
+	  to generate\compiler\inc\r_compiler_abstraction_api.h 
+	  In addition please exclude and memory heap implementation  
+	  supplied in your FreeRTOS port (example location freertos\portable\memmang)</details>
+      <function>interface.os</function>
+      <extractdir>generate/os_abstraction</extractdir>
+      <incdir>inc</incdir>
+      <asmincdir>inc</asmincdir>
+    </package>
+
+</refinfo>

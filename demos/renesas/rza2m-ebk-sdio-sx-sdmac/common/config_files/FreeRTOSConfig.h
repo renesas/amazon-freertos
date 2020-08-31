@@ -118,7 +118,7 @@ code (which is where the vector table is defined). */
 #define configENABLE_BACKWARD_COMPATIBILITY        1
 #define configUSE_PREEMPTION                       1
 #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-#define configMAX_PRIORITIES                       ( TASK_NUMBER_OF_PRIORITIES )
+#define configMAX_PRIORITIES                       ( 28 )
 #define configTICK_RATE_HZ                         ( ( portTickType ) 1000 )
 #define configMINIMAL_STACK_SIZE                   ( ( unsigned short ) 1024 )
 #define configTOTAL_HEAP_SIZE                      ( ( size_t ) ( 4 * 1024U * 1024U ) )

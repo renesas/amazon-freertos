@@ -73,6 +73,7 @@ Variable Externs
 extern "C" {
 #endif
 /* This code is auto-generated. Do not edit manually */
+extern int32_t fat_sample_cd_int_cb_function(int32_t sd_port, int32_t cd);
 /* End of modification */
 #if defined(__cplusplus)
 }
@@ -84,10 +85,22 @@ extern "C" {
 static const st_r_drv_sdhi_sc_config_t SDHI_SC_TABLE[] =
 {
     /* This code is auto-generated. Do not edit manually */
-    { 1, 
+    { 0, 
         {
             SD_CD_ENABLED, 
             SD_WP_DISABLED, 
+            SD_CB_USED, 
+            NULL, 
+        }, 
+        {
+            &GPIO_SC_TABLE_sdhi_simplified0[0], 
+            sizeof(GPIO_SC_TABLE_sdhi_simplified0)/sizeof(st_r_drv_gpio_sc_config_t), 
+        }
+    },
+    { 1, 
+        {
+            SD_CD_ENABLED, 
+            SD_WP_ENABLED, 
             SD_CB_UNUSED, 
             NULL, 
         }, 

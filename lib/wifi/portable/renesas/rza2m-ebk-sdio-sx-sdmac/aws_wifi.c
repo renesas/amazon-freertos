@@ -41,18 +41,49 @@
 #include "aws_dev_mode_key_provisioning.h"
 
 /* WiFi configuration includes. */
+#include "r_os_abstraction_api.h"
+#include "sx_netbuf.h"
 #include "sx_sdmac.h"
-
+#include "wlan_config.h"
+#include "qca937x/qca937x_if.h"
 /**
  * @brief Wi-Fi initialization status.
  */
-static BaseType_t xWIFIInitDone;
+#define CONNECT_SCAN_RETRY_MAX  (5)
+#define CONNECT_SCAN_BUF        (20)
+
+#define WIFI_CMD_ESSID_OFFSET       0
+#define WIFI_CMD_FREQ_LIST_OFFSET   1
+#define WIFI_CMD_AUTH_OFFSET        2
+#define WIFI_CMD_CIPHER_OFFSET      3
+#define WIFI_CMD_KEY_OFFSET         4
+
+static const int const security_list[]={1 /* NONE */,2 /* WEP-OPEN */, 4 /* WPA_PSK */,5 /* WPA2_PSK */ ,6 /* WPA_WPA2_PSK */};
+static uint32_t* pmutex = NULL;
+static uint32_t xWIFIConnected = 0;
+extern int connection_mode_open;
+
+/*-----------------------------------------------------------*/
+static int32_t wifi_disconnect(void)
+{
+    int32_t ret;
+    /* disconnect */
+    FreeRTOS_NetworkDown();
+    ret = cmd_disconnect(0,NULL,NULL);
+    xWIFIConnected = 0;
+    
+    return ret;
+}
 /*-----------------------------------------------------------*/
 
 WIFIReturnCode_t WIFI_On( void )
 {
     WIFIReturnCode_t xret_val = eWiFiFailure;
 
+    if(pmutex == NULL)
+    {
+        pmutex = R_OS_MutexCreate();
+    }
     sx_cli_setup();
     if(0 == cmd_wifi_init(0,NULL,NULL))
     {
@@ -64,71 +95,279 @@ WIFIReturnCode_t WIFI_On( void )
 
 WIFIReturnCode_t WIFI_Off( void )
 {
-    /* FIX ME. */
-    return eWiFiFailure;
+    wifi_disconnect();
+    sx_deinit_wifi();
+    if(pmutex)
+    {
+        R_OS_MutexDelete(&pmutex);
+        pmutex = NULL;
+    }
+    return eWiFiSuccess;
 }
 /*-----------------------------------------------------------*/
-#define WIFI_CMD_ESSID_OFFSET       0
-#define WIFI_CMD_FREQ_LIST_OFFSET   1
-#define WIFI_CMD_AUTH_OFFSET        2
-#define WIFI_CMD_CIPHER_OFFSET      3
-#define WIFI_CMD_KEY_OFFSET         4
-    static const char* const security_list[]={"NONE","WEP-OPEN","WPA_PSK","WPA2_PSK","WPA_WPA2_PSK"};
+static int get_auth_mode(int security)
+{
+    int auth_mode = WC_FLAG_ENCODE_OPEN;
 
+    switch (security)
+    {
+    case 3 :
+        auth_mode = WC_FLAG_ENCODE_RESTRICTED;
+        break;
+    case 4 :
+        auth_mode = WC_FLAG_ENCODE_WPA;
+        break;
+    case 5 :
+        auth_mode = WC_FLAG_ENCODE_RSN;
+        break;
+    case 6 :
+        auth_mode = WC_FLAG_ENCODE_WPA | WC_FLAG_ENCODE_RSN;
+        break;
+    default:
+        auth_mode = WC_FLAG_ENCODE_OPEN;
+        break;
+    }
+
+    return auth_mode;
+}
+/*-----------------------------------------------------------*/
+static int loc_cmd_wifi_connect( const WIFINetworkParams_t * const pxNetworkParams )
+{
+    unsigned int length, auth_mode, key_length,user_retry_count;
+    int securityMode, encryption = 0;
+    char *freqlist = NULL;
+    struct net_device *wifi_ip_ptr;
+
+    wifi_ip_ptr = sx_get_net_dev(WIFI_INTERFACE_NAME);
+
+    length = strlen(pxNetworkParams->pcSSID);
+    if ((length == 0) || (length > 32))
+    {
+        return -1;
+    }
+
+    securityMode = security_list[pxNetworkParams->xSecurity];
+    if (securityMode == 1)
+    {
+        connection_mode_open = 1;
+    }
+    else
+    {
+        connection_mode_open = 0;
+    }
+
+    if (securityMode >= 4)
+    {
+        encryption = WC_AUTH_CIPHER_TKIP | WC_AUTH_CIPHER_CCMP;
+    }
+    else if (securityMode >= 2)
+    {
+        key_length = strlen(pxNetworkParams->pcPassword);
+        encryption = WC_AUTH_CIPHER_TKIP | WC_AUTH_CIPHER_CCMP;
+    }
+
+    if ((securityMode < 0) || (encryption < 0))
+    {
+        return -1;
+    }
+    auth_mode = get_auth_mode(securityMode);
+
+    user_retry_count = 5;
+
+    wpa_cli_connect(wifi_ip_ptr, auth_mode, encryption, pxNetworkParams->pcSSID, pxNetworkParams->pcPassword, freqlist, user_retry_count);
+    
+    user_retry_count = 30;
+    while(user_retry_count)
+    {
+        /* linked */
+        if (wifi_ip_ptr->link_state == 1)
+        {
+            return 0;
+        }
+        R_OS_TaskSleep(1000);
+        user_retry_count--;
+    }
+    /* time-out */
+    wpa_cli_disconnect(wifi_ip_ptr);
+    
+    return -1;
+}
+/*-----------------------------------------------------------*/
 WIFIReturnCode_t WIFI_ConnectAP( const WIFINetworkParams_t * const pxNetworkParams )
 {
-    int32_t ret;
-    int argc = WIFI_CMD_KEY_OFFSET;
-    char* argv[WIFI_CMD_KEY_OFFSET+1];
-    char *rsp;
+    int32_t ret = 0;
+    WIFIReturnCode_t xret_val = eWiFiFailure;
 
+    if((pmutex==NULL)||(pxNetworkParams==NULL))
     {
-        /* generate arguments */
-        argv[WIFI_CMD_ESSID_OFFSET]     = clientcredentialWIFI_SSID;
-        argv[WIFI_CMD_FREQ_LIST_OFFSET] = "0";
-        /* lookup from argument table */
-        argv[WIFI_CMD_AUTH_OFFSET]      = (char*)security_list[clientcredentialWIFI_SECURITY];
-        argv[WIFI_CMD_CIPHER_OFFSET]    = "TKIP_AES";
-        argv[WIFI_CMD_KEY_OFFSET]       = clientcredentialWIFI_PASSWORD;
-        
-        /* connect */
-        ret = cmd_wifi_connect(argc,argv,rsp);
-        if(ret == 0)
+        printf("WIFI_ConnectAP error(%d)\n\r",__LINE__);
+        ;
+    }
+    else if(pxNetworkParams->pcSSID==NULL)
+    {
+        printf("WIFI_ConnectAP error(%d)\n\r",__LINE__);
+        ;
+    }
+    else if((pxNetworkParams->pcPassword == NULL) && (pxNetworkParams->xSecurity != eWiFiSecurityOpen))
+    {
+        printf("WIFI_ConnectAP error(%d)\n\r",__LINE__);
+        ;
+    }
+    else
+    {
+        uint32_t SSID_len = strlen(pxNetworkParams->pcSSID);
+        uint32_t PASS_len = strlen(pxNetworkParams->pcPassword);
+        if ((SSID_len <= 32) && (8 <= PASS_len) && (PASS_len <=64))
         {
-            /* stack init */
-            if( sx_netdev_stack_init() < 0)
+            wc_bss_info* bss_list;
+            void *wifi_ip_ptr = NULL;
+            R_OS_MutexAcquire(pmutex);
+            /* If already connected, disconnect existing connection and connect new one */
+            if( xWIFIConnected )
             {
-                printf("sx_netdev_stack_init failed\n");
+                wifi_disconnect();
+            }
+            /* connect */
+            ret = loc_cmd_wifi_connect(pxNetworkParams);
+            if(ret == 0)
+            {
+                /* stack init */
+                if( sx_netdev_stack_init() < 0)
+                {
+                    printf("sx_netdev_stack_init failed\n");
+                }
+                else
+                {
+                    /* We should wait for the network to be up before we run any demos. */
+                    R_OS_TaskSleep(2500);
+                    while( FreeRTOS_IsNetworkUp()==pdFALSE )
+                    {
+                        R_OS_TaskSleep(1);
+                    }
+                    xWIFIConnected = 1;
+                    xret_val = eWiFiSuccess;
+                    printf("Connected:%s\n",pxNetworkParams->pcSSID);
+                }
             }
             else
-            {
-                return eWiFiSuccess;
-            }
+	        {
+	            printf("WIFI_ConnectAP error(%d)\n\r",__LINE__);
+	        }
+            R_OS_MutexRelease(pmutex);
+        }
+        else
+        {
+            printf("WIFI_ConnectAP error(%d)\n\r",__LINE__);
+            printf("SSID_len=%d\n\r",SSID_len);
+            printf("PASS_len=%d\n\r",PASS_len);
+            printf("SSID=%s\n\r",pxNetworkParams->pcSSID);
+            printf("PASS=%s\n\r",pxNetworkParams->pcPassword);
         }
     }
-    return eWiFiFailure;
+    return xret_val;
 }
 /*-----------------------------------------------------------*/
-
 WIFIReturnCode_t WIFI_Disconnect( void )
 {
-    /* FIX ME. */
+    int32_t ret;
+    if(pmutex)
+    {
+        R_OS_MutexAcquire(pmutex);
+    }
+    ret = wifi_disconnect();
+    if(pmutex)
+    {
+        R_OS_MutexRelease(pmutex);
+    }
+    if(ret == 0)
+    {
+        return eWiFiSuccess;
+    }
+
     return eWiFiFailure;
 }
 /*-----------------------------------------------------------*/
 
 WIFIReturnCode_t WIFI_Reset( void )
 {
-    /* FIX ME. */
-    return eWiFiFailure;
+    WIFIReturnCode_t ret;
+
+    WIFI_Off();
+    ret = WIFI_On();
+    return ret;
 }
 /*-----------------------------------------------------------*/
 
 WIFIReturnCode_t WIFI_Scan( WIFIScanResult_t * pxBuffer,
                             uint8_t ucNumNetworks )
 {
-    /* FIX ME. */
-    return eWiFiFailure;
+
+    WIFIReturnCode_t xret_val = eWiFiFailure;
+    int i = 0, count = ucNumNetworks;
+    void *wifi_ip_ptr = NULL;
+    wc_bss_info *bss_list;
+    
+    wifi_ip_ptr = sx_get_net_dev(WIFI_INTERFACE_NAME);
+    if ((pxBuffer) && (wifi_ip_ptr) && (0 < count))
+    {
+        wc_bss_info *bss_list;
+        bss_list = (wc_bss_info *)R_OS_Malloc(sizeof(wc_bss_info) * count, 0);
+
+        if (bss_list)
+        {
+            wc_set_scan(wifi_ip_ptr);
+            /* wait_for_scan_completion */
+            R_OS_TaskSleep(3000);
+            memset(bss_list, 0, sizeof(wc_bss_info) * count);
+            i = wc_site_survey(wifi_ip_ptr, bss_list, count);
+            if (i)
+            {
+                int_t offset;
+                int_t len;
+                WIFIScanResult_t* p_output = pxBuffer;
+                wc_bss_info* p_input = bss_list;
+
+                for (offset = 0; offset < i; offset++)
+                {
+                    /* SSID */
+                    len = p_input->ssid_len;
+                    if (len > wificonfigMAX_SSID_LEN)
+                    {
+                        len = wificonfigMAX_SSID_LEN;
+                    }
+                    memcpy(p_output->cSSID, p_input->ssid, len);
+                
+                    /* BSSID */
+                    len = WC_MAC_ADDR_LEN;
+                    if (len > wificonfigMAX_BSSID_LEN)
+                    {
+                        len = wificonfigMAX_BSSID_LEN;
+                    }
+                    memcpy(p_output->ucBSSID, p_input->bssid, len);
+                    
+                    /* security */
+                    p_output->xSecurity = eWiFiSecurityWPA2;
+                    
+                    /* RSSI */
+                    p_output->cRSSI =  p_input->strength;
+                    
+                    /* Channel */
+                    p_output->cChannel =  p_input->channel;
+                    
+                    /* Hidden */
+                    p_output->ucHidden =  p_input->privacy;
+                    
+                    p_input++;
+                    p_output++;
+                }
+                xret_val = eWiFiSuccess;
+            }
+            R_OS_TaskSleep(3000);
+            R_OS_Free((void**)&bss_list);
+        }
+    }
+
+    return xret_val;
 }
 /*-----------------------------------------------------------*/
 
@@ -180,23 +419,67 @@ WIFIReturnCode_t WIFI_Ping( uint8_t * pucIPAddr,
 
 WIFIReturnCode_t WIFI_GetIP( uint8_t * pucIPAddr )
 {
-    /* FIX ME. */
-    return eWiFiNotSupported;
+    unsigned char ipv4_addr[SX_NET_IP_STR_LENGTH];
+    unsigned char netmask[SX_NET_IP_STR_LENGTH];
+    unsigned char gateway[SX_NET_IP_STR_LENGTH];
+    unsigned long ipv4_addr_long[4];
+    struct net_device *netdev;
+    WIFIReturnCode_t xret_val = eWiFiFailure;
+
+    netdev = sx_get_net_dev(WIFI_INTERFACE_NAME);
+    if ((pucIPAddr == NULL) || (netdev == NULL))
+    {
+        ;
+    }
+    else if (sx_netdev_ipv4_address_get(netdev, ipv4_addr, netmask, gateway) == 0)
+    {
+        sscanf(ipv4_addr,"%d.%d.%d.%d",&ipv4_addr_long[0],&ipv4_addr_long[1],&ipv4_addr_long[2],&ipv4_addr_long[3]);
+        pucIPAddr[0] = (uint8_t)ipv4_addr_long[0];
+        pucIPAddr[1] = (uint8_t)ipv4_addr_long[1];
+        pucIPAddr[2] = (uint8_t)ipv4_addr_long[2];
+        pucIPAddr[3] = (uint8_t)ipv4_addr_long[3];
+        xret_val = eWiFiSuccess;
+    }
+    return xret_val;
 }
 /*-----------------------------------------------------------*/
 
 WIFIReturnCode_t WIFI_GetMAC( uint8_t * pucMac )
 {
-    /* FIX ME. */
-    return eWiFiNotSupported;
+    struct net_device *netdev;
+    WIFIReturnCode_t xret_val = eWiFiFailure;
+
+    netdev = sx_get_net_dev(WIFI_INTERFACE_NAME);
+    if ((pucMac == NULL) || (netdev == NULL))
+    {
+        ;
+    }
+    else if (wc_get_bssid(netdev, pucMac) == 0)
+    {
+        xret_val = eWiFiSuccess;
+    }
+    return xret_val;
 }
 /*-----------------------------------------------------------*/
 
 WIFIReturnCode_t WIFI_GetHostIP( char * pcHost,
                                     uint8_t * pucIPAddr )
 {
-    /* FIX ME. */
-    return eWiFiNotSupported;
+    WIFIReturnCode_t xret_val = eWiFiFailure;
+    if ((pcHost) && (pucIPAddr))
+    {
+        uint32_t ulIPAddress = FreeRTOS_gethostbyname(pcHost);
+
+        if (ulIPAddress)
+        {
+            pucIPAddr[0] = ( ( uint8_t ) ( ( ulIPAddress ) & 0xffUL ) );
+            pucIPAddr[1] = ( ( uint8_t ) ( ( ( ulIPAddress ) >> 8 ) & 0xffUL ) );
+            pucIPAddr[2] = ( ( uint8_t ) ( ( ( ulIPAddress ) >> 16 ) & 0xffUL ) );
+            pucIPAddr[3] = ( ( uint8_t ) ( ( ulIPAddress ) >> 24 ) );
+            xret_val = eWiFiSuccess;
+        }
+    }
+    return xret_val;
 }
 /*-----------------------------------------------------------*/
 
@@ -239,6 +522,5 @@ WIFIReturnCode_t WIFI_GetPMMode( WIFIPMMode_t * pxPMModeType,
 
 BaseType_t WIFI_IsConnected(void)
 {
-    /* FIX ME. */
-    return pdFALSE;
+    return FreeRTOS_IsNetworkUp();
 }

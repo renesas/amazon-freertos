@@ -48,7 +48,8 @@ Variable Externs
 /* This code is auto-generated. Do not edit manually */
 static const st_r_drv_gpio_sc_config_t GPIO_SC_TABLE_INIT[] =
 {
-    /* {<pin>, {<function>, <tint>, <current>}}, */
+ /* { <pin>            , {<function>              , <tint>           , <current>         }}, */
+    {GPIO_PORT_6_PIN_1, {GPIO_FUNC_OUT_LOW, GPIO_TINT_DISABLE, GPIO_CURRENT_4mA}},
     {GPIO_PORT_D_PIN_0, {GPIO_FUNC_IN, GPIO_TINT_DISABLE, GPIO_CURRENT_RESERVED}},
     {GPIO_PORT_J_PIN_1, {GPIO_FUNC_PERIPHERAL6, GPIO_TINT_DISABLE, GPIO_CURRENT_RESERVED}},
     {GPIO_PORT_L_PIN_0, {GPIO_FUNC_PERIPHERAL5, GPIO_TINT_DISABLE, GPIO_CURRENT_RESERVED}},
@@ -103,6 +104,18 @@ static const st_r_drv_gpio_sc_config_t GPIO_SC_TABLE_scifa4[] =
     /* {<pin>, {<function>, <tint>, <current>}}, */
     {GPIO_PORT_9_PIN_0, {GPIO_FUNC_PERIPHERAL4, GPIO_TINT_DISABLE, GPIO_CURRENT_4mA}},
     {GPIO_PORT_9_PIN_1, {GPIO_FUNC_PERIPHERAL4, GPIO_TINT_DISABLE, GPIO_CURRENT_RESERVED}},
+};
+static const st_r_drv_gpio_sc_config_t GPIO_SC_TABLE_scifa3[] =
+{
+    /* {<pin>, {<function>, <tint>, <current>}}, */
+    {GPIO_PORT_6_PIN_2, {GPIO_FUNC_PERIPHERAL3, GPIO_TINT_DISABLE, GPIO_CURRENT_RESERVED}},
+    {GPIO_PORT_6_PIN_3, {GPIO_FUNC_PERIPHERAL3, GPIO_TINT_DISABLE, GPIO_CURRENT_4mA}},
+};
+static const st_r_drv_gpio_sc_config_t GPIO_SC_TABLE_sdhi_simplified0[] =
+{
+    /* {<pin>, {<function>, <tint>, <current>}}, */
+    {GPIO_PORT_5_PIN_0, {GPIO_FUNC_PERIPHERAL3, GPIO_TINT_DISABLE, GPIO_CURRENT_RESERVED}},
+    {GPIO_PORT_5_PIN_1, {GPIO_FUNC_PERIPHERAL3, GPIO_TINT_DISABLE, GPIO_CURRENT_RESERVED}},
 };
 static const st_r_drv_gpio_sc_config_t GPIO_SC_TABLE_sdhi_simplified1[] =
 {

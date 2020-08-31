@@ -298,6 +298,7 @@ static int_t riic_write (int_t channel, const uint8_t *pbuffer, uint32_t byte)
         if (DRV_SUCCESS == ret)
         {
             ret = wait_tx_end(channel, RIIC_TEND_WAIT_TRANSMIT);
+
             if (DRV_SUCCESS == ret)
             {
                 /* clear flag */
@@ -959,12 +960,14 @@ static int_t wait_tx_end (int_t channel, uint32_t mode)
 
     if (RIIC_TEND_WAIT_TRANSMIT == mode)
     {
+        R_RIIC_EnableTransEndIntr(channel);
         /* Wait */
         while ((DRV_FLAG_OFF_PRV_ == gs_riic_transmit_end_flg[channel]) && (DRV_SUCCESS == timeout_monitor))
         {
             /* get timeout status */
             timeout_monitor = get_timeout_status(channel);
         }
+        R_RIIC_DisableTransEndIntr(channel);
     }
     else
     {

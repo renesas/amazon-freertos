@@ -44,7 +44,7 @@
 /** Major Version Number of API. */
     #define STDIO_RIIC_RZ_LLD_VERSION_MAJOR      (1)
 /** Minor Version Number of API. */
-    #define STDIO_RIIC_RZ_LLD_VERSION_MINOR      (3)
+    #define STDIO_RIIC_RZ_LLD_VERSION_MINOR      (4)
 /** Minor Version Number of API. */
     #define STDIO_RIIC_RZ_LLD_BUILD_NUM          (0)
 /** Unique ID. */
@@ -368,6 +368,24 @@ void R_RIIC_AssertLowHold (int_t channel);
  * Return Value : None
  *****************************************************************************/
 void R_RIIC_ReleaseLowHold (int_t channel);
+
+/******************************************************************************
+* Function Name: R_RIIC_EnableTransEndIntr
+* Description  : This function is called by HLD, and enable transfer end 
+*                interrupt.
+* Arguments    : channel - Channel that enable transfer end.
+* Return Value : None.
+ *****************************************************************************/
+void R_RIIC_EnableTransEndIntr (int_t channel);
+
+/******************************************************************************
+* Function Name: R_RIIC_DisableTransEndIntr
+* Description  : This function is called by HLD, and disable transfer end 
+*                interrupt.
+* Arguments    : channel - Channel that enable transfer end.
+* Return Value : None.
+ *****************************************************************************/
+void R_RIIC_DisableTransEndIntr (int_t channel);
 
 /******************************************************************************
  * Function Name: R_RIIC_WriteByte

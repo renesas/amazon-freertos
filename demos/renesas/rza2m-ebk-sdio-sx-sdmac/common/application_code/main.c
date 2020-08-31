@@ -182,11 +182,19 @@ int_t main(void)
  */
 void os_main_task_t( void )
 {
+    WIFINetworkParams_t xNetworkParams = { 0 };
+    
+    xNetworkParams.pcSSID = clientcredentialWIFI_SSID;
+    xNetworkParams.ucSSIDLength = sizeof( clientcredentialWIFI_SSID );
+    xNetworkParams.pcPassword = clientcredentialWIFI_PASSWORD;
+    xNetworkParams.ucPasswordLength = sizeof( clientcredentialWIFI_PASSWORD );
+    xNetworkParams.xSecurity = clientcredentialWIFI_SECURITY;
+
     /* Initialise the RTOS's TCP/IP stack.  The tasks that use the network
     are created in the vApplicationIPNetworkEventHook() hook function
     below.  The hook function is called when the network connects. */
     WIFI_On();
-    if( WIFI_ConnectAP(NULL) == eWiFiFailure)
+    if( WIFI_ConnectAP(&xNetworkParams) == eWiFiFailure)
     {
         printf("WIFI_ConnectAP failed\n");
     }
