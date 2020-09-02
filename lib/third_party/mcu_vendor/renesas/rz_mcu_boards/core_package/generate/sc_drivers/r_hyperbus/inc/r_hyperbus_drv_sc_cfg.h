@@ -60,7 +60,7 @@ static const st_hyperbus_cfg_t HYPERBUS_SC_TABLE[] =
         HYPERBUS_CSH_1_CYCLE, 
         HYPERBUS_CSH_1_CYCLE, 
         HYPERBUS_LTCY_16_CYCLE, 
-#if (1)
+#if (0)
         HYPERBUS_INIT_AT_LOADER,
 #else
         HYPERBUS_INIT_AT_APP,

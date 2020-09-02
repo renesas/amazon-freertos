@@ -27,11 +27,11 @@
 
 MEMORY {
     /* Debugging or without OTA update */
-/*
     ROM               (rx)  : ORIGIN = 0x20010000, LENGTH = 0x04000000
-*/
     /* OTA update */
+/*
     ROM               (rx)  : ORIGIN = 0x20200300, LENGTH = 0x04000000
+*/
     CACHED_HYPER_RAM  (rwx) : ORIGIN = 0x40000000, LENGTH = 0x00800000
     MMU_PAGE_TABLE    (rw)  : ORIGIN = 0x80020000, LENGTH = 0x00004000
     HARDWARE_INIT_RAM (rwx) : ORIGIN = 0x80024000, LENGTH = 0x00004000
