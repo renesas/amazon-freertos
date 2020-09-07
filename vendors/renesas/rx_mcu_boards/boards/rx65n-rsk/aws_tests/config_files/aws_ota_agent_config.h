@@ -1,6 +1,6 @@
 /*
- * Amazon FreeRTOS V1.4.8
- * Copyright (C) 2018 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+ * FreeRTOS V1.4.8
+ * Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -30,6 +30,11 @@
 
 #ifndef _AWS_OTA_AGENT_CONFIG_H_
 #define _AWS_OTA_AGENT_CONFIG_H_
+
+/**
+ * @brief Special OTA Agent printing definition (in stead of definition in lib/include/aws_iot_ota_agent.h).
+ */
+#define OTA_DEBUG_LOG_LEVEL                     1
 
 /**
  * @brief The number of words allocated to the stack for the OTA agent.
@@ -101,6 +106,16 @@
  * the OTA agent for job and file data blocks received.
  */
 #define otaconfigMAX_NUM_OTA_DATA_BUFFERS       4U
+
+/**
+ * @brief Allow update to same or lower version.
+ *
+ * Set this to 1 to allow downgrade or same version update.This configurations parameter
+ * disables version check and allows update to a same or lower version.This is provided for
+ * testing purpose and it is recommended to always update to higher version and keep this
+ * configuration disabled.
+ */
+#define otaconfigAllowDowngrade              0U
 
 /**
  * @brief The protocol selected for OTA control operations.
