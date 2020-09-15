@@ -73,11 +73,7 @@
  * @brief Define a valid and invalid signature verification method for this
  * platform (Windows). These are used for generating test JSON docs.
  */
-
-#define otatestVALID_SIG_METHOD                         "sig-sha256-ecdsa"    /* FIX ME. */	// RZ/A2M OTA 2020.03.19 // 
-#define otatestINVALID_SIG_METHOD                       "sig-sha256-rsa"  /* FIX ME. */	// RZ/A2M OTA 2020.03.19 // 
-
-//#define otatestVALID_SIG_METHOD                         "sig-sha256-rsa"    /* FIX ME. */ // RZ/A2M OTA 2020.03.19 // 
-//#define otatestINVALID_SIG_METHOD                       "sig-sha256-ecdsa"  /* FIX ME. */ // RZ/A2M OTA 2020.03.19 // 
+#define otatestVALID_SIG_METHOD                         "sig-sha256-ecdsa"    /* FIX ME. */
+#define otatestINVALID_SIG_METHOD                       "sig-sha256-rsa"  /* FIX ME. */
 
 #endif /* ifndef _AWS_TEST_OTA_CONFIG_H_ */
