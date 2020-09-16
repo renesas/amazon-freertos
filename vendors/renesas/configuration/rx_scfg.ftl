@@ -18,19 +18,20 @@
 </tool>
 <tool id="SWComponent" version="1.0.0.0">
 <configuration inuse="true" name="r_bsp">
-<component display="r_bsp" id="r_bsp5.20" version="5.20"/>
+<component display="r_bsp" id="r_bsp5.50" version="5.50"/>
+<gridItem id="BSP_CFG_CODE_FLASH_BANK_MODE" selectedIndex="0"/>
 <source id="com.renesas.smc.tools.swcomponent.fit.source"/>
 </configuration>
 <configuration inuse="true" name="r_s12ad_rx">
-<component display="r_s12ad_rx" id="r_s12ad_rx4.00" version="4.00"></component>
+<component display="r_s12ad_rx" id="r_s12ad_rx4.50" version="4.50"></component>
 <source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
 </configuration>
 <configuration inuse="true" name="r_flash_rx">
-<component display="r_flash_rx" id="r_flash_rx4.00" version="4.00"></component>
+<component display="r_flash_rx" id="r_flash_rx4.50" version="4.50"></component>
 <source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
 </configuration>
 <configuration inuse="true" name="r_sci_rx">
-<component display="r_sci_rx" id="r_sci_rx3.00" version="3.00"></component>
+<component display="r_sci_rx" id="r_sci_rx3.40" version="3.40"></component>
 <source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
 </configuration>
 <configuration inuse="true" name="r_byteq">
@@ -38,7 +39,7 @@
 <source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
 </configuration>
 <configuration inuse="true" name="r_ether_rx">
-<component display="r_ether_rx" id="r_ether_rx1.16" version="1.16"></component>
+<component display="r_ether_rx" id="r_ether_rx1.20" version="1.20"></component>
 <source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
 </configuration>
 <configuration inuse="true" name="FreeRTOS_Object">
