@@ -71,6 +71,7 @@
 <gridItem id="SCI0" selectedIndex="1"/>
 <gridItem id="RXD1/SMISO1" selectedIndex="1"/>
 <gridItem id="TXD1/SMOSI1" selectedIndex="1"/>
+<gridItem id="SCI1" selectedIndex="1"/>
 <gridItem id="RXD5/SMISO5" selectedIndex="1"/>
 <gridItem id="TXD5/SMOSI5" selectedIndex="1"/>
 <gridItem id="SCI5" selectedIndex="1"/>
