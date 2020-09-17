@@ -19,6 +19,24 @@ Renesas Electronics, Ishiguro
 --------------------------------------------------------------------------
 Change Logs
 --------------------------------------------------------------------------
+202002.00-rx-1.0.2
+[UPDATED] Added RX72N Envision kit CC-RX test project for Partner LED.
+[TESTED] demos MQTT echo behavior for
+         RX72N Envision kit CC-RX e2 studio with E2 Emulator Lite (on board).
+         Using RX Driver Package V.1.25
+         Please download this the following web site
+         https://www.renesas.com/rdp
+
+v202002.00-rx-1.0.1
+[UPDATED] Bug fixed.
+[TESTED] demos MQTT echo behavior for
+         RX65N RSK CC-RX e2 studio with E2 Emulator Lite.
+         RX65N Cloud kit CC-RX e2 studio with E2 Emulator Lite (on board).
+         RX72N Envision kit CC-RX e2 studio with E2 Emulator Lite (on board).
+         Using RX Driver Package V.1.25
+         Please download this the following web site
+         https://www.renesas.com/rdp
+
 v202002.00-rx-1.0.0
  [UPDATED] Updated FreeRTOS version 202002.00.
  [TESTED] demos MQTT echo behavior for
