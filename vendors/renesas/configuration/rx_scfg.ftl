@@ -18,8 +18,9 @@
 </tool>
 <tool id="SWComponent" version="1.0.0.0">
 <configuration inuse="true" name="r_bsp">
-<component display="r_bsp" id="r_bsp5.50" version="5.50"/>
+<component display="r_bsp" id="r_bsp5.50" version="5.50">
 <gridItem id="BSP_CFG_CODE_FLASH_BANK_MODE" selectedIndex="0"/>
+</component>
 <source id="com.renesas.smc.tools.swcomponent.fit.source"/>
 </configuration>
 <configuration inuse="true" name="r_s12ad_rx">
