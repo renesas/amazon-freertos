@@ -20,7 +20,7 @@ Renesas Electronics, Ishiguro
 Change Logs
 --------------------------------------------------------------------------
 202002.00-rx-1.0.2
-[UPDATED] Added RX72N Envision kit CC-RX test project for Partner LED.
+[UPDATED] Modified RX72N Envision kit
 [TESTED] demos MQTT echo behavior for
          RX72N Envision kit CC-RX e2 studio with E2 Emulator Lite (on board).
          Using RX Driver Package V.1.25
