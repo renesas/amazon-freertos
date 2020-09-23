@@ -631,7 +631,7 @@ Configuration Options
    NOTE: When this macro is set to 1, the software interrupt is initialized in bsp startup routine. 
 */
 #define BSP_CFG_SWINT_UNIT1_ENABLE    (0)
-#define BSP_CFG_SWINT_UNIT2_ENABLE    (1)
+#define BSP_CFG_SWINT_UNIT2_ENABLE    (0)
 
 /* Software Interrupt Task Buffer Number.
    For software interrupt, this value is number of buffering user tasks.
