@@ -87,7 +87,7 @@ static void prvMiscInitialization( void );
  */
 void main( void )
 {
-	nop();
+//	nop();
     /* Perform any hardware initialization that does not require the RTOS to be
      * running.  */
 
