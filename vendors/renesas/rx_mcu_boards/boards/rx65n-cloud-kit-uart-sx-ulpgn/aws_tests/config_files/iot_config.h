@@ -30,4 +30,6 @@
 /* Include the common configuration file for FreeRTOS. */
 #include "iot_config_common.h"
 
+#define IOT_TEST_MQTT_TIMEOUT_MS	10000	// RX65N Cloud Kit 20200923
+
 #endif /* ifndef IOT_CONFIG_H_ */

@@ -61,6 +61,8 @@
  */
 #define         integrationtestportableSEND_TIMEOUT                20000
 
+#define tcptestECHO_TEST_SYNC_TIMEOUT    160000	// RX65N Cloud Kit 20200923
+
 
 
 #endif /*AWS_INTEGRATION_TEST_TCP_CONFIG_H */

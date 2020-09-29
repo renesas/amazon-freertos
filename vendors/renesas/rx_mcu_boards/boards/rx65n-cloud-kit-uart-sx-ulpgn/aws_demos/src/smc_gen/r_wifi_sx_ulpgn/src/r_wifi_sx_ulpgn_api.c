@@ -1229,6 +1229,14 @@ int32_t R_WIFI_SX_ULPGN_SocketSend (int32_t socket_no, uint8_t *pdata, int32_t l
 	{
 		sended_length = 0;
 
+		// RX65N Cloud Kit 20200923 -->>
+		if( (socket_no >= WIFI_CFG_CREATABLE_SOCKETS) || (socket_no < 0) || (0 == g_wifi_socket[socket_no].socket_create_flag) || (g_wifi_socket[socket_no].socket_status != WIFI_SOCKET_STATUS_CONNECTED) )
+		{
+	    	wifi_give_mutex(MUTEX_TX);
+			return  WIFI_ERR_SOCKET_NUM;
+		}
+		// RX65N Cloud Kit 20200923 <<--
+
 		if(ULPGN_USE_UART_NUM == 2)
         {
         	if(socket_no != current_socket_index)

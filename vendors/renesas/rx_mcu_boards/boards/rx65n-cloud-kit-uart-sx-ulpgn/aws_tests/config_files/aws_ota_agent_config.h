@@ -1,6 +1,6 @@
 /*
- * Amazon FreeRTOS V1.4.8
- * Copyright (C) 2018 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+ * FreeRTOS V1.1.8
+ * Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -83,7 +83,7 @@
  *  Please note that this must be set larger than zero.
  *
  */
-#define otaconfigMAX_NUM_BLOCKS_REQUEST         128U
+#define otaconfigMAX_NUM_BLOCKS_REQUEST         128U	// RX65N Cloud Kit 20200923
 
 /**
  * @brief The maximum number of requests allowed to send without a response before we abort.
@@ -100,7 +100,7 @@
  * This configurations parameter sets the maximum number of static data buffers used by
  * the OTA agent for job and file data blocks received.
  */
-#define otaconfigMAX_NUM_OTA_DATA_BUFFERS       4U
+#define otaconfigMAX_NUM_OTA_DATA_BUFFERS       2U	// RX65N Cloud Kit 20200923 RSKは4
 
 /**
  * @brief The protocol selected for OTA control operations.
@@ -124,7 +124,7 @@
  * Enable data over HTTP - ( OTA_DATA_OVER_HTTP)
  * Enable data over both MQTT & HTTP ( OTA_DATA_OVER_MQTT | OTA_DATA_OVER_HTTP )
  */
-#define configENABLED_DATA_PROTOCOLS         ( OTA_DATA_OVER_MQTT )
+#define configENABLED_DATA_PROTOCOLS  ( OTA_DATA_OVER_MQTT )
 
  /**
   * @brief The preferred protocol selected for OTA data operations.
@@ -136,6 +136,6 @@
   * Note - use OTA_DATA_OVER_HTTP for HTTP as primary data protocol.
   */
 
-#define configOTA_PRIMARY_DATA_PROTOCOL     ( OTA_DATA_OVER_MQTT )
+#define configOTA_PRIMARY_DATA_PROTOCOL  ( OTA_DATA_OVER_MQTT )
 
 #endif /* _AWS_OTA_AGENT_CONFIG_H_ */

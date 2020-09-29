@@ -350,7 +350,7 @@ Configuration Options
 /* Configure SDCLK output pin (only effective when external bus enabled)
    Values 0=no output, 1 = BCK frequency
 */
-#define BSP_CFG_SDCLK_OUTPUT            (0) /* Generated value. Do not edit this manually */
+#define BSP_CFG_SDCLK_OUTPUT            (0)
 
 /* Main Clock Oscillator Wait Time (MOSCWTCR).
    The value of MOSCWTCR register required for correspondence with the waiting time required to secure stable 
@@ -631,7 +631,7 @@ Configuration Options
    NOTE: When this macro is set to 1, the software interrupt is initialized in bsp startup routine. 
 */
 #define BSP_CFG_SWINT_UNIT1_ENABLE    (0)
-#define BSP_CFG_SWINT_UNIT2_ENABLE    (0)
+#define BSP_CFG_SWINT_UNIT2_ENABLE    (1)
 
 /* Software Interrupt Task Buffer Number.
    For software interrupt, this value is number of buffering user tasks.
@@ -650,9 +650,6 @@ Configuration Options
 */
 #define BSP_CFG_SWINT_IPR_INITIAL_VALUE     (0x1)
 
-/* This macro is used to select which SCI channel used for debug serial terminal.
- */
 #define MY_BSP_CFG_SERIAL_TERM_SCI                  (5)
-
 #endif /* R_BSP_CONFIG_REF_HEADER_FILE */
 

@@ -62,6 +62,7 @@ typedef struct SSOCKETContext
     char * pcServerCertificate;
     uint32_t ulServerCertificateLength;
     uint32_t socket_no;
+    BaseType_t xConnectAttempted;	// RX65N Cloud Kit 20200923
 } SSOCKETContext_t, * SSOCKETContextPtr_t;
 
 /**
@@ -245,6 +246,7 @@ int32_t SOCKETS_Connect( Socket_t xSocket,
 
     if( ( pxContext != SOCKETS_INVALID_SOCKET ) && ( pxAddress != NULL ) )
     {
+    	pxContext->xConnectAttempted = pdTRUE;	// RX65N Cloud Kit 20200923
 		ret = R_WIFI_SX_ULPGN_SocketConnect(pxContext->socket_no, SOCKETS_ntohl(pxAddress->ulAddress), SOCKETS_ntohs(pxAddress->usPort));
 		if( WIFI_SUCCESS != ret )
 		{
@@ -309,13 +311,15 @@ int32_t SOCKETS_Recv( Socket_t xSocket,
     int32_t lStatus = SOCKETS_SOCKET_ERROR;
     SSOCKETContextPtr_t pxContext = ( SSOCKETContextPtr_t ) xSocket; /*lint !e9087 cast used for portability. */
 
-    pxContext->xRecvFlags = ( BaseType_t ) ulFlags;
+// RX65N Cloud Kit 20200923    pxContext->xRecvFlags = ( BaseType_t ) ulFlags;
 
     if( ( xSocket != SOCKETS_INVALID_SOCKET ) &&
         ( pvBuffer != NULL ) )
     {
         if( pdTRUE == pxContext->xRequireTLS )
         {
+        	pxContext->xRecvFlags = ( BaseType_t ) ulFlags;	// RX65N Cloud Kit 20200923
+
             /* Receive through TLS pipe, if negotiated. */
             lStatus = TLS_Recv( pxContext->pvTLSContext, pvBuffer, xBufferLength );
         }
@@ -325,7 +329,7 @@ int32_t SOCKETS_Recv( Socket_t xSocket,
             lStatus = prvNetworkRecv( pxContext, pvBuffer, xBufferLength );
         }
     }
-
+    vTaskDelay( 1 );	// RX65N Cloud Kit 20200923 LastWillAndTestament テストPASSのために 暫定的に挿入
     return lStatus;
 }
 /*-----------------------------------------------------------*/
@@ -369,7 +373,7 @@ int32_t SOCKETS_Send( Socket_t xSocket,
             lStatus = prvNetworkSend( pxContext, pvBuffer, xDataLength );
         }
     }
-
+	vTaskDelay( 1 );	// RX65N Cloud Kit 20200923 OTA E2EテストPASSのために 暫定的に挿入
     return lStatus;
 }
 /*-----------------------------------------------------------*/
@@ -522,14 +526,22 @@ int32_t SOCKETS_SetSockOpt( Socket_t xSocket,
     TickType_t xTimeout;
     SSOCKETContextPtr_t pxContext = ( SSOCKETContextPtr_t ) xSocket; /*lint !e9087 cast used for portability. */
 
+    if( ( xSocket != SOCKETS_INVALID_SOCKET ) && ( xSocket != NULL ) )	// RX65N Cloud Kit 20200923
+    {
     switch( lOptionName )
     {
         case SOCKETS_SO_SERVER_NAME_INDICATION:
 
+            /* Do not set the SNI options if the socket is possibly already connected. */
+            if( pxContext->xConnectAttempted == pdTRUE )	// RX65N Cloud Kit 20200923
+            {
+                lStatus = SOCKETS_EISCONN;
+            }
             /* Non-NULL destination string indicates that SNI extension should
-             * be used during TLS negotiation. */
+            * be used during TLS negotiation. */
+            else    // RX65N Cloud Kit 20200923
             if( NULL == ( pxContext->pcDestination =
-                              ( char * ) pvPortMalloc( 1U + xOptionLength ) ) )
+                                ( char * ) pvPortMalloc( 1U + xOptionLength ) ) )
             {
                 lStatus = SOCKETS_ENOMEM;
             }
@@ -543,10 +555,16 @@ int32_t SOCKETS_SetSockOpt( Socket_t xSocket,
 
         case SOCKETS_SO_TRUSTED_SERVER_CERTIFICATE:
 
+            /* Do not set the trusted server certificate if the socket is possibly already connected. */
+            if( pxContext->xConnectAttempted == pdTRUE )	// RX65N Cloud Kit 20200923
+            {
+                lStatus = SOCKETS_EISCONN;
+            }
             /* Non-NULL server certificate field indicates that the default trust
-             * list should not be used. */
+            * list should not be used. */
+            else    // RX65N Cloud Kit 20200923
             if( NULL == ( pxContext->pcServerCertificate =
-                              ( char * ) pvPortMalloc( xOptionLength ) ) )
+                                ( char * ) pvPortMalloc( xOptionLength ) ) )
             {
                 lStatus = SOCKETS_ENOMEM;
             }
@@ -559,13 +577,39 @@ int32_t SOCKETS_SetSockOpt( Socket_t xSocket,
             break;
 
         case SOCKETS_SO_REQUIRE_TLS:
-            pxContext->xRequireTLS = pdTRUE;
+// RX65N Cloud Kit 20200923 -->>
+//				pxContext->xRequireTLS = pdTRUE;
+//				break;
+
+            /* Do not set the TLS option if the socket is possibly already connected. */
+            if( pxContext->xConnectAttempted == pdTRUE )
+            {
+                lStatus = SOCKETS_EISCONN;
+            }
+            else
+            {
+                pxContext->xRequireTLS = pdTRUE;
+            }
             break;
+// RX65N Cloud Kit 20200923 <<--
 
         case SOCKETS_SO_NONBLOCK:
-            pxContext->ulSendTimeout = 1000;
-            pxContext->ulRecvTimeout = 2;
+// RX65N Cloud Kit 20200923 -->>
+//            pxContext->ulSendTimeout = 1000;
+//            pxContext->ulRecvTimeout = 2;
+//            break;
+
+            if( pdTRUE == pxContext->xConnectAttempted )
+            {
+                pxContext->ulSendTimeout = 1000;
+                pxContext->ulRecvTimeout = 2;
+            }
+            else
+            {
+                lStatus = SOCKETS_EISCONN;
+            }
             break;
+// RX65N Cloud Kit 20200923 <<--
 
         case SOCKETS_SO_RCVTIMEO:
             /* Comply with Berkeley standard - a 0 timeout is wait forever. */
@@ -596,6 +640,11 @@ int32_t SOCKETS_SetSockOpt( Socket_t xSocket,
 //                                           pvOptionValue,
 //                                           xOptionLength );
             break;
+		}
+    }
+    else
+    {
+        lStatus = SOCKETS_EINVAL;
     }
 
     return lStatus;
