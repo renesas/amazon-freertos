@@ -72,8 +72,8 @@
 #endif
 
 /* Debug print mode */
-#define DEBUGLOG 2
-//#define DEBUGLOG 0
+//#define DEBUGLOG 2
+#define DEBUGLOG 0
 
 
 typedef enum
