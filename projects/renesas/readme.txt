@@ -54,6 +54,10 @@ Board: Renesas RX65N Cloud Kit
     [en] https://www.renesas.com/us/en/products/software-tools/boards-and-kits/eval-kits/rx65n-cloud-kit.html
     [ja] https://www.renesas.com/jp/ja/products/software-tools/boards-and-kits/eval-kits/rx65n-cloud-kit.html
 
+Board: Renesas RX72N Envision Kit
+    [en] https://www.renesas.com/us/en/products/software-tools/boards-and-kits/eval-kits/rx72n-envision-kit.html
+    [ja] https://www.renesas.com/jp/ja/products/software-tools/boards-and-kits/eval-kits/rx72n-envision-kit.html
+
 --------------------------------------------------------------------------
 RX65N Device Introduction
 --------------------------------------------------------------------------
