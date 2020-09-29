@@ -1,14 +1,14 @@
 ----------------------------------------------
-Getting Start for RX MCUs Amazon FreeRTOS
+Getting Start for RX MCUs FreeRTOS(with IoT library)
 ----------------------------------------------
-Thank you for interesting about RX MCUs (RX65N is main) and Amazon FreeRTOS.
+Thank you for interesting about RX MCUs (RX65N is main) and FreeRTOS(with IoT library).
 This guide is for your environment setup and confirm demos behavior.
 
 If you have any question/suggestion/opinion, please visit following site and post it.
 https://github.com/renesas/amazon-freertos
 
 Thanks for Amazon team provides great software as Open Source and great IoT Cloud Service.
-And Thanks for NoMaY-san provides many many useful information to port the Amazon FreeRTOS to RX65N,
+And Thanks for NoMaY-san provides many many useful information to port the FreeRTOS(with IoT library) to RX65N,
 and manages GitHub repository for this project.
 And Thanks for Renesas RX MCUs business unit member funds for me,
 and helps some hardware/software development.
