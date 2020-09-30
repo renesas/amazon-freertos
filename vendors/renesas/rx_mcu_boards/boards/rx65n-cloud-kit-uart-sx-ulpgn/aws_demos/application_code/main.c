@@ -157,7 +157,7 @@ static void prvMiscInitialization( void )
 void vApplicationDaemonTaskStartupHook( void )
 {
     prvMiscInitialization();
-    bool Wifistatus;
+//    bool Wifistatus;
     if( SYSTEM_Init() == pdPASS )
     {
 #if 0
@@ -177,20 +177,20 @@ void vApplicationDaemonTaskStartupHook( void )
         }
 		FreeRTOS_printf( ( "The network is up and running\n" ) );
 #endif
-		Wifistatus = _wifiEnable();	// RX65N Cloud Kit 20200923
-		if (Wifistatus == true){
-
-			configPRINTF( ( "WiFi module initialized.\r\n" ) );
-		}
-		else
-		{
-			configPRINTF( ( "WiFi module failed to initialize.\r\n" ) );
-
-		}
+//		Wifistatus = _wifiEnable();	// RX65N Cloud Kit 20200923
+//		if (Wifistatus == true){
+//
+//			configPRINTF( ( "WiFi module initialized.\r\n" ) );
+//		}
+//		else
+//		{
+//			configPRINTF( ( "WiFi module failed to initialize.\r\n" ) );
+//
+//		}
 
         /* Provision the device with AWS certificate and private key. */
         vDevModeKeyProvisioning();
-        vTaskDelay(300);	// todo: this is renesas issue.
+//        vTaskDelay(300);	// todo: this is renesas issue.
 
         /* Run all demos. */
         DEMO_RUNNER_RunDemos();
