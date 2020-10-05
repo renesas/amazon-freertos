@@ -26,6 +26,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /* FreeRTOS includes. */
 #include "FreeRTOS.h"
 #include "task.h"
+#include <stdio.h>
+#include <stdbool.h>	// RX65N Cloud Kit 20200923
 
 /* Version includes. */
 #include "aws_application_version.h"
@@ -43,9 +45,27 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //#include "FreeRTOS_IP.h"
 
 /* Demo includes */
+#include "platform.h"
 #include "aws_demo.h"
 #include "aws_clientcredential.h"
 #include "aws_clientcredential_keys.h"
+#include "iot_wifi.h"	// RX65N Cloud Kit 20200923
+
+#define mainLOGGING_TASK_STACK_SIZE         ( configMINIMAL_STACK_SIZE * 6 )
+#define mainLOGGING_MESSAGE_QUEUE_LENGTH    ( 15 )
+#define mainTEST_RUNNER_TASK_STACK_SIZE    ( configMINIMAL_STACK_SIZE * 8 )
+
+// RX65N Cloud Kit 20200923 -->>
+#define _NM_PARAMS( networkType, networkState )    ( ( ( uint32_t ) networkType ) << 16 | ( ( uint16_t ) networkState ) )
+
+#define _NM_GET_NETWORK_TYPE( params )             ( ( uint32_t ) ( ( params ) >> 16 ) & 0x0000FFFFUL )
+
+#define _NM_GET_NETWORK_STATE( params )            ( ( AwsIotNetworkState_t ) ( ( params ) & 0x0000FFFFUL ) )
+
+#define _NM_WIFI_CONNECTION_RETRY_INTERVAL_MS    ( 1000 )
+
+#define _NM_WIFI_CONNECTION_RETRIES              ( 5 )
+// RX65N Cloud Kit 20200923 <<--
 
 #define mainLOGGING_TASK_STACK_SIZE         ( configMINIMAL_STACK_SIZE * 6 )
 #define mainLOGGING_MESSAGE_QUEUE_LENGTH    ( 15 )
@@ -107,6 +127,7 @@ void vApplicationDaemonTaskStartupHook( void );
  * @brief Initializes the board.
  */
 static void prvMiscInitialization( void );
+static bool _wifiEnable( void );	// RX65N Cloud Kit 20200923
 /*-----------------------------------------------------------*/
 
 /**
@@ -121,7 +142,7 @@ void main( void )
     }
 }
 /*-----------------------------------------------------------*/
-
+static void reboot();
 static void prvMiscInitialization( void )
 {
     /* Initialize UART for serial terminal. */
@@ -137,7 +158,7 @@ static void prvMiscInitialization( void )
 void vApplicationDaemonTaskStartupHook( void )
 {
     prvMiscInitialization();
-
+    WIFIReturnCode_t Wifistatus;
     if( SYSTEM_Init() == pdPASS )
     {
 #if 0
@@ -157,20 +178,128 @@ void vApplicationDaemonTaskStartupHook( void )
         }
 		FreeRTOS_printf( ( "The network is up and running\n" ) );
 #endif
+		Wifistatus = WIFI_On();	// RX65N Cloud Kit 20200923
+		if (Wifistatus == eWiFiSuccess){
+
+			configPRINTF( ( "WiFi module initialized.\r\n" ) );
+			WIFI_Off();
+//			_wifiEnable();
+//			WIFI_Off();
+		}
+		else
+		{
+			configPRINTF( ( "WiFi module failed to initialize.\r\n" ) );
+			_wifiEnable();
+			WIFI_Off();
+			reboot();
+		}
+
         /* Provision the device with AWS certificate and private key. */
         vDevModeKeyProvisioning();
+
+        vTaskDelay(1000);
+
+        WIFI_Off();
+
         /* Run all demos. */
         DEMO_RUNNER_RunDemos();
     }
 }
 
-//BaseType_t FreeRTOS_IPInit( const uint8_t ucIPAddress[ ipIP_ADDRESS_LENGTH_BYTES ],
-//	const uint8_t ucNetMask[ ipIP_ADDRESS_LENGTH_BYTES ],
-//	const uint8_t ucGatewayAddress[ ipIP_ADDRESS_LENGTH_BYTES ],
-//	const uint8_t ucDNSServerAddress[ ipIP_ADDRESS_LENGTH_BYTES ],
-//	const uint8_t ucMACAddress[ ipMAC_ADDRESS_LENGTH_BYTES ] )
-//{
-//	return 0;
-//}
+// RX65N Cloud Kit 20200923 -->>
+static bool _wifiConnectAccessPoint( void )
+{
+    bool ret = false;
+    static const WIFINetworkParams_t network =
+    {
+        .pcSSID           = clientcredentialWIFI_SSID,
+        .ucSSIDLength     = sizeof( clientcredentialWIFI_SSID ),
+        .pcPassword       = clientcredentialWIFI_PASSWORD,
+        .ucPasswordLength = sizeof( clientcredentialWIFI_PASSWORD ),
+        .xSecurity        = clientcredentialWIFI_SECURITY
+    };
+
+    uint32_t numRetries = _NM_WIFI_CONNECTION_RETRIES;
+    uint32_t delayMilliseconds = _NM_WIFI_CONNECTION_RETRY_INTERVAL_MS;
+
+
+    /* Try to connect to wifi access point with retry and exponential delay */
+    do
+    {
+        if( WIFI_ConnectAP( &( network ) ) == eWiFiSuccess )
+        {
+            ret = true;
+            break;
+        }
+        else
+        {
+            if( numRetries > 0 )
+            {
+                IotClock_SleepMs( delayMilliseconds );
+                delayMilliseconds = delayMilliseconds * 2;
+            }
+        }
+    } while( numRetries-- > 0 );
+
+    return ret;
+}
+
+
+static bool _wifiEnable( void )
+{
+    bool ret = true;
+
+    if( WIFI_On() != eWiFiSuccess )
+    {
+        ret = false;
+    }
+
+    #if ( IOT_BLE_ENABLE_WIFI_PROVISIONING == 0 )
+        if( ret == true )
+        {
+            ret = _wifiConnectAccessPoint();
+        }
+    #else
+        if( ret == true )
+        {
+            if( IotBleWifiProv_Init() != pdTRUE )
+            {
+                ret = false;
+            }
+        }
+
+        if( ret == true )
+        {
+            if( xWiFiConnectTaskInitialize() != pdTRUE )
+            {
+                ret = false;
+            }
+        }
+    #endif /* if ( IOT_BLE_ENABLE_WIFI_PROVISIONING == 0 ) */
+
+    return ret;
+}
+// RX65N Cloud Kit 20200923 <<--
+
+static void reboot() {
+    //WDT Control Register (WDTCR)
+    WDT.WDTCR.BIT.TOPS = 0;
+    WDT.WDTCR.BIT.CKS  = 1;
+    WDT.WDTCR.BIT.RPES = 3;
+    WDT.WDTCR.BIT.RPSS = 3;
+    //WDT Status Register
+    WDT.WDTSR.BIT.CNTVAL = 0;
+    WDT.WDTSR.BIT.REFEF  = 0;
+    WDT.WDTSR.BIT.UNDFF  = 0;
+    //WDT Reset Control Register
+    WDT.WDTRCR.BIT.RSTIRQS = 1;
+    //Non-Maskable Interrupt Enable Register (NMIER)
+    ICU.NMIER.BIT.WDTEN    = 0;
+
+    WDT.WDTRR = 0;
+    WDT.WDTRR = 0xff;
+
+    while (1); // Wait for Watchdog to kick in
+}
 
 /*-----------------------------------------------------------*/
