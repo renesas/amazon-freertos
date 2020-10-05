@@ -8,13 +8,13 @@ MEMORY
 }
 SECTIONS
 {
-	.exvectors 0xFFFFFF80 : AT(0xFFFFFF80)
+	.exvectors 0xFFFBFF80 : AT(0xFFFBFF80)
 	{
 		"_exvectors_start" = .;
 		KEEP(*(.exvectors))
 		"_exvectors_end" = .;
 	} >ROM
-	.fvectors 0xFFFFFFFC : AT(0xFFFFFFFC)
+	.fvectors 0xFFFBFFFC : AT(0xFFFBFFFC)
 	{
 		KEEP(*(.fvectors))
 	} >ROM
@@ -28,7 +28,7 @@ SECTIONS
 	.rvectors ALIGN(4) :
 	{
 		_rvectors_start = .;
-		INCLUDE ../../../../../../vendors/renesas/rx_mcu_boards/rx_driver_package/v125/r_bsp/mcu/all/linker_script_rvectors.inc
+		INCLUDE ../../../../../../vendors/renesas/rx_driver_package/v125/r_bsp/mcu/all/linker_script_rvectors.inc
 		_rvectors_end = .;
 	} >ROM
 	.init :
