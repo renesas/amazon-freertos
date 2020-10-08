@@ -45,6 +45,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //#include "FreeRTOS_IP.h"
 
 /* Demo includes */
+#include "platform.h"
 #include "aws_demo.h"
 #include "aws_clientcredential.h"
 #include "aws_clientcredential_keys.h"
@@ -141,7 +142,7 @@ void main( void )
     }
 }
 /*-----------------------------------------------------------*/
-
+static void reboot(void);
 static void prvMiscInitialization( void )
 {
     /* Initialize UART for serial terminal. */
@@ -157,7 +158,7 @@ static void prvMiscInitialization( void )
 void vApplicationDaemonTaskStartupHook( void )
 {
     prvMiscInitialization();
-//    bool Wifistatus;
+    WIFIReturnCode_t Wifistatus;
     if( SYSTEM_Init() == pdPASS )
     {
 #if 0
@@ -177,20 +178,28 @@ void vApplicationDaemonTaskStartupHook( void )
         }
 		FreeRTOS_printf( ( "The network is up and running\n" ) );
 #endif
-//		Wifistatus = _wifiEnable();	// RX65N Cloud Kit 20200923
-//		if (Wifistatus == true){
-//
-//			configPRINTF( ( "WiFi module initialized.\r\n" ) );
-//		}
-//		else
-//		{
-//			configPRINTF( ( "WiFi module failed to initialize.\r\n" ) );
-//
-//		}
+		Wifistatus = WIFI_On();	// RX65N Cloud Kit 20200923
+		if (Wifistatus == eWiFiSuccess){
+
+			configPRINTF( ( "WiFi module initialized.\r\n" ) );
+			WIFI_Off();
+//			_wifiEnable();
+//			WIFI_Off();
+		}
+		else
+		{
+			configPRINTF( ( "WiFi module failed to initialize.\r\n" ) );
+			_wifiEnable();
+			WIFI_Off();
+			reboot();
+		}
 
         /* Provision the device with AWS certificate and private key. */
         vDevModeKeyProvisioning();
-//        vTaskDelay(300);	// todo: this is renesas issue.
+
+        vTaskDelay(1000);
+
+        WIFI_Off();
 
         /* Run all demos. */
         DEMO_RUNNER_RunDemos();
@@ -271,5 +280,26 @@ static bool _wifiEnable( void )
     return ret;
 }
 // RX65N Cloud Kit 20200923 <<--
+
+static void reboot() {
+    //WDT Control Register (WDTCR)
+    WDT.WDTCR.BIT.TOPS = 0;
+    WDT.WDTCR.BIT.CKS  = 1;
+    WDT.WDTCR.BIT.RPES = 3;
+    WDT.WDTCR.BIT.RPSS = 3;
+    //WDT Status Register
+    WDT.WDTSR.BIT.CNTVAL = 0;
+    WDT.WDTSR.BIT.REFEF  = 0;
+    WDT.WDTSR.BIT.UNDFF  = 0;
+    //WDT Reset Control Register
+    WDT.WDTRCR.BIT.RSTIRQS = 1;
+    //Non-Maskable Interrupt Enable Register (NMIER)
+    ICU.NMIER.BIT.WDTEN    = 0;
+
+    WDT.WDTRR = 0;
+    WDT.WDTRR = 0xff;
+
+    while (1); // Wait for Watchdog to kick in
+}
 
 /*-----------------------------------------------------------*/
