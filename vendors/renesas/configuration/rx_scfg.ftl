@@ -18,7 +18,9 @@
 </tool>
 <tool id="SWComponent" version="1.0.0.0">
 <configuration inuse="true" name="r_bsp">
-<component display="r_bsp" id="r_bsp5.50" version="5.50"/>
+<component display="r_bsp" id="r_bsp5.50" version="5.50">
+<gridItem id="BSP_CFG_CODE_FLASH_BANK_MODE" selectedIndex="0"/>
+</component>
 <source id="com.renesas.smc.tools.swcomponent.fit.source"/>
 </configuration>
 <configuration inuse="true" name="r_s12ad_rx">
@@ -26,7 +28,13 @@
 <source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
 </configuration>
 <configuration inuse="true" name="r_flash_rx">
-<component display="r_flash_rx" id="r_flash_rx4.50" version="4.50"></component>
+<component display="r_flash_rx" id="r_flash_rx4.50" version="4.50">
+<gridItem id="FLASH_CFG_PARAM_CHECKING_ENABLE" selectedIndex="1"/>
+<gridItem id="FLASH_CFG_CODE_FLASH_ENABLE" selectedIndex="1"/>
+<gridItem id="FLASH_CFG_DATA_FLASH_BGO" selectedIndex="1"/>
+<gridItem id="FLASH_CFG_CODE_FLASH_BGO" selectedIndex="1"/>
+<gridItem id="FLASH_CFG_CODE_FLASH_RUN_FROM_ROM" selectedIndex="1"/>
+</component>
 <source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
 </configuration>
 <configuration inuse="true" name="r_sci_rx">

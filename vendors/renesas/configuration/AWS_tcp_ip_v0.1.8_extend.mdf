@@ -9,6 +9,31 @@
     <fileVersion>1.00</fileVersion>
     <formatVersion>2.00</formatVersion>
     <fileTemplate></fileTemplate>
+    <function>
+        function customFunctionConstraint(arg) {
+            var result;
+            if ((arg &gt; 4379) &amp;&amp; (arg &lt; 4294967297) &amp;&amp; (arg.search(/\D+/) == -1)) {
+            result = true;
+                } 
+                    else if ((arg.search(/^\*|\.+|\*$/) == -1)  &amp;&amp; ((arg.match(/\*{1}/g)).length == 1)){
+                        result = true;
+                        var input = arg.split(/\s?\*\s?/);
+                        var n = input[0];
+                        var m = input [1];
+                        arg = n*m;
+                            if ((arg &gt; 4379) &amp;&amp; (arg &lt; 4294967297)){
+                            result = true;
+                                }
+                                    else {
+                                        result = false;
+                                        }
+                        }
+            else {
+                result = false;
+                }
+        return result;
+    }
+    </function>
     <configuration>
         <property id="ipconfigHAS_DEBUG_PRINTF" display="Print out the debugging messages" default="0" type="combobox">
             <option id="ipconfigHAS_DEBUG_PRINTF.1" display="Enable " value="1"/>
@@ -176,8 +201,7 @@ command, and ping replies.  If ipconfigHAS_PRINTF is set to 1 then FreeRTOS_prin
             <option id="ipconfigSUPPORT_SELECT_FUNCTION.0" display="Disable" value="0"/>
             <description>If ipconfigSUPPORT_SELECT_FUNCTION is set to 1 then the FreeRTOS_select()  (and associated) API function is available</description>
         </property>
-        <property id="ipconfigFILTER_OUT_NON_ETHERNET_II_FRAMES" display="Ethernet frames dropped.  
-" default="1" type="combobox">
+        <property id="ipconfigFILTER_OUT_NON_ETHERNET_II_FRAMES" display="Ethernet frames dropped." default="1" type="combobox">
             <option id="ipconfigFILTER_OUT_NON_ETHERNET_II_FRAMES.1" display="Enable " value="1"/>
             <option id="ipconfigFILTER_OUT_NON_ETHERNET_II_FRAMES.0" display="Disable" value="0"/>
             <description>If ipconfigFILTER_OUT_NON_ETHERNET_II_FRAMES is set to 1 then Ethernet frames  that are not in Ethernet II format will be dropped. This option is included for potential future IP stack developments</description>
@@ -201,14 +225,12 @@ command, and ping replies.  If ipconfigHAS_PRINTF is set to 1 then FreeRTOS_prin
             <constraint display="Value must be greater than 1">("${ipconfigTCP_WIN_SEG_COUNT}" &gt;= 1) </constraint>
             <description>Define the size of the pool of TCP window descriptors</description>
         </property>
-        <property id="ipconfigTCP_RX_BUFFER_LENGTH" display="Size of Rx buffer for TCP sockets" default="3000" type="textbox">
-            <constraint display="Value must be an integer">testInteger("${ipconfigTCP_RX_BUFFER_LENGTH}")</constraint>
-            <constraint display="Value must be greater than 1">("${ipconfigTCP_RX_BUFFER_LENGTH}" &gt;= 1) </constraint>
+        <property id="ipconfigTCP_RX_BUFFER_LENGTH" display="Size of Rx buffer for TCP sockets" default="1460 * 3" type="textbox">
+            <constraint display="Illegal Input"> customFunctionConstraint("${ipconfigTCP_RX_BUFFER_LENGTH}") </constraint>
             <description>Define the size of Rx buffer for TCP sockets</description>
         </property>
-        <property id="ipconfigTCP_TX_BUFFER_LENGTH" display="Size of Tx buffer for TCP sockets" default="3000" type="textbox">
-            <constraint display="Value must be an integer">testInteger("${ipconfigTCP_TX_BUFFER_LENGTH}")</constraint>
-            <constraint display="Value must be greater than 1">("${ipconfigTCP_TX_BUFFER_LENGTH}" &gt;= 1) </constraint>
+        <property id="ipconfigTCP_TX_BUFFER_LENGTH" display="Size of Tx buffer for TCP sockets" default="1460 * 3" type="textbox">
+            <constraint display="Illegal Input"> customFunctionConstraint("${ipconfigTCP_TX_BUFFER_LENGTH}") </constraint>
             <description>Define the size of Tx buffer for TCP sockets</description>
         </property>
         <property id="ipconfigTCP_KEEP_ALIVE" display="TCP keep-alive" default="1" type="combobox">
