@@ -63,8 +63,8 @@
 </configuration>
 <configuration inuse="true" name="r_sci_rx">
 <component display="r_sci_rx" id="r_sci_rx3.40" version="3.40">
-<gridItem id="SCI_CFG_CH1_INCLUDED" selectedIndex="0"/>
-<gridItem id="SCI_CFG_CH8_INCLUDED" selectedIndex="1"/>
+<gridItem id="SCI_CFG_CH1_INCLUDED" selectedIndex="1"/>
+<gridItem id="SCI_CFG_CH8_INCLUDED" selectedIndex="0"/>
 <gridItem id="RXD0/SMISO0" selectedIndex="1"/>
 <gridItem id="TXD0/SMOSI0" selectedIndex="1"/>
 <gridItem id="CTS0#/RTS0#/SS0#" selectedIndex="1"/>
