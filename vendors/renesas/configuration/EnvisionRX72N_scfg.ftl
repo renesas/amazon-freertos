@@ -137,7 +137,7 @@
 <source id="com.renesas.smc.tools.swcomponent.rtosconfigurator.source"/>
 </configuration>
 </tool>
-    <tool id="Clock">
+<tool id="Clock">
 <Item current="16 MHz" id="mainclock.OutputValue"/>
 <Item current="16" error="false" id="mainclock.frequencyTxt"/>
 <Item current="16 MHz" id="pllSourceSelect.InputValue"/>
@@ -182,5 +182,32 @@
 <Item current="48.0 MHz" id="uckdivider.OutputValue"/>
 <Item current="sckselector.radiobutton.swtpll" id="uckdivider.Condition"/>
 <Item current="comboBox1-5" error="false" id="uckdivider.comboBox"/>
-    </tool>
+</tool>
+<tool id="Pins" version="1.0.1.0">
+<pinItem allocation="128" comments="" direction="None" id="RXD7" isUsedBySoftware="false" locked="false" status="0"/>
+<pinItem allocation="131" comments="" direction="None" id="TXD7" isUsedBySoftware="false" locked="false" status="0"/>
+<pinItem allocation="45" comments="" direction="None" id="RXD2" isUsedBySoftware="false" locked="false" status="0"/>
+<pinItem allocation="44" comments="" direction="None" id="TXD2" isUsedBySoftware="false" locked="false" status="0"/>
+<pinItem allocation="68" comments="" direction="None" id="ET0_RX_ER" isUsedBySoftware="false" locked="false" status="0"/>
+<pinItem allocation="61" comments="" direction="None" id="ET0_ETXD3" isUsedBySoftware="false" locked="false" status="0"/>
+<pinItem allocation="62" comments="" direction="None" id="ET0_ETXD2" isUsedBySoftware="false" locked="false" status="0"/>
+<pinItem allocation="63" comments="" direction="None" id="ET0_ETXD1" isUsedBySoftware="false" locked="false" status="0"/>
+<pinItem allocation="64" comments="" direction="None" id="ET0_ETXD0" isUsedBySoftware="false" locked="false" status="0"/>
+<pinItem allocation="69" comments="" direction="None" id="ET0_RX_CLK" isUsedBySoftware="false" locked="false" status="0"/>
+<pinItem allocation="75" comments="" direction="None" id="ET0_ERXD3" isUsedBySoftware="false" locked="false" status="0"/>
+<pinItem allocation="73" comments="" direction="None" id="ET0_ERXD2" isUsedBySoftware="false" locked="false" status="0"/>
+<pinItem allocation="72" comments="" direction="None" id="ET0_ERXD1" isUsedBySoftware="false" locked="false" status="0"/>
+<pinItem allocation="71" comments="" direction="None" id="ET0_ERXD0" isUsedBySoftware="false" locked="false" status="0"/>
+<pinItem allocation="66" comments="" direction="None" id="ET0_TX_CLK" isUsedBySoftware="false" locked="false" status="0"/>
+<pinItem allocation="86" comments="" direction="None" id="ET0_MDIO" isUsedBySoftware="false" locked="false" status="0"/>
+<pinItem allocation="50" comments="" direction="None" id="CLKOUT25M" isUsedBySoftware="true" locked="false" status="0"/>
+<pinItem allocation="20" comments="" direction="None" id="XTAL" isUsedBySoftware="true" locked="false" status="0"/>
+<pinItem allocation="65" comments="" direction="None" id="ET0_TX_EN" isUsedBySoftware="false" locked="false" status="0"/>
+<pinItem allocation="67" comments="" direction="None" id="ET0_TX_ER" isUsedBySoftware="false" locked="false" status="0"/>
+<pinItem allocation="85" comments="" direction="None" id="ET0_MDC" isUsedBySoftware="false" locked="false" status="0"/>
+<pinItem allocation="60" comments="" direction="None" id="ET0_COL" isUsedBySoftware="false" locked="false" status="0"/>
+<pinItem allocation="58" comments="" direction="None" id="ET0_CRS" isUsedBySoftware="false" locked="false" status="0"/>
+<pinItem allocation="22" comments="" direction="None" id="EXTAL" isUsedBySoftware="true" locked="false" status="0"/>
+<pinItem allocation="70" comments="" direction="None" id="ET0_RX_DV" isUsedBySoftware="false" locked="false" status="0"/>
+</tool>
 </smc>
