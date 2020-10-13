@@ -35,8 +35,8 @@
 Includes   <System Includes> , "Project Includes"
 ******************************************************************************/
 #include <string.h>             // For strlen
-#include "serial_term_uart.h"   // Serial Transfer Demo interface file.
 #include "platform.h"           // Located in the FIT BSP module
+#include "serial_term_uart.h"   // Serial Transfer Demo interface file.	// RX65N Cloud Kit 20200923
 #include "r_sci_rx_if.h"        // The SCI module API interface file.
 #include "r_pinset.h"
 
@@ -96,6 +96,7 @@ Includes   <System Includes> , "Project Includes"
 /*******************************************************************************
  Private variables and functions
  *******************************************************************************/
+volatile uint8_t uart_write_done;	// RX65N Cloud Kit 20200923
 
 /*****************************************************************************
 Private global variables and functions
@@ -139,10 +140,57 @@ void uart_config(void)
     /* If there were an error this would demonstrate error detection of API calls. */
     if (SCI_SUCCESS != my_sci_err)
     {
-        R_NOP(); // Your error handling code would go here.
+        R_BSP_NOP(); // Your error handling code would go here.
     }
 } /* End of function uart_config() */
 
+// RX65N Cloud Kit 20200923 -->>
+uint16_t uart_has_input() {
+	uint16_t numbytes;
+	R_SCI_Control(my_sci_handle, SCI_CMD_RX_Q_BYTES_AVAIL_TO_READ, &numbytes);
+	return numbytes;
+}
+
+uint16_t uart_input(char *pString, uint16_t maxlen) {
+	uint16_t len = 0;
+	sci_err_t err;
+	char c;
+
+	while(len <= maxlen - 1) {
+		err = R_SCI_Receive(my_sci_handle, &c, 1);
+
+		if (err == SCI_ERR_INSUFFICIENT_DATA) {
+			continue;
+		}
+
+		if (err != SCI_SUCCESS) {
+			return 0;
+		}
+
+		if(c == 8) { // backspace
+			len--;
+			continue;
+		}
+
+		R_SCI_Send(my_sci_handle, &c, 1); // echo
+
+		if (c == '\r' || c == '\n' || c == '\0') {
+			pString[len] = 0;
+			break;
+		} else {
+			pString[len] = c;
+			len++;
+		}
+	}
+
+	return len;
+}
+
+void uart_flush() {
+	uint32_t i = 10000;
+	while(!uart_write_done && i-- > 0) { };
+}
+// RX65N Cloud Kit 20200923 <<--
 
 /*****************************************************************************
 * Function Name: my_sci_callback
@@ -161,31 +209,31 @@ static void my_sci_callback(void *pArgs)
     if (SCI_EVT_RX_CHAR == p_args->event)
     {
         /* From RXI interrupt; received character data is in p_args->byte */
-        R_NOP();
+    	R_BSP_NOP();
     }
     else if (SCI_EVT_RXBUF_OVFL == p_args->event)
     {
         /* From RXI interrupt; rx queue is full; 'lost' data is in p_args->byte
            You will need to increase buffer size or reduce baud rate */
-        R_NOP();
+    	R_BSP_NOP();
     }
     else if (SCI_EVT_OVFL_ERR == p_args->event)
     {
         /* From receiver overflow error interrupt; error data is in p_args->byte
            Error condition is cleared in calling interrupt routine */
-        R_NOP();
+    	R_BSP_NOP();
     }
     else if (SCI_EVT_FRAMING_ERR == p_args->event)
     {
         /* From receiver framing error interrupt; error data is in p_args->byte
            Error condition is cleared in calling interrupt routine */
-        R_NOP();
+    	R_BSP_NOP();
     }
     else if (SCI_EVT_PARITY_ERR == p_args->event)
     {
         /* From receiver parity error interrupt; error data is in p_args->byte
            Error condition is cleared in calling interrupt routine */
-        R_NOP();
+    	R_BSP_NOP();
     }
     else
     {
@@ -205,6 +253,7 @@ void uart_string_printf(char *pString)
 
     while ((retry > 0) && (str_length > 0))
     {
+    	uart_write_done = 0;	// RX65N Cloud Kit 20200923
 
         R_SCI_Control(my_sci_handle, SCI_CMD_TX_Q_BYTES_FREE, &transmit_length);
 
@@ -229,7 +278,104 @@ void uart_string_printf(char *pString)
 
     if (SCI_SUCCESS != sci_err)
     {
-        R_NOP(); //TODO error handling code
+    	R_BSP_NOP(); //TODO error handling code
     }
 
 }
+
+// RX65N Cloud Kit 20200923 -->>
+unsigned short uart_string_scanf(char *pString, unsigned short str_length) {
+
+    sci_err_t sci_err = SCI_ERR_XCVR_BUSY;
+    uint16_t receive_length = 0;
+    uint16_t total_receive_length = 0;
+    uint32_t retry = 0xFFFF;
+
+    while ((retry > 0) && (str_length > 0)) {
+
+        R_SCI_Control(my_sci_handle, SCI_CMD_RX_Q_BYTES_AVAIL_TO_READ,
+                &receive_length);
+
+        if (receive_length > str_length) {
+            receive_length = str_length;
+        }
+
+        sci_err = R_SCI_Receive(my_sci_handle, (uint8_t *) pString,
+                receive_length);
+
+        if ((sci_err == SCI_ERR_XCVR_BUSY) || (sci_err == SCI_ERR_INSUFFICIENT_SPACE)) {
+            retry--; // retry if previous transmission still in progress or tx buffer is insufficient.
+            continue;
+        }
+
+        str_length -= receive_length;
+        total_receive_length += receive_length;
+        pString += receive_length;
+
+
+        if (*(pString - 1) == '\n'){
+            *(pString - 1) = '\0';
+            total_receive_length--;
+            break;
+        }
+
+    }
+
+    if (SCI_SUCCESS != sci_err) {
+        total_receive_length = -1;
+        R_BSP_NOP(); //TODO error handling code
+    }
+
+    return total_receive_length;
+
+}
+
+/***********************************************************************************************************************
+* Function Name: uart_charput
+* Description  : Puts a character on a serial port
+* Arguments    : sent character
+* Return Value : none
+***********************************************************************************************************************/
+void uart_charput(uint32_t output_int)
+{
+    uint8_t output_char = (uint8_t)output_int;
+    volatile uint32_t output_length = 0;
+    sci_err_t sci_err;
+
+    /* Wait for Tx buffer free */
+    /* WAIT_LOOP */
+    while (output_length == 0) {
+        R_SCI_Control(my_sci_handle, SCI_CMD_TX_Q_BYTES_FREE, &output_length);
+    }
+
+    do {
+        sci_err = R_SCI_Send(my_sci_handle, (uint8_t *) &output_char, 1);
+    } while (sci_err != SCI_SUCCESS);
+
+}
+
+/***********************************************************************************************************************
+* Function Name: charget
+* Description  : Gets a character on a serial port
+* Arguments    : none
+* Return Value : received character
+***********************************************************************************************************************/
+uint32_t uart_charget (void)
+{
+    uint8_t input_char;
+    volatile uint32_t input_length=0;
+
+    /* Wait for rx buffer avail to read */
+    /* WAIT_LOOP */
+
+    while (input_length == 0) {
+        R_SCI_Control(my_sci_handle, SCI_CMD_RX_Q_BYTES_AVAIL_TO_READ, &input_length);
+    }
+
+    R_SCI_Receive(my_sci_handle, &input_char, 1);
+
+    /* Read data, send back up */
+    return (uint32_t)input_char;
+
+}
+// RX65N Cloud Kit 20200923 <<--
