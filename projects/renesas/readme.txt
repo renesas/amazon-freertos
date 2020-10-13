@@ -17,8 +17,8 @@ I hope this solution will be helpful for embedded system developer in W/W.
 --------------------------------------------------------------------------
 Change Logs
 --------------------------------------------------------------------------
-v202002.00-rx-1.0.
- [UPDATED] Updated FreeRTOS version 202002.00.
+202002.00-rx-1.0.3
+ [UPDATED] Updated project files for e2studio 2020-10
  [TESTED] demos MQTT echo behavior for
           RX65N RSK CC-RX e2 studio with E2 Emulator Lite.
           RX65N Cloud kit CC-RX e2 studio with E2 Emulator Lite (on board).
