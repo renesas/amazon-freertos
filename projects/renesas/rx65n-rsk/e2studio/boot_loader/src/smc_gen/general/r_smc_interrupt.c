@@ -19,16 +19,32 @@
 
 /***********************************************************************************************************************
 * File Name    : r_smc_interrupt.c
-* Version      : 1.1.0
+* Version      : 1.2.0
 * Device(s)    : R5F565NEDxFC
-* Description  : This file implements interrupt setting
-* Creation Date: 2020-04-09
+* Description  : This file implements interrupt setting.
+* Creation Date: 2020-10-20
 ***********************************************************************************************************************/
+
+/***********************************************************************************************************************
+Pragma directive
+***********************************************************************************************************************/
+/* Start user code for pragma. Do not edit comment generated here */
+/* End user code. Do not edit comment generated here */
+
 /***********************************************************************************************************************
 Includes
 ***********************************************************************************************************************/
+#include "r_cg_macrodriver.h"
 #include "r_smc_interrupt.h"
-#include "platform.h"
+/* Start user code for include. Do not edit comment generated here */
+/* End user code. Do not edit comment generated here */
+#include "r_cg_userdefine.h"
+
+/***********************************************************************************************************************
+Global variables and functions
+***********************************************************************************************************************/
+/* Start user code for global. Do not edit comment generated here */
+/* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
 * Function Name: R_Interrupt_Create
@@ -42,3 +58,5 @@ void R_Interrupt_Create(void)
     /* No fast interrupt and group settings have been configured in the Interrupts tab. */
 }
 
+/* Start user code for adding. Do not edit comment generated here */
+/* End user code. Do not edit comment generated here */
