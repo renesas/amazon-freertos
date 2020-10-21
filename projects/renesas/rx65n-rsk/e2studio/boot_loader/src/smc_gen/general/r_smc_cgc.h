@@ -19,10 +19,10 @@
 
 /***********************************************************************************************************************
 * File Name    : r_smc_cgc.h
-* Version      : 1.6.1
+* Version      : 1.6.102
 * Device(s)    : R5F565NEDxFC
-* Description  : This file implements cgc setting.
-* Creation Date: 2020-04-09
+* Description  : CGC setting header file.
+* Creation Date: 2020-10-20
 ***********************************************************************************************************************/
 
 #ifndef SMC_CGC_H
