@@ -53,7 +53,7 @@
 /**********************************************************************************************************************
 Typedef definitions
 **********************************************************************************************************************/
-#define RX65N_ENVISION_KIT_TASKS_STACK	1024
+//#define RX72N_ENVISION_KIT_TASKS_STACK	1024
 
 /******************************************************************************
  External variables
@@ -81,7 +81,7 @@ void main_task(void);
  ******************************************************************************/
 void main_task(void)
 {
-//    uint32_t bank_info;
+    uint32_t bank_info;
 
     /* enable MCU pins */
     R_Pins_Create();
@@ -89,7 +89,7 @@ void main_task(void)
 
     /* flash initialization */
     R_FLASH_Open();
-//    R_FLASH_Control(FLASH_CMD_BANK_GET, &bank_info);
+    R_FLASH_Control(FLASH_CMD_BANK_GET, &bank_info);
     R_SFD_Open();
 
     /* flash access semaphore creation */
@@ -102,7 +102,7 @@ void main_task(void)
     /* main loop */
     while(1)
     {
-        vTaskDelay(10000);
+    	vTaskDelay(10000);
     }
 }
 /******************************************************************************
