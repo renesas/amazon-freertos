@@ -267,7 +267,7 @@ OTA_Err_t prvPAL_CreateFileForRx( OTA_FileContext_t * const C )
         eResult = kOTA_Err_RxFileCreateFailed;
         OTA_LOG_L1( "[%s] ERROR - Invalid context provided.\r\n", OTA_METHOD_NAME );
     }
-
+    xSemaphoreGive(xSemaphoreFlashAccess);
     return eResult;
 }
 /*-----------------------------------------------------------*/
@@ -925,6 +925,9 @@ static int32_t ota_context_update_user_firmware_header( OTA_FileContext_t * C )
 	destination_pointer = p_block_header->signature;
 	data_length = *(source_pointer + 1) + OTA_SIGUNATURE_SEQUENCE_INFO_LENGTH;
 	memset(destination_pointer, 0, sizeof(destination_pointer));
+
+	xSemaphoreTake(xSemaphoreFlashAccess, portMAX_DELAY);
+
 	if (OTA_SIGUNATURE_SEQUENCE_TOP_VALUE == *source_pointer)
 	{
 		source_pointer += OTA_SIGUNATURE_SEQUENCE_INFO_LENGTH;
