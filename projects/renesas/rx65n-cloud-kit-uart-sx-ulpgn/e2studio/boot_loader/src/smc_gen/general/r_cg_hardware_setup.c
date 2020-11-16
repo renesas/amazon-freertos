@@ -22,7 +22,7 @@
 * Version      : 1.2.101
 * Device(s)    : R5F565NEDxFP
 * Description  : Initialization file for code generation configurations.
-* Creation Date: 2020-09-17
+* Creation Date: 2020-11-16
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -94,5 +94,5 @@ void R_Systeminit(void)
 }
 
 /* Start user code for adding. Do not edit comment generated here */
-/* End user code. Do not edit comment generated here */   
+/* End user code. Do not edit comment generated here */
 
