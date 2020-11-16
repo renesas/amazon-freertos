@@ -128,6 +128,8 @@ void vApplicationDaemonTaskStartupHook( void );
  */
 static void prvMiscInitialization( void );
 static bool _wifiEnable( void );	// RX65N Cloud Kit 20200923
+extern void main_task(void);
+
 /*-----------------------------------------------------------*/
 
 /**
@@ -138,7 +140,7 @@ void main( void )
 {
     while(1)
     {
-        vTaskDelay(10000);
+    	main_task();
     }
 }
 /*-----------------------------------------------------------*/
