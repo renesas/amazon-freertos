@@ -123,8 +123,8 @@ typedef struct _networkConnection IotNetworkConnectionAfr_t;
  * @brief An implementation of #IotNetworkInterface_t::create for FreeRTOS
  * Secure Sockets.
  */
-IotNetworkError_t IotNetworkAfr_Create( void * pConnectionInfo,
-                                        void * pCredentialInfo,
+IotNetworkError_t IotNetworkAfr_Create( __far void * pConnectionInfo,
+                                        __far void * pCredentialInfo,
                                         void ** const pConnection );
 
 /**

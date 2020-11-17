@@ -259,5 +259,5 @@ const IotMqttSerializer_t * IotTestNetwork_GetSerializer( void )
             break;
     }
 
-    return ( IotMqttSerializer_t * ) pSerializer;
+    return ( const IotMqttSerializer_t * ) pSerializer;
 }

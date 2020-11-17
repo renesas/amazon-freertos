@@ -250,7 +250,7 @@ static bool _createKeepAliveJob( const IotMqttNetworkInfo_t * pNetworkInfo,
     ( void ) pNetworkInfo;
 
     /* Default PINGREQ serializer function. */
-    IotMqttError_t ( * serializePingreq )( uint8_t **,
+    IotMqttError_t ( * serializePingreq )( __far uint8_t **,
                                            size_t * ) = _IotMqtt_SerializePingreq;
 
     /* Convert the keep-alive interval to milliseconds. */
@@ -554,7 +554,7 @@ static IotMqttError_t _subscriptionCommon( IotMqttOperationType_t operation,
     /* Subscription serializer function. */
     IotMqttError_t ( * serializeSubscription )( const IotMqttSubscription_t *,
                                                 size_t,
-                                                uint8_t **,
+                                                __far uint8_t **,
                                                 size_t *,
                                                 uint16_t * ) = NULL;
 
@@ -897,7 +897,7 @@ IotMqttError_t IotMqtt_Connect( const IotMqttNetworkInfo_t * pNetworkInfo,
 
     /* Default CONNECT serializer function. */
     IotMqttError_t ( * serializeConnect )( const IotMqttConnectInfo_t *,
-                                           uint8_t **,
+                                           __far uint8_t **,
                                            size_t * ) = _IotMqtt_SerializeConnect;
 
     /* Network info must not be NULL. */
@@ -1274,7 +1274,7 @@ void IotMqtt_Disconnect( IotMqttConnection_t mqttConnection,
                 pOperation->u.operation.type = IOT_MQTT_DISCONNECT;
 
                 /* Choose a disconnect serializer. */
-                IotMqttError_t ( * serializeDisconnect )( uint8_t **,
+                IotMqttError_t ( * serializeDisconnect )( __far uint8_t **,
                                                           size_t * ) = _IotMqtt_SerializeDisconnect;
 
                 #if IOT_MQTT_ENABLE_SERIALIZER_OVERRIDES == 1
@@ -1508,7 +1508,7 @@ IotMqttError_t IotMqtt_Publish( IotMqttConnection_t mqttConnection,
 
     /* Default PUBLISH serializer function. */
     IotMqttError_t ( * serializePublish )( const IotMqttPublishInfo_t *,
-                                           uint8_t **,
+                                           __far uint8_t **,
                                            size_t *,
                                            uint16_t *,
                                            uint8_t ** ) = _IotMqtt_SerializePublish;

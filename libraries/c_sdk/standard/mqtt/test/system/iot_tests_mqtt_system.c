@@ -259,7 +259,7 @@ static IotMqttError_t _mqttConnect( const IotMqttNetworkInfo_t * pNetworkInfo,
 /**
  * @brief Packet free function override
  */
-static void _freePacket( uint8_t * pPacket )
+static void _freePacket( __far uint8_t * pPacket )
 {
     _freePacketOverride = true;
 
@@ -272,7 +272,7 @@ static void _freePacket( uint8_t * pPacket )
  * @brief Serializer override for CONNECT.
  */
 static IotMqttError_t _serializeConnect( const IotMqttConnectInfo_t * pConnectInfo,
-                                         uint8_t ** pConnectPacket,
+                                         __far uint8_t ** pConnectPacket,
                                          size_t * pPacketSize )
 {
     _connectSerializerOverride = true;
@@ -288,7 +288,7 @@ static IotMqttError_t _serializeConnect( const IotMqttConnectInfo_t * pConnectIn
  * @brief Serializer override for PUBLISH.
  */
 static IotMqttError_t _serializePublish( const IotMqttPublishInfo_t * pPublishInfo,
-                                         uint8_t ** pPublishPacket,
+                                         __far uint8_t ** pPublishPacket,
                                          size_t * pPacketSize,
                                          uint16_t * pPacketIdentifier,
                                          uint8_t ** pPacketIdentifierHigh )
@@ -325,7 +325,7 @@ static IotMqttError_t _serializePuback( uint16_t packetIdentifier,
  */
 static IotMqttError_t _serializeSubscribe( const IotMqttSubscription_t * pSubscriptionList,
                                            size_t subscriptionCount,
-                                           uint8_t ** pSubscribePacket,
+                                           __far uint8_t ** pSubscribePacket,
                                            size_t * pPacketSize,
                                            uint16_t * pPacketIdentifier )
 {
@@ -345,7 +345,7 @@ static IotMqttError_t _serializeSubscribe( const IotMqttSubscription_t * pSubscr
  */
 static IotMqttError_t _serializeUnsubscribe( const IotMqttSubscription_t * pSubscriptionList,
                                              size_t subscriptionCount,
-                                             uint8_t ** pSubscribePacket,
+                                             __far uint8_t ** pSubscribePacket,
                                              size_t * pPacketSize,
                                              uint16_t * pPacketIdentifier )
 {
@@ -363,7 +363,7 @@ static IotMqttError_t _serializeUnsubscribe( const IotMqttSubscription_t * pSubs
 /**
  * @brief Serializer override for DISCONNECT.
  */
-static IotMqttError_t _serializeDisconnect( uint8_t ** pDisconnectPacket,
+static IotMqttError_t _serializeDisconnect( __far uint8_t ** pDisconnectPacket,
                                             size_t * pPacketSize )
 {
     _disconnectSerializerOverride = true;
@@ -679,12 +679,12 @@ TEST_SETUP( MQTT_System )
     /* Set the MQTT network setup parameters. */
     ( void ) memset( &_networkInfo, 0x00, sizeof( IotMqttNetworkInfo_t ) );
     _networkInfo.createNetworkConnection = true;
-    _networkInfo.u.setup.pNetworkServerInfo = ( void * ) &_serverInfo;
+    _networkInfo.u.setup.pNetworkServerInfo = ( __far void * ) &_serverInfo;
     _networkInfo.pNetworkInterface = IOT_TEST_NETWORK_INTERFACE;
     _networkInfo.pMqttSerializer = _pMqttSerializer;
 
     #if IOT_TEST_SECURED_CONNECTION == 1
-        _networkInfo.u.setup.pNetworkCredentialInfo = ( void * ) &_credentials;
+        _networkInfo.u.setup.pNetworkCredentialInfo = ( __far void * ) &_credentials;
     #endif
 }
 
@@ -898,10 +898,10 @@ TEST( MQTT_System, LastWillAndTestament )
     /* Establish an independent MQTT over TCP connection to receive a Last
      * Will and Testament message. */
     lwtNetworkInfo.createNetworkConnection = true;
-    lwtNetworkInfo.u.setup.pNetworkServerInfo = ( void * ) &_serverInfo;
+    lwtNetworkInfo.u.setup.pNetworkServerInfo = ( __far void * ) &_serverInfo;
 
     #if IOT_TEST_SECURED_CONNECTION == 1
-        lwtNetworkInfo.u.setup.pNetworkCredentialInfo = ( void * ) &_credentials;
+        lwtNetworkInfo.u.setup.pNetworkCredentialInfo = ( __far void * ) &_credentials;
     #endif
 
     lwtNetworkInfo.pNetworkInterface = IOT_TEST_NETWORK_INTERFACE;

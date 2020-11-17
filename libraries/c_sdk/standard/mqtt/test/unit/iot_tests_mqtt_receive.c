@@ -202,7 +202,7 @@ static uint8_t _getPacketType( void * pNetworkConnection,
 /**
  * @brief Get remaining length function override.
  */
-static size_t _getRemainingLength( void * pNetworkConnection,
+static uint32_t _getRemainingLength( void * pNetworkConnection,
                                    const IotNetworkInterface_t * pNetworkInterface )
 {
     _getRemainingLengthCalled = true;

@@ -207,7 +207,7 @@ void Utils_generateMD5Hash( const char * pData,
     {
         if( ( bytesConsumed + MD5_CHUNK_LENGTH ) <= dataLength )
         {
-            pCurrent = ( uint32_t * ) pData;
+            pCurrent = ( const uint32_t * ) pData;
             pData += MD5_CHUNK_LENGTH;
             bytesConsumed += MD5_CHUNK_LENGTH;
         }

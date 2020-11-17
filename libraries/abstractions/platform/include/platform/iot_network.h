@@ -144,8 +144,8 @@ typedef struct IotNetworkInterface
      * @return Any #IotNetworkError_t, as defined by the network stack.
      */
     /* @[declare_platform_network_create] */
-    IotNetworkError_t ( * create )( void * pConnectionInfo,
-                                    void * pCredentialInfo,
+    IotNetworkError_t ( * create )( __far void * pConnectionInfo,
+                                    __far void * pCredentialInfo,
                                     void ** pConnection );
     /* @[declare_platform_network_create] */
 

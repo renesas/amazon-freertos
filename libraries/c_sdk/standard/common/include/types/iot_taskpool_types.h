@@ -224,17 +224,11 @@ typedef struct _taskPool * IotTaskPool_t;
  * @warning This is a system-level data type that can and will change across different versions of the platform, with no regards for backward compatibility.
  *
  */
-#if (__CCRL__)                    /* ToDo: 2020/06/19 Fix. meistier */
-typedef void (* dammyFunc)( void * );
-#endif
 typedef struct IotTaskPoolJobStorage
 {
     IotLink_t link;                /**< @brief Placeholder. */
-#if (__CCRL__)                    /* ToDo: 2020/06/19 Fix. meistier */
-    dammyFunc dummy2;
-#else
-    void * dummy2;                 /**< @brief Placeholder. */
-#endif
+//    void * dummy2;                 /**< @brief Placeholder. */
+    const void * dummy2;
     void * dummy3;                 /**< @brief Placeholder. */
     uint32_t dummy4;               /**< @brief Placeholder. */
     IotTaskPoolJobStatus_t status; /**< @brief Placeholder. */
