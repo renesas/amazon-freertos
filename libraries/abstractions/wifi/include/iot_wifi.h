@@ -428,7 +428,7 @@ WIFIReturnCode_t WIFI_GetMAC( uint8_t * pucMac );
  * @endcode
  */
 /* @[declare_wifi_wifi_gethostip] */
-WIFIReturnCode_t WIFI_GetHostIP( char * pcHost,
+WIFIReturnCode_t WIFI_GetHostIP( const char * pcHost,
                                  uint8_t * pucIPAddr );
 /* @[declare_wifi_wifi_gethostip] */
 

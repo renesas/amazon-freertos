@@ -220,7 +220,7 @@ static void _incomingPingresp( void * pArgument )
 /**
  * @brief PUBLISH set DUP function override.
  */
-static void _publishSetDup( uint8_t * pPublishPacket,
+static void _publishSetDup( __far uint8_t * pPublishPacket,
                             uint8_t * pPacketIdentifierHigh,
                             uint16_t * pNewPacketIdentifier )
 {

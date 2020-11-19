@@ -258,7 +258,7 @@ WIFIReturnCode_t WIFI_GetMAC( uint8_t * pucMac )
 }
 /*-----------------------------------------------------------*/
 
-WIFIReturnCode_t WIFI_GetHostIP( char * pcHost,
+WIFIReturnCode_t WIFI_GetHostIP( const char * pcHost,
                                  uint8_t * pucIPAddr )
 {
     uint32_t ipaddress;
@@ -266,7 +266,7 @@ WIFIReturnCode_t WIFI_GetHostIP( char * pcHost,
     {
         return eWiFiFailure;
     }
-    if(WIFI_SUCCESS != R_WIFI_SX_ULPGN_DnsQuery((uint8_t *)pcHost, &ipaddress))
+    if(WIFI_SUCCESS != R_WIFI_SX_ULPGN_DnsQuery((const uint8_t *)pcHost, &ipaddress))
     {
         return eWiFiFailure;
     }

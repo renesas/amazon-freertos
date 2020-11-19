@@ -395,7 +395,7 @@ typedef struct IotMqttPublishInfo
     uint16_t topicNameLength; /**< @brief Length of #IotMqttPublishInfo_t.pTopicName. */
 
     const void * pPayload;    /**< @brief Payload of PUBLISH. */
-    size_t payloadLength;     /**< @brief Length of #IotMqttPublishInfo_t.pPayload. For LWT messages, this is limited to 65535. */
+    uint32_t payloadLength;     /**< @brief Length of #IotMqttPublishInfo_t.pPayload. For LWT messages, this is limited to 65535. */
 
     uint32_t retryMs;         /**< @brief If no response is received within this time, the message is retransmitted. */
     uint32_t retryLimit;      /**< @brief How many times to attempt retransmission. */
@@ -726,7 +726,7 @@ typedef struct IotMqttConnectInfo
          *
          * <b>Default implementation:</b> #_IotMqtt_GetRemainingLength
          */
-        size_t ( * getRemainingLength )( void * pNetworkConnection,
+        uint32_t ( * getRemainingLength )( void * pNetworkConnection,
                                          const IotNetworkInterface_t * pNetworkInterface );
 
         /**
@@ -737,7 +737,7 @@ typedef struct IotMqttConnectInfo
          *
          * <b>Default implementation:</b> #_IotMqtt_FreePacket
          */
-        void ( * freePacket )( uint8_t * /* pPacket */ );
+        void ( * freePacket )( __far uint8_t * /* pPacket */ );
 
         struct
         {
@@ -750,7 +750,7 @@ typedef struct IotMqttConnectInfo
              * <b>Default implementation:</b> #_IotMqtt_SerializeConnect
              */
             IotMqttError_t ( * connect )( const IotMqttConnectInfo_t * /* pConnectInfo */,
-                                          uint8_t ** /* pConnectPacket */,
+                                          __far uint8_t ** /* pConnectPacket */,
                                           size_t * /* pPacketSize */ );
 
             /**
@@ -765,7 +765,7 @@ typedef struct IotMqttConnectInfo
              * <b>Default implementation:</b> #_IotMqtt_SerializePublish
              */
             IotMqttError_t ( * publish )( const IotMqttPublishInfo_t * /* pPublishInfo */,
-                                          uint8_t ** /* pPublishPacket */,
+                                          __far uint8_t ** /* pPublishPacket */,
                                           size_t * /* pPacketSize */,
                                           uint16_t * /* pPacketIdentifier */,
                                           uint8_t ** /* pPacketIdentifierHigh */ );
@@ -778,7 +778,7 @@ typedef struct IotMqttConnectInfo
              *
              * <b>Default implementation:</b> #_IotMqtt_PublishSetDup
              */
-            void ( * publishSetDup )( uint8_t * /* pPublishPacket */,
+            void ( * publishSetDup )( __far uint8_t * /* pPublishPacket */,
                                       uint8_t * /* pPacketIdentifierHigh */,
                                       uint16_t * /* pNewPacketIdentifier */ );
 
@@ -806,7 +806,7 @@ typedef struct IotMqttConnectInfo
              */
             IotMqttError_t ( * subscribe )( const IotMqttSubscription_t * /* pSubscriptionList */,
                                             size_t /* subscriptionCount */,
-                                            uint8_t ** /* pSubscribePacket */,
+                                            __far uint8_t ** /* pSubscribePacket */,
                                             size_t * /* pPacketSize */,
                                             uint16_t * /* pPacketIdentifier */ );
 
@@ -822,7 +822,7 @@ typedef struct IotMqttConnectInfo
              */
             IotMqttError_t ( * unsubscribe )( const IotMqttSubscription_t * /* pSubscriptionList */,
                                               size_t /* subscriptionCount */,
-                                              uint8_t ** /* pUnsubscribePacket */,
+                                              __far uint8_t ** /* pUnsubscribePacket */,
                                               size_t * /* pPacketSize */,
                                               uint16_t * /* pPacketIdentifier */ );
 
@@ -833,7 +833,7 @@ typedef struct IotMqttConnectInfo
              *
              * <b>Default implementation:</b> #_IotMqtt_SerializePingreq
              */
-            IotMqttError_t ( * pingreq )( uint8_t ** /* pPingreqPacket */,
+            IotMqttError_t ( * pingreq )( __far uint8_t ** /* pPingreqPacket */,
                                           size_t * /* pPacketSize */ );
 
             /**
@@ -843,7 +843,7 @@ typedef struct IotMqttConnectInfo
              *
              * <b>Default implementation:</b> #_IotMqtt_SerializeDisconnect
              */
-            IotMqttError_t ( * disconnect )( uint8_t ** /* pDisconnectPacket */,
+            IotMqttError_t ( * disconnect )( __far uint8_t ** /* pDisconnectPacket */,
                                              size_t * /* pPacketSize */ );
         } serialize; /**< @brief Overrides the packet serialization functions for a single connection. */
 
@@ -949,7 +949,7 @@ typedef struct IotMqttNetworkInfo
              * interface when creating a new network connection. It is only valid when
              * #IotMqttNetworkInfo_t::createNetworkConnection is `true`.
              */
-            void * pNetworkServerInfo;
+            __far void * pNetworkServerInfo;
 
             /**
              * @brief Credentials for the MQTT server, passed as `pCredentialInfo` to
@@ -959,7 +959,7 @@ typedef struct IotMqttNetworkInfo
              * interface when creating a new network connection. It is only valid when
              * #IotMqttNetworkInfo_t::createNetworkConnection is `true`.
              */
-            void * pNetworkCredentialInfo;
+            __far void * pNetworkCredentialInfo;
         } setup;
 
         /**

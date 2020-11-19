@@ -136,7 +136,7 @@ static bool _checkRetryLimit( _mqttOperation_t * pOperation )
     bool status = true;
 
     /* Choose a set DUP function. */
-    void ( * publishSetDup )( uint8_t *,
+    void ( * publishSetDup )( __far uint8_t *,
                               uint8_t *,
                               uint16_t * ) = _IotMqtt_PublishSetDup;
 
@@ -543,7 +543,7 @@ void _IotMqtt_DestroyOperation( _mqttOperation_t * pOperation )
     _mqttConnection_t * pMqttConnection = pOperation->pMqttConnection;
 
     /* Default free packet function. */
-    void ( * freePacket )(const uint8_t * ) = _IotMqtt_FreePacket;
+    void ( * freePacket )(__far uint8_t * ) = _IotMqtt_FreePacket;
 
     IotLogDebug( "(MQTT connection %p, %s operation %p) Destroying operation.",
                  pMqttConnection,

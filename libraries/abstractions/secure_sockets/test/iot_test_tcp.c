@@ -519,7 +519,7 @@ static BaseType_t prvConnectHelperWithRetry( volatile Socket_t * pxSocket,
 /*-----------------------------------------------------------*/
 
 static BaseType_t prvSendHelper( Socket_t xSocket,
-                                 uint8_t * pucTxBuffer,
+                                 __far uint8_t * pucTxBuffer,
                                  size_t xLength )
 {
     BaseType_t xNumBytesSentTotal;
@@ -2301,7 +2301,7 @@ static void prvSOCKETS_Threadsafe_SameSocketDifferentTasks( Server_t xConn )
     size_t xRecvLoop, xRecvLen;
     tcptestEchoTestModes_t xMode;
     BaseType_t xResult;
-    volatile char * pcReceivedString;
+    volatile const char * pcReceivedString;
     volatile BaseType_t xReceivedStringAllocated = pdFALSE;
     volatile BaseType_t xSocketPassingQueueAllocated = pdFALSE;
     volatile BaseType_t xSyncEventGroupAllocated = pdFALSE;
@@ -2507,7 +2507,7 @@ static void prvEchoClientTxTask( void * pvParameters )
             }
 
             xReturned = SOCKETS_Send( xSocket,                                            /* The socket being sent to. */
-                                      ( void * ) &( cTransmittedString[ xTransmitted ] ), /* The data being sent. */
+                                      (__far void * ) &( cTransmittedString[ xTransmitted ] ), /* The data being sent. */
                                       xLenToSend,                                         /* The length of the data being sent. */
                                       0 );                                                /* ulFlags. */
 
@@ -2677,7 +2677,7 @@ static void prvThreadSafeDifferentSocketsDifferentTasks( void * pvParameters )
 
             /* Send the string to the socket. */
             xTransmitted = SOCKETS_Send( xTaskSocket,                   /* The socket being sent to. */
-                                         ( void * ) cTransmittedString, /* The data being sent. */
+                                         ( __far void * ) cTransmittedString, /* The data being sent. */
                                          ipconfigTCP_MSS,               /* The length of the data being sent. */
                                          0 );                           /* No flags. */
 
@@ -2819,11 +2819,11 @@ static void prvTwoSecureConnections( void )
         TEST_ASSERT_EQUAL_INT32_MESSAGE( SOCKETS_ERROR_NONE, xResult, "Failed to connect to secure server" );
 
         /* Send message 1x to AWS Broker, 2x to Secure Echo Server, alternating. */
-        xResult = prvSendHelper( xSocketSecServer, ( uint8_t * ) cMessageSecServer, sizeof( cMessageSecServer ) );
+        xResult = prvSendHelper( xSocketSecServer, (__far uint8_t * ) cMessageSecServer, sizeof( cMessageSecServer ) );
         TEST_ASSERT_EQUAL_UINT32_MESSAGE( pdPASS, xResult, "Send to secure server failed." );
-        xResult = prvSendHelper( xSocketAWS, ( uint8_t * ) cMessageAWS, sizeof( cMessageAWS ) );
+        xResult = prvSendHelper( xSocketAWS, (__far uint8_t * ) cMessageAWS, sizeof( cMessageAWS ) );
         TEST_ASSERT_EQUAL_UINT32_MESSAGE( pdPASS, xResult, "Send to AWS failed." );
-        xResult = prvSendHelper( xSocketSecServer, ( uint8_t * ) cMessageSecServer, sizeof( cMessageSecServer ) );
+        xResult = prvSendHelper( xSocketSecServer, (__far uint8_t * ) cMessageSecServer, sizeof( cMessageSecServer ) );
         TEST_ASSERT_EQUAL_UINT32_MESSAGE( pdPASS, xResult, "Send to secure server failed." );
 
         /* Receive from secure echo server 1x. */

@@ -144,7 +144,7 @@ static IotMqttError_t _getIncomingPacket( void * pNetworkConnection,
     /* Default functions for retrieving packet type and length. */
     uint8_t ( * getPacketType )( void *,
                                  const IotNetworkInterface_t * ) = _IotMqtt_GetPacketType;
-    size_t ( * getRemainingLength )( void *,
+    uint32_t ( * getRemainingLength )( void *,
                                      const IotNetworkInterface_t * ) = _IotMqtt_GetRemainingLength;
 
     /* No buffer for remaining data should be allocated. */
@@ -669,7 +669,7 @@ static void _sendPuback( _mqttConnection_t * pMqttConnection,
     IotMqttError_t ( * serializePuback )( uint16_t,
                                           uint8_t **,
                                           size_t * ) = _IotMqtt_SerializePuback;
-    void ( * freePacket )( const uint8_t * ) = _IotMqtt_FreePacket;
+    void ( * freePacket )( __far uint8_t * ) = _IotMqtt_FreePacket;
 
     IotLogDebug( "(MQTT connection %p) Sending PUBACK for received PUBLISH %hu.",
                  pMqttConnection,

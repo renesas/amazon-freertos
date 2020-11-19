@@ -302,8 +302,8 @@ static IotNetworkError_t _tlsSetup( const IotNetworkCredentials_t * pAfrCredenti
 
 /*-----------------------------------------------------------*/
 
-IotNetworkError_t IotNetworkAfr_Create( void * pConnectionInfo,
-                                        void * pCredentialInfo,
+IotNetworkError_t IotNetworkAfr_Create( __far void * pConnectionInfo,
+                                        __far void * pCredentialInfo,
                                         void ** pConnection )
 {
     IOT_FUNCTION_ENTRY( IotNetworkError_t, IOT_NETWORK_SUCCESS );
