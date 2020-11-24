@@ -11,6 +11,7 @@
 
 extern void my_sw_charget_function(void);
 extern void my_sw_charput_function(uint8_t data);
+extern void bootloader_software_timer_handler(void *arg);
 
 __STATIC FIRMWARE_UPDATE_CONTROL_BLOCK *firmware_update_control_block_bank0 = (FIRMWARE_UPDATE_CONTROL_BLOCK*)BOOT_LOADER_UPDATE_EXECUTE_AREA_LOW_ADDRESS;
 __STATIC FIRMWARE_UPDATE_CONTROL_BLOCK *firmware_update_control_block_bank1 = (FIRMWARE_UPDATE_CONTROL_BLOCK*)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS;
@@ -19,16 +20,25 @@ __STATIC LOAD_CONST_DATA_CONTROL_BLOCK load_const_data_control_block;
 
 __STATIC uint32_t secure_boot_state = BOOT_LOADER_STATE_INITIALIZING;
 __STATIC uint32_t flash_error_code;
-
+__STATIC uint32_t _10us_counter;
+__STATIC uint32_t _10us_counter_start_flag;
+__STATIC uint32_t sha256_time;
+__STATIC uint32_t ecdsa_time;
 
 /* Handle storage. */
 sci_hdl_t     my_sci_handle;
 SCI_RECEIVE_CONTROL_BLOCK sci_receive_control_block;
 SCI_BUFFER_CONTROL sci_buffer_control[BOOT_LOADER_SCI_CONTROL_BLOCK_TOTAL_NUM];
 
-__STATIC int32_t firmware_verification_sha256_ecdsa(const uint8_t * pucData, uint32_t ulSize, const uint8_t * pucSignature, uint32_t ulSignatureSize);
+R_BSP_ATTRIB_SECTION_CHANGE(C, _BOOT_LOADER_MAGIC_CODE, 1)
+__CONST uint8_t boot_loader_magic_code[BOOT_LOADER_MAGIC_CODE_LENGTH] = {BOOT_LOADER_MAGIC_CODE};
+R_BSP_ATTRIB_SECTION_CHANGE_END
+__STATIC const uint8_t *pboot_loader_magic_code = (uint8_t *)BOOT_LOADER_MIRROR_LOW_ADDRESS;
+
+__STATIC int32_t firmware_verification_sha256_ecdsa(const uint8_t * pucData, uint32_t ulSize, const uint8_t * pucSignature, uint32_t ulSignatureSize, uint8_t *local_code_signer_public_key);
 __CONST uint8_t code_signer_public_key[] = CODE_SIGNENR_PUBLIC_KEY_PEM;
 __CONST uint32_t code_signer_public_key_length = sizeof(code_signer_public_key);
+__CONST uint8_t code_signer_public_key_label[] = "code signer public key";
 
 void main(void);
 __STATIC int32_t secure_boot(void);
@@ -39,6 +49,16 @@ __STATIC void software_reset(void);
 __STATIC const uint8_t *get_status_string(uint8_t status);
 __STATIC void my_sci_callback(void *pArgs);
 __STATIC void my_flash_callback(void *event);
+__STATIC void reset_10us_counter(void);
+__STATIC void start_10us_counter(void);
+__STATIC void stop_10us_counter(void);
+__STATIC uint32_t read_10us_counter(void);
+
+extern void my_sw_charget_function(void);
+extern void my_sw_charput_function(uint8_t data);
+extern void bootloader_software_timer_handler(void *arg);
+
+
 
 #if defined(UNITY_TEST)
 #else
@@ -54,6 +74,7 @@ void main(void)
 		{
 			/* stop all interrupt completely */
 			set_psw(0);
+			R_SCI_Close(my_sci_handle);
 			uint32_t addr;
 			addr = *(uint32_t*)USER_RESET_VECTOR_ADDRESS;
 			((void (*)())addr)();
@@ -79,7 +100,6 @@ void main(void)
 		}
     }
 }
-#endif
 
 __STATIC int32_t secure_boot(void)
 {
@@ -89,6 +109,8 @@ __STATIC int32_t secure_boot(void)
     flash_interrupt_config_t cb_func_info;
 	FIRMWARE_UPDATE_CONTROL_BLOCK *firmware_update_control_block_tmp = (FIRMWARE_UPDATE_CONTROL_BLOCK*)load_firmware_control_block.flash_buffer;
 	int32_t verification_result = -1;
+	uint8_t *local_code_signer_public_key;
+	uint32_t local_code_signer_public_key_size;
 
     switch(secure_boot_state)
     {
@@ -97,6 +119,8 @@ __STATIC int32_t secure_boot(void)
 
     	    sci_cfg_t   my_sci_config;
     	    sci_err_t   my_sci_err;
+    	    SFD_HANDLE sfd_handle;
+    	    uint32_t my_cmt_channel;
 
     	    /* Set up the configuration data structure for asynchronous (UART) operation. */
     	    my_sci_config.async.baud_rate    = MY_BSP_CFG_SERIAL_TERM_SCI_BITRATE;
@@ -125,6 +149,7 @@ __STATIC int32_t secure_boot(void)
     	    load_firmware_control_block.progress = 0;
     	    load_firmware_control_block.offset = 0;
 
+    	    /* startup flash */
     	    flash_api_error_code = R_FLASH_Open();
     	    if (FLASH_SUCCESS == flash_api_error_code)
     	    {
@@ -143,7 +168,36 @@ __STATIC int32_t secure_boot(void)
     	    printf("RX65N secure boot program\r\n");
     	    printf("-------------------------------------------------\r\n");
 
-    	    printf("Checking flash ROM status.\r\n");
+    	    printf("Checking data flash ROM status.\r\n");
+    	    R_SFD_Open();
+
+    	    printf("Loading user code signer public key: ");
+    	    sfd_handle = R_SFD_FindObject((uint8_t *)code_signer_public_key_label, sizeof(code_signer_public_key_label));
+    	    if(sfd_handle != SFD_HANDLE_INVALID)
+    	    {
+    	    	printf("found.\r\n");
+    	    	R_SFD_GetObjectValue(sfd_handle, (uint8_t **)&local_code_signer_public_key, &local_code_signer_public_key_size);
+    	    }
+    	    else
+    	    {
+    	    	printf("not found.\r\n");
+				printf("provision the user code signer public key: ");
+				R_SFD_Open();
+				sfd_handle = R_SFD_SaveObject((uint8_t *)code_signer_public_key_label, sizeof(code_signer_public_key_label), (uint8_t *)code_signer_public_key, code_signer_public_key_length);
+				if(sfd_handle != SFD_HANDLE_INVALID)
+				{
+					printf("OK.\r\n");
+	    	    	R_SFD_GetObjectValue(sfd_handle, (uint8_t **)&local_code_signer_public_key, &local_code_signer_public_key_size);
+				}
+				else
+				{
+					printf("NG.\r\n");
+				}
+				R_SFD_Close();
+    	    }
+    	    R_SFD_Close();
+
+    	    printf("Checking code flash ROM status.\r\n");
 
     	    printf("bank 0 status = 0x%x [%s]\r\n", firmware_update_control_block_bank0->image_flag, get_status_string(firmware_update_control_block_bank0->image_flag));
     	    printf("bank 1 status = 0x%x [%s]\r\n", firmware_update_control_block_bank1->image_flag, get_status_string(firmware_update_control_block_bank1->image_flag));
@@ -154,6 +208,11 @@ __STATIC int32_t secure_boot(void)
     		cb_func_info.pcallback = my_flash_callback;
     		cb_func_info.int_priority = FLASH_INTERRUPT_PRIORITY;
     	    R_FLASH_Control(FLASH_CMD_SET_BGO_CALLBACK, (void *)&cb_func_info);
+
+    	    /* make software timer handler for measuring performance. timer resolution is 100KHz(10us time tick). */
+    	    R_CMT_CreatePeriodic(100000, bootloader_software_timer_handler, &my_cmt_channel);
+    	    printf("started 10us software timer using CMT channel %d.\r\n", my_cmt_channel);
+
     	    secure_boot_state = BOOT_LOADER_STATE_BANK1_CHECK;
     		break;
 
@@ -184,7 +243,8 @@ __STATIC int32_t secure_boot(void)
 														(const uint8_t *)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
 														(FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
 														firmware_update_control_block_bank1->signature,
-														firmware_update_control_block_bank1->signature_size);
+														firmware_update_control_block_bank1->signature_size,
+														local_code_signer_public_key);
 				}
 				else
 				{
@@ -308,25 +368,41 @@ __STATIC int32_t secure_boot(void)
     	        	switch(secure_boot_state)
 					{
     	        		case BOOT_LOADER_STATE_BANK0_CHECK:
-							printf("start installing user program.\r\n");
-							if (firmware_update_control_block_bank1->image_flag == LIFECYCLE_STATE_INSTALLING)
-							{
-								secure_boot_state = BOOT_LOADER_STATE_BANK0_INSTALL_SECURE_BOOT_ERASE_COMPLETE;
-							}
-							else
-							{
-								printf("erase bank1 secure boot mirror area...");
-								flash_api_error_code = R_FLASH_Erase(BOOT_LOADER_MIRROR_HIGH_ADDRESS, BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_SMALL + BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_MEDIUM);
-								if(FLASH_SUCCESS != flash_api_error_code)
+    	        			if(firmware_update_control_block_bank1->image_flag == LIFECYCLE_STATE_BLANK)
+    	        			{
+								printf("start installing user program.\r\n");
+								if (firmware_update_control_block_bank1->image_flag != LIFECYCLE_STATE_INITIAL_FIRM_INSTALLED)
 								{
-									printf("NG\r\n");
-									printf("R_FLASH_Erase() returns error code = %d.\r\n", flash_error_code);
-									secure_boot_state = BOOT_LOADER_STATE_FATAL_ERROR;
-									secure_boot_error_code = BOOT_LOADER_FAIL;
-									break;
+									printf("erase bank1 secure boot mirror area...");
+									flash_api_error_code = R_FLASH_Erase(BOOT_LOADER_MIRROR_HIGH_ADDRESS, BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_SMALL + BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_MEDIUM);
+									if(FLASH_SUCCESS != flash_api_error_code)
+									{
+										printf("NG\r\n");
+										printf("R_FLASH_Erase() returns error code = %d.\r\n", flash_error_code);
+										secure_boot_state = BOOT_LOADER_STATE_FATAL_ERROR;
+										secure_boot_error_code = BOOT_LOADER_FAIL;
+										break;
+									}
+									secure_boot_state = BOOT_LOADER_STATE_BANK0_INSTALL_SECURE_BOOT_ERASE_WAIT;
 								}
-								secure_boot_state = BOOT_LOADER_STATE_BANK0_INSTALL_SECURE_BOOT_ERASE_WAIT;
-							}
+								else
+								{
+									secure_boot_state = BOOT_LOADER_STATE_BANK0_INSTALL_SECURE_BOOT_ERASE_COMPLETE;
+								}
+    	        			}
+    	        			else if(firmware_update_control_block_bank1->image_flag == LIFECYCLE_STATE_VALID)
+    	        			{
+    	        	            printf("bank0(current) is blank, but bank1(previous) is still alive.\r\n");
+    	        	            printf("swap bank...");
+    	        	            R_BSP_SoftwareDelay(3000, BSP_DELAY_MILLISECS);
+    	        				bank_swap_with_software_reset();
+    	        				while(1);
+    	        			}
+    	        			else
+    	        			{
+    	        				secure_boot_state = BOOT_LOADER_STATE_FATAL_ERROR;
+								secure_boot_error_code = BOOT_LOADER_FAIL;
+    	        			}
 							break;
 
     	        		case BOOT_LOADER_STATE_BANK0_INSTALL_SECURE_BOOT_ERASE_WAIT:
@@ -334,7 +410,7 @@ __STATIC int32_t secure_boot(void)
     	        			break;
 
     	        		case BOOT_LOADER_STATE_BANK0_INSTALL_SECURE_BOOT_ERASE_COMPLETE:
-							if (firmware_update_control_block_bank1->image_flag != LIFECYCLE_STATE_INSTALLING)
+							if (firmware_update_control_block_bank1->image_flag != LIFECYCLE_STATE_INITIAL_FIRM_INSTALLED)
 							{
 	    	        	        if (FLASH_SUCCESS == flash_error_code)
 	    	        	        {
@@ -382,7 +458,7 @@ __STATIC int32_t secure_boot(void)
     	        	        printf("copy secure boot (part2) from bank0 to bank1...");
 							if(BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_MEDIUM > 0)
 							{
-								flash_api_error_code = R_FLASH_Write((uint32_t)FLASH_CF_BLOCK_7, (uint32_t)FLASH_CF_BLOCK_45, 8 * FLASH_CF_SMALL_BLOCK_SIZE);
+								flash_api_error_code = R_FLASH_Write((uint32_t)FLASH_CF_BLOCK_7, (uint32_t)FLASH_CF_BLOCK_45, BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_SMALL * FLASH_CF_SMALL_BLOCK_SIZE);
 								if(FLASH_SUCCESS != flash_api_error_code)
 								{
 									printf("NG\r\n");
@@ -415,7 +491,21 @@ __STATIC int32_t secure_boot(void)
     	        				secure_boot_error_code = BOOT_LOADER_FAIL;
     	        	            break;
     	        	        }
-							if (firmware_update_control_block_bank1->image_flag == LIFECYCLE_STATE_INSTALLING)
+							if (firmware_update_control_block_bank1->image_flag != LIFECYCLE_STATE_INITIAL_FIRM_INSTALLED)
+							{
+								printf("========== install user program phase ==========\r\n");
+								printf("erase install area (data flash): ");
+								flash_api_error_code = R_FLASH_Erase((flash_block_address_t)BOOT_LOADER_USER_CONST_DATA_LOW_ADDRESS, BOOT_LOADER_UPDATE_CONST_DATA_TARGET_BLOCK_NUMBER);
+								if (FLASH_SUCCESS != flash_api_error_code)
+								{
+									printf("R_FLASH_Erase() returns error. %d.\r\n", flash_error_code);
+									printf("system error.\r\n");
+									secure_boot_error_code = BOOT_LOADER_FAIL;
+									break;
+								}
+								secure_boot_state = BOOT_LOADER_STATE_INSTALL_DATA_FLASH_ERASE_WAIT;
+							}
+							else
 							{
 								memcpy(load_firmware_control_block.flash_buffer, (void*)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS, FLASH_CF_MEDIUM_BLOCK_SIZE);
 			    	        	firmware_update_control_block_tmp->image_flag = LIFECYCLE_STATE_VALID;
@@ -431,20 +521,6 @@ __STATIC int32_t secure_boot(void)
 				    	            break;
 				    	        }
 				    			secure_boot_state = BOOT_LOADER_STATE_BANK1_UPDATE_LIFECYCLE_ERASE_WAIT;
-							}
-							else
-							{
-								printf("========== install user program phase ==========\r\n");
-								printf("erase install area (data flash): ");
-								flash_api_error_code = R_FLASH_Erase((flash_block_address_t)BOOT_LOADER_USER_CONST_DATA_LOW_ADDRESS, BOOT_LOADER_UPDATE_CONST_DATA_TARGET_BLOCK_NUMBER);
-								if (FLASH_SUCCESS != flash_api_error_code)
-								{
-									printf("R_FLASH_Erase() returns error. %d.\r\n", flash_error_code);
-									printf("system error.\r\n");
-									secure_boot_error_code = BOOT_LOADER_FAIL;
-									break;
-								}
-								secure_boot_state = BOOT_LOADER_STATE_INSTALL_DATA_FLASH_ERASE_WAIT;
 							}
 							break;
 
@@ -566,7 +642,8 @@ __STATIC int32_t secure_boot(void)
 																		(const uint8_t *)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
 																		(FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
 																		firmware_update_control_block_bank1->signature,
-																		firmware_update_control_block_bank1->signature_size);
+																		firmware_update_control_block_bank1->signature_size,
+																		local_code_signer_public_key);
 								}
 								else
 								{
@@ -631,7 +708,7 @@ __STATIC int32_t secure_boot(void)
 
 							load_const_data_control_block.offset += FLASH_DF_BLOCK_SIZE;
 							load_const_data_control_block.progress = (uint32_t)(((float)(load_const_data_control_block.offset)/(float)((FLASH_DF_BLOCK_SIZE * BOOT_LOADER_UPDATE_CONST_DATA_TARGET_BLOCK_NUMBER))*100));
-							static uint32_t previous_offset = 0;
+							__STATIC uint32_t previous_offset = 0;
 							if(previous_offset != (load_const_data_control_block.offset/1024))
 							{
 								printf("installing const data...%d%(%d/%dKB).\r", load_const_data_control_block.progress, load_const_data_control_block.offset/1024, (FLASH_DF_BLOCK_SIZE * BOOT_LOADER_UPDATE_CONST_DATA_TARGET_BLOCK_NUMBER)/1024);
@@ -668,6 +745,183 @@ __STATIC int32_t secure_boot(void)
     	            while(1);
     	            break;
 
+    	        case LIFECYCLE_STATE_INITIAL_FIRM_INSTALLED:
+    	        	switch(secure_boot_state)
+					{
+    	        		case BOOT_LOADER_STATE_BANK0_CHECK:
+			    	    	printf("integrity check scheme = %-.32s\r\n", firmware_update_control_block_bank0->signature_type);
+		    	            printf("bank0(execute area) on code flash integrity check...");
+							/* Firmware verification for the signature type. */
+							if (!strcmp((const char *)firmware_update_control_block_bank0->signature_type, INTEGRITY_CHECK_SCHEME_HASH_SHA256_STANDALONE))
+							{
+							    /* Hash message */
+								uint8_t hash_sha256[TC_SHA256_DIGEST_SIZE];
+							    struct tc_sha256_state_struct xCtx;
+							    tc_sha256_init(&xCtx);
+							    tc_sha256_update(&xCtx,
+							    		(uint8_t*)BOOT_LOADER_UPDATE_EXECUTE_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
+										(FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH);
+							    tc_sha256_final(hash_sha256, &xCtx);
+				    	        verification_result = memcmp(firmware_update_control_block_bank0->signature, hash_sha256, sizeof(hash_sha256));
+				    	    }
+				    	    else if (!strcmp((const char *)firmware_update_control_block_bank0->signature_type, INTEGRITY_CHECK_SCHEME_SIG_SHA256_ECDSA_STANDALONE))
+				    	    {
+								verification_result = firmware_verification_sha256_ecdsa(
+																	(const uint8_t *)BOOT_LOADER_UPDATE_EXECUTE_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
+																	(FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
+																	firmware_update_control_block_bank0->signature,
+																	firmware_update_control_block_bank0->signature_size,
+																	local_code_signer_public_key);
+							}
+							else
+							{
+								verification_result = -1;
+							}
+
+							if(0 == verification_result)
+		    	            {
+		    	                printf("OK\r\n");
+		    	            	if (!strcmp((const char *)pboot_loader_magic_code, BOOT_LOADER_MAGIC_CODE))
+		    	            	{
+									secure_boot_state = BOOT_LOADER_STATE_FINALIZE;
+								}
+								else
+								{
+									printf("erase bank1 secure boot mirror area...");
+									flash_api_error_code = R_FLASH_Erase(BOOT_LOADER_MIRROR_HIGH_ADDRESS, BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_SMALL + BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_MEDIUM);
+									if(FLASH_SUCCESS != flash_api_error_code)
+									{
+										printf("NG\r\n");
+										printf("R_FLASH_Erase() returns error code = %d.\r\n", flash_error_code);
+										secure_boot_state = BOOT_LOADER_STATE_FATAL_ERROR;
+										secure_boot_error_code = BOOT_LOADER_FAIL;
+										break;
+									}
+									secure_boot_state = BOOT_LOADER_STATE_BANK0_INSTALL_SECURE_BOOT_ERASE_WAIT;
+								}
+		    	            }
+		    	            else
+		    	            {
+		    					printf("NG.\r\n");
+		    					printf("Code flash is completely broken.\r\n");
+		    					printf("Please erase all code flash.\r\n");
+		    					printf("And, write secure boot using debugger.\r\n");
+								secure_boot_state = BOOT_LOADER_STATE_FATAL_ERROR;
+		    					secure_boot_error_code = BOOT_LOADER_FAIL;
+		    	            }
+							break;
+
+    	        		case BOOT_LOADER_STATE_BANK0_INSTALL_SECURE_BOOT_ERASE_WAIT:
+    	            		/* this state will be update by flash callback */
+    	        			break;
+
+    	        		case BOOT_LOADER_STATE_BANK0_INSTALL_SECURE_BOOT_ERASE_COMPLETE:
+    	        	        if (FLASH_SUCCESS == flash_error_code)
+    	        	        {
+    	        	            printf("OK\r\n");
+    	        	        }
+    	        	        else
+    	        	        {
+    	        	            printf("R_FLASH_Erase() callback error. %d.\r\n", flash_error_code);
+    	        	            printf("system error.\r\n");
+    	        				secure_boot_state = BOOT_LOADER_STATE_FATAL_ERROR;
+    	        				secure_boot_error_code = BOOT_LOADER_FAIL;
+    	        	            break;
+    	        	        }
+    	        	        printf("copy secure boot (part1) from bank0 to bank1...");
+    	        	        flash_api_error_code = R_FLASH_Write((uint32_t)BOOT_LOADER_LOW_ADDRESS, (uint32_t)BOOT_LOADER_MIRROR_LOW_ADDRESS, ((uint32_t)BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_MEDIUM) * FLASH_CF_MEDIUM_BLOCK_SIZE);
+							if(FLASH_SUCCESS != flash_api_error_code)
+							{
+								printf("NG\r\n");
+								printf("R_FLASH_Write() returns error code = %d.\r\n", flash_error_code);
+								secure_boot_state = BOOT_LOADER_STATE_FATAL_ERROR;
+								secure_boot_error_code = BOOT_LOADER_FAIL;
+								break;
+							}
+							secure_boot_state = BOOT_LOADER_STATE_BANK0_INSTALL_SECURE_BOOT_WRITE_WAIT1;
+							break;
+
+    	        		case BOOT_LOADER_STATE_BANK0_INSTALL_SECURE_BOOT_WRITE_WAIT1:
+    	            		/* this state will be update by flash callback */
+    	        			break;
+
+    	        		case BOOT_LOADER_STATE_BANK0_INSTALL_SECURE_BOOT_WRITE_COMPLETE1:
+    	        	        if (FLASH_SUCCESS == flash_error_code)
+    	        	        {
+    	        	            printf("OK\r\n");
+    	        	        }
+    	        	        else
+    	        	        {
+    	        	            printf("R_FLASH_Write() callback error. %d.\r\n", flash_error_code);
+    	        	            printf("system error.\r\n");
+    	        				secure_boot_state = BOOT_LOADER_STATE_FATAL_ERROR;
+    	        				secure_boot_error_code = BOOT_LOADER_FAIL;
+    	        	            break;
+    	        	        }
+    	        	        printf("copy secure boot (part2) from bank0 to bank1...");
+							if(BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_MEDIUM > 0)
+							{
+								flash_api_error_code = R_FLASH_Write((uint32_t)FLASH_CF_BLOCK_7, (uint32_t)FLASH_CF_BLOCK_45, BOOT_LOADER_MIRROR_BLOCK_NUM_FOR_SMALL * FLASH_CF_SMALL_BLOCK_SIZE);
+								if(FLASH_SUCCESS != flash_api_error_code)
+								{
+									printf("NG\r\n");
+									printf("R_FLASH_Write() returns error code = %d.\r\n", flash_error_code);
+									secure_boot_error_code = BOOT_LOADER_FAIL;
+									break;
+								}
+							}
+							else
+							{
+								secure_boot_state = BOOT_LOADER_STATE_BANK0_INSTALL_SECURE_BOOT_WRITE_COMPLETE2;
+							}
+							secure_boot_state = BOOT_LOADER_STATE_BANK0_INSTALL_SECURE_BOOT_WRITE_WAIT2;
+							break;
+
+    	        		case BOOT_LOADER_STATE_BANK0_INSTALL_SECURE_BOOT_WRITE_WAIT2:
+    	            		/* this state will be update by flash callback */
+    	        			break;
+
+    	        		case BOOT_LOADER_STATE_BANK0_INSTALL_SECURE_BOOT_WRITE_COMPLETE2:
+    	        	        if (FLASH_SUCCESS == flash_error_code)
+    	        	        {
+    	        	            printf("OK\r\n");
+    	        	        }
+    	        	        else
+    	        	        {
+    	        	            printf("R_FLASH_Write() callback error. %d.\r\n", flash_error_code);
+    	        	            printf("system error.\r\n");
+    	        				secure_boot_state = BOOT_LOADER_STATE_FATAL_ERROR;
+    	        				secure_boot_error_code = BOOT_LOADER_FAIL;
+    	        	            break;
+    	        	        }
+							if (LIFECYCLE_STATE_INITIAL_FIRM_INSTALLED == firmware_update_control_block_bank0->image_flag)
+							{
+								secure_boot_state = BOOT_LOADER_STATE_FINALIZE;
+							}
+							else
+							{
+								printf("========== install user program phase ==========\r\n");
+								printf("erase install area (data flash): ");
+								flash_api_error_code = R_FLASH_Erase((flash_block_address_t)BOOT_LOADER_USER_CONST_DATA_LOW_ADDRESS, BOOT_LOADER_UPDATE_CONST_DATA_TARGET_BLOCK_NUMBER);
+								if (FLASH_SUCCESS != flash_api_error_code)
+								{
+									printf("R_FLASH_Erase() returns error. %d.\r\n", flash_error_code);
+									printf("system error.\r\n");
+									secure_boot_error_code = BOOT_LOADER_FAIL;
+									break;
+								}
+								secure_boot_state = BOOT_LOADER_STATE_INSTALL_DATA_FLASH_ERASE_WAIT;
+							}
+							break;
+
+						case BOOT_LOADER_STATE_FINALIZE:
+	    	                printf("jump to user program\r\n");
+	    	                R_BSP_SoftwareDelay(1000, BSP_DELAY_MILLISECS);
+	    	                secure_boot_error_code = BOOT_LOADER_SUCCESS;
+		    	        	break;
+		    	    }
+   	            	break;
+
     	        case LIFECYCLE_STATE_VALID:
 					switch(secure_boot_state)
 					{
@@ -693,7 +947,8 @@ __STATIC int32_t secure_boot(void)
 																	(const uint8_t *)BOOT_LOADER_UPDATE_EXECUTE_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
 																	(FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
 																	firmware_update_control_block_bank0->signature,
-																	firmware_update_control_block_bank0->signature_size);
+																	firmware_update_control_block_bank0->signature_size,
+																	local_code_signer_public_key);
 							}
 							else
 							{
@@ -703,6 +958,7 @@ __STATIC int32_t secure_boot(void)
 							if(0 == verification_result)
 		    	            {
 		    	                printf("OK\r\n");
+
 		    	            	if(firmware_update_control_block_bank1->image_flag != LIFECYCLE_STATE_BLANK)
 		    	            	{
 		    	                    printf("erase install area (code flash): ");
@@ -719,6 +975,8 @@ __STATIC int32_t secure_boot(void)
 								}
 								else
 								{
+									printf("integrity check(parts of SHA256 process) needs %d us.\r\n", sha256_time);
+									printf("integrity check(parts of ECDSA process) needs %d us.\r\n", ecdsa_time);
 									secure_boot_state = BOOT_LOADER_STATE_FINALIZE;
 								}
 		    	            }
@@ -784,7 +1042,8 @@ __STATIC int32_t secure_boot(void)
 															(const uint8_t *)BOOT_LOADER_UPDATE_TEMPORARY_AREA_LOW_ADDRESS + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
 															(FLASH_CF_MEDIUM_BLOCK_SIZE * BOOT_LOADER_UPDATE_TARGET_BLOCK_NUMBER) - BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH,
 															firmware_update_control_block_bank1->signature,
-															firmware_update_control_block_bank1->signature_size);
+															firmware_update_control_block_bank1->signature_size,
+															local_code_signer_public_key);
 					}
 					else
 					{
@@ -977,6 +1236,8 @@ __STATIC void my_flash_callback(void *event)
 	uint32_t event_code = FLASH_ERR_FAILURE;
 	event_code = *((uint32_t*)event);
 
+	flash_error_code = FLASH_ERR_FAILURE;
+
     if((event_code == FLASH_INT_EVENT_WRITE_COMPLETE) || (event_code == FLASH_INT_EVENT_ERASE_COMPLETE))
     {
     	flash_error_code = FLASH_SUCCESS;
@@ -1038,6 +1299,7 @@ void my_sw_charput_function(uint8_t data)
     while (SCI_CFG_CH8_TX_BUFSIZ != arg);
     /* Casting uint8_t pointer is used for address. */
     R_SCI_Send(my_sci_handle, (uint8_t*)&data, 1);
+//    R_SIMPLE_GRAPHIC_PutCharacter(data);
 
     return;
 }
@@ -1052,9 +1314,9 @@ void my_sw_charget_function(void)
 
 __STATIC const uint8_t *get_status_string(uint8_t status)
 {
-	static const uint8_t status_string[][32] = {{"LIFECYCLE_STATE_BLANK"},
+	__STATIC const uint8_t status_string[][64] = {{"LIFECYCLE_STATE_BLANK"},
 	                                            {"LIFECYCLE_STATE_TESTING"},
-	                                            {"LIFECYCLE_STATE_INSTALLING"},
+	                                            {"LIFECYCLE_STATE_INITIAL_FIRM_INSTALLED"},
 	                                            {"LIFECYCLE_STATE_VALID"},
 	                                            {"LIFECYCLE_STATE_INVALID"},
 	                                            {"LIFECYCLE_STATE_UNKNOWN"}};
@@ -1068,7 +1330,7 @@ __STATIC const uint8_t *get_status_string(uint8_t status)
 	{
 		tmp = status_string[1];
 	}
-	else if(status == LIFECYCLE_STATE_INSTALLING)
+	else if(status == LIFECYCLE_STATE_INITIAL_FIRM_INSTALLED)
 	{
 		tmp = status_string[2];
 	}
@@ -1087,27 +1349,33 @@ __STATIC const uint8_t *get_status_string(uint8_t status)
 	return tmp;
 }
 
-__STATIC int32_t firmware_verification_sha256_ecdsa(const uint8_t * pucData, uint32_t ulSize, const uint8_t * pucSignature, uint32_t ulSignatureSize)
+__STATIC int32_t firmware_verification_sha256_ecdsa(const uint8_t * pucData, uint32_t ulSize, const uint8_t * pucSignature, uint32_t ulSignatureSize, uint8_t *local_code_signer_public_key)
 {
     int32_t xResult = -1;
     uint8_t pucHash[TC_SHA256_DIGEST_SIZE];
     uint8_t data_length;
     uint8_t public_key[64];
     uint8_t binary[256];
-    static uint8_t *head_pointer, *current_pointer, *tail_pointer;;
+    uint8_t *head_pointer, *current_pointer, *tail_pointer;
 
     /* Hash message */
+    reset_10us_counter();
+    start_10us_counter();
+
     struct tc_sha256_state_struct xCtx;
     tc_sha256_init(&xCtx);
     tc_sha256_update(&xCtx, pucData, ulSize);
     tc_sha256_final(pucHash, &xCtx);
 
+    stop_10us_counter();
+    sha256_time = read_10us_counter() * 10;
+
     /* extract public key from code_signer_public_key (pem format) */
-    head_pointer = (uint8_t*)strstr((char *)code_signer_public_key, "-----BEGIN PUBLIC KEY-----");
+    head_pointer = (uint8_t*)strstr((char *)local_code_signer_public_key, "-----BEGIN PUBLIC KEY-----");
     if(head_pointer)
     {
     	head_pointer += strlen("-----BEGIN PUBLIC KEY-----");
-        tail_pointer = (uint8_t*)strstr((char *)code_signer_public_key, "-----END PUBLIC KEY-----");
+        tail_pointer = (uint8_t*)strstr((char *)local_code_signer_public_key, "-----END PUBLIC KEY-----");
     	base64_decode(head_pointer, binary, tail_pointer - head_pointer);
     	current_pointer = binary;
 		data_length = *(current_pointer + 1);
@@ -1123,10 +1391,14 @@ __STATIC int32_t firmware_verification_sha256_ecdsa(const uint8_t * pucData, uin
         			{
         				memcpy(public_key, current_pointer + 4, 64);
 						/* Verify signature */
+        			    reset_10us_counter();
+        			    start_10us_counter();
 						if(uECC_verify(public_key, pucHash, TC_SHA256_DIGEST_SIZE, pucSignature, uECC_secp256r1()))
 						{
 							xResult = 0;
 						}
+					    stop_10us_counter();
+					    ecdsa_time = read_10us_counter() * 10;
         			}
     				current_pointer += *(current_pointer + 1) + 2;
 					break;
@@ -1141,5 +1413,35 @@ __STATIC int32_t firmware_verification_sha256_ecdsa(const uint8_t * pucData, uin
 			}
     	}
     }
+
     return xResult;
 }
+
+void bootloader_software_timer_handler(void *arg)
+{
+	if(_10us_counter_start_flag)
+	{
+		_10us_counter++;
+	}
+}
+
+__STATIC void reset_10us_counter(void)
+{
+	_10us_counter = 0;
+}
+
+__STATIC uint32_t read_10us_counter(void)
+{
+	return _10us_counter;
+}
+
+__STATIC void start_10us_counter(void)
+{
+	_10us_counter_start_flag = 1;
+}
+
+__STATIC void stop_10us_counter(void)
+{
+	_10us_counter_start_flag = 0;
+}
+#endif
