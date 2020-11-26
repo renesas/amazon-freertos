@@ -40,8 +40,6 @@
 #include "platform.h"
 #include "r_flash_rx_if.h"
 
-#define OTA_HALF_SECOND_DELAY            pdMS_TO_TICKS( 500UL )
-
 /* Specify the OTA signature algorithm we support on this platform. */
 const char cOTA_JSON_FileSignatureKey[ OTA_FILE_SIG_KEY_STR_MAX_LENGTH ] = "sig-sha256-ecdsa";   /* FIX ME. */
 
@@ -611,16 +609,17 @@ OTA_Err_t prvPAL_ResetDevice( void )
     DEFINE_OTA_METHOD_NAME("prvPAL_ResetDevice");
 
     OTA_LOG_L1( "[%s] Resetting the device.\r\n", OTA_METHOD_NAME );
+    vTaskDelay(500);
 
-	{
-		vTaskDelay(OTA_HALF_SECOND_DELAY);
-	    set_psw(0);
-    	R_BSP_InterruptsDisable();
-    	R_FLASH_Control(FLASH_CMD_BANK_TOGGLE, NULL);
-    	R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_LPC_CGC_SWR);
-    	SYSTEM.SWRR = 0xa501;
-    	while(1);   /* software reset */
-	}
+	/* If the status is rejected, aborted, or error, swap bank and return to the previous image.
+	   Then the boot loader will start and erase the image that failed to update. */
+	set_psw(0);
+	R_BSP_InterruptsDisable();
+	R_FLASH_Control(FLASH_CMD_BANK_TOGGLE, NULL);
+	R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_LPC_CGC_SWR);
+	SYSTEM.SWRR = 0xa501;
+	while(1);   /* software reset */
+
 
     /* We shouldn't actually get here if the board supports the auto reset.
      * But, it doesn't hurt anything if we do although someone will need to
