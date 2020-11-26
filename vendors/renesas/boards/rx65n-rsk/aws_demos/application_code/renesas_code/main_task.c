@@ -89,7 +89,7 @@ void main_task(void)
 
     /* flash initialization */
     R_FLASH_Open();
-    R_FLASH_Control(FLASH_CMD_BANK_GET, &bank_info);
+//    R_FLASH_Control(FLASH_CMD_BANK_GET, &bank_info);
     R_SFD_Open();
 
     /* flash access semaphore creation */
