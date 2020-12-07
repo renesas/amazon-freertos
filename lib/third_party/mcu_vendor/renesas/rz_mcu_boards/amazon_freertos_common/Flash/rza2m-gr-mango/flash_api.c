@@ -1,5 +1,6 @@
 /* mbed Microcontroller Library
- * Copyright (c) 2018 ARM Limited
+ * Copyright (c) 2018-2020 ARM Limited
+ * SPDX-License-Identifier: Apache-2.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +40,6 @@
 
 static RAM_CODE_SEC void cache_control(void);
 
-
 #if defined(USE_SERIAL_FLASH)
 #include "spibsc.h"
 
@@ -60,9 +60,11 @@ static RAM_CODE_SEC void cache_control(void);
 
 /* Definition of the base address for the MMU translation table */
 #if defined(__CC_ARM) || defined(__ARMCC_VERSION) || defined(__GNUC__)
-extern uint32_t __mmu_page_table_base;
-#define TTB         ((uint32_t)&__mmu_page_table_base)   /* using linker symbol */
+extern uint32_t Image$$TTB$$ZI$$Base;
+#define TTB         ((uint32_t)&Image$$TTB$$ZI$$Base)   /* using linker symbol */
 #elif defined(__ICCARM__)
+#pragma section="TTB"
+#define TTB         ((uint32_t)__section_begin("TTB"))
 #endif
 
 typedef struct {
@@ -123,18 +125,18 @@ static uint8_t write_tmp_buf[FLASH_PAGE_SIZE];
 
 /* Global function for optimization */
 RAM_CODE_SEC int32_t _sector_erase(uint32_t addr);
-RAM_CODE_SEC int32_t _page_program(uint32_t addr, const uint8_t * buf, int32_t size);
+RAM_CODE_SEC int32_t _page_program(uint32_t addr, const uint8_t *buf, int32_t size);
 
 static RAM_CODE_SEC int32_t write_enable(void);
 static RAM_CODE_SEC int32_t busy_wait(void);
-static RAM_CODE_SEC int32_t read_register(uint8_t cmd, uint8_t * status);
-static RAM_CODE_SEC int32_t data_send(uint32_t bit_width, uint32_t spbssl_level, const uint8_t * buf, int32_t size);
+static RAM_CODE_SEC int32_t read_register(uint8_t cmd, uint8_t *status);
+static RAM_CODE_SEC int32_t data_send(uint32_t bit_width, uint32_t spbssl_level, const uint8_t *buf, int32_t size);
 static RAM_CODE_SEC void spi_mode(void);
 static RAM_CODE_SEC void ex_mode(void);
-static RAM_CODE_SEC void clear_spimd_reg(volatile st_spibsc_spimd_reg_t * regset);
-static RAM_CODE_SEC int32_t spibsc_transfer(st_spibsc_spimd_reg_t * regset);
-static RAM_CODE_SEC uint32_t RegRead_32(volatile unsigned long * ioreg, uint32_t shift, uint32_t mask);
-static RAM_CODE_SEC void RegWwrite_32(volatile unsigned long * ioreg, uint32_t write_value, uint32_t shift, uint32_t mask);
+static RAM_CODE_SEC void clear_spimd_reg(volatile st_spibsc_spimd_reg_t *regset);
+static RAM_CODE_SEC int32_t spibsc_transfer(st_spibsc_spimd_reg_t *regset);
+static RAM_CODE_SEC uint32_t RegRead_32(volatile unsigned long *ioreg, uint32_t shift, uint32_t mask);
+static RAM_CODE_SEC void RegWwrite_32(volatile unsigned long *ioreg, uint32_t write_value, uint32_t shift, uint32_t mask);
 static RAM_CODE_SEC void change_mmu_ttbl_spibsc(uint32_t type);
 static RAM_CODE_SEC void spibsc_stop(void);
 
@@ -147,8 +149,7 @@ int32_t _sector_erase(uint32_t addr)
 
     /* ---- Write enable   ---- */
     ret = write_enable();      /* WREN Command */
-    if (ret != 0)
-    {
+    if (ret != 0) {
         ex_mode();
         R_OS_SysUnlock();
         return ret;
@@ -169,8 +170,7 @@ int32_t _sector_erase(uint32_t addr)
     spimd_reg.addr   = addr;
 
     ret = spibsc_transfer(&spimd_reg);
-    if (ret != 0)
-    {
+    if (ret != 0) {
         ex_mode();
         R_OS_SysUnlock();
         return ret;
@@ -183,25 +183,21 @@ int32_t _sector_erase(uint32_t addr)
     return ret;
 }
 
-int32_t _page_program(uint32_t addr, const uint8_t * buf, int32_t size)
+int32_t _page_program(uint32_t addr, const uint8_t *buf, int32_t size)
 {
     int32_t ret;
     int32_t program_size;
     int32_t remainder;
     int32_t idx = 0;
 
-	while (size > 0) {
-        if (size > FLASH_PAGE_SIZE)
-        {
+    while (size > 0) {
+        if (size > FLASH_PAGE_SIZE) {
             program_size = FLASH_PAGE_SIZE;
-        }
-        else
-        {
+        } else {
             program_size = size;
         }
         remainder = FLASH_PAGE_SIZE - (addr % FLASH_PAGE_SIZE);
-        if ((remainder != 0) && (program_size > remainder))
-        {
+        if ((remainder != 0) && (program_size > remainder)) {
             program_size = remainder;
         }
 
@@ -211,8 +207,7 @@ int32_t _page_program(uint32_t addr, const uint8_t * buf, int32_t size)
 
         /* ---- Write enable   ---- */
         ret = write_enable();      /* WREN Command */
-        if (ret != 0)
-        {
+        if (ret != 0) {
             ex_mode();
             R_OS_SysUnlock();
             return ret;
@@ -237,8 +232,7 @@ int32_t _page_program(uint32_t addr, const uint8_t * buf, int32_t size)
         spimd_reg.sslkp  = SPIBSC_SPISSL_KEEP;     /* SPBSSL level */
 
         ret = spibsc_transfer(&spimd_reg);         /* Command,Address */
-        if (ret != 0)
-        {
+        if (ret != 0) {
             ex_mode();
             R_OS_SysUnlock();
             return ret;
@@ -246,16 +240,14 @@ int32_t _page_program(uint32_t addr, const uint8_t * buf, int32_t size)
 
         /* ----------- 2. Data ---------------*/
         ret = data_send(SPIBSC_1BIT, SPIBSC_SPISSL_NEGATE, write_tmp_buf, program_size);
-        if (ret != 0)
-        {
+        if (ret != 0) {
             ex_mode();
             R_OS_SysUnlock();
             return ret;
         }
 
         ret = busy_wait();
-        if (ret != 0)
-        {
+        if (ret != 0) {
             ex_mode();
             R_OS_SysUnlock();
             return ret;
@@ -307,7 +299,7 @@ static int32_t busy_wait(void)
     return ret;
 }
 
-static int32_t read_register(uint8_t cmd, uint8_t * status)
+static int32_t read_register(uint8_t cmd, uint8_t *status)
 {
     int32_t ret;
 
@@ -339,7 +331,7 @@ static int32_t read_register(uint8_t cmd, uint8_t * status)
     return ret;
 }
 
-static int32_t data_send(uint32_t bit_width, uint32_t spbssl_level, const uint8_t * buf, int32_t size)
+static int32_t data_send(uint32_t bit_width, uint32_t spbssl_level, const uint8_t *buf, int32_t size)
 {
     int32_t ret = 0;
     int32_t unit;
@@ -356,7 +348,7 @@ static int32_t data_send(uint32_t bit_width, uint32_t spbssl_level, const uint8_
 
     /* ---- data ---- */
     spimd_reg.spidb = bit_width;
-    spimd_reg.spidre= SPIBSC_SDR_TRANS;        /* SDR */
+    spimd_reg.spidre = SPIBSC_SDR_TRANS;       /* SDR */
 
     if (((uint32_t)size & 0x3)  == 0) {
         spimd_reg.spide = SPIBSC_OUTPUT_SPID_32;  /* Enable(32bit) */
@@ -372,10 +364,10 @@ static int32_t data_send(uint32_t bit_width, uint32_t spbssl_level, const uint8_
     while (size > 0) {
         if (unit == 1) {
             buf_b = (uint8_t *)buf;
-            spimd_reg.smwdr[0] = (uint32_t)(((uint32_t)*buf_b) & 0x000000FF);
+            spimd_reg.smwdr[0] = (uint32_t)(((uint32_t) * buf_b) & 0x000000FF);
         } else if (unit == 2) {
             buf_s = (uint16_t *)buf;
-            spimd_reg.smwdr[0] = (uint32_t)(((uint32_t)*buf_s) & 0x0000FFFF);
+            spimd_reg.smwdr[0] = (uint32_t)(((uint32_t) * buf_s) & 0x0000FFFF);
         } else if (unit == 4) {
             buf_l = (uint32_t *)buf;
             spimd_reg.smwdr[0] = (uint32_t)(((uint32_t)(*buf_l)) & 0xfffffffful);
@@ -449,7 +441,7 @@ static void ex_mode(void)
     (void)dummy_read_32;
 }
 
-static void clear_spimd_reg(volatile st_spibsc_spimd_reg_t * regset)
+static void clear_spimd_reg(volatile st_spibsc_spimd_reg_t *regset)
 {
     /* ---- command ---- */
     regset->cde    = SPIBSC_OUTPUT_DISABLE;
@@ -492,7 +484,7 @@ static void clear_spimd_reg(volatile st_spibsc_spimd_reg_t * regset)
     regset->spiwe  = SPIBSC_SPIDATA_DISABLE; /* write enable/disable */
 }
 
-static int32_t spibsc_transfer(st_spibsc_spimd_reg_t * regset)
+static int32_t spibsc_transfer(st_spibsc_spimd_reg_t *regset)
 {
     if (RegRead_32(&SPIBSC.CMNCR.LONG, SPIBSC_CMNCR_MD_SHIFT, SPIBSC_CMNCR_MD) != SPIBSC_CMNCR_MD_SPI) {
         if (RegRead_32(&SPIBSC.CMNSR.LONG, SPIBSC_CMNSR_SSLF_SHIFT, SPIBSC_CMNSR_SSLF) != SPIBSC_SSL_NEGATE) {
@@ -550,12 +542,12 @@ static int32_t spibsc_transfer(st_spibsc_spimd_reg_t * regset)
     }
 
     /* ---- Dummy ---- */
-     /* Enable/Disable */
-     RegWwrite_32(&SPIBSC.SMENR.LONG, regset->dme, SPIBSC_SMENR_DME_SHIFT, SPIBSC_SMENR_DME);
-     if (regset->dme != SPIBSC_DUMMY_CYC_DISABLE) {
-         /* Dummy Cycle */
-         RegWwrite_32(&SPIBSC.SMDMCR.LONG, regset->dmcyc, SPIBSC_SMDMCR_DMCYC_SHIFT, SPIBSC_SMDMCR_DMCYC);
-     }
+    /* Enable/Disable */
+    RegWwrite_32(&SPIBSC.SMENR.LONG, regset->dme, SPIBSC_SMENR_DME_SHIFT, SPIBSC_SMENR_DME);
+    if (regset->dme != SPIBSC_DUMMY_CYC_DISABLE) {
+        /* Dummy Cycle */
+        RegWwrite_32(&SPIBSC.SMDMCR.LONG, regset->dmcyc, SPIBSC_SMDMCR_DMCYC_SHIFT, SPIBSC_SMDMCR_DMCYC);
+    }
 
     /* ---- Data ---- */
     /* Enable/Disable */
@@ -639,7 +631,7 @@ static int32_t spibsc_transfer(st_spibsc_spimd_reg_t * regset)
     return 0;
 }
 
-static uint32_t RegRead_32(volatile unsigned long * ioreg, uint32_t shift, uint32_t mask)
+static uint32_t RegRead_32(volatile unsigned long *ioreg, uint32_t shift, uint32_t mask)
 {
     uint32_t reg_value;
 
@@ -649,7 +641,7 @@ static uint32_t RegRead_32(volatile unsigned long * ioreg, uint32_t shift, uint3
     return reg_value;
 }
 
-static void RegWwrite_32(volatile unsigned long * ioreg, uint32_t write_value, uint32_t shift, uint32_t mask)
+static void RegWwrite_32(volatile unsigned long *ioreg, uint32_t write_value, uint32_t shift, uint32_t mask)
 {
     uint32_t reg_value;
 
@@ -662,22 +654,18 @@ static void change_mmu_ttbl_spibsc(uint32_t type)
 {
     uint32_t index;               /* Loop variable: table index */
     mmu_ttbl_desc_section_t desc; /* Loop variable: descriptor */
-    mmu_ttbl_desc_section_t * table = (mmu_ttbl_desc_section_t *)TTB;
+    mmu_ttbl_desc_section_t *table = (mmu_ttbl_desc_section_t *)TTB;
 
     /* ==== Modify SPI Multi-I/O bus space settings in the MMU translation table ==== */
-    for (index = (FLASH_BASE >> 20); index < ((FLASH_BASE + FLASH_SIZE) >> 20); index++)
-    {
+    for (index = (FLASH_BASE >> 20); index < ((FLASH_BASE + FLASH_SIZE) >> 20); index++) {
         /* Modify memory attribute descriptor */
-        if (type == 0)          /* Spi */
-        {
+        if (type == 0) {         /* Spi */
             desc = table[index];
             desc_tbl[index - (FLASH_BASE >> 20)] = desc;
-            desc.AP1_0 = 0x0u;  /* AP[2:0] = b'000 (No access) */
+            desc.AP1_0 = 0x0u;   /* AP[2:0] = b'000 (No access) */
             desc.AP2   = 0x0u;
-            desc.XN    = 0x1u;  /* XN = 1 (Execute never) */
-        }
-        else                    /* Xip */
-        {
+            desc.XN    = 0x1u;   /* XN = 1 (Execute never) */
+        } else {                 /* Xip */
             desc = desc_tbl[index - (FLASH_BASE >> 20)];
         }
         /* Write descriptor back to translation table */
@@ -688,7 +676,7 @@ static void change_mmu_ttbl_spibsc(uint32_t type)
 static void spibsc_stop(void)
 {
     if (((SPIBSC.DRCR.LONG & SPIBSC_DRCR_RBE)  != 0) &&
-        ((SPIBSC.DRCR.LONG & SPIBSC_DRCR_SSLE) != 0)) {
+            ((SPIBSC.DRCR.LONG & SPIBSC_DRCR_SSLE) != 0)) {
         RegWwrite_32(&SPIBSC.DRCR.LONG, 1, SPIBSC_DRCR_SSLN_SHIFT, SPIBSC_DRCR_SSLN);
     }
 
@@ -705,7 +693,7 @@ static void spibsc_stop(void)
 
 #if defined(USE_HYPERFLASH)
 RAM_CODE_SEC int32_t _hyperflash_sector_erase(uint32_t addr);
-RAM_CODE_SEC int32_t _hyperflash_page_program(uint32_t addr, const uint8_t * buf, int32_t size);
+RAM_CODE_SEC int32_t _hyperflash_page_program(uint32_t addr, const uint8_t *buf, int32_t size);
 
 static RAM_CODE_SEC void hyperflash_commandwrite(uint32_t caddr, uint16_t write_value);
 static RAM_CODE_SEC void hyperflash_datawrite(uint32_t offset, uint16_t write_value);
@@ -717,7 +705,7 @@ int32_t _hyperflash_sector_erase(uint32_t addr)
     int32_t ret = 0;
     uint16_t read_sr;
 
-    core_util_critical_section_enter();
+    R_OS_SysLock();
 
     /** Word program sequence */
     hyperflash_commandwrite(0x555, 0x00AA);  /** 1st bus cycle */
@@ -754,12 +742,12 @@ int32_t _hyperflash_sector_erase(uint32_t addr)
     }
 
     cache_control();
-    core_util_critical_section_exit();
+    R_OS_SysUnlock();
 
     return ret;
 }
 
-int32_t _hyperflash_page_program(uint32_t addr, const uint8_t * buf, int32_t size)
+int32_t _hyperflash_page_program(uint32_t addr, const uint8_t *buf, int32_t size)
 {
     uint16_t send_data;
     uint32_t send_addr = addr;
@@ -773,7 +761,7 @@ int32_t _hyperflash_page_program(uint32_t addr, const uint8_t * buf, int32_t siz
         return 0;
     }
 
-    core_util_critical_section_enter();
+    R_OS_SysLock();
 
     /* Odd address */
     if ((send_addr & 0x1) != 0) {
@@ -799,7 +787,7 @@ int32_t _hyperflash_page_program(uint32_t addr, const uint8_t * buf, int32_t siz
     }
 
     cache_control();
-    core_util_critical_section_exit();
+    R_OS_SysUnlock();
 
     return 0;
 }
@@ -846,6 +834,157 @@ static void hyperflash_write_word(uint32_t waddr, uint16_t wdata)
 #endif /* USE_HYPERFLASH */
 
 
+#if defined(USE_OCTAFLASH)
+#define OFLASH_STATUS_WIP     (0x00000001u)
+#define OCTACFG_BUS_WIDTH     32
+
+RAM_CODE_SEC int32_t _octaflash_sector_erase(uint32_t addr);
+RAM_CODE_SEC int32_t _octaflash_page_program(uint32_t addr, const uint8_t *buf, int32_t size);
+
+static RAM_CODE_SEC void octaflash_wren(void);
+static RAM_CODE_SEC uint32_t octaflash_rdsr(void);
+
+int32_t _octaflash_sector_erase(uint32_t addr)
+{
+    R_OS_SysLock();
+
+    /* ---- Write Enable ---- */
+    octaflash_wren();
+
+    /* ---- Controller and device setting register ---- */
+    OCTA.CDSR.BIT.DLFT    = 1;
+    OCTA.CDSR.BIT.DV0TTYP = 2;  /* DOPI */
+
+    /* ---- Device command register ---- */
+    OCTA.DCR.BIT.DVCMD1 = 0x21;
+    OCTA.DCR.BIT.DVCMD0 = 0xDE;
+
+    /* ---- Device address register ---- */
+    OCTA.DAR.LONG = addr;
+
+    /* ---- Device command setting register ---- */
+    OCTA.DCSR.BIT.ACDA   = 1;
+    OCTA.DCSR.BIT.DOPI   = 0;
+    OCTA.DCSR.BIT.ADLEN  = 4;
+    OCTA.DCSR.BIT.DAOR   = 1;
+    OCTA.DCSR.BIT.CMDLEN = 2;
+    OCTA.DCSR.BIT.ACDV   = 0;
+    OCTA.DCSR.BIT.DMLEN  = 0;
+    OCTA.DCSR.BIT.DALEN  = 0;
+
+    /* ---- Configure write without data register ---- */
+    OCTA.CWNDR = 0x00000000;
+
+    while (octaflash_rdsr() & OFLASH_STATUS_WIP);
+
+    R_OS_SysUnlock();
+
+    /* ==== Cleaning and invalidation of cache ==== */
+    cache_control();
+
+    return 0;
+}
+
+int32_t _octaflash_page_program(uint32_t addr, const uint8_t *buf, int32_t size)
+{
+    int32_t program_size;
+    int32_t remainder;
+
+    while (size > 0) {
+        if (size > OCTAFLASH_PAGE_SIZE) {
+            program_size = OCTAFLASH_PAGE_SIZE;
+        } else {
+            program_size = size;
+        }
+        remainder = OCTAFLASH_PAGE_SIZE - (addr % OCTAFLASH_PAGE_SIZE);
+        if ((remainder != 0) && (program_size > remainder)) {
+            program_size = remainder;
+        }
+        if (program_size > OCTACFG_BUS_WIDTH) {
+            program_size = OCTACFG_BUS_WIDTH;
+        }
+
+        R_OS_SysLock();
+
+        /* ---- Write Enable ---- */
+        octaflash_wren();
+
+        for (int32_t i = 0; i < program_size; i++) {
+            *(volatile uint8_t *)(RZ_A2_OCTA_FLASH_NC + addr + i) = *(buf + i);
+        }
+
+        while (octaflash_rdsr() & OFLASH_STATUS_WIP);
+
+        R_OS_SysUnlock();
+
+        size -= program_size;
+        addr += program_size;
+        buf  += program_size;
+    }
+
+    /* ==== Cleaning and invalidation of cache ==== */
+    cache_control();
+
+    return 0;
+}
+
+static void octaflash_wren(void)
+{
+    /* ---- Controller and device setting register ---- */
+    OCTA.CDSR.BIT.DLFT    = 1;
+    OCTA.CDSR.BIT.DV0TTYP = 2;  /* DOPI */
+
+    /* ---- Device command register ---- */
+    OCTA.DCR.BIT.DVCMD1 = 0x06;
+    OCTA.DCR.BIT.DVCMD0 = 0xF9;
+
+    /* ---- Device command setting register ---- */
+    OCTA.DCSR.BIT.ACDA   = 0;
+    OCTA.DCSR.BIT.DOPI   = 1;
+    OCTA.DCSR.BIT.ADLEN  = 0;
+    OCTA.DCSR.BIT.DAOR   = 0;
+    OCTA.DCSR.BIT.CMDLEN = 2;
+    OCTA.DCSR.BIT.ACDV   = 0;
+    OCTA.DCSR.BIT.DMLEN  = 0;
+    OCTA.DCSR.BIT.DALEN  = 0;
+
+    /* ---- Configure write without data register ---- */
+    OCTA.CWNDR = 0x00000000;
+}
+
+static uint32_t octaflash_rdsr(void)
+{
+    uint32_t status;
+
+    /* ---- Controller and device setting register ---- */
+    OCTA.CDSR.BIT.DLFT    = 1;
+    OCTA.CDSR.BIT.DV0TTYP = 2;  /* DOPI */
+
+    /* ---- Device command register ---- */
+    OCTA.DCR.BIT.DVCMD1 = 0x05;
+    OCTA.DCR.BIT.DVCMD0 = 0xFA;
+
+    /* ---- Device address register ---- */
+    OCTA.DAR.LONG = 0x00000000;
+
+    /* ---- Device command setting register ---- */
+    OCTA.DCSR.BIT.ACDA   = 0;
+    OCTA.DCSR.BIT.DOPI   = 1;
+    OCTA.DCSR.BIT.ADLEN  = 4;
+    OCTA.DCSR.BIT.DAOR   = 0;
+    OCTA.DCSR.BIT.CMDLEN = 2;
+    OCTA.DCSR.BIT.ACDV   = 0;
+    OCTA.DCSR.BIT.DMLEN  = 4;
+    OCTA.DCSR.BIT.DALEN  = 1;
+
+    /* ---- Configure read register ---- */
+    status = OCTA.CRR.LONG;
+
+    return status;
+}
+
+#endif /* USE_OCTAFLASH */
+
 int32_t flash_init(flash_t *obj)
 {
     return 0;
@@ -858,6 +997,11 @@ int32_t flash_free(flash_t *obj)
 
 int32_t flash_erase_sector(flash_t *obj, uint32_t address)
 {
+#if defined(USE_OCTAFLASH)
+    if ((address >= OCTAFLASH_BASE) && (address < (OCTAFLASH_BASE + OCTAFLASH_SIZE))) {
+        return _octaflash_sector_erase(address - OCTAFLASH_BASE);
+    }
+#endif /* USE_OCTAFLASH */
 #if defined(USE_HYPERFLASH)
     if ((address >= HYPERFLASH_BASE) && (address < (HYPERFLASH_BASE + HYPERFLASH_SIZE))) {
         return _hyperflash_sector_erase(address - HYPERFLASH_BASE);
@@ -873,6 +1017,11 @@ int32_t flash_erase_sector(flash_t *obj, uint32_t address)
 
 int32_t flash_program_page(flash_t *obj, uint32_t address, const uint8_t *data, uint32_t size)
 {
+#if defined(USE_OCTAFLASH)
+    if ((address >= OCTAFLASH_BASE) && (address < (OCTAFLASH_BASE + OCTAFLASH_SIZE))) {
+        return _octaflash_page_program(address - OCTAFLASH_BASE, data, size);
+    }
+#endif /* USE_OCTAFLASH */
 #if defined(USE_HYPERFLASH)
     if ((address >= HYPERFLASH_BASE) && (address < (HYPERFLASH_BASE + HYPERFLASH_SIZE))) {
         return _hyperflash_page_program(address - HYPERFLASH_BASE, data, size);
@@ -888,6 +1037,11 @@ int32_t flash_program_page(flash_t *obj, uint32_t address, const uint8_t *data, 
 
 uint32_t flash_get_sector_size(const flash_t *obj, uint32_t address)
 {
+#if defined(USE_OCTAFLASH)
+    if ((address >= OCTAFLASH_BASE) && (address < (OCTAFLASH_BASE + OCTAFLASH_SIZE))) {
+        return OCTAFLASH_SECTOR_SIZE;
+    }
+#endif /* USE_OCTAFLASH */
 #if defined(USE_HYPERFLASH)
     if ((address >= HYPERFLASH_BASE) && (address < (HYPERFLASH_BASE + HYPERFLASH_SIZE))) {
         return HYPERFLASH_SECTOR_SIZE;
@@ -903,7 +1057,11 @@ uint32_t flash_get_sector_size(const flash_t *obj, uint32_t address)
 
 uint32_t flash_get_page_size(const flash_t *obj)
 {
+#if defined(USE_OCTAFLASH)
+    return OCTAFLASH_PAGE_SIZE;
+#else /* USE_OCTAFLASH */
     return 8;
+#endif /* USE_OCTAFLASH */
 }
 
 uint32_t flash_get_start_address(const flash_t *obj)
@@ -914,6 +1072,8 @@ uint32_t flash_get_start_address(const flash_t *obj)
     return FLASH_BASE;
 #elif defined(USE_HYPERFLASH)
     return HYPERFLASH_BASE;
+#elif defined(USE_OCTAFLASH)
+    return OCTAFLASH_BASE;
 #else
     return 0;
 #endif
@@ -927,6 +1087,8 @@ uint32_t flash_get_size(const flash_t *obj)
     return FLASH_SIZE;
 #elif defined(USE_HYPERFLASH)
     return HYPERFLASH_SIZE;
+#elif defined(USE_OCTAFLASH)
+    return OCTAFLASH_SIZE;
 #else
     return 0;
 #endif
