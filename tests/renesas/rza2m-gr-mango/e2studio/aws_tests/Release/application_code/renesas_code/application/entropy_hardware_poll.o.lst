@@ -1,0 +1,394 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"entropy_hardware_poll.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.get_random_number,"ax",%progbits
+  17              		.align	2
+  18              		.global	get_random_number
+  19              		.syntax unified
+  20              		.arm
+  21              		.fpu neon
+  23              	get_random_number:
+  24              	.LFB1:
+  25              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/ama
+   1:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** /**************************************************************************************************
+   2:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****  * DISCLAIMER
+   3:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****  * This software is supplied by Renesas Electronics Corporation and is only intended for use with R
+   4:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****  * other uses are authorized. This software is owned by Renesas Electronics Corporation and is prot
+   5:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****  * applicable laws, including copyright laws.
+   6:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****  * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   7:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****  * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF
+   8:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****  * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAI
+   9:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****  * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS A
+  10:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****  * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY R
+  11:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****  * THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DA
+  12:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****  * Renesas reserves the right, without notice, to make changes to this software and to discontinue 
+  13:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****  * this software. By using this software, you agree to the additional terms and conditions found by
+  14:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****  * following link:
+  15:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****  * http://www.renesas.com/disclaimer
+  16:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****  *
+  17:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****  * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+  18:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****  **************************************************************************************************
+  19:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** /**
+  20:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****   ******************************************************************************
+  21:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****   * @file    entropy_hardware_poll.c
+  22:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****   *
+  23:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****   ******************************************************************************
+  24:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****   */
+  25:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** 
+  26:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** #include <string.h>
+  27:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** #include <stdint.h>
+  28:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** #include "FreeRTOS.h"
+  29:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** #include "task.h"
+  30:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** #define __LIT (1)
+  31:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** 
+  32:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** extern int32_t cryptogram_sample(int32_t seed_in);
+  33:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** 
+  34:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** void get_random_number(uint8_t *data, uint32_t len);
+  35:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** 
+  36:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** /**************************************************************************************************
+  37:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****  * Function Name: mbedtls_hardware_poll
+  38:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****  * Description  : .
+  39:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****  * Arguments    : .
+  40:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****  * Return Value : .
+  41:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****  **************************************************************************************************
+  42:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** int mbedtls_hardware_poll( void *data,
+  43:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****                     unsigned char *output, size_t len, size_t *olen )
+  44:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** {
+  45:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     /* unused argument */
+  46:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     ((void) data);
+  47:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     /* unused argument */
+  48:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     ((void) len);
+  49:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** 
+  50:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     uint32_t random_number = 0;
+  51:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** 
+  52:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     /* get random number  */
+  53:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     get_random_number((uint8_t *)&random_number, sizeof(uint32_t));
+  54:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     *olen = 0;
+  55:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** 
+  56:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     memcpy(output, &random_number, sizeof(uint32_t));
+  57:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     *olen = sizeof(uint32_t);
+  58:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** 
+  59:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     return 0;
+  60:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** } /* End of function mbedtls_hardware_poll */
+  61:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** 
+  62:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** /******************************************************************************
+  63:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** Functions : random number generator(XorShift method)
+  64:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** 
+  65:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** WARNING: The random number generation solution presented in this application is 
+  66:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     for demonstration purposes only. It is not recommended to go into production with 
+  67:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     the logic presented here. The current solution takes entropy from the a
+  68:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     temperature sensor on the board and from the current system time. For 
+  69:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     production development, Renesas RZ/A2M customers are recommended to use the 
+  70:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     TRNG included in the Trusted Secure IP Driver. Please see the following for more information
+  71:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     on the Trusted Secure IP Driver:
+  72:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     https://www.renesas.com/us/en/products/software-tools/software-os-middleware-driver/security-cr
+  73:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** 
+  74:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** ******************************************************************************/
+  75:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** void get_random_number(uint8_t *data, uint32_t len)
+  76:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** {
+  26              		.loc 1 76 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              	.LVL0:
+  31 0000 70402DE9 		push	{r4, r5, r6, lr}
+  32              		.cfi_def_cfa_offset 16
+  33              		.cfi_offset 4, -16
+  34              		.cfi_offset 5, -12
+  35              		.cfi_offset 6, -8
+  36              		.cfi_offset 14, -4
+  37              		.loc 1 76 0
+  38 0004 0150A0E1 		mov	r5, r1
+  77:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     static uint32_t y = 2463534242;
+  78:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     uint32_t res;
+  79:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     uint32_t lp;
+  80:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     uint8_t *p_data;
+  81:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     y += xTaskGetTickCount();   /* randomness from system timer */
+  39              		.loc 1 81 0
+  40 0008 B8409FE5 		ldr	r4, .L13
+  76:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     static uint32_t y = 2463534242;
+  41              		.loc 1 76 0
+  42 000c 0060A0E1 		mov	r6, r0
+  43              		.loc 1 81 0
+  44 0010 FEFFFFEB 		bl	xTaskGetTickCount
+  45              	.LVL1:
+  46 0014 003094E5 		ldr	r3, [r4]
+  47 0018 030080E0 		add	r0, r0, r3
+  48 001c 000084E5 		str	r0, [r4]
+  82:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     y = cryptogram_sample(y);   //190325 modified for RZ/A2M. For random number generator
+  49              		.loc 1 82 0
+  50 0020 FEFFFFEB 		bl	cryptogram_sample
+  51              	.LVL2:
+  52 0024 03C0C5E3 		bic	ip, r5, #3
+  83:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** 
+  84:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     res = len / 4;
+  85:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     for (lp = 0; lp < res; lp++)
+  53              		.loc 1 85 0
+  54 0028 0020A0E3 		mov	r2, #0
+  55 002c 0CC086E0 		add	ip, r6, ip
+  56 0030 0430A0E1 		mov	r3, r4
+  82:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     y = cryptogram_sample(y);   //190325 modified for RZ/A2M. For random number generator
+  57              		.loc 1 82 0
+  58 0034 000084E5 		str	r0, [r4]
+  59              	.LVL3:
+  60              	.L2:
+  61              		.loc 1 85 0 discriminator 1
+  62 0038 0C0056E1 		cmp	r6, ip
+  63 003c 0F00001A 		bne	.L3
+  64 0040 000052E3 		cmp	r2, #0
+  86:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     {
+  87:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****         y = y ^ (y << 13);
+  88:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****         y = y ^ (y >> 17);
+  89:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****         y = y ^ (y << 5);
+  90:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****         /* set data pointer */
+  91:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****         p_data = (uint8_t*) & y;
+  92:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** #if __LIT
+  93:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****         /* change endian */
+  94:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****         *((uint32_t *)data) = (uint32_t)((*(p_data + 3) << 24) | (*(p_data + 2) << 16) | (*(p_data 
+  95:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** #else
+  96:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****         *((uint32_t *)data) = y;
+  97:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** #endif
+  98:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****         data += 4;
+  99:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     }
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     y = y ^ (y << 13);
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     y = y ^ (y >> 17);
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     y = y ^ (y << 5);
+ 103:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     /* calc res */
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     res = (uint32_t)len % 4;
+  65              		.loc 1 104 0
+  66 0044 031005E2 		and	r1, r5, #3
+  67 0048 00008315 		strne	r0, [r3]
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** 
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     /* set data pointer */
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     p_data = (uint8_t*) & y;
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     switch (res)
+  68              		.loc 1 108 0
+  69 004c 020051E3 		cmp	r1, #2
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     y = y ^ (y >> 17);
+  70              		.loc 1 100 0
+  71 0050 002093E5 		ldr	r2, [r3]
+  72 0054 822622E0 		eor	r2, r2, r2, lsl #13
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     y = y ^ (y << 5);
+  73              		.loc 1 101 0
+  74 0058 A22822E0 		eor	r2, r2, r2, lsr #17
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     /* calc res */
+  75              		.loc 1 102 0
+  76 005c 822222E0 		eor	r2, r2, r2, lsl #5
+  77 0060 002083E5 		str	r2, [r3]
+  78              	.LVL4:
+  79              		.loc 1 108 0
+  80 0064 1200000A 		beq	.L6
+  81 0068 030051E3 		cmp	r1, #3
+  82 006c 0900000A 		beq	.L7
+  83 0070 010051E3 		cmp	r1, #1
+  84              	.LVL5:
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     {
+ 110:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****         case 3:
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** #if __LIT
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****             *data++ = p_data[3];
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****             *data++ = p_data[2];
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****             *data++ = p_data[1];
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** #else
+ 116:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****             *data++ = p_data[0];
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****             *data++ = p_data[1];
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****             *data++ = p_data[2];
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** #endif
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****             break;
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** 
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****         case 2:
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** #if __LIT
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****             *data++ = p_data[3];
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****             *data++ = p_data[2];
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** #else
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****             *data++ = p_data[0];
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****             *data++ = p_data[1];
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** #endif
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****             break;
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** 
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****         case 1:
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** #if __LIT
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****             *data++ = p_data[3];
+  85              		.loc 1 134 0
+  86 0074 0330D305 		ldrbeq	r3, [r3, #3]	@ zero_extendqisi2
+  87 0078 0030CC05 		strbeq	r3, [ip]
+  88 007c 7080BDE8 		pop	{r4, r5, r6, pc}
+  89              	.LVL6:
+  90              	.L3:
+  87:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****         y = y ^ (y >> 17);
+  91              		.loc 1 87 0 discriminator 3
+  92 0080 800620E0 		eor	r0, r0, r0, lsl #13
+  93 0084 0120A0E3 		mov	r2, #1
+  88:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****         y = y ^ (y << 5);
+  94              		.loc 1 88 0 discriminator 3
+  95 0088 A00820E0 		eor	r0, r0, r0, lsr #17
+  89:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****         /* set data pointer */
+  96              		.loc 1 89 0 discriminator 3
+  97 008c 800220E0 		eor	r0, r0, r0, lsl #5
+  98              	.LVL7:
+  94:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** #else
+  99              		.loc 1 94 0 discriminator 3
+ 100 0090 040086E4 		str	r0, [r6], #4
+ 101              	.LVL8:
+ 102 0094 E7FFFFEA 		b	.L2
+ 103              	.LVL9:
+ 104              	.L7:
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****             *data++ = p_data[2];
+ 105              		.loc 1 112 0
+ 106 0098 0320D3E5 		ldrb	r2, [r3, #3]	@ zero_extendqisi2
+ 107 009c 0020CCE5 		strb	r2, [ip]
+ 108              	.LVL10:
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****             *data++ = p_data[1];
+ 109              		.loc 1 113 0
+ 110 00a0 0220D3E5 		ldrb	r2, [r3, #2]	@ zero_extendqisi2
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** #else
+ 111              		.loc 1 114 0
+ 112 00a4 0130D3E5 		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****             *data++ = p_data[1];
+ 113              		.loc 1 113 0
+ 114 00a8 0120CCE5 		strb	r2, [ip, #1]
+ 115              	.LVL11:
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** #else
+ 116              		.loc 1 114 0
+ 117 00ac 0230CCE5 		strb	r3, [ip, #2]
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** 
+ 118              		.loc 1 120 0
+ 119 00b0 7080BDE8 		pop	{r4, r5, r6, pc}
+ 120              	.LVL12:
+ 121              	.L6:
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****             *data++ = p_data[2];
+ 122              		.loc 1 124 0
+ 123 00b4 0320D3E5 		ldrb	r2, [r3, #3]	@ zero_extendqisi2
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** #else
+ 124              		.loc 1 125 0
+ 125 00b8 0230D3E5 		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****             *data++ = p_data[2];
+ 126              		.loc 1 124 0
+ 127 00bc 0020CCE5 		strb	r2, [ip]
+ 128              	.LVL13:
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** #else
+ 129              		.loc 1 125 0
+ 130 00c0 0130CCE5 		strb	r3, [ip, #1]
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** 
+ 131              		.loc 1 130 0
+ 132 00c4 7080BDE8 		pop	{r4, r5, r6, pc}
+ 133              	.L14:
+ 134              		.align	2
+ 135              	.L13:
+ 136 00c8 00000000 		.word	.LANCHOR0
+ 137              		.cfi_endproc
+ 138              	.LFE1:
+ 140              		.section	.text.mbedtls_hardware_poll,"ax",%progbits
+ 141              		.align	2
+ 142              		.global	mbedtls_hardware_poll
+ 143              		.syntax unified
+ 144              		.arm
+ 145              		.fpu neon
+ 147              	mbedtls_hardware_poll:
+ 148              	.LFB0:
+  44:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     /* unused argument */
+ 149              		.loc 1 44 0
+ 150              		.cfi_startproc
+ 151              		@ args = 0, pretend = 0, frame = 8
+ 152              		@ frame_needed = 0, uses_anonymous_args = 0
+ 153              	.LVL14:
+ 154 0000 F3412DE9 		push	{r0, r1, r4, r5, r6, r7, r8, lr}
+ 155              		.cfi_def_cfa_offset 32
+ 156              		.cfi_offset 4, -24
+ 157              		.cfi_offset 5, -20
+ 158              		.cfi_offset 6, -16
+ 159              		.cfi_offset 7, -12
+ 160              		.cfi_offset 8, -8
+ 161              		.cfi_offset 14, -4
+  50:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** 
+ 162              		.loc 1 50 0
+ 163 0004 0050A0E3 		mov	r5, #0
+ 164 0008 08408DE2 		add	r4, sp, #8
+  44:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     /* unused argument */
+ 165              		.loc 1 44 0
+ 166 000c 0180A0E1 		mov	r8, r1
+  56:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     *olen = sizeof(uint32_t);
+ 167              		.loc 1 56 0
+ 168 0010 0460A0E3 		mov	r6, #4
+  53:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     *olen = 0;
+ 169              		.loc 1 53 0
+ 170 0014 0410A0E3 		mov	r1, #4
+ 171              	.LVL15:
+  50:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** 
+ 172              		.loc 1 50 0
+ 173 0018 045024E5 		str	r5, [r4, #-4]!
+  53:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     *olen = 0;
+ 174              		.loc 1 53 0
+ 175 001c 0400A0E1 		mov	r0, r4
+ 176              	.LVL16:
+  44:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     /* unused argument */
+ 177              		.loc 1 44 0
+ 178 0020 0370A0E1 		mov	r7, r3
+  53:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     *olen = 0;
+ 179              		.loc 1 53 0
+ 180 0024 FEFFFFEB 		bl	get_random_number
+ 181              	.LVL17:
+  56:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c ****     *olen = sizeof(uint32_t);
+ 182              		.loc 1 56 0
+ 183 0028 0620A0E1 		mov	r2, r6
+ 184 002c 0410A0E1 		mov	r1, r4
+ 185 0030 0800A0E1 		mov	r0, r8
+ 186 0034 FEFFFFEB 		bl	memcpy
+ 187              	.LVL18:
+  60:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** 
+ 188              		.loc 1 60 0
+ 189 0038 0500A0E1 		mov	r0, r5
+  57:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** 
+ 190              		.loc 1 57 0
+ 191 003c 006087E5 		str	r6, [r7]
+  60:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\entropy_hardware_poll.c **** 
+ 192              		.loc 1 60 0
+ 193 0040 08D08DE2 		add	sp, sp, #8
+ 194              		.cfi_def_cfa_offset 24
+ 195              		@ sp needed
+ 196 0044 F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 197              		.cfi_endproc
+ 198              	.LFE0:
+ 200              		.section	.data.y.6766,"aw",%progbits
+ 201              		.align	2
+ 202              		.set	.LANCHOR0,. + 0
+ 205              	y.6766:
+ 206 0000 A28CD692 		.word	-1831433054
+ 207              		.text
+ 208              	.Letext0:
+ 209              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 210              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 211              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 212              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 213              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 214              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 215              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 216              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 217              		.file 10 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\src/unity_internals.h"
+ 218              		.file 11 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/task.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 entropy_hardware_poll.c
+C:\Users\a5089698\AppData\Local\Temp\ccJ2gcbh.s:17     .text.get_random_number:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ2gcbh.s:23     .text.get_random_number:00000000 get_random_number
+C:\Users\a5089698\AppData\Local\Temp\ccJ2gcbh.s:136    .text.get_random_number:000000c8 $d
+C:\Users\a5089698\AppData\Local\Temp\ccJ2gcbh.s:141    .text.mbedtls_hardware_poll:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ2gcbh.s:147    .text.mbedtls_hardware_poll:00000000 mbedtls_hardware_poll
+C:\Users\a5089698\AppData\Local\Temp\ccJ2gcbh.s:201    .data.y.6766:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccJ2gcbh.s:205    .data.y.6766:00000000 y.6766
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+xTaskGetTickCount
+cryptogram_sample
+memcpy

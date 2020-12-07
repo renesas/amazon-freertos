@@ -1,0 +1,1974 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"aws_test_tls.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.TEST_Full_TLS_TEAR_DOWN,"ax",%progbits
+  17              		.align	2
+  18              		.global	TEST_Full_TLS_TEAR_DOWN
+  19              		.syntax unified
+  20              		.arm
+  21              		.fpu neon
+  23              	TEST_Full_TLS_TEAR_DOWN:
+  24              	.LFB1:
+  25              		.file 1 "D:/Work/DeviceTester/amazon-freertos/tests/common/tls/aws_test_tls.c"
+   1:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** /*
+   2:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  * Amazon FreeRTOS TLS AFQP V1.1.4
+   3:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  * Copyright (C) 2017 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+   4:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  *
+   5:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  * Permission is hereby granted, free of charge, to any person obtaining a copy of
+   6:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  * this software and associated documentation files (the "Software"), to deal in
+   7:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  * the Software without restriction, including without limitation the rights to
+   8:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+   9:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  * the Software, and to permit persons to whom the Software is furnished to do so,
+  10:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  * subject to the following conditions:
+  11:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  *
+  12:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  * The above copyright notice and this permission notice shall be included in all
+  13:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  * copies or substantial portions of the Software.
+  14:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  *
+  15:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  16:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+  17:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+  18:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+  19:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  20:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  21:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  *
+  22:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  * http://aws.amazon.com/freertos
+  23:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  * http://www.FreeRTOS.org
+  24:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  */
+  25:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+  26:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** /* Standard includes. */
+  27:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** #include <string.h>
+  28:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+  29:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** /* Test framework includes. */
+  30:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** #include "unity_fixture.h"
+  31:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** #include "aws_test_runner.h"
+  32:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+  33:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** /* Secure sockets includes */
+  34:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** #include "aws_secure_sockets.h"
+  35:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+  36:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** /* Credential includes. */
+  37:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** #include "aws_clientcredential.h"
+  38:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** #include "aws_test_tls.h"
+  39:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+  40:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** /* Provisioning include. */
+  41:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** #include "aws_dev_mode_key_provisioning.h"
+  42:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** #include "aws_pkcs11.h"
+  43:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+  44:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+  45:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** /*
+  46:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  * Length of elliptic curve credentials included from aws_clientcredential_keys.h.
+  47:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  */
+  48:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** static const uint32_t tlstestCLIENT_CERTIFICATE_LENGTH_EC = sizeof( tlstestCLIENT_CERTIFICATE_PEM_E
+  49:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** static const uint32_t tlstestCLIENT_PRIVATE_KEY_LENGTH_EC = sizeof( tlstestCLIENT_PRIVATE_KEY_PEM_E
+  50:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+  51:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** /*
+  52:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  * Length of device malformed certificate included from aws_clientcredential_keys.h.
+  53:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  */
+  54:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** static const uint32_t tlstestCLIENT_CERTIFICATE_PEM_MALFORMED_LENGTH = sizeof( tlstestCLIENT_CERTIF
+  55:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+  56:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** /*
+  57:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  * Length of the untrusted credentials included from aws_clientcredential_keys.h.
+  58:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  */
+  59:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** static const uint32_t tlstestCLIENT_UNTRUSTED_CERTIFICATE_PEM_LENGTH = sizeof( tlstestCLIENT_UNTRUS
+  60:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** static const uint32_t tlstestCLIENT_UNTRUSTED_PRIVATE_KEY_PEM_LENGTH = sizeof( tlstestCLIENT_UNTRUS
+  61:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+  62:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** /*
+  63:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  * Length of the BYOC credentials included from aws_clientcredential_keys.h.
+  64:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  */
+  65:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** static const uint32_t tlstestCLIENT_BYOC_CERTIFICATE_PEM_LENGTH = sizeof( tlstestCLIENT_BYOC_CERTIF
+  66:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** static const uint32_t tlstestCLIENT_BYOC_PRIVATE_KEY_PEM_LENGTH = sizeof( tlstestCLIENT_BYOC_PRIVAT
+  67:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** /*-----------------------------------------------------------*/
+  68:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+  69:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** TEST_GROUP( Full_TLS );
+  70:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+  71:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** TEST_SETUP( Full_TLS )
+  72:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** {
+  73:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** }
+  74:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+  75:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** TEST_TEAR_DOWN( Full_TLS )
+  76:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** {
+  26              		.loc 1 76 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              		@ link register save eliminated.
+  31 0000 1EFF2FE1 		bx	lr
+  32              		.cfi_endproc
+  33              	.LFE1:
+  35              		.section	.text.TEST_Full_TLS_AFQP_TLS_ConnectRSA_,"ax",%progbits
+  36              		.align	2
+  37              		.global	TEST_Full_TLS_AFQP_TLS_ConnectRSA_
+  38              		.syntax unified
+  39              		.arm
+  40              		.fpu neon
+  42              	TEST_Full_TLS_AFQP_TLS_ConnectRSA_:
+  43              	.LFB8:
+  77:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** }
+  78:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+  79:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** TEST_GROUP_RUNNER( Full_TLS )
+  80:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** {
+  81:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     RUN_TEST_CASE( Full_TLS, AFQP_TLS_ConnectEC );
+  82:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     RUN_TEST_CASE( Full_TLS, AFQP_TLS_ConnectRSA );
+  83:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     RUN_TEST_CASE( Full_TLS, AFQP_TLS_ConnectMalformedCert );
+  84:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     RUN_TEST_CASE( Full_TLS, AFQP_TLS_ConnectUntrustedCert );
+  85:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     RUN_TEST_CASE( Full_TLS, AFQP_TLS_ConnectBYOCCredentials );
+  86:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** }
+  87:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+  88:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** /*-----------------------------------------------------------*/
+  89:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+  90:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** static Socket_t prvSecureSocketCreate( void )
+  91:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** {
+  92:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     BaseType_t xResult;
+  93:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     Socket_t xSocket;
+  94:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+  95:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xSocket = SOCKETS_Socket( SOCKETS_AF_INET, SOCKETS_SOCK_STREAM, SOCKETS_IPPROTO_TCP );
+  96:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     TEST_ASSERT_NOT_EQUAL( xSocket, SOCKETS_INVALID_SOCKET );
+  97:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+  98:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xResult = SOCKETS_SetSockOpt( xSocket, 0, SOCKETS_SO_REQUIRE_TLS, NULL, 0 );
+  99:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     TEST_ASSERT_EQUAL_INT32_MESSAGE( SOCKETS_ERROR_NONE, xResult, "Socket set sock opt require tls 
+ 100:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 101:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     return xSocket;
+ 102:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** }
+ 103:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** /*-----------------------------------------------------------*/
+ 104:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 105:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** static void prvSecureSocketClose( Socket_t xSocket )
+ 106:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** {
+ 107:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     BaseType_t xResult;
+ 108:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 109:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xResult = SOCKETS_Close( xSocket );
+ 110:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     TEST_ASSERT_EQUAL_INT32_MESSAGE( SOCKETS_ERROR_NONE, xResult, "Socket failed to close" );
+ 111:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** }
+ 112:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** /*-----------------------------------------------------------*/
+ 113:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 114:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** static void prvConnectWithProvisioning( ProvisioningParams_t * pxProvisioningParams,
+ 115:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****                                         BaseType_t xConnectExpectedToSucceed )
+ 116:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** {
+ 117:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     const char * pcAWSIoTAddress = clientcredentialMQTT_BROKER_ENDPOINT;
+ 118:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     uint16_t usAWSIoTPort = clientcredentialMQTT_BROKER_PORT;
+ 119:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     SocketsSockaddr_t xMQTTServerAddress = { 0 };
+ 120:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     Socket_t xSocket;
+ 121:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     BaseType_t xSocketOpen = pdFALSE;
+ 122:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     BaseType_t xResult;
+ 123:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 124:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     if( TEST_PROTECT() )
+ 125:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     {
+ 126:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         /* Provision the device with the supplied parameters. */
+ 127:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         vAlternateKeyProvisioning( pxProvisioningParams );
+ 128:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 129:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         /* Create socket. */
+ 130:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xSocket = SOCKETS_Socket( SOCKETS_AF_INET, SOCKETS_SOCK_STREAM, SOCKETS_IPPROTO_TCP );
+ 131:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         TEST_ASSERT_NOT_EQUAL( xSocket, SOCKETS_INVALID_SOCKET );
+ 132:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xSocketOpen = pdTRUE;
+ 133:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 134:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         /* Mark the socket as secure. */
+ 135:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xResult = SOCKETS_SetSockOpt( xSocket, 0, SOCKETS_SO_REQUIRE_TLS, NULL, 0 );
+ 136:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         TEST_ASSERT_EQUAL_INT32_MESSAGE( SOCKETS_ERROR_NONE, xResult, "Socket set sock opt require 
+ 137:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 138:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xResult = SOCKETS_SetSockOpt( xSocket, 0, SOCKETS_SO_SERVER_NAME_INDICATION, pcAWSIoTAddres
+ 139:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         TEST_ASSERT_EQUAL_INT32_MESSAGE( SOCKETS_ERROR_NONE, xResult, "Socket set sock opt server n
+ 140:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 141:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         /* DNS Lookup. */
+ 142:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xMQTTServerAddress.ulAddress = SOCKETS_GetHostByName( pcAWSIoTAddress );
+ 143:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 144:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         /* Connect. */
+ 145:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xMQTTServerAddress.usPort = SOCKETS_htons( usAWSIoTPort );
+ 146:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xMQTTServerAddress.ucSocketDomain = SOCKETS_AF_INET;
+ 147:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xResult = SOCKETS_Connect( xSocket, &xMQTTServerAddress, sizeof( xMQTTServerAddress ) );
+ 148:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 149:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         /* Check that the connect result is as expected. */
+ 150:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         if( xConnectExpectedToSucceed == pdTRUE )
+ 151:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         {
+ 152:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             TEST_ASSERT_EQUAL_INT32_MESSAGE( SOCKETS_ERROR_NONE, xResult, "Socket connect failed wh
+ 153:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 154:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             /* If the connect succeeded, shutdown the socket. */
+ 155:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             xResult = SOCKETS_Shutdown( xSocket, SOCKETS_SHUT_RDWR );
+ 156:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             TEST_ASSERT_EQUAL_INT32_MESSAGE( SOCKETS_ERROR_NONE, xResult, "Socket disconnect failed
+ 157:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         }
+ 158:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         else
+ 159:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         {
+ 160:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             TEST_ASSERT_LESS_THAN_INT32_MESSAGE( SOCKETS_ERROR_NONE, xResult, "Socket connect succe
+ 161:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         }
+ 162:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     }
+ 163:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 164:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     /* Make sure to close the socket. */
+ 165:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     if( TEST_PROTECT() )
+ 166:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     {
+ 167:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         if( xSocketOpen == pdTRUE )
+ 168:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         {
+ 169:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             xResult = SOCKETS_Close( xSocket );
+ 170:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             TEST_ASSERT_EQUAL_INT32_MESSAGE( SOCKETS_ERROR_NONE, xResult, "Socket failed to close" 
+ 171:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             xSocketOpen = pdFALSE;
+ 172:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         }
+ 173:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     }
+ 174:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 175:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     /* Regardless of whatever failed above, re-provision the
+ 176:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****      * device with default RSA certs so that subsequent tests
+ 177:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****      * are not changed. */
+ 178:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     vDevModeKeyProvisioning();
+ 179:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** }
+ 180:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** /*-----------------------------------------------------------*/
+ 181:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 182:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** /* The AWS IoT Core may accept the connection of untrusted or malformed certificates. This function
+ 183:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  * will connect to the MQTT broker endpoint, send data, then verify that the server closes the conn
+ 184:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****  * following. */
+ 185:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** static void prvExpectFailAfterDataSentWithProvisioning(ProvisioningParams_t * pxProvisioningParams)
+ 186:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** {
+ 187:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     const char * pcAWSIoTAddress = clientcredentialMQTT_BROKER_ENDPOINT;
+ 188:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     uint16_t usAWSIoTPort = clientcredentialMQTT_BROKER_PORT;
+ 189:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     SocketsSockaddr_t xMQTTServerAddress = { 0 };
+ 190:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     Socket_t xSocket;
+ 191:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     BaseType_t xSocketOpen = pdFALSE;
+ 192:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     BaseType_t xResult;
+ 193:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     char * ucRecvBuffer = &cBuffer[0];
+ 194:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 195:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     if (TEST_PROTECT())
+ 196:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     {
+ 197:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         /* Provision the device with the supplied parameters. */
+ 198:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         vAlternateKeyProvisioning(pxProvisioningParams);
+ 199:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 200:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         /* Create socket. */
+ 201:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xSocket = SOCKETS_Socket(SOCKETS_AF_INET, SOCKETS_SOCK_STREAM, SOCKETS_IPPROTO_TCP);
+ 202:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         TEST_ASSERT_NOT_EQUAL(xSocket, SOCKETS_INVALID_SOCKET);
+ 203:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xSocketOpen = pdTRUE;
+ 204:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 205:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         /* Mark the socket as secure. */
+ 206:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xResult = SOCKETS_SetSockOpt(xSocket, 0, SOCKETS_SO_REQUIRE_TLS, NULL, 0);
+ 207:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         TEST_ASSERT_EQUAL_INT32_MESSAGE(SOCKETS_ERROR_NONE, xResult, "Socket set sock opt require t
+ 208:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 209:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xResult = SOCKETS_SetSockOpt(xSocket, 0, SOCKETS_SO_SERVER_NAME_INDICATION, pcAWSIoTAddress
+ 210:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         TEST_ASSERT_EQUAL_INT32_MESSAGE(SOCKETS_ERROR_NONE, xResult, "Socket set sock opt server na
+ 211:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 212:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         /* Connect. */
+ 213:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xMQTTServerAddress.usPort = SOCKETS_htons(usAWSIoTPort);
+ 214:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xMQTTServerAddress.ucSocketDomain = SOCKETS_AF_INET;
+ 215:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xResult = SOCKETS_Connect(xSocket, &xMQTTServerAddress, sizeof(xMQTTServerAddress));
+ 216:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 217:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         /* If the socket connection passes we want to make sure the AWS IoT Core MQTT broker server
+ 218:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****          * connection after we send data to it. */
+ 219:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         if (xResult == SOCKETS_ERROR_NONE)
+ 220:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         {
+ 221:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             /* Assuming the network is up, we should be able to push data out to the AWS IoT broker
+ 222:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             xResult = SOCKETS_Send(xSocket, pcAWSIoTAddress, strlen(pcAWSIoTAddress), 0);
+ 223:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             TEST_ASSERT_GREATER_THAN_INT32_MESSAGE(0, xResult, "Socket was not able to send.");
+ 224:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 225:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             /* The AWS IoT broker endpoint should have close the connection with the reciept of the
+ 226:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             xResult = SOCKETS_Recv(xSocket, ucRecvBuffer, testrunnerBUFFER_SIZE, 0);
+ 227:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             configPRINTF(("A negative result is expected from SOCKETS_Recv and we got: %d\r\n", xRe
+ 228:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             TEST_ASSERT_LESS_THAN_INT32_MESSAGE(0, xResult, "SOCKETS_Recv passed or timed out when 
+ 229:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         }
+ 230:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         /* Pass this portion if the socket connection fails. */
+ 231:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     }
+ 232:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 233:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     /* Make sure to close the socket. */
+ 234:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     if (TEST_PROTECT())
+ 235:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     {
+ 236:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         if (xSocketOpen == pdTRUE)
+ 237:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         {
+ 238:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             /* Always Shutdown the socket.*/
+ 239:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             SOCKETS_Shutdown(xSocket, SOCKETS_SHUT_RDWR);
+ 240:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 241:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             xResult = SOCKETS_Close(xSocket);
+ 242:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             TEST_ASSERT_EQUAL_INT32_MESSAGE(SOCKETS_ERROR_NONE, xResult, "Socket failed to close");
+ 243:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             xSocketOpen = pdFALSE;
+ 244:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         }
+ 245:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     }
+ 246:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 247:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     /* Regardless of whatever failed above, re-provision the
+ 248:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****      * device with default RSA certs so that subsequent tests
+ 249:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****      * are not changed. */
+ 250:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     vDevModeKeyProvisioning();
+ 251:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** }
+ 252:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** /*-----------------------------------------------------------*/
+ 253:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 254:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** TEST( Full_TLS, AFQP_TLS_ConnectRSA )
+ 255:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** {
+  44              		.loc 1 255 0
+  45              		.cfi_startproc
+  46              		@ args = 0, pretend = 0, frame = 16
+  47              		@ frame_needed = 0, uses_anonymous_args = 0
+  48              	.LVL0:
+  49              		.loc 1 255 0
+  50 0000 30402DE9 		push	{r4, r5, lr}
+  51              		.cfi_def_cfa_offset 12
+  52              		.cfi_offset 4, -12
+  53              		.cfi_offset 5, -8
+  54              		.cfi_offset 14, -4
+ 256:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     const char * pcAWSIoTAddress = clientcredentialMQTT_BROKER_ENDPOINT;
+ 257:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     uint16_t usAWSIoTPort = clientcredentialMQTT_BROKER_PORT;
+ 258:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     SocketsSockaddr_t xMQTTServerAddress = { 0 };
+  55              		.loc 1 258 0
+  56 0004 0030A0E3 		mov	r3, #0
+ 255:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     const char * pcAWSIoTAddress = clientcredentialMQTT_BROKER_ENDPOINT;
+  57              		.loc 1 255 0
+  58 0008 1CD04DE2 		sub	sp, sp, #28
+  59              		.cfi_def_cfa_offset 40
+ 259:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     Socket_t xSocket;
+ 260:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     BaseType_t xResult;
+ 261:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 262:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xMQTTServerAddress.ulAddress = SOCKETS_GetHostByName( pcAWSIoTAddress );
+  60              		.loc 1 262 0
+  61 000c 3C019FE5 		ldr	r0, .L11
+ 258:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     Socket_t xSocket;
+  62              		.loc 1 258 0
+  63 0010 10308DE5 		str	r3, [sp, #16]
+  64 0014 14308DE5 		str	r3, [sp, #20]
+  65              		.loc 1 262 0
+  66 0018 FEFFFFEB 		bl	SOCKETS_GetHostByName
+  67              	.LVL1:
+ 263:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xMQTTServerAddress.usPort = SOCKETS_htons( usAWSIoTPort );
+  68              		.loc 1 263 0
+  69 001c 30319FE5 		ldr	r3, .L11+4
+  70              	.LBB6:
+  71              	.LBB7:
+  95:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     TEST_ASSERT_NOT_EQUAL( xSocket, SOCKETS_INVALID_SOCKET );
+  72              		.loc 1 95 0
+  73 0020 0620A0E3 		mov	r2, #6
+  74              	.LBE7:
+  75              	.LBE6:
+ 262:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xMQTTServerAddress.usPort = SOCKETS_htons( usAWSIoTPort );
+  76              		.loc 1 262 0
+  77 0024 14008DE5 		str	r0, [sp, #20]
+  78              	.LBB11:
+  79              	.LBB8:
+  95:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     TEST_ASSERT_NOT_EQUAL( xSocket, SOCKETS_INVALID_SOCKET );
+  80              		.loc 1 95 0
+  81 0028 0110A0E3 		mov	r1, #1
+  82              	.LBE8:
+  83              	.LBE11:
+ 264:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xMQTTServerAddress.ucSocketDomain = SOCKETS_AF_INET;
+  84              		.loc 1 264 0
+  85 002c 0200A0E3 		mov	r0, #2
+ 263:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xMQTTServerAddress.ucSocketDomain = SOCKETS_AF_INET;
+  86              		.loc 1 263 0
+  87 0030 B231CDE1 		strh	r3, [sp, #18]	@ movhi
+  88              		.loc 1 264 0
+  89 0034 1100CDE5 		strb	r0, [sp, #17]
+  90              	.LBB12:
+  91              	.LBB9:
+  95:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     TEST_ASSERT_NOT_EQUAL( xSocket, SOCKETS_INVALID_SOCKET );
+  92              		.loc 1 95 0
+  93 0038 FEFFFFEB 		bl	SOCKETS_Socket
+  94              	.LVL2:
+  96:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+  95              		.loc 1 96 0
+  96 003c 010070E3 		cmn	r0, #1
+  95:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     TEST_ASSERT_NOT_EQUAL( xSocket, SOCKETS_INVALID_SOCKET );
+  97              		.loc 1 95 0
+  98 0040 0C008DE5 		str	r0, [sp, #12]
+  99              	.LVL3:
+  96:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 100              		.loc 1 96 0
+ 101 0044 3D00000A 		beq	.L3
+ 102              	.LVL4:
+ 103              	.L5:
+  98:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     TEST_ASSERT_EQUAL_INT32_MESSAGE( SOCKETS_ERROR_NONE, xResult, "Socket set sock opt require tls 
+ 104              		.loc 1 98 0
+ 105 0048 0040A0E3 		mov	r4, #0
+ 106 004c 0820A0E3 		mov	r2, #8
+ 107 0050 0430A0E1 		mov	r3, r4
+ 108 0054 0410A0E1 		mov	r1, r4
+ 109 0058 00408DE5 		str	r4, [sp]
+ 110 005c 0C009DE5 		ldr	r0, [sp, #12]
+ 111 0060 FEFFFFEB 		bl	SOCKETS_SetSockOpt
+ 112              	.LVL5:
+  99:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 113              		.loc 1 99 0
+ 114 0064 1430A0E3 		mov	r3, #20
+ 115 0068 0010A0E1 		mov	r1, r0
+ 116 006c 00308DE5 		str	r3, [sp]
+ 117 0070 0400A0E1 		mov	r0, r4
+ 118              	.LVL6:
+ 119 0074 6330A0E3 		mov	r3, #99
+ 120 0078 D8209FE5 		ldr	r2, .L11+8
+ 121 007c FEFFFFEB 		bl	UnityAssertEqualNumber
+ 122              	.LVL7:
+ 123              	.LBE9:
+ 124              	.LBE12:
+ 265:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 266:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xSocket = prvSecureSocketCreate();
+ 267:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 268:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     if( TEST_PROTECT() )
+ 125              		.loc 1 268 0
+ 126 0080 D4009FE5 		ldr	r0, .L11+12
+ 127 0084 FEFFFFEB 		bl	setjmp
+ 128              	.LVL8:
+ 129 0088 004050E2 		subs	r4, r0, #0
+ 130 008c 2000001A 		bne	.L8
+ 269:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     {
+ 270:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xResult = SOCKETS_SetSockOpt( xSocket, 0, SOCKETS_SO_SERVER_NAME_INDICATION, pcAWSIoTAddres
+ 131              		.loc 1 270 0
+ 132 0090 2F30A0E3 		mov	r3, #47
+ 271:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         TEST_ASSERT_EQUAL_INT32_MESSAGE( SOCKETS_ERROR_NONE, xResult, "Socket set sock opt server n
+ 133              		.loc 1 271 0
+ 134 0094 1450A0E3 		mov	r5, #20
+ 270:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         TEST_ASSERT_EQUAL_INT32_MESSAGE( SOCKETS_ERROR_NONE, xResult, "Socket set sock opt server n
+ 135              		.loc 1 270 0
+ 136 0098 00308DE5 		str	r3, [sp]
+ 137 009c 0620A0E3 		mov	r2, #6
+ 138 00a0 A8309FE5 		ldr	r3, .L11
+ 139 00a4 0410A0E1 		mov	r1, r4
+ 140 00a8 0C009DE5 		ldr	r0, [sp, #12]
+ 141 00ac FEFFFFEB 		bl	SOCKETS_SetSockOpt
+ 142              	.LVL9:
+ 143              		.loc 1 271 0
+ 144 00b0 0F3100E3 		movw	r3, #271
+ 145 00b4 0010A0E1 		mov	r1, r0
+ 146 00b8 A0209FE5 		ldr	r2, .L11+16
+ 147 00bc 0400A0E1 		mov	r0, r4
+ 148              	.LVL10:
+ 149 00c0 00508DE5 		str	r5, [sp]
+ 150 00c4 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 151              	.LVL11:
+ 272:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 273:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xResult = SOCKETS_Connect( xSocket, &xMQTTServerAddress, sizeof( xMQTTServerAddress ) );
+ 152              		.loc 1 273 0
+ 153 00c8 0820A0E3 		mov	r2, #8
+ 154 00cc 10108DE2 		add	r1, sp, #16
+ 155 00d0 0C009DE5 		ldr	r0, [sp, #12]
+ 156 00d4 FEFFFFEB 		bl	SOCKETS_Connect
+ 157              	.LVL12:
+ 274:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         TEST_ASSERT_EQUAL_INT32_MESSAGE( SOCKETS_ERROR_NONE, xResult, "Socket connect failed" );
+ 158              		.loc 1 274 0
+ 159 00d8 123100E3 		movw	r3, #274
+ 160 00dc 80209FE5 		ldr	r2, .L11+20
+ 161 00e0 0010A0E1 		mov	r1, r0
+ 162 00e4 00508DE5 		str	r5, [sp]
+ 163 00e8 0400A0E1 		mov	r0, r4
+ 164              	.LVL13:
+ 165 00ec FEFFFFEB 		bl	UnityAssertEqualNumber
+ 166              	.LVL14:
+ 275:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 276:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xResult = SOCKETS_Shutdown( xSocket, SOCKETS_SHUT_RDWR );
+ 167              		.loc 1 276 0
+ 168 00f0 0210A0E3 		mov	r1, #2
+ 169 00f4 0C009DE5 		ldr	r0, [sp, #12]
+ 170 00f8 FEFFFFEB 		bl	SOCKETS_Shutdown
+ 171              	.LVL15:
+ 277:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         TEST_ASSERT_EQUAL_INT32_MESSAGE( SOCKETS_ERROR_NONE, xResult, "Socket disconnect failed" );
+ 172              		.loc 1 277 0
+ 173 00fc 00508DE5 		str	r5, [sp]
+ 174 0100 0010A0E1 		mov	r1, r0
+ 175 0104 153100E3 		movw	r3, #277
+ 176 0108 58209FE5 		ldr	r2, .L11+24
+ 177 010c 0400A0E1 		mov	r0, r4
+ 178              	.LVL16:
+ 179 0110 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 180              	.LVL17:
+ 181              	.L8:
+ 182              	.LBB13:
+ 183              	.LBB14:
+ 109:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     TEST_ASSERT_EQUAL_INT32_MESSAGE( SOCKETS_ERROR_NONE, xResult, "Socket failed to close" );
+ 184              		.loc 1 109 0
+ 185 0114 0C009DE5 		ldr	r0, [sp, #12]
+ 186 0118 FEFFFFEB 		bl	SOCKETS_Close
+ 187              	.LVL18:
+ 110:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** }
+ 188              		.loc 1 110 0
+ 189 011c 1430A0E3 		mov	r3, #20
+ 109:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     TEST_ASSERT_EQUAL_INT32_MESSAGE( SOCKETS_ERROR_NONE, xResult, "Socket failed to close" );
+ 190              		.loc 1 109 0
+ 191 0120 0010A0E1 		mov	r1, r0
+ 192              	.LVL19:
+ 110:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** }
+ 193              		.loc 1 110 0
+ 194 0124 00308DE5 		str	r3, [sp]
+ 195 0128 0000A0E3 		mov	r0, #0
+ 196              	.LVL20:
+ 197 012c 6E30A0E3 		mov	r3, #110
+ 198 0130 34209FE5 		ldr	r2, .L11+28
+ 199 0134 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 200              	.LVL21:
+ 201              	.LBE14:
+ 202              	.LBE13:
+ 278:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     }
+ 279:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 280:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     prvSecureSocketClose( xSocket );
+ 281:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** }
+ 203              		.loc 1 281 0
+ 204 0138 1CD08DE2 		add	sp, sp, #28
+ 205              		.cfi_remember_state
+ 206              		.cfi_def_cfa_offset 12
+ 207              		@ sp needed
+ 208 013c 3080BDE8 		pop	{r4, r5, pc}
+ 209              	.LVL22:
+ 210              	.L3:
+ 211              		.cfi_restore_state
+ 212              	.LBB15:
+ 213              	.LBB10:
+  96:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 214              		.loc 1 96 0
+ 215 0140 6010A0E3 		mov	r1, #96
+ 216 0144 24009FE5 		ldr	r0, .L11+32
+ 217              	.LVL23:
+ 218 0148 FEFFFFEB 		bl	UnityFail
+ 219              	.LVL24:
+ 220 014c BDFFFFEA 		b	.L5
+ 221              	.L12:
+ 222              		.align	2
+ 223              	.L11:
+ 224 0150 00000000 		.word	.LANCHOR0
+ 225 0154 22B3FFFF 		.word	-19678
+ 226 0158 14000000 		.word	.LC1
+ 227 015c 28000000 		.word	Unity+40
+ 228 0160 3B000000 		.word	.LC2
+ 229 0164 6D000000 		.word	.LC3
+ 230 0168 83000000 		.word	.LC4
+ 231 016c 9C000000 		.word	.LC5
+ 232 0170 00000000 		.word	.LC0
+ 233              	.LBE10:
+ 234              	.LBE15:
+ 235              		.cfi_endproc
+ 236              	.LFE8:
+ 238              		.section	.text.prvExpectFailAfterDataSentWithProvisioning.constprop.0,"ax",%progbits
+ 239              		.align	2
+ 240              		.syntax unified
+ 241              		.arm
+ 242              		.fpu neon
+ 244              	prvExpectFailAfterDataSentWithProvisioning.constprop.0:
+ 245              	.LFB20:
+ 185:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** {
+ 246              		.loc 1 185 0
+ 247              		.cfi_startproc
+ 248              		@ args = 0, pretend = 0, frame = 24
+ 249              		@ frame_needed = 0, uses_anonymous_args = 0
+ 250              	.LVL25:
+ 251 0000 F0402DE9 		push	{r4, r5, r6, r7, lr}
+ 252              		.cfi_def_cfa_offset 20
+ 253              		.cfi_offset 4, -20
+ 254              		.cfi_offset 5, -16
+ 255              		.cfi_offset 6, -12
+ 256              		.cfi_offset 7, -8
+ 257              		.cfi_offset 14, -4
+ 258 0004 24D04DE2 		sub	sp, sp, #36
+ 259              		.cfi_def_cfa_offset 56
+ 185:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** {
+ 260              		.loc 1 185 0
+ 261 0008 14008DE5 		str	r0, [sp, #20]
+ 189:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     Socket_t xSocket;
+ 262              		.loc 1 189 0
+ 263 000c 0000A0E3 		mov	r0, #0
+ 264              	.LVL26:
+ 265 0010 18008DE5 		str	r0, [sp, #24]
+ 266 0014 1C008DE5 		str	r0, [sp, #28]
+ 267              	.LVL27:
+ 191:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     BaseType_t xResult;
+ 268              		.loc 1 191 0
+ 269 0018 10008DE5 		str	r0, [sp, #16]
+ 195:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     {
+ 270              		.loc 1 195 0
+ 271 001c A4019FE5 		ldr	r0, .L22
+ 272 0020 FEFFFFEB 		bl	setjmp
+ 273              	.LVL28:
+ 274 0024 000050E3 		cmp	r0, #0
+ 275 0028 4B00001A 		bne	.L15
+ 198:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 276              		.loc 1 198 0
+ 277 002c 14009DE5 		ldr	r0, [sp, #20]
+ 278 0030 FEFFFFEB 		bl	vAlternateKeyProvisioning
+ 279              	.LVL29:
+ 201:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         TEST_ASSERT_NOT_EQUAL(xSocket, SOCKETS_INVALID_SOCKET);
+ 280              		.loc 1 201 0
+ 281 0034 0620A0E3 		mov	r2, #6
+ 282 0038 0110A0E3 		mov	r1, #1
+ 283 003c 0200A0E3 		mov	r0, #2
+ 284 0040 FEFFFFEB 		bl	SOCKETS_Socket
+ 285              	.LVL30:
+ 202:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xSocketOpen = pdTRUE;
+ 286              		.loc 1 202 0
+ 287 0044 010070E3 		cmn	r0, #1
+ 201:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         TEST_ASSERT_NOT_EQUAL(xSocket, SOCKETS_INVALID_SOCKET);
+ 288              		.loc 1 201 0
+ 289 0048 0040A0E1 		mov	r4, r0
+ 290 004c 0C008DE5 		str	r0, [sp, #12]
+ 291              	.LVL31:
+ 202:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xSocketOpen = pdTRUE;
+ 292              		.loc 1 202 0
+ 293 0050 5800000A 		beq	.L16
+ 294              	.LVL32:
+ 295              	.L18:
+ 206:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         TEST_ASSERT_EQUAL_INT32_MESSAGE(SOCKETS_ERROR_NONE, xResult, "Socket set sock opt require t
+ 296              		.loc 1 206 0
+ 297 0054 0050A0E3 		mov	r5, #0
+ 203:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 298              		.loc 1 203 0
+ 299 0058 0130A0E3 		mov	r3, #1
+ 206:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         TEST_ASSERT_EQUAL_INT32_MESSAGE(SOCKETS_ERROR_NONE, xResult, "Socket set sock opt require t
+ 300              		.loc 1 206 0
+ 301 005c 0510A0E1 		mov	r1, r5
+ 203:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 302              		.loc 1 203 0
+ 303 0060 10308DE5 		str	r3, [sp, #16]
+ 206:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         TEST_ASSERT_EQUAL_INT32_MESSAGE(SOCKETS_ERROR_NONE, xResult, "Socket set sock opt require t
+ 304              		.loc 1 206 0
+ 305 0064 00508DE5 		str	r5, [sp]
+ 306 0068 0530A0E1 		mov	r3, r5
+ 307 006c 0820A0E3 		mov	r2, #8
+ 207:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 308              		.loc 1 207 0
+ 309 0070 1460A0E3 		mov	r6, #20
+ 206:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         TEST_ASSERT_EQUAL_INT32_MESSAGE(SOCKETS_ERROR_NONE, xResult, "Socket set sock opt require t
+ 310              		.loc 1 206 0
+ 311 0074 0400A0E1 		mov	r0, r4
+ 209:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         TEST_ASSERT_EQUAL_INT32_MESSAGE(SOCKETS_ERROR_NONE, xResult, "Socket set sock opt server na
+ 312              		.loc 1 209 0
+ 313 0078 4C719FE5 		ldr	r7, .L22+4
+ 206:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         TEST_ASSERT_EQUAL_INT32_MESSAGE(SOCKETS_ERROR_NONE, xResult, "Socket set sock opt require t
+ 314              		.loc 1 206 0
+ 315 007c FEFFFFEB 		bl	SOCKETS_SetSockOpt
+ 316              	.LVL33:
+ 207:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 317              		.loc 1 207 0
+ 318 0080 CF30A0E3 		mov	r3, #207
+ 319 0084 0010A0E1 		mov	r1, r0
+ 320 0088 40219FE5 		ldr	r2, .L22+8
+ 321 008c 0500A0E1 		mov	r0, r5
+ 322              	.LVL34:
+ 323 0090 00608DE5 		str	r6, [sp]
+ 324 0094 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 325              	.LVL35:
+ 209:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         TEST_ASSERT_EQUAL_INT32_MESSAGE(SOCKETS_ERROR_NONE, xResult, "Socket set sock opt server na
+ 326              		.loc 1 209 0
+ 327 0098 2F30A0E3 		mov	r3, #47
+ 328 009c 0510A0E1 		mov	r1, r5
+ 329 00a0 00308DE5 		str	r3, [sp]
+ 330 00a4 0620A0E3 		mov	r2, #6
+ 331 00a8 0730A0E1 		mov	r3, r7
+ 332 00ac 0400A0E1 		mov	r0, r4
+ 333 00b0 FEFFFFEB 		bl	SOCKETS_SetSockOpt
+ 334              	.LVL36:
+ 210:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 335              		.loc 1 210 0
+ 336 00b4 D230A0E3 		mov	r3, #210
+ 337 00b8 0010A0E1 		mov	r1, r0
+ 338 00bc 10219FE5 		ldr	r2, .L22+12
+ 339 00c0 0500A0E1 		mov	r0, r5
+ 340              	.LVL37:
+ 341 00c4 00608DE5 		str	r6, [sp]
+ 342 00c8 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 343              	.LVL38:
+ 213:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xMQTTServerAddress.ucSocketDomain = SOCKETS_AF_INET;
+ 344              		.loc 1 213 0
+ 345 00cc 04319FE5 		ldr	r3, .L22+16
+ 215:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 346              		.loc 1 215 0
+ 347 00d0 0820A0E3 		mov	r2, #8
+ 348 00d4 18108DE2 		add	r1, sp, #24
+ 349 00d8 0400A0E1 		mov	r0, r4
+ 213:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xMQTTServerAddress.ucSocketDomain = SOCKETS_AF_INET;
+ 350              		.loc 1 213 0
+ 351 00dc BA31CDE1 		strh	r3, [sp, #26]	@ movhi
+ 214:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xResult = SOCKETS_Connect(xSocket, &xMQTTServerAddress, sizeof(xMQTTServerAddress));
+ 352              		.loc 1 214 0
+ 353 00e0 0230A0E3 		mov	r3, #2
+ 354 00e4 1930CDE5 		strb	r3, [sp, #25]
+ 215:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 355              		.loc 1 215 0
+ 356 00e8 FEFFFFEB 		bl	SOCKETS_Connect
+ 357              	.LVL39:
+ 219:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         {
+ 358              		.loc 1 219 0
+ 359 00ec 005050E2 		subs	r5, r0, #0
+ 360 00f0 1900001A 		bne	.L15
+ 222:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             TEST_ASSERT_GREATER_THAN_INT32_MESSAGE(0, xResult, "Socket was not able to send.");
+ 361              		.loc 1 222 0
+ 362 00f4 0530A0E1 		mov	r3, r5
+ 363 00f8 2E20A0E3 		mov	r2, #46
+ 364 00fc 0710A0E1 		mov	r1, r7
+ 365 0100 0400A0E1 		mov	r0, r4
+ 366              	.LVL40:
+ 367 0104 FEFFFFEB 		bl	SOCKETS_Send
+ 368              	.LVL41:
+ 223:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 369              		.loc 1 223 0
+ 370 0108 DF30A0E3 		mov	r3, #223
+ 371 010c 0010A0E1 		mov	r1, r0
+ 372 0110 C4209FE5 		ldr	r2, .L22+20
+ 373 0114 0500A0E1 		mov	r0, r5
+ 374              	.LVL42:
+ 375 0118 00608DE5 		str	r6, [sp]
+ 376 011c FEFFFFEB 		bl	UnityAssertGreaterNumber
+ 377              	.LVL43:
+ 226:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             configPRINTF(("A negative result is expected from SOCKETS_Recv and we got: %d\r\n", xRe
+ 378              		.loc 1 226 0
+ 379 0120 0530A0E1 		mov	r3, r5
+ 380 0124 FA2EA0E3 		mov	r2, #4000
+ 381 0128 B0109FE5 		ldr	r1, .L22+24
+ 382 012c 0400A0E1 		mov	r0, r4
+ 383 0130 FEFFFFEB 		bl	SOCKETS_Recv
+ 384              	.LVL44:
+ 227:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             TEST_ASSERT_LESS_THAN_INT32_MESSAGE(0, xResult, "SOCKETS_Recv passed or timed out when 
+ 385              		.loc 1 227 0
+ 386 0134 0010A0E1 		mov	r1, r0
+ 226:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             configPRINTF(("A negative result is expected from SOCKETS_Recv and we got: %d\r\n", xRe
+ 387              		.loc 1 226 0
+ 388 0138 0040A0E1 		mov	r4, r0
+ 389              	.LVL45:
+ 227:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             TEST_ASSERT_LESS_THAN_INT32_MESSAGE(0, xResult, "SOCKETS_Recv passed or timed out when 
+ 390              		.loc 1 227 0
+ 391 013c A0009FE5 		ldr	r0, .L22+28
+ 392              	.LVL46:
+ 393 0140 FEFFFFEB 		bl	vLoggingPrintf
+ 394              	.LVL47:
+ 228:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         }
+ 395              		.loc 1 228 0
+ 396 0144 00608DE5 		str	r6, [sp]
+ 397 0148 E430A0E3 		mov	r3, #228
+ 398 014c 94209FE5 		ldr	r2, .L22+32
+ 399 0150 0410A0E1 		mov	r1, r4
+ 400 0154 0500A0E1 		mov	r0, r5
+ 401 0158 FEFFFFEB 		bl	UnityAssertSmallerNumber
+ 402              	.LVL48:
+ 403              	.L15:
+ 234:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     {
+ 404              		.loc 1 234 0
+ 405 015c 64009FE5 		ldr	r0, .L22
+ 406 0160 FEFFFFEB 		bl	setjmp
+ 407              	.LVL49:
+ 236:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         {
+ 408              		.loc 1 236 0
+ 409 0164 10309DE5 		ldr	r3, [sp, #16]
+ 410 0168 000050E3 		cmp	r0, #0
+ 411 016c 0030A013 		movne	r3, #0
+ 412 0170 01300302 		andeq	r3, r3, #1
+ 413 0174 000053E3 		cmp	r3, #0
+ 414 0178 0B00000A 		beq	.L19
+ 239:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 415              		.loc 1 239 0
+ 416 017c 0210A0E3 		mov	r1, #2
+ 417 0180 0C009DE5 		ldr	r0, [sp, #12]
+ 418 0184 FEFFFFEB 		bl	SOCKETS_Shutdown
+ 419              	.LVL50:
+ 241:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             TEST_ASSERT_EQUAL_INT32_MESSAGE(SOCKETS_ERROR_NONE, xResult, "Socket failed to close");
+ 420              		.loc 1 241 0
+ 421 0188 0C009DE5 		ldr	r0, [sp, #12]
+ 422 018c FEFFFFEB 		bl	SOCKETS_Close
+ 423              	.LVL51:
+ 242:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             xSocketOpen = pdFALSE;
+ 424              		.loc 1 242 0
+ 425 0190 1430A0E3 		mov	r3, #20
+ 426 0194 0010A0E1 		mov	r1, r0
+ 427 0198 00308DE5 		str	r3, [sp]
+ 428 019c 0000A0E3 		mov	r0, #0
+ 429              	.LVL52:
+ 430 01a0 F230A0E3 		mov	r3, #242
+ 431 01a4 40209FE5 		ldr	r2, .L22+36
+ 432 01a8 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 433              	.LVL53:
+ 434              	.L19:
+ 250:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** }
+ 435              		.loc 1 250 0
+ 436 01ac FEFFFFEB 		bl	vDevModeKeyProvisioning
+ 437              	.LVL54:
+ 251:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** /*-----------------------------------------------------------*/
+ 438              		.loc 1 251 0
+ 439 01b0 24D08DE2 		add	sp, sp, #36
+ 440              		.cfi_remember_state
+ 441              		.cfi_def_cfa_offset 20
+ 442              		@ sp needed
+ 443 01b4 F080BDE8 		pop	{r4, r5, r6, r7, pc}
+ 444              	.LVL55:
+ 445              	.L16:
+ 446              		.cfi_restore_state
+ 202:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xSocketOpen = pdTRUE;
+ 447              		.loc 1 202 0
+ 448 01b8 CA10A0E3 		mov	r1, #202
+ 449 01bc 2C009FE5 		ldr	r0, .L22+40
+ 450              	.LVL56:
+ 451 01c0 FEFFFFEB 		bl	UnityFail
+ 452              	.LVL57:
+ 453 01c4 A2FFFFEA 		b	.L18
+ 454              	.L23:
+ 455              		.align	2
+ 456              	.L22:
+ 457 01c8 28000000 		.word	Unity+40
+ 458 01cc 00000000 		.word	.LANCHOR0
+ 459 01d0 14000000 		.word	.LC1
+ 460 01d4 3B000000 		.word	.LC2
+ 461 01d8 22B3FFFF 		.word	-19678
+ 462 01dc 00000000 		.word	.LC6
+ 463 01e0 00000000 		.word	cBuffer
+ 464 01e4 1D000000 		.word	.LC7
+ 465 01e8 5E000000 		.word	.LC8
+ 466 01ec 9C000000 		.word	.LC5
+ 467 01f0 00000000 		.word	.LC0
+ 468              		.cfi_endproc
+ 469              	.LFE20:
+ 471              		.section	.text.TEST_Full_TLS_AFQP_TLS_ConnectUntrustedCert_,"ax",%progbits
+ 472              		.align	2
+ 473              		.global	TEST_Full_TLS_AFQP_TLS_ConnectUntrustedCert_
+ 474              		.syntax unified
+ 475              		.arm
+ 476              		.fpu neon
+ 478              	TEST_Full_TLS_AFQP_TLS_ConnectUntrustedCert_:
+ 479              	.LFB14:
+ 282:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** /*-----------------------------------------------------------*/
+ 283:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 284:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** TEST( Full_TLS, AFQP_TLS_ConnectEC )
+ 285:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** {
+ 286:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     ProvisioningParams_t xParams;
+ 287:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 288:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     /* Provision the device with P-256 elliptic curve key/certs. */
+ 289:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.ulClientPrivateKeyType = CKK_EC;
+ 290:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.pcClientPrivateKey = ( uint8_t * ) tlstestCLIENT_PRIVATE_KEY_PEM_EC;
+ 291:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.ulClientPrivateKeyLength = tlstestCLIENT_PRIVATE_KEY_LENGTH_EC;
+ 292:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.pcClientCertificate = ( uint8_t * ) tlstestCLIENT_CERTIFICATE_PEM_EC;
+ 293:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.ulClientCertificateLength = tlstestCLIENT_CERTIFICATE_LENGTH_EC;
+ 294:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 295:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     prvConnectWithProvisioning( &( xParams ),
+ 296:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****                                 pdTRUE /* The connect operation should succeed. */
+ 297:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****                                 );
+ 298:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** }
+ 299:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** /*-----------------------------------------------------------*/
+ 300:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 301:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** TEST( Full_TLS, AFQP_TLS_ConnectMalformedCert )
+ 302:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** {
+ 303:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     ProvisioningParams_t xParams;
+ 304:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 305:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     /* Provision the device with malformed client credential certificate. */
+ 306:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.ulClientPrivateKeyType = CKK_RSA;
+ 307:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.pcClientPrivateKey = ( uint8_t * ) clientcredentialCLIENT_PRIVATE_KEY_PEM;
+ 308:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.ulClientPrivateKeyLength = clientcredentialCLIENT_PRIVATE_KEY_LENGTH;
+ 309:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.pcClientCertificate = ( uint8_t * ) tlstestCLIENT_CERTIFICATE_PEM_MALFORMED;
+ 310:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.ulClientCertificateLength = tlstestCLIENT_CERTIFICATE_PEM_MALFORMED_LENGTH;
+ 311:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 312:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     prvExpectFailAfterDataSentWithProvisioning( &( xParams ) );
+ 313:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** }
+ 314:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** /*-----------------------------------------------------------*/
+ 315:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 316:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** TEST( Full_TLS, AFQP_TLS_ConnectUntrustedCert )
+ 317:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** {
+ 480              		.loc 1 317 0
+ 481              		.cfi_startproc
+ 482              		@ args = 0, pretend = 0, frame = 24
+ 483              		@ frame_needed = 0, uses_anonymous_args = 0
+ 484 0000 7F402DE9 		push	{r0, r1, r2, r3, r4, r5, r6, lr}
+ 485              		.cfi_def_cfa_offset 32
+ 486              		.cfi_offset 14, -4
+ 318:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     ProvisioningParams_t xParams;
+ 319:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 320:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     /* Provision the device with malformed client credential certificate. */
+ 321:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.ulClientPrivateKeyType = CKK_RSA;
+ 487              		.loc 1 321 0
+ 488 0004 0030A0E3 		mov	r3, #0
+ 489 0008 04308DE5 		str	r3, [sp, #4]
+ 322:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.pcClientPrivateKey = ( uint8_t * ) tlstestCLIENT_UNTRUSTED_PRIVATE_KEY_PEM;
+ 323:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.ulClientPrivateKeyLength = tlstestCLIENT_UNTRUSTED_PRIVATE_KEY_PEM_LENGTH;
+ 324:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.pcClientCertificate = ( uint8_t * ) tlstestCLIENT_UNTRUSTED_CERTIFICATE_PEM;
+ 325:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.ulClientCertificateLength = tlstestCLIENT_UNTRUSTED_CERTIFICATE_PEM_LENGTH;
+ 326:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 327:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     prvExpectFailAfterDataSentWithProvisioning( &( xParams ) );
+ 490              		.loc 1 327 0
+ 491 000c 04008DE2 		add	r0, sp, #4
+ 322:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.pcClientPrivateKey = ( uint8_t * ) tlstestCLIENT_UNTRUSTED_PRIVATE_KEY_PEM;
+ 492              		.loc 1 322 0
+ 493 0010 20309FE5 		ldr	r3, .L26
+ 324:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.ulClientCertificateLength = tlstestCLIENT_UNTRUSTED_CERTIFICATE_PEM_LENGTH;
+ 494              		.loc 1 324 0
+ 495 0014 20209FE5 		ldr	r2, .L26+4
+ 322:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.pcClientPrivateKey = ( uint8_t * ) tlstestCLIENT_UNTRUSTED_PRIVATE_KEY_PEM;
+ 496              		.loc 1 322 0
+ 497 0018 08308DE5 		str	r3, [sp, #8]
+ 323:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.pcClientCertificate = ( uint8_t * ) tlstestCLIENT_UNTRUSTED_CERTIFICATE_PEM;
+ 498              		.loc 1 323 0
+ 499 001c 1F30A0E3 		mov	r3, #31
+ 500 0020 0C308DE5 		str	r3, [sp, #12]
+ 324:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.ulClientCertificateLength = tlstestCLIENT_UNTRUSTED_CERTIFICATE_PEM_LENGTH;
+ 501              		.loc 1 324 0
+ 502 0024 10208DE5 		str	r2, [sp, #16]
+ 325:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 503              		.loc 1 325 0
+ 504 0028 14308DE5 		str	r3, [sp, #20]
+ 505              		.loc 1 327 0
+ 506 002c FEFFFFEB 		bl	prvExpectFailAfterDataSentWithProvisioning.constprop.0
+ 507              	.LVL58:
+ 328:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** }
+ 508              		.loc 1 328 0
+ 509 0030 1CD08DE2 		add	sp, sp, #28
+ 510              		.cfi_def_cfa_offset 4
+ 511              		@ sp needed
+ 512 0034 04F09DE4 		ldr	pc, [sp], #4
+ 513              	.L27:
+ 514              		.align	2
+ 515              	.L26:
+ 516 0038 00000000 		.word	.LANCHOR1
+ 517 003c 00000000 		.word	.LANCHOR2
+ 518              		.cfi_endproc
+ 519              	.LFE14:
+ 521              		.section	.text.TEST_Full_TLS_AFQP_TLS_ConnectMalformedCert_,"ax",%progbits
+ 522              		.align	2
+ 523              		.global	TEST_Full_TLS_AFQP_TLS_ConnectMalformedCert_
+ 524              		.syntax unified
+ 525              		.arm
+ 526              		.fpu neon
+ 528              	TEST_Full_TLS_AFQP_TLS_ConnectMalformedCert_:
+ 529              	.LFB12:
+ 302:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     ProvisioningParams_t xParams;
+ 530              		.loc 1 302 0
+ 531              		.cfi_startproc
+ 532              		@ args = 0, pretend = 0, frame = 24
+ 533              		@ frame_needed = 0, uses_anonymous_args = 0
+ 534 0000 7F402DE9 		push	{r0, r1, r2, r3, r4, r5, r6, lr}
+ 535              		.cfi_def_cfa_offset 32
+ 536              		.cfi_offset 14, -4
+ 306:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.pcClientPrivateKey = ( uint8_t * ) clientcredentialCLIENT_PRIVATE_KEY_PEM;
+ 537              		.loc 1 306 0
+ 538 0004 0030A0E3 		mov	r3, #0
+ 539 0008 04308DE5 		str	r3, [sp, #4]
+ 312:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** }
+ 540              		.loc 1 312 0
+ 541 000c 04008DE2 		add	r0, sp, #4
+ 307:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.ulClientPrivateKeyLength = clientcredentialCLIENT_PRIVATE_KEY_LENGTH;
+ 542              		.loc 1 307 0
+ 543 0010 28309FE5 		ldr	r3, .L30
+ 544 0014 08308DE5 		str	r3, [sp, #8]
+ 308:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.pcClientCertificate = ( uint8_t * ) tlstestCLIENT_CERTIFICATE_PEM_MALFORMED;
+ 545              		.loc 1 308 0
+ 546 0018 24309FE5 		ldr	r3, .L30+4
+ 547 001c 003093E5 		ldr	r3, [r3]
+ 548 0020 0C308DE5 		str	r3, [sp, #12]
+ 309:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.ulClientCertificateLength = tlstestCLIENT_CERTIFICATE_PEM_MALFORMED_LENGTH;
+ 549              		.loc 1 309 0
+ 550 0024 1C309FE5 		ldr	r3, .L30+8
+ 551 0028 10308DE5 		str	r3, [sp, #16]
+ 310:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 552              		.loc 1 310 0
+ 553 002c 1F30A0E3 		mov	r3, #31
+ 554 0030 14308DE5 		str	r3, [sp, #20]
+ 312:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** }
+ 555              		.loc 1 312 0
+ 556 0034 FEFFFFEB 		bl	prvExpectFailAfterDataSentWithProvisioning.constprop.0
+ 557              	.LVL59:
+ 313:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** /*-----------------------------------------------------------*/
+ 558              		.loc 1 313 0
+ 559 0038 1CD08DE2 		add	sp, sp, #28
+ 560              		.cfi_def_cfa_offset 4
+ 561              		@ sp needed
+ 562 003c 04F09DE4 		ldr	pc, [sp], #4
+ 563              	.L31:
+ 564              		.align	2
+ 565              	.L30:
+ 566 0040 00000000 		.word	clientcredentialCLIENT_PRIVATE_KEY_PEM
+ 567 0044 00000000 		.word	clientcredentialCLIENT_PRIVATE_KEY_LENGTH
+ 568 0048 00000000 		.word	.LANCHOR3
+ 569              		.cfi_endproc
+ 570              	.LFE12:
+ 572              		.section	.text.prvConnectWithProvisioning.constprop.1,"ax",%progbits
+ 573              		.align	2
+ 574              		.syntax unified
+ 575              		.arm
+ 576              		.fpu neon
+ 578              	prvConnectWithProvisioning.constprop.1:
+ 579              	.LFB19:
+ 114:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****                                         BaseType_t xConnectExpectedToSucceed )
+ 580              		.loc 1 114 0
+ 581              		.cfi_startproc
+ 582              		@ args = 0, pretend = 0, frame = 24
+ 583              		@ frame_needed = 0, uses_anonymous_args = 0
+ 584              	.LVL60:
+ 585 0000 F0402DE9 		push	{r4, r5, r6, r7, lr}
+ 586              		.cfi_def_cfa_offset 20
+ 587              		.cfi_offset 4, -20
+ 588              		.cfi_offset 5, -16
+ 589              		.cfi_offset 6, -12
+ 590              		.cfi_offset 7, -8
+ 591              		.cfi_offset 14, -4
+ 592 0004 24D04DE2 		sub	sp, sp, #36
+ 593              		.cfi_def_cfa_offset 56
+ 114:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****                                         BaseType_t xConnectExpectedToSucceed )
+ 594              		.loc 1 114 0
+ 595 0008 14008DE5 		str	r0, [sp, #20]
+ 119:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     Socket_t xSocket;
+ 596              		.loc 1 119 0
+ 597 000c 0000A0E3 		mov	r0, #0
+ 598              	.LVL61:
+ 599 0010 18008DE5 		str	r0, [sp, #24]
+ 600 0014 1C008DE5 		str	r0, [sp, #28]
+ 601              	.LVL62:
+ 121:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     BaseType_t xResult;
+ 602              		.loc 1 121 0
+ 603 0018 0C008DE5 		str	r0, [sp, #12]
+ 124:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     {
+ 604              		.loc 1 124 0
+ 605 001c 70019FE5 		ldr	r0, .L40
+ 606 0020 FEFFFFEB 		bl	setjmp
+ 607              	.LVL63:
+ 608 0024 000050E3 		cmp	r0, #0
+ 609 0028 4100001A 		bne	.L34
+ 127:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 610              		.loc 1 127 0
+ 611 002c 14009DE5 		ldr	r0, [sp, #20]
+ 612 0030 FEFFFFEB 		bl	vAlternateKeyProvisioning
+ 613              	.LVL64:
+ 130:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         TEST_ASSERT_NOT_EQUAL( xSocket, SOCKETS_INVALID_SOCKET );
+ 614              		.loc 1 130 0
+ 615 0034 0620A0E3 		mov	r2, #6
+ 616 0038 0110A0E3 		mov	r1, #1
+ 617 003c 0200A0E3 		mov	r0, #2
+ 618 0040 FEFFFFEB 		bl	SOCKETS_Socket
+ 619              	.LVL65:
+ 131:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xSocketOpen = pdTRUE;
+ 620              		.loc 1 131 0
+ 621 0044 010070E3 		cmn	r0, #1
+ 130:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         TEST_ASSERT_NOT_EQUAL( xSocket, SOCKETS_INVALID_SOCKET );
+ 622              		.loc 1 130 0
+ 623 0048 0050A0E1 		mov	r5, r0
+ 624 004c 10008DE5 		str	r0, [sp, #16]
+ 625              	.LVL66:
+ 131:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xSocketOpen = pdTRUE;
+ 626              		.loc 1 131 0
+ 627 0050 4B00000A 		beq	.L35
+ 628              	.LVL67:
+ 629              	.L37:
+ 135:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         TEST_ASSERT_EQUAL_INT32_MESSAGE( SOCKETS_ERROR_NONE, xResult, "Socket set sock opt require 
+ 630              		.loc 1 135 0
+ 631 0054 0040A0E3 		mov	r4, #0
+ 132:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 632              		.loc 1 132 0
+ 633 0058 0130A0E3 		mov	r3, #1
+ 136:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 634              		.loc 1 136 0
+ 635 005c 1460A0E3 		mov	r6, #20
+ 138:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         TEST_ASSERT_EQUAL_INT32_MESSAGE( SOCKETS_ERROR_NONE, xResult, "Socket set sock opt server n
+ 636              		.loc 1 138 0
+ 637 0060 30719FE5 		ldr	r7, .L40+4
+ 132:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 638              		.loc 1 132 0
+ 639 0064 0C308DE5 		str	r3, [sp, #12]
+ 135:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         TEST_ASSERT_EQUAL_INT32_MESSAGE( SOCKETS_ERROR_NONE, xResult, "Socket set sock opt require 
+ 640              		.loc 1 135 0
+ 641 0068 0820A0E3 		mov	r2, #8
+ 642 006c 0430A0E1 		mov	r3, r4
+ 643 0070 0410A0E1 		mov	r1, r4
+ 644 0074 00408DE5 		str	r4, [sp]
+ 645 0078 0500A0E1 		mov	r0, r5
+ 646 007c FEFFFFEB 		bl	SOCKETS_SetSockOpt
+ 647              	.LVL68:
+ 136:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 648              		.loc 1 136 0
+ 649 0080 8830A0E3 		mov	r3, #136
+ 650 0084 0010A0E1 		mov	r1, r0
+ 651 0088 0C219FE5 		ldr	r2, .L40+8
+ 652 008c 0400A0E1 		mov	r0, r4
+ 653              	.LVL69:
+ 654 0090 00608DE5 		str	r6, [sp]
+ 655 0094 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 656              	.LVL70:
+ 138:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         TEST_ASSERT_EQUAL_INT32_MESSAGE( SOCKETS_ERROR_NONE, xResult, "Socket set sock opt server n
+ 657              		.loc 1 138 0
+ 658 0098 2F30A0E3 		mov	r3, #47
+ 659 009c 0620A0E3 		mov	r2, #6
+ 660 00a0 00308DE5 		str	r3, [sp]
+ 661 00a4 0410A0E1 		mov	r1, r4
+ 662 00a8 0730A0E1 		mov	r3, r7
+ 663 00ac 0500A0E1 		mov	r0, r5
+ 664 00b0 FEFFFFEB 		bl	SOCKETS_SetSockOpt
+ 665              	.LVL71:
+ 139:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 666              		.loc 1 139 0
+ 667 00b4 8B30A0E3 		mov	r3, #139
+ 668 00b8 0010A0E1 		mov	r1, r0
+ 669 00bc DC209FE5 		ldr	r2, .L40+12
+ 670 00c0 0400A0E1 		mov	r0, r4
+ 671              	.LVL72:
+ 672 00c4 00608DE5 		str	r6, [sp]
+ 673 00c8 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 674              	.LVL73:
+ 142:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 675              		.loc 1 142 0
+ 676 00cc 0700A0E1 		mov	r0, r7
+ 146:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xResult = SOCKETS_Connect( xSocket, &xMQTTServerAddress, sizeof( xMQTTServerAddress ) );
+ 677              		.loc 1 146 0
+ 678 00d0 0270A0E3 		mov	r7, #2
+ 142:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 679              		.loc 1 142 0
+ 680 00d4 FEFFFFEB 		bl	SOCKETS_GetHostByName
+ 681              	.LVL74:
+ 145:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xMQTTServerAddress.ucSocketDomain = SOCKETS_AF_INET;
+ 682              		.loc 1 145 0
+ 683 00d8 C4309FE5 		ldr	r3, .L40+16
+ 147:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 684              		.loc 1 147 0
+ 685 00dc 0820A0E3 		mov	r2, #8
+ 142:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 686              		.loc 1 142 0
+ 687 00e0 1C008DE5 		str	r0, [sp, #28]
+ 147:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 688              		.loc 1 147 0
+ 689 00e4 18108DE2 		add	r1, sp, #24
+ 690 00e8 0500A0E1 		mov	r0, r5
+ 146:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xResult = SOCKETS_Connect( xSocket, &xMQTTServerAddress, sizeof( xMQTTServerAddress ) );
+ 691              		.loc 1 146 0
+ 692 00ec 1970CDE5 		strb	r7, [sp, #25]
+ 145:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xMQTTServerAddress.ucSocketDomain = SOCKETS_AF_INET;
+ 693              		.loc 1 145 0
+ 694 00f0 BA31CDE1 		strh	r3, [sp, #26]	@ movhi
+ 147:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 695              		.loc 1 147 0
+ 696 00f4 FEFFFFEB 		bl	SOCKETS_Connect
+ 697              	.LVL75:
+ 152:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 698              		.loc 1 152 0
+ 699 00f8 9830A0E3 		mov	r3, #152
+ 700 00fc A4209FE5 		ldr	r2, .L40+20
+ 701 0100 0010A0E1 		mov	r1, r0
+ 702 0104 00608DE5 		str	r6, [sp]
+ 703 0108 0400A0E1 		mov	r0, r4
+ 704              	.LVL76:
+ 705 010c FEFFFFEB 		bl	UnityAssertEqualNumber
+ 706              	.LVL77:
+ 155:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             TEST_ASSERT_EQUAL_INT32_MESSAGE( SOCKETS_ERROR_NONE, xResult, "Socket disconnect failed
+ 707              		.loc 1 155 0
+ 708 0110 0710A0E1 		mov	r1, r7
+ 709 0114 0500A0E1 		mov	r0, r5
+ 710 0118 FEFFFFEB 		bl	SOCKETS_Shutdown
+ 711              	.LVL78:
+ 156:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         }
+ 712              		.loc 1 156 0
+ 713 011c 00608DE5 		str	r6, [sp]
+ 714 0120 0010A0E1 		mov	r1, r0
+ 715 0124 9C30A0E3 		mov	r3, #156
+ 716 0128 7C209FE5 		ldr	r2, .L40+24
+ 717 012c 0400A0E1 		mov	r0, r4
+ 718              	.LVL79:
+ 719 0130 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 720              	.LVL80:
+ 721              	.L34:
+ 165:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     {
+ 722              		.loc 1 165 0
+ 723 0134 58009FE5 		ldr	r0, .L40
+ 724 0138 FEFFFFEB 		bl	setjmp
+ 725              	.LVL81:
+ 167:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         {
+ 726              		.loc 1 167 0
+ 727 013c 0C309DE5 		ldr	r3, [sp, #12]
+ 728 0140 000050E3 		cmp	r0, #0
+ 729 0144 0030A013 		movne	r3, #0
+ 730 0148 01300302 		andeq	r3, r3, #1
+ 731 014c 000053E3 		cmp	r3, #0
+ 732 0150 0800000A 		beq	.L38
+ 169:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             TEST_ASSERT_EQUAL_INT32_MESSAGE( SOCKETS_ERROR_NONE, xResult, "Socket failed to close" 
+ 733              		.loc 1 169 0
+ 734 0154 10009DE5 		ldr	r0, [sp, #16]
+ 735 0158 FEFFFFEB 		bl	SOCKETS_Close
+ 736              	.LVL82:
+ 170:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****             xSocketOpen = pdFALSE;
+ 737              		.loc 1 170 0
+ 738 015c 1430A0E3 		mov	r3, #20
+ 739 0160 0010A0E1 		mov	r1, r0
+ 740 0164 00308DE5 		str	r3, [sp]
+ 741 0168 0000A0E3 		mov	r0, #0
+ 742              	.LVL83:
+ 743 016c AA30A0E3 		mov	r3, #170
+ 744 0170 38209FE5 		ldr	r2, .L40+28
+ 745 0174 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 746              	.LVL84:
+ 747              	.L38:
+ 178:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** }
+ 748              		.loc 1 178 0
+ 749 0178 FEFFFFEB 		bl	vDevModeKeyProvisioning
+ 750              	.LVL85:
+ 179:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** /*-----------------------------------------------------------*/
+ 751              		.loc 1 179 0
+ 752 017c 24D08DE2 		add	sp, sp, #36
+ 753              		.cfi_remember_state
+ 754              		.cfi_def_cfa_offset 20
+ 755              		@ sp needed
+ 756 0180 F080BDE8 		pop	{r4, r5, r6, r7, pc}
+ 757              	.LVL86:
+ 758              	.L35:
+ 759              		.cfi_restore_state
+ 131:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****         xSocketOpen = pdTRUE;
+ 760              		.loc 1 131 0
+ 761 0184 8310A0E3 		mov	r1, #131
+ 762 0188 24009FE5 		ldr	r0, .L40+32
+ 763              	.LVL87:
+ 764 018c FEFFFFEB 		bl	UnityFail
+ 765              	.LVL88:
+ 766 0190 AFFFFFEA 		b	.L37
+ 767              	.L41:
+ 768              		.align	2
+ 769              	.L40:
+ 770 0194 28000000 		.word	Unity+40
+ 771 0198 00000000 		.word	.LANCHOR0
+ 772 019c 14000000 		.word	.LC1
+ 773 01a0 3B000000 		.word	.LC2
+ 774 01a4 22B3FFFF 		.word	-19678
+ 775 01a8 00000000 		.word	.LC9
+ 776 01ac 38000000 		.word	.LC10
+ 777 01b0 9C000000 		.word	.LC5
+ 778 01b4 00000000 		.word	.LC0
+ 779              		.cfi_endproc
+ 780              	.LFE19:
+ 782              		.section	.text.TEST_Full_TLS_AFQP_TLS_ConnectBYOCCredentials_,"ax",%progbits
+ 783              		.align	2
+ 784              		.global	TEST_Full_TLS_AFQP_TLS_ConnectBYOCCredentials_
+ 785              		.syntax unified
+ 786              		.arm
+ 787              		.fpu neon
+ 789              	TEST_Full_TLS_AFQP_TLS_ConnectBYOCCredentials_:
+ 790              	.LFB16:
+ 329:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** /*-----------------------------------------------------------*/
+ 330:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 331:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** TEST( Full_TLS, AFQP_TLS_ConnectBYOCCredentials )
+ 332:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** {
+ 791              		.loc 1 332 0
+ 792              		.cfi_startproc
+ 793              		@ args = 0, pretend = 0, frame = 24
+ 794              		@ frame_needed = 0, uses_anonymous_args = 0
+ 795 0000 7F402DE9 		push	{r0, r1, r2, r3, r4, r5, r6, lr}
+ 796              		.cfi_def_cfa_offset 32
+ 797              		.cfi_offset 14, -4
+ 333:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     ProvisioningParams_t xParams;
+ 334:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 335:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     /* Provision the device with BYOC credentials. */
+ 336:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.ulClientPrivateKeyType = CKK_EC;
+ 798              		.loc 1 336 0
+ 799 0004 0330A0E3 		mov	r3, #3
+ 800 0008 04308DE5 		str	r3, [sp, #4]
+ 337:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.pcClientPrivateKey = ( uint8_t * ) tlstestCLIENT_BYOC_PRIVATE_KEY_PEM;
+ 338:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.ulClientPrivateKeyLength = tlstestCLIENT_BYOC_PRIVATE_KEY_PEM_LENGTH;
+ 339:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.pcClientCertificate = ( uint8_t * ) tlstestCLIENT_BYOC_CERTIFICATE_PEM;
+ 340:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.ulClientCertificateLength = tlstestCLIENT_BYOC_CERTIFICATE_PEM_LENGTH;
+ 341:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 342:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     prvConnectWithProvisioning( &( xParams ),
+ 801              		.loc 1 342 0
+ 802 000c 04008DE2 		add	r0, sp, #4
+ 337:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.pcClientPrivateKey = ( uint8_t * ) tlstestCLIENT_BYOC_PRIVATE_KEY_PEM;
+ 803              		.loc 1 337 0
+ 804 0010 20309FE5 		ldr	r3, .L44
+ 339:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.ulClientCertificateLength = tlstestCLIENT_BYOC_CERTIFICATE_PEM_LENGTH;
+ 805              		.loc 1 339 0
+ 806 0014 20209FE5 		ldr	r2, .L44+4
+ 337:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.pcClientPrivateKey = ( uint8_t * ) tlstestCLIENT_BYOC_PRIVATE_KEY_PEM;
+ 807              		.loc 1 337 0
+ 808 0018 08308DE5 		str	r3, [sp, #8]
+ 338:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.pcClientCertificate = ( uint8_t * ) tlstestCLIENT_BYOC_CERTIFICATE_PEM;
+ 809              		.loc 1 338 0
+ 810 001c 1F30A0E3 		mov	r3, #31
+ 811 0020 0C308DE5 		str	r3, [sp, #12]
+ 339:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.ulClientCertificateLength = tlstestCLIENT_BYOC_CERTIFICATE_PEM_LENGTH;
+ 812              		.loc 1 339 0
+ 813 0024 10208DE5 		str	r2, [sp, #16]
+ 340:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 814              		.loc 1 340 0
+ 815 0028 14308DE5 		str	r3, [sp, #20]
+ 816              		.loc 1 342 0
+ 817 002c FEFFFFEB 		bl	prvConnectWithProvisioning.constprop.1
+ 818              	.LVL89:
+ 343:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****                                 pdTRUE /* The connect operation should succeed. */
+ 344:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****                                 );
+ 345:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** }
+ 819              		.loc 1 345 0
+ 820 0030 1CD08DE2 		add	sp, sp, #28
+ 821              		.cfi_def_cfa_offset 4
+ 822              		@ sp needed
+ 823 0034 04F09DE4 		ldr	pc, [sp], #4
+ 824              	.L45:
+ 825              		.align	2
+ 826              	.L44:
+ 827 0038 00000000 		.word	.LANCHOR4
+ 828 003c 00000000 		.word	.LANCHOR5
+ 829              		.cfi_endproc
+ 830              	.LFE16:
+ 832              		.section	.text.TEST_Full_TLS_AFQP_TLS_ConnectEC_,"ax",%progbits
+ 833              		.align	2
+ 834              		.global	TEST_Full_TLS_AFQP_TLS_ConnectEC_
+ 835              		.syntax unified
+ 836              		.arm
+ 837              		.fpu neon
+ 839              	TEST_Full_TLS_AFQP_TLS_ConnectEC_:
+ 840              	.LFB10:
+ 285:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     ProvisioningParams_t xParams;
+ 841              		.loc 1 285 0
+ 842              		.cfi_startproc
+ 843              		@ args = 0, pretend = 0, frame = 24
+ 844              		@ frame_needed = 0, uses_anonymous_args = 0
+ 845 0000 7F402DE9 		push	{r0, r1, r2, r3, r4, r5, r6, lr}
+ 846              		.cfi_def_cfa_offset 32
+ 847              		.cfi_offset 14, -4
+ 289:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.pcClientPrivateKey = ( uint8_t * ) tlstestCLIENT_PRIVATE_KEY_PEM_EC;
+ 848              		.loc 1 289 0
+ 849 0004 0330A0E3 		mov	r3, #3
+ 850 0008 04308DE5 		str	r3, [sp, #4]
+ 295:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****                                 pdTRUE /* The connect operation should succeed. */
+ 851              		.loc 1 295 0
+ 852 000c 04008DE2 		add	r0, sp, #4
+ 290:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.ulClientPrivateKeyLength = tlstestCLIENT_PRIVATE_KEY_LENGTH_EC;
+ 853              		.loc 1 290 0
+ 854 0010 20309FE5 		ldr	r3, .L48
+ 292:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.ulClientCertificateLength = tlstestCLIENT_CERTIFICATE_LENGTH_EC;
+ 855              		.loc 1 292 0
+ 856 0014 20209FE5 		ldr	r2, .L48+4
+ 290:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.ulClientPrivateKeyLength = tlstestCLIENT_PRIVATE_KEY_LENGTH_EC;
+ 857              		.loc 1 290 0
+ 858 0018 08308DE5 		str	r3, [sp, #8]
+ 291:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.pcClientCertificate = ( uint8_t * ) tlstestCLIENT_CERTIFICATE_PEM_EC;
+ 859              		.loc 1 291 0
+ 860 001c 1F30A0E3 		mov	r3, #31
+ 861 0020 0C308DE5 		str	r3, [sp, #12]
+ 292:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     xParams.ulClientCertificateLength = tlstestCLIENT_CERTIFICATE_LENGTH_EC;
+ 862              		.loc 1 292 0
+ 863 0024 10208DE5 		str	r2, [sp, #16]
+ 293:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 864              		.loc 1 293 0
+ 865 0028 14308DE5 		str	r3, [sp, #20]
+ 295:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****                                 pdTRUE /* The connect operation should succeed. */
+ 866              		.loc 1 295 0
+ 867 002c FEFFFFEB 		bl	prvConnectWithProvisioning.constprop.1
+ 868              	.LVL90:
+ 298:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** /*-----------------------------------------------------------*/
+ 869              		.loc 1 298 0
+ 870 0030 1CD08DE2 		add	sp, sp, #28
+ 871              		.cfi_def_cfa_offset 4
+ 872              		@ sp needed
+ 873 0034 04F09DE4 		ldr	pc, [sp], #4
+ 874              	.L49:
+ 875              		.align	2
+ 876              	.L48:
+ 877 0038 00000000 		.word	.LANCHOR6
+ 878 003c 00000000 		.word	.LANCHOR7
+ 879              		.cfi_endproc
+ 880              	.LFE10:
+ 882              		.section	.text.TEST_Full_TLS_SETUP,"ax",%progbits
+ 883              		.align	2
+ 884              		.global	TEST_Full_TLS_SETUP
+ 885              		.syntax unified
+ 886              		.arm
+ 887              		.fpu neon
+ 889              	TEST_Full_TLS_SETUP:
+ 890              	.LFB18:
+ 891              		.cfi_startproc
+ 892              		@ args = 0, pretend = 0, frame = 0
+ 893              		@ frame_needed = 0, uses_anonymous_args = 0
+ 894              		@ link register save eliminated.
+ 895 0000 1EFF2FE1 		bx	lr
+ 896              		.cfi_endproc
+ 897              	.LFE18:
+ 899              		.section	.text.TEST_Full_TLS_AFQP_TLS_ConnectRSA_run,"ax",%progbits
+ 900              		.align	2
+ 901              		.global	TEST_Full_TLS_AFQP_TLS_ConnectRSA_run
+ 902              		.syntax unified
+ 903              		.arm
+ 904              		.fpu neon
+ 906              	TEST_Full_TLS_AFQP_TLS_ConnectRSA_run:
+ 907              	.LFB7:
+ 254:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** {
+ 908              		.loc 1 254 0
+ 909              		.cfi_startproc
+ 910              		@ args = 0, pretend = 0, frame = 0
+ 911              		@ frame_needed = 0, uses_anonymous_args = 0
+ 254:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** {
+ 912              		.loc 1 254 0
+ 913 0000 1F402DE9 		push	{r0, r1, r2, r3, r4, lr}
+ 914              		.cfi_def_cfa_offset 24
+ 915              		.cfi_offset 14, -4
+ 254:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** {
+ 916              		.loc 1 254 0
+ 917 0004 FE30A0E3 		mov	r3, #254
+ 918 0008 0C308DE5 		str	r3, [sp, #12]
+ 919 000c 2C309FE5 		ldr	r3, .L53
+ 920 0010 2C209FE5 		ldr	r2, .L53+4
+ 921 0014 2C109FE5 		ldr	r1, .L53+8
+ 922 0018 08308DE5 		str	r3, [sp, #8]
+ 923 001c 28309FE5 		ldr	r3, .L53+12
+ 924 0020 28009FE5 		ldr	r0, .L53+16
+ 925 0024 04308DE5 		str	r3, [sp, #4]
+ 926 0028 24309FE5 		ldr	r3, .L53+20
+ 927 002c 00308DE5 		str	r3, [sp]
+ 928 0030 20309FE5 		ldr	r3, .L53+24
+ 929 0034 FEFFFFEB 		bl	UnityTestRunner
+ 930              	.LVL91:
+ 931 0038 14D08DE2 		add	sp, sp, #20
+ 932              		.cfi_def_cfa_offset 4
+ 933              		@ sp needed
+ 934 003c 04F09DE4 		ldr	pc, [sp], #4
+ 935              	.L54:
+ 936              		.align	2
+ 937              	.L53:
+ 938 0040 24000000 		.word	.LC12
+ 939 0044 00000000 		.word	TEST_Full_TLS_TEAR_DOWN
+ 940 0048 00000000 		.word	TEST_Full_TLS_AFQP_TLS_ConnectRSA_
+ 941 004c 69000000 		.word	.LC13
+ 942 0050 00000000 		.word	TEST_Full_TLS_SETUP
+ 943 0054 7D000000 		.word	.LC14
+ 944 0058 00000000 		.word	.LC11
+ 945              		.cfi_endproc
+ 946              	.LFE7:
+ 948              		.section	.text.TEST_Full_TLS_AFQP_TLS_ConnectEC_run,"ax",%progbits
+ 949              		.align	2
+ 950              		.global	TEST_Full_TLS_AFQP_TLS_ConnectEC_run
+ 951              		.syntax unified
+ 952              		.arm
+ 953              		.fpu neon
+ 955              	TEST_Full_TLS_AFQP_TLS_ConnectEC_run:
+ 956              	.LFB9:
+ 284:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** {
+ 957              		.loc 1 284 0
+ 958              		.cfi_startproc
+ 959              		@ args = 0, pretend = 0, frame = 0
+ 960              		@ frame_needed = 0, uses_anonymous_args = 0
+ 961 0000 1F402DE9 		push	{r0, r1, r2, r3, r4, lr}
+ 962              		.cfi_def_cfa_offset 24
+ 963              		.cfi_offset 14, -4
+ 284:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** {
+ 964              		.loc 1 284 0
+ 965 0004 473FA0E3 		mov	r3, #284
+ 966 0008 0C308DE5 		str	r3, [sp, #12]
+ 967 000c 2C309FE5 		ldr	r3, .L57
+ 968 0010 2C209FE5 		ldr	r2, .L57+4
+ 969 0014 2C109FE5 		ldr	r1, .L57+8
+ 970 0018 08308DE5 		str	r3, [sp, #8]
+ 971 001c 28309FE5 		ldr	r3, .L57+12
+ 972 0020 28009FE5 		ldr	r0, .L57+16
+ 973 0024 04308DE5 		str	r3, [sp, #4]
+ 974 0028 24309FE5 		ldr	r3, .L57+20
+ 975 002c 00308DE5 		str	r3, [sp]
+ 976 0030 20309FE5 		ldr	r3, .L57+24
+ 977 0034 FEFFFFEB 		bl	UnityTestRunner
+ 978              	.LVL92:
+ 979 0038 14D08DE2 		add	sp, sp, #20
+ 980              		.cfi_def_cfa_offset 4
+ 981              		@ sp needed
+ 982 003c 04F09DE4 		ldr	pc, [sp], #4
+ 983              	.L58:
+ 984              		.align	2
+ 985              	.L57:
+ 986 0040 24000000 		.word	.LC12
+ 987 0044 00000000 		.word	TEST_Full_TLS_TEAR_DOWN
+ 988 0048 00000000 		.word	TEST_Full_TLS_AFQP_TLS_ConnectEC_
+ 989 004c 23000000 		.word	.LC16
+ 990 0050 00000000 		.word	TEST_Full_TLS_SETUP
+ 991 0054 7D000000 		.word	.LC14
+ 992 0058 00000000 		.word	.LC15
+ 993              		.cfi_endproc
+ 994              	.LFE9:
+ 996              		.section	.text.TEST_Full_TLS_AFQP_TLS_ConnectMalformedCert_run,"ax",%progbits
+ 997              		.align	2
+ 998              		.global	TEST_Full_TLS_AFQP_TLS_ConnectMalformedCert_run
+ 999              		.syntax unified
+ 1000              		.arm
+ 1001              		.fpu neon
+ 1003              	TEST_Full_TLS_AFQP_TLS_ConnectMalformedCert_run:
+ 1004              	.LFB11:
+ 301:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** {
+ 1005              		.loc 1 301 0
+ 1006              		.cfi_startproc
+ 1007              		@ args = 0, pretend = 0, frame = 0
+ 1008              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1009 0000 1F402DE9 		push	{r0, r1, r2, r3, r4, lr}
+ 1010              		.cfi_def_cfa_offset 24
+ 1011              		.cfi_offset 14, -4
+ 301:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** {
+ 1012              		.loc 1 301 0
+ 1013 0004 2D3100E3 		movw	r3, #301
+ 1014 0008 0C308DE5 		str	r3, [sp, #12]
+ 1015 000c 2C309FE5 		ldr	r3, .L61
+ 1016 0010 2C209FE5 		ldr	r2, .L61+4
+ 1017 0014 2C109FE5 		ldr	r1, .L61+8
+ 1018 0018 08308DE5 		str	r3, [sp, #8]
+ 1019 001c 28309FE5 		ldr	r3, .L61+12
+ 1020 0020 28009FE5 		ldr	r0, .L61+16
+ 1021 0024 04308DE5 		str	r3, [sp, #4]
+ 1022 0028 24309FE5 		ldr	r3, .L61+20
+ 1023 002c 00308DE5 		str	r3, [sp]
+ 1024 0030 20309FE5 		ldr	r3, .L61+24
+ 1025 0034 FEFFFFEB 		bl	UnityTestRunner
+ 1026              	.LVL93:
+ 1027 0038 14D08DE2 		add	sp, sp, #20
+ 1028              		.cfi_def_cfa_offset 4
+ 1029              		@ sp needed
+ 1030 003c 04F09DE4 		ldr	pc, [sp], #4
+ 1031              	.L62:
+ 1032              		.align	2
+ 1033              	.L61:
+ 1034 0040 24000000 		.word	.LC12
+ 1035 0044 00000000 		.word	TEST_Full_TLS_TEAR_DOWN
+ 1036 0048 00000000 		.word	TEST_Full_TLS_AFQP_TLS_ConnectMalformedCert_
+ 1037 004c 2E000000 		.word	.LC18
+ 1038 0050 00000000 		.word	TEST_Full_TLS_SETUP
+ 1039 0054 7D000000 		.word	.LC14
+ 1040 0058 00000000 		.word	.LC17
+ 1041              		.cfi_endproc
+ 1042              	.LFE11:
+ 1044              		.section	.text.TEST_Full_TLS_AFQP_TLS_ConnectUntrustedCert_run,"ax",%progbits
+ 1045              		.align	2
+ 1046              		.global	TEST_Full_TLS_AFQP_TLS_ConnectUntrustedCert_run
+ 1047              		.syntax unified
+ 1048              		.arm
+ 1049              		.fpu neon
+ 1051              	TEST_Full_TLS_AFQP_TLS_ConnectUntrustedCert_run:
+ 1052              	.LFB13:
+ 316:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** {
+ 1053              		.loc 1 316 0
+ 1054              		.cfi_startproc
+ 1055              		@ args = 0, pretend = 0, frame = 0
+ 1056              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1057 0000 1F402DE9 		push	{r0, r1, r2, r3, r4, lr}
+ 1058              		.cfi_def_cfa_offset 24
+ 1059              		.cfi_offset 14, -4
+ 316:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** {
+ 1060              		.loc 1 316 0
+ 1061 0004 4F3FA0E3 		mov	r3, #316
+ 1062 0008 0C308DE5 		str	r3, [sp, #12]
+ 1063 000c 2C309FE5 		ldr	r3, .L65
+ 1064 0010 2C209FE5 		ldr	r2, .L65+4
+ 1065 0014 2C109FE5 		ldr	r1, .L65+8
+ 1066 0018 08308DE5 		str	r3, [sp, #8]
+ 1067 001c 28309FE5 		ldr	r3, .L65+12
+ 1068 0020 28009FE5 		ldr	r0, .L65+16
+ 1069 0024 04308DE5 		str	r3, [sp, #4]
+ 1070 0028 24309FE5 		ldr	r3, .L65+20
+ 1071 002c 00308DE5 		str	r3, [sp]
+ 1072 0030 20309FE5 		ldr	r3, .L65+24
+ 1073 0034 FEFFFFEB 		bl	UnityTestRunner
+ 1074              	.LVL94:
+ 1075 0038 14D08DE2 		add	sp, sp, #20
+ 1076              		.cfi_def_cfa_offset 4
+ 1077              		@ sp needed
+ 1078 003c 04F09DE4 		ldr	pc, [sp], #4
+ 1079              	.L66:
+ 1080              		.align	2
+ 1081              	.L65:
+ 1082 0040 24000000 		.word	.LC12
+ 1083 0044 00000000 		.word	TEST_Full_TLS_TEAR_DOWN
+ 1084 0048 00000000 		.word	TEST_Full_TLS_AFQP_TLS_ConnectUntrustedCert_
+ 1085 004c 2E000000 		.word	.LC20
+ 1086 0050 00000000 		.word	TEST_Full_TLS_SETUP
+ 1087 0054 7D000000 		.word	.LC14
+ 1088 0058 00000000 		.word	.LC19
+ 1089              		.cfi_endproc
+ 1090              	.LFE13:
+ 1092              		.section	.text.TEST_Full_TLS_AFQP_TLS_ConnectBYOCCredentials_run,"ax",%progbits
+ 1093              		.align	2
+ 1094              		.global	TEST_Full_TLS_AFQP_TLS_ConnectBYOCCredentials_run
+ 1095              		.syntax unified
+ 1096              		.arm
+ 1097              		.fpu neon
+ 1099              	TEST_Full_TLS_AFQP_TLS_ConnectBYOCCredentials_run:
+ 1100              	.LFB15:
+ 331:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** {
+ 1101              		.loc 1 331 0
+ 1102              		.cfi_startproc
+ 1103              		@ args = 0, pretend = 0, frame = 0
+ 1104              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1105 0000 1F402DE9 		push	{r0, r1, r2, r3, r4, lr}
+ 1106              		.cfi_def_cfa_offset 24
+ 1107              		.cfi_offset 14, -4
+ 331:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** {
+ 1108              		.loc 1 331 0
+ 1109 0004 4B3100E3 		movw	r3, #331
+ 1110 0008 0C308DE5 		str	r3, [sp, #12]
+ 1111 000c 2C309FE5 		ldr	r3, .L69
+ 1112 0010 2C209FE5 		ldr	r2, .L69+4
+ 1113 0014 2C109FE5 		ldr	r1, .L69+8
+ 1114 0018 08308DE5 		str	r3, [sp, #8]
+ 1115 001c 28309FE5 		ldr	r3, .L69+12
+ 1116 0020 28009FE5 		ldr	r0, .L69+16
+ 1117 0024 04308DE5 		str	r3, [sp, #4]
+ 1118 0028 24309FE5 		ldr	r3, .L69+20
+ 1119 002c 00308DE5 		str	r3, [sp]
+ 1120 0030 20309FE5 		ldr	r3, .L69+24
+ 1121 0034 FEFFFFEB 		bl	UnityTestRunner
+ 1122              	.LVL95:
+ 1123 0038 14D08DE2 		add	sp, sp, #20
+ 1124              		.cfi_def_cfa_offset 4
+ 1125              		@ sp needed
+ 1126 003c 04F09DE4 		ldr	pc, [sp], #4
+ 1127              	.L70:
+ 1128              		.align	2
+ 1129              	.L69:
+ 1130 0040 24000000 		.word	.LC12
+ 1131 0044 00000000 		.word	TEST_Full_TLS_TEAR_DOWN
+ 1132 0048 00000000 		.word	TEST_Full_TLS_AFQP_TLS_ConnectBYOCCredentials_
+ 1133 004c 30000000 		.word	.LC22
+ 1134 0050 00000000 		.word	TEST_Full_TLS_SETUP
+ 1135 0054 7D000000 		.word	.LC14
+ 1136 0058 00000000 		.word	.LC21
+ 1137              		.cfi_endproc
+ 1138              	.LFE15:
+ 1140              		.section	.text.TEST_Full_TLS_GROUP_RUNNER,"ax",%progbits
+ 1141              		.align	2
+ 1142              		.global	TEST_Full_TLS_GROUP_RUNNER
+ 1143              		.syntax unified
+ 1144              		.arm
+ 1145              		.fpu neon
+ 1147              	TEST_Full_TLS_GROUP_RUNNER:
+ 1148              	.LFB2:
+  80:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     RUN_TEST_CASE( Full_TLS, AFQP_TLS_ConnectEC );
+ 1149              		.loc 1 80 0
+ 1150              		.cfi_startproc
+ 1151              		@ args = 0, pretend = 0, frame = 0
+ 1152              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1153 0000 10402DE9 		push	{r4, lr}
+ 1154              		.cfi_def_cfa_offset 8
+ 1155              		.cfi_offset 4, -8
+ 1156              		.cfi_offset 14, -4
+ 1157              	.LBB16:
+  81:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     RUN_TEST_CASE( Full_TLS, AFQP_TLS_ConnectRSA );
+ 1158              		.loc 1 81 0
+ 1159 0004 FEFFFFEB 		bl	TEST_Full_TLS_AFQP_TLS_ConnectEC_run
+ 1160              	.LVL96:
+ 1161              	.LBE16:
+ 1162              	.LBB17:
+  82:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     RUN_TEST_CASE( Full_TLS, AFQP_TLS_ConnectMalformedCert );
+ 1163              		.loc 1 82 0
+ 1164 0008 FEFFFFEB 		bl	TEST_Full_TLS_AFQP_TLS_ConnectRSA_run
+ 1165              	.LVL97:
+ 1166              	.LBE17:
+ 1167              	.LBB18:
+  83:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     RUN_TEST_CASE( Full_TLS, AFQP_TLS_ConnectUntrustedCert );
+ 1168              		.loc 1 83 0
+ 1169 000c FEFFFFEB 		bl	TEST_Full_TLS_AFQP_TLS_ConnectMalformedCert_run
+ 1170              	.LVL98:
+ 1171              	.LBE18:
+ 1172              	.LBB19:
+  84:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c ****     RUN_TEST_CASE( Full_TLS, AFQP_TLS_ConnectBYOCCredentials );
+ 1173              		.loc 1 84 0
+ 1174 0010 FEFFFFEB 		bl	TEST_Full_TLS_AFQP_TLS_ConnectUntrustedCert_run
+ 1175              	.LVL99:
+ 1176              	.LBE19:
+  86:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** 
+ 1177              		.loc 1 86 0
+ 1178 0014 1040BDE8 		pop	{r4, lr}
+ 1179              		.cfi_restore 14
+ 1180              		.cfi_restore 4
+ 1181              		.cfi_def_cfa_offset 0
+ 1182              	.LBB20:
+  85:D:/Work/DeviceTester/amazon-freertos/tests/common/tls\aws_test_tls.c **** }
+ 1183              		.loc 1 85 0
+ 1184 0018 FEFFFFEA 		b	TEST_Full_TLS_AFQP_TLS_ConnectBYOCCredentials_run
+ 1185              	.LVL100:
+ 1186              	.LBE20:
+ 1187              		.cfi_endproc
+ 1188              	.LFE2:
+ 1190              		.section	.rodata.TEST_Full_TLS_AFQP_TLS_ConnectBYOCCredentials_run.str1.1,"aMS",%progbits,1
+ 1191              	.LC21:
+ 1192 0000 54455354 		.ascii	"TEST(Full_TLS, AFQP_TLS_ConnectBYOCCredentials)\000"
+ 1192      2846756C 
+ 1192      6C5F544C 
+ 1192      532C2041 
+ 1192      4651505F 
+ 1193              	.LC22:
+ 1194 0030 41465150 		.ascii	"AFQP_TLS_ConnectBYOCCredentials\000"
+ 1194      5F544C53 
+ 1194      5F436F6E 
+ 1194      6E656374 
+ 1194      42594F43 
+ 1195              		.section	.rodata.TEST_Full_TLS_AFQP_TLS_ConnectEC_run.str1.1,"aMS",%progbits,1
+ 1196              	.LC15:
+ 1197 0000 54455354 		.ascii	"TEST(Full_TLS, AFQP_TLS_ConnectEC)\000"
+ 1197      2846756C 
+ 1197      6C5F544C 
+ 1197      532C2041 
+ 1197      4651505F 
+ 1198              	.LC16:
+ 1199 0023 41465150 		.ascii	"AFQP_TLS_ConnectEC\000"
+ 1199      5F544C53 
+ 1199      5F436F6E 
+ 1199      6E656374 
+ 1199      454300
+ 1200              		.section	.rodata.TEST_Full_TLS_AFQP_TLS_ConnectMalformedCert_run.str1.1,"aMS",%progbits,1
+ 1201              	.LC17:
+ 1202 0000 54455354 		.ascii	"TEST(Full_TLS, AFQP_TLS_ConnectMalformedCert)\000"
+ 1202      2846756C 
+ 1202      6C5F544C 
+ 1202      532C2041 
+ 1202      4651505F 
+ 1203              	.LC18:
+ 1204 002e 41465150 		.ascii	"AFQP_TLS_ConnectMalformedCert\000"
+ 1204      5F544C53 
+ 1204      5F436F6E 
+ 1204      6E656374 
+ 1204      4D616C66 
+ 1205              		.section	.rodata.TEST_Full_TLS_AFQP_TLS_ConnectRSA_.str1.1,"aMS",%progbits,1
+ 1206              	.LC0:
+ 1207 0000 20457870 		.ascii	" Expected Not-Equal\000"
+ 1207      65637465 
+ 1207      64204E6F 
+ 1207      742D4571 
+ 1207      75616C00 
+ 1208              	.LC1:
+ 1209 0014 536F636B 		.ascii	"Socket set sock opt require tls failed\000"
+ 1209      65742073 
+ 1209      65742073 
+ 1209      6F636B20 
+ 1209      6F707420 
+ 1210              	.LC2:
+ 1211 003b 536F636B 		.ascii	"Socket set sock opt server name indication failed\000"
+ 1211      65742073 
+ 1211      65742073 
+ 1211      6F636B20 
+ 1211      6F707420 
+ 1212              	.LC3:
+ 1213 006d 536F636B 		.ascii	"Socket connect failed\000"
+ 1213      65742063 
+ 1213      6F6E6E65 
+ 1213      63742066 
+ 1213      61696C65 
+ 1214              	.LC4:
+ 1215 0083 536F636B 		.ascii	"Socket disconnect failed\000"
+ 1215      65742064 
+ 1215      6973636F 
+ 1215      6E6E6563 
+ 1215      74206661 
+ 1216              	.LC5:
+ 1217 009c 536F636B 		.ascii	"Socket failed to close\000"
+ 1217      65742066 
+ 1217      61696C65 
+ 1217      6420746F 
+ 1217      20636C6F 
+ 1218              		.section	.rodata.TEST_Full_TLS_AFQP_TLS_ConnectRSA_run.str1.1,"aMS",%progbits,1
+ 1219              	.LC11:
+ 1220 0000 54455354 		.ascii	"TEST(Full_TLS, AFQP_TLS_ConnectRSA)\000"
+ 1220      2846756C 
+ 1220      6C5F544C 
+ 1220      532C2041 
+ 1220      4651505F 
+ 1221              	.LC12:
+ 1222 0024 443A2F57 		.ascii	"D:/Work/DeviceTester/amazon-freertos/tests/common/t"
+ 1222      6F726B2F 
+ 1222      44657669 
+ 1222      63655465 
+ 1222      73746572 
+ 1223 0057 6C732F61 		.ascii	"ls/aws_test_tls.c\000"
+ 1223      77735F74 
+ 1223      6573745F 
+ 1223      746C732E 
+ 1223      6300
+ 1224              	.LC13:
+ 1225 0069 41465150 		.ascii	"AFQP_TLS_ConnectRSA\000"
+ 1225      5F544C53 
+ 1225      5F436F6E 
+ 1225      6E656374 
+ 1225      52534100 
+ 1226              	.LC14:
+ 1227 007d 46756C6C 		.ascii	"Full_TLS\000"
+ 1227      5F544C53 
+ 1227      00
+ 1228              		.section	.rodata.TEST_Full_TLS_AFQP_TLS_ConnectUntrustedCert_run.str1.1,"aMS",%progbits,1
+ 1229              	.LC19:
+ 1230 0000 54455354 		.ascii	"TEST(Full_TLS, AFQP_TLS_ConnectUntrustedCert)\000"
+ 1230      2846756C 
+ 1230      6C5F544C 
+ 1230      532C2041 
+ 1230      4651505F 
+ 1231              	.LC20:
+ 1232 002e 41465150 		.ascii	"AFQP_TLS_ConnectUntrustedCert\000"
+ 1232      5F544C53 
+ 1232      5F436F6E 
+ 1232      6E656374 
+ 1232      556E7472 
+ 1233              		.section	.rodata.clientcredentialMQTT_BROKER_ENDPOINT,"a",%progbits
+ 1234              		.set	.LANCHOR0,. + 0
+ 1237              	clientcredentialMQTT_BROKER_ENDPOINT:
+ 1238 0000 61333369 		.ascii	"a33i4lqfcxqo2.iot.ap-northeast-1.amazonaws.com\000"
+ 1238      346C7166 
+ 1238      6378716F 
+ 1238      322E696F 
+ 1238      742E6170 
+ 1239              		.section	.rodata.prvConnectWithProvisioning.constprop.1.str1.1,"aMS",%progbits,1
+ 1240              	.LC9:
+ 1241 0000 536F636B 		.ascii	"Socket connect failed while it was expected to succ"
+ 1241      65742063 
+ 1241      6F6E6E65 
+ 1241      63742066 
+ 1241      61696C65 
+ 1242 0033 6565642E 		.ascii	"eed.\000"
+ 1242      00
+ 1243              	.LC10:
+ 1244 0038 536F636B 		.ascii	"Socket disconnect failed.\000"
+ 1244      65742064 
+ 1244      6973636F 
+ 1244      6E6E6563 
+ 1244      74206661 
+ 1245              		.section	.rodata.prvExpectFailAfterDataSentWithProvisioning.constprop.0.str1.1,"aMS",%progbits,1
+ 1246              	.LC6:
+ 1247 0000 536F636B 		.ascii	"Socket was not able to send.\000"
+ 1247      65742077 
+ 1247      6173206E 
+ 1247      6F742061 
+ 1247      626C6520 
+ 1248              	.LC7:
+ 1249 001d 41206E65 		.ascii	"A negative result is expected from SOCKETS_Recv and"
+ 1249      67617469 
+ 1249      76652072 
+ 1249      6573756C 
+ 1249      74206973 
+ 1250 0050 20776520 		.ascii	" we got: %d\015\012\000"
+ 1250      676F743A 
+ 1250      2025640D 
+ 1250      0A00
+ 1251              	.LC8:
+ 1252 005e 534F434B 		.ascii	"SOCKETS_Recv passed or timed out when it should hav"
+ 1252      4554535F 
+ 1252      52656376 
+ 1252      20706173 
+ 1252      73656420 
+ 1253 0091 65206661 		.ascii	"e failed.\000"
+ 1253      696C6564 
+ 1253      2E00
+ 1254              		.section	.rodata.tlstestCLIENT_BYOC_CERTIFICATE_PEM,"a",%progbits
+ 1255              		.set	.LANCHOR5,. + 0
+ 1258              	tlstestCLIENT_BYOC_CERTIFICATE_PEM:
+ 1259 0000 50617374 		.ascii	"Paste client certificate here.\000"
+ 1259      6520636C 
+ 1259      69656E74 
+ 1259      20636572 
+ 1259      74696669 
+ 1260              		.section	.rodata.tlstestCLIENT_BYOC_PRIVATE_KEY_PEM,"a",%progbits
+ 1261              		.set	.LANCHOR4,. + 0
+ 1264              	tlstestCLIENT_BYOC_PRIVATE_KEY_PEM:
+ 1265 0000 50617374 		.ascii	"Paste client private key here.\000"
+ 1265      6520636C 
+ 1265      69656E74 
+ 1265      20707269 
+ 1265      76617465 
+ 1266              		.section	.rodata.tlstestCLIENT_CERTIFICATE_PEM_EC,"a",%progbits
+ 1267              		.set	.LANCHOR7,. + 0
+ 1270              	tlstestCLIENT_CERTIFICATE_PEM_EC:
+ 1271 0000 50617374 		.ascii	"Paste client certificate here.\000"
+ 1271      6520636C 
+ 1271      69656E74 
+ 1271      20636572 
+ 1271      74696669 
+ 1272              		.section	.rodata.tlstestCLIENT_CERTIFICATE_PEM_MALFORMED,"a",%progbits
+ 1273              		.set	.LANCHOR3,. + 0
+ 1276              	tlstestCLIENT_CERTIFICATE_PEM_MALFORMED:
+ 1277 0000 50617374 		.ascii	"Paste client certificate here.\000"
+ 1277      6520636C 
+ 1277      69656E74 
+ 1277      20636572 
+ 1277      74696669 
+ 1278              		.section	.rodata.tlstestCLIENT_PRIVATE_KEY_PEM_EC,"a",%progbits
+ 1279              		.set	.LANCHOR6,. + 0
+ 1282              	tlstestCLIENT_PRIVATE_KEY_PEM_EC:
+ 1283 0000 50617374 		.ascii	"Paste client private key here.\000"
+ 1283      6520636C 
+ 1283      69656E74 
+ 1283      20707269 
+ 1283      76617465 
+ 1284              		.section	.rodata.tlstestCLIENT_UNTRUSTED_CERTIFICATE_PEM,"a",%progbits
+ 1285              		.set	.LANCHOR2,. + 0
+ 1288              	tlstestCLIENT_UNTRUSTED_CERTIFICATE_PEM:
+ 1289 0000 50617374 		.ascii	"Paste client certificate here.\000"
+ 1289      6520636C 
+ 1289      69656E74 
+ 1289      20636572 
+ 1289      74696669 
+ 1290              		.section	.rodata.tlstestCLIENT_UNTRUSTED_PRIVATE_KEY_PEM,"a",%progbits
+ 1291              		.set	.LANCHOR1,. + 0
+ 1294              	tlstestCLIENT_UNTRUSTED_PRIVATE_KEY_PEM:
+ 1295 0000 50617374 		.ascii	"Paste client private key here.\000"
+ 1295      6520636C 
+ 1295      69656E74 
+ 1295      20707269 
+ 1295      76617465 
+ 1296              		.text
+ 1297              	.Letext0:
+ 1298              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1299              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1300              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1301              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 1302              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1303              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1304              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1305              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1306              		.file 10 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\src/unity_internals.h"
+ 1307              		.file 11 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1308              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\extras\\fixture\\src/u
+ 1309              		.file 13 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\common\\include/aws_test_runner.h"
+ 1310              		.file 14 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS\\portable\\GCC\\ARM_CA9_RZA2M/por
+ 1311              		.file 15 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/aws_secure_sockets.h"
+ 1312              		.file 16 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\common\\include/aws_clientcredential_key
+ 1313              		.file 17 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\common\\include/aws_clientcredential.h"
+ 1314              		.file 18 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\common\\include/aws_test_tls.h"
+ 1315              		.file 19 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\common\\include/aws_dev_mode_key_provisi
+ 1316              		.file 20 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1317              		.file 21 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\renesas\\rza2m-gr-mango\\common\\config_
+DEFINED SYMBOLS
+                            *ABS*:00000000 aws_test_tls.c
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:17     .text.TEST_Full_TLS_TEAR_DOWN:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:23     .text.TEST_Full_TLS_TEAR_DOWN:00000000 TEST_Full_TLS_TEAR_DOWN
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:36     .text.TEST_Full_TLS_AFQP_TLS_ConnectRSA_:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:42     .text.TEST_Full_TLS_AFQP_TLS_ConnectRSA_:00000000 TEST_Full_TLS_AFQP_TLS_ConnectRSA_
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:224    .text.TEST_Full_TLS_AFQP_TLS_ConnectRSA_:00000150 $d
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:239    .text.prvExpectFailAfterDataSentWithProvisioning.constprop.0:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:244    .text.prvExpectFailAfterDataSentWithProvisioning.constprop.0:00000000 prvExpectFailAfterDataSentWithProvisioning.constprop.0
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:457    .text.prvExpectFailAfterDataSentWithProvisioning.constprop.0:000001c8 $d
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:472    .text.TEST_Full_TLS_AFQP_TLS_ConnectUntrustedCert_:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:478    .text.TEST_Full_TLS_AFQP_TLS_ConnectUntrustedCert_:00000000 TEST_Full_TLS_AFQP_TLS_ConnectUntrustedCert_
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:516    .text.TEST_Full_TLS_AFQP_TLS_ConnectUntrustedCert_:00000038 $d
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:522    .text.TEST_Full_TLS_AFQP_TLS_ConnectMalformedCert_:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:528    .text.TEST_Full_TLS_AFQP_TLS_ConnectMalformedCert_:00000000 TEST_Full_TLS_AFQP_TLS_ConnectMalformedCert_
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:566    .text.TEST_Full_TLS_AFQP_TLS_ConnectMalformedCert_:00000040 $d
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:573    .text.prvConnectWithProvisioning.constprop.1:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:578    .text.prvConnectWithProvisioning.constprop.1:00000000 prvConnectWithProvisioning.constprop.1
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:770    .text.prvConnectWithProvisioning.constprop.1:00000194 $d
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:783    .text.TEST_Full_TLS_AFQP_TLS_ConnectBYOCCredentials_:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:789    .text.TEST_Full_TLS_AFQP_TLS_ConnectBYOCCredentials_:00000000 TEST_Full_TLS_AFQP_TLS_ConnectBYOCCredentials_
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:827    .text.TEST_Full_TLS_AFQP_TLS_ConnectBYOCCredentials_:00000038 $d
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:833    .text.TEST_Full_TLS_AFQP_TLS_ConnectEC_:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:839    .text.TEST_Full_TLS_AFQP_TLS_ConnectEC_:00000000 TEST_Full_TLS_AFQP_TLS_ConnectEC_
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:877    .text.TEST_Full_TLS_AFQP_TLS_ConnectEC_:00000038 $d
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:883    .text.TEST_Full_TLS_SETUP:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:889    .text.TEST_Full_TLS_SETUP:00000000 TEST_Full_TLS_SETUP
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:900    .text.TEST_Full_TLS_AFQP_TLS_ConnectRSA_run:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:906    .text.TEST_Full_TLS_AFQP_TLS_ConnectRSA_run:00000000 TEST_Full_TLS_AFQP_TLS_ConnectRSA_run
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:938    .text.TEST_Full_TLS_AFQP_TLS_ConnectRSA_run:00000040 $d
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:949    .text.TEST_Full_TLS_AFQP_TLS_ConnectEC_run:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:955    .text.TEST_Full_TLS_AFQP_TLS_ConnectEC_run:00000000 TEST_Full_TLS_AFQP_TLS_ConnectEC_run
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:986    .text.TEST_Full_TLS_AFQP_TLS_ConnectEC_run:00000040 $d
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:997    .text.TEST_Full_TLS_AFQP_TLS_ConnectMalformedCert_run:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:1003   .text.TEST_Full_TLS_AFQP_TLS_ConnectMalformedCert_run:00000000 TEST_Full_TLS_AFQP_TLS_ConnectMalformedCert_run
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:1034   .text.TEST_Full_TLS_AFQP_TLS_ConnectMalformedCert_run:00000040 $d
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:1045   .text.TEST_Full_TLS_AFQP_TLS_ConnectUntrustedCert_run:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:1051   .text.TEST_Full_TLS_AFQP_TLS_ConnectUntrustedCert_run:00000000 TEST_Full_TLS_AFQP_TLS_ConnectUntrustedCert_run
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:1082   .text.TEST_Full_TLS_AFQP_TLS_ConnectUntrustedCert_run:00000040 $d
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:1093   .text.TEST_Full_TLS_AFQP_TLS_ConnectBYOCCredentials_run:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:1099   .text.TEST_Full_TLS_AFQP_TLS_ConnectBYOCCredentials_run:00000000 TEST_Full_TLS_AFQP_TLS_ConnectBYOCCredentials_run
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:1130   .text.TEST_Full_TLS_AFQP_TLS_ConnectBYOCCredentials_run:00000040 $d
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:1141   .text.TEST_Full_TLS_GROUP_RUNNER:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:1147   .text.TEST_Full_TLS_GROUP_RUNNER:00000000 TEST_Full_TLS_GROUP_RUNNER
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:1237   .rodata.clientcredentialMQTT_BROKER_ENDPOINT:00000000 clientcredentialMQTT_BROKER_ENDPOINT
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:1258   .rodata.tlstestCLIENT_BYOC_CERTIFICATE_PEM:00000000 tlstestCLIENT_BYOC_CERTIFICATE_PEM
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:1264   .rodata.tlstestCLIENT_BYOC_PRIVATE_KEY_PEM:00000000 tlstestCLIENT_BYOC_PRIVATE_KEY_PEM
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:1270   .rodata.tlstestCLIENT_CERTIFICATE_PEM_EC:00000000 tlstestCLIENT_CERTIFICATE_PEM_EC
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:1276   .rodata.tlstestCLIENT_CERTIFICATE_PEM_MALFORMED:00000000 tlstestCLIENT_CERTIFICATE_PEM_MALFORMED
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:1282   .rodata.tlstestCLIENT_PRIVATE_KEY_PEM_EC:00000000 tlstestCLIENT_PRIVATE_KEY_PEM_EC
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:1288   .rodata.tlstestCLIENT_UNTRUSTED_CERTIFICATE_PEM:00000000 tlstestCLIENT_UNTRUSTED_CERTIFICATE_PEM
+C:\Users\a5089698\AppData\Local\Temp\ccZEqSr9.s:1294   .rodata.tlstestCLIENT_UNTRUSTED_PRIVATE_KEY_PEM:00000000 tlstestCLIENT_UNTRUSTED_PRIVATE_KEY_PEM
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+SOCKETS_GetHostByName
+SOCKETS_Socket
+SOCKETS_SetSockOpt
+UnityAssertEqualNumber
+setjmp
+SOCKETS_Connect
+SOCKETS_Shutdown
+SOCKETS_Close
+UnityFail
+Unity
+vAlternateKeyProvisioning
+SOCKETS_Send
+UnityAssertGreaterNumber
+SOCKETS_Recv
+vLoggingPrintf
+UnityAssertSmallerNumber
+vDevModeKeyProvisioning
+cBuffer
+clientcredentialCLIENT_PRIVATE_KEY_PEM
+clientcredentialCLIENT_PRIVATE_KEY_LENGTH
+UnityTestRunner

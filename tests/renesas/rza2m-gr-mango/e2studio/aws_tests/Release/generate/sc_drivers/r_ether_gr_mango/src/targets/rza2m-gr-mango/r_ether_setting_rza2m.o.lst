@@ -1,0 +1,236 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"r_ether_setting_rza2m.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.ether_set_phy_mode,"ax",%progbits
+  17              		.align	2
+  18              		.global	ether_set_phy_mode
+  19              		.syntax unified
+  20              		.arm
+  21              		.fpu neon
+  23              	ether_set_phy_mode:
+  24              	.LFB1:
+  25              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/cor
+   1:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** /**************************************************************************************************
+   2:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****  * DISCLAIMER
+   3:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****  * This software is supplied by Renesas Electronics Corporation and is only intended for use with R
+   4:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****  * other uses are authorized. This software is owned by Renesas Electronics Corporation and is prot
+   5:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****  * applicable laws, including copyright laws.
+   6:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****  * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   7:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****  * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF
+   8:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****  * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAI
+   9:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****  * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS A
+  10:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****  * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY R
+  11:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****  * THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DA
+  12:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****  * Renesas reserves the right, without notice, to make changes to this software and to discontinue 
+  13:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****  * this software. By using this software, you agree to the additional terms and conditions found by
+  14:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****  * following link:
+  15:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****  * http://www.renesas.com/disclaimer
+  16:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****  *
+  17:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****  * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+  18:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****  **************************************************************************************************
+  19:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** 
+  20:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** /**************************************************************************************************
+  21:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** * File Name    : r_ether_setting_rza2m.c
+  22:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** * Version      : 1.01
+  23:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** * Device       : RZA2M
+  24:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** * Description  : Ethernet module device driver
+  25:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** ***************************************************************************************************
+  26:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** 
+  27:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** /**************************************************************************************************
+  28:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** Includes   <System Includes> , "Project Includes"
+  29:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** ***************************************************************************************************
+  30:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** #include "iodefine.h"
+  31:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** #include "iobitmask.h"
+  32:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** 
+  33:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** #include "r_ether_drv_sc_cfg.h"
+  34:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** #include "r_ether_rza2_if.h"
+  35:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** #include "r_ether_rza2_private.h"
+  36:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** 
+  37:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** /**************************************************************************************************
+  38:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** Macro definitions
+  39:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** ***************************************************************************************************
+  40:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** 
+  41:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** /**************************************************************************************************
+  42:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** Typedef definitions
+  43:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** ***************************************************************************************************
+  44:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** 
+  45:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** /**************************************************************************************************
+  46:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** Imported global variables and functions (from other files)
+  47:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** ***************************************************************************************************
+  48:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** 
+  49:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** /**************************************************************************************************
+  50:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** Exported global variables (to be accessed by other files)
+  51:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** ***************************************************************************************************
+  52:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** 
+  53:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** /**************************************************************************************************
+  54:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** Private global variables and functions
+  55:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** ***************************************************************************************************
+  56:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** 
+  57:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** /**************************************************************************************************
+  58:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** * Function Name: ether_set_phy_mode
+  59:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** * Description  :
+  60:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** * Arguments    : connect -
+  61:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** *                    Ethernet channel number
+  62:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** * Return Value : none
+  63:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** ***************************************************************************************************
+  64:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** void ether_set_phy_mode(uint8_t connect)
+  65:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** {
+  26              		.loc 1 65 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              		@ link register save eliminated.
+  31              	.LVL0:
+  66:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****     if (g_ether_sc_table[0].config.ether_ch0_en == 1)
+  32              		.loc 1 66 0
+  33 0000 AC309FE5 		ldr	r3, .L9
+  34 0004 002093E5 		ldr	r2, [r3]
+  35 0008 010052E3 		cmp	r2, #1
+  36 000c 0700001A 		bne	.L2
+  67:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****     {
+  68:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****         if (PORT_CONNECT_ET0 == (connect & PORT_CONNECT_ET0))
+  37              		.loc 1 68 0
+  38 0010 01C010E2 		ands	ip, r0, #1
+  69:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****         {
+  70:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****             if (g_ether_sc_table[0].config.ether_mode == 0)
+  39              		.loc 1 70 0
+  40 0014 082093E5 		ldr	r2, [r3, #8]
+  68:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****         {
+  41              		.loc 1 68 0
+  42 0018 1100000A 		beq	.L3
+  43              		.loc 1 70 0
+  44 001c 000052E3 		cmp	r2, #0
+  71:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****             {
+  72:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****                 /* CH0 MII */
+  73:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****                 GPIO.PFENET.BIT.PHYMODE0 = 1;
+  45              		.loc 1 73 0
+  46 0020 90109F05 		ldreq	r1, .L9+4
+  47 0024 2125D105 		ldrbeq	r2, [r1, #1313]	@ zero_extendqisi2
+  48 0028 01208203 		orreq	r2, r2, #1
+  49 002c 2125C105 		strbeq	r2, [r1, #1313]
+  50              	.L2:
+  74:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****             }
+  75:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****         }
+  76:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****         else if (g_ether_sc_table[0].config.ether_mode == 1)
+  77:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****         {
+  78:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****             /* CH0 RMII */
+  79:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****             GPIO.PFENET.BIT.PHYMODE0 = 0;
+  80:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****             GPIO.PMODEPFS.BIT.ET0_EXOUT_SEL = 0;
+  81:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****         }
+  82:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****         else
+  83:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****         {
+  84:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****             /* Do Nothing */
+  85:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****         }
+  86:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****     }
+  87:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c **** 
+  88:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****     if (g_ether_sc_table[0].config.ether_ch1_en == 1)
+  51              		.loc 1 88 0
+  52 0030 042093E5 		ldr	r2, [r3, #4]
+  53 0034 010052E3 		cmp	r2, #1
+  54 0038 1EFF2F11 		bxne	lr
+  89:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****     {
+  90:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****         if (PORT_CONNECT_ET1 == (connect & PORT_CONNECT_ET1))
+  55              		.loc 1 90 0
+  56 003c 020010E3 		tst	r0, #2
+  57 0040 1EFF2F01 		bxeq	lr
+  91:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****         {
+  92:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****             if (g_ether_sc_table[0].config.ether_mode == 0)
+  58              		.loc 1 92 0
+  59 0044 083093E5 		ldr	r3, [r3, #8]
+  60 0048 000053E3 		cmp	r3, #0
+  61 004c 0E00001A 		bne	.L5
+  93:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****             {
+  94:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****                 /* CH1 MII */
+  95:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****                 GPIO.PFENET.BIT.PHYMODE1 = 1;
+  62              		.loc 1 95 0
+  63 0050 60209FE5 		ldr	r2, .L9+4
+  64 0054 2135D2E5 		ldrb	r3, [r2, #1313]	@ zero_extendqisi2
+  65 0058 023083E3 		orr	r3, r3, #2
+  66 005c 2135C2E5 		strb	r3, [r2, #1313]
+  67 0060 1EFF2FE1 		bx	lr
+  68              	.L3:
+  76:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****         {
+  69              		.loc 1 76 0
+  70 0064 010052E3 		cmp	r2, #1
+  71 0068 F0FFFF1A 		bne	.L2
+  79:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****             GPIO.PMODEPFS.BIT.ET0_EXOUT_SEL = 0;
+  72              		.loc 1 79 0
+  73 006c 44209FE5 		ldr	r2, .L9+4
+  74 0070 2115D2E5 		ldrb	r1, [r2, #1313]	@ zero_extendqisi2
+  75 0074 1C10C0E7 		bfi	r1, ip, #0, #1
+  76 0078 2115C2E5 		strb	r1, [r2, #1313]
+  80:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****         }
+  77              		.loc 1 80 0
+  78 007c C11692E5 		ldr	r1, [r2, #1729]
+  79 0080 1C10C0E7 		bfi	r1, ip, #0, #1
+  80 0084 C11682E5 		str	r1, [r2, #1729]
+  81 0088 E8FFFFEA 		b	.L2
+  82              	.L5:
+  96:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****             }
+  97:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****             else if (g_ether_sc_table[0].config.ether_mode == 1)
+  83              		.loc 1 97 0
+  84 008c 010053E3 		cmp	r3, #1
+  85 0090 1EFF2F11 		bxne	lr
+  98:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****             {
+  99:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****                 /* CH1 RMII */
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****                 GPIO.PFENET.BIT.PHYMODE1 = 0;
+  86              		.loc 1 100 0
+  87 0094 1C309FE5 		ldr	r3, .L9+4
+  88 0098 2125D3E5 		ldrb	r2, [r3, #1313]	@ zero_extendqisi2
+  89 009c 9F20C1E7 		bfc	r2, #1, #1
+  90 00a0 2125C3E5 		strb	r2, [r3, #1313]
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_ether_setting_rza2m.c ****                 GPIO.PMODEPFS.BIT.ET1_EXOUT_SEL = 0;
+  91              		.loc 1 101 0
+  92 00a4 C12693E5 		ldr	r2, [r3, #1729]
+  93 00a8 9F20C1E7 		bfc	r2, #1, #1
+  94 00ac C12683E5 		str	r2, [r3, #1729]
+  95 00b0 1EFF2FE1 		bx	lr
+  96              	.L10:
+  97              		.align	2
+  98              	.L9:
+  99 00b4 00000000 		.word	g_ether_sc_table
+ 100 00b8 FFE2FFFC 		.word	-50339073
+ 101              		.cfi_endproc
+ 102              	.LFE1:
+ 104              		.text
+ 105              	.Letext0:
+ 106              		.file 2 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_bo
+ 107              		.file 3 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_bo
+ 108              		.file 4 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_bo
+ 109              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 110              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 111              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 112              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 113              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 114              		.file 10 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 115              		.file 11 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 116              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 117              		.file 13 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 118              		.file 14 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 119              		.file 15 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 120              		.file 16 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 121              		.file 17 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 122              		.file 18 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 123              		.file 19 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 124              		.file 20 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+DEFINED SYMBOLS
+                            *ABS*:00000000 r_ether_setting_rza2m.c
+C:\Users\a5089698\AppData\Local\Temp\cctMTC56.s:17     .text.ether_set_phy_mode:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cctMTC56.s:23     .text.ether_set_phy_mode:00000000 ether_set_phy_mode
+C:\Users\a5089698\AppData\Local\Temp\cctMTC56.s:99     .text.ether_set_phy_mode:000000b4 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+g_ether_sc_table

@@ -1,0 +1,642 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"cborerrorstrings.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.cbor_error_string,"ax",%progbits
+  17              		.align	2
+  18              		.global	cbor_error_string
+  19              		.syntax unified
+  20              		.arm
+  21              		.fpu neon
+  23              	cbor_error_string:
+  24              	.LFB49:
+  25              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor/cborerrorstrings.c"
+   1:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** /****************************************************************************
+   2:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** **
+   3:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** ** Copyright (C) 2016 Intel Corporation
+   4:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** **
+   5:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** ** Permission is hereby granted, free of charge, to any person obtaining a copy
+   6:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** ** of this software and associated documentation files (the "Software"), to deal
+   7:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** ** in the Software without restriction, including without limitation the rights
+   8:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** ** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+   9:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** ** copies of the Software, and to permit persons to whom the Software is
+  10:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** ** furnished to do so, subject to the following conditions:
+  11:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** **
+  12:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** ** The above copyright notice and this permission notice shall be included in
+  13:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** ** all copies or substantial portions of the Software.
+  14:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** **
+  15:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** ** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  16:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** ** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  17:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** ** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  18:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** ** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  19:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** ** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  20:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** ** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  21:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** ** THE SOFTWARE.
+  22:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** **
+  23:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** ****************************************************************************/
+  24:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+  25:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** #include "cbor.h"
+  26:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+  27:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** #ifndef _
+  28:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** #  define _(msg)    msg
+  29:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** #endif
+  30:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+  31:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** /**
+  32:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \enum CborError
+  33:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \ingroup CborGlobals
+  34:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * The CborError enum contains the possible error values used by the CBOR encoder and decoder.
+  35:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  *
+  36:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * TinyCBOR functions report success by returning CborNoError, or one error
+  37:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * condition by returning one of the values below. One exception is the
+  38:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * out-of-memory condition (CborErrorOutOfMemory), which the functions for \ref
+  39:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * CborEncoding may report in bit-wise OR with other conditions.
+  40:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  *
+  41:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * This technique allows code to determine whether the only error condition was
+  42:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * a lack of buffer space, which may not be a fatal condition if the buffer can
+  43:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * be resized. Additionally, the functions for \ref CborEncoding may continue
+  44:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * to be used even after CborErrorOutOfMemory is returned, and instead they
+  45:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * will simply calculate the extra space needed.
+  46:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  *
+  47:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \value CborNoError                   No error occurred
+  48:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \omitvalue CborUnknownError
+  49:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \value CborErrorUnknownLength        Request for the length of an array, map or string whose len
+  50:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \value CborErrorAdvancePastEOF       Not enough data in the stream to decode item (decoding woul
+  51:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \value CborErrorIO                   An I/O error occurred, probably due to an out-of-memory sit
+  52:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \value CborErrorGarbageAtEnd         Bytes exist past the end of the CBOR stream
+  53:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \value CborErrorUnexpectedEOF        End of stream reached unexpectedly
+  54:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \value CborErrorUnexpectedBreak      A CBOR break byte was found where not expected
+  55:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \value CborErrorUnknownType          An unknown type (future extension to CBOR) was found in the
+  56:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \value CborErrorIllegalType          An invalid type was found while parsing a chunked CBOR stri
+  57:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \value CborErrorIllegalNumber        An illegal initial byte (encoding unspecified additional in
+  58:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \value CborErrorIllegalSimpleType    An illegal encoding of a CBOR Simple Type of value less tha
+  59:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \omitvalue CborErrorUnknownSimpleType
+  60:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \omitvalue CborErrorUnknownTag
+  61:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \omitvalue CborErrorInappropriateTagForType
+  62:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \omitvalue CborErrorDuplicateObjectKeys
+  63:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \value CborErrorInvalidUtf8TextString Illegal UTF-8 encoding found while parsing CBOR Text Strin
+  64:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \value CborErrorTooManyItems         Too many items were added to CBOR map or array of pre-deter
+  65:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \value CborErrorTooFewItems          Too few items were added to CBOR map or array of pre-determ
+  66:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \value CborErrorDataTooLarge         Data item size exceeds TinyCBOR's implementation limits
+  67:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \value CborErrorNestingTooDeep       Data item nesting exceeds TinyCBOR's implementation limits
+  68:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \omitvalue CborErrorUnsupportedType
+  69:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \value CborErrorJsonObjectKeyIsAggregate Conversion to JSON failed because the key in a map is a
+  70:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \value CborErrorJsonObjectKeyNotString Conversion to JSON failed because the key in a map is not
+  71:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \value CborErrorOutOfMemory          During CBOR encoding, the buffer provided is insufficient f
+  72:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  *                                      in other situations, TinyCBOR failed to allocate memory
+  73:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \value CborErrorInternalError        An internal error occurred in TinyCBOR
+  74:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  */
+  75:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+  76:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** /**
+  77:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * \ingroup CborGlobals
+  78:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  * Returns the error string corresponding to the CBOR error condition \a error.
+  79:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****  */
+  80:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** const char *cbor_error_string(CborError error)
+  81:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** {
+  26              		.loc 1 81 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              	.LVL0:
+  31 0000 F0412DE9 		push	{r4, r5, r6, r7, r8, lr}
+  32              		.cfi_def_cfa_offset 24
+  33              		.cfi_offset 4, -24
+  34              		.cfi_offset 5, -20
+  35              		.cfi_offset 6, -16
+  36              		.cfi_offset 7, -12
+  37              		.cfi_offset 8, -8
+  38              		.cfi_offset 14, -4
+  82:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     switch (error) {
+  39              		.loc 1 82 0
+  40 0004 063100E3 		movw	r3, #262
+  41 0008 012300E3 		movw	r2, #769
+  42 000c 021400E3 		movw	r1, #1026
+  43 0010 04C400E3 		movw	ip, #1028
+  44 0014 05E400E3 		movw	lr, #1029
+  45 0018 014400E3 		movw	r4, #1025
+  46 001c 025200E3 		movw	r5, #514
+  47 0020 016200E3 		movw	r6, #513
+  48 0024 027100E3 		movw	r7, #258
+  49              	.LVL1:
+  50              	.L2:
+  51 0028 030050E1 		cmp	r0, r3
+  52 002c 5300000A 		beq	.L3
+  53 0030 1F0000CA 		bgt	.L4
+  54 0034 040050E3 		cmp	r0, #4
+  55 0038 4600000A 		beq	.L5
+  56 003c 0D0000CA 		bgt	.L6
+  57 0040 000050E3 		cmp	r0, #0
+  58 0044 6300000A 		beq	.L38
+  59 0048 050000CA 		bgt	.L8
+  60 004c 020150E3 		cmp	r0, #-2147483648
+  61 0050 3C00000A 		beq	.L9
+  62 0054 010070E3 		cmn	r0, #1
+  63 0058 5C00000A 		beq	.L10
+  64              	.L37:
+  83:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborNoError:
+  84:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****         return "";
+  85:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+  86:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborUnknownError:
+  87:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****         return _("unknown error");
+  88:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+  89:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborErrorOutOfMemory:
+  90:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****         return _("out of memory/need more memory");
+  91:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+  92:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborErrorUnknownLength:
+  93:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****         return _("unknown length (attempted to get the length of a map/array/string of indeterminat
+  94:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+  95:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborErrorAdvancePastEOF:
+  96:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****         return _("attempted to advance past EOF");
+  97:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+  98:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborErrorIO:
+  99:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****         return _("I/O error");
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborErrorGarbageAtEnd:
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****         return _("garbage after the end of the content");
+ 103:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborErrorUnexpectedEOF:
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****         return _("unexpected end of data");
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborErrorUnexpectedBreak:
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****         return _("unexpected 'break' byte");
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 110:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborErrorUnknownType:
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****         return _("illegal byte (encodes future extension type)");
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborErrorIllegalType:
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****         return _("mismatched string type in chunked string");
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 116:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborErrorIllegalNumber:
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****         return _("illegal initial byte (encodes unspecified additional information)");
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborErrorIllegalSimpleType:
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****         return _("illegal encoding of simple type smaller than 32");
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborErrorUnknownSimpleType:
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****         return _("unknown simple type");
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborErrorUnknownTag:
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****         return _("unknown tag");
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborErrorInappropriateTagForType:
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****         return _("inappropriate tag for type");
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborErrorDuplicateObjectKeys:
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****         return _("duplicate keys in object");
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborErrorInvalidUtf8TextString:
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****         return _("invalid UTF-8 content in string");
+ 136:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborErrorTooManyItems:
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****         return _("too many items added to encoder");
+ 139:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 140:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborErrorTooFewItems:
+ 141:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****         return _("too few items added to encoder");
+ 142:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 143:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborErrorDataTooLarge:
+ 144:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****         return _("internal error: data too large");
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 146:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborErrorNestingTooDeep:
+ 147:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****         return _("internal error: too many nested containers found in recursive function");
+ 148:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 149:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborErrorUnsupportedType:
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****         return _("unsupported type");
+ 151:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 152:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborErrorJsonObjectKeyIsAggregate:
+ 153:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****         return _("conversion to JSON failed: key in object is an array or map");
+ 154:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborErrorJsonObjectKeyNotString:
+ 156:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****         return _("conversion to JSON failed: key in object is not a string");
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborErrorJsonNotImplemented:
+ 159:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****         return _("conversion to JSON failed: open_memstream unavailable");
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborErrorInternalError:
+ 162:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****         return _("internal error");
+ 163:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     }
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     return cbor_error_string(CborUnknownError);
+  65              		.loc 1 164 0
+  66 005c 0100A0E3 		mov	r0, #1
+  67 0060 F0FFFFEA 		b	.L2
+  68              	.L8:
+  82:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     switch (error) {
+  69              		.loc 1 82 0
+  70 0064 020050E3 		cmp	r0, #2
+  71 0068 3800000A 		beq	.L11
+  72 006c 330000DA 		ble	.L39
+  96:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+  73              		.loc 1 96 0
+  74 0070 68019FE5 		ldr	r0, .L42
+  75 0074 F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+  76              	.L6:
+  82:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     switch (error) {
+  77              		.loc 1 82 0
+  78 0078 070050E1 		cmp	r0, r7
+  79 007c 3900000A 		beq	.L14
+  80 0080 060000CA 		bgt	.L15
+  81 0084 010C50E3 		cmp	r0, #256
+  82 0088 3400000A 		beq	.L16
+  83 008c 018100E3 		movw	r8, #257
+  84 0090 080050E1 		cmp	r0, r8
+  85 0094 F0FFFF1A 		bne	.L37
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+  86              		.loc 1 105 0
+  87 0098 44019FE5 		ldr	r0, .L42+4
+  88 009c F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+  89              	.L15:
+  82:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborNoError:
+  90              		.loc 1 82 0
+  91 00a0 410F50E3 		cmp	r0, #260
+  92 00a4 3300000A 		beq	.L18
+  93 00a8 300000DA 		ble	.L40
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+  94              		.loc 1 117 0
+  95 00ac 34019FE5 		ldr	r0, .L42+8
+  96 00b0 F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+  97              	.L4:
+  82:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborNoError:
+  98              		.loc 1 82 0
+  99 00b4 020050E1 		cmp	r0, r2
+ 100 00b8 3A00000A 		beq	.L21
+ 101 00bc 0F0000CA 		bgt	.L22
+ 102 00c0 050050E1 		cmp	r0, r5
+ 103 00c4 3100000A 		beq	.L23
+ 104 00c8 050000CA 		bgt	.L24
+ 105 00cc 020C50E3 		cmp	r0, #512
+ 106 00d0 2C00000A 		beq	.L25
+ 107 00d4 060050E1 		cmp	r0, r6
+ 108 00d8 DFFFFF1A 		bne	.L37
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 109              		.loc 1 126 0
+ 110 00dc 08019FE5 		ldr	r0, .L42+12
+ 111 00e0 F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 112              	.L24:
+  82:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborNoError:
+ 113              		.loc 1 82 0
+ 114 00e4 810F50E3 		cmp	r0, #516
+ 115 00e8 2C00000A 		beq	.L27
+ 116 00ec 290000BA 		blt	.L28
+ 117 00f0 030C50E3 		cmp	r0, #768
+ 118 00f4 D8FFFF1A 		bne	.L37
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 119              		.loc 1 138 0
+ 120 00f8 F0009FE5 		ldr	r0, .L42+16
+ 121 00fc F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 122              	.L22:
+  82:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborNoError:
+ 123              		.loc 1 82 0
+ 124 0100 010050E1 		cmp	r0, r1
+ 125 0104 2B00000A 		beq	.L30
+ 126 0108 050000CA 		bgt	.L31
+ 127 010c 010B50E3 		cmp	r0, #1024
+ 128 0110 2600000A 		beq	.L32
+ 129 0114 040050E1 		cmp	r0, r4
+ 130 0118 CFFFFF1A 		bne	.L37
+ 147:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 131              		.loc 1 147 0
+ 132 011c D0009FE5 		ldr	r0, .L42+20
+ 133 0120 F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 134              	.L31:
+  82:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     case CborNoError:
+ 135              		.loc 1 82 0
+ 136 0124 0C0050E1 		cmp	r0, ip
+ 137 0128 2600000A 		beq	.L34
+ 138 012c 230000BA 		blt	.L35
+ 139 0130 0E0050E1 		cmp	r0, lr
+ 140 0134 C8FFFF1A 		bne	.L37
+ 159:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 141              		.loc 1 159 0
+ 142 0138 B8009FE5 		ldr	r0, .L42+24
+ 143 013c F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 144              	.L39:
+  87:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 145              		.loc 1 87 0
+ 146 0140 B4009FE5 		ldr	r0, .L42+28
+ 147 0144 F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 148              	.L9:
+  90:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 149              		.loc 1 90 0
+ 150 0148 B0009FE5 		ldr	r0, .L42+32
+ 151 014c F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 152              	.L11:
+  93:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 153              		.loc 1 93 0
+ 154 0150 AC009FE5 		ldr	r0, .L42+36
+ 155 0154 F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 156              	.L5:
+  99:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 157              		.loc 1 99 0
+ 158 0158 A8009FE5 		ldr	r0, .L42+40
+ 159 015c F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 160              	.L16:
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 161              		.loc 1 102 0
+ 162 0160 A4009FE5 		ldr	r0, .L42+44
+ 163 0164 F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 164              	.L14:
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 165              		.loc 1 108 0
+ 166 0168 A0009FE5 		ldr	r0, .L42+48
+ 167 016c F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 168              	.L40:
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 169              		.loc 1 111 0
+ 170 0170 9C009FE5 		ldr	r0, .L42+52
+ 171 0174 F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 172              	.L18:
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 173              		.loc 1 114 0
+ 174 0178 98009FE5 		ldr	r0, .L42+56
+ 175 017c F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 176              	.L3:
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 177              		.loc 1 120 0
+ 178 0180 94009FE5 		ldr	r0, .L42+60
+ 179 0184 F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 180              	.L25:
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 181              		.loc 1 123 0
+ 182 0188 90009FE5 		ldr	r0, .L42+64
+ 183 018c F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 184              	.L23:
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 185              		.loc 1 129 0
+ 186 0190 8C009FE5 		ldr	r0, .L42+68
+ 187 0194 F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 188              	.L28:
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 189              		.loc 1 132 0
+ 190 0198 88009FE5 		ldr	r0, .L42+72
+ 191 019c F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 192              	.L27:
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 193              		.loc 1 135 0
+ 194 01a0 84009FE5 		ldr	r0, .L42+76
+ 195 01a4 F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 196              	.L21:
+ 141:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 197              		.loc 1 141 0
+ 198 01a8 80009FE5 		ldr	r0, .L42+80
+ 199 01ac F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 200              	.L32:
+ 144:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 201              		.loc 1 144 0
+ 202 01b0 7C009FE5 		ldr	r0, .L42+84
+ 203 01b4 F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 204              	.L30:
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 205              		.loc 1 150 0
+ 206 01b8 78009FE5 		ldr	r0, .L42+88
+ 207 01bc F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 208              	.L35:
+ 153:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 209              		.loc 1 153 0
+ 210 01c0 74009FE5 		ldr	r0, .L42+92
+ 211 01c4 F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 212              	.L34:
+ 156:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 213              		.loc 1 156 0
+ 214 01c8 70009FE5 		ldr	r0, .L42+96
+ 215 01cc F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 216              	.L10:
+ 162:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c ****     }
+ 217              		.loc 1 162 0
+ 218 01d0 6C009FE5 		ldr	r0, .L42+100
+ 219 01d4 F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 220              	.L38:
+  84:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** 
+ 221              		.loc 1 84 0
+ 222 01d8 68009FE5 		ldr	r0, .L42+104
+ 165:D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor\cborerrorstrings.c **** }
+ 223              		.loc 1 165 0
+ 224 01dc F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 225              	.L43:
+ 226              		.align	2
+ 227              	.L42:
+ 228 01e0 88000000 		.word	.LC4
+ 229 01e4 D5000000 		.word	.LC7
+ 230 01e8 5A010000 		.word	.LC11
+ 231 01ec E0010000 		.word	.LC14
+ 232 01f0 40020000 		.word	.LC18
+ 233 01f4 9E020000 		.word	.LC21
+ 234 01f8 6B030000 		.word	.LC25
+ 235 01fc 01000000 		.word	.LC1
+ 236 0200 0F000000 		.word	.LC2
+ 237 0204 2E000000 		.word	.LC3
+ 238 0208 A6000000 		.word	.LC5
+ 239 020c B0000000 		.word	.LC6
+ 240 0210 EC000000 		.word	.LC8
+ 241 0214 04010000 		.word	.LC9
+ 242 0218 31010000 		.word	.LC10
+ 243 021c 9C010000 		.word	.LC12
+ 244 0220 CC010000 		.word	.LC13
+ 245 0224 EC010000 		.word	.LC15
+ 246 0228 07020000 		.word	.LC16
+ 247 022c 20020000 		.word	.LC17
+ 248 0230 60020000 		.word	.LC19
+ 249 0234 7F020000 		.word	.LC20
+ 250 0238 E5020000 		.word	.LC22
+ 251 023c F6020000 		.word	.LC23
+ 252 0240 32030000 		.word	.LC24
+ 253 0244 A1030000 		.word	.LC26
+ 254 0248 00000000 		.word	.LC0
+ 255              		.cfi_endproc
+ 256              	.LFE49:
+ 258              		.section	.rodata.cbor_error_string.str1.1,"aMS",%progbits,1
+ 259              	.LC0:
+ 260 0000 00       		.ascii	"\000"
+ 261              	.LC1:
+ 262 0001 756E6B6E 		.ascii	"unknown error\000"
+ 262      6F776E20 
+ 262      6572726F 
+ 262      7200
+ 263              	.LC2:
+ 264 000f 6F757420 		.ascii	"out of memory/need more memory\000"
+ 264      6F66206D 
+ 264      656D6F72 
+ 264      792F6E65 
+ 264      6564206D 
+ 265              	.LC3:
+ 266 002e 756E6B6E 		.ascii	"unknown length (attempted to get the length of a ma"
+ 266      6F776E20 
+ 266      6C656E67 
+ 266      74682028 
+ 266      61747465 
+ 267 0061 702F6172 		.ascii	"p/array/string of indeterminate length\000"
+ 267      7261792F 
+ 267      73747269 
+ 267      6E67206F 
+ 267      6620696E 
+ 268              	.LC4:
+ 269 0088 61747465 		.ascii	"attempted to advance past EOF\000"
+ 269      6D707465 
+ 269      6420746F 
+ 269      20616476 
+ 269      616E6365 
+ 270              	.LC5:
+ 271 00a6 492F4F20 		.ascii	"I/O error\000"
+ 271      6572726F 
+ 271      7200
+ 272              	.LC6:
+ 273 00b0 67617262 		.ascii	"garbage after the end of the content\000"
+ 273      61676520 
+ 273      61667465 
+ 273      72207468 
+ 273      6520656E 
+ 274              	.LC7:
+ 275 00d5 756E6578 		.ascii	"unexpected end of data\000"
+ 275      70656374 
+ 275      65642065 
+ 275      6E64206F 
+ 275      66206461 
+ 276              	.LC8:
+ 277 00ec 756E6578 		.ascii	"unexpected 'break' byte\000"
+ 277      70656374 
+ 277      65642027 
+ 277      62726561 
+ 277      6B272062 
+ 278              	.LC9:
+ 279 0104 696C6C65 		.ascii	"illegal byte (encodes future extension type)\000"
+ 279      67616C20 
+ 279      62797465 
+ 279      2028656E 
+ 279      636F6465 
+ 280              	.LC10:
+ 281 0131 6D69736D 		.ascii	"mismatched string type in chunked string\000"
+ 281      61746368 
+ 281      65642073 
+ 281      7472696E 
+ 281      67207479 
+ 282              	.LC11:
+ 283 015a 696C6C65 		.ascii	"illegal initial byte (encodes unspecified additiona"
+ 283      67616C20 
+ 283      696E6974 
+ 283      69616C20 
+ 283      62797465 
+ 284 018d 6C20696E 		.ascii	"l information)\000"
+ 284      666F726D 
+ 284      6174696F 
+ 284      6E2900
+ 285              	.LC12:
+ 286 019c 696C6C65 		.ascii	"illegal encoding of simple type smaller than 32\000"
+ 286      67616C20 
+ 286      656E636F 
+ 286      64696E67 
+ 286      206F6620 
+ 287              	.LC13:
+ 288 01cc 756E6B6E 		.ascii	"unknown simple type\000"
+ 288      6F776E20 
+ 288      73696D70 
+ 288      6C652074 
+ 288      79706500 
+ 289              	.LC14:
+ 290 01e0 756E6B6E 		.ascii	"unknown tag\000"
+ 290      6F776E20 
+ 290      74616700 
+ 291              	.LC15:
+ 292 01ec 696E6170 		.ascii	"inappropriate tag for type\000"
+ 292      70726F70 
+ 292      72696174 
+ 292      65207461 
+ 292      6720666F 
+ 293              	.LC16:
+ 294 0207 6475706C 		.ascii	"duplicate keys in object\000"
+ 294      69636174 
+ 294      65206B65 
+ 294      79732069 
+ 294      6E206F62 
+ 295              	.LC17:
+ 296 0220 696E7661 		.ascii	"invalid UTF-8 content in string\000"
+ 296      6C696420 
+ 296      5554462D 
+ 296      3820636F 
+ 296      6E74656E 
+ 297              	.LC18:
+ 298 0240 746F6F20 		.ascii	"too many items added to encoder\000"
+ 298      6D616E79 
+ 298      20697465 
+ 298      6D732061 
+ 298      64646564 
+ 299              	.LC19:
+ 300 0260 746F6F20 		.ascii	"too few items added to encoder\000"
+ 300      66657720 
+ 300      6974656D 
+ 300      73206164 
+ 300      64656420 
+ 301              	.LC20:
+ 302 027f 696E7465 		.ascii	"internal error: data too large\000"
+ 302      726E616C 
+ 302      20657272 
+ 302      6F723A20 
+ 302      64617461 
+ 303              	.LC21:
+ 304 029e 696E7465 		.ascii	"internal error: too many nested containers found in"
+ 304      726E616C 
+ 304      20657272 
+ 304      6F723A20 
+ 304      746F6F20 
+ 305 02d1 20726563 		.ascii	" recursive function\000"
+ 305      75727369 
+ 305      76652066 
+ 305      756E6374 
+ 305      696F6E00 
+ 306              	.LC22:
+ 307 02e5 756E7375 		.ascii	"unsupported type\000"
+ 307      70706F72 
+ 307      74656420 
+ 307      74797065 
+ 307      00
+ 308              	.LC23:
+ 309 02f6 636F6E76 		.ascii	"conversion to JSON failed: key in object is an arra"
+ 309      65727369 
+ 309      6F6E2074 
+ 309      6F204A53 
+ 309      4F4E2066 
+ 310 0329 79206F72 		.ascii	"y or map\000"
+ 310      206D6170 
+ 310      00
+ 311              	.LC24:
+ 312 0332 636F6E76 		.ascii	"conversion to JSON failed: key in object is not a s"
+ 312      65727369 
+ 312      6F6E2074 
+ 312      6F204A53 
+ 312      4F4E2066 
+ 313 0365 7472696E 		.ascii	"tring\000"
+ 313      6700
+ 314              	.LC25:
+ 315 036b 636F6E76 		.ascii	"conversion to JSON failed: open_memstream unavailab"
+ 315      65727369 
+ 315      6F6E2074 
+ 315      6F204A53 
+ 315      4F4E2066 
+ 316 039e 6C6500   		.ascii	"le\000"
+ 317              	.LC26:
+ 318 03a1 696E7465 		.ascii	"internal error\000"
+ 318      726E616C 
+ 318      20657272 
+ 318      6F7200
+ 319              		.text
+ 320              	.Letext0:
+ 321              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 322              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 323              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 324              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 325              		.file 6 "D:/Work/DeviceTester/amazon-freertos/lib/third_party/tinycbor/cbor.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 cborerrorstrings.c
+C:\Users\a5089698\AppData\Local\Temp\cc5R1oXU.s:17     .text.cbor_error_string:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc5R1oXU.s:23     .text.cbor_error_string:00000000 cbor_error_string
+C:\Users\a5089698\AppData\Local\Temp\cc5R1oXU.s:228    .text.cbor_error_string:000001e0 $d
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

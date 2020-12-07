@@ -1,0 +1,217 @@
+   1              	# 1 "D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_pac
+   1              	@/*******************************************************************************
+   0              	
+   0              	
+   0              	
+   2              	@* DISCLAIMER
+   3              	@* This software is supplied by Renesas Electronics Corporation and is only
+   4              	@* intended for use with Renesas products. No other uses are authorized. This
+   5              	@* software is owned by Renesas Electronics Corporation and is protected under
+   6              	@* all applicable laws, including copyright laws.
+   7              	@* THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   8              	@* THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT
+   9              	@* LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+  10              	@* AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED.
+  11              	@* TO THE MAXIMUM EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS
+  12              	@* ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES SHALL BE LIABLE
+  13              	@* FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR
+  14              	@* ANY REASON RELATED TO THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE
+  15              	@* BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+  16              	@* Renesas reserves the right, without notice, to make changes to this software
+  17              	@* and to discontinue the availability of this software. By using this software,
+  18              	@* you agree to the additional terms and conditions found by accessing the
+  19              	@* following link:
+  20              	@* http://www.renesas.com/disclaimer
+  21              	@* Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+  22              	@*******************************************************************************/
+  23              	@/*******************************************************************************
+  24              	@* File Name   : mmu_operation.asm
+  25              	@* Description : TTB initialize
+  26              	@*******************************************************************************/
+  27              	
+  28              	
+  29              	    .section    .text.mmu
+  30              	    .arm
+  31              	
+  32              	@******************************************************************************
+  33              	@ Function Name : r_mmu_get_ttbcr
+  34              	@ Description   : Get TTBCR register
+  35              	@******************************************************************************
+  36              	    .section .text.r_mmu_get_ttbcr
+  37              	    .global r_mmu_get_ttbcr
+  39              	    .func   r_mmu_get_ttbcr
+  40              	
+  41              	r_mmu_get_ttbcr:
+  42              	
+  43 0000 500F12EE 	    MRC  p15, 0, r0, c2, c0, 2      @;; TTBCR
+  44 0004 1EFF2FE1 	    BX  LR
+  45              	
+  46              	    .endfunc
+  47              	
+  48              	@******************************************************************************
+  49              	@ Function Name : r_mmu_set_ttbcr
+  50              	@ Description   : Set TTBCR register
+  51              	@******************************************************************************
+  52              	    .section .text.r_mmu_set_ttbcr
+  53              	    .global r_mmu_set_ttbcr
+  55              	    .func   r_mmu_set_ttbcr
+  56              	
+  57              	r_mmu_set_ttbcr:
+  58              	
+  59 0000 500F02EE 	    MCR  p15, 0, r0, c2, c0, 2      @;; TTBCR
+  60 0004 1EFF2FE1 	    BX  LR
+  61              	
+  62              	    .endfunc
+  63              	
+  64              	@******************************************************************************
+  65              	@ Function Name : r_mmu_get_ttbr0
+  66              	@ Description   : Get TTBR0 register
+  67              	@******************************************************************************
+  68              	    .section .text.r_mmu_get_ttbr0
+  69              	    .global r_mmu_get_ttbr0
+  71              	    .func   r_mmu_get_ttbr0
+  72              	
+  73              	r_mmu_get_ttbr0:
+  74              	
+  75 0000 100F12EE 	    MRC  p15, 0, r0, c2, c0, 0      @;; TTBR0
+  76 0004 1EFF2FE1 	    BX  LR
+  77              	
+  78              	    .endfunc
+  79              	
+  80              	@******************************************************************************
+  81              	@ Function Name : r_mmu_set_ttbr0
+  82              	@ Description   : Set TTBR0 register
+  83              	@******************************************************************************
+  84              	    .section .text.r_mmu_set_ttbr0
+  85              	    .global r_mmu_set_ttbr0
+  87              	    .func   r_mmu_set_ttbr0
+  88              	
+  89              	r_mmu_set_ttbr0:
+  90              	
+  91 0000 100F02EE 	    MCR  p15, 0, r0, c2, c0, 0      @;; TTBR0
+  92 0004 1EFF2FE1 	    BX  LR
+  93              	
+  94              	    .endfunc
+  95              	
+  96              	@******************************************************************************
+  97              	@ Function Name : r_mmu_get_dacr
+  98              	@ Description   : Get DACR register
+  99              	@******************************************************************************
+ 100              	    .section .text.r_mmu_get_dacr
+ 101              	    .global r_mmu_get_dacr
+ 103              	    .func   r_mmu_get_dacr
+ 104              	
+ 105              	r_mmu_get_dacr:
+ 106              	
+ 107 0000 100F13EE 	    MRC  p15, 0, r0, c3, c0, 0      @;; DACR
+ 108 0004 1EFF2FE1 	    BX  LR
+ 109              	
+ 110              	    .endfunc
+ 111              	
+ 112              	@******************************************************************************
+ 113              	@ Function Name : r_mmu_set_dacr
+ 114              	@ Description   : Set DACR register
+ 115              	@******************************************************************************
+ 116              	    .section .text.r_mmu_set_dacr
+ 117              	    .global r_mmu_set_dacr
+ 119              	    .func   r_mmu_set_dacr
+ 120              	
+ 121              	
+ 122              	r_mmu_set_dacr:
+ 123              	
+ 124 0000 100F03EE 	    MCR  p15, 0, r0, c3, c0, 0      @;; DACR
+ 125 0004 1EFF2FE1 	    BX  LR
+ 126              	
+ 127              	    .endfunc
+ 128              	
+ 129              	@******************************************************************************
+ 130              	@ Function Name : r_mmu_get_sctlr
+ 131              	@ Description   : Get SCTLR register
+ 132              	@******************************************************************************
+ 133              	    .section .text.r_mmu_get_sctlr
+ 134              	    .global r_mmu_get_sctlr
+ 136              	    .func   r_mmu_get_sctlr
+ 137              	
+ 138              	
+ 139              	r_mmu_get_sctlr:
+ 140              	
+ 141 0000 100F11EE 	    MRC  p15, 0, r0, c1, c0, 0      @;; SCTLR
+ 142 0004 1EFF2FE1 	    BX  LR
+ 143              	
+ 144              	    .endfunc
+ 145              	
+ 146              	@******************************************************************************
+ 147              	@ Function Name : r_mmu_set_sctlr
+ 148              	@ Description   : Set SCTLR register
+ 149              	@******************************************************************************
+ 150              	    .section .text.r_mmu_set_sctlr
+ 151              	    .global r_mmu_set_sctlr
+ 153              	    .func   r_mmu_set_sctlr
+ 154              	
+ 155              	
+ 156              	r_mmu_set_sctlr:
+ 157              	
+ 158 0000 100F01EE 	    MCR  p15, 0, r0, c1, c0, 0      @;; SCTLR
+ 159 0004 6FF07FF5 	    ISB
+ 160 0008 1EFF2FE1 	    BX  LR
+ 161              	
+ 162              	    .endfunc
+ 163              	
+ 164              	@******************************************************************************
+ 165              	@ Function Name : r_mmu_tlbiall
+ 166              	@ Description   : TLBIALL
+ 167              	@******************************************************************************
+ 168              	    .section .text.r_mmu_tlbiall
+ 169              	    .global r_mmu_tlbiall
+ 171              	    .func   r_mmu_tlbiall
+ 172              	
+ 173              	
+ 174              	r_mmu_tlbiall:
+ 175              	
+ 176 0000 170F08EE 	    MCR  p15, 0, r0, c8, c7, 0      @;; TLBIALL
+ 177 0004 6FF07FF5 	    ISB
+ 178 0008 1EFF2FE1 	    BX  LR
+ 179              	
+ 180              	    .endfunc
+ 181              	
+ 182              	@******************************************************************************
+ 183              	@ Function Name : r_mmu_tlbimvaa
+ 184              	@ Description   : TLBIMVAA
+ 185              	@******************************************************************************
+ 186              	    .section .text.r_mmu_tlbimvaa
+ 187              	    .global r_mmu_tlbimvaa
+ 189              	    .func   r_mmu_tlbimvaa
+ 190              	
+ 191              	r_mmu_tlbimvaa:
+ 192              	
+ 193 0000 770F08EE 	    MCR  p15, 0, r0, c8, c7, 3      @;; TLBIMVAA
+ 194 0004 6FF07FF5 	    ISB
+ 195 0008 1EFF2FE1 	    BX  LR
+ 196              	
+ 197              	    .endfunc
+ 198              	
+ 199              	
+ 200              	    .END
+DEFINED SYMBOLS
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/mmu_operation.asm:41     .text.r_mmu_get_ttbcr:00000000 r_mmu_get_ttbcr
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/mmu_operation.asm:43     .text.r_mmu_get_ttbcr:00000000 $a
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/mmu_operation.asm:57     .text.r_mmu_set_ttbcr:00000000 r_mmu_set_ttbcr
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/mmu_operation.asm:59     .text.r_mmu_set_ttbcr:00000000 $a
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/mmu_operation.asm:73     .text.r_mmu_get_ttbr0:00000000 r_mmu_get_ttbr0
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/mmu_operation.asm:75     .text.r_mmu_get_ttbr0:00000000 $a
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/mmu_operation.asm:89     .text.r_mmu_set_ttbr0:00000000 r_mmu_set_ttbr0
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/mmu_operation.asm:91     .text.r_mmu_set_ttbr0:00000000 $a
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/mmu_operation.asm:105    .text.r_mmu_get_dacr:00000000 r_mmu_get_dacr
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/mmu_operation.asm:107    .text.r_mmu_get_dacr:00000000 $a
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/mmu_operation.asm:122    .text.r_mmu_set_dacr:00000000 r_mmu_set_dacr
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/mmu_operation.asm:124    .text.r_mmu_set_dacr:00000000 $a
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/mmu_operation.asm:139    .text.r_mmu_get_sctlr:00000000 r_mmu_get_sctlr
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/mmu_operation.asm:141    .text.r_mmu_get_sctlr:00000000 $a
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/mmu_operation.asm:156    .text.r_mmu_set_sctlr:00000000 r_mmu_set_sctlr
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/mmu_operation.asm:158    .text.r_mmu_set_sctlr:00000000 $a
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/mmu_operation.asm:174    .text.r_mmu_tlbiall:00000000 r_mmu_tlbiall
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/mmu_operation.asm:176    .text.r_mmu_tlbiall:00000000 $a
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/mmu_operation.asm:191    .text.r_mmu_tlbimvaa:00000000 r_mmu_tlbimvaa
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/mmu_operation.asm:193    .text.r_mmu_tlbimvaa:00000000 $a
+
+NO UNDEFINED SYMBOLS

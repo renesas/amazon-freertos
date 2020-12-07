@@ -1,0 +1,2906 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"aws_tls.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.prvNetworkSend,"ax",%progbits
+  17              		.align	2
+  18              		.syntax unified
+  19              		.arm
+  20              		.fpu neon
+  22              	prvNetworkSend:
+  23              	.LFB16:
+  24              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/tls/aws_tls.c"
+   1:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** /*
+   2:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * Amazon FreeRTOS TLS V1.1.3
+   3:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * Copyright (C) 2017 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+   4:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  *
+   5:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * Permission is hereby granted, free of charge, to any person obtaining a copy of
+   6:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * this software and associated documentation files (the "Software"), to deal in
+   7:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * the Software without restriction, including without limitation the rights to
+   8:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+   9:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * the Software, and to permit persons to whom the Software is furnished to do so,
+  10:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * subject to the following conditions:
+  11:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  *
+  12:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * The above copyright notice and this permission notice shall be included in all
+  13:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * copies or substantial portions of the Software.
+  14:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  *
+  15:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  16:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+  17:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+  18:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+  19:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  20:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  21:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  *
+  22:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * http://aws.amazon.com/freertos
+  23:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * http://www.FreeRTOS.org
+  24:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  */
+  25:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+  26:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** /* FreeRTOS includes. */
+  27:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** #include "FreeRTOS.h"
+  28:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** #include "FreeRTOSIPConfig.h"
+  29:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** #include "aws_tls.h"
+  30:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** #include "aws_crypto.h"
+  31:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** #include "aws_pkcs11.h"
+  32:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** #include "aws_pkcs11_config.h"
+  33:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** #include "task.h"
+  34:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** #include "aws_clientcredential.h"
+  35:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** #include "aws_default_root_certificates.h"
+  36:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+  37:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** /* mbedTLS includes. */
+  38:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** #include "mbedtls/platform.h"
+  39:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** #include "mbedtls/net.h"
+  40:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** #include "mbedtls/ctr_drbg.h"
+  41:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** #include "mbedtls/entropy.h"
+  42:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** #include "mbedtls/sha256.h"
+  43:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** #include "mbedtls/pk.h"
+  44:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** #include "mbedtls/pk_internal.h"
+  45:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** #include "mbedtls/debug.h"
+  46:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** #ifdef MBEDTLS_DEBUG_C
+  47:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     #define tlsDEBUG_VERBOSE    4
+  48:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** #endif
+  49:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+  50:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** /* C runtime includes. */
+  51:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** #include <string.h>
+  52:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** #include <time.h>
+  53:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** #include <stdio.h>
+  54:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+  55:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** /**
+  56:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @brief Internal context structure.
+  57:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  *
+  58:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[in] pcDestination Server location, can be a DNS name or IP address.
+  59:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[in] pcServerCertificate Server X.509 certificate in PEM format to trust.
+  60:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[in] ulServerCertificateLength Length in bytes of the server certificate.
+  61:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[in] xNetworkRecv Callback for receiving data on an open TCP socket.
+  62:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[in] xNetworkSend Callback for sending data on an open TCP socket.
+  63:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[in] pvCallerContext Opaque pointer provided by caller for above callbacks.
+  64:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[out] xTLSCHandshakeSuccessful Indicates whether TLS handshake was successfully completed.
+  65:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[out] xMbedSslCtx Connection context for mbedTLS.
+  66:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[out] xMbedSslConfig Configuration context for mbedTLS.
+  67:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[out] xMbedX509CA Server certificate context for mbedTLS.
+  68:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[out] xMbedX509Cli Client certificate context for mbedTLS.
+  69:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[out] mbedPkAltCtx RSA crypto implementation context for mbedTLS.
+  70:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[out] xP11FunctionList PKCS#11 function list structure.
+  71:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[out] xP11Session PKCS#11 session context.
+  72:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[out] xP11PrivateKey PKCS#11 private key context.
+  73:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  */
+  74:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** typedef struct TLSContext
+  75:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** {
+  76:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     const char * pcDestination;
+  77:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     const char * pcServerCertificate;
+  78:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     uint32_t ulServerCertificateLength;
+  79:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     const char ** ppcAlpnProtocols;
+  80:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     uint32_t ulAlpnProtocolsCount;
+  81:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+  82:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     NetworkRecv_t xNetworkRecv;
+  83:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     NetworkSend_t xNetworkSend;
+  84:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     void * pvCallerContext;
+  85:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     BaseType_t xTLSHandshakeSuccessful;
+  86:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+  87:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     /* mbedTLS. */
+  88:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     mbedtls_ssl_context xMbedSslCtx;
+  89:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     mbedtls_ssl_config xMbedSslConfig;
+  90:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     mbedtls_x509_crt xMbedX509CA;
+  91:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     mbedtls_x509_crt xMbedX509Cli;
+  92:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     mbedtls_pk_context xMbedPkCtx;
+  93:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     mbedtls_pk_info_t xMbedPkInfo;
+  94:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+  95:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     /* PKCS#11. */
+  96:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     CK_FUNCTION_LIST_PTR xP11FunctionList;
+  97:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     CK_SESSION_HANDLE xP11Session;
+  98:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     CK_OBJECT_HANDLE xP11PrivateKey;
+  99:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** } TLSContext_t;
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** #define TLS_PRINT( X )    vLoggingPrintf X
+ 103:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** /*
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * Helper routines.
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  */
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** /**
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @brief TLS internal context rundown helper routine.
+ 110:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  *
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[in] pvContext Caller context.
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  */
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** static void prvFreeContext( TLSContext_t * pxCtx )
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** {
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( NULL != pxCtx )
+ 116:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         /* Cleanup mbedTLS. */
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         mbedtls_ssl_close_notify( &pxCtx->xMbedSslCtx ); /*lint !e534 The error is already taken ca
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         mbedtls_ssl_free( &pxCtx->xMbedSslCtx );
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         mbedtls_ssl_config_free( &pxCtx->xMbedSslConfig );
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         /* Cleanup PKCS#11. */
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         if( ( NULL != pxCtx->xP11FunctionList ) &&
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             ( NULL != pxCtx->xP11FunctionList->C_CloseSession ) )
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         {
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             pxCtx->xP11FunctionList->C_CloseSession( pxCtx->xP11Session ); /*lint !e534 This functi
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         }
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         pxCtx->xTLSHandshakeSuccessful = pdFALSE;
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** }
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** /**
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @brief Network send callback shim.
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  *
+ 136:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[in] pvContext Caller context.
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[in] pucData Byte buffer to send.
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[in] xDataLength Length of byte buffer to send.
+ 139:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  *
+ 140:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @return Number of bytes sent, or a negative value on error.
+ 141:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  */
+ 142:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** static int prvNetworkSend( void * pvContext,
+ 143:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                            const unsigned char * pucData,
+ 144:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                            size_t xDataLength )
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** {
+  25              		.loc 1 145 0
+  26              		.cfi_startproc
+  27              		@ args = 0, pretend = 0, frame = 0
+  28              		@ frame_needed = 0, uses_anonymous_args = 0
+  29              		@ link register save eliminated.
+  30              	.LVL0:
+ 146:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     TLSContext_t * pxCtx = ( TLSContext_t * ) pvContext; /*lint !e9087 !e9079 Allow casting void* t
+ 147:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 148:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     return ( int ) pxCtx->xNetworkSend( pxCtx->pvCallerContext, pucData, xDataLength );
+  31              		.loc 1 148 0
+  32 0000 183090E5 		ldr	r3, [r0, #24]
+  33 0004 1C0090E5 		ldr	r0, [r0, #28]
+  34              	.LVL1:
+  35 0008 13FF2FE1 		bx	r3
+  36              	.LVL2:
+  37              		.cfi_endproc
+  38              	.LFE16:
+  40              		.section	.text.prvNetworkRecv,"ax",%progbits
+  41              		.align	2
+  42              		.syntax unified
+  43              		.arm
+  44              		.fpu neon
+  46              	prvNetworkRecv:
+  47              	.LFB17:
+ 149:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** }
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 151:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** /**
+ 152:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @brief Network receive callback shim.
+ 153:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  *
+ 154:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[in] pvContext Caller context.
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[out] pucReceiveBuffer Byte buffer to receive into.
+ 156:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[in] xReceiveLength Length of byte buffer for receive.
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  *
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @return Number of bytes received, or a negative value on error.
+ 159:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  */
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** static int prvNetworkRecv( void * pvContext,
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                            unsigned char * pucReceiveBuffer,
+ 162:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                            size_t xReceiveLength )
+ 163:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** {
+  48              		.loc 1 163 0
+  49              		.cfi_startproc
+  50              		@ args = 0, pretend = 0, frame = 0
+  51              		@ frame_needed = 0, uses_anonymous_args = 0
+  52              		@ link register save eliminated.
+  53              	.LVL3:
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     TLSContext_t * pxCtx = ( TLSContext_t * ) pvContext; /*lint !e9087 !e9079 Allow casting void* t
+ 165:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 166:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     return ( int ) pxCtx->xNetworkRecv( pxCtx->pvCallerContext, pucReceiveBuffer, xReceiveLength );
+  54              		.loc 1 166 0
+  55 0000 143090E5 		ldr	r3, [r0, #20]
+  56 0004 1C0090E5 		ldr	r0, [r0, #28]
+  57              	.LVL4:
+  58 0008 13FF2FE1 		bx	r3
+  59              	.LVL5:
+  60              		.cfi_endproc
+  61              	.LFE17:
+  63              		.section	.text.prvGenerateRandomBytes,"ax",%progbits
+  64              		.align	2
+  65              		.syntax unified
+  66              		.arm
+  67              		.fpu neon
+  69              	prvGenerateRandomBytes:
+  70              	.LFB18:
+ 167:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** }
+ 168:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 169:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** /**
+ 170:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @brief Callback that wraps PKCS#11 for pseudo-random number generation.
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  *
+ 172:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[in] pvCtx Caller context.
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[in] pucRandom Byte array to fill with random data.
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[in] xRandomLength Length of byte array.
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  *
+ 176:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @return Zero on success.
+ 177:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  */
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** static int prvGenerateRandomBytes( void * pvCtx,
+ 179:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                    unsigned char * pucRandom,
+ 180:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                    size_t xRandomLength )
+ 181:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** {
+  71              		.loc 1 181 0
+  72              		.cfi_startproc
+  73              		@ args = 0, pretend = 0, frame = 0
+  74              		@ frame_needed = 0, uses_anonymous_args = 0
+  75              		@ link register save eliminated.
+  76              	.LVL6:
+ 182:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     TLSContext_t * pxCtx = ( TLSContext_t * ) pvCtx; /*lint !e9087 !e9079 Allow casting void* to ot
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 184:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     return ( int ) pxCtx->xP11FunctionList->C_GenerateRandom( pxCtx->xP11Session, pucRandom, xRando
+  77              		.loc 1 184 0
+  78 0000 E83390E5 		ldr	r3, [r0, #1000]
+  79 0004 EC0390E5 		ldr	r0, [r0, #1004]
+  80              	.LVL7:
+  81 0008 043193E5 		ldr	r3, [r3, #260]
+  82 000c 13FF2FE1 		bx	r3
+  83              	.LVL8:
+  84              		.cfi_endproc
+  85              	.LFE18:
+  87              		.section	.text.prvCheckCertificate,"ax",%progbits
+  88              		.align	2
+  89              		.syntax unified
+  90              		.arm
+  91              		.fpu neon
+  93              	prvCheckCertificate:
+  94              	.LFB19:
+ 185:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** }
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** /**
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @brief Callback that enforces a worst-case expiration check on TLS server
+ 189:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * certificates.
+ 190:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  *
+ 191:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[in] pvCtx Caller context.
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[in] pxCertificate Certificate to check.
+ 193:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[in] lPathCount Location of this certificate in the chain.
+ 194:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[in] pulFlags Verification status flags.
+ 195:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  *
+ 196:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @return Zero on success.
+ 197:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  */
+ 198:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** static int prvCheckCertificate( void * pvCtx,
+ 199:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                 mbedtls_x509_crt * pxCertificate,
+ 200:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                 int lPathCount,
+ 201:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                 uint32_t * pulFlags )
+ 202:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** {
+  95              		.loc 1 202 0
+  96              		.cfi_startproc
+  97              		@ args = 0, pretend = 0, frame = 56
+  98              		@ frame_needed = 0, uses_anonymous_args = 0
+  99              	.LVL9:
+ 100 0000 F0402DE9 		push	{r4, r5, r6, r7, lr}
+ 101              		.cfi_def_cfa_offset 20
+ 102              		.cfi_offset 4, -20
+ 103              		.cfi_offset 5, -16
+ 104              		.cfi_offset 6, -12
+ 105              		.cfi_offset 7, -8
+ 106              		.cfi_offset 14, -4
+ 107 0004 44D04DE2 		sub	sp, sp, #68
+ 108              		.cfi_def_cfa_offset 88
+ 203:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     int lCompilationYear = 0;
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 205:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** #define tlsCOMPILER_DATE_STRING_MONTH_LENGTH    4
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     char cCompilationMonth[ tlsCOMPILER_DATE_STRING_MONTH_LENGTH ];
+ 207:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     int lCompilationMonth = 0;
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     int lCompilationDay = 0;
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     const char cMonths[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
+ 109              		.loc 1 209 0
+ 110 0008 18408DE2 		add	r4, sp, #24
+ 203:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     int lCompilationYear = 0;
+ 111              		.loc 1 203 0
+ 112 000c 0070A0E3 		mov	r7, #0
+ 202:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     int lCompilationYear = 0;
+ 113              		.loc 1 202 0
+ 114 0010 0150A0E1 		mov	r5, r1
+ 115              		.loc 1 209 0
+ 116 0014 2520A0E3 		mov	r2, #37
+ 117              	.LVL10:
+ 118 0018 A0109FE5 		ldr	r1, .L9
+ 119              	.LVL11:
+ 120 001c 0400A0E1 		mov	r0, r4
+ 121              	.LVL12:
+ 202:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     int lCompilationYear = 0;
+ 122              		.loc 1 202 0
+ 123 0020 0360A0E1 		mov	r6, r3
+ 203:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     int lCompilationYear = 0;
+ 124              		.loc 1 203 0
+ 125 0024 0C708DE5 		str	r7, [sp, #12]
+ 126              	.LVL13:
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     const char cMonths[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
+ 127              		.loc 1 208 0
+ 128 0028 14708DE5 		str	r7, [sp, #20]
+ 129              		.loc 1 209 0
+ 130 002c FEFFFFEB 		bl	memcpy
+ 131              	.LVL14:
+ 210:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 211:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     /* Unreferenced parameters. */
+ 212:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     ( void ) ( pvCtx );
+ 213:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     ( void ) ( lPathCount );
+ 214:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 215:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     /* Parse the date string fields. */
+ 216:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     sscanf( __DATE__,
+ 132              		.loc 1 216 0
+ 133 0030 0C308DE2 		add	r3, sp, #12
+ 134 0034 10208DE2 		add	r2, sp, #16
+ 135 0038 00308DE5 		str	r3, [sp]
+ 136 003c 14308DE2 		add	r3, sp, #20
+ 137 0040 7C109FE5 		ldr	r1, .L9+4
+ 138 0044 7C009FE5 		ldr	r0, .L9+8
+ 139 0048 FEFFFFEB 		bl	sscanf
+ 140              	.LVL15:
+ 217:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             "%3s %d %d",
+ 218:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             cCompilationMonth,
+ 219:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             &lCompilationDay,
+ 220:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             &lCompilationYear );
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     cCompilationMonth[ tlsCOMPILER_DATE_STRING_MONTH_LENGTH - 1 ] = '\0';
+ 222:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 223:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     /* Check for server expiration. First check the year. */
+ 224:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( pxCertificate->valid_to.year < lCompilationYear )
+ 141              		.loc 1 224 0
+ 142 004c A42095E5 		ldr	r2, [r5, #164]
+ 143 0050 0C309DE5 		ldr	r3, [sp, #12]
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 144              		.loc 1 221 0
+ 145 0054 1370CDE5 		strb	r7, [sp, #19]
+ 146              		.loc 1 224 0
+ 147 0058 030052E1 		cmp	r2, r3
+ 148 005c 050000AA 		bge	.L5
+ 149              	.LVL16:
+ 150              	.L7:
+ 225:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 226:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         *pulFlags |= MBEDTLS_X509_BADCERT_EXPIRED;
+ 151              		.loc 1 226 0
+ 152 0060 003096E5 		ldr	r3, [r6]
+ 153 0064 013083E3 		orr	r3, r3, #1
+ 154 0068 003086E5 		str	r3, [r6]
+ 155              	.L6:
+ 227:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 228:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     else if( pxCertificate->valid_to.year == lCompilationYear )
+ 229:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         /* Convert the month. */
+ 231:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         lCompilationMonth =
+ 232:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             ( ( strstr( cMonths, cCompilationMonth ) - cMonths ) /
+ 233:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****               ( tlsCOMPILER_DATE_STRING_MONTH_LENGTH - 1 ) ) + 1;
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 235:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         /* Check the month. */
+ 236:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         if( pxCertificate->valid_to.mon < lCompilationMonth )
+ 237:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         {
+ 238:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             *pulFlags |= MBEDTLS_X509_BADCERT_EXPIRED;
+ 239:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         }
+ 240:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         else if( pxCertificate->valid_to.mon == lCompilationMonth )
+ 241:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         {
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             /* Check the day. */
+ 243:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             if( pxCertificate->valid_to.day < lCompilationDay )
+ 244:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             {
+ 245:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 *pulFlags |= MBEDTLS_X509_BADCERT_EXPIRED;
+ 246:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             }
+ 247:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         }
+ 248:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 249:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 250:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     return 0;
+ 251:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** }
+ 156              		.loc 1 251 0
+ 157 006c 0000A0E3 		mov	r0, #0
+ 158 0070 44D08DE2 		add	sp, sp, #68
+ 159              		.cfi_remember_state
+ 160              		.cfi_def_cfa_offset 20
+ 161              		@ sp needed
+ 162 0074 F080BDE8 		pop	{r4, r5, r6, r7, pc}
+ 163              	.LVL17:
+ 164              	.L5:
+ 165              		.cfi_restore_state
+ 228:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 166              		.loc 1 228 0
+ 167 0078 FBFFFF1A 		bne	.L6
+ 232:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****               ( tlsCOMPILER_DATE_STRING_MONTH_LENGTH - 1 ) ) + 1;
+ 168              		.loc 1 232 0
+ 169 007c 10108DE2 		add	r1, sp, #16
+ 170 0080 0400A0E1 		mov	r0, r4
+ 171 0084 FEFFFFEB 		bl	strstr
+ 172              	.LVL18:
+ 173 0088 3C209FE5 		ldr	r2, .L9+12
+ 174 008c 040040E0 		sub	r0, r0, r4
+ 175 0090 9022C3E0 		smull	r2, r3, r0, r2
+ 176 0094 C00F43E0 		sub	r0, r3, r0, asr #31
+ 236:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         {
+ 177              		.loc 1 236 0
+ 178 0098 A83095E5 		ldr	r3, [r5, #168]
+ 231:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             ( ( strstr( cMonths, cCompilationMonth ) - cMonths ) /
+ 179              		.loc 1 231 0
+ 180 009c 010080E2 		add	r0, r0, #1
+ 181              	.LVL19:
+ 236:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         {
+ 182              		.loc 1 236 0
+ 183 00a0 030050E1 		cmp	r0, r3
+ 184 00a4 EDFFFFCA 		bgt	.L7
+ 240:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         {
+ 185              		.loc 1 240 0
+ 186 00a8 EFFFFF1A 		bne	.L6
+ 243:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             {
+ 187              		.loc 1 243 0
+ 188 00ac AC2095E5 		ldr	r2, [r5, #172]
+ 189 00b0 14309DE5 		ldr	r3, [sp, #20]
+ 190 00b4 030052E1 		cmp	r2, r3
+ 191 00b8 E8FFFFBA 		blt	.L7
+ 192 00bc EAFFFFEA 		b	.L6
+ 193              	.L10:
+ 194              		.align	2
+ 195              	.L9:
+ 196 00c0 16000000 		.word	.LC0
+ 197 00c4 00000000 		.word	.LC1
+ 198 00c8 0A000000 		.word	.LC2
+ 199 00cc 56555555 		.word	1431655766
+ 200              		.cfi_endproc
+ 201              	.LFE19:
+ 203              		.section	.text.prvPrivateKeySigningCallback,"ax",%progbits
+ 204              		.align	2
+ 205              		.syntax unified
+ 206              		.arm
+ 207              		.fpu neon
+ 209              	prvPrivateKeySigningCallback:
+ 210              	.LFB20:
+ 252:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 253:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 254:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** /**
+ 255:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @brief Sign a cryptographic hash with the private key.
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  *
+ 257:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[in] pvContext Crypto context.
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[in] xMdAlg Unused.
+ 259:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[in] pucHash Length in bytes of hash to be signed.
+ 260:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[in] uiHashLen Byte array of hash to be signed.
+ 261:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[out] pucSig RSA signature bytes.
+ 262:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[in] pxSigLen Length in bytes of signature buffer.
+ 263:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[in] piRng Unused.
+ 264:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param[in] pvRng Unused.
+ 265:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  *
+ 266:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @return Zero on success.
+ 267:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  */
+ 268:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** static int prvPrivateKeySigningCallback( void * pvContext,
+ 269:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                          mbedtls_md_type_t xMdAlg,
+ 270:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                          const unsigned char * pucHash,
+ 271:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                          size_t xHashLen,
+ 272:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                          unsigned char * pucSig,
+ 273:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                          size_t * pxSigLen,
+ 274:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                          int ( *piRng )( void *, unsigned char *, size_t ), /*lint 
+ 275:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                          void * pvRng )
+ 276:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** {
+ 211              		.loc 1 276 0
+ 212              		.cfi_startproc
+ 213              		@ args = 16, pretend = 0, frame = 16
+ 214              		@ frame_needed = 0, uses_anonymous_args = 0
+ 215              	.LVL20:
+ 216 0000 F0402DE9 		push	{r4, r5, r6, r7, lr}
+ 217              		.cfi_def_cfa_offset 20
+ 218              		.cfi_offset 4, -20
+ 219              		.cfi_offset 5, -16
+ 220              		.cfi_offset 6, -12
+ 221              		.cfi_offset 7, -8
+ 222              		.cfi_offset 14, -4
+ 223 0004 0370A0E1 		mov	r7, r3
+ 224 0008 1CD04DE2 		sub	sp, sp, #28
+ 225              		.cfi_def_cfa_offset 48
+ 277:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     BaseType_t xResult = 0;
+ 278:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     TLSContext_t * pxSession = ( TLSContext_t * ) pvContext;
+ 279:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     CK_MECHANISM xMech = { 0 };
+ 226              		.loc 1 279 0
+ 227 000c 0030A0E3 		mov	r3, #0
+ 228              	.LVL21:
+ 276:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     BaseType_t xResult = 0;
+ 229              		.loc 1 276 0
+ 230 0010 0050A0E1 		mov	r5, r0
+ 231 0014 0260A0E1 		mov	r6, r2
+ 232              		.loc 1 279 0
+ 233 0018 10308DE5 		str	r3, [sp, #16]
+ 280:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     /* Unreferenced parameters. */
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     ( void ) ( piRng );
+ 283:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     ( void ) ( pvRng );
+ 284:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     ( void ) ( xMdAlg );
+ 285:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 286:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     /* Use the PKCS#11 module to sign. */
+ 287:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     xMech.mechanism = CKM_SHA256;
+ 288:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 289:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     xResult = ( BaseType_t ) C_SignInit( pxSession->xP11Session,
+ 234              		.loc 1 289 0
+ 235 001c 0C108DE2 		add	r1, sp, #12
+ 236              	.LVL22:
+ 279:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 237              		.loc 1 279 0
+ 238 0020 14308DE5 		str	r3, [sp, #20]
+ 287:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 239              		.loc 1 287 0
+ 240 0024 253EA0E3 		mov	r3, #592
+ 241              		.loc 1 289 0
+ 242 0028 F02390E5 		ldr	r2, [r0, #1008]
+ 243              	.LVL23:
+ 244 002c EC0390E5 		ldr	r0, [r0, #1004]
+ 245              	.LVL24:
+ 287:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 246              		.loc 1 287 0
+ 247 0030 0C308DE5 		str	r3, [sp, #12]
+ 248              		.loc 1 289 0
+ 249 0034 FEFFFFEB 		bl	C_SignInit
+ 250              	.LVL25:
+ 290:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                          &xMech,
+ 291:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                          pxSession->xP11PrivateKey );
+ 292:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 293:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( 0 == xResult )
+ 251              		.loc 1 293 0
+ 252 0038 004050E2 		subs	r4, r0, #0
+ 253 003c 0800001A 		bne	.L12
+ 294:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 295:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = ( BaseType_t ) C_Sign( ( CK_SESSION_HANDLE ) pxSession->xP11Session,
+ 254              		.loc 1 295 0
+ 255 0040 34309DE5 		ldr	r3, [sp, #52]
+ 256 0044 0720A0E1 		mov	r2, r7
+ 257 0048 0610A0E1 		mov	r1, r6
+ 258 004c EC0395E5 		ldr	r0, [r5, #1004]
+ 259              	.LVL26:
+ 260 0050 00308DE5 		str	r3, [sp]
+ 261 0054 30309DE5 		ldr	r3, [sp, #48]
+ 262 0058 FEFFFFEB 		bl	C_Sign
+ 263              	.LVL27:
+ 296:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                          ( CK_BYTE_PTR ) pucHash, /*lint !e9005 The interfaces are 
+ 297:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                          ( CK_ULONG ) xHashLen,
+ 298:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                          pucSig,
+ 299:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                          ( CK_ULONG_PTR ) pxSigLen );
+ 300:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 301:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 302:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( xResult != 0 )
+ 264              		.loc 1 302 0
+ 265 005c 004050E2 		subs	r4, r0, #0
+ 266 0060 0200000A 		beq	.L13
+ 267              	.L12:
+ 303:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 304:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         configPRINTF( ( "Failure in signing callback: %d \r\n", xResult ) );
+ 268              		.loc 1 304 0
+ 269 0064 0410A0E1 		mov	r1, r4
+ 270 0068 0C009FE5 		ldr	r0, .L18
+ 271              	.LVL28:
+ 272 006c FEFFFFEB 		bl	vLoggingPrintf
+ 273              	.LVL29:
+ 274              	.L13:
+ 305:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 306:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 307:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     return xResult;
+ 308:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** }
+ 275              		.loc 1 308 0
+ 276 0070 0400A0E1 		mov	r0, r4
+ 277 0074 1CD08DE2 		add	sp, sp, #28
+ 278              		.cfi_def_cfa_offset 20
+ 279              		@ sp needed
+ 280 0078 F080BDE8 		pop	{r4, r5, r6, r7, pc}
+ 281              	.LVL30:
+ 282              	.L19:
+ 283              		.align	2
+ 284              	.L18:
+ 285 007c 00000000 		.word	.LC3
+ 286              		.cfi_endproc
+ 287              	.LFE20:
+ 289              		.section	.text.prvFreeContext,"ax",%progbits
+ 290              		.align	2
+ 291              		.syntax unified
+ 292              		.arm
+ 293              		.fpu neon
+ 295              	prvFreeContext:
+ 296              	.LFB15:
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( NULL != pxCtx )
+ 297              		.loc 1 114 0
+ 298              		.cfi_startproc
+ 299              		@ args = 0, pretend = 0, frame = 0
+ 300              		@ frame_needed = 0, uses_anonymous_args = 0
+ 301              	.LVL31:
+ 302 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 303              		.cfi_def_cfa_offset 16
+ 304              		.cfi_offset 4, -16
+ 305              		.cfi_offset 5, -12
+ 306              		.cfi_offset 6, -8
+ 307              		.cfi_offset 14, -4
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 308              		.loc 1 115 0
+ 309 0004 004050E2 		subs	r4, r0, #0
+ 310 0008 7080BD08 		popeq	{r4, r5, r6, pc}
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         mbedtls_ssl_free( &pxCtx->xMbedSslCtx );
+ 311              		.loc 1 118 0
+ 312 000c 245084E2 		add	r5, r4, #36
+ 313 0010 0500A0E1 		mov	r0, r5
+ 314              	.LVL32:
+ 315 0014 FEFFFFEB 		bl	mbedtls_ssl_close_notify
+ 316              	.LVL33:
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         mbedtls_ssl_config_free( &pxCtx->xMbedSslConfig );
+ 317              		.loc 1 119 0
+ 318 0018 0500A0E1 		mov	r0, r5
+ 319 001c FEFFFFEB 		bl	mbedtls_ssl_free
+ 320              	.LVL34:
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 321              		.loc 1 120 0
+ 322 0020 E40084E2 		add	r0, r4, #228
+ 323 0024 FEFFFFEB 		bl	mbedtls_ssl_config_free
+ 324              	.LVL35:
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             ( NULL != pxCtx->xP11FunctionList->C_CloseSession ) )
+ 325              		.loc 1 123 0
+ 326 0028 E83394E5 		ldr	r3, [r4, #1000]
+ 327 002c 000053E3 		cmp	r3, #0
+ 328 0030 0400000A 		beq	.L22
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         {
+ 329              		.loc 1 124 0 discriminator 1
+ 330 0034 383093E5 		ldr	r3, [r3, #56]
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             ( NULL != pxCtx->xP11FunctionList->C_CloseSession ) )
+ 331              		.loc 1 123 0 discriminator 1
+ 332 0038 000053E3 		cmp	r3, #0
+ 333 003c 0100000A 		beq	.L22
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         }
+ 334              		.loc 1 126 0
+ 335 0040 EC0394E5 		ldr	r0, [r4, #1004]
+ 336 0044 33FF2FE1 		blx	r3
+ 337              	.LVL36:
+ 338              	.L22:
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 339              		.loc 1 129 0
+ 340 0048 0030A0E3 		mov	r3, #0
+ 341 004c 203084E5 		str	r3, [r4, #32]
+ 342 0050 7080BDE8 		pop	{r4, r5, r6, pc}
+ 343              		.cfi_endproc
+ 344              	.LFE15:
+ 346              		.section	.text.TLS_Init,"ax",%progbits
+ 347              		.align	2
+ 348              		.global	TLS_Init
+ 349              		.syntax unified
+ 350              		.arm
+ 351              		.fpu neon
+ 353              	TLS_Init:
+ 354              	.LFB22:
+ 309:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 310:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** /**
+ 311:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @brief Helper for setting up potentially hardware-based cryptographic context
+ 312:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * for the client TLS certificate and private key.
+ 313:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  *
+ 314:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @param Caller context.
+ 315:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  *
+ 316:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * @return Zero on success.
+ 317:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  */
+ 318:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** static int prvInitializeClientCredential( TLSContext_t * pxCtx )
+ 319:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** {
+ 320:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     BaseType_t xResult = 0;
+ 321:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     CK_SLOT_ID xSlotId = 0;
+ 322:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     CK_ULONG xCount = 1;
+ 323:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     CK_ATTRIBUTE xTemplate = { 0 };
+ 324:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     CK_OBJECT_HANDLE xCertObj = 0;
+ 325:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     CK_BYTE * pxCertificate = NULL;
+ 326:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     mbedtls_pk_type_t xKeyAlgo = ( mbedtls_pk_type_t ) ~0;
+ 327:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     CK_KEY_TYPE xKeyType = ( CK_KEY_TYPE ) ~0;
+ 328:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 329:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     /* Initialize the mbed contexts. */
+ 330:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     mbedtls_x509_crt_init( &pxCtx->xMbedX509Cli );
+ 331:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 332:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     /* Get the default private key storage ID. */
+ 333:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( CKR_OK == xResult )
+ 334:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 335:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = ( BaseType_t ) pxCtx->xP11FunctionList->C_GetSlotList( CK_TRUE,
+ 336:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                          &xSlotId,
+ 337:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                          &xCount );
+ 338:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 339:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 340:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     /* Start a private session with the P#11 module. */
+ 341:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( 0 == xResult )
+ 342:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 343:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = ( BaseType_t ) pxCtx->xP11FunctionList->C_OpenSession( xSlotId,
+ 344:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                          CKF_SERIAL_SESSION,
+ 345:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                          NULL,
+ 346:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                          NULL,
+ 347:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                          &pxCtx->xP11Session );
+ 348:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 349:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 350:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     /* Get the handle of the device private key. */
+ 351:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( 0 == xResult )
+ 352:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 353:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xTemplate.type = CKA_LABEL;
+ 354:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xTemplate.ulValueLen = sizeof( pkcs11configLABEL_DEVICE_PRIVATE_KEY_FOR_TLS );
+ 355:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xTemplate.pValue = &pkcs11configLABEL_DEVICE_PRIVATE_KEY_FOR_TLS;
+ 356:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = ( BaseType_t ) pxCtx->xP11FunctionList->C_FindObjectsInit( pxCtx->xP11Session,
+ 357:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                              &xTemplate,
+ 358:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                              1 );
+ 359:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 360:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 361:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( 0 == xResult )
+ 362:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 363:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = ( BaseType_t ) pxCtx->xP11FunctionList->C_FindObjects( pxCtx->xP11Session,
+ 364:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                          &pxCtx->xP11PrivateKey,
+ 365:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                          1,
+ 366:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                          &xCount );
+ 367:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 368:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 369:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( 0 == xResult )
+ 370:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 371:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = ( BaseType_t ) pxCtx->xP11FunctionList->C_FindObjectsFinal( pxCtx->xP11Session );
+ 372:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 373:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 374:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( xResult == CKR_OK )
+ 375:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 376:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xTemplate.type = CKA_KEY_TYPE;
+ 377:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xTemplate.pValue = &xKeyType;
+ 378:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xTemplate.ulValueLen = sizeof( CK_KEY_TYPE );
+ 379:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = pxCtx->xP11FunctionList->C_GetAttributeValue( pxCtx->xP11Session,
+ 380:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                 pxCtx->xP11PrivateKey,
+ 381:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                 &xTemplate,
+ 382:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                 1 );
+ 383:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 384:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 385:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( xResult == CKR_OK )
+ 386:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 387:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         switch( xKeyType )
+ 388:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         {
+ 389:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             case CKK_RSA:
+ 390:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 xKeyAlgo = MBEDTLS_PK_RSA;
+ 391:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 break;
+ 392:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 393:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             case CKK_EC:
+ 394:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 xKeyAlgo = MBEDTLS_PK_ECKEY;
+ 395:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 break;
+ 396:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 397:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             default:
+ 398:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 xResult = CKR_ATTRIBUTE_VALUE_INVALID;
+ 399:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 break;
+ 400:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         }
+ 401:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 402:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 403:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( xResult == CKR_OK )
+ 404:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 405:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         memcpy( &pxCtx->xMbedPkInfo, mbedtls_pk_info_from_type( xKeyAlgo ), sizeof( mbedtls_pk_info
+ 406:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 407:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         pxCtx->xMbedPkInfo.sign_func = prvPrivateKeySigningCallback;
+ 408:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         pxCtx->xMbedPkCtx.pk_info = &pxCtx->xMbedPkInfo;
+ 409:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         pxCtx->xMbedPkCtx.pk_ctx = pxCtx;
+ 410:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 411:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 412:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( 0 == xResult )
+ 413:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 414:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         /* Enumerate the first client certificate. */
+ 415:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xTemplate.type = CKA_LABEL;
+ 416:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xTemplate.ulValueLen = sizeof( pkcs11configLABEL_DEVICE_CERTIFICATE_FOR_TLS );
+ 417:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xTemplate.pValue = &pkcs11configLABEL_DEVICE_CERTIFICATE_FOR_TLS;
+ 418:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = ( BaseType_t ) pxCtx->xP11FunctionList->C_FindObjectsInit( pxCtx->xP11Session,
+ 419:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                              &xTemplate,
+ 420:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                              1 );
+ 421:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 422:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 423:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( 0 == xResult )
+ 424:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 425:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = ( BaseType_t ) pxCtx->xP11FunctionList->C_FindObjects( pxCtx->xP11Session,
+ 426:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                          &xCertObj,
+ 427:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                          1,
+ 428:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                          &xCount );
+ 429:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 430:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 431:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( 0 == xResult )
+ 432:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 433:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = ( BaseType_t ) pxCtx->xP11FunctionList->C_FindObjectsFinal( pxCtx->xP11Session );
+ 434:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 435:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 436:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( 0 == xResult )
+ 437:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 438:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         /* Query the device certificate size. */
+ 439:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xTemplate.type = CKA_VALUE;
+ 440:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xTemplate.ulValueLen = 0;
+ 441:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xTemplate.pValue = NULL;
+ 442:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = ( BaseType_t ) pxCtx->xP11FunctionList->C_GetAttributeValue( pxCtx->xP11Session,
+ 443:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                                xCertObj,
+ 444:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                                &xTemplate,
+ 445:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                                1 );
+ 446:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 447:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 448:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( 0 == xResult )
+ 449:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 450:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         /* Create a buffer for the certificate. */
+ 451:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         pxCertificate = ( CK_BYTE_PTR ) pvPortMalloc( xTemplate.ulValueLen ); /*lint !e9079 Allow c
+ 452:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 453:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         if( NULL == pxCertificate )
+ 454:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         {
+ 455:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             xResult = ( BaseType_t ) CKR_HOST_MEMORY;
+ 456:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         }
+ 457:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 458:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 459:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( 0 == xResult )
+ 460:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 461:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         /* Export the certificate. */
+ 462:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xTemplate.pValue = pxCertificate;
+ 463:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = ( BaseType_t ) pxCtx->xP11FunctionList->C_GetAttributeValue( pxCtx->xP11Session,
+ 464:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                                xCertObj,
+ 465:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                                &xTemplate,
+ 466:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                                1 );
+ 467:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 468:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 469:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     /* Decode the client certificate. */
+ 470:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( 0 == xResult )
+ 471:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 472:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = mbedtls_x509_crt_parse( &pxCtx->xMbedX509Cli,
+ 473:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                           ( const unsigned char * ) pxCertificate,
+ 474:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                           xTemplate.ulValueLen );
+ 475:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 476:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 477:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     /*
+ 478:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****      * Add a JITR device issuer certificate, if present.
+ 479:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****      */
+ 480:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( ( 0 == xResult ) &&
+ 481:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         ( NULL != clientcredentialJITR_DEVICE_CERTIFICATE_AUTHORITY_PEM ) )
+ 482:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 483:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         /* Decode the JITR issuer. The device client certificate will get
+ 484:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****          * inserted as the first certificate in this chain below. */
+ 485:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = mbedtls_x509_crt_parse(
+ 486:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             &pxCtx->xMbedX509Cli,
+ 487:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             ( const unsigned char * ) clientcredentialJITR_DEVICE_CERTIFICATE_AUTHORITY_PEM,
+ 488:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             1 + strlen( clientcredentialJITR_DEVICE_CERTIFICATE_AUTHORITY_PEM ) );
+ 489:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 490:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 491:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     /*
+ 492:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****      * Attach the client certificate and private key to the TLS configuration.
+ 493:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****      */
+ 494:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( 0 == xResult )
+ 495:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 496:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = mbedtls_ssl_conf_own_cert( &pxCtx->xMbedSslConfig,
+ 497:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                              &pxCtx->xMbedX509Cli,
+ 498:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                              &pxCtx->xMbedPkCtx );
+ 499:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 500:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 501:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( NULL != pxCertificate )
+ 502:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 503:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         vPortFree( pxCertificate );
+ 504:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 505:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 506:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     return xResult;
+ 507:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** }
+ 508:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 509:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** /*
+ 510:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  * Interface routines.
+ 511:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****  */
+ 512:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 513:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** BaseType_t TLS_Init( void ** ppvContext,
+ 514:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                      TLSParams_t * pxParams )
+ 515:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** {
+ 355              		.loc 1 515 0
+ 356              		.cfi_startproc
+ 357              		@ args = 0, pretend = 0, frame = 0
+ 358              		@ frame_needed = 0, uses_anonymous_args = 0
+ 359              	.LVL37:
+ 360 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 361              		.cfi_def_cfa_offset 16
+ 362              		.cfi_offset 4, -16
+ 363              		.cfi_offset 5, -12
+ 364              		.cfi_offset 6, -8
+ 365              		.cfi_offset 14, -4
+ 366              		.loc 1 515 0
+ 367 0004 0060A0E1 		mov	r6, r0
+ 516:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     BaseType_t xResult = 0;
+ 517:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     TLSContext_t * pxCtx = NULL;
+ 518:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     CK_C_GetFunctionList xCkGetFunctionList = NULL;
+ 519:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 520:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     /* Allocate an internal context. */
+ 521:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     pxCtx = ( TLSContext_t * ) pvPortMalloc( sizeof( TLSContext_t ) ); /*lint !e9087 !e9079 Allow c
+ 368              		.loc 1 521 0
+ 369 0008 FD0FA0E3 		mov	r0, #1012
+ 370              	.LVL38:
+ 515:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     BaseType_t xResult = 0;
+ 371              		.loc 1 515 0
+ 372 000c 0150A0E1 		mov	r5, r1
+ 373              		.loc 1 521 0
+ 374 0010 FEFFFFEB 		bl	pvPortMalloc
+ 375              	.LVL39:
+ 522:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 523:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( NULL != pxCtx )
+ 376              		.loc 1 523 0
+ 377 0014 004050E2 		subs	r4, r0, #0
+ 524:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 525:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         memset( pxCtx, 0, sizeof( TLSContext_t ) );
+ 526:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         *ppvContext = pxCtx;
+ 527:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 528:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         /* Initialize the context. */
+ 529:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         pxCtx->pcDestination = pxParams->pcDestination;
+ 530:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         pxCtx->pcServerCertificate = pxParams->pcServerCertificate;
+ 531:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         pxCtx->ulServerCertificateLength = pxParams->ulServerCertificateLength;
+ 532:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         pxCtx->ppcAlpnProtocols = pxParams->ppcAlpnProtocols;
+ 533:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         pxCtx->ulAlpnProtocolsCount = pxParams->ulAlpnProtocolsCount;
+ 534:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         pxCtx->xNetworkRecv = pxParams->pxNetworkRecv;
+ 535:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         pxCtx->xNetworkSend = pxParams->pxNetworkSend;
+ 536:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         pxCtx->pvCallerContext = pxParams->pvCallerContext;
+ 537:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 538:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         /* Get the function pointer list for the PKCS#11 module. */
+ 539:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xCkGetFunctionList = C_GetFunctionList;
+ 540:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = ( BaseType_t ) xCkGetFunctionList( &pxCtx->xP11FunctionList );
+ 541:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 542:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         /* Ensure that the PKCS #11 module is initialized. */
+ 543:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         if( 0 == xResult )
+ 544:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         {
+ 545:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             xResult = ( BaseType_t ) pxCtx->xP11FunctionList->C_Initialize( NULL );
+ 546:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 547:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             /* It is ok if the module was previously initialized. */
+ 548:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             if( xResult == CKR_CRYPTOKI_ALREADY_INITIALIZED )
+ 549:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             {
+ 550:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 xResult = CKR_OK;
+ 551:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             }
+ 552:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         }
+ 553:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 554:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     else
+ 555:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 556:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = ( BaseType_t ) CKR_HOST_MEMORY;
+ 378              		.loc 1 556 0
+ 379 0018 0250A003 		moveq	r5, #2
+ 380              	.LVL40:
+ 523:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 381              		.loc 1 523 0
+ 382 001c 1D00000A 		beq	.L33
+ 525:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         *ppvContext = pxCtx;
+ 383              		.loc 1 525 0
+ 384 0020 FD2FA0E3 		mov	r2, #1012
+ 385 0024 0010A0E3 		mov	r1, #0
+ 386 0028 FEFFFFEB 		bl	memset
+ 387              	.LVL41:
+ 526:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 388              		.loc 1 526 0
+ 389 002c 004086E5 		str	r4, [r6]
+ 540:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 390              		.loc 1 540 0
+ 391 0030 FA0F84E2 		add	r0, r4, #1000
+ 529:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         pxCtx->pcServerCertificate = pxParams->pcServerCertificate;
+ 392              		.loc 1 529 0
+ 393 0034 043095E5 		ldr	r3, [r5, #4]
+ 394 0038 003084E5 		str	r3, [r4]
+ 530:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         pxCtx->ulServerCertificateLength = pxParams->ulServerCertificateLength;
+ 395              		.loc 1 530 0
+ 396 003c 083095E5 		ldr	r3, [r5, #8]
+ 397 0040 043084E5 		str	r3, [r4, #4]
+ 531:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         pxCtx->ppcAlpnProtocols = pxParams->ppcAlpnProtocols;
+ 398              		.loc 1 531 0
+ 399 0044 0C3095E5 		ldr	r3, [r5, #12]
+ 400 0048 083084E5 		str	r3, [r4, #8]
+ 532:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         pxCtx->ulAlpnProtocolsCount = pxParams->ulAlpnProtocolsCount;
+ 401              		.loc 1 532 0
+ 402 004c 103095E5 		ldr	r3, [r5, #16]
+ 403 0050 0C3084E5 		str	r3, [r4, #12]
+ 533:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         pxCtx->xNetworkRecv = pxParams->pxNetworkRecv;
+ 404              		.loc 1 533 0
+ 405 0054 143095E5 		ldr	r3, [r5, #20]
+ 406 0058 103084E5 		str	r3, [r4, #16]
+ 534:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         pxCtx->xNetworkSend = pxParams->pxNetworkSend;
+ 407              		.loc 1 534 0
+ 408 005c 183095E5 		ldr	r3, [r5, #24]
+ 409 0060 143084E5 		str	r3, [r4, #20]
+ 535:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         pxCtx->pvCallerContext = pxParams->pvCallerContext;
+ 410              		.loc 1 535 0
+ 411 0064 1C3095E5 		ldr	r3, [r5, #28]
+ 412 0068 183084E5 		str	r3, [r4, #24]
+ 536:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 413              		.loc 1 536 0
+ 414 006c 203095E5 		ldr	r3, [r5, #32]
+ 415 0070 1C3084E5 		str	r3, [r4, #28]
+ 416              	.LVL42:
+ 540:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 417              		.loc 1 540 0
+ 418 0074 FEFFFFEB 		bl	C_GetFunctionList
+ 419              	.LVL43:
+ 543:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         {
+ 420              		.loc 1 543 0
+ 421 0078 005050E2 		subs	r5, r0, #0
+ 422 007c 0500001A 		bne	.L33
+ 545:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 423              		.loc 1 545 0
+ 424 0080 E83394E5 		ldr	r3, [r4, #1000]
+ 425 0084 043093E5 		ldr	r3, [r3, #4]
+ 426 0088 33FF2FE1 		blx	r3
+ 427              	.LVL44:
+ 428 008c 913100E3 		movw	r3, #401
+ 429 0090 030050E1 		cmp	r0, r3
+ 430 0094 0050A011 		movne	r5, r0
+ 431              	.LVL45:
+ 432              	.L33:
+ 557:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 558:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 559:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     return xResult;
+ 560:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** }
+ 433              		.loc 1 560 0
+ 434 0098 0500A0E1 		mov	r0, r5
+ 435 009c 7080BDE8 		pop	{r4, r5, r6, pc}
+ 436              		.cfi_endproc
+ 437              	.LFE22:
+ 439              		.section	.text.TLS_Connect,"ax",%progbits
+ 440              		.align	2
+ 441              		.global	TLS_Connect
+ 442              		.syntax unified
+ 443              		.arm
+ 444              		.fpu neon
+ 446              	TLS_Connect:
+ 447              	.LFB23:
+ 561:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 562:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** /*-----------------------------------------------------------*/
+ 563:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 564:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** #ifdef MBEDTLS_DEBUG_C
+ 565:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     static void prvTlsDebugPrint( void * ctx,
+ 566:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                   int lLevel,
+ 567:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                   const char * pcFile,
+ 568:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                   int lLine,
+ 569:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                   const char * pcStr )
+ 570:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 571:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         /* Unused parameters. */
+ 572:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         ( void ) ctx;
+ 573:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         ( void ) pcFile;
+ 574:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         ( void ) lLine;
+ 575:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 576:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         /* Send the debug string to the portable logger. */
+ 577:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         vLoggingPrintf( "mbedTLS: |%d| %s", lLevel, pcStr );
+ 578:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 579:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** #endif /* ifdef MBEDTLS_DEBUG_C */
+ 580:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 581:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** /*-----------------------------------------------------------*/
+ 582:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 583:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** BaseType_t TLS_Connect( void * pvContext )
+ 584:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** {
+ 448              		.loc 1 584 0
+ 449              		.cfi_startproc
+ 450              		@ args = 0, pretend = 0, frame = 32
+ 451              		@ frame_needed = 0, uses_anonymous_args = 0
+ 452              	.LVL46:
+ 453 0000 F04F2DE9 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 454              		.cfi_def_cfa_offset 36
+ 455              		.cfi_offset 4, -36
+ 456              		.cfi_offset 5, -32
+ 457              		.cfi_offset 6, -28
+ 458              		.cfi_offset 7, -24
+ 459              		.cfi_offset 8, -20
+ 460              		.cfi_offset 9, -16
+ 461              		.cfi_offset 10, -12
+ 462              		.cfi_offset 11, -8
+ 463              		.cfi_offset 14, -4
+ 464 0004 0040A0E1 		mov	r4, r0
+ 465              	.LVL47:
+ 466 0008 2CD04DE2 		sub	sp, sp, #44
+ 467              		.cfi_def_cfa_offset 80
+ 585:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     BaseType_t xResult = 0;
+ 586:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     TLSContext_t * pxCtx = ( TLSContext_t * ) pvContext; /*lint !e9087 !e9079 Allow casting void* t
+ 587:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 588:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     /* Ensure that the FreeRTOS heap is used. */
+ 589:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     CRYPTO_ConfigureHeap();
+ 590:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 591:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     /* Initialize mbedTLS structures. */
+ 592:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     mbedtls_ssl_init( &pxCtx->xMbedSslCtx );
+ 468              		.loc 1 592 0
+ 469 000c 24A084E2 		add	r10, r4, #36
+ 593:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     mbedtls_ssl_config_init( &pxCtx->xMbedSslConfig );
+ 470              		.loc 1 593 0
+ 471 0010 E46084E2 		add	r6, r4, #228
+ 594:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     mbedtls_x509_crt_init( &pxCtx->xMbedX509CA );
+ 472              		.loc 1 594 0
+ 473 0014 528F84E2 		add	r8, r4, #328
+ 589:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 474              		.loc 1 589 0
+ 475 0018 FEFFFFEB 		bl	CRYPTO_ConfigureHeap
+ 476              	.LVL48:
+ 592:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     mbedtls_ssl_config_init( &pxCtx->xMbedSslConfig );
+ 477              		.loc 1 592 0
+ 478 001c 0A00A0E1 		mov	r0, r10
+ 479 0020 9F9F84E2 		add	r9, r4, #636
+ 480 0024 FEFFFFEB 		bl	mbedtls_ssl_init
+ 481              	.LVL49:
+ 593:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     mbedtls_x509_crt_init( &pxCtx->xMbedX509CA );
+ 482              		.loc 1 593 0
+ 483 0028 0600A0E1 		mov	r0, r6
+ 484 002c FEFFFFEB 		bl	mbedtls_ssl_config_init
+ 485              	.LVL50:
+ 486              		.loc 1 594 0
+ 487 0030 0800A0E1 		mov	r0, r8
+ 488 0034 FEFFFFEB 		bl	mbedtls_x509_crt_init
+ 489              	.LVL51:
+ 595:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 596:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     /* Decode the root certificate: either the default or the override. */
+ 597:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( NULL != pxCtx->pcServerCertificate )
+ 490              		.loc 1 597 0
+ 491 0038 041094E5 		ldr	r1, [r4, #4]
+ 492 003c 000051E3 		cmp	r1, #0
+ 493 0040 6E00000A 		beq	.L39
+ 598:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 599:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = mbedtls_x509_crt_parse( &pxCtx->xMbedX509CA,
+ 494              		.loc 1 599 0
+ 495 0044 082094E5 		ldr	r2, [r4, #8]
+ 496 0048 0800A0E1 		mov	r0, r8
+ 497 004c FEFFFFEB 		bl	mbedtls_x509_crt_parse
+ 498              	.LVL52:
+ 600:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                           ( const unsigned char * ) pxCtx->pcServerCertificate,
+ 601:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                           pxCtx->ulServerCertificateLength );
+ 602:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 603:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         if( 0 != xResult )
+ 499              		.loc 1 603 0
+ 500 0050 005050E2 		subs	r5, r0, #0
+ 604:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         {
+ 605:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             TLS_PRINT( ( "ERROR: Failed to parse custom server certificates %d \r\n", xResult ) );
+ 501              		.loc 1 605 0
+ 502 0054 0510A011 		movne	r1, r5
+ 503 0058 40049F15 		ldrne	r0, .L88
+ 504              	.LVL53:
+ 603:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         {
+ 505              		.loc 1 603 0
+ 506 005c 7B00001A 		bne	.L87
+ 507              	.L40:
+ 508              	.LVL54:
+ 606:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         }
+ 607:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 608:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     else
+ 609:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 610:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = mbedtls_x509_crt_parse( &pxCtx->xMbedX509CA,
+ 611:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                           ( const unsigned char * ) tlsVERISIGN_ROOT_CERTIFICATE_PE
+ 612:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                           tlsVERISIGN_ROOT_CERTIFICATE_LENGTH );
+ 613:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 614:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         if( 0 == xResult )
+ 615:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         {
+ 616:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             xResult = mbedtls_x509_crt_parse( &pxCtx->xMbedX509CA,
+ 617:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                               ( const unsigned char * ) tlsATS1_ROOT_CERTIFICATE_PE
+ 618:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                               tlsATS1_ROOT_CERTIFICATE_LENGTH );
+ 619:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             if ( 0 == xResult )
+ 620:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             {
+ 621:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 xResult = mbedtls_x509_crt_parse( &pxCtx->xMbedX509CA,
+ 622:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                   ( const unsigned char * ) tlsSTARFIELD_ROOT_CERTI
+ 623:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                   tlsSTARFIELD_ROOT_CERTIFICATE_LENGTH );
+ 624:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             }
+ 625:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         }
+ 626:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 627:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         if( 0 != xResult )
+ 628:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         {
+ 629:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             /* Default root certificates should be in aws_default_root_certificate.h */
+ 630:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             TLS_PRINT( ( "ERROR: Failed to parse default server certificates %d \r\n", xResult ) );
+ 631:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         }
+ 632:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 633:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 634:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     /* Start with protocol defaults. */
+ 635:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( 0 == xResult )
+ 636:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 637:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = mbedtls_ssl_config_defaults( &pxCtx->xMbedSslConfig,
+ 509              		.loc 1 637 0
+ 510 0060 0030A0E3 		mov	r3, #0
+ 511 0064 0600A0E1 		mov	r0, r6
+ 512 0068 0320A0E1 		mov	r2, r3
+ 513 006c 0310A0E1 		mov	r1, r3
+ 514 0070 FEFFFFEB 		bl	mbedtls_ssl_config_defaults
+ 515              	.LVL55:
+ 638:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                MBEDTLS_SSL_IS_CLIENT,
+ 639:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                MBEDTLS_SSL_TRANSPORT_STREAM,
+ 640:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                MBEDTLS_SSL_PRESET_DEFAULT );
+ 641:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 642:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 643:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( 0 == xResult )
+ 516              		.loc 1 643 0
+ 517 0074 005050E2 		subs	r5, r0, #0
+ 518 0078 0101001A 		bne	.L41
+ 644:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 645:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         /* Use a callback for additional server certificate validation. */
+ 646:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         mbedtls_ssl_conf_verify( &pxCtx->xMbedSslConfig,
+ 519              		.loc 1 646 0
+ 520 007c 0420A0E1 		mov	r2, r4
+ 521 0080 1C149FE5 		ldr	r1, .L88+4
+ 522 0084 0600A0E1 		mov	r0, r6
+ 523              	.LVL56:
+ 524              	.LBB4:
+ 525              	.LBB5:
+ 322:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     CK_ATTRIBUTE xTemplate = { 0 };
+ 526              		.loc 1 322 0
+ 527 0088 0170A0E3 		mov	r7, #1
+ 528              	.LBE5:
+ 529              	.LBE4:
+ 530              		.loc 1 646 0
+ 531 008c FEFFFFEB 		bl	mbedtls_ssl_conf_verify
+ 532              	.LVL57:
+ 647:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                  &prvCheckCertificate,
+ 648:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                  pxCtx );
+ 649:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 650:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         /* Server certificate validation is mandatory. */
+ 651:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         mbedtls_ssl_conf_authmode( &pxCtx->xMbedSslConfig, MBEDTLS_SSL_VERIFY_REQUIRED );
+ 533              		.loc 1 651 0
+ 534 0090 0210A0E3 		mov	r1, #2
+ 535 0094 0600A0E1 		mov	r0, r6
+ 536 0098 FEFFFFEB 		bl	mbedtls_ssl_conf_authmode
+ 537              	.LVL58:
+ 652:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 653:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         /* Set the RNG callback. */
+ 654:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         mbedtls_ssl_conf_rng( &pxCtx->xMbedSslConfig, &prvGenerateRandomBytes, pxCtx ); /*lint !e54
+ 538              		.loc 1 654 0
+ 539 009c 0420A0E1 		mov	r2, r4
+ 540 00a0 00149FE5 		ldr	r1, .L88+8
+ 541 00a4 0600A0E1 		mov	r0, r6
+ 542 00a8 FEFFFFEB 		bl	mbedtls_ssl_conf_rng
+ 543              	.LVL59:
+ 655:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 656:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         /* Set issuer certificate. */
+ 657:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         mbedtls_ssl_conf_ca_chain( &pxCtx->xMbedSslConfig, &pxCtx->xMbedX509CA, NULL );
+ 544              		.loc 1 657 0
+ 545 00ac 0520A0E1 		mov	r2, r5
+ 546 00b0 0810A0E1 		mov	r1, r8
+ 547 00b4 0600A0E1 		mov	r0, r6
+ 548 00b8 FEFFFFEB 		bl	mbedtls_ssl_conf_ca_chain
+ 549              	.LVL60:
+ 550              	.LBB9:
+ 551              	.LBB6:
+ 327:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 552              		.loc 1 327 0
+ 553 00bc 0030E0E3 		mvn	r3, #0
+ 330:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 554              		.loc 1 330 0
+ 555 00c0 0900A0E1 		mov	r0, r9
+ 321:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     CK_ULONG xCount = 1;
+ 556              		.loc 1 321 0
+ 557 00c4 0C508DE5 		str	r5, [sp, #12]
+ 323:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     CK_OBJECT_HANDLE xCertObj = 0;
+ 558              		.loc 1 323 0
+ 559 00c8 1C508DE5 		str	r5, [sp, #28]
+ 560 00cc 20508DE5 		str	r5, [sp, #32]
+ 561 00d0 24508DE5 		str	r5, [sp, #36]
+ 324:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     CK_BYTE * pxCertificate = NULL;
+ 562              		.loc 1 324 0
+ 563 00d4 14508DE5 		str	r5, [sp, #20]
+ 564              	.LVL61:
+ 327:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 565              		.loc 1 327 0
+ 566 00d8 18308DE5 		str	r3, [sp, #24]
+ 322:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     CK_ATTRIBUTE xTemplate = { 0 };
+ 567              		.loc 1 322 0
+ 568 00dc 10708DE5 		str	r7, [sp, #16]
+ 330:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 569              		.loc 1 330 0
+ 570 00e0 FEFFFFEB 		bl	mbedtls_x509_crt_init
+ 571              	.LVL62:
+ 335:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                          &xSlotId,
+ 572              		.loc 1 335 0
+ 573 00e4 E83394E5 		ldr	r3, [r4, #1000]
+ 574 00e8 10208DE2 		add	r2, sp, #16
+ 575 00ec 0C108DE2 		add	r1, sp, #12
+ 576 00f0 0700A0E1 		mov	r0, r7
+ 577 00f4 143093E5 		ldr	r3, [r3, #20]
+ 578 00f8 33FF2FE1 		blx	r3
+ 579              	.LVL63:
+ 341:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 580              		.loc 1 341 0
+ 581 00fc 005050E2 		subs	r5, r0, #0
+ 582              	.LVL64:
+ 583 0100 DF00001A 		bne	.L41
+ 343:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                          CKF_SERIAL_SESSION,
+ 584              		.loc 1 343 0
+ 585 0104 E83394E5 		ldr	r3, [r4, #1000]
+ 586 0108 FB2F84E2 		add	r2, r4, #1004
+ 587 010c 00208DE5 		str	r2, [sp]
+ 588 0110 0410A0E3 		mov	r1, #4
+ 589 0114 0520A0E1 		mov	r2, r5
+ 590 0118 0C009DE5 		ldr	r0, [sp, #12]
+ 591              	.LVL65:
+ 592 011c 34B093E5 		ldr	fp, [r3, #52]
+ 593 0120 0530A0E1 		mov	r3, r5
+ 594 0124 3BFF2FE1 		blx	fp
+ 595              	.LVL66:
+ 351:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 596              		.loc 1 351 0
+ 597 0128 005050E2 		subs	r5, r0, #0
+ 598 012c D400001A 		bne	.L41
+ 353:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xTemplate.ulValueLen = sizeof( pkcs11configLABEL_DEVICE_PRIVATE_KEY_FOR_TLS );
+ 599              		.loc 1 353 0
+ 600 0130 0330A0E3 		mov	r3, #3
+ 356:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                              &xTemplate,
+ 601              		.loc 1 356 0
+ 602 0134 0720A0E1 		mov	r2, r7
+ 353:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xTemplate.ulValueLen = sizeof( pkcs11configLABEL_DEVICE_PRIVATE_KEY_FOR_TLS );
+ 603              		.loc 1 353 0
+ 604 0138 1C308DE5 		str	r3, [sp, #28]
+ 354:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xTemplate.pValue = &pkcs11configLABEL_DEVICE_PRIVATE_KEY_FOR_TLS;
+ 605              		.loc 1 354 0
+ 606 013c 1430A0E3 		mov	r3, #20
+ 607 0140 24308DE5 		str	r3, [sp, #36]
+ 356:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                              &xTemplate,
+ 608              		.loc 1 356 0
+ 609 0144 1C108DE2 		add	r1, sp, #28
+ 355:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = ( BaseType_t ) pxCtx->xP11FunctionList->C_FindObjectsInit( pxCtx->xP11Session,
+ 610              		.loc 1 355 0
+ 611 0148 5C339FE5 		ldr	r3, .L88+12
+ 356:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                              &xTemplate,
+ 612              		.loc 1 356 0
+ 613 014c EC0394E5 		ldr	r0, [r4, #1004]
+ 614              	.LVL67:
+ 355:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = ( BaseType_t ) pxCtx->xP11FunctionList->C_FindObjectsInit( pxCtx->xP11Session,
+ 615              		.loc 1 355 0
+ 616 0150 20308DE5 		str	r3, [sp, #32]
+ 356:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                              &xTemplate,
+ 617              		.loc 1 356 0
+ 618 0154 E83394E5 		ldr	r3, [r4, #1000]
+ 619 0158 6C3093E5 		ldr	r3, [r3, #108]
+ 620 015c 33FF2FE1 		blx	r3
+ 621              	.LVL68:
+ 361:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 622              		.loc 1 361 0
+ 623 0160 005050E2 		subs	r5, r0, #0
+ 624 0164 C600001A 		bne	.L41
+ 363:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                          &pxCtx->xP11PrivateKey,
+ 625              		.loc 1 363 0
+ 626 0168 E83394E5 		ldr	r3, [r4, #1000]
+ 627 016c 0720A0E1 		mov	r2, r7
+ 628 0170 3F1E84E2 		add	r1, r4, #1008
+ 629 0174 EC0394E5 		ldr	r0, [r4, #1004]
+ 630              	.LVL69:
+ 631 0178 705093E5 		ldr	r5, [r3, #112]
+ 632              	.LVL70:
+ 633 017c 10308DE2 		add	r3, sp, #16
+ 634 0180 35FF2FE1 		blx	r5
+ 635              	.LVL71:
+ 369:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 636              		.loc 1 369 0
+ 637 0184 005050E2 		subs	r5, r0, #0
+ 638 0188 BD00001A 		bne	.L41
+ 371:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 639              		.loc 1 371 0
+ 640 018c E83394E5 		ldr	r3, [r4, #1000]
+ 641 0190 EC0394E5 		ldr	r0, [r4, #1004]
+ 642              	.LVL72:
+ 643 0194 743093E5 		ldr	r3, [r3, #116]
+ 644 0198 33FF2FE1 		blx	r3
+ 645              	.LVL73:
+ 374:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 646              		.loc 1 374 0
+ 647 019c 005050E2 		subs	r5, r0, #0
+ 648 01a0 B700001A 		bne	.L41
+ 376:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xTemplate.pValue = &xKeyType;
+ 649              		.loc 1 376 0
+ 650 01a4 013CA0E3 		mov	r3, #256
+ 379:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                 pxCtx->xP11PrivateKey,
+ 651              		.loc 1 379 0
+ 652 01a8 1C208DE2 		add	r2, sp, #28
+ 376:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xTemplate.pValue = &xKeyType;
+ 653              		.loc 1 376 0
+ 654 01ac 1C308DE5 		str	r3, [sp, #28]
+ 377:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xTemplate.ulValueLen = sizeof( CK_KEY_TYPE );
+ 655              		.loc 1 377 0
+ 656 01b0 18308DE2 		add	r3, sp, #24
+ 657 01b4 20308DE5 		str	r3, [sp, #32]
+ 378:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = pxCtx->xP11FunctionList->C_GetAttributeValue( pxCtx->xP11Session,
+ 658              		.loc 1 378 0
+ 659 01b8 0430A0E3 		mov	r3, #4
+ 660 01bc 24308DE5 		str	r3, [sp, #36]
+ 379:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                 pxCtx->xP11PrivateKey,
+ 661              		.loc 1 379 0
+ 662 01c0 E83394E5 		ldr	r3, [r4, #1000]
+ 663 01c4 F01394E5 		ldr	r1, [r4, #1008]
+ 664 01c8 EC0394E5 		ldr	r0, [r4, #1004]
+ 665              	.LVL74:
+ 666 01cc 645093E5 		ldr	r5, [r3, #100]
+ 667              	.LVL75:
+ 668 01d0 0730A0E1 		mov	r3, r7
+ 669 01d4 35FF2FE1 		blx	r5
+ 670              	.LVL76:
+ 385:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 671              		.loc 1 385 0
+ 672 01d8 005050E2 		subs	r5, r0, #0
+ 673 01dc A800001A 		bne	.L41
+ 387:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         {
+ 674              		.loc 1 387 0
+ 675 01e0 18309DE5 		ldr	r3, [sp, #24]
+ 676 01e4 000053E3 		cmp	r3, #0
+ 677 01e8 4600000A 		beq	.L63
+ 678 01ec 030053E3 		cmp	r3, #3
+ 394:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 break;
+ 679              		.loc 1 394 0
+ 680 01f0 0200A003 		moveq	r0, #2
+ 681              	.LVL77:
+ 387:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         {
+ 682              		.loc 1 387 0
+ 683 01f4 4400000A 		beq	.L45
+ 684              	.LVL78:
+ 398:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 break;
+ 685              		.loc 1 398 0
+ 686 01f8 1350A0E3 		mov	r5, #19
+ 687 01fc A00000EA 		b	.L41
+ 688              	.LVL79:
+ 689              	.L39:
+ 690              	.LBE6:
+ 691              	.LBE9:
+ 610:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                           ( const unsigned char * ) tlsVERISIGN_ROOT_CERTIFICATE_PE
+ 692              		.loc 1 610 0
+ 693 0200 C52600E3 		movw	r2, #1733
+ 694 0204 A4129FE5 		ldr	r1, .L88+16
+ 695 0208 0800A0E1 		mov	r0, r8
+ 696 020c FEFFFFEB 		bl	mbedtls_x509_crt_parse
+ 697              	.LVL80:
+ 614:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         {
+ 698              		.loc 1 614 0
+ 699 0210 005050E2 		subs	r5, r0, #0
+ 700 0214 0B00001A 		bne	.L42
+ 616:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                               ( const unsigned char * ) tlsATS1_ROOT_CERTIFICATE_PE
+ 701              		.loc 1 616 0
+ 702 0218 A52400E3 		movw	r2, #1189
+ 703 021c 90129FE5 		ldr	r1, .L88+20
+ 704 0220 0800A0E1 		mov	r0, r8
+ 705              	.LVL81:
+ 706 0224 FEFFFFEB 		bl	mbedtls_x509_crt_parse
+ 707              	.LVL82:
+ 619:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             {
+ 708              		.loc 1 619 0
+ 709 0228 005050E2 		subs	r5, r0, #0
+ 710 022c 0500001A 		bne	.L42
+ 621:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                   ( const unsigned char * ) tlsSTARFIELD_ROOT_CERTI
+ 711              		.loc 1 621 0
+ 712 0230 BD2500E3 		movw	r2, #1469
+ 713 0234 7C129FE5 		ldr	r1, .L88+24
+ 714 0238 0800A0E1 		mov	r0, r8
+ 715              	.LVL83:
+ 716 023c FEFFFFEB 		bl	mbedtls_x509_crt_parse
+ 717              	.LVL84:
+ 627:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         {
+ 718              		.loc 1 627 0
+ 719 0240 005050E2 		subs	r5, r0, #0
+ 720 0244 85FFFF0A 		beq	.L40
+ 721              	.L42:
+ 630:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         }
+ 722              		.loc 1 630 0
+ 723 0248 6C029FE5 		ldr	r0, .L88+28
+ 724              	.LVL85:
+ 725 024c 0510A0E1 		mov	r1, r5
+ 726              	.L87:
+ 658:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 659:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         /* Configure the SSL context for the device credentials. */
+ 660:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = prvInitializeClientCredential( pxCtx );
+ 661:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 662:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 663:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( ( 0 == xResult ) && ( NULL != pxCtx->ppcAlpnProtocols ) )
+ 664:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 665:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         /* Include an application protocol list in the TLS ClientHello
+ 666:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****          * message. */
+ 667:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = mbedtls_ssl_conf_alpn_protocols(
+ 668:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             &pxCtx->xMbedSslConfig,
+ 669:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             pxCtx->ppcAlpnProtocols );
+ 670:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 671:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 672:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     #ifdef MBEDTLS_DEBUG_C
+ 673:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 674:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         /* If mbedTLS is being compiled with debug support, assume that the
+ 675:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****          * runtime configuration should use verbose output. */
+ 676:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         mbedtls_ssl_conf_dbg( &pxCtx->xMbedSslConfig, prvTlsDebugPrint, NULL );
+ 677:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         mbedtls_debug_set_threshold( tlsDEBUG_VERBOSE );
+ 678:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     #endif
+ 679:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 680:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( 0 == xResult )
+ 681:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 682:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         /* Set the resulting protocol configuration. */
+ 683:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = mbedtls_ssl_setup( &pxCtx->xMbedSslCtx, &pxCtx->xMbedSslConfig );
+ 684:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 685:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 686:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     /* Set the hostname, if requested. */
+ 687:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( ( 0 == xResult ) && ( NULL != pxCtx->pcDestination ) )
+ 688:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 689:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = mbedtls_ssl_set_hostname( &pxCtx->xMbedSslCtx, pxCtx->pcDestination );
+ 690:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 691:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 692:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     /* Set the socket callbacks. */
+ 693:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( 0 == xResult )
+ 694:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 695:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         mbedtls_ssl_set_bio( &pxCtx->xMbedSslCtx,
+ 696:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                              pxCtx,
+ 697:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                              prvNetworkSend,
+ 698:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                              prvNetworkRecv,
+ 699:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                              NULL );
+ 700:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 701:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         /* Negotiate. */
+ 702:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         while( 0 != ( xResult = mbedtls_ssl_handshake( &pxCtx->xMbedSslCtx ) ) )
+ 703:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         {
+ 704:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             if( ( MBEDTLS_ERR_SSL_WANT_READ != xResult ) &&
+ 705:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 ( MBEDTLS_ERR_SSL_WANT_WRITE != xResult ) )
+ 706:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             {
+ 707:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 /* There was an unexpected error. Per mbedTLS API documentation,
+ 708:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                  * ensure that upstream clean-up code doesn't accidentally use
+ 709:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                  * a context that failed the handshake. */
+ 710:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 prvFreeContext( pxCtx );
+ 711:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 TLS_PRINT( ( "ERROR: Handshake failed with error code %d \r\n", xResult ) );
+ 727              		.loc 1 711 0
+ 728 0250 FEFFFFEB 		bl	vLoggingPrintf
+ 729              	.LVL86:
+ 712:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 break;
+ 730              		.loc 1 712 0
+ 731 0254 8A0000EA 		b	.L41
+ 732              	.LVL87:
+ 733              	.L49:
+ 734              	.LBB10:
+ 735              	.LBB7:
+ 488:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 736              		.loc 1 488 0
+ 737 0258 0500A0E1 		mov	r0, r5
+ 738              	.LVL88:
+ 739 025c FEFFFFEB 		bl	strlen
+ 740              	.LVL89:
+ 485:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             &pxCtx->xMbedX509Cli,
+ 741              		.loc 1 485 0
+ 742 0260 0510A0E1 		mov	r1, r5
+ 743 0264 012080E2 		add	r2, r0, #1
+ 744 0268 0900A0E1 		mov	r0, r9
+ 745 026c FEFFFFEB 		bl	mbedtls_x509_crt_parse
+ 746              	.LVL90:
+ 494:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 747              		.loc 1 494 0
+ 748 0270 005050E2 		subs	r5, r0, #0
+ 749 0274 7600001A 		bne	.L48
+ 750 0278 700000EA 		b	.L50
+ 751              	.LVL91:
+ 752              	.L51:
+ 753              	.LBE7:
+ 754              	.LBE10:
+ 667:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             &pxCtx->xMbedSslConfig,
+ 755              		.loc 1 667 0
+ 756 027c 0600A0E1 		mov	r0, r6
+ 757 0280 FEFFFFEB 		bl	mbedtls_ssl_conf_alpn_protocols
+ 758              	.LVL92:
+ 680:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 759              		.loc 1 680 0
+ 760 0284 005050E2 		subs	r5, r0, #0
+ 761 0288 7D00001A 		bne	.L41
+ 762 028c 770000EA 		b	.L53
+ 763              	.L52:
+ 687:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 764              		.loc 1 687 0 discriminator 1
+ 765 0290 001094E5 		ldr	r1, [r4]
+ 766 0294 000051E3 		cmp	r1, #0
+ 767 0298 0D00001A 		bne	.L54
+ 768              	.L56:
+ 769              	.LVL93:
+ 695:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                              pxCtx,
+ 770              		.loc 1 695 0
+ 771 029c 0030A0E3 		mov	r3, #0
+ 772 02a0 18229FE5 		ldr	r2, .L88+32
+ 773 02a4 00308DE5 		str	r3, [sp]
+ 774 02a8 0410A0E1 		mov	r1, r4
+ 775 02ac 10329FE5 		ldr	r3, .L88+36
+ 776 02b0 0A00A0E1 		mov	r0, r10
+ 777 02b4 FEFFFFEB 		bl	mbedtls_ssl_set_bio
+ 778              	.LVL94:
+ 779              	.L55:
+ 702:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         {
+ 780              		.loc 1 702 0
+ 781 02b8 0A00A0E1 		mov	r0, r10
+ 782 02bc FEFFFFEB 		bl	mbedtls_ssl_handshake
+ 783              	.LVL95:
+ 784 02c0 005050E2 		subs	r5, r0, #0
+ 785 02c4 0700001A 		bne	.L57
+ 786              	.LVL96:
+ 713:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             }
+ 714:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         }
+ 715:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 716:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 717:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     /* Keep track of successful completion of the handshake. */
+ 718:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( 0 == xResult )
+ 719:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 720:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         pxCtx->xTLSHandshakeSuccessful = pdTRUE;
+ 787              		.loc 1 720 0
+ 788 02c8 0130A0E3 		mov	r3, #1
+ 789 02cc 203084E5 		str	r3, [r4, #32]
+ 790 02d0 6B0000EA 		b	.L41
+ 791              	.LVL97:
+ 792              	.L54:
+ 689:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 793              		.loc 1 689 0
+ 794 02d4 0A00A0E1 		mov	r0, r10
+ 795              	.LVL98:
+ 796 02d8 FEFFFFEB 		bl	mbedtls_ssl_set_hostname
+ 797              	.LVL99:
+ 693:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 798              		.loc 1 693 0
+ 799 02dc 005050E2 		subs	r5, r0, #0
+ 800 02e0 6700001A 		bne	.L41
+ 801 02e4 ECFFFFEA 		b	.L56
+ 802              	.L57:
+ 704:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 ( MBEDTLS_ERR_SSL_WANT_WRITE != xResult ) )
+ 803              		.loc 1 704 0
+ 804 02e8 8030C5E3 		bic	r3, r5, #128
+ 805 02ec 690C73E3 		cmn	r3, #26880
+ 806 02f0 F0FFFF0A 		beq	.L55
+ 710:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 TLS_PRINT( ( "ERROR: Handshake failed with error code %d \r\n", xResult ) );
+ 807              		.loc 1 710 0
+ 808 02f4 0400A0E1 		mov	r0, r4
+ 809              	.LVL100:
+ 810 02f8 FEFFFFEB 		bl	prvFreeContext
+ 811              	.LVL101:
+ 711:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 break;
+ 812              		.loc 1 711 0
+ 813 02fc 0510A0E1 		mov	r1, r5
+ 814 0300 C0019FE5 		ldr	r0, .L88+40
+ 815 0304 D1FFFFEA 		b	.L87
+ 816              	.LVL102:
+ 817              	.L63:
+ 818              	.LBB11:
+ 819              	.LBB8:
+ 390:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 break;
+ 820              		.loc 1 390 0
+ 821 0308 0700A0E1 		mov	r0, r7
+ 822              	.LVL103:
+ 823              	.L45:
+ 405:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 824              		.loc 1 405 0
+ 825 030c EE5F84E2 		add	r5, r4, #952
+ 826 0310 FEFFFFEB 		bl	mbedtls_pk_info_from_type
+ 827              	.LVL104:
+ 828 0314 3020A0E3 		mov	r2, #48
+ 829 0318 0010A0E1 		mov	r1, r0
+ 830 031c 0500A0E1 		mov	r0, r5
+ 831 0320 FEFFFFEB 		bl	memcpy
+ 832              	.LVL105:
+ 415:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xTemplate.ulValueLen = sizeof( pkcs11configLABEL_DEVICE_CERTIFICATE_FOR_TLS );
+ 833              		.loc 1 415 0
+ 834 0324 0330A0E3 		mov	r3, #3
+ 407:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         pxCtx->xMbedPkCtx.pk_info = &pxCtx->xMbedPkInfo;
+ 835              		.loc 1 407 0
+ 836 0328 9C219FE5 		ldr	r2, .L88+44
+ 415:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xTemplate.ulValueLen = sizeof( pkcs11configLABEL_DEVICE_CERTIFICATE_FOR_TLS );
+ 837              		.loc 1 415 0
+ 838 032c 1C308DE5 		str	r3, [sp, #28]
+ 416:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xTemplate.pValue = &pkcs11configLABEL_DEVICE_CERTIFICATE_FOR_TLS;
+ 839              		.loc 1 416 0
+ 840 0330 0C30A0E3 		mov	r3, #12
+ 841 0334 24308DE5 		str	r3, [sp, #36]
+ 418:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                              &xTemplate,
+ 842              		.loc 1 418 0
+ 843 0338 1C108DE2 		add	r1, sp, #28
+ 417:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = ( BaseType_t ) pxCtx->xP11FunctionList->C_FindObjectsInit( pxCtx->xP11Session,
+ 844              		.loc 1 417 0
+ 845 033c 8C319FE5 		ldr	r3, .L88+48
+ 407:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         pxCtx->xMbedPkCtx.pk_info = &pxCtx->xMbedPkInfo;
+ 846              		.loc 1 407 0
+ 847 0340 CC2384E5 		str	r2, [r4, #972]
+ 418:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                              &xTemplate,
+ 848              		.loc 1 418 0
+ 849 0344 0120A0E3 		mov	r2, #1
+ 408:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         pxCtx->xMbedPkCtx.pk_ctx = pxCtx;
+ 850              		.loc 1 408 0
+ 851 0348 B05384E5 		str	r5, [r4, #944]
+ 417:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = ( BaseType_t ) pxCtx->xP11FunctionList->C_FindObjectsInit( pxCtx->xP11Session,
+ 852              		.loc 1 417 0
+ 853 034c 20308DE5 		str	r3, [sp, #32]
+ 418:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                              &xTemplate,
+ 854              		.loc 1 418 0
+ 855 0350 E83394E5 		ldr	r3, [r4, #1000]
+ 409:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 856              		.loc 1 409 0
+ 857 0354 B44384E5 		str	r4, [r4, #948]
+ 418:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                              &xTemplate,
+ 858              		.loc 1 418 0
+ 859 0358 EC0394E5 		ldr	r0, [r4, #1004]
+ 860 035c 6C3093E5 		ldr	r3, [r3, #108]
+ 861 0360 33FF2FE1 		blx	r3
+ 862              	.LVL106:
+ 423:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 863              		.loc 1 423 0
+ 864 0364 005050E2 		subs	r5, r0, #0
+ 865 0368 4500001A 		bne	.L41
+ 425:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                          &xCertObj,
+ 866              		.loc 1 425 0
+ 867 036c E83394E5 		ldr	r3, [r4, #1000]
+ 868 0370 0120A0E3 		mov	r2, #1
+ 869 0374 14108DE2 		add	r1, sp, #20
+ 870 0378 EC0394E5 		ldr	r0, [r4, #1004]
+ 871              	.LVL107:
+ 872 037c 705093E5 		ldr	r5, [r3, #112]
+ 873              	.LVL108:
+ 874 0380 10308DE2 		add	r3, sp, #16
+ 875 0384 35FF2FE1 		blx	r5
+ 876              	.LVL109:
+ 431:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 877              		.loc 1 431 0
+ 878 0388 005050E2 		subs	r5, r0, #0
+ 879 038c 3C00001A 		bne	.L41
+ 433:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 880              		.loc 1 433 0
+ 881 0390 E83394E5 		ldr	r3, [r4, #1000]
+ 882 0394 EC0394E5 		ldr	r0, [r4, #1004]
+ 883              	.LVL110:
+ 884 0398 743093E5 		ldr	r3, [r3, #116]
+ 885 039c 33FF2FE1 		blx	r3
+ 886              	.LVL111:
+ 436:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 887              		.loc 1 436 0
+ 888 03a0 005050E2 		subs	r5, r0, #0
+ 889 03a4 3600001A 		bne	.L41
+ 439:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xTemplate.ulValueLen = 0;
+ 890              		.loc 1 439 0
+ 891 03a8 1130A0E3 		mov	r3, #17
+ 440:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xTemplate.pValue = NULL;
+ 892              		.loc 1 440 0
+ 893 03ac 24508DE5 		str	r5, [sp, #36]
+ 439:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xTemplate.ulValueLen = 0;
+ 894              		.loc 1 439 0
+ 895 03b0 1C308DE5 		str	r3, [sp, #28]
+ 442:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                                xCertObj,
+ 896              		.loc 1 442 0
+ 897 03b4 1C208DE2 		add	r2, sp, #28
+ 898 03b8 E83394E5 		ldr	r3, [r4, #1000]
+ 441:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = ( BaseType_t ) pxCtx->xP11FunctionList->C_GetAttributeValue( pxCtx->xP11Session,
+ 899              		.loc 1 441 0
+ 900 03bc 20508DE5 		str	r5, [sp, #32]
+ 442:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                                xCertObj,
+ 901              		.loc 1 442 0
+ 902 03c0 14109DE5 		ldr	r1, [sp, #20]
+ 903 03c4 645093E5 		ldr	r5, [r3, #100]
+ 904 03c8 0130A0E3 		mov	r3, #1
+ 905 03cc EC0394E5 		ldr	r0, [r4, #1004]
+ 906              	.LVL112:
+ 907 03d0 35FF2FE1 		blx	r5
+ 908              	.LVL113:
+ 448:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 909              		.loc 1 448 0
+ 910 03d4 005050E2 		subs	r5, r0, #0
+ 911 03d8 2900001A 		bne	.L41
+ 451:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 912              		.loc 1 451 0
+ 913 03dc 24009DE5 		ldr	r0, [sp, #36]
+ 914              	.LVL114:
+ 915 03e0 FEFFFFEB 		bl	pvPortMalloc
+ 916              	.LVL115:
+ 453:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         {
+ 917              		.loc 1 453 0
+ 918 03e4 007050E2 		subs	r7, r0, #0
+ 455:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         }
+ 919              		.loc 1 455 0
+ 920 03e8 0250A003 		moveq	r5, #2
+ 921              	.LVL116:
+ 922 03ec 2400000A 		beq	.L41
+ 923              	.LVL117:
+ 924              	.L83:
+ 463:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                                xCertObj,
+ 925              		.loc 1 463 0
+ 926 03f0 E83394E5 		ldr	r3, [r4, #1000]
+ 927 03f4 1C208DE2 		add	r2, sp, #28
+ 462:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = ( BaseType_t ) pxCtx->xP11FunctionList->C_GetAttributeValue( pxCtx->xP11Session,
+ 928              		.loc 1 462 0
+ 929 03f8 20708DE5 		str	r7, [sp, #32]
+ 463:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                                                                xCertObj,
+ 930              		.loc 1 463 0
+ 931 03fc 14109DE5 		ldr	r1, [sp, #20]
+ 932 0400 645093E5 		ldr	r5, [r3, #100]
+ 933 0404 0130A0E3 		mov	r3, #1
+ 934 0408 EC0394E5 		ldr	r0, [r4, #1004]
+ 935              	.LVL118:
+ 936 040c 35FF2FE1 		blx	r5
+ 937              	.LVL119:
+ 470:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 938              		.loc 1 470 0
+ 939 0410 005050E2 		subs	r5, r0, #0
+ 940 0414 0E00001A 		bne	.L48
+ 472:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                           ( const unsigned char * ) pxCertificate,
+ 941              		.loc 1 472 0
+ 942 0418 24209DE5 		ldr	r2, [sp, #36]
+ 943 041c 0710A0E1 		mov	r1, r7
+ 944 0420 0900A0E1 		mov	r0, r9
+ 945              	.LVL120:
+ 946 0424 FEFFFFEB 		bl	mbedtls_x509_crt_parse
+ 947              	.LVL121:
+ 480:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         ( NULL != clientcredentialJITR_DEVICE_CERTIFICATE_AUTHORITY_PEM ) )
+ 948              		.loc 1 480 0
+ 949 0428 005050E2 		subs	r5, r0, #0
+ 950 042c 0800001A 		bne	.L48
+ 481:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 951              		.loc 1 481 0
+ 952 0430 9C309FE5 		ldr	r3, .L88+52
+ 953 0434 005093E5 		ldr	r5, [r3]
+ 480:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         ( NULL != clientcredentialJITR_DEVICE_CERTIFICATE_AUTHORITY_PEM ) )
+ 954              		.loc 1 480 0
+ 955 0438 000055E3 		cmp	r5, #0
+ 956 043c 85FFFF1A 		bne	.L49
+ 957              	.L50:
+ 958              	.LVL122:
+ 496:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                              &pxCtx->xMbedX509Cli,
+ 959              		.loc 1 496 0
+ 960 0440 3B2E84E2 		add	r2, r4, #944
+ 961 0444 0910A0E1 		mov	r1, r9
+ 962 0448 0600A0E1 		mov	r0, r6
+ 963 044c FEFFFFEB 		bl	mbedtls_ssl_conf_own_cert
+ 964              	.LVL123:
+ 965 0450 0050A0E1 		mov	r5, r0
+ 966              	.LVL124:
+ 967              	.L48:
+ 503:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 968              		.loc 1 503 0
+ 969 0454 0700A0E1 		mov	r0, r7
+ 970              	.LVL125:
+ 971 0458 FEFFFFEB 		bl	vPortFree
+ 972              	.LVL126:
+ 973              	.LBE8:
+ 974              	.LBE11:
+ 663:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 975              		.loc 1 663 0
+ 976 045c 000055E3 		cmp	r5, #0
+ 977 0460 0700001A 		bne	.L41
+ 663:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 978              		.loc 1 663 0 is_stmt 0 discriminator 1
+ 979 0464 0C1094E5 		ldr	r1, [r4, #12]
+ 980 0468 000051E3 		cmp	r1, #0
+ 981 046c 82FFFF1A 		bne	.L51
+ 982              	.L53:
+ 983              	.LVL127:
+ 683:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 984              		.loc 1 683 0 is_stmt 1
+ 985 0470 0610A0E1 		mov	r1, r6
+ 986 0474 0A00A0E1 		mov	r0, r10
+ 987 0478 FEFFFFEB 		bl	mbedtls_ssl_setup
+ 988              	.LVL128:
+ 687:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 989              		.loc 1 687 0
+ 990 047c 005050E2 		subs	r5, r0, #0
+ 991 0480 82FFFF0A 		beq	.L52
+ 992              	.LVL129:
+ 993              	.L41:
+ 721:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 722:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 723:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     /* Free up allocated memory. */
+ 724:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     mbedtls_x509_crt_free( &pxCtx->xMbedX509CA );
+ 994              		.loc 1 724 0
+ 995 0484 0800A0E1 		mov	r0, r8
+ 996 0488 FEFFFFEB 		bl	mbedtls_x509_crt_free
+ 997              	.LVL130:
+ 725:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     mbedtls_x509_crt_free( &pxCtx->xMbedX509Cli );
+ 998              		.loc 1 725 0
+ 999 048c 0900A0E1 		mov	r0, r9
+ 1000 0490 FEFFFFEB 		bl	mbedtls_x509_crt_free
+ 1001              	.LVL131:
+ 726:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 727:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     return xResult;
+ 728:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** }
+ 1002              		.loc 1 728 0
+ 1003 0494 0500A0E1 		mov	r0, r5
+ 1004 0498 2CD08DE2 		add	sp, sp, #44
+ 1005              		.cfi_def_cfa_offset 36
+ 1006              		@ sp needed
+ 1007 049c F08FBDE8 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 1008              	.LVL132:
+ 1009              	.L89:
+ 1010              		.align	2
+ 1011              	.L88:
+ 1012 04a0 00000000 		.word	.LC4
+ 1013 04a4 00000000 		.word	prvCheckCertificate
+ 1014 04a8 00000000 		.word	prvGenerateRandomBytes
+ 1015 04ac 71000000 		.word	.LC6
+ 1016 04b0 00000000 		.word	.LANCHOR0
+ 1017 04b4 00000000 		.word	.LANCHOR1
+ 1018 04b8 00000000 		.word	.LANCHOR2
+ 1019 04bc 38000000 		.word	.LC5
+ 1020 04c0 00000000 		.word	prvNetworkSend
+ 1021 04c4 00000000 		.word	prvNetworkRecv
+ 1022 04c8 85000000 		.word	.LC7
+ 1023 04cc 00000000 		.word	prvPrivateKeySigningCallback
+ 1024 04d0 B3000000 		.word	.LC8
+ 1025 04d4 00000000 		.word	clientcredentialJITR_DEVICE_CERTIFICATE_AUTHORITY_PEM
+ 1026              		.cfi_endproc
+ 1027              	.LFE23:
+ 1029              		.section	.text.TLS_Recv,"ax",%progbits
+ 1030              		.align	2
+ 1031              		.global	TLS_Recv
+ 1032              		.syntax unified
+ 1033              		.arm
+ 1034              		.fpu neon
+ 1036              	TLS_Recv:
+ 1037              	.LFB24:
+ 729:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 730:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** /*-----------------------------------------------------------*/
+ 731:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 732:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** BaseType_t TLS_Recv( void * pvContext,
+ 733:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                      unsigned char * pucReadBuffer,
+ 734:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                      size_t xReadLength )
+ 735:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** {
+ 1038              		.loc 1 735 0
+ 1039              		.cfi_startproc
+ 1040              		@ args = 0, pretend = 0, frame = 0
+ 1041              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1042              	.LVL133:
+ 1043 0000 F0472DE9 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 1044              		.cfi_def_cfa_offset 32
+ 1045              		.cfi_offset 4, -32
+ 1046              		.cfi_offset 5, -28
+ 1047              		.cfi_offset 6, -24
+ 1048              		.cfi_offset 7, -20
+ 1049              		.cfi_offset 8, -16
+ 1050              		.cfi_offset 9, -12
+ 1051              		.cfi_offset 10, -8
+ 1052              		.cfi_offset 14, -4
+ 736:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     BaseType_t xResult = 0;
+ 737:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     TLSContext_t * pxCtx = ( TLSContext_t * ) pvContext; /*lint !e9087 !e9079 Allow casting void* t
+ 738:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     size_t xRead = 0;
+ 739:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 740:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( ( NULL != pxCtx ) && ( pdTRUE == pxCtx->xTLSHandshakeSuccessful ) )
+ 1053              		.loc 1 740 0
+ 1054 0004 006050E2 		subs	r6, r0, #0
+ 1055 0008 1C00000A 		beq	.L99
+ 1056              		.loc 1 740 0 is_stmt 0 discriminator 1
+ 1057 000c 203096E5 		ldr	r3, [r6, #32]
+ 1058 0010 010053E3 		cmp	r3, #1
+ 1059 0014 1900001A 		bne	.L99
+ 1060 0018 0050A0E3 		mov	r5, #0
+ 1061 001c 0270A0E1 		mov	r7, r2
+ 1062 0020 0180A0E1 		mov	r8, r1
+ 1063 0024 0540A0E1 		mov	r4, r5
+ 741:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 742:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         while( xRead < xReadLength )
+ 743:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         {
+ 744:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             xResult = mbedtls_ssl_read( &pxCtx->xMbedSslCtx,
+ 1064              		.loc 1 744 0 is_stmt 1
+ 1065 0028 249086E2 		add	r9, r6, #36
+ 1066              	.LVL134:
+ 1067              	.L92:
+ 742:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         {
+ 1068              		.loc 1 742 0
+ 1069 002c 070055E1 		cmp	r5, r7
+ 1070 0030 0200003A 		bcc	.L96
+ 1071              	.LVL135:
+ 745:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                         pucReadBuffer + xRead,
+ 746:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                         xReadLength - xRead );
+ 747:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 748:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             if( 0 < xResult )
+ 749:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             {
+ 750:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 /* Got data, so update the tally and keep looping. */
+ 751:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 xRead += ( size_t ) xResult;
+ 752:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             }
+ 753:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             else if( 0 == xResult )
+ 754:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             {
+ 755:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 /* No data received (and no error). The secure sockets
+ 756:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                  * API supports non-blocking read, so stop the loop but don't
+ 757:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                  * flag an error. */
+ 758:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 break;
+ 759:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             }
+ 760:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             else if( MBEDTLS_ERR_SSL_WANT_READ != xResult )
+ 761:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             {
+ 762:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 /* Hard error: invalidate the context and stop. */
+ 763:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 prvFreeContext( pxCtx );
+ 764:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 break;
+ 765:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             }
+ 766:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         }
+ 767:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 768:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     else
+ 769:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 770:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = MBEDTLS_ERR_SSL_INTERNAL_ERROR;
+ 771:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 772:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 773:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( 0 <= xResult )
+ 1072              		.loc 1 773 0
+ 1073 0034 000054E3 		cmp	r4, #0
+ 1074 0038 080000AA 		bge	.L97
+ 1075 003c 080000EA 		b	.L90
+ 1076              	.LVL136:
+ 1077              	.L96:
+ 744:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                         pucReadBuffer + xRead,
+ 1078              		.loc 1 744 0
+ 1079 0040 052047E0 		sub	r2, r7, r5
+ 1080 0044 051088E0 		add	r1, r8, r5
+ 1081 0048 0900A0E1 		mov	r0, r9
+ 1082 004c FEFFFFEB 		bl	mbedtls_ssl_read
+ 1083              	.LVL137:
+ 748:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             {
+ 1084              		.loc 1 748 0
+ 1085 0050 004050E2 		subs	r4, r0, #0
+ 751:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             }
+ 1086              		.loc 1 751 0
+ 1087 0054 045085C0 		addgt	r5, r5, r4
+ 748:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             {
+ 1088              		.loc 1 748 0
+ 1089 0058 F3FFFFCA 		bgt	.L92
+ 753:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             {
+ 1090              		.loc 1 753 0
+ 1091 005c 0200001A 		bne	.L95
+ 1092              	.LVL138:
+ 1093              	.L97:
+ 774:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 775:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = ( BaseType_t ) xRead;
+ 1094              		.loc 1 775 0
+ 1095 0060 0540A0E1 		mov	r4, r5
+ 1096              	.LVL139:
+ 1097              	.L90:
+ 776:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 777:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 778:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     return xResult;
+ 779:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** }
+ 1098              		.loc 1 779 0
+ 1099 0064 0400A0E1 		mov	r0, r4
+ 1100 0068 F087BDE8 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 1101              	.LVL140:
+ 1102              	.L95:
+ 760:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             {
+ 1103              		.loc 1 760 0
+ 1104 006c 690C74E3 		cmn	r4, #26880
+ 1105 0070 EDFFFF0A 		beq	.L92
+ 763:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 break;
+ 1106              		.loc 1 763 0
+ 1107 0074 0600A0E1 		mov	r0, r6
+ 1108              	.LVL141:
+ 1109 0078 FEFFFFEB 		bl	prvFreeContext
+ 1110              	.LVL142:
+ 764:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             }
+ 1111              		.loc 1 764 0
+ 1112 007c F8FFFFEA 		b	.L90
+ 1113              	.LVL143:
+ 1114              	.L99:
+ 770:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 1115              		.loc 1 770 0
+ 1116 0080 00409FE5 		ldr	r4, .L104
+ 1117              	.LVL144:
+ 778:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** }
+ 1118              		.loc 1 778 0
+ 1119 0084 F6FFFFEA 		b	.L90
+ 1120              	.L105:
+ 1121              		.align	2
+ 1122              	.L104:
+ 1123 0088 0094FFFF 		.word	-27648
+ 1124              		.cfi_endproc
+ 1125              	.LFE24:
+ 1127              		.section	.text.TLS_Send,"ax",%progbits
+ 1128              		.align	2
+ 1129              		.global	TLS_Send
+ 1130              		.syntax unified
+ 1131              		.arm
+ 1132              		.fpu neon
+ 1134              	TLS_Send:
+ 1135              	.LFB25:
+ 780:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 781:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** /*-----------------------------------------------------------*/
+ 782:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 783:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** BaseType_t TLS_Send( void * pvContext,
+ 784:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                      const unsigned char * pucMsg,
+ 785:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                      size_t xMsgLength )
+ 786:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** {
+ 1136              		.loc 1 786 0
+ 1137              		.cfi_startproc
+ 1138              		@ args = 0, pretend = 0, frame = 0
+ 1139              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1140              	.LVL145:
+ 1141 0000 F0472DE9 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 1142              		.cfi_def_cfa_offset 32
+ 1143              		.cfi_offset 4, -32
+ 1144              		.cfi_offset 5, -28
+ 1145              		.cfi_offset 6, -24
+ 1146              		.cfi_offset 7, -20
+ 1147              		.cfi_offset 8, -16
+ 1148              		.cfi_offset 9, -12
+ 1149              		.cfi_offset 10, -8
+ 1150              		.cfi_offset 14, -4
+ 787:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     BaseType_t xResult = 0;
+ 788:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     TLSContext_t * pxCtx = ( TLSContext_t * ) pvContext; /*lint !e9087 !e9079 Allow casting void* t
+ 789:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     size_t xWritten = 0;
+ 790:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 791:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( ( NULL != pxCtx ) && ( pdTRUE == pxCtx->xTLSHandshakeSuccessful ) )
+ 1151              		.loc 1 791 0
+ 1152 0004 006050E2 		subs	r6, r0, #0
+ 1153 0008 1D00000A 		beq	.L115
+ 1154              		.loc 1 791 0 is_stmt 0 discriminator 1
+ 1155 000c 203096E5 		ldr	r3, [r6, #32]
+ 1156 0010 010053E3 		cmp	r3, #1
+ 1157 0014 1A00001A 		bne	.L115
+ 792:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 793:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         while( xWritten < xMsgLength )
+ 794:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         {
+ 795:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             xResult = mbedtls_ssl_write( &pxCtx->xMbedSslCtx,
+ 796:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                          pucMsg + xWritten,
+ 797:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                          xMsgLength - xWritten );
+ 798:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 799:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             if( 0 < xResult )
+ 800:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             {
+ 801:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 /* Sent data, so update the tally and keep looping. */
+ 802:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 xWritten += ( size_t ) xResult;
+ 803:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             }
+ 804:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             else if( 0 == xResult )
+ 805:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             {
+ 806:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 /* No data sent (and no error). The secure sockets
+ 807:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                  * API supports non-blocking send, so stop the loop but don't
+ 808:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                  * flag an error. */
+ 809:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 break;
+ 810:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             }
+ 811:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             else if( MBEDTLS_ERR_SSL_WANT_WRITE != xResult )
+ 1158              		.loc 1 811 0 is_stmt 1
+ 1159 0018 6CA09FE5 		ldr	r10, .L117
+ 1160 001c 0050A0E3 		mov	r5, #0
+ 1161 0020 0270A0E1 		mov	r7, r2
+ 1162 0024 0180A0E1 		mov	r8, r1
+ 1163 0028 0540A0E1 		mov	r4, r5
+ 795:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                          pucMsg + xWritten,
+ 1164              		.loc 1 795 0
+ 1165 002c 249086E2 		add	r9, r6, #36
+ 1166              	.LVL146:
+ 1167              	.L108:
+ 793:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         {
+ 1168              		.loc 1 793 0
+ 1169 0030 070055E1 		cmp	r5, r7
+ 1170 0034 0200003A 		bcc	.L112
+ 1171              	.LVL147:
+ 812:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             {
+ 813:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 /* Hard error: invalidate the context and stop. */
+ 814:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 prvFreeContext( pxCtx );
+ 815:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 break;
+ 816:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             }
+ 817:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         }
+ 818:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 819:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     else
+ 820:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 821:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = MBEDTLS_ERR_SSL_INTERNAL_ERROR;
+ 822:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 823:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 824:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( 0 <= xResult )
+ 1172              		.loc 1 824 0
+ 1173 0038 000054E3 		cmp	r4, #0
+ 1174 003c 080000AA 		bge	.L113
+ 1175 0040 080000EA 		b	.L106
+ 1176              	.LVL148:
+ 1177              	.L112:
+ 795:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                                          pucMsg + xWritten,
+ 1178              		.loc 1 795 0
+ 1179 0044 052047E0 		sub	r2, r7, r5
+ 1180 0048 051088E0 		add	r1, r8, r5
+ 1181 004c 0900A0E1 		mov	r0, r9
+ 1182 0050 FEFFFFEB 		bl	mbedtls_ssl_write
+ 1183              	.LVL149:
+ 799:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             {
+ 1184              		.loc 1 799 0
+ 1185 0054 004050E2 		subs	r4, r0, #0
+ 802:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             }
+ 1186              		.loc 1 802 0
+ 1187 0058 045085C0 		addgt	r5, r5, r4
+ 799:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             {
+ 1188              		.loc 1 799 0
+ 1189 005c F3FFFFCA 		bgt	.L108
+ 804:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             {
+ 1190              		.loc 1 804 0
+ 1191 0060 0200001A 		bne	.L111
+ 1192              	.LVL150:
+ 1193              	.L113:
+ 825:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 826:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         xResult = ( BaseType_t ) xWritten;
+ 1194              		.loc 1 826 0
+ 1195 0064 0540A0E1 		mov	r4, r5
+ 1196              	.LVL151:
+ 1197              	.L106:
+ 827:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 828:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 829:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     return xResult;
+ 830:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** }
+ 1198              		.loc 1 830 0
+ 1199 0068 0400A0E1 		mov	r0, r4
+ 1200 006c F087BDE8 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 1201              	.LVL152:
+ 1202              	.L111:
+ 811:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             {
+ 1203              		.loc 1 811 0
+ 1204 0070 0A0054E1 		cmp	r4, r10
+ 1205 0074 EDFFFF0A 		beq	.L108
+ 814:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****                 break;
+ 1206              		.loc 1 814 0
+ 1207 0078 0600A0E1 		mov	r0, r6
+ 1208              	.LVL153:
+ 1209 007c FEFFFFEB 		bl	prvFreeContext
+ 1210              	.LVL154:
+ 815:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             }
+ 1211              		.loc 1 815 0
+ 1212 0080 F8FFFFEA 		b	.L106
+ 1213              	.LVL155:
+ 1214              	.L115:
+ 821:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 1215              		.loc 1 821 0
+ 1216 0084 04409FE5 		ldr	r4, .L117+4
+ 1217              	.LVL156:
+ 829:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** }
+ 1218              		.loc 1 829 0
+ 1219 0088 F6FFFFEA 		b	.L106
+ 1220              	.L118:
+ 1221              		.align	2
+ 1222              	.L117:
+ 1223 008c 8097FFFF 		.word	-26752
+ 1224 0090 0094FFFF 		.word	-27648
+ 1225              		.cfi_endproc
+ 1226              	.LFE25:
+ 1228              		.section	.text.TLS_Cleanup,"ax",%progbits
+ 1229              		.align	2
+ 1230              		.global	TLS_Cleanup
+ 1231              		.syntax unified
+ 1232              		.arm
+ 1233              		.fpu neon
+ 1235              	TLS_Cleanup:
+ 1236              	.LFB26:
+ 831:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 832:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** /*-----------------------------------------------------------*/
+ 833:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 834:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** void TLS_Cleanup( void * pvContext )
+ 835:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** {
+ 1237              		.loc 1 835 0
+ 1238              		.cfi_startproc
+ 1239              		@ args = 0, pretend = 0, frame = 0
+ 1240              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1241              	.LVL157:
+ 1242 0000 10402DE9 		push	{r4, lr}
+ 1243              		.cfi_def_cfa_offset 8
+ 1244              		.cfi_offset 4, -8
+ 1245              		.cfi_offset 14, -4
+ 836:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     TLSContext_t * pxCtx = ( TLSContext_t * ) pvContext; /*lint !e9087 !e9079 Allow casting void* t
+ 837:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 838:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     if( NULL != pxCtx )
+ 1246              		.loc 1 838 0
+ 1247 0004 004050E2 		subs	r4, r0, #0
+ 1248 0008 1080BD08 		popeq	{r4, pc}
+ 839:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     {
+ 840:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         if( pdTRUE == pxCtx->xTLSHandshakeSuccessful )
+ 1249              		.loc 1 840 0
+ 1250 000c 203094E5 		ldr	r3, [r4, #32]
+ 1251 0010 010053E3 		cmp	r3, #1
+ 1252 0014 0000001A 		bne	.L121
+ 841:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         {
+ 842:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****             prvFreeContext( pxCtx );
+ 1253              		.loc 1 842 0
+ 1254 0018 FEFFFFEB 		bl	prvFreeContext
+ 1255              	.LVL158:
+ 1256              	.L121:
+ 843:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         }
+ 844:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** 
+ 845:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         /* Free memory. */
+ 846:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****         vPortFree( pxCtx );
+ 1257              		.loc 1 846 0
+ 1258 001c 0400A0E1 		mov	r0, r4
+ 847:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 848:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c **** }
+ 1259              		.loc 1 848 0
+ 1260 0020 1040BDE8 		pop	{r4, lr}
+ 1261              		.cfi_restore 14
+ 1262              		.cfi_restore 4
+ 1263              		.cfi_def_cfa_offset 0
+ 1264              	.LVL159:
+ 846:D:/Work/DeviceTester/amazon-freertos/lib/tls\aws_tls.c ****     }
+ 1265              		.loc 1 846 0
+ 1266 0024 FEFFFFEA 		b	vPortFree
+ 1267              	.LVL160:
+ 1268              		.cfi_endproc
+ 1269              	.LFE26:
+ 1271              		.section	.rodata.TLS_Connect.str1.1,"aMS",%progbits,1
+ 1272              	.LC4:
+ 1273 0000 4552524F 		.ascii	"ERROR: Failed to parse custom server certificates %"
+ 1273      523A2046 
+ 1273      61696C65 
+ 1273      6420746F 
+ 1273      20706172 
+ 1274 0033 64200D0A 		.ascii	"d \015\012\000"
+ 1274      00
+ 1275              	.LC5:
+ 1276 0038 4552524F 		.ascii	"ERROR: Failed to parse default server certificates "
+ 1276      523A2046 
+ 1276      61696C65 
+ 1276      6420746F 
+ 1276      20706172 
+ 1277 006b 2564200D 		.ascii	"%d \015\012\000"
+ 1277      0A00
+ 1278              	.LC6:
+ 1279 0071 44657669 		.ascii	"Device Priv TLS Key\000"
+ 1279      63652050 
+ 1279      72697620 
+ 1279      544C5320 
+ 1279      4B657900 
+ 1280              	.LC7:
+ 1281 0085 4552524F 		.ascii	"ERROR: Handshake failed with error code %d \015\012"
+ 1281      523A2048 
+ 1281      616E6473 
+ 1281      68616B65 
+ 1281      20666169 
+ 1282 00b2 00       		.ascii	"\000"
+ 1283              	.LC8:
+ 1284 00b3 44657669 		.ascii	"Device Cert\000"
+ 1284      63652043 
+ 1284      65727400 
+ 1285              		.section	.rodata.prvCheckCertificate.str1.1,"aMS",%progbits,1
+ 1286              	.LC1:
+ 1287 0000 25337320 		.ascii	"%3s %d %d\000"
+ 1287      25642025 
+ 1287      6400
+ 1288              	.LC2:
+ 1289 000a 4E6F7620 		.ascii	"Nov  4 2020\000"
+ 1289      20342032 
+ 1289      30323000 
+ 1290              	.LC0:
+ 1291 0016 4A616E46 		.ascii	"JanFebMarAprMayJunJulAugSepOctNovDec\000"
+ 1291      65624D61 
+ 1291      72417072 
+ 1291      4D61794A 
+ 1291      756E4A75 
+ 1292              		.section	.rodata.prvPrivateKeySigningCallback.str1.1,"aMS",%progbits,1
+ 1293              	.LC3:
+ 1294 0000 4661696C 		.ascii	"Failure in signing callback: %d \015\012\000"
+ 1294      75726520 
+ 1294      696E2073 
+ 1294      69676E69 
+ 1294      6E672063 
+ 1295              		.section	.rodata.tlsATS1_ROOT_CERTIFICATE_PEM,"a",%progbits
+ 1296              		.set	.LANCHOR1,. + 0
+ 1299              	tlsATS1_ROOT_CERTIFICATE_PEM:
+ 1300 0000 2D2D2D2D 		.ascii	"-----BEGIN CERTIFICATE-----\012MIIDQTCCAimgAwIBAgIT"
+ 1300      2D424547 
+ 1300      494E2043 
+ 1300      45525449 
+ 1300      46494341 
+ 1301 0030 426D7966 		.ascii	"Bmyfz5m/jAo54vB4ikPmljZbyjANBgkqhkiG9w0BAQsF\012ADA"
+ 1301      7A356D2F 
+ 1301      6A416F35 
+ 1301      34764234 
+ 1301      696B506D 
+ 1302 0060 354D5173 		.ascii	"5MQswCQYDVQQGEwJVUzEPMA0GA1UEChMGQW1hem9uMRkwFwYDVQ"
+ 1302      77435159 
+ 1302      44565151 
+ 1302      4745774A 
+ 1302      56557A45 
+ 1303 0093 51444578 		.ascii	"QDExBBbWF6\012b24gUm9vdCBDQSAxMB4XDTE1MDUyNjAwMDAwM"
+ 1303      42426257 
+ 1303      46360A62 
+ 1303      32346755 
+ 1303      6D397664 
+ 1304 00c3 466F5844 		.ascii	"FoXDTM4MDExNzAwMDAwMFowOTEL\012MAkGA1UEBhMCVVMxDzAN"
+ 1304      544D344D 
+ 1304      4445784E 
+ 1304      7A41774D 
+ 1304      4441774D 
+ 1305 00f3 42674E56 		.ascii	"BgNVBAoTBkFtYXpvbjEZMBcGA1UEAxMQQW1hem9uIFJv\012b3Q"
+ 1305      42416F54 
+ 1305      426B4674 
+ 1305      59587076 
+ 1305      626A455A 
+ 1306 0123 67513045 		.ascii	"gQ0EgMTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAL"
+ 1306      674D5443 
+ 1306      43415349 
+ 1306      77445159 
+ 1306      4A4B6F5A 
+ 1307 0156 4A346748 		.ascii	"J4gHHKeNXj\012ca9HgFB0fW7Y14h29Jlo91ghYPl0hAEvrAIth"
+ 1307      484B654E 
+ 1307      586A0A63 
+ 1307      61394867 
+ 1307      46423066 
+ 1308 0186 744F6751 		.ascii	"tOgQ3pOsqTQNroBvo3bSMgHFzZM\0129O6II8c+6zf1tRn4SWiw"
+ 1308      33704F73 
+ 1308      7154514E 
+ 1308      726F4276 
+ 1308      6F336253 
+ 1309 01b6 33746535 		.ascii	"3te5djgdYZ6k/oI2peVKVuRF4fn9tBb6dNqcmzU5L/qw\012IFA"
+ 1309      646A6764 
+ 1309      595A366B 
+ 1309      2F6F4932 
+ 1309      7065564B 
+ 1310 01e6 47624872 		.ascii	"GbHrQgLKm+a/sRxmPUDgH3KKHOVj4utWp+UhnMJbulHheb4mjUc"
+ 1310      51674C4B 
+ 1310      6D2B612F 
+ 1310      7352786D 
+ 1310      50554467 
+ 1311 0219 4177686D 		.ascii	"AwhmahRWa6\012VOujw5H5SNz/0egwLX0tdHA114gk957EWW67c"
+ 1311      61685257 
+ 1311      61360A56 
+ 1311      4F756A77 
+ 1311      35483553 
+ 1312 0249 34635838 		.ascii	"4cX8jJGKLhD+rcdqsq08p8kDi1L\01293FcXmn/6pUCyziKrlA4"
+ 1312      6A4A474B 
+ 1312      4C68442B 
+ 1312      72636471 
+ 1312      73713038 
+ 1313 0279 62397637 		.ascii	"b9v7LWIbxcceVOF34GfID5yHI9Y/QCB/IIDEgEw+OyQm\012jgS"
+ 1313      4C574962 
+ 1313      78636365 
+ 1313      564F4633 
+ 1313      34476649 
+ 1314 02a9 75624A72 		.ascii	"ubJrIqg0CAwEAAaNCMEAwDwYDVR0TAQH/BAUwAwEB/zAOBgNVHQ"
+ 1314      49716730 
+ 1314      43417745 
+ 1314      4141614E 
+ 1314      434D4541 
+ 1315 02dc 38424166 		.ascii	"8BAf8EBAMC\012AYYwHQYDVR0OBBYEFIQYzIU07LwMlJQuCFmcx"
+ 1315      38454241 
+ 1315      4D430A41 
+ 1315      59597748 
+ 1315      51594456 
+ 1316 030c 37495154 		.ascii	"7IQTgoIMA0GCSqGSIb3DQEBCwUA\012A4IBAQCY8jdaQZChGsV2"
+ 1316      676F494D 
+ 1316      41304743 
+ 1316      53714753 
+ 1316      49623344 
+ 1317 033c 55536767 		.ascii	"USggNiMOruYou6r4lK5IpDB/G/wkjUu0yKGX9rbxenDI\012U5P"
+ 1317      4E694D4F 
+ 1317      7275596F 
+ 1317      75367234 
+ 1317      6C4B3549 
+ 1318 036c 4D43436A 		.ascii	"MCCjjmCXPI6T53iHTfIUJrU6adTrCC2qJeHZERxhlbI1Bjjt/ms"
+ 1318      6A6D4358 
+ 1318      50493654 
+ 1318      35336948 
+ 1318      54664955 
+ 1319 039f 76307461 		.ascii	"v0tadQ1wUs\012N+gDS63pYaACbvXy8MWy7Vu33PqUXHeeE6V/U"
+ 1319      64513177 
+ 1319      55730A4E 
+ 1319      2B674453 
+ 1319      36337059 
+ 1320 03cf 71325638 		.ascii	"q2V8viTO96LXFvKWlJbYK8U90vv\012o/ufQJVtMVT8QtPHRh8j"
+ 1320      7669544F 
+ 1320      39364C58 
+ 1320      46764B57 
+ 1320      6C4A6259 
+ 1321 03ff 72646B50 		.ascii	"rdkPSHCa2XV4cdFyQzR1bldZwgJcJmApzyMZFo6IQ6XU\0125Ms"
+ 1321      53484361 
+ 1321      32585634 
+ 1321      63644679 
+ 1321      517A5231 
+ 1322 042f 492B794D 		.ascii	"I+yMRQ+hDKXJioaldXgjUkK642M4UwtBV8ob2xJNDd2ZhwLnoQd"
+ 1322      52512B68 
+ 1322      444B584A 
+ 1322      696F616C 
+ 1322      6458676A 
+ 1323 0462 65586547 		.ascii	"eXeGADbkpy\012rqXRfboQnoZsG4q5WTP468SQvvG5\012-----"
+ 1323      4144626B 
+ 1323      70790A72 
+ 1323      71585266 
+ 1323      626F516E 
+ 1324 048f 454E4420 		.ascii	"END CERTIFICATE-----\012\000"
+ 1324      43455254 
+ 1324      49464943 
+ 1324      4154452D 
+ 1324      2D2D2D2D 
+ 1325              		.section	.rodata.tlsSTARFIELD_ROOT_CERTIFICATE_PEM,"a",%progbits
+ 1326              		.set	.LANCHOR2,. + 0
+ 1329              	tlsSTARFIELD_ROOT_CERTIFICATE_PEM:
+ 1330 0000 2D2D2D2D 		.ascii	"-----BEGIN CERTIFICATE-----\012MIIEDzCCAvegAwIBAgIB"
+ 1330      2D424547 
+ 1330      494E2043 
+ 1330      45525449 
+ 1330      46494341 
+ 1331 0030 4144414E 		.ascii	"ADANBgkqhkiG9w0BAQUFADBoMQswCQYDVQQGEwJVUzEl\012MCM"
+ 1331      42676B71 
+ 1331      686B6947 
+ 1331      39773042 
+ 1331      41515546 
+ 1332 0060 47413155 		.ascii	"GA1UEChMcU3RhcmZpZWxkIFRlY2hub2xvZ2llcywgSW5jLjEyMD"
+ 1332      4543684D 
+ 1332      63553352 
+ 1332      68636D5A 
+ 1332      705A5778 
+ 1333 0093 41474131 		.ascii	"AGA1UECxMp\012U3RhcmZpZWxkIENsYXNzIDIgQ2VydGlmaWNhd"
+ 1333      55454378 
+ 1333      4D700A55 
+ 1333      33526863 
+ 1333      6D5A705A 
+ 1334 00c3 476C7662 		.ascii	"GlvbiBBdXRob3JpdHkwHhcNMDQw\012NjI5MTczOTE2WhcNMzQw"
+ 1334      69424264 
+ 1334      58526F62 
+ 1334      334A7064 
+ 1334      486B7748 
+ 1335 00f3 4E6A4935 		.ascii	"NjI5MTczOTE2WjBoMQswCQYDVQQGEwJVUzElMCMGA1UE\012ChM"
+ 1335      4D54637A 
+ 1335      4F544532 
+ 1335      576A426F 
+ 1335      4D517377 
+ 1336 0123 63553352 		.ascii	"cU3RhcmZpZWxkIFRlY2hub2xvZ2llcywgSW5jLjEyMDAGA1UECx"
+ 1336      68636D5A 
+ 1336      705A5778 
+ 1336      6B494652 
+ 1336      6C593268 
+ 1337 0156 4D705533 		.ascii	"MpU3RhcmZp\012ZWxkIENsYXNzIDIgQ2VydGlmaWNhdGlvbiBBd"
+ 1337      5268636D 
+ 1337      5A700A5A 
+ 1337      57786B49 
+ 1337      454E7359 
+ 1338 0186 58526F62 		.ascii	"XRob3JpdHkwggEgMA0GCSqGSIb3\012DQEBAQUAA4IBDQAwggEI"
+ 1338      334A7064 
+ 1338      486B7767 
+ 1338      6745674D 
+ 1338      41304743 
+ 1339 01b6 416F4942 		.ascii	"AoIBAQC3Msj+6XGmBIWtDBFk385N78gDGIc/oav7PKaf\0128MO"
+ 1339      41514333 
+ 1339      4D736A2B 
+ 1339      3658476D 
+ 1339      42495774 
+ 1340 01e6 68327454 		.ascii	"h2tTYbitTkPskpD6E8J7oX+zlJ0T1KKY/e97gKvDIr1MvnsoFAZ"
+ 1340      59626974 
+ 1340      546B5073 
+ 1340      6B704436 
+ 1340      45384A37 
+ 1341 0219 4D656A32 		.ascii	"Mej2YcOadN\012+lq2cwQlZut3f+dZxkqZJRRU6ybH838Z1TBwj"
+ 1341      59634F61 
+ 1341      644E0A2B 
+ 1341      6C713263 
+ 1341      77516C5A 
+ 1342 0249 362B7752 		.ascii	"6+wRir/resp7defqgSHo9T5iaU0\012X9tDkYI22WY8sbi5gv2c"
+ 1342      69722F72 
+ 1342      65737037 
+ 1342      64656671 
+ 1342      6753486F 
+ 1343 0279 4F6A3451 		.ascii	"Oj4QyDvvBmVmepsZGD3/cVE8MC5fvj13c7JdBmzDI1aa\012K4U"
+ 1343      79447676 
+ 1343      426D566D 
+ 1343      6570735A 
+ 1343      4744332F 
+ 1344 02a9 6D6B6879 		.ascii	"mkhynArPkPw2vCHmCuDY96pzTNbO8acr1zJ3o/WSNF4Azbl5KXZ"
+ 1344      6E417250 
+ 1344      6B507732 
+ 1344      7643486D 
+ 1344      43754459 
+ 1345 02dc 6E4A486F 		.ascii	"nJHoe0nRrA\0121W4TNSNe35tfPe/W93bC6j67eA0cQmdrBNj41"
+ 1345      65306E52 
+ 1345      72410A31 
+ 1345      5734544E 
+ 1345      534E6533 
+ 1346 030c 74707669 		.ascii	"tpvi/JEoAGrAgEDo4HFMIHCMB0G\012A1UdDgQWBBS/X7fRzt0f"
+ 1346      2F4A456F 
+ 1346      41477241 
+ 1346      6745446F 
+ 1346      3448464D 
+ 1347 033c 68765262 		.ascii	"hvRbVazc1xDCDqmI5zCBkgYDVR0jBIGKMIGHgBS/X7fR\012zt0"
+ 1347      56617A63 
+ 1347      31784443 
+ 1347      44716D49 
+ 1347      357A4342 
+ 1348 036c 66687652 		.ascii	"fhvRbVazc1xDCDqmI56FspGowaDELMAkGA1UEBhMCVVMxJTAjBg"
+ 1348      6256617A 
+ 1348      63317844 
+ 1348      4344716D 
+ 1348      49353646 
+ 1349 039f 4E564241 		.ascii	"NVBAoTHFN0\012YXJmaWVsZCBUZWNobm9sb2dpZXMsIEluYy4xM"
+ 1349      6F544846 
+ 1349      4E300A59 
+ 1349      584A6D61 
+ 1349      5756735A 
+ 1350 03cf 6A417742 		.ascii	"jAwBgNVBAsTKVN0YXJmaWVsZCBD\012bGFzcyAyIENlcnRpZmlj"
+ 1350      674E5642 
+ 1350      4173544B 
+ 1350      564E3059 
+ 1350      584A6D61 
+ 1351 03ff 59585270 		.ascii	"YXRpb24gQXV0aG9yaXR5ggEAMAwGA1UdEwQFMAMBAf8w\012DQY"
+ 1351      62323467 
+ 1351      51585630 
+ 1351      61473979 
+ 1351      61585235 
+ 1352 042f 4A4B6F5A 		.ascii	"JKoZIhvcNAQEFBQADggEBAAWdP4id0ckaVaGsafPzWdqbAYcaT1"
+ 1352      49687663 
+ 1352      4E415145 
+ 1352      46425141 
+ 1352      44676745 
+ 1353 0462 65706F58 		.ascii	"epoXkJKtv3\012L7IezMdeatiDh6GX70k1PncGQVhiv45YuApnP"
+ 1353      6B4A4B74 
+ 1353      76330A4C 
+ 1353      3749657A 
+ 1353      4D646561 
+ 1354 0492 2B797A33 		.ascii	"+yz3SFmH8lU+nLMPUxA2IGvd56D\012eruix/U0F47ZEUD0/Cwq"
+ 1354      53466D48 
+ 1354      386C552B 
+ 1354      6E4C4D50 
+ 1354      55784132 
+ 1355 04c2 5452562F 		.ascii	"TRV/p2JdLiXTAAsgGh1o+Re49L2L7ShZ3U0WixeDyLJl\012xy1"
+ 1355      70324A64 
+ 1355      4C695854 
+ 1355      41417367 
+ 1355      4768316F 
+ 1356 04f2 36706171 		.ascii	"6paq8U4Zt3VekyvggQQto8PT7dL5WXXp59fkdheMtlb71cZBDzI"
+ 1356      3855345A 
+ 1356      74335665 
+ 1356      6B797667 
+ 1356      67515174 
+ 1357 0525 30666D67 		.ascii	"0fmgAKhynp\012VSJYACPq4xJDKVtHCN2MQWplBqjlIapBtJUhl"
+ 1357      414B6879 
+ 1357      6E700A56 
+ 1357      534A5941 
+ 1357      43507134 
+ 1358 0555 626C3930 		.ascii	"bl90TSrE9atvNziPTnNvT51cKEY\012WQPJIrSPnNVeKtelttQK"
+ 1358      54537245 
+ 1358      39617476 
+ 1358      4E7A6950 
+ 1358      546E4E76 
+ 1359 0585 62666933 		.ascii	"bfi3QBFGmh95DmK/D5fs4C8fF5Q=\012-----END CERTIFICAT"
+ 1359      51424647 
+ 1359      6D683935 
+ 1359      446D4B2F 
+ 1359      44356673 
+ 1360 05b5 452D2D2D 		.ascii	"E-----\012\000"
+ 1360      2D2D0A00 
+ 1361              		.section	.rodata.tlsVERISIGN_ROOT_CERTIFICATE_PEM,"a",%progbits
+ 1362              		.set	.LANCHOR0,. + 0
+ 1365              	tlsVERISIGN_ROOT_CERTIFICATE_PEM:
+ 1366 0000 2D2D2D2D 		.ascii	"-----BEGIN CERTIFICATE-----\012MIIE0zCCA7ugAwIBAgIQ"
+ 1366      2D424547 
+ 1366      494E2043 
+ 1366      45525449 
+ 1366      46494341 
+ 1367 0030 474E7252 		.ascii	"GNrRniZ96LtKIVjNzGs7SjANBgkqhkiG9w0BAQUFADCB\012yjE"
+ 1367      6E695A39 
+ 1367      364C744B 
+ 1367      49566A4E 
+ 1367      7A477337 
+ 1368 0060 4C4D416B 		.ascii	"LMAkGA1UEBhMCVVMxFzAVBgNVBAoTDlZlcmlTaWduLCBJbmMuMR"
+ 1368      47413155 
+ 1368      4542684D 
+ 1368      4356564D 
+ 1368      78467A41 
+ 1369 0093 38774851 		.ascii	"8wHQYDVQQL\012ExZWZXJpU2lnbiBUcnVzdCBOZXR3b3JrMTowO"
+ 1369      59445651 
+ 1369      514C0A45 
+ 1369      785A575A 
+ 1369      584A7055 
+ 1370 00c3 41594456 		.ascii	"AYDVQQLEzEoYykgMjAwNiBWZXJp\012U2lnbiwgSW5jLiAtIEZv"
+ 1370      51514C45 
+ 1370      7A456F59 
+ 1370      796B674D 
+ 1370      6A41774E 
+ 1371 00f3 63694268 		.ascii	"ciBhdXRob3JpemVkIHVzZSBvbmx5MUUwQwYDVQQDEzxW\012ZXJ"
+ 1371      6458526F 
+ 1371      62334A70 
+ 1371      656D566B 
+ 1371      4948567A 
+ 1372 0123 7055326C 		.ascii	"pU2lnbiBDbGFzcyAzIFB1YmxpYyBQcmltYXJ5IENlcnRpZmljYX"
+ 1372      6E626942 
+ 1372      44624746 
+ 1372      7A637941 
+ 1372      7A494642 
+ 1373 0156 52706232 		.ascii	"Rpb24gQXV0\012aG9yaXR5IC0gRzUwHhcNMDYxMTA4MDAwMDAwW"
+ 1373      34675158 
+ 1373      56300A61 
+ 1373      47397961 
+ 1373      58523549 
+ 1374 0186 68634E4D 		.ascii	"hcNMzYwNzE2MjM1OTU5WjCByjEL\012MAkGA1UEBhMCVVMxFzAV"
+ 1374      7A59774E 
+ 1374      7A45324D 
+ 1374      6A4D314F 
+ 1374      54553557 
+ 1375 01b6 42674E56 		.ascii	"BgNVBAoTDlZlcmlTaWduLCBJbmMuMR8wHQYDVQQLExZW\012ZXJ"
+ 1375      42416F54 
+ 1375      446C5A6C 
+ 1375      636D6C54 
+ 1375      61576475 
+ 1376 01e6 7055326C 		.ascii	"pU2lnbiBUcnVzdCBOZXR3b3JrMTowOAYDVQQLEzEoYykgMjAwNi"
+ 1376      6E626942 
+ 1376      55636E56 
+ 1376      7A644342 
+ 1376      4F5A5852 
+ 1377 0219 42575A58 		.ascii	"BWZXJpU2ln\012biwgSW5jLiAtIEZvciBhdXRob3JpemVkIHVzZ"
+ 1377      4A705532 
+ 1377      6C6E0A62 
+ 1377      69776753 
+ 1377      57356A4C 
+ 1378 0249 53427662 		.ascii	"SBvbmx5MUUwQwYDVQQDEzxWZXJp\012U2lnbiBDbGFzcyAzIFB1"
+ 1378      6D78354D 
+ 1378      55557751 
+ 1378      77594456 
+ 1378      51514445 
+ 1379 0279 596D7870 		.ascii	"YmxpYyBQcmltYXJ5IENlcnRpZmljYXRpb24gQXV0aG9y\012aXR"
+ 1379      59794251 
+ 1379      636D6C74 
+ 1379      59584A35 
+ 1379      49454E6C 
+ 1380 02a9 35494330 		.ascii	"5IC0gRzUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQ"
+ 1380      67527A55 
+ 1380      77676745 
+ 1380      694D4130 
+ 1380      47435371 
+ 1381 02dc 43764A41 		.ascii	"CvJAgIKXo1\012nmAMqudLO07cfLw8RRy7K+D+KQL5VwijZIUVJ"
+ 1381      67494B58 
+ 1381      6F310A6E 
+ 1381      6D414D71 
+ 1381      75644C4F 
+ 1382 030c 2F587872 		.ascii	"/XxrcgxiV0i6CqqpkKzj/i5Vbex\012t0uz/o9+B1fs70PbZmIV"
+ 1382      63677869 
+ 1382      56306936 
+ 1382      43717170 
+ 1382      6B4B7A6A 
+ 1383 033c 59633967 		.ascii	"Yc9gDaTY3vjgw2IIPVQT60nKWVSFJuUrjxuf6/WhkcIz\012Sdh"
+ 1383      44615459 
+ 1383      33766A67 
+ 1383      77324949 
+ 1383      50565154 
+ 1384 036c 44593270 		.ascii	"DY2pSS9KP6HBRTdGJaXvHcPaz3BJ023tdS1bTlr8Vd6Gw9KIl8q"
+ 1384      5353394B 
+ 1384      50364842 
+ 1384      52546447 
+ 1384      4A615876 
+ 1385 039f 38636B6D 		.ascii	"8ckmcY5fQG\012BO+QueQA5N06tRn/Arr0PO7gi+s3i+z016zy9"
+ 1385      63593566 
+ 1385      51470A42 
+ 1385      4F2B5175 
+ 1385      65514135 
+ 1386 03cf 76413972 		.ascii	"vA9r911kTMZHRxAy3QkGSGT2RT+\012rCpSx4/VBEnkjWNHiDxp"
+ 1386      3931316B 
+ 1386      544D5A48 
+ 1386      52784179 
+ 1386      33516B47 
+ 1387 03ff 6738762B 		.ascii	"g8v+R70rfk/Fla4OndTRQ8Bnc+MUCH7lP59zuDMKz10/\012NIe"
+ 1387      52373072 
+ 1387      666B2F46 
+ 1387      6C61344F 
+ 1387      6E645452 
+ 1388 042f 57697535 		.ascii	"Wiu5T6CUVAgMBAAGjgbIwga8wDwYDVR0TAQH/BAUwAwEB/zAOBg"
+ 1388      54364355 
+ 1388      5641674D 
+ 1388      42414147 
+ 1388      6A676249 
+ 1389 0462 4E564851 		.ascii	"NVHQ8BAf8E\012BAMCAQYwbQYIKwYBBQUHAQwEYTBfoV2gWzBZM"
+ 1389      38424166 
+ 1389      38450A42 
+ 1389      414D4341 
+ 1389      51597762 
+ 1390 0492 46637756 		.ascii	"FcwVRYJaW1hZ2UvZ2lmMCEwHzAH\012BgUrDgMCGgQUj+XTGoas"
+ 1390      52594A61 
+ 1390      5731685A 
+ 1390      3255765A 
+ 1390      326C6D4D 
+ 1391 04c2 6A593572 		.ascii	"jY5rw8+AatRIGCx7GS4wJRYjaHR0cDovL2xvZ28udmVy\012aXN"
+ 1391      77382B41 
+ 1391      61745249 
+ 1391      47437837 
+ 1391      47533477 
+ 1392 04f2 705A3234 		.ascii	"pZ24uY29tL3ZzbG9nby5naWYwHQYDVR0OBBYEFH/TZafC3ey78D"
+ 1392      75593239 
+ 1392      744C335A 
+ 1392      7A624739 
+ 1392      6E627935 
+ 1393 0525 414A3830 		.ascii	"AJ80M5+gKv\012MzEzMA0GCSqGSIb3DQEBBQUAA4IBAQCTJEowX"
+ 1393      4D352B67 
+ 1393      4B760A4D 
+ 1393      7A457A4D 
+ 1393      41304743 
+ 1394 0555 324C5032 		.ascii	"2LP2BqYLz3q3JktvXf2pXkiOOzE\012p6B4Eq1iDkVwZMXnl2Yt"
+ 1394      4271594C 
+ 1394      7A337133 
+ 1394      4A6B7476 
+ 1394      58663270 
+ 1395 0585 6D416C2B 		.ascii	"mAl+X6/WzChl8gGqCBpH3vn5fJJaCGkgDdk+bW48DW7Y\0125ga"
+ 1395      58362F57 
+ 1395      7A43686C 
+ 1395      38674771 
+ 1395      43427048 
+ 1396 05b5 52514269 		.ascii	"RQBi5+MHt39tBquCWIMnNZBU4gcmU7qKEKQsTb47bDN0lAtukix"
+ 1396      352B4D48 
+ 1396      74333974 
+ 1396      42717543 
+ 1396      57494D6E 
+ 1397 05e8 6C45306B 		.ascii	"lE0kF6BWlK\012WE9gyn6CagsCqiUXObXbf+eEZSqVir2G3l6BF"
+ 1397      46364257 
+ 1397      6C4B0A57 
+ 1397      45396779 
+ 1397      6E364361 
+ 1398 0618 6F4D7445 		.ascii	"oMtEMze/aiCKm0oHw0LxOXnGiYZ\0124fQRbxC1lfznQgUy286d"
+ 1398      4D7A652F 
+ 1398      6169434B 
+ 1398      6D306F48 
+ 1398      77304C78 
+ 1399 0648 5556346F 		.ascii	"UV4otp6F01vvpX1FQHKOtw5rDgb7MzVIcbidJ4vEZV8N\012hna"
+ 1399      74703646 
+ 1399      30317676 
+ 1399      70583146 
+ 1399      51484B4F 
+ 1400 0678 63524872 		.ascii	"cRHr2lVz2XTIIM6RUthg/aFzyQkqFOFSDX9HoLPKsEdao7WNq\012"
+ 1400      326C567A 
+ 1400      32585449 
+ 1400      494D3652 
+ 1400      55746867 
+ 1401 06aa 2D2D2D2D 		.ascii	"-----END CERTIFICATE-----\012\000"
+ 1401      2D454E44 
+ 1401      20434552 
+ 1401      54494649 
+ 1401      43415445 
+ 1402              		.text
+ 1403              	.Letext0:
+ 1404              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 1405              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1406              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1407              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1408              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1409              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1410              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1411              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1412              		.file 10 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\src/unity_internals.h"
+ 1413              		.file 11 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 1414              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS\\portable\\GCC\\ARM_CA9_RZA2M/por
+ 1415              		.file 13 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1416              		.file 14 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1417              		.file 15 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 1418              		.file 16 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 1419              		.file 17 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 1420              		.file 18 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 1421              		.file 19 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 1422              		.file 20 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/aws_tls.h"
+ 1423              		.file 21 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\pkcs11/pkcs11t.h"
+ 1424              		.file 22 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\pkcs11/pkcs11.h"
+ 1425              		.file 23 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\pkcs11/pkcs11f.h"
+ 1426              		.file 24 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\common\\include/aws_clientcredential_key
+ 1427              		.file 25 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\common\\include/aws_clientcredential.h"
+ 1428              		.file 26 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include\\private/aws_default_root_certific
+ 1429              		.file 27 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/queue.h"
+ 1430              		.file 28 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/semphr.h"
+ 1431              		.file 29 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include\\private/threading_alt.h"
+ 1432              		.file 30 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/thre
+ 1433              		.file 31 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/md.h
+ 1434              		.file 32 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/ecp.
+ 1435              		.file 33 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/pk.h
+ 1436              		.file 34 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/pk_i
+ 1437              		.file 35 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/asn1
+ 1438              		.file 36 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/x509
+ 1439              		.file 37 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/x509
+ 1440              		.file 38 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/x509
+ 1441              		.file 39 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/ssl.
+ 1442              		.file 40 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include\\private/portable.h"
+ 1443              		.file 41 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1444              		.file 42 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/aws_crypto.h"
+ 1445              		.file 43 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\renesas\\rza2m-gr-mango\\common\\config_
+ 1446              		.file 44 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+DEFINED SYMBOLS
+                            *ABS*:00000000 aws_tls.c
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:17     .text.prvNetworkSend:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:22     .text.prvNetworkSend:00000000 prvNetworkSend
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:41     .text.prvNetworkRecv:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:46     .text.prvNetworkRecv:00000000 prvNetworkRecv
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:64     .text.prvGenerateRandomBytes:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:69     .text.prvGenerateRandomBytes:00000000 prvGenerateRandomBytes
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:88     .text.prvCheckCertificate:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:93     .text.prvCheckCertificate:00000000 prvCheckCertificate
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:196    .text.prvCheckCertificate:000000c0 $d
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:204    .text.prvPrivateKeySigningCallback:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:209    .text.prvPrivateKeySigningCallback:00000000 prvPrivateKeySigningCallback
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:285    .text.prvPrivateKeySigningCallback:0000007c $d
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:290    .text.prvFreeContext:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:295    .text.prvFreeContext:00000000 prvFreeContext
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:347    .text.TLS_Init:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:353    .text.TLS_Init:00000000 TLS_Init
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:440    .text.TLS_Connect:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:446    .text.TLS_Connect:00000000 TLS_Connect
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:1012   .text.TLS_Connect:000004a0 $d
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:1030   .text.TLS_Recv:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:1036   .text.TLS_Recv:00000000 TLS_Recv
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:1123   .text.TLS_Recv:00000088 $d
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:1128   .text.TLS_Send:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:1134   .text.TLS_Send:00000000 TLS_Send
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:1223   .text.TLS_Send:0000008c $d
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:1229   .text.TLS_Cleanup:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:1235   .text.TLS_Cleanup:00000000 TLS_Cleanup
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:1299   .rodata.tlsATS1_ROOT_CERTIFICATE_PEM:00000000 tlsATS1_ROOT_CERTIFICATE_PEM
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:1329   .rodata.tlsSTARFIELD_ROOT_CERTIFICATE_PEM:00000000 tlsSTARFIELD_ROOT_CERTIFICATE_PEM
+C:\Users\a5089698\AppData\Local\Temp\ccCqyEk6.s:1365   .rodata.tlsVERISIGN_ROOT_CERTIFICATE_PEM:00000000 tlsVERISIGN_ROOT_CERTIFICATE_PEM
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+memcpy
+sscanf
+strstr
+C_SignInit
+C_Sign
+vLoggingPrintf
+mbedtls_ssl_close_notify
+mbedtls_ssl_free
+mbedtls_ssl_config_free
+pvPortMalloc
+memset
+C_GetFunctionList
+CRYPTO_ConfigureHeap
+mbedtls_ssl_init
+mbedtls_ssl_config_init
+mbedtls_x509_crt_init
+mbedtls_x509_crt_parse
+mbedtls_ssl_config_defaults
+mbedtls_ssl_conf_verify
+mbedtls_ssl_conf_authmode
+mbedtls_ssl_conf_rng
+mbedtls_ssl_conf_ca_chain
+strlen
+mbedtls_ssl_conf_alpn_protocols
+mbedtls_ssl_set_bio
+mbedtls_ssl_handshake
+mbedtls_ssl_set_hostname
+mbedtls_pk_info_from_type
+mbedtls_ssl_conf_own_cert
+vPortFree
+mbedtls_ssl_setup
+mbedtls_x509_crt_free
+clientcredentialJITR_DEVICE_CERTIFICATE_AUTHORITY_PEM
+mbedtls_ssl_read
+mbedtls_ssl_write

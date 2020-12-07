@@ -1,0 +1,2072 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"r_stb_lld_rza2m.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.is_clock_supplied,"ax",%progbits
+  17              		.align	2
+  18              		.syntax unified
+  19              		.arm
+  20              		.fpu neon
+  22              	is_clock_supplied:
+  23              	.LFB7:
+  24              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/cor
+   1:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /*******************************************************************************
+   2:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * DISCLAIMER
+   3:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * This software is supplied by Renesas Electronics Corporation and is only
+   4:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * intended for use with Renesas products. No other uses are authorized. This
+   5:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * software is owned by Renesas Electronics Corporation and is protected under
+   6:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * all applicable laws, including copyright laws.
+   7:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   8:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT
+   9:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+  10:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED.
+  11:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * TO THE MAXIMUM EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS
+  12:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES SHALL BE LIABLE
+  13:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR
+  14:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * ANY REASON RELATED TO THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE
+  15:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+  16:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * Renesas reserves the right, without notice, to make changes to this software
+  17:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * and to discontinue the availability of this software. By using this software,
+  18:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * you agree to the additional terms and conditions found by accessing the
+  19:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * following link:
+  20:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * http://www.renesas.com/disclaimer
+  21:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+  22:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** *******************************************************************************/
+  23:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /*******************************************************************************
+  24:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * File Name    : r_stb_lld_rza2m.c
+  25:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * Device(s)    : RZ/A2M
+  26:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * Tool-Chain   : e2Studio Ver 7.5.0
+  27:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** *              : GNU Arm Embedded Toolchain 6-2017-q2-update
+  28:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * OS           : None
+  29:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * H/W Platform : RZ/A2M Evaluation Board
+  30:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * Description  : RZ/A2M Sample Program - API function of STB module
+  31:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * Operation    :
+  32:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** * Limitations  :
+  33:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** *******************************************************************************/
+  34:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+  35:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /******************************************************************************
+  36:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** Includes   <System Includes> , "Project Includes"
+  37:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** ******************************************************************************/
+  38:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** #include <string.h>
+  39:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** #include <ctype.h>
+  40:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** #include "r_typedefs.h"
+  41:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** #include "r_stb_drv_link.h"
+  42:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** #include "rza_io_regrw.h"
+  43:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** #include "iodefine.h"
+  44:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** #include "iobitmask.h"
+  45:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** #include "compiler_settings.h"
+  46:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+  47:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+  48:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /******************************************************************************
+  49:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** Macro definitions
+  50:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** ******************************************************************************/
+  51:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** #define STB_PRV_RRAM_AREA_3 (*(volatile unsigned long *)0x80010000)
+  52:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** #define STB_PRV_RRAM_AREA_2 (*(volatile unsigned long *)0x80008000)
+  53:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** #define STB_PRV_RRAM_AREA_1 (*(volatile unsigned long *)0x80004000)
+  54:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** #define STB_PRV_RRAM_AREA_0 (*(volatile unsigned long *)0x80000000)
+  55:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+  56:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /******************************************************************************
+  57:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** Typedef definitions
+  58:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** ******************************************************************************/
+  59:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** typedef struct
+  60:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** {
+  61:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     e_stb_module_t   module;
+  62:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     volatile void  * reg_address;
+  63:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     uint8_t          mask;
+  64:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** } st_r_prv_reg_info_t;
+  65:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+  66:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+  67:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /******************************************************************************
+  68:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** Imported global variables and functions (from other files)
+  69:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** ******************************************************************************/
+  70:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+  71:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+  72:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /******************************************************************************
+  73:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** Exported global variables and functions (to be accessed by other files)
+  74:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** ******************************************************************************/
+  75:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+  76:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+  77:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /******************************************************************************
+  78:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** Private global variables and functions
+  79:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** ******************************************************************************/
+  80:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /*! Version Information */
+  81:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** static const st_drv_info_t gs_lld_info =
+  82:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** {
+  83:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+  84:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         ((STDIO_STB_RZ_LLD_VERSION_MAJOR << 16) + STDIO_STB_RZ_LLD_VERSION_MINOR)
+  85:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     },
+  86:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     STDIO_STB_RZ_LLD_BUILD_NUM,
+  87:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     STDIO_STB_RZ_LLD_DRV_NAME
+  88:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** };
+  89:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+  90:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** static const st_r_prv_reg_info_t gs_stbcr[] =
+  91:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** {
+  92:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_CORESIGHT, &CPG.STBCR2.BYTE,  CPG_STBCR2_MSTP20},
+  93:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_OSTM0,     &CPG.STBCR3.BYTE,  CPG_STBCR3_MSTP36},
+  94:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_OSTM1,     &CPG.STBCR3.BYTE,  CPG_STBCR3_MSTP35},
+  95:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_OSTM2,     &CPG.STBCR3.BYTE,  CPG_STBCR3_MSTP34},
+  96:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_MTU3,      &CPG.STBCR3.BYTE,  CPG_STBCR3_MSTP33},
+  97:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_CANFD,     &CPG.STBCR3.BYTE,  CPG_STBCR3_MSTP32},
+  98:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_ADC,       &CPG.STBCR5.BYTE,  CPG_STBCR5_MSTP57},
+  99:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_GPT,       &CPG.STBCR3.BYTE,  CPG_STBCR3_MSTP30},
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_SCIFA0,    &CPG.STBCR4.BYTE,  CPG_STBCR4_MSTP47},
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_SCIFA1,    &CPG.STBCR4.BYTE,  CPG_STBCR4_MSTP46},
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_SCIFA2,    &CPG.STBCR4.BYTE,  CPG_STBCR4_MSTP45},
+ 103:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_SCIFA3,    &CPG.STBCR4.BYTE,  CPG_STBCR4_MSTP44},
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_SCIFA4,    &CPG.STBCR4.BYTE,  CPG_STBCR4_MSTP43},
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_SCI0,      &CPG.STBCR4.BYTE,  CPG_STBCR4_MSTP42},
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_SCI1,      &CPG.STBCR4.BYTE,  CPG_STBCR4_MSTP41},
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_IrDA,      &CPG.STBCR4.BYTE,  CPG_STBCR4_MSTP40},
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_CEU,       &CPG.STBCR5.BYTE,  CPG_STBCR5_MSTP56},
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_RTC0,      &CPG.STBCR5.BYTE,  CPG_STBCR5_MSTP53},
+ 110:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_RTC1,      &CPG.STBCR5.BYTE,  CPG_STBCR5_MSTP52},
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_JCU,       &CPG.STBCR5.BYTE,  CPG_STBCR5_MSTP51},
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_VIN,       &CPG.STBCR6.BYTE,  CPG_STBCR6_MSTP66},
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_ETHER,     &CPG.STBCR6.BYTE,  CPG_STBCR6_MSTP65|CPG_STBCR6_MSTP64|CPG_STBCR6_MSTP63|CPG
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_USB0,      &CPG.STBCR6.BYTE,  CPG_STBCR6_MSTP61},
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_USB1,      &CPG.STBCR6.BYTE,  CPG_STBCR6_MSTP60},
+ 116:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_IMR2,      &CPG.STBCR7.BYTE,  CPG_STBCR7_MSTP77},
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_DRW,       &CPG.STBCR7.BYTE,  CPG_STBCR7_MSTP76},
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_MIPI,      &CPG.STBCR7.BYTE,  CPG_STBCR7_MSTP75},
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_SSIF0,     &CPG.STBCR7.BYTE,  CPG_STBCR7_MSTP73},
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_SSIF1,     &CPG.STBCR7.BYTE,  CPG_STBCR7_MSTP72},
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_SSIF2,     &CPG.STBCR7.BYTE,  CPG_STBCR7_MSTP71},
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_SSIF3,     &CPG.STBCR7.BYTE,  CPG_STBCR7_MSTP70},
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_I2C0,      &CPG.STBCR8.BYTE,  CPG_STBCR8_MSTP87},
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_I2C1,      &CPG.STBCR8.BYTE,  CPG_STBCR8_MSTP86},
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_I2C2,      &CPG.STBCR8.BYTE,  CPG_STBCR8_MSTP85},
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_I2C3,      &CPG.STBCR8.BYTE,  CPG_STBCR8_MSTP84},
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_SPIBSC,    &CPG.STBCR8.BYTE,  CPG_STBCR8_MSTP83},
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_VDC6,      &CPG.STBCR8.BYTE,  CPG_STBCR8_MSTP81},
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_RSPI0,     &CPG.STBCR9.BYTE,  CPG_STBCR9_MSTP97},
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_RSPI1,     &CPG.STBCR9.BYTE,  CPG_STBCR9_MSTP96},
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_RSPI2,     &CPG.STBCR9.BYTE,  CPG_STBCR9_MSTP95},
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_HYPERBUS,  &CPG.STBCR9.BYTE,  CPG_STBCR9_MSTP93},
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_OCTAMEM,   &CPG.STBCR9.BYTE,  CPG_STBCR9_MSTP92},
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_RSPDIF,    &CPG.STBCR9.BYTE,  CPG_STBCR9_MSTP91},
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_DRP,       &CPG.STBCR9.BYTE,  CPG_STBCR9_MSTP90},
+ 136:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_TSIP,      &CPG.STBCR10.BYTE, CPG_STBCR10_MSTP107},
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_NAND,      &CPG.STBCR10.BYTE, CPG_STBCR10_MSTP104},
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_SDMMC0,    &CPG.STBCR10.BYTE, CPG_STBCR10_MSTP103|CPG_STBCR10_MSTP102},
+ 139:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_SDMMC1,    &CPG.STBCR10.BYTE, CPG_STBCR10_MSTP101|CPG_STBCR10_MSTP100},
+ 140:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** };
+ 141:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 142:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** static const st_r_prv_reg_info_t gs_stbreq[] =
+ 143:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** {
+ 144:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_CORESIGHT, &CPG.STBREQ1.BYTE, CPG_STBREQ1_STBRQ15},
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_CEU,       &CPG.STBREQ1.BYTE, CPG_STBREQ1_STBRQ10},
+ 146:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_JCU,       &CPG.STBREQ1.BYTE, CPG_STBREQ1_STBRQ13},
+ 147:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_VIN,       &CPG.STBREQ2.BYTE, CPG_STBREQ2_STBRQ27},
+ 148:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_ETHER,     &CPG.STBREQ2.BYTE, CPG_STBREQ2_STBRQ26},
+ 149:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_USB0,      &CPG.STBREQ3.BYTE, CPG_STBREQ3_STBRQ31|CPG_STBREQ3_STBRQ30},
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_USB1,      &CPG.STBREQ3.BYTE, CPG_STBREQ3_STBRQ33|CPG_STBREQ3_STBRQ32},
+ 151:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_IMR2,      &CPG.STBREQ2.BYTE, CPG_STBREQ2_STBRQ23},
+ 152:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_DRW,       &CPG.STBREQ2.BYTE, CPG_STBREQ2_STBRQ21|CPG_STBREQ2_STBRQ20},
+ 153:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_VDC6,      &CPG.STBREQ2.BYTE, CPG_STBREQ2_STBRQ25},
+ 154:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_DRP,       &CPG.STBREQ2.BYTE, CPG_STBREQ2_STBRQ24},
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_NAND,      &CPG.STBREQ2.BYTE, CPG_STBREQ2_STBRQ22},
+ 156:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_SDMMC0,    &CPG.STBREQ1.BYTE, CPG_STBREQ1_STBRQ12},
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_SDMMC1,    &CPG.STBREQ1.BYTE, CPG_STBREQ1_STBRQ11},
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** };
+ 159:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** static const st_r_prv_reg_info_t gs_stback[] =
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** {
+ 162:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_CORESIGHT, &CPG.STBACK1.BYTE, CPG_STBACK1_STBAK15},
+ 163:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_CEU,       &CPG.STBACK1.BYTE, CPG_STBACK1_STBAK10},
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_JCU,       &CPG.STBACK1.BYTE, CPG_STBACK1_STBAK13},
+ 165:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_VIN,       &CPG.STBACK2.BYTE, CPG_STBACK2_STBAK27},
+ 166:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_ETHER,     &CPG.STBACK2.BYTE, CPG_STBACK2_STBAK26},
+ 167:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_USB0,      &CPG.STBACK3.BYTE, CPG_STBACK3_STBAK31|CPG_STBACK3_STBAK30},
+ 168:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_USB1,      &CPG.STBACK3.BYTE, CPG_STBACK3_STBAK33|CPG_STBACK3_STBAK32},
+ 169:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_IMR2,      &CPG.STBACK2.BYTE, CPG_STBACK2_STBAK23},
+ 170:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_DRW,       &CPG.STBACK2.BYTE, CPG_STBACK2_STBAK21|CPG_STBACK2_STBAK20},
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_VDC6,      &CPG.STBACK2.BYTE, CPG_STBACK2_STBAK25},
+ 172:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_DRP,       &CPG.STBACK2.BYTE, CPG_STBACK2_STBAK24},
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_NAND,      &CPG.STBACK2.BYTE, CPG_STBACK2_STBAK22},
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_SDMMC0,    &CPG.STBACK1.BYTE, CPG_STBACK1_STBAK12},
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_SDMMC1,    &CPG.STBACK1.BYTE, CPG_STBACK1_STBAK11},
+ 176:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** };
+ 177:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** static const st_r_prv_reg_info_t gs_swrstcr[] =
+ 179:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** {
+ 180:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_CEU,       &CPG.SWRSTCR2.BYTE, CPG_SWRSTCR2_SRST21},
+ 181:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_JCU,       &CPG.SWRSTCR1.BYTE, CPG_SWRSTCR1_SRST11},
+ 182:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_VIN,       &CPG.SWRSTCR2.BYTE, CPG_SWRSTCR2_SRST25},
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_IMR2,      &CPG.SWRSTCR2.BYTE, CPG_SWRSTCR2_SRST24},
+ 184:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_DRW,       &CPG.SWRSTCR2.BYTE, CPG_SWRSTCR2_SRST22},
+ 185:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_MIPI,      &CPG.SWRSTCR2.BYTE, CPG_SWRSTCR2_SRST23},
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_SPIBSC,    &CPG.SWRSTCR1.BYTE, CPG_SWRSTCR1_SRST10},
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_VDC6,      &CPG.SWRSTCR1.BYTE, CPG_SWRSTCR1_SRST13},
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_TSIP,      &CPG.SWRSTCR1.BYTE, CPG_SWRSTCR1_SRST12},
+ 189:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {MODULE_NAND,      &CPG.SWRSTCR2.BYTE, CPG_SWRSTCR2_SRST26},
+ 190:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 191:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** };
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 193:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /**
+ 194:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @fn         get_stbcr_info
+ 195:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @brief      Get STBCR register information for specified module
+ 196:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @param[in]  module: module to check
+ 197:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @return     Pointer for register information or NULL if invalid module
+ 198:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  */
+ 199:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** static const st_r_prv_reg_info_t * get_stbcr_info(e_stb_module_t module)
+ 200:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** {
+ 201:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     size_t index;
+ 202:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     size_t count = (sizeof gs_stbcr) / (sizeof gs_stbcr[0]);
+ 203:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     for ( index = 0; index < count; index++ )
+ 205:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         if ( module == gs_stbcr[index].module )
+ 207:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             return &gs_stbcr[index];
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         }
+ 210:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     }
+ 211:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 212:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* return NULL if not found */
+ 213:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     return NULL;
+ 214:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** }
+ 215:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /******************************************************************************
+ 216:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * End of function get_stbcr_info
+ 217:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  ******************************************************************************/
+ 218:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 219:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /**
+ 220:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @fn         get_stbreq_info
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @brief      Get STBREQ register information for specified module
+ 222:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @param[in]  module: module to check
+ 223:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @return     Pointer for register information or NULL if invalid module
+ 224:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  */
+ 225:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** static const st_r_prv_reg_info_t * get_stbreq_info(e_stb_module_t module)
+ 226:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** {
+ 227:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     size_t index;
+ 228:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     size_t count = (sizeof gs_stbreq) / (sizeof gs_stbreq[0]);
+ 229:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     for ( index = 0; index < count; index++ )
+ 231:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 232:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         if ( module == gs_stbreq[index].module )
+ 233:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             return &gs_stbreq[index];
+ 235:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         }
+ 236:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     }
+ 237:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 238:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* return NULL if not found */
+ 239:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     return NULL;
+ 240:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** }
+ 241:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /******************************************************************************
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * End of function get_stbreq_info
+ 243:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  ******************************************************************************/
+ 244:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 245:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /**
+ 246:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @fn         get_stback_info
+ 247:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @brief      Get STBACK register information for specified module
+ 248:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @param[in]  module: module to check
+ 249:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @return     Pointer for register information or NULL if invalid module
+ 250:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  */
+ 251:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** static const st_r_prv_reg_info_t * get_stback_info(e_stb_module_t module)
+ 252:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** {
+ 253:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     size_t index;
+ 254:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     size_t count = (sizeof gs_stback) / (sizeof gs_stback[0]);
+ 255:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     for ( index = 0; index < count; index++ )
+ 257:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         if ( module == gs_stback[index].module )
+ 259:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 260:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             return &gs_stback[index];
+ 261:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         }
+ 262:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     }
+ 263:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 264:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* return NULL if not found */
+ 265:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     return NULL;
+ 266:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** }
+ 267:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /******************************************************************************
+ 268:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * End of function get_stback_info
+ 269:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  ******************************************************************************/
+ 270:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 271:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /**
+ 272:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @fn         get_swrstcr_info
+ 273:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @brief      Get SWRSTCR register information for specified module
+ 274:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @param[in]  module: module to check
+ 275:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @return     Pointer for register information or NULL if invalid module
+ 276:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  */
+ 277:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** static const st_r_prv_reg_info_t * get_swrstcr_info(e_stb_module_t module)
+ 278:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** {
+ 279:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     size_t index;
+ 280:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     size_t count = (sizeof gs_swrstcr) / (sizeof gs_swrstcr[0]);
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     for ( index = 0; index < count; index++ )
+ 283:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 284:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         if ( module == gs_swrstcr[index].module )
+ 285:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 286:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             return &gs_swrstcr[index];
+ 287:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         }
+ 288:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     }
+ 289:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 290:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* return NULL if not found */
+ 291:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     return NULL;
+ 292:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** }
+ 293:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /******************************************************************************
+ 294:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * End of function get_swrstcr_info
+ 295:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  ******************************************************************************/
+ 296:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 297:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /**
+ 298:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @fn         is_clock_supplied
+ 299:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @brief      Check if clock supplied for specified module
+ 300:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @param[in]  module: module to check
+ 301:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @retval     true Clock is supplied
+ 302:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @retval     false Clock not suppliked
+ 303:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  */
+ 304:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** static bool_t is_clock_supplied(e_stb_module_t module)
+ 305:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** {
+  25              		.loc 1 305 0
+  26              		.cfi_startproc
+  27              		@ args = 0, pretend = 0, frame = 0
+  28              		@ frame_needed = 0, uses_anonymous_args = 0
+  29              	.LVL0:
+  30              	.LBB4:
+  31              	.LBB5:
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+  32              		.loc 1 206 0
+  33 0000 4C309FE5 		ldr	r3, .L7
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+  34              		.loc 1 204 0
+  35 0004 0020A0E3 		mov	r2, #0
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+  36              		.loc 1 206 0
+  37 0008 0CC0A0E3 		mov	ip, #12
+  38              	.LBE5:
+  39              	.LBE4:
+  40              		.loc 1 305 0
+  41 000c 10402DE9 		push	{r4, lr}
+  42              		.cfi_def_cfa_offset 8
+  43              		.cfi_offset 4, -8
+  44              		.cfi_offset 14, -4
+  45              	.LVL1:
+  46              	.L4:
+  47              	.LBB8:
+  48              	.LBB6:
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+  49              		.loc 1 206 0
+  50 0010 9C0201E0 		mul	r1, ip, r2
+  51 0014 03E0D1E7 		ldrb	lr, [r1, r3]	@ zero_extendqisi2
+  52 0018 00005EE1 		cmp	lr, r0
+  53 001c 0700001A 		bne	.L2
+  54              	.LVL2:
+  55              	.LBE6:
+  56              	.LBE8:
+ 306:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     bool_t result;
+ 307:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     const st_r_prv_reg_info_t * p_stbcr;
+ 308:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     uint8_t value;
+ 309:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 310:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* initialise as clock is not supplied */
+ 311:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     result = false;
+ 312:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 313:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* obtain the STBCR register info for specified module */
+ 314:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     p_stbcr = get_stbcr_info(module);
+ 315:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     if ( NULL != p_stbcr )
+ 316:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 317:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         value = RZA_IO_RegRead_8(p_stbcr->reg_address, IOREG_NONSHIFT_ACCESS, p_stbcr->mask);
+  57              		.loc 1 317 0
+  58 0020 013083E0 		add	r3, r3, r1
+  59 0024 0010A0E3 		mov	r1, #0
+  60 0028 0820D3E5 		ldrb	r2, [r3, #8]	@ zero_extendqisi2
+  61 002c 040093E5 		ldr	r0, [r3, #4]
+  62              	.LVL3:
+  63 0030 FEFFFFEB 		bl	RZA_IO_RegRead_8
+  64              	.LVL4:
+ 318:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         if ( 0 == value )
+  65              		.loc 1 318 0
+  66 0034 100F6FE1 		clz	r0, r0
+  67              	.LVL5:
+  68 0038 A002A0E1 		lsr	r0, r0, #5
+  69 003c 1080BDE8 		pop	{r4, pc}
+  70              	.LVL6:
+  71              	.L2:
+  72              	.LBB9:
+  73              	.LBB7:
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+  74              		.loc 1 204 0
+  75 0040 012082E2 		add	r2, r2, #1
+  76              	.LVL7:
+  77 0044 300052E3 		cmp	r2, #48
+  78 0048 F0FFFF1A 		bne	.L4
+  79              	.LBE7:
+  80              	.LBE9:
+ 311:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+  81              		.loc 1 311 0
+  82 004c 0000A0E3 		mov	r0, #0
+  83              	.LVL8:
+ 319:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 320:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             /* return true if all related STBCR bit is zero */
+ 321:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             result = true;
+ 322:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         }
+ 323:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     }
+ 324:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 325:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     return result;
+ 326:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** }
+  84              		.loc 1 326 0
+  85 0050 1080BDE8 		pop	{r4, pc}
+  86              	.L8:
+  87              		.align	2
+  88              	.L7:
+  89 0054 00000000 		.word	.LANCHOR0
+  90              		.cfi_endproc
+  91              	.LFE7:
+  93              		.section	.text.R_STB_RequestModuleStart,"ax",%progbits
+  94              		.align	2
+  95              		.global	R_STB_RequestModuleStart
+  96              		.syntax unified
+  97              		.arm
+  98              		.fpu neon
+ 100              	R_STB_RequestModuleStart:
+ 101              	.LFB8:
+ 327:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /******************************************************************************
+ 328:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * End of function is_clock_supplied
+ 329:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  ******************************************************************************/
+ 330:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 331:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /**
+ 332:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @fn         R_STB_RequestModuleStart
+ 333:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @brief      Cleanup to start the module after supplying clock
+ 334:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @param[in]  module: module number
+ 335:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @retval     STB_SUCCESS           Successful operation.
+ 336:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @retval     STB_INVALID_MODULE    Invalid module number or does not supported
+ 337:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @retval     STB_INVALID_STATE     Invalid state for operation
+ 338:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @retval     STB_AGAIN             This operation was not completed
+ 339:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  */
+ 340:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** e_stb_err_t R_STB_RequestModuleStart( e_stb_module_t module )
+ 341:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** {
+ 102              		.loc 1 341 0
+ 103              		.cfi_startproc
+ 104              		@ args = 0, pretend = 0, frame = 0
+ 105              		@ frame_needed = 0, uses_anonymous_args = 0
+ 106              	.LVL9:
+ 107 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 108              		.cfi_def_cfa_offset 16
+ 109              		.cfi_offset 4, -16
+ 110              		.cfi_offset 5, -12
+ 111              		.cfi_offset 6, -8
+ 112              		.cfi_offset 14, -4
+ 113              	.LBB14:
+ 114              	.LBB15:
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 115              		.loc 1 230 0
+ 116 0004 0030A0E3 		mov	r3, #0
+ 232:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 117              		.loc 1 232 0
+ 118 0008 D0409FE5 		ldr	r4, .L24
+ 119 000c 0C10A0E3 		mov	r1, #12
+ 120              	.LVL10:
+ 121              	.L12:
+ 122 0010 910302E0 		mul	r2, r1, r3
+ 123 0014 04C0D2E7 		ldrb	ip, [r2, r4]	@ zero_extendqisi2
+ 124 0018 00005CE1 		cmp	ip, r0
+ 125 001c 0F00001A 		bne	.L10
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         }
+ 126              		.loc 1 234 0
+ 127 0020 024084E0 		add	r4, r4, r2
+ 128              	.L11:
+ 129              	.LVL11:
+ 130              	.LBE15:
+ 131              	.LBE14:
+ 132              	.LBB17:
+ 133              	.LBB18:
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 134              		.loc 1 258 0
+ 135 0024 B8509FE5 		ldr	r5, .L24+4
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 136              		.loc 1 256 0
+ 137 0028 0030A0E3 		mov	r3, #0
+ 138 002c 0C10A0E3 		mov	r1, #12
+ 139              	.LVL12:
+ 140              	.L15:
+ 141 0030 910302E0 		mul	r2, r1, r3
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 142              		.loc 1 258 0
+ 143 0034 05C0D2E7 		ldrb	ip, [r2, r5]	@ zero_extendqisi2
+ 144 0038 00005CE1 		cmp	ip, r0
+ 145 003c 0C00001A 		bne	.L13
+ 260:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         }
+ 146              		.loc 1 260 0
+ 147 0040 025085E0 		add	r5, r5, r2
+ 148              	.L14:
+ 149              	.LVL13:
+ 150              	.LBE18:
+ 151              	.LBE17:
+ 342:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     e_stb_err_t ret;
+ 343:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     const st_r_prv_reg_info_t * p_stbreq;
+ 344:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     const st_r_prv_reg_info_t * p_stback;
+ 345:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     uint8_t value;
+ 346:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 347:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* Initialise error state */
+ 348:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     ret = STB_SUCCESS;
+ 349:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 350:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* obtain the STBREQ and the STBACK information */
+ 351:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     p_stbreq = get_stbreq_info(module);
+ 352:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     p_stback = get_stback_info(module);
+ 353:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 354:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* check if unsupported module */
+ 355:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     if ( (NULL == p_stback) || (NULL == p_stbreq) )
+ 152              		.loc 1 355 0
+ 153 0044 000054E3 		cmp	r4, #0
+ 154 0048 00005513 		cmpne	r5, #0
+ 155 004c 0160A003 		moveq	r6, #1
+ 156 0050 0060A013 		movne	r6, #0
+ 157 0054 0D00001A 		bne	.L16
+ 158 0058 0000E0E3 		mvn	r0, #0
+ 159              	.LVL14:
+ 160 005c 7080BDE8 		pop	{r4, r5, r6, pc}
+ 161              	.LVL15:
+ 162              	.L10:
+ 163              	.LBB20:
+ 164              	.LBB16:
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 165              		.loc 1 230 0
+ 166 0060 013083E2 		add	r3, r3, #1
+ 167              	.LVL16:
+ 168 0064 0E0053E3 		cmp	r3, #14
+ 169 0068 E8FFFF1A 		bne	.L12
+ 239:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** }
+ 170              		.loc 1 239 0
+ 171 006c 0040A0E3 		mov	r4, #0
+ 172 0070 EBFFFFEA 		b	.L11
+ 173              	.LVL17:
+ 174              	.L13:
+ 175              	.LBE16:
+ 176              	.LBE20:
+ 177              	.LBB21:
+ 178              	.LBB19:
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 179              		.loc 1 256 0
+ 180 0074 013083E2 		add	r3, r3, #1
+ 181              	.LVL18:
+ 182 0078 0E0053E3 		cmp	r3, #14
+ 183 007c EBFFFF1A 		bne	.L15
+ 265:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** }
+ 184              		.loc 1 265 0
+ 185 0080 0050A0E3 		mov	r5, #0
+ 186 0084 EEFFFFEA 		b	.L14
+ 187              	.LVL19:
+ 188              	.L18:
+ 189              	.LBE19:
+ 190              	.LBE21:
+ 356:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 357:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         ret = STB_INVALID_MODULE;
+ 358:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     }
+ 359:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 360:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* check if clock supplied or not */
+ 361:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     if ( STB_SUCCESS == ret )
+ 362:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 363:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         if ( !is_clock_supplied(module) )
+ 364:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 365:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             /* if clock does not supplied, the module can not start. */
+ 366:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             ret = STB_INVALID_STATE;
+ 191              		.loc 1 366 0
+ 192 0088 0200E0E3 		mvn	r0, #2
+ 193 008c 7080BDE8 		pop	{r4, r5, r6, pc}
+ 194              	.LVL20:
+ 195              	.L16:
+ 363:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 196              		.loc 1 363 0
+ 197 0090 FEFFFFEB 		bl	is_clock_supplied
+ 198              	.LVL21:
+ 199 0094 000050E3 		cmp	r0, #0
+ 200 0098 FAFFFF0A 		beq	.L18
+ 367:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         }
+ 368:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     }
+ 369:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 370:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     if ( STB_SUCCESS == ret )
+ 371:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 372:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         /* turned off standby request bit */
+ 373:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         RZA_IO_RegWrite_8(p_stbreq->reg_address, 0, IOREG_NONSHIFT_ACCESS, p_stbreq->mask);
+ 201              		.loc 1 373 0
+ 202 009c 0830D4E5 		ldrb	r3, [r4, #8]	@ zero_extendqisi2
+ 203 00a0 0620A0E1 		mov	r2, r6
+ 204 00a4 0610A0E1 		mov	r1, r6
+ 205 00a8 040094E5 		ldr	r0, [r4, #4]
+ 206 00ac FEFFFFEB 		bl	RZA_IO_RegWrite_8
+ 207              	.LVL22:
+ 374:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 375:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         /* dummy read */
+ 376:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         RZA_IO_RegRead_8(p_stbreq->reg_address, IOREG_NONSHIFT_ACCESS, IOREG_NONMASK_ACCESS);
+ 208              		.loc 1 376 0
+ 209 00b0 0610A0E1 		mov	r1, r6
+ 210 00b4 0020E0E3 		mvn	r2, #0
+ 211 00b8 040094E5 		ldr	r0, [r4, #4]
+ 212 00bc FEFFFFEB 		bl	RZA_IO_RegRead_8
+ 213              	.LVL23:
+ 377:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 378:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         /* read start completion */
+ 379:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         value = RZA_IO_RegRead_8(p_stback->reg_address, IOREG_NONSHIFT_ACCESS, p_stback->mask);
+ 214              		.loc 1 379 0
+ 215 00c0 0820D5E5 		ldrb	r2, [r5, #8]	@ zero_extendqisi2
+ 216 00c4 0610A0E1 		mov	r1, r6
+ 217 00c8 040095E5 		ldr	r0, [r5, #4]
+ 218 00cc FEFFFFEB 		bl	RZA_IO_RegRead_8
+ 219              	.LVL24:
+ 380:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         if ( 0 != value )
+ 381:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 382:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             /* If at least one related bits still 1, start not completed.
+ 383:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****              * In this case, return STB_AGAIN.
+ 384:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****              */
+ 385:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             ret = STB_AGAIN;
+ 220              		.loc 1 385 0
+ 221 00d0 000050E3 		cmp	r0, #0
+ 222 00d4 0000A003 		moveq	r0, #0
+ 223              	.LVL25:
+ 224 00d8 0100E013 		mvnne	r0, #1
+ 386:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         }
+ 387:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     }
+ 388:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 389:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     return ret;
+ 390:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** }
+ 225              		.loc 1 390 0
+ 226 00dc 7080BDE8 		pop	{r4, r5, r6, pc}
+ 227              	.L25:
+ 228              		.align	2
+ 229              	.L24:
+ 230 00e0 00000000 		.word	.LANCHOR1
+ 231 00e4 00000000 		.word	.LANCHOR2
+ 232              		.cfi_endproc
+ 233              	.LFE8:
+ 235              		.section	.text.R_STB_RequestModuleStop,"ax",%progbits
+ 236              		.align	2
+ 237              		.global	R_STB_RequestModuleStop
+ 238              		.syntax unified
+ 239              		.arm
+ 240              		.fpu neon
+ 242              	R_STB_RequestModuleStop:
+ 243              	.LFB9:
+ 391:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /******************************************************************************
+ 392:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * End of function R_STB_RequestModuleStart
+ 393:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  ******************************************************************************/
+ 394:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 395:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /**
+ 396:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @fn         R_STB_RequestModuleStop
+ 397:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @brief      Prepare to stop the module
+ 398:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @param[in]  module: module number
+ 399:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @retval     STB_SUCCESS           Successful operation.
+ 400:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @retval     STB_INVALID_MODULE    Invalid module number or does not supported
+ 401:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @retval     STB_INVALID_STATE     Invalid state for operation
+ 402:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @retval     STB_AGAIN             This operation was not completed
+ 403:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  */
+ 404:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** e_stb_err_t  R_STB_RequestModuleStop( e_stb_module_t module )
+ 405:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** {
+ 244              		.loc 1 405 0
+ 245              		.cfi_startproc
+ 246              		@ args = 0, pretend = 0, frame = 0
+ 247              		@ frame_needed = 0, uses_anonymous_args = 0
+ 248              	.LVL26:
+ 249 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 250              		.cfi_def_cfa_offset 16
+ 251              		.cfi_offset 4, -16
+ 252              		.cfi_offset 5, -12
+ 253              		.cfi_offset 6, -8
+ 254              		.cfi_offset 14, -4
+ 255              	.LBB26:
+ 256              	.LBB27:
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 257              		.loc 1 230 0
+ 258 0004 0030A0E3 		mov	r3, #0
+ 232:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 259              		.loc 1 232 0
+ 260 0008 D4509FE5 		ldr	r5, .L41
+ 261 000c 0C10A0E3 		mov	r1, #12
+ 262              	.LVL27:
+ 263              	.L29:
+ 264 0010 910302E0 		mul	r2, r1, r3
+ 265 0014 05C0D2E7 		ldrb	ip, [r2, r5]	@ zero_extendqisi2
+ 266 0018 00005CE1 		cmp	ip, r0
+ 267 001c 0F00001A 		bne	.L27
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         }
+ 268              		.loc 1 234 0
+ 269 0020 025085E0 		add	r5, r5, r2
+ 270              	.L28:
+ 271              	.LVL28:
+ 272              	.LBE27:
+ 273              	.LBE26:
+ 274              	.LBB29:
+ 275              	.LBB30:
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 276              		.loc 1 258 0
+ 277 0024 BC409FE5 		ldr	r4, .L41+4
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 278              		.loc 1 256 0
+ 279 0028 0030A0E3 		mov	r3, #0
+ 280 002c 0C10A0E3 		mov	r1, #12
+ 281              	.LVL29:
+ 282              	.L32:
+ 283 0030 910302E0 		mul	r2, r1, r3
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 284              		.loc 1 258 0
+ 285 0034 04C0D2E7 		ldrb	ip, [r2, r4]	@ zero_extendqisi2
+ 286 0038 00005CE1 		cmp	ip, r0
+ 287 003c 0C00001A 		bne	.L30
+ 260:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         }
+ 288              		.loc 1 260 0
+ 289 0040 024084E0 		add	r4, r4, r2
+ 290              	.L31:
+ 291              	.LVL30:
+ 292              	.LBE30:
+ 293              	.LBE29:
+ 406:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     e_stb_err_t ret;
+ 407:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     const st_r_prv_reg_info_t * p_stbreq;
+ 408:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     const st_r_prv_reg_info_t * p_stback;
+ 409:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     uint8_t value;
+ 410:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 411:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* Initialise error state */
+ 412:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     ret = STB_SUCCESS;
+ 413:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 414:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* obtain the STBREQ and the STBACK information */
+ 415:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     p_stbreq = get_stbreq_info(module);
+ 416:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     p_stback = get_stback_info(module);
+ 417:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 418:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* check if unsupported module */
+ 419:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     if ( (NULL == p_stback) || (NULL == p_stbreq) )
+ 294              		.loc 1 419 0
+ 295 0044 000055E3 		cmp	r5, #0
+ 296 0048 00005413 		cmpne	r4, #0
+ 297 004c 0160A003 		moveq	r6, #1
+ 298 0050 0060A013 		movne	r6, #0
+ 299 0054 0D00001A 		bne	.L33
+ 300 0058 0000E0E3 		mvn	r0, #0
+ 301              	.LVL31:
+ 302 005c 7080BDE8 		pop	{r4, r5, r6, pc}
+ 303              	.LVL32:
+ 304              	.L27:
+ 305              	.LBB32:
+ 306              	.LBB28:
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 307              		.loc 1 230 0
+ 308 0060 013083E2 		add	r3, r3, #1
+ 309              	.LVL33:
+ 310 0064 0E0053E3 		cmp	r3, #14
+ 311 0068 E8FFFF1A 		bne	.L29
+ 239:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** }
+ 312              		.loc 1 239 0
+ 313 006c 0050A0E3 		mov	r5, #0
+ 314 0070 EBFFFFEA 		b	.L28
+ 315              	.LVL34:
+ 316              	.L30:
+ 317              	.LBE28:
+ 318              	.LBE32:
+ 319              	.LBB33:
+ 320              	.LBB31:
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 321              		.loc 1 256 0
+ 322 0074 013083E2 		add	r3, r3, #1
+ 323              	.LVL35:
+ 324 0078 0E0053E3 		cmp	r3, #14
+ 325 007c EBFFFF1A 		bne	.L32
+ 265:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** }
+ 326              		.loc 1 265 0
+ 327 0080 0040A0E3 		mov	r4, #0
+ 328 0084 EEFFFFEA 		b	.L31
+ 329              	.LVL36:
+ 330              	.L35:
+ 331              	.LBE31:
+ 332              	.LBE33:
+ 420:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 421:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         ret = STB_INVALID_MODULE;
+ 422:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     }
+ 423:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 424:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* check if clock supplied or not */
+ 425:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     if ( STB_SUCCESS == ret )
+ 426:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 427:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         if ( !is_clock_supplied(module) )
+ 428:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 429:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             /* if clock does not supplied, the module can not start. */
+ 430:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             ret = STB_INVALID_STATE;
+ 333              		.loc 1 430 0
+ 334 0088 0200E0E3 		mvn	r0, #2
+ 335 008c 7080BDE8 		pop	{r4, r5, r6, pc}
+ 336              	.LVL37:
+ 337              	.L33:
+ 427:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 338              		.loc 1 427 0
+ 339 0090 FEFFFFEB 		bl	is_clock_supplied
+ 340              	.LVL38:
+ 341 0094 000050E3 		cmp	r0, #0
+ 342 0098 FAFFFF0A 		beq	.L35
+ 431:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         }
+ 432:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     }
+ 433:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 434:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     if ( STB_SUCCESS == ret )
+ 435:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 436:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         /* turned on standby request bit */
+ 437:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         RZA_IO_RegWrite_8(p_stbreq->reg_address, p_stbreq->mask, IOREG_NONSHIFT_ACCESS, p_stbreq->m
+ 343              		.loc 1 437 0
+ 344 009c 0830D5E5 		ldrb	r3, [r5, #8]	@ zero_extendqisi2
+ 345 00a0 0620A0E1 		mov	r2, r6
+ 346 00a4 040095E5 		ldr	r0, [r5, #4]
+ 347 00a8 0310A0E1 		mov	r1, r3
+ 348 00ac FEFFFFEB 		bl	RZA_IO_RegWrite_8
+ 349              	.LVL39:
+ 438:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 439:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         /* dummy read */
+ 440:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         RZA_IO_RegRead_8(p_stbreq->reg_address, IOREG_NONSHIFT_ACCESS, IOREG_NONMASK_ACCESS);
+ 350              		.loc 1 440 0
+ 351 00b0 0610A0E1 		mov	r1, r6
+ 352 00b4 0020E0E3 		mvn	r2, #0
+ 353 00b8 040095E5 		ldr	r0, [r5, #4]
+ 354 00bc FEFFFFEB 		bl	RZA_IO_RegRead_8
+ 355              	.LVL40:
+ 441:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 442:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         /* read stop completion */
+ 443:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         value = RZA_IO_RegRead_8(p_stback->reg_address, IOREG_NONSHIFT_ACCESS, p_stback->mask);
+ 356              		.loc 1 443 0
+ 357 00c0 0820D4E5 		ldrb	r2, [r4, #8]	@ zero_extendqisi2
+ 358 00c4 0610A0E1 		mov	r1, r6
+ 359 00c8 040094E5 		ldr	r0, [r4, #4]
+ 360 00cc FEFFFFEB 		bl	RZA_IO_RegRead_8
+ 361              	.LVL41:
+ 444:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         if ( p_stback->mask != value )
+ 362              		.loc 1 444 0
+ 363 00d0 0830D4E5 		ldrb	r3, [r4, #8]	@ zero_extendqisi2
+ 445:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 446:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             /* If at least one related bits still 0, stop not completed.
+ 447:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****              * In this case, return STB_AGAIN.
+ 448:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****              */
+ 449:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             ret = STB_AGAIN;
+ 364              		.loc 1 449 0
+ 365 00d4 000053E1 		cmp	r3, r0
+ 366 00d8 0000A003 		moveq	r0, #0
+ 367              	.LVL42:
+ 368 00dc 0100E013 		mvnne	r0, #1
+ 450:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         }
+ 451:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     }
+ 452:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 453:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     return ret;
+ 454:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** }
+ 369              		.loc 1 454 0
+ 370 00e0 7080BDE8 		pop	{r4, r5, r6, pc}
+ 371              	.L42:
+ 372              		.align	2
+ 373              	.L41:
+ 374 00e4 00000000 		.word	.LANCHOR1
+ 375 00e8 00000000 		.word	.LANCHOR2
+ 376              		.cfi_endproc
+ 377              	.LFE9:
+ 379              		.section	.text.R_STB_StopModule,"ax",%progbits
+ 380              		.align	2
+ 381              		.global	R_STB_StopModule
+ 382              		.syntax unified
+ 383              		.arm
+ 384              		.fpu neon
+ 386              	R_STB_StopModule:
+ 387              	.LFB10:
+ 455:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /******************************************************************************
+ 456:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * End of function R_STB_RequestModuleStart
+ 457:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  ******************************************************************************/
+ 458:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 459:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /**
+ 460:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @fn         R_STB_StopModule
+ 461:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @brief      Stops the module
+ 462:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @param[in]  module: module number
+ 463:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @retval     STB_SUCCESS           Successful operation.
+ 464:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @retval     STB_INVALID_MODULE    Invalid module number or does not supported
+ 465:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  */
+ 466:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** e_stb_err_t R_STB_StopModule( e_stb_module_t module )
+ 467:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** {
+ 388              		.loc 1 467 0
+ 389              		.cfi_startproc
+ 390              		@ args = 0, pretend = 0, frame = 0
+ 391              		@ frame_needed = 0, uses_anonymous_args = 0
+ 392              	.LVL43:
+ 393              	.LBB36:
+ 394              	.LBB37:
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 395              		.loc 1 206 0
+ 396 0000 60309FE5 		ldr	r3, .L49
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 397              		.loc 1 204 0
+ 398 0004 0020A0E3 		mov	r2, #0
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 399              		.loc 1 206 0
+ 400 0008 0CC0A0E3 		mov	ip, #12
+ 401              	.LBE37:
+ 402              	.LBE36:
+ 403              		.loc 1 467 0
+ 404 000c 10402DE9 		push	{r4, lr}
+ 405              		.cfi_def_cfa_offset 8
+ 406              		.cfi_offset 4, -8
+ 407              		.cfi_offset 14, -4
+ 408              	.LVL44:
+ 409              	.L46:
+ 410              	.LBB40:
+ 411              	.LBB38:
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 412              		.loc 1 206 0
+ 413 0010 9C0201E0 		mul	r1, ip, r2
+ 414 0014 03E0D1E7 		ldrb	lr, [r1, r3]	@ zero_extendqisi2
+ 415 0018 00005EE1 		cmp	lr, r0
+ 416 001c 0C00001A 		bne	.L44
+ 417              	.LVL45:
+ 418              	.LBE38:
+ 419              	.LBE40:
+ 468:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     e_stb_err_t ret;
+ 469:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     const st_r_prv_reg_info_t * p_stbcr;
+ 470:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 471:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* Initialise error state */
+ 472:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     ret = STB_SUCCESS;
+ 473:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 474:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* obtain the STBCR information */
+ 475:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     p_stbcr = get_stbcr_info(module);
+ 476:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 477:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* check if unsupported module */
+ 478:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     if ( (NULL == p_stbcr) )
+ 479:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 480:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         ret = STB_INVALID_MODULE;
+ 481:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     }
+ 482:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 483:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     if ( STB_SUCCESS == ret )
+ 484:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 485:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         /* set module standby */
+ 486:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         RZA_IO_RegWrite_8(p_stbcr->reg_address, p_stbcr->mask, IOREG_NONSHIFT_ACCESS, p_stbcr->mask
+ 420              		.loc 1 486 0
+ 421 0020 013083E0 		add	r3, r3, r1
+ 422 0024 0020A0E3 		mov	r2, #0
+ 423 0028 044093E5 		ldr	r4, [r3, #4]
+ 424 002c 0830D3E5 		ldrb	r3, [r3, #8]	@ zero_extendqisi2
+ 425 0030 0400A0E1 		mov	r0, r4
+ 426              	.LVL46:
+ 427 0034 0310A0E1 		mov	r1, r3
+ 428 0038 FEFFFFEB 		bl	RZA_IO_RegWrite_8
+ 429              	.LVL47:
+ 487:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 488:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         /* dummy read */
+ 489:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         RZA_IO_RegRead_8(p_stbcr->reg_address, IOREG_NONSHIFT_ACCESS, IOREG_NONMASK_ACCESS);
+ 430              		.loc 1 489 0
+ 431 003c 0020E0E3 		mvn	r2, #0
+ 432 0040 0010A0E3 		mov	r1, #0
+ 433 0044 0400A0E1 		mov	r0, r4
+ 434 0048 FEFFFFEB 		bl	RZA_IO_RegRead_8
+ 435              	.LVL48:
+ 472:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 436              		.loc 1 472 0
+ 437 004c 0000A0E3 		mov	r0, #0
+ 438 0050 1080BDE8 		pop	{r4, pc}
+ 439              	.LVL49:
+ 440              	.L44:
+ 441              	.LBB41:
+ 442              	.LBB39:
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 443              		.loc 1 204 0
+ 444 0054 012082E2 		add	r2, r2, #1
+ 445              	.LVL50:
+ 446 0058 300052E3 		cmp	r2, #48
+ 447 005c EBFFFF1A 		bne	.L46
+ 448              	.LBE39:
+ 449              	.LBE41:
+ 480:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     }
+ 450              		.loc 1 480 0
+ 451 0060 0000E0E3 		mvn	r0, #0
+ 452              	.LVL51:
+ 490:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     }
+ 491:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 492:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     return ret;
+ 493:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** }
+ 453              		.loc 1 493 0
+ 454 0064 1080BDE8 		pop	{r4, pc}
+ 455              	.L50:
+ 456              		.align	2
+ 457              	.L49:
+ 458 0068 00000000 		.word	.LANCHOR0
+ 459              		.cfi_endproc
+ 460              	.LFE10:
+ 462              		.section	.text.R_STB_StartModule,"ax",%progbits
+ 463              		.align	2
+ 464              		.global	R_STB_StartModule
+ 465              		.syntax unified
+ 466              		.arm
+ 467              		.fpu neon
+ 469              	R_STB_StartModule:
+ 470              	.LFB11:
+ 494:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /******************************************************************************
+ 495:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * End of function R_STB_StopModule
+ 496:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  ******************************************************************************/
+ 497:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 498:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /**
+ 499:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @fn         R_STB_StartModule
+ 500:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @brief      Starts the module
+ 501:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @param[in]  module: module number
+ 502:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @retval     STB_SUCCESS           Successful operation.
+ 503:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @retval     STB_INVALID_MODULE    Invalid module number or does not supported
+ 504:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  */
+ 505:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** e_stb_err_t R_STB_StartModule( e_stb_module_t module )
+ 506:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** {
+ 471              		.loc 1 506 0
+ 472              		.cfi_startproc
+ 473              		@ args = 0, pretend = 0, frame = 0
+ 474              		@ frame_needed = 0, uses_anonymous_args = 0
+ 475              	.LVL52:
+ 476              	.LBB44:
+ 477              	.LBB45:
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 478              		.loc 1 206 0
+ 479 0000 60309FE5 		ldr	r3, .L57
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 480              		.loc 1 204 0
+ 481 0004 0020A0E3 		mov	r2, #0
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 482              		.loc 1 206 0
+ 483 0008 0CC0A0E3 		mov	ip, #12
+ 484              	.LBE45:
+ 485              	.LBE44:
+ 486              		.loc 1 506 0
+ 487 000c 10402DE9 		push	{r4, lr}
+ 488              		.cfi_def_cfa_offset 8
+ 489              		.cfi_offset 4, -8
+ 490              		.cfi_offset 14, -4
+ 491              	.LVL53:
+ 492              	.L54:
+ 493              	.LBB48:
+ 494              	.LBB46:
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 495              		.loc 1 206 0
+ 496 0010 9C0201E0 		mul	r1, ip, r2
+ 497 0014 03E0D1E7 		ldrb	lr, [r1, r3]	@ zero_extendqisi2
+ 498 0018 00005EE1 		cmp	lr, r0
+ 499 001c 0C00001A 		bne	.L52
+ 500              	.LVL54:
+ 501              	.LBE46:
+ 502              	.LBE48:
+ 507:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     e_stb_err_t ret;
+ 508:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     const st_r_prv_reg_info_t * p_stbcr;
+ 509:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 510:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* Initialise error state */
+ 511:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     ret = STB_SUCCESS;
+ 512:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 513:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* obtain the STBCR information */
+ 514:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     p_stbcr = get_stbcr_info(module);
+ 515:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 516:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* check if unsupported module */
+ 517:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     if ( (NULL == p_stbcr) )
+ 518:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 519:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         ret = STB_INVALID_MODULE;
+ 520:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     }
+ 521:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 522:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     if ( STB_SUCCESS == ret )
+ 523:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 524:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         /* clear module standby */
+ 525:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         RZA_IO_RegWrite_8(p_stbcr->reg_address, 0, IOREG_NONSHIFT_ACCESS, p_stbcr->mask);
+ 503              		.loc 1 525 0
+ 504 0020 013083E0 		add	r3, r3, r1
+ 505 0024 0020A0E3 		mov	r2, #0
+ 506 0028 044093E5 		ldr	r4, [r3, #4]
+ 507 002c 0210A0E1 		mov	r1, r2
+ 508 0030 0830D3E5 		ldrb	r3, [r3, #8]	@ zero_extendqisi2
+ 509 0034 0400A0E1 		mov	r0, r4
+ 510              	.LVL55:
+ 511 0038 FEFFFFEB 		bl	RZA_IO_RegWrite_8
+ 512              	.LVL56:
+ 526:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 527:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         /* dummy read */
+ 528:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         RZA_IO_RegRead_8(p_stbcr->reg_address, IOREG_NONSHIFT_ACCESS, IOREG_NONMASK_ACCESS);
+ 513              		.loc 1 528 0
+ 514 003c 0020E0E3 		mvn	r2, #0
+ 515 0040 0010A0E3 		mov	r1, #0
+ 516 0044 0400A0E1 		mov	r0, r4
+ 517 0048 FEFFFFEB 		bl	RZA_IO_RegRead_8
+ 518              	.LVL57:
+ 511:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 519              		.loc 1 511 0
+ 520 004c 0000A0E3 		mov	r0, #0
+ 521 0050 1080BDE8 		pop	{r4, pc}
+ 522              	.LVL58:
+ 523              	.L52:
+ 524              	.LBB49:
+ 525              	.LBB47:
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 526              		.loc 1 204 0
+ 527 0054 012082E2 		add	r2, r2, #1
+ 528              	.LVL59:
+ 529 0058 300052E3 		cmp	r2, #48
+ 530 005c EBFFFF1A 		bne	.L54
+ 531              	.LBE47:
+ 532              	.LBE49:
+ 519:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     }
+ 533              		.loc 1 519 0
+ 534 0060 0000E0E3 		mvn	r0, #0
+ 535              	.LVL60:
+ 529:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     }
+ 530:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 531:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     return ret;
+ 532:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** }
+ 536              		.loc 1 532 0
+ 537 0064 1080BDE8 		pop	{r4, pc}
+ 538              	.L58:
+ 539              		.align	2
+ 540              	.L57:
+ 541 0068 00000000 		.word	.LANCHOR0
+ 542              		.cfi_endproc
+ 543              	.LFE11:
+ 545              		.section	.text.R_STB_SetModuleResetState,"ax",%progbits
+ 546              		.align	2
+ 547              		.global	R_STB_SetModuleResetState
+ 548              		.syntax unified
+ 549              		.arm
+ 550              		.fpu neon
+ 552              	R_STB_SetModuleResetState:
+ 553              	.LFB12:
+ 533:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /******************************************************************************
+ 534:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * End of function R_STB_StartModule
+ 535:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  ******************************************************************************/
+ 536:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 537:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /**
+ 538:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @fn         R_STB_SetModuleResetState
+ 539:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @brief      Set module reset state
+ 540:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @note       this API also run the process described in the section 52.3.6
+ 541:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  *             of User's Manual.
+ 542:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @param[in]  module: module number
+ 543:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @param[in]  state: reset state
+ 544:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @retval     STB_SUCCESS           Successful operation.
+ 545:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @retval     STB_INVALID_MODULE    Invalid module number or does not supported
+ 546:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @retval     STB_INVALID_STATE     Invalid state for operation
+ 547:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  */
+ 548:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** e_stb_err_t R_STB_SetModuleResetState( e_stb_module_t module, e_stb_reset_state_t state )
+ 549:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** {
+ 554              		.loc 1 549 0
+ 555              		.cfi_startproc
+ 556              		@ args = 0, pretend = 0, frame = 0
+ 557              		@ frame_needed = 0, uses_anonymous_args = 0
+ 558              	.LVL61:
+ 559 0000 F0472DE9 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 560              		.cfi_def_cfa_offset 32
+ 561              		.cfi_offset 4, -32
+ 562              		.cfi_offset 5, -28
+ 563              		.cfi_offset 6, -24
+ 564              		.cfi_offset 7, -20
+ 565              		.cfi_offset 8, -16
+ 566              		.cfi_offset 9, -12
+ 567              		.cfi_offset 10, -8
+ 568              		.cfi_offset 14, -4
+ 569              	.LBB52:
+ 570              	.LBB53:
+ 284:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 571              		.loc 1 284 0
+ 572 0004 0C30A0E3 		mov	r3, #12
+ 573 0008 E8409FE5 		ldr	r4, .L80
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 574              		.loc 1 282 0
+ 575 000c 0050A0E3 		mov	r5, #0
+ 576 0010 0470A0E1 		mov	r7, r4
+ 577              	.LVL62:
+ 578              	.L63:
+ 284:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 579              		.loc 1 284 0
+ 580 0014 930509E0 		mul	r9, r3, r5
+ 581 0018 0420D9E7 		ldrb	r2, [r9, r4]	@ zero_extendqisi2
+ 582 001c 000052E1 		cmp	r2, r0
+ 583 0020 1600001A 		bne	.L60
+ 584 0024 0180A0E1 		mov	r8, r1
+ 585 0028 0060A0E1 		mov	r6, r0
+ 586              	.LVL63:
+ 587              	.LBE53:
+ 588              	.LBE52:
+ 550:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     e_stb_err_t ret;
+ 551:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     const st_r_prv_reg_info_t * p_swrstcr;
+ 552:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 553:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* Initialise error state */
+ 554:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     ret = STB_SUCCESS;
+ 555:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 556:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* obtain the SWRSTCR information */
+ 557:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     p_swrstcr = get_swrstcr_info(module);
+ 558:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 559:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* check if unsupported module */
+ 560:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     if ( (NULL == p_swrstcr) )
+ 561:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 562:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         ret = STB_INVALID_MODULE;
+ 563:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     }
+ 564:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 565:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* check if clock supplied */
+ 566:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     if ( (STB_SUCCESS == ret) && (!is_clock_supplied(module)) )
+ 589              		.loc 1 566 0
+ 590 002c FEFFFFEB 		bl	is_clock_supplied
+ 591              	.LVL64:
+ 592 0030 000050E3 		cmp	r0, #0
+ 567:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 568:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         ret = STB_INVALID_STATE;
+ 593              		.loc 1 568 0
+ 594 0034 0240E003 		mvneq	r4, #2
+ 566:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 595              		.loc 1 566 0
+ 596 0038 1400000A 		beq	.L77
+ 569:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     }
+ 570:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 571:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     if ( STB_SUCCESS == ret )
+ 572:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 573:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         if ( MODULE_RESET_STATE == state )
+ 597              		.loc 1 573 0
+ 598 003c 000058E3 		cmp	r8, #0
+ 599 0040 1400000A 		beq	.L64
+ 574:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 575:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             /* needs module stop request if state wants to be reset */
+ 576:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             /* wait while returns STB_AGAIN */
+ 577:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             do
+ 578:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             {
+ 579:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****                 ret = R_STB_RequestModuleStop(module);
+ 580:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             } while ( STB_AGAIN == ret );
+ 581:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 582:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             /*
+ 583:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****              * check if the module successfully stop or the module does not support module stop */
+ 584:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             if ( (STB_INVALID_MODULE == ret) || (STB_SUCCESS == ret) )
+ 585:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             {
+ 586:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****                 /* set the module in reset state */
+ 587:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****                 RZA_IO_RegWrite_8(p_swrstcr->reg_address, p_swrstcr->mask, IOREG_NONSHIFT_ACCESS, p
+ 588:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 589:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****                 /* overwrite the return code as success */
+ 590:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****                 ret = STB_SUCCESS;
+ 591:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             }
+ 592:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         }
+ 593:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         else
+ 594:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 595:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             /* turned off reset bit */
+ 596:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             RZA_IO_RegWrite_8(p_swrstcr->reg_address, 0, IOREG_NONSHIFT_ACCESS, p_swrstcr->mask);
+ 600              		.loc 1 596 0
+ 601 0044 094084E0 		add	r4, r4, r9
+ 602 0048 0020A0E3 		mov	r2, #0
+ 603 004c 0830D4E5 		ldrb	r3, [r4, #8]	@ zero_extendqisi2
+ 604 0050 0210A0E1 		mov	r1, r2
+ 605 0054 040094E5 		ldr	r0, [r4, #4]
+ 606 0058 FEFFFFEB 		bl	RZA_IO_RegWrite_8
+ 607              	.LVL65:
+ 608              	.L66:
+ 597:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 598:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             /* needs module stop request if state wants to be "not reset" */
+ 599:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             /* wait while returns STB_AGAIN */
+ 600:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             do
+ 601:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             {
+ 602:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****                 ret = R_STB_RequestModuleStart(module);
+ 609              		.loc 1 602 0 discriminator 1
+ 610 005c 0600A0E1 		mov	r0, r6
+ 611 0060 FEFFFFEB 		bl	R_STB_RequestModuleStart
+ 612              	.LVL66:
+ 603:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             } while ( STB_AGAIN == ret );
+ 613              		.loc 1 603 0 discriminator 1
+ 614 0064 020070E3 		cmn	r0, #2
+ 602:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             } while ( STB_AGAIN == ret );
+ 615              		.loc 1 602 0 discriminator 1
+ 616 0068 0040A0E1 		mov	r4, r0
+ 617              	.LVL67:
+ 618              		.loc 1 603 0 discriminator 1
+ 619 006c FAFFFF0A 		beq	.L66
+ 604:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 605:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             /*
+ 606:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****              * check if the module does not support module stop */
+ 607:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             if ( STB_INVALID_MODULE == ret )
+ 608:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             {
+ 609:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****                 /* overwrite the return code as success */
+ 610:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****                 ret = STB_SUCCESS;
+ 620              		.loc 1 610 0
+ 621 0070 010070E3 		cmn	r0, #1
+ 622 0074 0040A011 		movne	r4, r0
+ 623 0078 0040A003 		moveq	r4, #0
+ 624 007c 160000EA 		b	.L65
+ 625              	.LVL68:
+ 626              	.L60:
+ 627              	.LBB55:
+ 628              	.LBB54:
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 629              		.loc 1 282 0
+ 630 0080 015085E2 		add	r5, r5, #1
+ 631              	.LVL69:
+ 632 0084 0A0055E3 		cmp	r5, #10
+ 633 0088 E1FFFF1A 		bne	.L63
+ 634 008c 0040E0E3 		mvn	r4, #0
+ 635              	.LVL70:
+ 636              	.L77:
+ 637              	.LBE54:
+ 638              	.LBE55:
+ 611:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             }
+ 612:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         }
+ 613:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 614:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         /* dummy read the SWRSTCR register */
+ 615:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         RZA_IO_RegRead_8(p_swrstcr->reg_address, IOREG_NONSHIFT_ACCESS, IOREG_NONMASK_ACCESS);
+ 616:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     }
+ 617:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 618:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     return ret;
+ 619:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** }
+ 639              		.loc 1 619 0
+ 640 0090 0400A0E1 		mov	r0, r4
+ 641 0094 F087BDE8 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 642              	.L64:
+ 579:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             } while ( STB_AGAIN == ret );
+ 643              		.loc 1 579 0 discriminator 1
+ 644 0098 0600A0E1 		mov	r0, r6
+ 645 009c FEFFFFEB 		bl	R_STB_RequestModuleStop
+ 646              	.LVL71:
+ 580:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 647              		.loc 1 580 0 discriminator 1
+ 648 00a0 020070E3 		cmn	r0, #2
+ 579:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             } while ( STB_AGAIN == ret );
+ 649              		.loc 1 579 0 discriminator 1
+ 650 00a4 0040A0E1 		mov	r4, r0
+ 651              	.LVL72:
+ 580:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 652              		.loc 1 580 0 discriminator 1
+ 653 00a8 FAFFFF0A 		beq	.L64
+ 584:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             {
+ 654              		.loc 1 584 0
+ 655 00ac 013080E2 		add	r3, r0, #1
+ 656 00b0 7330EFE6 		uxtb	r3, r3
+ 657 00b4 010053E3 		cmp	r3, #1
+ 658 00b8 0700008A 		bhi	.L65
+ 587:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 659              		.loc 1 587 0
+ 660 00bc 0C00A0E3 		mov	r0, #12
+ 661              	.LVL73:
+ 590:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             }
+ 662              		.loc 1 590 0
+ 663 00c0 0040A0E3 		mov	r4, #0
+ 587:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 664              		.loc 1 587 0
+ 665 00c4 907520E0 		mla	r0, r0, r5, r7
+ 666 00c8 0020A0E3 		mov	r2, #0
+ 667 00cc 0830D0E5 		ldrb	r3, [r0, #8]	@ zero_extendqisi2
+ 668 00d0 040090E5 		ldr	r0, [r0, #4]
+ 669 00d4 0310A0E1 		mov	r1, r3
+ 670 00d8 FEFFFFEB 		bl	RZA_IO_RegWrite_8
+ 671              	.LVL74:
+ 672              	.L65:
+ 615:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     }
+ 673              		.loc 1 615 0
+ 674 00dc 0C30A0E3 		mov	r3, #12
+ 675 00e0 0020E0E3 		mvn	r2, #0
+ 676 00e4 937525E0 		mla	r5, r3, r5, r7
+ 677 00e8 0010A0E3 		mov	r1, #0
+ 678 00ec 040095E5 		ldr	r0, [r5, #4]
+ 679 00f0 FEFFFFEB 		bl	RZA_IO_RegRead_8
+ 680              	.LVL75:
+ 681 00f4 E5FFFFEA 		b	.L77
+ 682              	.L81:
+ 683              		.align	2
+ 684              	.L80:
+ 685 00f8 00000000 		.word	.LANCHOR3
+ 686              		.cfi_endproc
+ 687              	.LFE12:
+ 689              		.section	.text.R_STB_GetModuleResetState,"ax",%progbits
+ 690              		.align	2
+ 691              		.global	R_STB_GetModuleResetState
+ 692              		.syntax unified
+ 693              		.arm
+ 694              		.fpu neon
+ 696              	R_STB_GetModuleResetState:
+ 697              	.LFB13:
+ 620:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /******************************************************************************
+ 621:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * End of function R_STB_SetModuleResetState
+ 622:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  ******************************************************************************/
+ 623:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 624:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /**
+ 625:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @fn         R_STB_GetModuleResetState
+ 626:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @brief      Get module reset state
+ 627:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @param[in]  module: module number
+ 628:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @param[out] p_state: reset state
+ 629:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @retval     STB_SUCCESS           Successful operation.
+ 630:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @retval     STB_INVALID_MODULE    Invalid module number or does not supported
+ 631:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @retval     STB_INVALID_STATE     Invalid state for operation
+ 632:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  */
+ 633:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** e_stb_err_t R_STB_GetModuleResetState( e_stb_module_t module, e_stb_reset_state_t * p_state )
+ 634:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** {
+ 698              		.loc 1 634 0
+ 699              		.cfi_startproc
+ 700              		@ args = 0, pretend = 0, frame = 0
+ 701              		@ frame_needed = 0, uses_anonymous_args = 0
+ 702              	.LVL76:
+ 703 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 704              		.cfi_def_cfa_offset 16
+ 705              		.cfi_offset 4, -16
+ 706              		.cfi_offset 5, -12
+ 707              		.cfi_offset 6, -8
+ 708              		.cfi_offset 14, -4
+ 709              	.LBB58:
+ 710              	.LBB59:
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 711              		.loc 1 282 0
+ 712 0004 0030A0E3 		mov	r3, #0
+ 284:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 713              		.loc 1 284 0
+ 714 0008 74409FE5 		ldr	r4, .L95
+ 715 000c 0C20A0E3 		mov	r2, #12
+ 716              	.LVL77:
+ 717              	.L86:
+ 718 0010 920306E0 		mul	r6, r2, r3
+ 719 0014 04C0D6E7 		ldrb	ip, [r6, r4]	@ zero_extendqisi2
+ 720 0018 00005CE1 		cmp	ip, r0
+ 721 001c 0500001A 		bne	.L83
+ 722 0020 0150A0E1 		mov	r5, r1
+ 723              	.LVL78:
+ 724              	.LBE59:
+ 725              	.LBE58:
+ 635:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     e_stb_err_t ret;
+ 636:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     const st_r_prv_reg_info_t * p_swrstcr;
+ 637:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     uint8_t current_bit;
+ 638:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 639:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* Initialise error state */
+ 640:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     ret = STB_SUCCESS;
+ 641:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 642:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* obtain the SWRSTCR information */
+ 643:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     p_swrstcr = get_swrstcr_info(module);
+ 644:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 645:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* check if unsupported module */
+ 646:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     if ( (NULL == p_swrstcr) )
+ 647:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 648:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         ret = STB_INVALID_MODULE;
+ 649:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     }
+ 650:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 651:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     /* check if clock supplied */
+ 652:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     if ( (STB_SUCCESS == ret) && (!is_clock_supplied(module)) )
+ 726              		.loc 1 652 0
+ 727 0024 FEFFFFEB 		bl	is_clock_supplied
+ 728              	.LVL79:
+ 729 0028 000050E3 		cmp	r0, #0
+ 730 002c 0800001A 		bne	.L91
+ 653:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 654:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         ret = STB_INVALID_STATE;
+ 731              		.loc 1 654 0
+ 732 0030 0200E0E3 		mvn	r0, #2
+ 655:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     }
+ 656:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 657:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     if ( STB_SUCCESS == ret )
+ 658:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 659:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         /* get current reset state */
+ 660:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         current_bit = RZA_IO_RegRead_8(p_swrstcr->reg_address, IOREG_NONSHIFT_ACCESS, p_swrstcr->ma
+ 661:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 662:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         /* check if all bit listed in swrstcr_bit is zero */
+ 663:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         if ( 0 == current_bit )
+ 664:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 665:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             /* store MODULE_NOT_RESET_STATE to p_state */
+ 666:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             *p_state = MODULE_NOT_RESET_STATE;
+ 667:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         }
+ 668:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         else
+ 669:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 670:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             /* at least one bit is 1, it is still in the reset state */
+ 671:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****             *p_state = MODULE_RESET_STATE;
+ 672:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         }
+ 673:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     }
+ 674:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 675:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     return ret;
+ 733              		.loc 1 675 0
+ 734 0034 7080BDE8 		pop	{r4, r5, r6, pc}
+ 735              	.LVL80:
+ 736              	.L83:
+ 737              	.LBB61:
+ 738              	.LBB60:
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     {
+ 739              		.loc 1 282 0
+ 740 0038 013083E2 		add	r3, r3, #1
+ 741              	.LVL81:
+ 742 003c 0A0053E3 		cmp	r3, #10
+ 743 0040 F2FFFF1A 		bne	.L86
+ 744 0044 0000E0E3 		mvn	r0, #0
+ 745              	.LVL82:
+ 746 0048 7080BDE8 		pop	{r4, r5, r6, pc}
+ 747              	.LVL83:
+ 748              	.L93:
+ 749              	.LBE60:
+ 750              	.LBE61:
+ 671:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         }
+ 751              		.loc 1 671 0
+ 752 004c 0000C5E5 		strb	r0, [r5]
+ 753 0050 7080BDE8 		pop	{r4, r5, r6, pc}
+ 754              	.L91:
+ 660:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 755              		.loc 1 660 0
+ 756 0054 064084E0 		add	r4, r4, r6
+ 757 0058 0010A0E3 		mov	r1, #0
+ 758 005c 0820D4E5 		ldrb	r2, [r4, #8]	@ zero_extendqisi2
+ 759 0060 040094E5 		ldr	r0, [r4, #4]
+ 760 0064 FEFFFFEB 		bl	RZA_IO_RegRead_8
+ 761              	.LVL84:
+ 663:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         {
+ 762              		.loc 1 663 0
+ 763 0068 003050E2 		subs	r3, r0, #0
+ 764 006c 0000A0E3 		mov	r0, #0
+ 765              	.LVL85:
+ 766 0070 F5FFFF1A 		bne	.L93
+ 666:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****         }
+ 767              		.loc 1 666 0
+ 768 0074 0120A0E3 		mov	r2, #1
+ 769 0078 0300A0E1 		mov	r0, r3
+ 770 007c 0020C5E5 		strb	r2, [r5]
+ 771 0080 7080BDE8 		pop	{r4, r5, r6, pc}
+ 772              	.L96:
+ 773              		.align	2
+ 774              	.L95:
+ 775 0084 00000000 		.word	.LANCHOR3
+ 776              		.cfi_endproc
+ 777              	.LFE13:
+ 779              		.section	.text.R_STB_GetVersion,"ax",%progbits
+ 780              		.align	2
+ 781              		.global	R_STB_GetVersion
+ 782              		.syntax unified
+ 783              		.arm
+ 784              		.fpu neon
+ 786              	R_STB_GetVersion:
+ 787              	.LFB14:
+ 676:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** }
+ 677:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /******************************************************************************
+ 678:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * End of function R_STB_GetModuleResetState
+ 679:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  ******************************************************************************/
+ 680:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 681:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** /**
+ 682:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @fn         R_STB_GetVersion
+ 683:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @brief      Get the Low Layer Driver specific version
+ 684:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @param[in]  p_ver_info: detailed driver information structure
+ 685:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  * @retval     STB_SUCCESS           Successful operation (always).
+ 686:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****  */
+ 687:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** int_t R_STB_GetVersion(st_ver_info_t *p_ver_info)
+ 688:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** {
+ 788              		.loc 1 688 0
+ 789              		.cfi_startproc
+ 790              		@ args = 0, pretend = 0, frame = 0
+ 791              		@ frame_needed = 0, uses_anonymous_args = 0
+ 792              		@ link register save eliminated.
+ 793              	.LVL86:
+ 689:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     p_ver_info->lld.p_szdriver_name = gs_lld_info.p_szdriver_name;
+ 794              		.loc 1 689 0
+ 795 0000 20209FE5 		ldr	r2, .L98
+ 688:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     p_ver_info->lld.p_szdriver_name = gs_lld_info.p_szdriver_name;
+ 796              		.loc 1 688 0
+ 797 0004 0030A0E1 		mov	r3, r0
+ 798              		.loc 1 689 0
+ 799 0008 142080E5 		str	r2, [r0, #20]
+ 690:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     p_ver_info->lld.version.sub.major = gs_lld_info.version.sub.major;
+ 800              		.loc 1 690 0
+ 801 000c 0120A0E3 		mov	r2, #1
+ 802 0010 BE20C0E1 		strh	r2, [r0, #14]	@ movhi
+ 691:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     p_ver_info->lld.version.sub.minor = gs_lld_info.version.sub.minor;
+ 803              		.loc 1 691 0
+ 804 0014 0320A0E3 		mov	r2, #3
+ 805 0018 BC20C0E1 		strh	r2, [r0, #12]	@ movhi
+ 692:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     p_ver_info->lld.build = gs_lld_info.build;
+ 806              		.loc 1 692 0
+ 807 001c 0000A0E3 		mov	r0, #0
+ 808              	.LVL87:
+ 809 0020 100083E5 		str	r0, [r3, #16]
+ 693:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** 
+ 694:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c ****     return DRV_SUCCESS;
+ 695:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_stb/src/lld\r_stb_lld_rza2m.c **** }
+ 810              		.loc 1 695 0
+ 811 0024 1EFF2FE1 		bx	lr
+ 812              	.L99:
+ 813              		.align	2
+ 814              	.L98:
+ 815 0028 00000000 		.word	.LC0
+ 816              		.cfi_endproc
+ 817              	.LFE14:
+ 819              		.section	.rodata.R_STB_GetVersion.str1.1,"aMS",%progbits,1
+ 820              	.LC0:
+ 821 0000 4C4C4420 		.ascii	"LLD EBK_RZA2M STB\000"
+ 821      45424B5F 
+ 821      525A4132 
+ 821      4D205354 
+ 821      4200
+ 822              		.section	.rodata.gs_stback,"a",%progbits
+ 823              		.align	2
+ 824              		.set	.LANCHOR2,. + 0
+ 827              	gs_stback:
+ 828 0000 01       		.byte	1
+ 829 0001 000000   		.space	3
+ 830 0004 4000FEFC 		.word	-50462656
+ 831 0008 20       		.byte	32
+ 832 0009 000000   		.space	3
+ 833 000c 11       		.byte	17
+ 834 000d 000000   		.space	3
+ 835 0010 4000FEFC 		.word	-50462656
+ 836 0014 01       		.byte	1
+ 837 0015 000000   		.space	3
+ 838 0018 14       		.byte	20
+ 839 0019 000000   		.space	3
+ 840 001c 4000FEFC 		.word	-50462656
+ 841 0020 08       		.byte	8
+ 842 0021 000000   		.space	3
+ 843 0024 15       		.byte	21
+ 844 0025 000000   		.space	3
+ 845 0028 4400FEFC 		.word	-50462652
+ 846 002c 80       		.byte	-128
+ 847 002d 000000   		.space	3
+ 848 0030 16       		.byte	22
+ 849 0031 000000   		.space	3
+ 850 0034 4400FEFC 		.word	-50462652
+ 851 0038 40       		.byte	64
+ 852 0039 000000   		.space	3
+ 853 003c 17       		.byte	23
+ 854 003d 000000   		.space	3
+ 855 0040 4800FEFC 		.word	-50462648
+ 856 0044 03       		.byte	3
+ 857 0045 000000   		.space	3
+ 858 0048 18       		.byte	24
+ 859 0049 000000   		.space	3
+ 860 004c 4800FEFC 		.word	-50462648
+ 861 0050 0C       		.byte	12
+ 862 0051 000000   		.space	3
+ 863 0054 19       		.byte	25
+ 864 0055 000000   		.space	3
+ 865 0058 4400FEFC 		.word	-50462652
+ 866 005c 08       		.byte	8
+ 867 005d 000000   		.space	3
+ 868 0060 1A       		.byte	26
+ 869 0061 000000   		.space	3
+ 870 0064 4400FEFC 		.word	-50462652
+ 871 0068 03       		.byte	3
+ 872 0069 000000   		.space	3
+ 873 006c 25       		.byte	37
+ 874 006d 000000   		.space	3
+ 875 0070 4400FEFC 		.word	-50462652
+ 876 0074 20       		.byte	32
+ 877 0075 000000   		.space	3
+ 878 0078 2C       		.byte	44
+ 879 0079 000000   		.space	3
+ 880 007c 4400FEFC 		.word	-50462652
+ 881 0080 10       		.byte	16
+ 882 0081 000000   		.space	3
+ 883 0084 2E       		.byte	46
+ 884 0085 000000   		.space	3
+ 885 0088 4400FEFC 		.word	-50462652
+ 886 008c 04       		.byte	4
+ 887 008d 000000   		.space	3
+ 888 0090 2F       		.byte	47
+ 889 0091 000000   		.space	3
+ 890 0094 4000FEFC 		.word	-50462656
+ 891 0098 04       		.byte	4
+ 892 0099 000000   		.space	3
+ 893 009c 30       		.byte	48
+ 894 009d 000000   		.space	3
+ 895 00a0 4000FEFC 		.word	-50462656
+ 896 00a4 02       		.byte	2
+ 897 00a5 000000   		.space	3
+ 898              		.section	.rodata.gs_stbcr,"a",%progbits
+ 899              		.align	2
+ 900              		.set	.LANCHOR0,. + 0
+ 903              	gs_stbcr:
+ 904 0000 01       		.byte	1
+ 905 0001 000000   		.space	3
+ 906 0004 2400FEFC 		.word	-50462684
+ 907 0008 01       		.byte	1
+ 908 0009 000000   		.space	3
+ 909 000c 02       		.byte	2
+ 910 000d 000000   		.space	3
+ 911 0010 2004FEFC 		.word	-50461664
+ 912 0014 40       		.byte	64
+ 913 0015 000000   		.space	3
+ 914 0018 03       		.byte	3
+ 915 0019 000000   		.space	3
+ 916 001c 2004FEFC 		.word	-50461664
+ 917 0020 20       		.byte	32
+ 918 0021 000000   		.space	3
+ 919 0024 04       		.byte	4
+ 920 0025 000000   		.space	3
+ 921 0028 2004FEFC 		.word	-50461664
+ 922 002c 10       		.byte	16
+ 923 002d 000000   		.space	3
+ 924 0030 05       		.byte	5
+ 925 0031 000000   		.space	3
+ 926 0034 2004FEFC 		.word	-50461664
+ 927 0038 08       		.byte	8
+ 928 0039 000000   		.space	3
+ 929 003c 06       		.byte	6
+ 930 003d 000000   		.space	3
+ 931 0040 2004FEFC 		.word	-50461664
+ 932 0044 04       		.byte	4
+ 933 0045 000000   		.space	3
+ 934 0048 07       		.byte	7
+ 935 0049 000000   		.space	3
+ 936 004c 2804FEFC 		.word	-50461656
+ 937 0050 80       		.byte	-128
+ 938 0051 000000   		.space	3
+ 939 0054 08       		.byte	8
+ 940 0055 000000   		.space	3
+ 941 0058 2004FEFC 		.word	-50461664
+ 942 005c 01       		.byte	1
+ 943 005d 000000   		.space	3
+ 944 0060 09       		.byte	9
+ 945 0061 000000   		.space	3
+ 946 0064 2404FEFC 		.word	-50461660
+ 947 0068 80       		.byte	-128
+ 948 0069 000000   		.space	3
+ 949 006c 0A       		.byte	10
+ 950 006d 000000   		.space	3
+ 951 0070 2404FEFC 		.word	-50461660
+ 952 0074 40       		.byte	64
+ 953 0075 000000   		.space	3
+ 954 0078 0B       		.byte	11
+ 955 0079 000000   		.space	3
+ 956 007c 2404FEFC 		.word	-50461660
+ 957 0080 20       		.byte	32
+ 958 0081 000000   		.space	3
+ 959 0084 0C       		.byte	12
+ 960 0085 000000   		.space	3
+ 961 0088 2404FEFC 		.word	-50461660
+ 962 008c 10       		.byte	16
+ 963 008d 000000   		.space	3
+ 964 0090 0D       		.byte	13
+ 965 0091 000000   		.space	3
+ 966 0094 2404FEFC 		.word	-50461660
+ 967 0098 08       		.byte	8
+ 968 0099 000000   		.space	3
+ 969 009c 0E       		.byte	14
+ 970 009d 000000   		.space	3
+ 971 00a0 2404FEFC 		.word	-50461660
+ 972 00a4 04       		.byte	4
+ 973 00a5 000000   		.space	3
+ 974 00a8 0F       		.byte	15
+ 975 00a9 000000   		.space	3
+ 976 00ac 2404FEFC 		.word	-50461660
+ 977 00b0 02       		.byte	2
+ 978 00b1 000000   		.space	3
+ 979 00b4 10       		.byte	16
+ 980 00b5 000000   		.space	3
+ 981 00b8 2404FEFC 		.word	-50461660
+ 982 00bc 01       		.byte	1
+ 983 00bd 000000   		.space	3
+ 984 00c0 11       		.byte	17
+ 985 00c1 000000   		.space	3
+ 986 00c4 2804FEFC 		.word	-50461656
+ 987 00c8 40       		.byte	64
+ 988 00c9 000000   		.space	3
+ 989 00cc 12       		.byte	18
+ 990 00cd 000000   		.space	3
+ 991 00d0 2804FEFC 		.word	-50461656
+ 992 00d4 08       		.byte	8
+ 993 00d5 000000   		.space	3
+ 994 00d8 13       		.byte	19
+ 995 00d9 000000   		.space	3
+ 996 00dc 2804FEFC 		.word	-50461656
+ 997 00e0 04       		.byte	4
+ 998 00e1 000000   		.space	3
+ 999 00e4 14       		.byte	20
+ 1000 00e5 000000   		.space	3
+ 1001 00e8 2804FEFC 		.word	-50461656
+ 1002 00ec 02       		.byte	2
+ 1003 00ed 000000   		.space	3
+ 1004 00f0 15       		.byte	21
+ 1005 00f1 000000   		.space	3
+ 1006 00f4 2C04FEFC 		.word	-50461652
+ 1007 00f8 40       		.byte	64
+ 1008 00f9 000000   		.space	3
+ 1009 00fc 16       		.byte	22
+ 1010 00fd 000000   		.space	3
+ 1011 0100 2C04FEFC 		.word	-50461652
+ 1012 0104 3C       		.byte	60
+ 1013 0105 000000   		.space	3
+ 1014 0108 17       		.byte	23
+ 1015 0109 000000   		.space	3
+ 1016 010c 2C04FEFC 		.word	-50461652
+ 1017 0110 02       		.byte	2
+ 1018 0111 000000   		.space	3
+ 1019 0114 18       		.byte	24
+ 1020 0115 000000   		.space	3
+ 1021 0118 2C04FEFC 		.word	-50461652
+ 1022 011c 01       		.byte	1
+ 1023 011d 000000   		.space	3
+ 1024 0120 19       		.byte	25
+ 1025 0121 000000   		.space	3
+ 1026 0124 3004FEFC 		.word	-50461648
+ 1027 0128 80       		.byte	-128
+ 1028 0129 000000   		.space	3
+ 1029 012c 1A       		.byte	26
+ 1030 012d 000000   		.space	3
+ 1031 0130 3004FEFC 		.word	-50461648
+ 1032 0134 40       		.byte	64
+ 1033 0135 000000   		.space	3
+ 1034 0138 1B       		.byte	27
+ 1035 0139 000000   		.space	3
+ 1036 013c 3004FEFC 		.word	-50461648
+ 1037 0140 20       		.byte	32
+ 1038 0141 000000   		.space	3
+ 1039 0144 1C       		.byte	28
+ 1040 0145 000000   		.space	3
+ 1041 0148 3004FEFC 		.word	-50461648
+ 1042 014c 08       		.byte	8
+ 1043 014d 000000   		.space	3
+ 1044 0150 1D       		.byte	29
+ 1045 0151 000000   		.space	3
+ 1046 0154 3004FEFC 		.word	-50461648
+ 1047 0158 04       		.byte	4
+ 1048 0159 000000   		.space	3
+ 1049 015c 1E       		.byte	30
+ 1050 015d 000000   		.space	3
+ 1051 0160 3004FEFC 		.word	-50461648
+ 1052 0164 02       		.byte	2
+ 1053 0165 000000   		.space	3
+ 1054 0168 1F       		.byte	31
+ 1055 0169 000000   		.space	3
+ 1056 016c 3004FEFC 		.word	-50461648
+ 1057 0170 01       		.byte	1
+ 1058 0171 000000   		.space	3
+ 1059 0174 20       		.byte	32
+ 1060 0175 000000   		.space	3
+ 1061 0178 3404FEFC 		.word	-50461644
+ 1062 017c 80       		.byte	-128
+ 1063 017d 000000   		.space	3
+ 1064 0180 21       		.byte	33
+ 1065 0181 000000   		.space	3
+ 1066 0184 3404FEFC 		.word	-50461644
+ 1067 0188 40       		.byte	64
+ 1068 0189 000000   		.space	3
+ 1069 018c 22       		.byte	34
+ 1070 018d 000000   		.space	3
+ 1071 0190 3404FEFC 		.word	-50461644
+ 1072 0194 20       		.byte	32
+ 1073 0195 000000   		.space	3
+ 1074 0198 23       		.byte	35
+ 1075 0199 000000   		.space	3
+ 1076 019c 3404FEFC 		.word	-50461644
+ 1077 01a0 10       		.byte	16
+ 1078 01a1 000000   		.space	3
+ 1079 01a4 24       		.byte	36
+ 1080 01a5 000000   		.space	3
+ 1081 01a8 3404FEFC 		.word	-50461644
+ 1082 01ac 08       		.byte	8
+ 1083 01ad 000000   		.space	3
+ 1084 01b0 25       		.byte	37
+ 1085 01b1 000000   		.space	3
+ 1086 01b4 3404FEFC 		.word	-50461644
+ 1087 01b8 02       		.byte	2
+ 1088 01b9 000000   		.space	3
+ 1089 01bc 26       		.byte	38
+ 1090 01bd 000000   		.space	3
+ 1091 01c0 3804FEFC 		.word	-50461640
+ 1092 01c4 80       		.byte	-128
+ 1093 01c5 000000   		.space	3
+ 1094 01c8 27       		.byte	39
+ 1095 01c9 000000   		.space	3
+ 1096 01cc 3804FEFC 		.word	-50461640
+ 1097 01d0 40       		.byte	64
+ 1098 01d1 000000   		.space	3
+ 1099 01d4 28       		.byte	40
+ 1100 01d5 000000   		.space	3
+ 1101 01d8 3804FEFC 		.word	-50461640
+ 1102 01dc 20       		.byte	32
+ 1103 01dd 000000   		.space	3
+ 1104 01e0 29       		.byte	41
+ 1105 01e1 000000   		.space	3
+ 1106 01e4 3804FEFC 		.word	-50461640
+ 1107 01e8 08       		.byte	8
+ 1108 01e9 000000   		.space	3
+ 1109 01ec 2A       		.byte	42
+ 1110 01ed 000000   		.space	3
+ 1111 01f0 3804FEFC 		.word	-50461640
+ 1112 01f4 04       		.byte	4
+ 1113 01f5 000000   		.space	3
+ 1114 01f8 2B       		.byte	43
+ 1115 01f9 000000   		.space	3
+ 1116 01fc 3804FEFC 		.word	-50461640
+ 1117 0200 02       		.byte	2
+ 1118 0201 000000   		.space	3
+ 1119 0204 2C       		.byte	44
+ 1120 0205 000000   		.space	3
+ 1121 0208 3804FEFC 		.word	-50461640
+ 1122 020c 01       		.byte	1
+ 1123 020d 000000   		.space	3
+ 1124 0210 2D       		.byte	45
+ 1125 0211 000000   		.space	3
+ 1126 0214 3C04FEFC 		.word	-50461636
+ 1127 0218 80       		.byte	-128
+ 1128 0219 000000   		.space	3
+ 1129 021c 2E       		.byte	46
+ 1130 021d 000000   		.space	3
+ 1131 0220 3C04FEFC 		.word	-50461636
+ 1132 0224 10       		.byte	16
+ 1133 0225 000000   		.space	3
+ 1134 0228 2F       		.byte	47
+ 1135 0229 000000   		.space	3
+ 1136 022c 3C04FEFC 		.word	-50461636
+ 1137 0230 0C       		.byte	12
+ 1138 0231 000000   		.space	3
+ 1139 0234 30       		.byte	48
+ 1140 0235 000000   		.space	3
+ 1141 0238 3C04FEFC 		.word	-50461636
+ 1142 023c 03       		.byte	3
+ 1143 023d 000000   		.space	3
+ 1144              		.section	.rodata.gs_stbreq,"a",%progbits
+ 1145              		.align	2
+ 1146              		.set	.LANCHOR1,. + 0
+ 1149              	gs_stbreq:
+ 1150 0000 01       		.byte	1
+ 1151 0001 000000   		.space	3
+ 1152 0004 3000FEFC 		.word	-50462672
+ 1153 0008 20       		.byte	32
+ 1154 0009 000000   		.space	3
+ 1155 000c 11       		.byte	17
+ 1156 000d 000000   		.space	3
+ 1157 0010 3000FEFC 		.word	-50462672
+ 1158 0014 01       		.byte	1
+ 1159 0015 000000   		.space	3
+ 1160 0018 14       		.byte	20
+ 1161 0019 000000   		.space	3
+ 1162 001c 3000FEFC 		.word	-50462672
+ 1163 0020 08       		.byte	8
+ 1164 0021 000000   		.space	3
+ 1165 0024 15       		.byte	21
+ 1166 0025 000000   		.space	3
+ 1167 0028 3400FEFC 		.word	-50462668
+ 1168 002c 80       		.byte	-128
+ 1169 002d 000000   		.space	3
+ 1170 0030 16       		.byte	22
+ 1171 0031 000000   		.space	3
+ 1172 0034 3400FEFC 		.word	-50462668
+ 1173 0038 40       		.byte	64
+ 1174 0039 000000   		.space	3
+ 1175 003c 17       		.byte	23
+ 1176 003d 000000   		.space	3
+ 1177 0040 3800FEFC 		.word	-50462664
+ 1178 0044 03       		.byte	3
+ 1179 0045 000000   		.space	3
+ 1180 0048 18       		.byte	24
+ 1181 0049 000000   		.space	3
+ 1182 004c 3800FEFC 		.word	-50462664
+ 1183 0050 0C       		.byte	12
+ 1184 0051 000000   		.space	3
+ 1185 0054 19       		.byte	25
+ 1186 0055 000000   		.space	3
+ 1187 0058 3400FEFC 		.word	-50462668
+ 1188 005c 08       		.byte	8
+ 1189 005d 000000   		.space	3
+ 1190 0060 1A       		.byte	26
+ 1191 0061 000000   		.space	3
+ 1192 0064 3400FEFC 		.word	-50462668
+ 1193 0068 03       		.byte	3
+ 1194 0069 000000   		.space	3
+ 1195 006c 25       		.byte	37
+ 1196 006d 000000   		.space	3
+ 1197 0070 3400FEFC 		.word	-50462668
+ 1198 0074 20       		.byte	32
+ 1199 0075 000000   		.space	3
+ 1200 0078 2C       		.byte	44
+ 1201 0079 000000   		.space	3
+ 1202 007c 3400FEFC 		.word	-50462668
+ 1203 0080 10       		.byte	16
+ 1204 0081 000000   		.space	3
+ 1205 0084 2E       		.byte	46
+ 1206 0085 000000   		.space	3
+ 1207 0088 3400FEFC 		.word	-50462668
+ 1208 008c 04       		.byte	4
+ 1209 008d 000000   		.space	3
+ 1210 0090 2F       		.byte	47
+ 1211 0091 000000   		.space	3
+ 1212 0094 3000FEFC 		.word	-50462672
+ 1213 0098 04       		.byte	4
+ 1214 0099 000000   		.space	3
+ 1215 009c 30       		.byte	48
+ 1216 009d 000000   		.space	3
+ 1217 00a0 3000FEFC 		.word	-50462672
+ 1218 00a4 02       		.byte	2
+ 1219 00a5 000000   		.space	3
+ 1220              		.section	.rodata.gs_swrstcr,"a",%progbits
+ 1221              		.align	2
+ 1222              		.set	.LANCHOR3,. + 0
+ 1225              	gs_swrstcr:
+ 1226 0000 11       		.byte	17
+ 1227 0001 000000   		.space	3
+ 1228 0004 6404FEFC 		.word	-50461596
+ 1229 0008 02       		.byte	2
+ 1230 0009 000000   		.space	3
+ 1231 000c 14       		.byte	20
+ 1232 000d 000000   		.space	3
+ 1233 0010 6004FEFC 		.word	-50461600
+ 1234 0014 02       		.byte	2
+ 1235 0015 000000   		.space	3
+ 1236 0018 15       		.byte	21
+ 1237 0019 000000   		.space	3
+ 1238 001c 6404FEFC 		.word	-50461596
+ 1239 0020 20       		.byte	32
+ 1240 0021 000000   		.space	3
+ 1241 0024 19       		.byte	25
+ 1242 0025 000000   		.space	3
+ 1243 0028 6404FEFC 		.word	-50461596
+ 1244 002c 10       		.byte	16
+ 1245 002d 000000   		.space	3
+ 1246 0030 1A       		.byte	26
+ 1247 0031 000000   		.space	3
+ 1248 0034 6404FEFC 		.word	-50461596
+ 1249 0038 04       		.byte	4
+ 1250 0039 000000   		.space	3
+ 1251 003c 1B       		.byte	27
+ 1252 003d 000000   		.space	3
+ 1253 0040 6404FEFC 		.word	-50461596
+ 1254 0044 08       		.byte	8
+ 1255 0045 000000   		.space	3
+ 1256 0048 24       		.byte	36
+ 1257 0049 000000   		.space	3
+ 1258 004c 6004FEFC 		.word	-50461600
+ 1259 0050 01       		.byte	1
+ 1260 0051 000000   		.space	3
+ 1261 0054 25       		.byte	37
+ 1262 0055 000000   		.space	3
+ 1263 0058 6004FEFC 		.word	-50461600
+ 1264 005c 08       		.byte	8
+ 1265 005d 000000   		.space	3
+ 1266 0060 2D       		.byte	45
+ 1267 0061 000000   		.space	3
+ 1268 0064 6004FEFC 		.word	-50461600
+ 1269 0068 04       		.byte	4
+ 1270 0069 000000   		.space	3
+ 1271 006c 2E       		.byte	46
+ 1272 006d 000000   		.space	3
+ 1273 0070 6404FEFC 		.word	-50461596
+ 1274 0074 40       		.byte	64
+ 1275 0075 000000   		.space	3
+ 1276              		.text
+ 1277              	.Letext0:
+ 1278              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 1279              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1280              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1281              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1282              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1283              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1284              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1285              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1286              		.file 10 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 1287              		.file 11 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 1288              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 1289              		.file 13 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 1290              		.file 14 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 1291              		.file 15 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+DEFINED SYMBOLS
+                            *ABS*:00000000 r_stb_lld_rza2m.c
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:17     .text.is_clock_supplied:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:22     .text.is_clock_supplied:00000000 is_clock_supplied
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:89     .text.is_clock_supplied:00000054 $d
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:94     .text.R_STB_RequestModuleStart:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:100    .text.R_STB_RequestModuleStart:00000000 R_STB_RequestModuleStart
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:230    .text.R_STB_RequestModuleStart:000000e0 $d
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:236    .text.R_STB_RequestModuleStop:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:242    .text.R_STB_RequestModuleStop:00000000 R_STB_RequestModuleStop
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:374    .text.R_STB_RequestModuleStop:000000e4 $d
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:380    .text.R_STB_StopModule:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:386    .text.R_STB_StopModule:00000000 R_STB_StopModule
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:458    .text.R_STB_StopModule:00000068 $d
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:463    .text.R_STB_StartModule:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:469    .text.R_STB_StartModule:00000000 R_STB_StartModule
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:541    .text.R_STB_StartModule:00000068 $d
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:546    .text.R_STB_SetModuleResetState:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:552    .text.R_STB_SetModuleResetState:00000000 R_STB_SetModuleResetState
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:685    .text.R_STB_SetModuleResetState:000000f8 $d
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:690    .text.R_STB_GetModuleResetState:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:696    .text.R_STB_GetModuleResetState:00000000 R_STB_GetModuleResetState
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:775    .text.R_STB_GetModuleResetState:00000084 $d
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:780    .text.R_STB_GetVersion:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:786    .text.R_STB_GetVersion:00000000 R_STB_GetVersion
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:815    .text.R_STB_GetVersion:00000028 $d
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:823    .rodata.gs_stback:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:827    .rodata.gs_stback:00000000 gs_stback
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:899    .rodata.gs_stbcr:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:903    .rodata.gs_stbcr:00000000 gs_stbcr
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:1145   .rodata.gs_stbreq:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:1149   .rodata.gs_stbreq:00000000 gs_stbreq
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:1221   .rodata.gs_swrstcr:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccwCLhJu.s:1225   .rodata.gs_swrstcr:00000000 gs_swrstcr
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+RZA_IO_RegRead_8
+RZA_IO_RegWrite_8

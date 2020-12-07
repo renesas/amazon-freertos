@@ -1,0 +1,827 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"aws_ota_update_demo.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.vOTAUpdateDemoTask,"ax",%progbits
+  17              		.align	2
+  18              		.global	vOTAUpdateDemoTask
+  19              		.syntax unified
+  20              		.arm
+  21              		.fpu neon
+  23              	vOTAUpdateDemoTask:
+  24              	.LFB1:
+  25              		.file 1 "D:/Work/DeviceTester/amazon-freertos/demos/common/ota/aws_ota_update_demo.c"
+   1:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** /*
+   2:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** Amazon FreeRTOS OTA Update Demo V1.4.7
+   3:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** Copyright (C) 2017 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+   4:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 
+   5:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** Permission is hereby granted, free of charge, to any person obtaining a copy of
+   6:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** this software and associated documentation files (the "Software"), to deal in
+   7:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** the Software without restriction, including without limitation the rights to
+   8:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+   9:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** the Software, and to permit persons to whom the Software is furnished to do so,
+  10:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** subject to the following conditions:
+  11:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 
+  12:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** The above copyright notice and this permission notice shall be included in all
+  13:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** copies or substantial portions of the Software.
+  14:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 
+  15:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  16:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+  17:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+  18:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+  19:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  20:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  21:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 
+  22:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****  http://aws.amazon.com/freertos
+  23:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****  http://www.FreeRTOS.org
+  24:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** */
+  25:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 
+  26:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 
+  27:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** /**
+  28:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****  * @file aws_ota_update_demo.c
+  29:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****  * @brief A simple OTA update example.
+  30:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****  *
+  31:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****  * This example initializes the OTA agent to enable OTA updates via the
+  32:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****  * MQTT broker. It simply connects to the MQTT broker with the users
+  33:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****  * credentials and spins in an indefinite loop to allow MQTT messages to be
+  34:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****  * forwarded to the OTA agent for possible processing. The OTA agent does all
+  35:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****  * of the real work; checking to see if the message topic is one destined for
+  36:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****  * the OTA agent. If not, it is simply ignored.
+  37:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****  */
+  38:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 
+  39:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** /* Standard includes. */
+  40:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #include <stdio.h>
+  41:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #include <string.h>
+  42:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 
+  43:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** /* FreeRTOS includes. */
+  44:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #include "FreeRTOS.h"
+  45:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #include "task.h"
+  46:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #include "semphr.h"
+  47:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 
+  48:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** /* MQTT include. */
+  49:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #include "aws_mqtt_agent.h"
+  50:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 
+  51:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** /* Required to get the broker address and port. */
+  52:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #include "aws_clientcredential.h"
+  53:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 
+  54:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** /* Amazon FreeRTOS OTA agent includes. */
+  55:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #include "aws_ota_agent.h"
+  56:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 
+  57:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** /* Required for demo task stack and priority */
+  58:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #include "aws_ota_update_demo.h"
+  59:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #include "aws_demo_config.h"
+  60:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #include "aws_application_version.h"
+  61:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 
+  62:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** static void App_OTACompleteCallback(OTA_JobEvent_t eEvent );
+  63:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 
+  64:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** /*-----------------------------------------------------------*/
+  65:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 
+  66:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #define myappONE_SECOND_DELAY_IN_TICKS      pdMS_TO_TICKS( 1000UL )     /* One second delay value f
+  67:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #define myappMAX_AWS_CONNECT_WAIT_IN_TICKS  pdMS_TO_TICKS( 60000UL )    /* Wait a maximum of 60 sec
+  68:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #define myappMAX_AWS_DISCONNECT_WAIT_IN_TICKS pdMS_TO_TICKS( 60000UL )  /* Wait a maximum of 60 sec
+  69:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #if defined(__IDT_MODE__)
+  70:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** __attribute__((weak)) void WIFI_Off(void)
+  71:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** {
+  72:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** }
+  73:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #endif
+  74:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** static const char *pcStateStr[eOTA_NumAgentStates] =
+  75:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** {
+  76:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****      "Not Ready",
+  77:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****      "Ready",
+  78:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****      "Active",
+  79:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****      "Shutting down"
+  80:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** };
+  81:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** static uint32_t flash_data[256/sizeof(uint32_t)];
+  82:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #if defined(__IDT_MODE__)
+  83:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** static	uint32_t boot_count;
+  84:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** static void vStartOTAWifiOffTask( void );
+  85:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #endif
+  86:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** void vOTAUpdateDemoTask( void * pvParameters )
+  87:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** {
+  26              		.loc 1 87 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 48
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              	.LVL0:
+  88:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****     MQTTAgentConnectParams_t xConnectParams;
+  89:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****     MQTTAgentHandle_t xMQTTClientHandle;
+  90:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****     OTA_State_t eState;
+  91:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 
+  92:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** /* Remove compiler warnings about unused parameters. */
+  93:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****     ( void ) pvParameters;
+  94:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 
+  95:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 	configPRINTF ( ("OTA demo version %u.%u.%u\r\n",
+  31              		.loc 1 95 0
+  32 0000 4C119FE5 		ldr	r1, .L11
+  87:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****     MQTTAgentConnectParams_t xConnectParams;
+  33              		.loc 1 87 0
+  34 0004 F0472DE9 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+  35              		.cfi_def_cfa_offset 32
+  36              		.cfi_offset 4, -32
+  37              		.cfi_offset 5, -28
+  38              		.cfi_offset 6, -24
+  39              		.cfi_offset 7, -20
+  40              		.cfi_offset 8, -16
+  41              		.cfi_offset 9, -12
+  42              		.cfi_offset 10, -8
+  43              		.cfi_offset 14, -4
+  44 0008 38D04DE2 		sub	sp, sp, #56
+  45              		.cfi_def_cfa_offset 88
+  46              		.loc 1 95 0
+  47 000c 44019FE5 		ldr	r0, .L11+4
+  48              	.LVL1:
+  49 0010 B030D1E1 		ldrh	r3, [r1]
+  50 0014 0220D1E5 		ldrb	r2, [r1, #2]	@ zero_extendqisi2
+  51 0018 0310D1E5 		ldrb	r1, [r1, #3]	@ zero_extendqisi2
+  52 001c FEFFFFEB 		bl	vLoggingPrintf
+  53              	.LVL2:
+  96:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 		xAppFirmwareVersion.u.x.ucMajor,
+  97:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 		xAppFirmwareVersion.u.x.ucMinor,
+  98:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 		xAppFirmwareVersion.u.x.usBuild ) );
+  99:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****     configPRINTF( ( "Creating MQTT Client...\r\n" ) );
+  54              		.loc 1 99 0
+  55 0020 34019FE5 		ldr	r0, .L11+8
+  56 0024 FEFFFFEB 		bl	vLoggingPrintf
+  57              	.LVL3:
+ 100:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #if defined(__IDT_MODE__)
+ 101:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 	{
+ 102:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 		boot_count = *((uint32_t*)0x23FFC000);
+ 103:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 		boot_count++;
+ 104:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 		memset(flash_data,0xFF,sizeof(flash_data));
+ 105:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 		flash_data[0]=boot_count;
+ 106:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 		flash_erase_sector(NULL,0x23FFC000);
+ 107:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 		flash_program_page(NULL,0x23FFC000,flash_data,sizeof(flash_data));
+ 108:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****  		configPRINTF( ( "boot_count=%d\r\n",boot_count ) );
+ 109:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 	}
+ 110:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #endif
+ 111:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 
+ 112:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****     /* Create the MQTT Client. */
+ 113:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****     if( MQTT_AGENT_Create( &( xMQTTClientHandle ) ) == eMQTTAgentSuccess )
+  58              		.loc 1 113 0
+  59 0028 08008DE2 		add	r0, sp, #8
+  60 002c FEFFFFEB 		bl	MQTT_AGENT_Create
+  61              	.LVL4:
+  62 0030 000050E3 		cmp	r0, #0
+  63 0034 4000001A 		bne	.L2
+ 114:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****     {
+ 115:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****         for ( ; ; )
+ 116:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****         {
+ 117:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             configPRINTF( ( "Connecting to broker...\r\n" ) );
+  64              		.loc 1 117 0
+  65 0038 20519FE5 		ldr	r5, .L11+12
+ 118:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             memset( &xConnectParams, 0, sizeof( xConnectParams ) );
+ 119:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             xConnectParams.pucClientId = ( const uint8_t * ) ( clientcredentialIOT_THING_NAME );
+ 120:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             xConnectParams.usClientIdLength = sizeof( clientcredentialIOT_THING_NAME ) - 1; /* Leng
+ 121:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             xConnectParams.pcURL = clientcredentialMQTT_BROKER_ENDPOINT;
+ 122:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             xConnectParams.usPort = clientcredentialMQTT_BROKER_PORT;
+ 123:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             xConnectParams.pcCertificate = NULL;
+ 124:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             xConnectParams.ulCertificateSize = 0;
+ 125:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             xConnectParams.pvUserData = NULL;
+ 126:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             xConnectParams.pxCallback = NULL;
+ 127:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             xConnectParams.xFlags = democonfigMQTT_AGENT_CONNECT_FLAGS;
+ 128:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 
+ 129:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             /* Connect to the broker. */
+ 130:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             if( MQTT_AGENT_Connect( xMQTTClientHandle, &( xConnectParams ), myappMAX_AWS_CONNECT_WA
+ 131:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             {
+ 132:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #if defined(__IDT_MODE__)
+ 133:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                 extern uint32_t wifi_reset_req;
+ 134:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 				uint32_t ota_finishcount = 0;
+ 135:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #endif
+ 136:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                 configPRINTF( ( "Connected to broker.\r\n" ) );
+ 137:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                 OTA_AgentInit( xMQTTClientHandle, ( const uint8_t * ) ( clientcredentialIOT_THING_N
+ 138:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #if defined(__IDT_MODE__)
+ 139:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 				if( boot_count == 5 ) {
+ 140:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                    vStartOTAWifiOffTask();
+ 141:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 				}
+ 142:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 				else if( boot_count == 6 ) {
+ 143:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                    vStartOTAWifiOffTask();
+ 144:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 				}
+ 145:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #endif
+ 146:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                 
+ 147:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                 while( ( eState = OTA_GetAgentState() ) != eOTA_AgentState_NotReady )
+ 148:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                 {
+ 149:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                     /* Wait forever for OTA traffic but allow other tasks to run and output statist
+ 150:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                     vTaskDelay( myappONE_SECOND_DELAY_IN_TICKS );
+ 151:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                     configPRINTF( ( "State: %s  Received: %u   Queued: %u   Processed: %u   Dropped
+  66              		.loc 1 151 0
+  67 003c 20619FE5 		ldr	r6, .L11+16
+  68              	.L8:
+ 117:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             memset( &xConnectParams, 0, sizeof( xConnectParams ) );
+  69              		.loc 1 117 0
+  70 0040 0500A0E1 		mov	r0, r5
+ 119:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             xConnectParams.usClientIdLength = sizeof( clientcredentialIOT_THING_NAME ) - 1; /* Leng
+  71              		.loc 1 119 0
+  72 0044 1C419FE5 		ldr	r4, .L11+20
+ 117:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             memset( &xConnectParams, 0, sizeof( xConnectParams ) );
+  73              		.loc 1 117 0
+  74 0048 FEFFFFEB 		bl	vLoggingPrintf
+  75              	.LVL5:
+ 118:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             memset( &xConnectParams, 0, sizeof( xConnectParams ) );
+  76              		.loc 1 118 0
+  77 004c 2C20A0E3 		mov	r2, #44
+  78 0050 0010A0E3 		mov	r1, #0
+  79 0054 0C008DE2 		add	r0, sp, #12
+  80 0058 FEFFFFEB 		bl	memset
+  81              	.LVL6:
+ 120:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             xConnectParams.pcURL = clientcredentialMQTT_BROKER_ENDPOINT;
+  82              		.loc 1 120 0
+  83 005c 1730A0E3 		mov	r3, #23
+ 130:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             {
+  84              		.loc 1 130 0
+  85 0060 602A0EE3 		movw	r2, #60000
+ 120:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             xConnectParams.pcURL = clientcredentialMQTT_BROKER_ENDPOINT;
+  86              		.loc 1 120 0
+  87 0064 B032CDE1 		strh	r3, [sp, #32]	@ movhi
+ 130:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             {
+  88              		.loc 1 130 0
+  89 0068 0C108DE2 		add	r1, sp, #12
+ 121:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             xConnectParams.usPort = clientcredentialMQTT_BROKER_PORT;
+  90              		.loc 1 121 0
+  91 006c F8309FE5 		ldr	r3, .L11+24
+ 130:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             {
+  92              		.loc 1 130 0
+  93 0070 08009DE5 		ldr	r0, [sp, #8]
+ 119:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             xConnectParams.usClientIdLength = sizeof( clientcredentialIOT_THING_NAME ) - 1; /* Leng
+  94              		.loc 1 119 0
+  95 0074 1C408DE5 		str	r4, [sp, #28]
+ 121:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             xConnectParams.usPort = clientcredentialMQTT_BROKER_PORT;
+  96              		.loc 1 121 0
+  97 0078 0C308DE5 		str	r3, [sp, #12]
+ 122:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             xConnectParams.pcCertificate = NULL;
+  98              		.loc 1 122 0
+  99 007c B33202E3 		movw	r3, #8883
+ 100 0080 B831CDE1 		strh	r3, [sp, #24]	@ movhi
+ 127:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 
+ 101              		.loc 1 127 0
+ 102 0084 0230A0E3 		mov	r3, #2
+ 103 0088 10308DE5 		str	r3, [sp, #16]
+ 130:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             {
+ 104              		.loc 1 130 0
+ 105 008c FEFFFFEB 		bl	MQTT_AGENT_Connect
+ 106              	.LVL7:
+ 107 0090 000050E3 		cmp	r0, #0
+ 108 0094 2600001A 		bne	.L3
+ 109              		.loc 1 151 0
+ 110 0098 D0709FE5 		ldr	r7, .L11+28
+ 136:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                 OTA_AgentInit( xMQTTClientHandle, ( const uint8_t * ) ( clientcredentialIOT_THING_N
+ 111              		.loc 1 136 0
+ 112 009c D0009FE5 		ldr	r0, .L11+32
+ 113 00a0 FEFFFFEB 		bl	vLoggingPrintf
+ 114              	.LVL8:
+ 137:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #if defined(__IDT_MODE__)
+ 115              		.loc 1 137 0
+ 116 00a4 0030E0E3 		mvn	r3, #0
+ 117 00a8 C8209FE5 		ldr	r2, .L11+36
+ 118 00ac 0410A0E1 		mov	r1, r4
+ 119 00b0 08009DE5 		ldr	r0, [sp, #8]
+ 120 00b4 FEFFFFEB 		bl	OTA_AgentInit
+ 121              	.LVL9:
+ 122              	.L4:
+ 147:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                 {
+ 123              		.loc 1 147 0
+ 124 00b8 FEFFFFEB 		bl	OTA_GetAgentState
+ 125              	.LVL10:
+ 126 00bc 004050E2 		subs	r4, r0, #0
+ 127 00c0 0900001A 		bne	.L5
+ 152:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                             OTA_GetPacketsReceived(), OTA_GetPacketsQueued(), OTA_GetPacketsProcess
+ 153:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #if defined(__IDT_MODE__)
+ 154:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 	                if((xAppFirmwareVersion.u.x.ucMajor == 0)
+ 155:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 	                	&&(xAppFirmwareVersion.u.x.ucMinor == 9)
+ 156:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 	                	&&(xAppFirmwareVersion.u.x.usBuild == 3))
+ 157:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 	                {
+ 158:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 	                	if( ++ota_finishcount==50)
+ 159:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 	                	{
+ 160:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 		                    WIFI_Off();
+ 161:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 		                }
+ 162:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 	                }
+ 163:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 					if( wifi_reset_req == 1)
+ 164:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 					{
+ 165:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 	                	if( ++ota_finishcount==5)
+ 166:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 	                	{
+ 167:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 		                    WIFI_Off();
+ 168:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 		                }
+ 169:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 					}
+ 170:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #endif
+ 171:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                 }
+ 172:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                 if ( MQTT_AGENT_Disconnect( xMQTTClientHandle, myappMAX_AWS_DISCONNECT_WAIT_IN_TICK
+ 128              		.loc 1 172 0
+ 129 00c4 601A0EE3 		movw	r1, #60000
+ 130 00c8 08009DE5 		ldr	r0, [sp, #8]
+ 131              	.LVL11:
+ 132 00cc FEFFFFEB 		bl	MQTT_AGENT_Disconnect
+ 133              	.LVL12:
+ 134 00d0 000050E3 		cmp	r0, #0
+ 173:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                 {
+ 174:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                     configPRINTF( ( "Disconnected from MQTT broker\r\n" ) );
+ 135              		.loc 1 174 0
+ 136 00d4 A0009F05 		ldreq	r0, .L11+40
+ 175:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                 }
+ 176:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                 else
+ 177:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                 {
+ 178:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                     configPRINTF( ( "Error trying to disconnect from MQTT broker\r\n" ) );
+ 137              		.loc 1 178 0
+ 138 00d8 A0009F15 		ldrne	r0, .L11+44
+ 139              	.L10:
+ 179:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                 }
+ 180:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #if defined(__IDT_MODE__)
+ 181:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                 WIFI_Off();
+ 182:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #endif
+ 183:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             }
+ 184:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             else
+ 185:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             {
+ 186:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                 configPRINTF( ( "ERROR:  MQTT_AGENT_Connect() Failed.\r\n" ) );
+ 140              		.loc 1 186 0
+ 141 00dc FEFFFFEB 		bl	vLoggingPrintf
+ 142              	.LVL13:
+ 187:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #if defined(__IDT_MODE__)
+ 188:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                 WIFI_Off();
+ 189:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #endif
+ 190:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             }
+ 191:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             /* After failure to connect or a disconnect, wait an arbitrary one second before retry.
+ 192:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             vTaskDelay( myappONE_SECOND_DELAY_IN_TICKS );
+ 143              		.loc 1 192 0
+ 144 00e0 FA0FA0E3 		mov	r0, #1000
+ 145 00e4 FEFFFFEB 		bl	vTaskDelay
+ 146              	.LVL14:
+ 117:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             memset( &xConnectParams, 0, sizeof( xConnectParams ) );
+ 147              		.loc 1 117 0
+ 148 00e8 D4FFFFEA 		b	.L8
+ 149              	.LVL15:
+ 150              	.L5:
+ 150:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                     configPRINTF( ( "State: %s  Received: %u   Queued: %u   Processed: %u   Dropped
+ 151              		.loc 1 150 0
+ 152 00ec FA0FA0E3 		mov	r0, #1000
+ 153              	.LVL16:
+ 154 00f0 FEFFFFEB 		bl	vTaskDelay
+ 155              	.LVL17:
+ 151:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                             OTA_GetPacketsReceived(), OTA_GetPacketsQueued(), OTA_GetPacketsProcess
+ 156              		.loc 1 151 0
+ 157 00f4 044196E7 		ldr	r4, [r6, r4, lsl #2]
+ 158 00f8 FEFFFFEB 		bl	OTA_GetPacketsReceived
+ 159              	.LVL18:
+ 160 00fc 0080A0E1 		mov	r8, r0
+ 161 0100 FEFFFFEB 		bl	OTA_GetPacketsQueued
+ 162              	.LVL19:
+ 163 0104 0090A0E1 		mov	r9, r0
+ 164 0108 FEFFFFEB 		bl	OTA_GetPacketsProcessed
+ 165              	.LVL20:
+ 166 010c 00A0A0E1 		mov	r10, r0
+ 167 0110 FEFFFFEB 		bl	OTA_GetPacketsDropped
+ 168              	.LVL21:
+ 169 0114 00A08DE5 		str	r10, [sp]
+ 170 0118 0930A0E1 		mov	r3, r9
+ 171 011c 04008DE5 		str	r0, [sp, #4]
+ 172 0120 0820A0E1 		mov	r2, r8
+ 173 0124 0410A0E1 		mov	r1, r4
+ 174 0128 0700A0E1 		mov	r0, r7
+ 175 012c FEFFFFEB 		bl	vLoggingPrintf
+ 176              	.LVL22:
+ 177 0130 E0FFFFEA 		b	.L4
+ 178              	.L3:
+ 186:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #if defined(__IDT_MODE__)
+ 179              		.loc 1 186 0
+ 180 0134 48009FE5 		ldr	r0, .L11+48
+ 181 0138 E7FFFFEA 		b	.L10
+ 182              	.L2:
+ 193:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****         }
+ 194:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****     }
+ 195:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****     else
+ 196:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****     {
+ 197:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****         configPRINTF( ( "Failed to create MQTT client.\r\n" ) );
+ 183              		.loc 1 197 0
+ 184 013c 44009FE5 		ldr	r0, .L11+52
+ 185 0140 FEFFFFEB 		bl	vLoggingPrintf
+ 186              	.LVL23:
+ 198:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****     }
+ 199:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 
+ 200:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****     /* All done.  FreeRTOS does not allow a task to run off the end of its
+ 201:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****      * implementing function, so the task must be deleted. */
+ 202:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****     vTaskDelete( NULL );
+ 187              		.loc 1 202 0
+ 188 0144 0000A0E3 		mov	r0, #0
+ 189 0148 FEFFFFEB 		bl	vTaskDelete
+ 190              	.LVL24:
+ 203:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** }
+ 191              		.loc 1 203 0
+ 192 014c 38D08DE2 		add	sp, sp, #56
+ 193              		.cfi_def_cfa_offset 32
+ 194              		@ sp needed
+ 195 0150 F087BDE8 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 196              	.L12:
+ 197              		.align	2
+ 198              	.L11:
+ 199 0154 00000000 		.word	xAppFirmwareVersion
+ 200 0158 00000000 		.word	.LC0
+ 201 015c 1C000000 		.word	.LC1
+ 202 0160 36000000 		.word	.LC2
+ 203 0164 00000000 		.word	.LANCHOR1
+ 204 0168 50000000 		.word	.LC3
+ 205 016c 00000000 		.word	.LANCHOR0
+ 206 0170 7F000000 		.word	.LC5
+ 207 0174 68000000 		.word	.LC4
+ 208 0178 00000000 		.word	App_OTACompleteCallback
+ 209 017c C4000000 		.word	.LC6
+ 210 0180 E4000000 		.word	.LC7
+ 211 0184 12010000 		.word	.LC8
+ 212 0188 39010000 		.word	.LC9
+ 213              		.cfi_endproc
+ 214              	.LFE1:
+ 216              		.section	.text.App_OTACompleteCallback,"ax",%progbits
+ 217              		.align	2
+ 218              		.syntax unified
+ 219              		.arm
+ 220              		.fpu neon
+ 222              	App_OTACompleteCallback:
+ 223              	.LFB2:
+ 204:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 
+ 205:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 
+ 206:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** /* The OTA agent has completed the update job or determined that we're in
+ 207:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****  * self test mode. If it was accepted, we want to activate the new image.
+ 208:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****  * This typically means we should reset the device to run the new firmware.
+ 209:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****  * If now is not a good time to reset the device, it may be activated later
+ 210:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****  * by your user code. If the update was rejected, just return without doing
+ 211:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****  * anything and we'll wait for another job. If it reported that we should
+ 212:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****  * start test mode, normally we would perform some kind of system checks to
+ 213:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****  * make sure our new firmware does the basic things we think it should do
+ 214:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****  * but we'll just go ahead and set the image as accepted for demo purposes.
+ 215:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****  * The accept function varies depending on your platform. Refer to the OTA
+ 216:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****  * PAL implementation for your platform in aws_ota_pal.c to see what it
+ 217:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****  * does for you.
+ 218:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****  */
+ 219:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 
+ 220:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** static void App_OTACompleteCallback( OTA_JobEvent_t eEvent )
+ 221:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** {
+ 224              		.loc 1 221 0
+ 225              		.cfi_startproc
+ 226              		@ args = 0, pretend = 0, frame = 0
+ 227              		@ frame_needed = 0, uses_anonymous_args = 0
+ 228              	.LVL25:
+ 229 0000 10402DE9 		push	{r4, lr}
+ 230              		.cfi_def_cfa_offset 8
+ 231              		.cfi_offset 4, -8
+ 232              		.cfi_offset 14, -4
+ 222:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 	OTA_Err_t xErr = kOTA_Err_Uninitialized;
+ 223:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 	
+ 224:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****     if ( eEvent == eOTA_JobEvent_Activate )
+ 233              		.loc 1 224 0
+ 234 0004 004050E2 		subs	r4, r0, #0
+ 235 0008 0300001A 		bne	.L14
+ 225:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****     {
+ 226:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****         configPRINTF( ( "Received eOTA_JobEvent_Activate callback from OTA Agent.\r\n" ) );
+ 236              		.loc 1 226 0
+ 237 000c 40009FE5 		ldr	r0, .L24
+ 238              	.LVL26:
+ 239 0010 FEFFFFEB 		bl	vLoggingPrintf
+ 240              	.LVL27:
+ 227:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****         OTA_ActivateNewImage();
+ 228:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****     }
+ 229:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****     else if (eEvent == eOTA_JobEvent_Fail)
+ 230:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****     {
+ 231:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****         configPRINTF( ( "Received eOTA_JobEvent_Fail callback from OTA Agent.\r\n" ) );
+ 232:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****         /* Nothing special to do. The OTA agent handles it. */
+ 233:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****     }
+ 234:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 	else if (eEvent == eOTA_JobEvent_StartTest)
+ 235:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 	{
+ 236:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 		/* This demo just accepts the image since it was a good OTA update and networking
+ 237:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 		 * and services are all working (or we wouldn't have made it this far). If this
+ 238:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 		 * were some custom device that wants to test other things before calling it OK,
+ 239:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 		 * this would be the place to kick off those tests before calling OTA_SetImageState()
+ 240:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 		 * with the final result of either accepted or rejected. */
+ 241:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****         configPRINTF( ( "Received eOTA_JobEvent_StartTest callback from OTA Agent.\r\n" ) );
+ 242:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 	xErr = OTA_SetImageState (eOTA_ImageState_Accepted);
+ 243:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****         if( xErr != kOTA_Err_None )
+ 244:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****         {
+ 245:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****             OTA_LOG_L1( " Error! Failed to set image state as accepted.\r\n" );    
+ 246:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****         }
+ 247:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 	}
+ 248:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** }
+ 241              		.loc 1 248 0
+ 242 0014 1040BDE8 		pop	{r4, lr}
+ 243              		.cfi_remember_state
+ 244              		.cfi_restore 14
+ 245              		.cfi_restore 4
+ 246              		.cfi_def_cfa_offset 0
+ 227:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****         OTA_ActivateNewImage();
+ 247              		.loc 1 227 0
+ 248 0018 FEFFFFEA 		b	OTA_ActivateNewImage
+ 249              	.LVL28:
+ 250              	.L14:
+ 251              		.cfi_restore_state
+ 229:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****     {
+ 252              		.loc 1 229 0
+ 253 001c 010054E3 		cmp	r4, #1
+ 231:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****         /* Nothing special to do. The OTA agent handles it. */
+ 254              		.loc 1 231 0
+ 255 0020 30009F05 		ldreq	r0, .L24+4
+ 256              	.LVL29:
+ 229:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****     {
+ 257              		.loc 1 229 0
+ 258 0024 0800000A 		beq	.L23
+ 234:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 	{
+ 259              		.loc 1 234 0
+ 260 0028 020054E3 		cmp	r4, #2
+ 261 002c 1080BD18 		popne	{r4, pc}
+ 262              	.LVL30:
+ 263              	.LBB4:
+ 264              	.LBB5:
+ 241:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 	xErr = OTA_SetImageState (eOTA_ImageState_Accepted);
+ 265              		.loc 1 241 0
+ 266 0030 24009FE5 		ldr	r0, .L24+8
+ 267 0034 FEFFFFEB 		bl	vLoggingPrintf
+ 268              	.LVL31:
+ 242:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****         if( xErr != kOTA_Err_None )
+ 269              		.loc 1 242 0
+ 270 0038 0400A0E1 		mov	r0, r4
+ 271 003c FEFFFFEB 		bl	OTA_SetImageState
+ 272              	.LVL32:
+ 243:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****         {
+ 273              		.loc 1 243 0
+ 274 0040 000050E3 		cmp	r0, #0
+ 275 0044 1080BD08 		popeq	{r4, pc}
+ 245:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****         }
+ 276              		.loc 1 245 0
+ 277 0048 10009FE5 		ldr	r0, .L24+12
+ 278              	.LVL33:
+ 279              	.L23:
+ 280              	.LBE5:
+ 281              	.LBE4:
+ 282              		.loc 1 248 0
+ 283 004c 1040BDE8 		pop	{r4, lr}
+ 284              		.cfi_restore 14
+ 285              		.cfi_restore 4
+ 286              		.cfi_def_cfa_offset 0
+ 287              	.LBB7:
+ 288              	.LBB6:
+ 245:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****         }
+ 289              		.loc 1 245 0
+ 290 0050 FEFFFFEA 		b	vLoggingPrintf
+ 291              	.LVL34:
+ 292              	.L25:
+ 293              		.align	2
+ 294              	.L24:
+ 295 0054 00000000 		.word	.LC10
+ 296 0058 3B000000 		.word	.LC11
+ 297 005c 72000000 		.word	.LC12
+ 298 0060 AE000000 		.word	.LC13
+ 299              	.LBE6:
+ 300              	.LBE7:
+ 301              		.cfi_endproc
+ 302              	.LFE2:
+ 304              		.section	.text.vStartOTAUpdateDemoTask,"ax",%progbits
+ 305              		.align	2
+ 306              		.global	vStartOTAUpdateDemoTask
+ 307              		.syntax unified
+ 308              		.arm
+ 309              		.fpu neon
+ 311              	vStartOTAUpdateDemoTask:
+ 312              	.LFB3:
+ 249:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 
+ 250:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 
+ 251:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** /*-----------------------------------------------------------*/
+ 252:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #if defined(__IDT_MODE__)
+ 253:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** extern volatile int_t ota_mode;
+ 254:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #endif
+ 255:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** void vStartOTAUpdateDemoTask( void )
+ 256:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** {
+ 313              		.loc 1 256 0
+ 314              		.cfi_startproc
+ 315              		@ args = 0, pretend = 0, frame = 0
+ 316              		@ frame_needed = 0, uses_anonymous_args = 0
+ 257:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #if defined(__IDT_MODE__)
+ 258:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** 	ota_mode = 1;
+ 259:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #endif
+ 260:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****     xTaskCreate( vOTAUpdateDemoTask,
+ 317              		.loc 1 260 0
+ 318 0000 0030A0E3 		mov	r3, #0
+ 256:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** #if defined(__IDT_MODE__)
+ 319              		.loc 1 256 0
+ 320 0004 07402DE9 		push	{r0, r1, r2, lr}
+ 321              		.cfi_def_cfa_offset 16
+ 322              		.cfi_offset 14, -4
+ 323              		.loc 1 260 0
+ 324 0008 022BA0E3 		mov	r2, #2048
+ 325 000c 04308DE5 		str	r3, [sp, #4]
+ 326 0010 00308DE5 		str	r3, [sp]
+ 327 0014 0C109FE5 		ldr	r1, .L28
+ 328 0018 0C009FE5 		ldr	r0, .L28+4
+ 329 001c FEFFFFEB 		bl	xTaskCreate
+ 330              	.LVL35:
+ 261:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                  "OTA",
+ 262:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                  democonfigOTA_UPDATE_TASK_STACK_SIZE,
+ 263:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                  NULL,
+ 264:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                  democonfigOTA_UPDATE_TASK_TASK_PRIORITY,
+ 265:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c ****                  NULL );
+ 266:D:/Work/DeviceTester/amazon-freertos/demos/common/ota\aws_ota_update_demo.c **** }
+ 331              		.loc 1 266 0
+ 332 0020 0CD08DE2 		add	sp, sp, #12
+ 333              		.cfi_def_cfa_offset 4
+ 334              		@ sp needed
+ 335 0024 04F09DE4 		ldr	pc, [sp], #4
+ 336              	.L29:
+ 337              		.align	2
+ 338              	.L28:
+ 339 0028 00000000 		.word	.LC14
+ 340 002c 00000000 		.word	vOTAUpdateDemoTask
+ 341              		.cfi_endproc
+ 342              	.LFE3:
+ 344              		.section	.rodata.App_OTACompleteCallback.str1.1,"aMS",%progbits,1
+ 345              	.LC10:
+ 346 0000 52656365 		.ascii	"Received eOTA_JobEvent_Activate callback from OTA A"
+ 346      69766564 
+ 346      20654F54 
+ 346      415F4A6F 
+ 346      62457665 
+ 347 0033 67656E74 		.ascii	"gent.\015\012\000"
+ 347      2E0D0A00 
+ 348              	.LC11:
+ 349 003b 52656365 		.ascii	"Received eOTA_JobEvent_Fail callback from OTA Agent"
+ 349      69766564 
+ 349      20654F54 
+ 349      415F4A6F 
+ 349      62457665 
+ 350 006e 2E0D0A00 		.ascii	".\015\012\000"
+ 351              	.LC12:
+ 352 0072 52656365 		.ascii	"Received eOTA_JobEvent_StartTest callback from OTA "
+ 352      69766564 
+ 352      20654F54 
+ 352      415F4A6F 
+ 352      62457665 
+ 353 00a5 4167656E 		.ascii	"Agent.\015\012\000"
+ 353      742E0D0A 
+ 353      00
+ 354              	.LC13:
+ 355 00ae 20457272 		.ascii	" Error! Failed to set image state as accepted.\015\012"
+ 355      6F722120 
+ 355      4661696C 
+ 355      65642074 
+ 355      6F207365 
+ 356 00de 00       		.ascii	"\000"
+ 357              		.section	.rodata.clientcredentialMQTT_BROKER_ENDPOINT,"a",%progbits
+ 358              		.set	.LANCHOR0,. + 0
+ 361              	clientcredentialMQTT_BROKER_ENDPOINT:
+ 362 0000 61333369 		.ascii	"a33i4lqfcxqo2.iot.ap-northeast-1.amazonaws.com\000"
+ 362      346C7166 
+ 362      6378716F 
+ 362      322E696F 
+ 362      742E6170 
+ 363              		.section	.rodata.pcStateStr,"a",%progbits
+ 364              		.align	2
+ 365              		.set	.LANCHOR1,. + 0
+ 368              	pcStateStr:
+ 369 0000 00000000 		.word	.LC15
+ 370 0004 0A000000 		.word	.LC16
+ 371 0008 10000000 		.word	.LC17
+ 372 000c 17000000 		.word	.LC18
+ 373              		.section	.rodata.str1.1,"aMS",%progbits,1
+ 374              	.LC15:
+ 375 0000 4E6F7420 		.ascii	"Not Ready\000"
+ 375      52656164 
+ 375      7900
+ 376              	.LC16:
+ 377 000a 52656164 		.ascii	"Ready\000"
+ 377      7900
+ 378              	.LC17:
+ 379 0010 41637469 		.ascii	"Active\000"
+ 379      766500
+ 380              	.LC18:
+ 381 0017 53687574 		.ascii	"Shutting down\000"
+ 381      74696E67 
+ 381      20646F77 
+ 381      6E00
+ 382              		.section	.rodata.vOTAUpdateDemoTask.str1.1,"aMS",%progbits,1
+ 383              	.LC0:
+ 384 0000 4F544120 		.ascii	"OTA demo version %u.%u.%u\015\012\000"
+ 384      64656D6F 
+ 384      20766572 
+ 384      73696F6E 
+ 384      2025752E 
+ 385              	.LC1:
+ 386 001c 43726561 		.ascii	"Creating MQTT Client...\015\012\000"
+ 386      74696E67 
+ 386      204D5154 
+ 386      5420436C 
+ 386      69656E74 
+ 387              	.LC2:
+ 388 0036 436F6E6E 		.ascii	"Connecting to broker...\015\012\000"
+ 388      65637469 
+ 388      6E672074 
+ 388      6F206272 
+ 388      6F6B6572 
+ 389              	.LC3:
+ 390 0050 6964742D 		.ascii	"idt-6287306328291364584\000"
+ 390      36323837 
+ 390      33303633 
+ 390      32383239 
+ 390      31333634 
+ 391              	.LC4:
+ 392 0068 436F6E6E 		.ascii	"Connected to broker.\015\012\000"
+ 392      65637465 
+ 392      6420746F 
+ 392      2062726F 
+ 392      6B65722E 
+ 393              	.LC5:
+ 394 007f 53746174 		.ascii	"State: %s  Received: %u   Queued: %u   Processed: %"
+ 394      653A2025 
+ 394      73202052 
+ 394      65636569 
+ 394      7665643A 
+ 395 00b2 75202020 		.ascii	"u   Dropped: %u\015\012\000"
+ 395      44726F70 
+ 395      7065643A 
+ 395      2025750D 
+ 395      0A00
+ 396              	.LC6:
+ 397 00c4 44697363 		.ascii	"Disconnected from MQTT broker\015\012\000"
+ 397      6F6E6E65 
+ 397      63746564 
+ 397      2066726F 
+ 397      6D204D51 
+ 398              	.LC7:
+ 399 00e4 4572726F 		.ascii	"Error trying to disconnect from MQTT broker\015\012"
+ 399      72207472 
+ 399      79696E67 
+ 399      20746F20 
+ 399      64697363 
+ 400 0111 00       		.ascii	"\000"
+ 401              	.LC8:
+ 402 0112 4552524F 		.ascii	"ERROR:  MQTT_AGENT_Connect() Failed.\015\012\000"
+ 402      523A2020 
+ 402      4D515454 
+ 402      5F414745 
+ 402      4E545F43 
+ 403              	.LC9:
+ 404 0139 4661696C 		.ascii	"Failed to create MQTT client.\015\012\000"
+ 404      65642074 
+ 404      6F206372 
+ 404      65617465 
+ 404      204D5154 
+ 405              		.section	.rodata.vStartOTAUpdateDemoTask.str1.1,"aMS",%progbits,1
+ 406              	.LC14:
+ 407 0000 4F544100 		.ascii	"OTA\000"
+ 408              		.text
+ 409              	.Letext0:
+ 410              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 411              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 412              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 413              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 414              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 415              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 416              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 417              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 418              		.file 10 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\src/unity_internals.h"
+ 419              		.file 11 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS\\portable\\GCC\\ARM_CA9_RZA2M/por
+ 420              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include\\private/aws_mqtt_buffer.h"
+ 421              		.file 13 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/aws_mqtt_lib.h"
+ 422              		.file 14 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/aws_mqtt_agent.h"
+ 423              		.file 15 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\common\\include/aws_clientcredential_key
+ 424              		.file 16 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/aws_ota_agent.h"
+ 425              		.file 17 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/aws_appversion32.h"
+ 426              		.file 18 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\common\\include/aws_application_version.
+ 427              		.file 19 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\common\\include/aws_clientcredential.h"
+ 428              		.file 20 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/task.h"
+ 429              		.file 21 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\common\\include/aws_logging_task.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 aws_ota_update_demo.c
+C:\Users\a5089698\AppData\Local\Temp\ccBJF7uK.s:17     .text.vOTAUpdateDemoTask:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccBJF7uK.s:23     .text.vOTAUpdateDemoTask:00000000 vOTAUpdateDemoTask
+C:\Users\a5089698\AppData\Local\Temp\ccBJF7uK.s:199    .text.vOTAUpdateDemoTask:00000154 $d
+C:\Users\a5089698\AppData\Local\Temp\ccBJF7uK.s:222    .text.App_OTACompleteCallback:00000000 App_OTACompleteCallback
+C:\Users\a5089698\AppData\Local\Temp\ccBJF7uK.s:217    .text.App_OTACompleteCallback:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccBJF7uK.s:295    .text.App_OTACompleteCallback:00000054 $d
+C:\Users\a5089698\AppData\Local\Temp\ccBJF7uK.s:305    .text.vStartOTAUpdateDemoTask:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccBJF7uK.s:311    .text.vStartOTAUpdateDemoTask:00000000 vStartOTAUpdateDemoTask
+C:\Users\a5089698\AppData\Local\Temp\ccBJF7uK.s:339    .text.vStartOTAUpdateDemoTask:00000028 $d
+C:\Users\a5089698\AppData\Local\Temp\ccBJF7uK.s:361    .rodata.clientcredentialMQTT_BROKER_ENDPOINT:00000000 clientcredentialMQTT_BROKER_ENDPOINT
+C:\Users\a5089698\AppData\Local\Temp\ccBJF7uK.s:364    .rodata.pcStateStr:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccBJF7uK.s:368    .rodata.pcStateStr:00000000 pcStateStr
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+vLoggingPrintf
+MQTT_AGENT_Create
+memset
+MQTT_AGENT_Connect
+OTA_AgentInit
+OTA_GetAgentState
+MQTT_AGENT_Disconnect
+vTaskDelay
+OTA_GetPacketsReceived
+OTA_GetPacketsQueued
+OTA_GetPacketsProcessed
+OTA_GetPacketsDropped
+vTaskDelete
+xAppFirmwareVersion
+OTA_ActivateNewImage
+OTA_SetImageState
+xTaskCreate

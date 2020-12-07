@@ -1,0 +1,759 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"aws_logging_task_dynamic_buffers.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.prvLoggingTask,"ax",%progbits
+  17              		.align	2
+  18              		.syntax unified
+  19              		.arm
+  20              		.fpu neon
+  22              	prvLoggingTask:
+  23              	.LFB2:
+  24              		.file 1 "D:/Work/DeviceTester/amazon-freertos/demos/common/logging/aws_logging_task_dynamic_buffer
+   1:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** /*
+   2:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * Amazon FreeRTOS V1.4.7
+   3:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * Copyright (C) 2017 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+   4:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  *
+   5:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * Permission is hereby granted, free of charge, to any person obtaining a copy of
+   6:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * this software and associated documentation files (the "Software"), to deal in
+   7:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * the Software without restriction, including without limitation the rights to
+   8:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+   9:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * the Software, and to permit persons to whom the Software is furnished to do so,
+  10:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * subject to the following conditions:
+  11:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  *
+  12:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * The above copyright notice and this permission notice shall be included in all
+  13:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * copies or substantial portions of the Software.
+  14:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  *
+  15:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  16:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+  17:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+  18:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+  19:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  20:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  21:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  *
+  22:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * http://aws.amazon.com/freertos
+  23:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * http://www.FreeRTOS.org
+  24:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  */
+  25:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+  26:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+  27:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** /*
+  28:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  */
+  29:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+  30:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** /* FreeRTOS includes. */
+  31:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** #include "FreeRTOS.h"
+  32:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** #include "task.h"
+  33:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** #include "queue.h"
+  34:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+  35:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** /* Logging includes. */
+  36:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** #include "aws_logging_task.h"
+  37:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+  38:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** /* Standard includes. */
+  39:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** #include <stdio.h>
+  40:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** #include <stdarg.h>
+  41:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** #include <string.h>
+  42:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+  43:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** /* Sanity check all the definitions required by this file are set. */
+  44:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** #ifndef configPRINT_STRING
+  45:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     #error configPRINT_STRING( x ) must be defined in FreeRTOSConfig.h to use this logging file.  S
+  46:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** #endif
+  47:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+  48:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** #ifndef configLOGGING_MAX_MESSAGE_LENGTH
+  49:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     #error configLOGGING_MAX_MESSAGE_LENGTH must be defined in FreeRTOSConfig.h to use this logging
+  50:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** #endif
+  51:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+  52:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** #ifndef configLOGGING_INCLUDE_TIME_AND_TASK_NAME
+  53:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     #error configLOGGING_INCLUDE_TIME_AND_TASK_NAME must be defined in FreeRTOSConfig.h to use this
+  54:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** #endif
+  55:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+  56:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** /* A block time of 0 just means don't block. */
+  57:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** #define loggingDONT_BLOCK 0
+  58:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+  59:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** /*-----------------------------------------------------------*/
+  60:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+  61:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** /*
+  62:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * The task that actually performs the print output.  Using a separate task
+  63:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * enables the use of slow output, such as as a UART, without the task that is
+  64:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * outputting the log message having to wait for the message to be completely
+  65:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * written.  Using a separate task also serialises access to the output port.
+  66:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  *
+  67:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * The structure of this task is very simple; it blocks on a queue to wait for
+  68:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * a pointer to a string, sending any received strings to a macro that performs
+  69:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * the actual output.  The macro is port specific, so implemented outside of
+  70:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * this file.  This version uses dynamic memory, so the buffer that contained
+  71:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * the log message is freed after it has been output.
+  72:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  */
+  73:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** static void prvLoggingTask( void * pvParameters );
+  74:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+  75:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** /*-----------------------------------------------------------*/
+  76:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+  77:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** /*
+  78:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * The queue used to pass pointers to log messages from the task that created
+  79:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * the message to the task that will performs the output.
+  80:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  */
+  81:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** static QueueHandle_t xQueue = NULL;
+  82:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+  83:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** /*-----------------------------------------------------------*/
+  84:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+  85:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** BaseType_t xLoggingTaskInitialize( uint16_t usStackSize, UBaseType_t uxPriority, UBaseType_t uxQueu
+  86:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** {
+  87:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     BaseType_t xReturn = pdFAIL;
+  88:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+  89:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     /* Ensure the logging task has not been created already. */
+  90:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     if( xQueue == NULL )
+  91:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     {
+  92:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         /* Create the queue used to pass pointers to strings to the logging task. */
+  93:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         xQueue = xQueueCreate( uxQueueLength, sizeof( char ** ) );
+  94:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+  95:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         if( xQueue != NULL )
+  96:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         {
+  97:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             if( xTaskCreate( prvLoggingTask, "Logging", usStackSize, NULL, uxPriority, NULL ) == pd
+  98:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             {
+  99:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****                 xReturn = pdPASS;
+ 100:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             }
+ 101:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             else
+ 102:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             {
+ 103:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****                 /* Could not create the task, so delete the queue again. */
+ 104:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****                 vQueueDelete( xQueue );
+ 105:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             }
+ 106:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         }
+ 107:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     }
+ 108:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+ 109:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     return xReturn;
+ 110:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** }
+ 111:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** /*-----------------------------------------------------------*/
+ 112:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+ 113:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** static void prvLoggingTask( void *pvParameters )
+ 114:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** {
+  25              		.loc 1 114 0
+  26              		.cfi_startproc
+  27              		@ Volatile: function does not return.
+  28              		@ args = 0, pretend = 0, frame = 8
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              	.LVL0:
+ 115:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     char *pcReceivedString = NULL;
+ 116:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+ 117:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     for( ;; )
+ 118:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     {
+ 119:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         /* Block to wait for the next string to print. */
+ 120:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         if( xQueueReceive( xQueue, &pcReceivedString, portMAX_DELAY ) == pdPASS )
+  31              		.loc 1 120 0
+  32 0000 38509FE5 		ldr	r5, .L6
+ 115:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     char *pcReceivedString = NULL;
+  33              		.loc 1 115 0
+  34 0004 0030A0E3 		mov	r3, #0
+ 114:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     char *pcReceivedString = NULL;
+  35              		.loc 1 114 0
+  36 0008 07402DE9 		push	{r0, r1, r2, lr}
+  37              		.cfi_def_cfa_offset 16
+  38              		.cfi_offset 14, -4
+ 115:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     char *pcReceivedString = NULL;
+  39              		.loc 1 115 0
+  40 000c 08408DE2 		add	r4, sp, #8
+  41 0010 043024E5 		str	r3, [r4, #-4]!
+  42              	.LVL1:
+  43              	.L2:
+  44              		.loc 1 120 0
+  45 0014 0020E0E3 		mvn	r2, #0
+  46 0018 0410A0E1 		mov	r1, r4
+  47 001c 000095E5 		ldr	r0, [r5]
+  48 0020 FEFFFFEB 		bl	xQueueReceive
+  49              	.LVL2:
+  50 0024 010050E3 		cmp	r0, #1
+  51 0028 F9FFFF1A 		bne	.L2
+ 121:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         {
+ 122:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             configPRINT_STRING( pcReceivedString );
+  52              		.loc 1 122 0
+  53 002c 04009DE5 		ldr	r0, [sp, #4]
+  54 0030 FEFFFFEB 		bl	printf
+  55              	.LVL3:
+ 123:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             vPortFree( ( void * ) pcReceivedString );
+  56              		.loc 1 123 0
+  57 0034 04009DE5 		ldr	r0, [sp, #4]
+  58 0038 FEFFFFEB 		bl	vPortFree
+  59              	.LVL4:
+  60 003c F4FFFFEA 		b	.L2
+  61              	.L7:
+  62              		.align	2
+  63              	.L6:
+  64 0040 00000000 		.word	.LANCHOR0
+  65              		.cfi_endproc
+  66              	.LFE2:
+  68              		.section	.text.xLoggingTaskInitialize,"ax",%progbits
+  69              		.align	2
+  70              		.global	xLoggingTaskInitialize
+  71              		.syntax unified
+  72              		.arm
+  73              		.fpu neon
+  75              	xLoggingTaskInitialize:
+  76              	.LFB1:
+  86:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     BaseType_t xReturn = pdFAIL;
+  77              		.loc 1 86 0
+  78              		.cfi_startproc
+  79              		@ args = 0, pretend = 0, frame = 0
+  80              		@ frame_needed = 0, uses_anonymous_args = 0
+  81              	.LVL5:
+  82 0000 F7402DE9 		push	{r0, r1, r2, r4, r5, r6, r7, lr}
+  83              		.cfi_def_cfa_offset 32
+  84              		.cfi_offset 4, -20
+  85              		.cfi_offset 5, -16
+  86              		.cfi_offset 6, -12
+  87              		.cfi_offset 7, -8
+  88              		.cfi_offset 14, -4
+  90:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     {
+  89              		.loc 1 90 0
+  90 0004 6C509FE5 		ldr	r5, .L17
+  91 0008 004095E5 		ldr	r4, [r5]
+  92 000c 000054E3 		cmp	r4, #0
+  93 0010 0200000A 		beq	.L9
+  94              	.LVL6:
+  95              	.L11:
+  87:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+  96              		.loc 1 87 0
+  97 0014 0000A0E3 		mov	r0, #0
+  98              	.L8:
+ 110:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** /*-----------------------------------------------------------*/
+  99              		.loc 1 110 0
+ 100 0018 0CD08DE2 		add	sp, sp, #12
+ 101              		.cfi_remember_state
+ 102              		.cfi_def_cfa_offset 20
+ 103              		@ sp needed
+ 104 001c F080BDE8 		pop	{r4, r5, r6, r7, pc}
+ 105              	.LVL7:
+ 106              	.L9:
+ 107              		.cfi_restore_state
+ 108 0020 0060A0E1 		mov	r6, r0
+ 109 0024 0170A0E1 		mov	r7, r1
+ 110 0028 0200A0E1 		mov	r0, r2
+ 111              	.LVL8:
+  93:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+ 112              		.loc 1 93 0
+ 113 002c 0410A0E3 		mov	r1, #4
+ 114              	.LVL9:
+ 115 0030 0420A0E1 		mov	r2, r4
+ 116              	.LVL10:
+ 117 0034 FEFFFFEB 		bl	xQueueGenericCreate
+ 118              	.LVL11:
+  95:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         {
+ 119              		.loc 1 95 0
+ 120 0038 000050E3 		cmp	r0, #0
+  93:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+ 121              		.loc 1 93 0
+ 122 003c 000085E5 		str	r0, [r5]
+  95:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         {
+ 123              		.loc 1 95 0
+ 124 0040 F3FFFF0A 		beq	.L11
+  97:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             {
+ 125              		.loc 1 97 0
+ 126 0044 04408DE5 		str	r4, [sp, #4]
+ 127 0048 0430A0E1 		mov	r3, r4
+ 128 004c 00708DE5 		str	r7, [sp]
+ 129 0050 0620A0E1 		mov	r2, r6
+ 130 0054 20109FE5 		ldr	r1, .L17+4
+ 131 0058 20009FE5 		ldr	r0, .L17+8
+ 132 005c FEFFFFEB 		bl	xTaskCreate
+ 133              	.LVL12:
+ 134 0060 010050E3 		cmp	r0, #1
+ 135 0064 EBFFFF0A 		beq	.L8
+ 104:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             }
+ 136              		.loc 1 104 0
+ 137 0068 000095E5 		ldr	r0, [r5]
+ 138 006c FEFFFFEB 		bl	vQueueDelete
+ 139              	.LVL13:
+  87:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+ 140              		.loc 1 87 0
+ 141 0070 0400A0E1 		mov	r0, r4
+ 142 0074 E7FFFFEA 		b	.L8
+ 143              	.L18:
+ 144              		.align	2
+ 145              	.L17:
+ 146 0078 00000000 		.word	.LANCHOR0
+ 147 007c 00000000 		.word	.LC0
+ 148 0080 00000000 		.word	prvLoggingTask
+ 149              		.cfi_endproc
+ 150              	.LFE1:
+ 152              		.section	.text.vLoggingPrintf,"ax",%progbits
+ 153              		.align	2
+ 154              		.global	vLoggingPrintf
+ 155              		.syntax unified
+ 156              		.arm
+ 157              		.fpu neon
+ 159              	vLoggingPrintf:
+ 160              	.LFB3:
+ 124:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         }
+ 125:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     }
+ 126:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** }
+ 127:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** /*-----------------------------------------------------------*/
+ 128:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+ 129:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** /*!
+ 130:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * \brief Formats a string to be printed and sends it
+ 131:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * to the print queue.
+ 132:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  *
+ 133:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * Appends the message number, time (in ticks), and task
+ 134:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * that called vLoggingPrintf to the beginning of each
+ 135:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  * print statement.
+ 136:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  *
+ 137:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****  */
+ 138:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** void vLoggingPrintf( const char *pcFormat, ... )
+ 139:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** {
+ 161              		.loc 1 139 0
+ 162              		.cfi_startproc
+ 163              		@ args = 4, pretend = 16, frame = 8
+ 164              		@ frame_needed = 0, uses_anonymous_args = 1
+ 165              	.LVL14:
+ 166 0000 0F002DE9 		push	{r0, r1, r2, r3}
+ 167              		.cfi_def_cfa_offset 16
+ 168              		.cfi_offset 0, -16
+ 169              		.cfi_offset 1, -12
+ 170              		.cfi_offset 2, -8
+ 171              		.cfi_offset 3, -4
+ 172 0004 F0402DE9 		push	{r4, r5, r6, r7, lr}
+ 173              		.cfi_def_cfa_offset 36
+ 174              		.cfi_offset 4, -36
+ 175              		.cfi_offset 5, -32
+ 176              		.cfi_offset 6, -28
+ 177              		.cfi_offset 7, -24
+ 178              		.cfi_offset 14, -20
+ 140:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     size_t xLength = 0;
+ 141:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     int32_t xLength2 = 0;
+ 142:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     va_list args;
+ 143:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     char *pcPrintString = NULL;
+ 179              		.loc 1 143 0
+ 180 0008 0060A0E3 		mov	r6, #0
+ 139:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     size_t xLength = 0;
+ 181              		.loc 1 139 0
+ 182 000c 14D04DE2 		sub	sp, sp, #20
+ 183              		.cfi_def_cfa_offset 56
+ 144:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+ 145:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     /* The queue is created by xLoggingTaskInitialize().  Check
+ 146:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     xLoggingTaskInitialize() has been called. */
+ 147:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     configASSERT( xQueue );
+ 184              		.loc 1 147 0
+ 185 0010 FC509FE5 		ldr	r5, .L34
+ 143:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+ 186              		.loc 1 143 0
+ 187 0014 0C608DE5 		str	r6, [sp, #12]
+ 188              		.loc 1 147 0
+ 189 0018 003095E5 		ldr	r3, [r5]
+ 190 001c 060053E1 		cmp	r3, r6
+ 191 0020 0200001A 		bne	.L20
+ 192              		.loc 1 147 0 is_stmt 0 discriminator 1
+ 193 0024 0110A0E3 		mov	r1, #1
+ 194 0028 E8009FE5 		ldr	r0, .L34+4
+ 195 002c FEFFFFEB 		bl	longjmp
+ 196              	.LVL15:
+ 197              	.L20:
+ 148:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+ 149:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     /* Allocate a buffer to hold the log message. */
+ 150:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     pcPrintString = pvPortMalloc( configLOGGING_MAX_MESSAGE_LENGTH );
+ 198              		.loc 1 150 0 is_stmt 1
+ 199 0030 C000A0E3 		mov	r0, #192
+ 200 0034 FEFFFFEB 		bl	pvPortMalloc
+ 201              	.LVL16:
+ 151:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+ 152:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     if( pcPrintString != NULL )
+ 202              		.loc 1 152 0
+ 203 0038 000050E3 		cmp	r0, #0
+ 150:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+ 204              		.loc 1 150 0
+ 205 003c 0C008DE5 		str	r0, [sp, #12]
+ 206              		.loc 1 152 0
+ 207 0040 2F00000A 		beq	.L19
+ 153:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     {
+ 154:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         /* There are a variable number of parameters. */
+ 155:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         va_start( args, pcFormat );
+ 208              		.loc 1 155 0
+ 209 0044 2C308DE2 		add	r3, sp, #44
+ 156:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+ 157:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         if( strcmp( pcFormat, "\n" ) != 0 )
+ 210              		.loc 1 157 0
+ 211 0048 CC109FE5 		ldr	r1, .L34+8
+ 212 004c 28009DE5 		ldr	r0, [sp, #40]
+ 155:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+ 213              		.loc 1 155 0
+ 214 0050 08308DE5 		str	r3, [sp, #8]
+ 215              		.loc 1 157 0
+ 216 0054 FEFFFFEB 		bl	strcmp
+ 217              	.LVL17:
+ 218 0058 004050E2 		subs	r4, r0, #0
+ 219 005c 1300000A 		beq	.L23
+ 220              	.LVL18:
+ 221              	.LBB2:
+ 158:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         {
+ 159:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             #if( configLOGGING_INCLUDE_TIME_AND_TASK_NAME == 1 )
+ 160:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             {
+ 161:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****                 const char *pcTaskName;
+ 162:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****                 const char *pcNoTask = "None";
+ 163:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****                 static BaseType_t xMessageNumber = 0;
+ 164:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+ 165:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****                 /* Add a time stamp and the name of the calling task to the
+ 166:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****                 start of the log. */
+ 167:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****                 if( xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED )
+ 222              		.loc 1 167 0
+ 223 0060 FEFFFFEB 		bl	xTaskGetSchedulerState
+ 224              	.LVL19:
+ 225 0064 010050E3 		cmp	r0, #1
+ 168:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****                 {
+ 169:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****                     pcTaskName = pcTaskGetName( NULL );
+ 170:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****                 }
+ 171:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****                 else
+ 172:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****                 {
+ 173:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****                     pcTaskName = pcNoTask;
+ 226              		.loc 1 173 0
+ 227 0068 B0609F05 		ldreq	r6, .L34+12
+ 167:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****                 {
+ 228              		.loc 1 167 0
+ 229 006c 0200000A 		beq	.L24
+ 169:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****                 }
+ 230              		.loc 1 169 0
+ 231 0070 0600A0E1 		mov	r0, r6
+ 232 0074 FEFFFFEB 		bl	pcTaskGetName
+ 233              	.LVL20:
+ 234 0078 0060A0E1 		mov	r6, r0
+ 235              	.LVL21:
+ 236              	.L24:
+ 174:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****                 }
+ 175:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+ 176:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****                 xLength = snprintf( pcPrintString, configLOGGING_MAX_MESSAGE_LENGTH, "%lu %lu [%s] 
+ 237              		.loc 1 176 0
+ 238 007c A0309FE5 		ldr	r3, .L34+16
+ 239 0080 0C709DE5 		ldr	r7, [sp, #12]
+ 240 0084 004093E5 		ldr	r4, [r3]
+ 241 0088 012084E2 		add	r2, r4, #1
+ 242 008c 002083E5 		str	r2, [r3]
+ 177:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****                     xMessageNumber++,
+ 178:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****                     ( unsigned long ) xTaskGetTickCount(),
+ 243              		.loc 1 178 0
+ 244 0090 FEFFFFEB 		bl	xTaskGetTickCount
+ 245              	.LVL22:
+ 176:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****                     xMessageNumber++,
+ 246              		.loc 1 176 0
+ 247 0094 0430A0E1 		mov	r3, r4
+ 248 0098 41008DE8 		stm	sp, {r0, r6}
+ 249 009c 84209FE5 		ldr	r2, .L34+20
+ 250 00a0 C010A0E3 		mov	r1, #192
+ 251 00a4 0700A0E1 		mov	r0, r7
+ 252 00a8 FEFFFFEB 		bl	snprintf
+ 253              	.LVL23:
+ 254 00ac 0040A0E1 		mov	r4, r0
+ 255              	.LVL24:
+ 256              	.L23:
+ 257              	.LBE2:
+ 179:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****                     pcTaskName );
+ 180:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             }
+ 181:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             #else
+ 182:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             {
+ 183:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****                 xLength = 0;
+ 184:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             }
+ 185:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             #endif
+ 186:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         }
+ 187:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+ 188:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         xLength2 = vsnprintf( pcPrintString + xLength, configLOGGING_MAX_MESSAGE_LENGTH - xLength, 
+ 258              		.loc 1 188 0
+ 259 00b0 0C009DE5 		ldr	r0, [sp, #12]
+ 260 00b4 C01064E2 		rsb	r1, r4, #192
+ 261 00b8 08309DE5 		ldr	r3, [sp, #8]
+ 262 00bc 28209DE5 		ldr	r2, [sp, #40]
+ 263 00c0 040080E0 		add	r0, r0, r4
+ 264 00c4 FEFFFFEB 		bl	vsnprintf
+ 265              	.LVL25:
+ 189:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+ 190:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         if( xLength2 <  0 )
+ 266              		.loc 1 190 0
+ 267 00c8 000050E3 		cmp	r0, #0
+ 268              	.LVL26:
+ 191:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         {
+ 192:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             /* vsnprintf() failed. Restore the terminating NULL
+ 193:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****              * character of the first part. Note that the first
+ 194:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****              * part of the buffer may be empty if the value of
+ 195:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****              * configLOGGING_INCLUDE_TIME_AND_TASK_NAME is not
+ 196:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****              * 1 and as a result, the whole buffer may be empty.
+ 197:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****              * That's the reason we have a check for xLength > 0
+ 198:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****              * before sending the buffer to the logging task. */
+ 199:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             xLength2 = 0;
+ 200:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             pcPrintString[ xLength ] = '\0';
+ 269              		.loc 1 200 0
+ 270 00cc 0C309DB5 		ldrlt	r3, [sp, #12]
+ 271 00d0 0000A0B3 		movlt	r0, #0
+ 272 00d4 0400C3B7 		strblt	r0, [r3, r4]
+ 273              	.LVL27:
+ 201:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         }
+ 202:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+ 203:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         xLength += ( size_t ) xLength2;
+ 204:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         va_end( args );
+ 205:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+ 206:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         /* Only send the buffer to the logging task if it is
+ 207:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****          * not empty. */
+ 208:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         if( xLength > 0 )
+ 274              		.loc 1 208 0
+ 275 00d8 040070E1 		cmn	r0, r4
+ 276 00dc 0600000A 		beq	.L26
+ 209:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         {
+ 210:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             /* Send the string to the logging task for IO. */
+ 211:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             if( xQueueSend( xQueue, &pcPrintString, loggingDONT_BLOCK ) != pdPASS )
+ 277              		.loc 1 211 0
+ 278 00e0 0030A0E3 		mov	r3, #0
+ 279 00e4 0C108DE2 		add	r1, sp, #12
+ 280 00e8 0320A0E1 		mov	r2, r3
+ 281 00ec 000095E5 		ldr	r0, [r5]
+ 282              	.LVL28:
+ 283 00f0 FEFFFFEB 		bl	xQueueGenericSend
+ 284              	.LVL29:
+ 285 00f4 010050E3 		cmp	r0, #1
+ 286 00f8 0100000A 		beq	.L19
+ 287              	.L26:
+ 212:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             {
+ 213:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****                 /* The buffer was not sent so must be freed again. */
+ 214:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****                 vPortFree( ( void * ) pcPrintString );
+ 215:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             }
+ 216:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         }
+ 217:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         else
+ 218:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         {
+ 219:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             /* The buffer was not sent, so it must be
+ 220:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****              * freed. */
+ 221:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             vPortFree( ( void * ) pcPrintString );
+ 288              		.loc 1 221 0
+ 289 00fc 0C009DE5 		ldr	r0, [sp, #12]
+ 290 0100 FEFFFFEB 		bl	vPortFree
+ 291              	.LVL30:
+ 292              	.L19:
+ 222:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         }
+ 223:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     }
+ 224:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** }
+ 293              		.loc 1 224 0
+ 294 0104 14D08DE2 		add	sp, sp, #20
+ 295              		.cfi_def_cfa_offset 36
+ 296              		@ sp needed
+ 297 0108 F040BDE8 		pop	{r4, r5, r6, r7, lr}
+ 298              		.cfi_restore 14
+ 299              		.cfi_restore 7
+ 300              		.cfi_restore 6
+ 301              		.cfi_restore 5
+ 302              		.cfi_restore 4
+ 303              		.cfi_def_cfa_offset 16
+ 304 010c 10D08DE2 		add	sp, sp, #16
+ 305              		.cfi_restore 3
+ 306              		.cfi_restore 2
+ 307              		.cfi_restore 1
+ 308              		.cfi_restore 0
+ 309              		.cfi_def_cfa_offset 0
+ 310 0110 1EFF2FE1 		bx	lr
+ 311              	.L35:
+ 312              		.align	2
+ 313              	.L34:
+ 314 0114 00000000 		.word	.LANCHOR0
+ 315 0118 28000000 		.word	Unity+40
+ 316 011c 05000000 		.word	.LC2
+ 317 0120 00000000 		.word	.LC1
+ 318 0124 00000000 		.word	.LANCHOR1
+ 319 0128 07000000 		.word	.LC3
+ 320              		.cfi_endproc
+ 321              	.LFE3:
+ 323              		.section	.text.vLoggingPrint,"ax",%progbits
+ 324              		.align	2
+ 325              		.global	vLoggingPrint
+ 326              		.syntax unified
+ 327              		.arm
+ 328              		.fpu neon
+ 330              	vLoggingPrint:
+ 331              	.LFB4:
+ 225:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** /*-----------------------------------------------------------*/
+ 226:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+ 227:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** void vLoggingPrint( const char * pcMessage )
+ 228:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** {
+ 332              		.loc 1 228 0
+ 333              		.cfi_startproc
+ 334              		@ args = 0, pretend = 0, frame = 8
+ 335              		@ frame_needed = 0, uses_anonymous_args = 0
+ 336              	.LVL31:
+ 337 0000 F7402DE9 		push	{r0, r1, r2, r4, r5, r6, r7, lr}
+ 338              		.cfi_def_cfa_offset 32
+ 339              		.cfi_offset 4, -20
+ 340              		.cfi_offset 5, -16
+ 341              		.cfi_offset 6, -12
+ 342              		.cfi_offset 7, -8
+ 343              		.cfi_offset 14, -4
+ 229:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     char * pcPrintString = NULL;
+ 344              		.loc 1 229 0
+ 345 0004 0050A0E3 		mov	r5, #0
+ 230:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     size_t xLength = 0;
+ 231:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+ 232:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     /* The queue is created by xLoggingTaskInitialize().  Check
+ 233:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****      * xLoggingTaskInitialize() has been called. */
+ 234:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     configASSERT( xQueue );
+ 346              		.loc 1 234 0
+ 347 0008 70409FE5 		ldr	r4, .L45
+ 229:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     char * pcPrintString = NULL;
+ 348              		.loc 1 229 0
+ 349 000c 04508DE5 		str	r5, [sp, #4]
+ 350              	.LVL32:
+ 351              		.loc 1 234 0
+ 352 0010 003094E5 		ldr	r3, [r4]
+ 353 0014 050053E1 		cmp	r3, r5
+ 354 0018 0200001A 		bne	.L37
+ 355              		.loc 1 234 0 is_stmt 0 discriminator 1
+ 356 001c 0110A0E3 		mov	r1, #1
+ 357 0020 5C009FE5 		ldr	r0, .L45+4
+ 358              	.LVL33:
+ 359 0024 FEFFFFEB 		bl	longjmp
+ 360              	.LVL34:
+ 361              	.L37:
+ 362 0028 0070A0E1 		mov	r7, r0
+ 235:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+ 236:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     xLength = strlen( pcMessage ) + 1;
+ 363              		.loc 1 236 0 is_stmt 1
+ 364 002c FEFFFFEB 		bl	strlen
+ 365              	.LVL35:
+ 366 0030 016080E2 		add	r6, r0, #1
+ 367              	.LVL36:
+ 237:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     pcPrintString = pvPortMalloc( xLength );
+ 368              		.loc 1 237 0
+ 369 0034 0600A0E1 		mov	r0, r6
+ 370 0038 FEFFFFEB 		bl	pvPortMalloc
+ 371              	.LVL37:
+ 238:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+ 239:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     if( pcPrintString != NULL )
+ 372              		.loc 1 239 0
+ 373 003c 000050E3 		cmp	r0, #0
+ 237:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     pcPrintString = pvPortMalloc( xLength );
+ 374              		.loc 1 237 0
+ 375 0040 04008DE5 		str	r0, [sp, #4]
+ 376              		.loc 1 239 0
+ 377 0044 0B00000A 		beq	.L36
+ 240:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     {
+ 241:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         strncpy( pcPrintString, pcMessage, xLength );
+ 378              		.loc 1 241 0
+ 379 0048 0620A0E1 		mov	r2, r6
+ 380 004c 0710A0E1 		mov	r1, r7
+ 381 0050 FEFFFFEB 		bl	strncpy
+ 382              	.LVL38:
+ 242:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** 
+ 243:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         /* Send the string to the logging task for IO. */
+ 244:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         if( xQueueSend( xQueue, &pcPrintString, loggingDONT_BLOCK ) != pdPASS )
+ 383              		.loc 1 244 0
+ 384 0054 0530A0E1 		mov	r3, r5
+ 385 0058 0520A0E1 		mov	r2, r5
+ 386 005c 04108DE2 		add	r1, sp, #4
+ 387 0060 000094E5 		ldr	r0, [r4]
+ 388 0064 FEFFFFEB 		bl	xQueueGenericSend
+ 389              	.LVL39:
+ 390 0068 010050E3 		cmp	r0, #1
+ 391 006c 0100000A 		beq	.L36
+ 245:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         {
+ 246:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             /* The buffer was not sent so must be freed again. */
+ 247:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****             vPortFree( ( void * ) pcPrintString );
+ 392              		.loc 1 247 0
+ 393 0070 04009DE5 		ldr	r0, [sp, #4]
+ 394 0074 FEFFFFEB 		bl	vPortFree
+ 395              	.LVL40:
+ 396              	.L36:
+ 248:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****         }
+ 249:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c ****     }
+ 250:D:/Work/DeviceTester/amazon-freertos/demos/common/logging\aws_logging_task_dynamic_buffers.c **** }
+ 397              		.loc 1 250 0
+ 398 0078 0CD08DE2 		add	sp, sp, #12
+ 399              		.cfi_def_cfa_offset 20
+ 400              		@ sp needed
+ 401 007c F080BDE8 		pop	{r4, r5, r6, r7, pc}
+ 402              	.LVL41:
+ 403              	.L46:
+ 404              		.align	2
+ 405              	.L45:
+ 406 0080 00000000 		.word	.LANCHOR0
+ 407 0084 28000000 		.word	Unity+40
+ 408              		.cfi_endproc
+ 409              	.LFE4:
+ 411              		.section	.bss.xMessageNumber.7687,"aw",%nobits
+ 412              		.align	2
+ 413              		.set	.LANCHOR1,. + 0
+ 416              	xMessageNumber.7687:
+ 417 0000 00000000 		.space	4
+ 418              		.section	.bss.xQueue,"aw",%nobits
+ 419              		.align	2
+ 420              		.set	.LANCHOR0,. + 0
+ 423              	xQueue:
+ 424 0000 00000000 		.space	4
+ 425              		.section	.rodata.vLoggingPrintf.str1.1,"aMS",%progbits,1
+ 426              	.LC1:
+ 427 0000 4E6F6E65 		.ascii	"None\000"
+ 427      00
+ 428              	.LC2:
+ 429 0005 0A00     		.ascii	"\012\000"
+ 430              	.LC3:
+ 431 0007 256C7520 		.ascii	"%lu %lu [%s] \000"
+ 431      256C7520 
+ 431      5B25735D 
+ 431      2000
+ 432              		.section	.rodata.xLoggingTaskInitialize.str1.1,"aMS",%progbits,1
+ 433              	.LC0:
+ 434 0000 4C6F6767 		.ascii	"Logging\000"
+ 434      696E6700 
+ 435              		.text
+ 436              	.Letext0:
+ 437              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 438              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 439              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 440              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 441              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 442              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 443              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 444              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 445              		.file 10 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\src/unity_internals.h"
+ 446              		.file 11 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS\\portable\\GCC\\ARM_CA9_RZA2M/por
+ 447              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/queue.h"
+ 448              		.file 13 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-ea
+ 449              		.file 14 "<built-in>"
+ 450              		.file 15 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 451              		.file 16 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 452              		.file 17 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 453              		.file 18 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include\\private/portable.h"
+ 454              		.file 19 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/task.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 aws_logging_task_dynamic_buffers.c
+C:\Users\a5089698\AppData\Local\Temp\ccC7E8Qc.s:17     .text.prvLoggingTask:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccC7E8Qc.s:22     .text.prvLoggingTask:00000000 prvLoggingTask
+C:\Users\a5089698\AppData\Local\Temp\ccC7E8Qc.s:64     .text.prvLoggingTask:00000040 $d
+C:\Users\a5089698\AppData\Local\Temp\ccC7E8Qc.s:69     .text.xLoggingTaskInitialize:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccC7E8Qc.s:75     .text.xLoggingTaskInitialize:00000000 xLoggingTaskInitialize
+C:\Users\a5089698\AppData\Local\Temp\ccC7E8Qc.s:146    .text.xLoggingTaskInitialize:00000078 $d
+C:\Users\a5089698\AppData\Local\Temp\ccC7E8Qc.s:153    .text.vLoggingPrintf:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccC7E8Qc.s:159    .text.vLoggingPrintf:00000000 vLoggingPrintf
+C:\Users\a5089698\AppData\Local\Temp\ccC7E8Qc.s:314    .text.vLoggingPrintf:00000114 $d
+C:\Users\a5089698\AppData\Local\Temp\ccC7E8Qc.s:324    .text.vLoggingPrint:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccC7E8Qc.s:330    .text.vLoggingPrint:00000000 vLoggingPrint
+C:\Users\a5089698\AppData\Local\Temp\ccC7E8Qc.s:406    .text.vLoggingPrint:00000080 $d
+C:\Users\a5089698\AppData\Local\Temp\ccC7E8Qc.s:412    .bss.xMessageNumber.7687:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccC7E8Qc.s:416    .bss.xMessageNumber.7687:00000000 xMessageNumber.7687
+C:\Users\a5089698\AppData\Local\Temp\ccC7E8Qc.s:419    .bss.xQueue:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccC7E8Qc.s:423    .bss.xQueue:00000000 xQueue
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+xQueueReceive
+printf
+vPortFree
+xQueueGenericCreate
+xTaskCreate
+vQueueDelete
+longjmp
+pvPortMalloc
+strcmp
+xTaskGetSchedulerState
+pcTaskGetName
+xTaskGetTickCount
+snprintf
+vsnprintf
+xQueueGenericSend
+Unity
+strlen
+strncpy

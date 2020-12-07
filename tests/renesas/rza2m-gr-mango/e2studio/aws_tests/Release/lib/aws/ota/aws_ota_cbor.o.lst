@@ -1,0 +1,1359 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"aws_ota_cbor.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.cbor_encode_text_stringz,"ax",%progbits
+  17              		.align	2
+  18              		.syntax unified
+  19              		.arm
+  20              		.fpu neon
+  22              	cbor_encode_text_stringz:
+  23              	.LFB1:
+  24              		.file 1 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\tinycbor/cbor.h"
+   1:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** /****************************************************************************
+   2:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** **
+   3:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** ** Copyright (C) 2015 Intel Corporation
+   4:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** **
+   5:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** ** Permission is hereby granted, free of charge, to any person obtaining a copy
+   6:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** ** of this software and associated documentation files (the "Software"), to deal
+   7:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** ** in the Software without restriction, including without limitation the rights
+   8:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** ** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+   9:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** ** copies of the Software, and to permit persons to whom the Software is
+  10:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** ** furnished to do so, subject to the following conditions:
+  11:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** **
+  12:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** ** The above copyright notice and this permission notice shall be included in
+  13:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** ** all copies or substantial portions of the Software.
+  14:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** **
+  15:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** ** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  16:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** ** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  17:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** ** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  18:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** ** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  19:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** ** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  20:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** ** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  21:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** ** THE SOFTWARE.
+  22:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** **
+  23:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** ****************************************************************************/
+  24:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+  25:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #ifndef CBOR_H
+  26:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #define CBOR_H
+  27:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+  28:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #include <assert.h>
+  29:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #include <limits.h>
+  30:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #include <stddef.h>
+  31:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #include <stdint.h>
+  32:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #include <string.h>
+  33:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #include <stdio.h>
+  34:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+  35:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #include "assert_p.h"       /* Always include last */
+  36:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+  37:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #ifdef __cplusplus
+  38:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** extern "C" {
+  39:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #else
+  40:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #include <stdbool.h>
+  41:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #endif
+  42:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+  43:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #ifndef SIZE_MAX
+  44:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** /* Some systems fail to define SIZE_MAX in <stdint.h>, even though C99 requires it...
+  45:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****  * Conversion from signed to unsigned is defined in 6.3.1.3 (Signed and unsigned integers) p2,
+  46:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****  * which says: "the value is converted by repeatedly adding or subtracting one more than the
+  47:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****  * maximum value that can be represented in the new type until the value is in the range of the
+  48:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****  * new type."
+  49:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****  * So -1 gets converted to size_t by adding SIZE_MAX + 1, which results in SIZE_MAX.
+  50:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****  */
+  51:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #  define SIZE_MAX ((size_t)-1)
+  52:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #endif
+  53:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+  54:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #ifndef CBOR_API
+  55:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #  define CBOR_API
+  56:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #endif
+  57:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #ifndef CBOR_PRIVATE_API
+  58:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #  define CBOR_PRIVATE_API
+  59:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #endif
+  60:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #ifndef CBOR_INLINE_API
+  61:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #  if defined(__cplusplus)
+  62:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #    define CBOR_INLINE inline
+  63:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #    define CBOR_INLINE_API inline
+  64:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #  else
+  65:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #    define CBOR_INLINE_API static CBOR_INLINE
+  66:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #    if defined(_MSC_VER)
+  67:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #      define CBOR_INLINE __inline
+  68:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #    elif defined(__GNUC__)
+  69:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #      define CBOR_INLINE __inline__
+  70:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #    elif defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
+  71:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #      define CBOR_INLINE inline
+  72:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #    else
+  73:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #      define CBOR_INLINE
+  74:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #    endif
+  75:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #  endif
+  76:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #endif
+  77:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+  78:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** typedef enum CborType {
+  79:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborIntegerType     = 0x00,
+  80:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborByteStringType  = 0x40,
+  81:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborTextStringType  = 0x60,
+  82:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborArrayType       = 0x80,
+  83:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborMapType         = 0xa0,
+  84:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborTagType         = 0xc0,
+  85:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborSimpleType      = 0xe0,
+  86:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborBooleanType     = 0xf5,
+  87:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborNullType        = 0xf6,
+  88:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborUndefinedType   = 0xf7,
+  89:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborHalfFloatType   = 0xf9,
+  90:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborFloatType       = 0xfa,
+  91:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborDoubleType      = 0xfb,
+  92:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+  93:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborInvalidType     = 0xff              /* equivalent to the break byte, so it will never be us
+  94:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** } CborType;
+  95:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+  96:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** typedef uint64_t CborTag;
+  97:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** typedef enum CborKnownTags {
+  98:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborDateTimeStringTag          = 0,        /* RFC 3339 format: YYYY-MM-DD hh:mm:ss+zzzz */
+  99:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborUnixTime_tTag              = 1,
+ 100:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborPositiveBignumTag          = 2,
+ 101:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborNegativeBignumTag          = 3,
+ 102:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborDecimalTag                 = 4,
+ 103:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborBigfloatTag                = 5,
+ 104:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborExpectedBase64urlTag       = 21,
+ 105:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborExpectedBase64Tag          = 22,
+ 106:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborExpectedBase16Tag          = 23,
+ 107:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborUriTag                     = 32,
+ 108:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborBase64urlTag               = 33,
+ 109:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborBase64Tag                  = 34,
+ 110:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborRegularExpressionTag       = 35,
+ 111:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborMimeMessageTag             = 36,       /* RFC 2045-2047 */
+ 112:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborSignatureTag               = 55799
+ 113:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** } CborKnownTags;
+ 114:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 115:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** /* Error API */
+ 116:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 117:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** typedef enum CborError {
+ 118:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborNoError = 0,
+ 119:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 120:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     /* errors in all modes */
+ 121:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborUnknownError,
+ 122:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborErrorUnknownLength,         /* request for length in array, map, or string with indetermina
+ 123:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborErrorAdvancePastEOF,
+ 124:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborErrorIO,
+ 125:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 126:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     /* parser errors streaming errors */
+ 127:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborErrorGarbageAtEnd = 256,
+ 128:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborErrorUnexpectedEOF,
+ 129:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborErrorUnexpectedBreak,
+ 130:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborErrorUnknownType,           /* can only heppen in major type 7 */
+ 131:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborErrorIllegalType,           /* type not allowed here */
+ 132:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborErrorIllegalNumber,
+ 133:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborErrorIllegalSimpleType,     /* types of value less than 32 encoded in two bytes */
+ 134:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 135:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     /* parser errors in strict mode parsing only */
+ 136:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborErrorUnknownSimpleType = 512,
+ 137:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborErrorUnknownTag,
+ 138:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborErrorInappropriateTagForType,
+ 139:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborErrorDuplicateObjectKeys,
+ 140:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborErrorInvalidUtf8TextString,
+ 141:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 142:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     /* encoder errors */
+ 143:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborErrorTooManyItems = 768,
+ 144:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborErrorTooFewItems,
+ 145:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 146:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     /* internal implementation errors */
+ 147:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborErrorDataTooLarge = 1024,
+ 148:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborErrorNestingTooDeep,
+ 149:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborErrorUnsupportedType,
+ 150:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 151:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     /* errors in converting to JSON */
+ 152:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborErrorJsonObjectKeyIsAggregate,
+ 153:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborErrorJsonObjectKeyNotString,
+ 154:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborErrorJsonNotImplemented,
+ 155:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 156:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborErrorOutOfMemory = (int) (~0U / 2 + 1),
+ 157:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborErrorInternalError = (int) ~0U
+ 158:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** } CborError;
+ 159:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 160:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_API const char *cbor_error_string(CborError error);
+ 161:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 162:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** /* Encoder API */
+ 163:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** struct CborEncoder
+ 164:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** {
+ 165:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     union {
+ 166:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****         uint8_t *ptr;
+ 167:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****         ptrdiff_t bytes_needed;
+ 168:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     } data;
+ 169:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     const uint8_t *end;
+ 170:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     size_t added;
+ 171:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     int flags;
+ 172:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** };
+ 173:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** typedef struct CborEncoder CborEncoder;
+ 174:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 175:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** static const size_t CborIndefiniteLength = SIZE_MAX;
+ 176:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 177:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_API void cbor_encoder_init(CborEncoder *encoder, uint8_t *buffer, size_t size, int flags);
+ 178:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_API CborError cbor_encode_uint(CborEncoder *encoder, uint64_t value);
+ 179:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_API CborError cbor_encode_int(CborEncoder *encoder, int64_t value);
+ 180:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_API CborError cbor_encode_negative_int(CborEncoder *encoder, uint64_t absolute_value);
+ 181:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_API CborError cbor_encode_simple_value(CborEncoder *encoder, uint8_t value);
+ 182:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_API CborError cbor_encode_tag(CborEncoder *encoder, CborTag tag);
+ 183:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_API CborError cbor_encode_text_string(CborEncoder *encoder, const char *string, size_t length)
+ 184:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API CborError cbor_encode_text_stringz(CborEncoder *encoder, const char *string)
+ 185:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** { return cbor_encode_text_string(encoder, string, strlen(string)); }
+  25              		.loc 1 185 0
+  26              		.cfi_startproc
+  27              		@ args = 0, pretend = 0, frame = 0
+  28              		@ frame_needed = 0, uses_anonymous_args = 0
+  29              	.LVL0:
+  30 0000 70402DE9 		push	{r4, r5, r6, lr}
+  31              		.cfi_def_cfa_offset 16
+  32              		.cfi_offset 4, -16
+  33              		.cfi_offset 5, -12
+  34              		.cfi_offset 6, -8
+  35              		.cfi_offset 14, -4
+  36              		.loc 1 185 0
+  37 0004 0050A0E1 		mov	r5, r0
+  38 0008 0140A0E1 		mov	r4, r1
+  39 000c 0100A0E1 		mov	r0, r1
+  40              	.LVL1:
+  41 0010 FEFFFFEB 		bl	strlen
+  42              	.LVL2:
+  43 0014 0410A0E1 		mov	r1, r4
+  44 0018 0020A0E1 		mov	r2, r0
+  45 001c 0500A0E1 		mov	r0, r5
+  46 0020 7040BDE8 		pop	{r4, r5, r6, lr}
+  47              		.cfi_restore 14
+  48              		.cfi_restore 6
+  49              		.cfi_restore 5
+  50              		.cfi_restore 4
+  51              		.cfi_def_cfa_offset 0
+  52              	.LVL3:
+  53 0024 FEFFFFEA 		b	cbor_encode_text_string
+  54              	.LVL4:
+  55              		.cfi_endproc
+  56              	.LFE1:
+  58              		.section	.text.cbor_value_get_int,"ax",%progbits
+  59              		.align	2
+  60              		.syntax unified
+  61              		.arm
+  62              		.fpu neon
+  64              	cbor_value_get_int:
+  65              	.LFB28:
+ 186:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_API CborError cbor_encode_byte_string(CborEncoder *encoder, const uint8_t *string, size_t leng
+ 187:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_API CborError cbor_encode_floating_point(CborEncoder *encoder, CborType fpType, const void *va
+ 188:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 189:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API CborError cbor_encode_boolean(CborEncoder *encoder, bool value)
+ 190:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** { return cbor_encode_simple_value(encoder, (int)value - 1 + (CborBooleanType & 0x1f)); }
+ 191:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API CborError cbor_encode_null(CborEncoder *encoder)
+ 192:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** { return cbor_encode_simple_value(encoder, CborNullType & 0x1f); }
+ 193:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API CborError cbor_encode_undefined(CborEncoder *encoder)
+ 194:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** { return cbor_encode_simple_value(encoder, CborUndefinedType & 0x1f); }
+ 195:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 196:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API CborError cbor_encode_half_float(CborEncoder *encoder, const void *value)
+ 197:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** { return cbor_encode_floating_point(encoder, CborHalfFloatType, value); }
+ 198:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API CborError cbor_encode_float(CborEncoder *encoder, float value)
+ 199:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** { return cbor_encode_floating_point(encoder, CborFloatType, &value); }
+ 200:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API CborError cbor_encode_double(CborEncoder *encoder, double value)
+ 201:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** { return cbor_encode_floating_point(encoder, CborDoubleType, &value); }
+ 202:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 203:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_API CborError cbor_encoder_create_array(CborEncoder *encoder, CborEncoder *arrayEncoder, size_
+ 204:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_API CborError cbor_encoder_create_map(CborEncoder *encoder, CborEncoder *mapEncoder, size_t le
+ 205:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_API CborError cbor_encoder_close_container(CborEncoder *encoder, const CborEncoder *containerE
+ 206:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_API CborError cbor_encoder_close_container_checked(CborEncoder *encoder, const CborEncoder *co
+ 207:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 208:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API size_t cbor_encoder_get_buffer_size(const CborEncoder *encoder, const uint8_t *buff
+ 209:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** {
+ 210:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     return (size_t)(encoder->data.ptr - buffer);
+ 211:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** }
+ 212:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 213:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API size_t cbor_encoder_get_extra_bytes_needed(const CborEncoder *encoder)
+ 214:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** {
+ 215:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     return encoder->end ? 0 : (size_t)encoder->data.bytes_needed;
+ 216:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** }
+ 217:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 218:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** /* Parser API */
+ 219:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 220:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** enum CborParserIteratorFlags
+ 221:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** {
+ 222:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborIteratorFlag_IntegerValueTooLarge   = 0x01,
+ 223:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborIteratorFlag_NegativeInteger        = 0x02,
+ 224:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborIteratorFlag_UnknownLength          = 0x04,
+ 225:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     CborIteratorFlag_ContainerIsMap         = 0x20
+ 226:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** };
+ 227:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 228:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** struct CborParser
+ 229:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** {
+ 230:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     const uint8_t *end;
+ 231:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     int flags;
+ 232:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** };
+ 233:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** typedef struct CborParser CborParser;
+ 234:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 235:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** struct CborValue
+ 236:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** {
+ 237:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     const CborParser *parser;
+ 238:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     const uint8_t *ptr;
+ 239:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     uint32_t remaining;
+ 240:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     uint16_t extra;
+ 241:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     uint8_t type;
+ 242:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     uint8_t flags;
+ 243:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** };
+ 244:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** typedef struct CborValue CborValue;
+ 245:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 246:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_API CborError cbor_parser_init(const uint8_t *buffer, size_t size, int flags, CborParser *pars
+ 247:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 248:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API bool cbor_value_at_end(const CborValue *it)
+ 249:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** { return it->remaining == 0; }
+ 250:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API const uint8_t *cbor_value_get_next_byte(const CborValue *it)
+ 251:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** { return it->ptr; }
+ 252:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_API CborError cbor_value_advance_fixed(CborValue *it);
+ 253:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_API CborError cbor_value_advance(CborValue *it);
+ 254:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API bool cbor_value_is_container(const CborValue *it)
+ 255:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** { return it->type == CborArrayType || it->type == CborMapType; }
+ 256:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_API CborError cbor_value_enter_container(const CborValue *it, CborValue *recursed);
+ 257:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_API CborError cbor_value_leave_container(CborValue *it, const CborValue *recursed);
+ 258:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 259:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_PRIVATE_API uint64_t _cbor_value_decode_int64_internal(const CborValue *value);
+ 260:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API uint64_t _cbor_value_extract_int64_helper(const CborValue *value)
+ 261:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** {
+ 262:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     return value->flags & CborIteratorFlag_IntegerValueTooLarge ?
+ 263:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****                 _cbor_value_decode_int64_internal(value) : value->extra;
+ 264:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** }
+ 265:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 266:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API bool cbor_value_is_valid(const CborValue *value)
+ 267:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** { return value && value->type != CborInvalidType; }
+ 268:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API CborType cbor_value_get_type(const CborValue *value)
+ 269:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** { return (CborType)value->type; }
+ 270:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 271:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** /* Null & undefined type */
+ 272:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API bool cbor_value_is_null(const CborValue *value)
+ 273:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** { return value->type == CborNullType; }
+ 274:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API bool cbor_value_is_undefined(const CborValue *value)
+ 275:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** { return value->type == CborUndefinedType; }
+ 276:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 277:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** /* Booleans */
+ 278:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API bool cbor_value_is_boolean(const CborValue *value)
+ 279:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** { return value->type == CborBooleanType; }
+ 280:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API CborError cbor_value_get_boolean(const CborValue *value, bool *result)
+ 281:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** {
+ 282:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     assert(cbor_value_is_boolean(value));
+ 283:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     *result = !!value->extra;
+ 284:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     return CborNoError;
+ 285:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** }
+ 286:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 287:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** /* Simple types */
+ 288:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API bool cbor_value_is_simple_type(const CborValue *value)
+ 289:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** { return value->type == CborSimpleType; }
+ 290:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API CborError cbor_value_get_simple_type(const CborValue *value, uint8_t *result)
+ 291:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** {
+ 292:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     assert(cbor_value_is_simple_type(value));
+ 293:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     *result = (uint8_t)value->extra;
+ 294:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     return CborNoError;
+ 295:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** }
+ 296:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 297:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** /* Integers */
+ 298:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API bool cbor_value_is_integer(const CborValue *value)
+ 299:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** { return value->type == CborIntegerType; }
+ 300:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API bool cbor_value_is_unsigned_integer(const CborValue *value)
+ 301:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** { return cbor_value_is_integer(value) && (value->flags & CborIteratorFlag_NegativeInteger) == 0; }
+ 302:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API bool cbor_value_is_negative_integer(const CborValue *value)
+ 303:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** { return cbor_value_is_integer(value) && (value->flags & CborIteratorFlag_NegativeInteger); }
+ 304:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 305:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API CborError cbor_value_get_raw_integer(const CborValue *value, uint64_t *result)
+ 306:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** {
+ 307:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     assert(cbor_value_is_integer(value));
+ 308:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     *result = _cbor_value_extract_int64_helper(value);
+ 309:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     return CborNoError;
+ 310:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** }
+ 311:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 312:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API CborError cbor_value_get_uint64(const CborValue *value, uint64_t *result)
+ 313:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** {
+ 314:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     assert(cbor_value_is_unsigned_integer(value));
+ 315:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     *result = _cbor_value_extract_int64_helper(value);
+ 316:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     return CborNoError;
+ 317:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** }
+ 318:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 319:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API CborError cbor_value_get_int64(const CborValue *value, int64_t *result)
+ 320:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** {
+ 321:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     assert(cbor_value_is_integer(value));
+ 322:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     *result = (int64_t) _cbor_value_extract_int64_helper(value);
+ 323:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     if (value->flags & CborIteratorFlag_NegativeInteger)
+ 324:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****         *result = -*result - 1;
+ 325:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     return CborNoError;
+ 326:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** }
+ 327:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 328:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API CborError cbor_value_get_int(const CborValue *value, int *result)
+ 329:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** {
+  66              		.loc 1 329 0
+  67              		.cfi_startproc
+  68              		@ args = 0, pretend = 0, frame = 0
+  69              		@ frame_needed = 0, uses_anonymous_args = 0
+  70              	.LVL5:
+  71 0000 70402DE9 		push	{r4, r5, r6, lr}
+  72              		.cfi_def_cfa_offset 16
+  73              		.cfi_offset 4, -16
+  74              		.cfi_offset 5, -12
+  75              		.cfi_offset 6, -8
+  76              		.cfi_offset 14, -4
+ 330:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     assert(cbor_value_is_integer(value));
+  77              		.loc 1 330 0
+  78 0004 0E30D0E5 		ldrb	r3, [r0, #14]	@ zero_extendqisi2
+  79 0008 000053E3 		cmp	r3, #0
+  80 000c 0400000A 		beq	.L4
+  81              	.LVL6:
+  82              	.LBB26:
+  83              	.LBB27:
+  84 0010 44309FE5 		ldr	r3, .L12
+  85 0014 4A1100E3 		movw	r1, #330
+  86              	.LVL7:
+  87 0018 40209FE5 		ldr	r2, .L12+4
+  88 001c 40009FE5 		ldr	r0, .L12+8
+  89              	.LVL8:
+  90 0020 FEFFFFEB 		bl	__assert_func
+  91              	.LVL9:
+  92              	.L4:
+  93              	.LBE27:
+  94              	.LBE26:
+  95              	.LBB28:
+  96              	.LBB29:
+ 263:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** }
+  97              		.loc 1 263 0
+  98 0024 0F30D0E5 		ldrb	r3, [r0, #15]	@ zero_extendqisi2
+  99 0028 0040A0E1 		mov	r4, r0
+ 100 002c 0150A0E1 		mov	r5, r1
+ 101              	.LVL10:
+ 102 0030 010013E3 		tst	r3, #1
+ 103 0034 BC00D001 		ldrheq	r0, [r0, #12]
+ 104              	.LVL11:
+ 105 0038 0000000A 		beq	.L6
+ 106 003c FEFFFFEB 		bl	_cbor_value_decode_int64_internal
+ 107              	.LVL12:
+ 108              	.L6:
+ 109              	.LBE29:
+ 110              	.LBE28:
+ 331:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     *result = (int) _cbor_value_extract_int64_helper(value);
+ 111              		.loc 1 331 0
+ 112 0040 000085E5 		str	r0, [r5]
+ 332:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     if (value->flags & CborIteratorFlag_NegativeInteger)
+ 113              		.loc 1 332 0
+ 114 0044 0F30D4E5 		ldrb	r3, [r4, #15]	@ zero_extendqisi2
+ 115 0048 020013E3 		tst	r3, #2
+ 333:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****         *result = -*result - 1;
+ 116              		.loc 1 333 0
+ 117 004c 0000E011 		mvnne	r0, r0
+ 118 0050 00008515 		strne	r0, [r5]
+ 334:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     return CborNoError;
+ 335:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** }
+ 119              		.loc 1 335 0
+ 120 0054 0000A0E3 		mov	r0, #0
+ 121 0058 7080BDE8 		pop	{r4, r5, r6, pc}
+ 122              	.L13:
+ 123              		.align	2
+ 124              	.L12:
+ 125 005c 00000000 		.word	.LC0
+ 126 0060 00000000 		.word	.LANCHOR0
+ 127 0064 1D000000 		.word	.LC1
+ 128              		.cfi_endproc
+ 129              	.LFE28:
+ 131              		.section	.text.OTA_CBOR_Decode_GetStreamResponseMessage,"ax",%progbits
+ 132              		.align	2
+ 133              		.global	OTA_CBOR_Decode_GetStreamResponseMessage
+ 134              		.syntax unified
+ 135              		.arm
+ 136              		.fpu neon
+ 138              	OTA_CBOR_Decode_GetStreamResponseMessage:
+ 139              	.LFB49:
+ 140              		.file 2 "D:/Work/DeviceTester/amazon-freertos/lib/ota/aws_ota_cbor.c"
+   1:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** /*
+   2:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  * Amazon FreeRTOS OTA Agent V1.0.1
+   3:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  * Copyright (C) 2017 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+   4:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  *
+   5:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  * Permission is hereby granted, free of charge, to any person obtaining a copy of
+   6:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  * this software and associated documentation files (the "Software"), to deal in
+   7:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  * the Software without restriction, including without limitation the rights to
+   8:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+   9:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  * the Software, and to permit persons to whom the Software is furnished to do so,
+  10:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  * subject to the following conditions:
+  11:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  *
+  12:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  * The above copyright notice and this permission notice shall be included in all
+  13:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  * copies or substantial portions of the Software.
+  14:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  *
+  15:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  16:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+  17:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+  18:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+  19:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  20:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  21:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  *
+  22:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  * http://aws.amazon.com/freertos
+  23:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  * http://www.FreeRTOS.org
+  24:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  */
+  25:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+  26:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** /**
+  27:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  * @file aws_ota_cbor.c
+  28:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  * @brief CBOR encode/decode routines for AWS IoT Over-the-Air updates.
+  29:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  */
+  30:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+  31:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** #include "FreeRTOS.h"
+  32:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** #include "cbor.h"
+  33:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** #include "aws_ota_cbor.h"
+  34:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** #include "aws_ota_cbor_internal.h"
+  35:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+  36:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** /**
+  37:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  * @brief Message field definitions, per the server specification.
+  38:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  */
+  39:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+  40:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** #define OTA_CBOR_GETSTREAMREQUEST_ITEM_COUNT    5
+  41:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+  42:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** /**
+  43:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  * @brief Internal context structure for decoding CBOR arrays.
+  44:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  */
+  45:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** typedef struct OTAMessageDecodeContext
+  46:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** {
+  47:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     CborParser xCborParser;
+  48:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     CborValue xCborRecursedItem;
+  49:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** } OTAMessageDecodeContext_t, * OTAMessageDecodeContextPtr_t;
+  50:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+  51:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** /**
+  52:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  * @brief Decode a Get Stream response message from AWS IoT OTA.
+  53:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  */
+  54:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** BaseType_t OTA_CBOR_Decode_GetStreamResponseMessage( const uint8_t * pucMessageBuffer,
+  55:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                      size_t xMessageSize,
+  56:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                      int32_t * plFileId,
+  57:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                      int32_t * plBlockId,
+  58:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                      int32_t * plBlockSize,
+  59:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                      uint8_t ** ppucPayload,
+  60:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                      size_t * pxPayloadSize )
+  61:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** {
+ 141              		.loc 2 61 0
+ 142              		.cfi_startproc
+ 143              		@ args = 12, pretend = 0, frame = 40
+ 144              		@ frame_needed = 0, uses_anonymous_args = 0
+ 145              	.LVL13:
+ 146 0000 F0412DE9 		push	{r4, r5, r6, r7, r8, lr}
+ 147              		.cfi_def_cfa_offset 24
+ 148              		.cfi_offset 4, -24
+ 149              		.cfi_offset 5, -20
+ 150              		.cfi_offset 6, -16
+ 151              		.cfi_offset 7, -12
+ 152              		.cfi_offset 8, -8
+ 153              		.cfi_offset 14, -4
+ 154 0004 30D04DE2 		sub	sp, sp, #48
+ 155              		.cfi_def_cfa_offset 72
+  62:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     CborError xCborResult = CborNoError;
+  63:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     CborParser xCborParser;
+  64:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     CborValue xCborValue, xCborMap;
+  65:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+  66:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     /* Initialize the parser. */
+  67:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     xCborResult = cbor_parser_init( pucMessageBuffer,
+ 156              		.loc 2 67 0
+ 157 0008 20508DE2 		add	r5, sp, #32
+  61:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     CborError xCborResult = CborNoError;
+ 158              		.loc 2 61 0
+ 159 000c 0280A0E1 		mov	r8, r2
+ 160 0010 0370A0E1 		mov	r7, r3
+ 161              		.loc 2 67 0
+ 162 0014 0020A0E3 		mov	r2, #0
+ 163              	.LVL14:
+ 164 0018 00508DE5 		str	r5, [sp]
+ 165 001c 08308DE2 		add	r3, sp, #8
+ 166              	.LVL15:
+  61:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     CborError xCborResult = CborNoError;
+ 167              		.loc 2 61 0
+ 168 0020 50609DE5 		ldr	r6, [sp, #80]
+ 169              		.loc 2 67 0
+ 170 0024 FEFFFFEB 		bl	cbor_parser_init
+ 171              	.LVL16:
+  68:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                     xMessageSize,
+  69:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                     0,
+  70:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                     &xCborParser,
+  71:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                     &xCborMap );
+  72:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+  73:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     /* Get the outer element and confirm that it's a "map," i.e., a set of
+  74:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****      * CBOR key/value pairs. */
+  75:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     if( CborNoError == xCborResult )
+ 172              		.loc 2 75 0
+ 173 0028 004050E2 		subs	r4, r0, #0
+ 174 002c 0300001A 		bne	.L15
+ 175              	.LVL17:
+  76:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+  77:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         if( false == cbor_value_is_map( &xCborMap ) )
+ 176              		.loc 2 77 0
+ 177 0030 2E30DDE5 		ldrb	r3, [sp, #46]	@ zero_extendqisi2
+ 178 0034 A00053E3 		cmp	r3, #160
+ 179 0038 0A00000A 		beq	.L16
+ 180              	.L17:
+  78:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         {
+  79:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****             xCborResult = CborErrorIllegalType;
+ 181              		.loc 2 79 0
+ 182 003c 414FA0E3 		mov	r4, #260
+ 183              	.LVL18:
+ 184              	.L15:
+  80:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         }
+  81:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     }
+  82:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+  83:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     /* Find the file ID. */
+  84:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     if( CborNoError == xCborResult )
+  85:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+  86:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         xCborResult = cbor_value_map_find_value( &xCborMap,
+  87:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                  OTA_CBOR_FILEID_KEY,
+  88:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                  &xCborValue );
+  89:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     }
+  90:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+  91:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     if( CborNoError == xCborResult )
+  92:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+  93:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         if( CborIntegerType != cbor_value_get_type( &xCborValue ) )
+  94:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         {
+  95:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****             xCborResult = CborErrorIllegalType;
+  96:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         }
+  97:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     }
+  98:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+  99:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     if( CborNoError == xCborResult )
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         xCborResult = cbor_value_get_int( &xCborValue,
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                           plFileId );
+ 103:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     }
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     /* Find the block ID. */
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     if( CborNoError == xCborResult )
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         xCborResult = cbor_value_map_find_value( &xCborMap,
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                  OTA_CBOR_BLOCKID_KEY,
+ 110:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                  &xCborValue );
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     }
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     if( CborNoError == xCborResult )
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         if( CborIntegerType != cbor_value_get_type( &xCborValue ) )
+ 116:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         {
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****             xCborResult = CborErrorIllegalType;
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         }
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     }
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     if( CborNoError == xCborResult )
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         xCborResult = cbor_value_get_int( &xCborValue,
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                           plBlockId );
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     }
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     /* Find the block size. */
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     if( CborNoError == xCborResult )
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         xCborResult = cbor_value_map_find_value( &xCborMap,
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                  OTA_CBOR_BLOCKSIZE_KEY,
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                  &xCborValue );
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     }
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     if( CborNoError == xCborResult )
+ 136:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         if( CborIntegerType != cbor_value_get_type( &xCborValue ) )
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         {
+ 139:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****             xCborResult = CborErrorIllegalType;
+ 140:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         }
+ 141:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     }
+ 142:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 143:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     if( CborNoError == xCborResult )
+ 144:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         xCborResult = cbor_value_get_int( &xCborValue,
+ 146:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                           plBlockSize );
+ 147:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     }
+ 148:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 149:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     /* Find the payload bytes. */
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     if( CborNoError == xCborResult )
+ 151:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 152:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         xCborResult = cbor_value_map_find_value( &xCborMap,
+ 153:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                  OTA_CBOR_BLOCKPAYLOAD_KEY,
+ 154:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                  &xCborValue );
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     }
+ 156:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     if( CborNoError == xCborResult )
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 159:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         if( CborByteStringType != cbor_value_get_type( &xCborValue ) )
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         {
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****             xCborResult = CborErrorIllegalType;
+ 162:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         }
+ 163:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     }
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 165:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     if( CborNoError == xCborResult )
+ 166:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 167:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         xCborResult = cbor_value_calculate_string_length( &xCborValue,
+ 168:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                           pxPayloadSize );
+ 169:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     }
+ 170:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     if( CborNoError == xCborResult )
+ 172:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         *ppucPayload = pvPortMalloc( *pxPayloadSize );
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         if( NULL == *ppucPayload )
+ 176:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         {
+ 177:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****             xCborResult = CborErrorOutOfMemory;
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         }
+ 179:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     }
+ 180:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 181:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     if( CborNoError == xCborResult )
+ 182:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         xCborResult = cbor_value_copy_byte_string( &xCborValue,
+ 184:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                    *ppucPayload,
+ 185:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                    pxPayloadSize,
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                    NULL );
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     }
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 189:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     return CborNoError == xCborResult;
+ 185              		.loc 2 189 0
+ 186 0040 140F6FE1 		clz	r0, r4
+ 187 0044 A002A0E1 		lsr	r0, r0, #5
+ 190:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** }
+ 188              		.loc 2 190 0
+ 189 0048 30D08DE2 		add	sp, sp, #48
+ 190              		.cfi_remember_state
+ 191              		.cfi_def_cfa_offset 24
+ 192              		@ sp needed
+ 193 004c F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 194              	.LVL19:
+ 195              	.L37:
+ 196              		.cfi_restore_state
+ 197              	.LBB32:
+ 198              	.LBB33:
+ 336:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 337:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_API CborError cbor_value_get_int64_checked(const CborValue *value, int64_t *result);
+ 338:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_API CborError cbor_value_get_int_checked(const CborValue *value, int *result);
+ 339:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 340:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API bool cbor_value_is_length_known(const CborValue *value)
+ 341:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** { return (value->flags & CborIteratorFlag_UnknownLength) == 0; }
+ 342:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 343:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** /* Tags */
+ 344:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API bool cbor_value_is_tag(const CborValue *value)
+ 345:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** { return value->type == CborTagType; }
+ 346:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API CborError cbor_value_get_tag(const CborValue *value, CborTag *result)
+ 347:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** {
+ 348:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     assert(cbor_value_is_tag(value));
+ 349:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     *result = _cbor_value_extract_int64_helper(value);
+ 350:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     return CborNoError;
+ 351:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** }
+ 352:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_API CborError cbor_value_skip_tag(CborValue *it);
+ 353:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 354:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** /* Strings */
+ 355:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API bool cbor_value_is_byte_string(const CborValue *value)
+ 356:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** { return value->type == CborByteStringType; }
+ 357:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API bool cbor_value_is_text_string(const CborValue *value)
+ 358:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** { return value->type == CborTextStringType; }
+ 359:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 360:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API CborError cbor_value_get_string_length(const CborValue *value, size_t *length)
+ 361:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** {
+ 362:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     assert(cbor_value_is_byte_string(value) || cbor_value_is_text_string(value));
+ 363:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     if (!cbor_value_is_length_known(value))
+ 364:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****         return CborErrorUnknownLength;
+ 365:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     uint64_t v = _cbor_value_extract_int64_helper(value);
+ 366:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     *length = (size_t)v;
+ 367:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     if (*length != v)
+ 368:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****         return CborErrorDataTooLarge;
+ 369:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     return CborNoError;
+ 370:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** }
+ 371:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 372:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_PRIVATE_API CborError _cbor_value_copy_string(const CborValue *value, void *buffer,
+ 373:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****                                                    size_t *buflen, CborValue *next);
+ 374:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #if !defined(__RX)
+ 375:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 376:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_PRIVATE_API CborError _cbor_value_dup_string(const CborValue *value, void **buffer,
+ 377:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****                                                   size_t *buflen, CborValue *next);
+ 378:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** #endif /* __RX check */
+ 379:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 380:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_API CborError cbor_value_calculate_string_length(const CborValue *value, size_t *length);
+ 381:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** 
+ 382:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API CborError cbor_value_copy_text_string(const CborValue *value, char *buffer,
+ 383:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****                                                       size_t *buflen, CborValue *next)
+ 384:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** {
+ 385:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     assert(cbor_value_is_text_string(value));
+ 386:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     return _cbor_value_copy_string(value, buffer, buflen, next);
+ 387:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** }
+ 388:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** CBOR_INLINE_API CborError cbor_value_copy_byte_string(const CborValue *value, uint8_t *buffer,
+ 389:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****                                                       size_t *buflen, CborValue *next)
+ 390:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** {
+ 391:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     assert(cbor_value_is_byte_string(value));
+ 392:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     return _cbor_value_copy_string(value, buffer, buflen, next);
+ 199              		.loc 1 392 0
+ 200 0050 0430A0E1 		mov	r3, r4
+ 201 0054 0620A0E1 		mov	r2, r6
+ 202 0058 10008DE2 		add	r0, sp, #16
+ 203              	.LVL20:
+ 204 005c FEFFFFEB 		bl	_cbor_value_copy_string
+ 205              	.LVL21:
+ 206 0060 0040A0E1 		mov	r4, r0
+ 207              	.LVL22:
+ 208 0064 F5FFFFEA 		b	.L15
+ 209              	.LVL23:
+ 210              	.L16:
+ 211              	.LBE33:
+ 212              	.LBE32:
+  86:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                  OTA_CBOR_FILEID_KEY,
+ 213              		.loc 2 86 0
+ 214 0068 10208DE2 		add	r2, sp, #16
+ 215 006c 14119FE5 		ldr	r1, .L39
+ 216 0070 0500A0E1 		mov	r0, r5
+ 217 0074 FEFFFFEB 		bl	cbor_value_map_find_value
+ 218              	.LVL24:
+  91:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 219              		.loc 2 91 0
+ 220 0078 004050E2 		subs	r4, r0, #0
+ 221 007c EFFFFF1A 		bne	.L15
+ 222              	.LVL25:
+  93:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         {
+ 223              		.loc 2 93 0
+ 224 0080 1E30DDE5 		ldrb	r3, [sp, #30]	@ zero_extendqisi2
+ 225 0084 000053E3 		cmp	r3, #0
+ 226 0088 EBFFFF1A 		bne	.L17
+ 227              	.LVL26:
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                           plFileId );
+ 228              		.loc 2 101 0
+ 229 008c 0810A0E1 		mov	r1, r8
+ 230 0090 10008DE2 		add	r0, sp, #16
+ 231              	.LVL27:
+ 232 0094 FEFFFFEB 		bl	cbor_value_get_int
+ 233              	.LVL28:
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 234              		.loc 2 106 0
+ 235 0098 004050E2 		subs	r4, r0, #0
+ 236 009c E7FFFF1A 		bne	.L15
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                  OTA_CBOR_BLOCKID_KEY,
+ 237              		.loc 2 108 0
+ 238 00a0 10208DE2 		add	r2, sp, #16
+ 239              	.LVL29:
+ 240 00a4 E0109FE5 		ldr	r1, .L39+4
+ 241 00a8 0500A0E1 		mov	r0, r5
+ 242              	.LVL30:
+ 243 00ac FEFFFFEB 		bl	cbor_value_map_find_value
+ 244              	.LVL31:
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 245              		.loc 2 113 0
+ 246 00b0 004050E2 		subs	r4, r0, #0
+ 247 00b4 E1FFFF1A 		bne	.L15
+ 248              	.LVL32:
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         {
+ 249              		.loc 2 115 0
+ 250 00b8 1E30DDE5 		ldrb	r3, [sp, #30]	@ zero_extendqisi2
+ 251 00bc 000053E3 		cmp	r3, #0
+ 252 00c0 DDFFFF1A 		bne	.L17
+ 253              	.LVL33:
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                           plBlockId );
+ 254              		.loc 2 123 0
+ 255 00c4 0710A0E1 		mov	r1, r7
+ 256 00c8 10008DE2 		add	r0, sp, #16
+ 257              	.LVL34:
+ 258 00cc FEFFFFEB 		bl	cbor_value_get_int
+ 259              	.LVL35:
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 260              		.loc 2 128 0
+ 261 00d0 004050E2 		subs	r4, r0, #0
+ 262 00d4 D9FFFF1A 		bne	.L15
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                  OTA_CBOR_BLOCKSIZE_KEY,
+ 263              		.loc 2 130 0
+ 264 00d8 10208DE2 		add	r2, sp, #16
+ 265              	.LVL36:
+ 266 00dc AC109FE5 		ldr	r1, .L39+8
+ 267 00e0 0500A0E1 		mov	r0, r5
+ 268              	.LVL37:
+ 269 00e4 FEFFFFEB 		bl	cbor_value_map_find_value
+ 270              	.LVL38:
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 271              		.loc 2 135 0
+ 272 00e8 004050E2 		subs	r4, r0, #0
+ 273 00ec D3FFFF1A 		bne	.L15
+ 274              	.LVL39:
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         {
+ 275              		.loc 2 137 0
+ 276 00f0 1E30DDE5 		ldrb	r3, [sp, #30]	@ zero_extendqisi2
+ 277 00f4 000053E3 		cmp	r3, #0
+ 278 00f8 CFFFFF1A 		bne	.L17
+ 279              	.LVL40:
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                           plBlockSize );
+ 280              		.loc 2 145 0
+ 281 00fc 48109DE5 		ldr	r1, [sp, #72]
+ 282 0100 10008DE2 		add	r0, sp, #16
+ 283              	.LVL41:
+ 284 0104 FEFFFFEB 		bl	cbor_value_get_int
+ 285              	.LVL42:
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 286              		.loc 2 150 0
+ 287 0108 004050E2 		subs	r4, r0, #0
+ 288 010c CBFFFF1A 		bne	.L15
+ 152:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                  OTA_CBOR_BLOCKPAYLOAD_KEY,
+ 289              		.loc 2 152 0
+ 290 0110 10208DE2 		add	r2, sp, #16
+ 291              	.LVL43:
+ 292 0114 78109FE5 		ldr	r1, .L39+12
+ 293 0118 0500A0E1 		mov	r0, r5
+ 294              	.LVL44:
+ 295 011c FEFFFFEB 		bl	cbor_value_map_find_value
+ 296              	.LVL45:
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 297              		.loc 2 157 0
+ 298 0120 004050E2 		subs	r4, r0, #0
+ 299 0124 C5FFFF1A 		bne	.L15
+ 300              	.LVL46:
+ 159:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         {
+ 301              		.loc 2 159 0
+ 302 0128 1E30DDE5 		ldrb	r3, [sp, #30]	@ zero_extendqisi2
+ 303 012c 400053E3 		cmp	r3, #64
+ 304 0130 C1FFFF1A 		bne	.L17
+ 305              	.LVL47:
+ 167:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                           pxPayloadSize );
+ 306              		.loc 2 167 0
+ 307 0134 0610A0E1 		mov	r1, r6
+ 308 0138 10008DE2 		add	r0, sp, #16
+ 309              	.LVL48:
+ 310 013c FEFFFFEB 		bl	cbor_value_calculate_string_length
+ 311              	.LVL49:
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 312              		.loc 2 171 0
+ 313 0140 004050E2 		subs	r4, r0, #0
+ 314 0144 BDFFFF1A 		bne	.L15
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 315              		.loc 2 173 0
+ 316 0148 000096E5 		ldr	r0, [r6]
+ 317              	.LVL50:
+ 318 014c FEFFFFEB 		bl	pvPortMalloc
+ 319              	.LVL51:
+ 320 0150 4C309DE5 		ldr	r3, [sp, #76]
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         {
+ 321              		.loc 2 175 0
+ 322 0154 000050E3 		cmp	r0, #0
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 323              		.loc 2 173 0
+ 324 0158 0010A0E1 		mov	r1, r0
+ 325 015c 000083E5 		str	r0, [r3]
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         {
+ 326              		.loc 2 175 0
+ 177:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         }
+ 327              		.loc 2 177 0
+ 328 0160 0241A003 		moveq	r4, #-2147483648
+ 329              	.LVL52:
+ 330 0164 B5FFFF0A 		beq	.L15
+ 331              	.LVL53:
+ 332              	.L35:
+ 333              	.LBB35:
+ 334              	.LBB34:
+ 391:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h ****     return _cbor_value_copy_string(value, buffer, buflen, next);
+ 335              		.loc 1 391 0
+ 336 0168 1E30DDE5 		ldrb	r3, [sp, #30]	@ zero_extendqisi2
+ 337 016c 400053E3 		cmp	r3, #64
+ 338 0170 B6FFFF0A 		beq	.L37
+ 339 0174 1C309FE5 		ldr	r3, .L39+16
+ 340 0178 871100E3 		movw	r1, #391
+ 341 017c 18209FE5 		ldr	r2, .L39+20
+ 342 0180 18009FE5 		ldr	r0, .L39+24
+ 343              	.LVL54:
+ 344 0184 FEFFFFEB 		bl	__assert_func
+ 345              	.LVL55:
+ 346              	.L40:
+ 347              		.align	2
+ 348              	.L39:
+ 349 0188 27000000 		.word	.LC6
+ 350 018c 00000000 		.word	.LC2
+ 351 0190 02000000 		.word	.LC3
+ 352 0194 04000000 		.word	.LC4
+ 353 0198 06000000 		.word	.LC5
+ 354 019c 00000000 		.word	.LANCHOR1
+ 355 01a0 1D000000 		.word	.LC1
+ 356              	.LBE34:
+ 357              	.LBE35:
+ 358              		.cfi_endproc
+ 359              	.LFE49:
+ 361              		.section	.text.OTA_CBOR_Encode_GetStreamRequestMessage,"ax",%progbits
+ 362              		.align	2
+ 363              		.global	OTA_CBOR_Encode_GetStreamRequestMessage
+ 364              		.syntax unified
+ 365              		.arm
+ 366              		.fpu neon
+ 368              	OTA_CBOR_Encode_GetStreamRequestMessage:
+ 369              	.LFB50:
+ 191:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 193:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 194:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** /**
+ 195:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  * @brief Create an encoded Get Stream Request message for the AWS IoT OTA
+ 196:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  * service. The service allows block count or block bitmap to be requested,
+ 197:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  * but not both.
+ 198:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****  */
+ 199:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** BaseType_t OTA_CBOR_Encode_GetStreamRequestMessage( uint8_t * pucMessageBuffer,
+ 200:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                     size_t xMessageBufferSize,
+ 201:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                     size_t * pxEncodedMessageSize,
+ 202:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                     const char * pcClientToken,
+ 203:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                     int32_t lFileId,
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                     int32_t lBlockSize,
+ 205:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                     int32_t lBlockOffset,
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                     uint8_t * pucBlockBitmap,
+ 207:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                     size_t xBlockBitmapSize )
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** {
+ 370              		.loc 2 208 0
+ 371              		.cfi_startproc
+ 372              		@ args = 20, pretend = 0, frame = 32
+ 373              		@ frame_needed = 0, uses_anonymous_args = 0
+ 374              	.LVL56:
+ 375 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 376              		.cfi_def_cfa_offset 16
+ 377              		.cfi_offset 4, -16
+ 378              		.cfi_offset 5, -12
+ 379              		.cfi_offset 6, -8
+ 380              		.cfi_offset 14, -4
+ 381 0004 20D04DE2 		sub	sp, sp, #32
+ 382              		.cfi_def_cfa_offset 48
+ 383              		.loc 2 208 0
+ 384 0008 0040A0E1 		mov	r4, r0
+ 385 000c 0250A0E1 		mov	r5, r2
+ 386 0010 0360A0E1 		mov	r6, r3
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     CborError xCborResult = CborNoError;
+ 210:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     CborEncoder xCborEncoder, xCborMapEncoder;
+ 211:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 212:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     /* Initialize the CBOR encoder. */
+ 213:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     cbor_encoder_init( &xCborEncoder,
+ 387              		.loc 2 213 0
+ 388 0014 0120A0E1 		mov	r2, r1
+ 389              	.LVL57:
+ 390 0018 0030A0E3 		mov	r3, #0
+ 391              	.LVL58:
+ 392 001c 0010A0E1 		mov	r1, r0
+ 393              	.LVL59:
+ 394 0020 0D00A0E1 		mov	r0, sp
+ 395              	.LVL60:
+ 396 0024 FEFFFFEB 		bl	cbor_encoder_init
+ 397              	.LVL61:
+ 214:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                        pucMessageBuffer,
+ 215:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                        xMessageBufferSize,
+ 216:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                        0 );
+ 217:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     xCborResult = cbor_encoder_create_map( &xCborEncoder,
+ 398              		.loc 2 217 0
+ 399 0028 0520A0E3 		mov	r2, #5
+ 400 002c 10108DE2 		add	r1, sp, #16
+ 401 0030 0D00A0E1 		mov	r0, sp
+ 402 0034 FEFFFFEB 		bl	cbor_encoder_create_map
+ 403              	.LVL62:
+ 218:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                            &xCborMapEncoder,
+ 219:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                            OTA_CBOR_GETSTREAMREQUEST_ITEM_COUNT );
+ 220:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     /* Encode the client token key and value. */
+ 222:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     if( CborNoError == xCborResult )
+ 404              		.loc 2 222 0
+ 405 0038 000050E3 		cmp	r0, #0
+ 406 003c 3C00001A 		bne	.L42
+ 223:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 224:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         xCborResult = cbor_encode_text_stringz( &xCborMapEncoder,
+ 407              		.loc 2 224 0
+ 408 0040 FC109FE5 		ldr	r1, .L44
+ 409 0044 10008DE2 		add	r0, sp, #16
+ 410              	.LVL63:
+ 411 0048 FEFFFFEB 		bl	cbor_encode_text_stringz
+ 412              	.LVL64:
+ 225:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                 OTA_CBOR_CLIENTTOKEN_KEY );
+ 226:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     }
+ 227:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 228:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     if( CborNoError == xCborResult )
+ 413              		.loc 2 228 0
+ 414 004c 000050E3 		cmp	r0, #0
+ 415 0050 3700001A 		bne	.L42
+ 229:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         xCborResult = cbor_encode_text_stringz( &xCborMapEncoder,
+ 416              		.loc 2 230 0
+ 417 0054 0610A0E1 		mov	r1, r6
+ 418 0058 10008DE2 		add	r0, sp, #16
+ 419              	.LVL65:
+ 420 005c FEFFFFEB 		bl	cbor_encode_text_stringz
+ 421              	.LVL66:
+ 231:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                 pcClientToken );
+ 232:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     }
+ 233:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     /* Encode the file ID key and value. */
+ 235:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     if( CborNoError == xCborResult )
+ 422              		.loc 2 235 0
+ 423 0060 000050E3 		cmp	r0, #0
+ 424 0064 3200001A 		bne	.L42
+ 236:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 237:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         xCborResult = cbor_encode_text_stringz( &xCborMapEncoder,
+ 425              		.loc 2 237 0
+ 426 0068 D8109FE5 		ldr	r1, .L44+4
+ 427 006c 10008DE2 		add	r0, sp, #16
+ 428              	.LVL67:
+ 429 0070 FEFFFFEB 		bl	cbor_encode_text_stringz
+ 430              	.LVL68:
+ 238:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                 OTA_CBOR_FILEID_KEY );
+ 239:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     }
+ 240:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 241:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     if( CborNoError == xCborResult )
+ 431              		.loc 2 241 0
+ 432 0074 000050E3 		cmp	r0, #0
+ 433 0078 2D00001A 		bne	.L42
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 243:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         xCborResult = cbor_encode_int( &xCborMapEncoder,
+ 434              		.loc 2 243 0
+ 435 007c 30209DE5 		ldr	r2, [sp, #48]
+ 436 0080 10008DE2 		add	r0, sp, #16
+ 437              	.LVL69:
+ 438 0084 C23FA0E1 		asr	r3, r2, #31
+ 439 0088 FEFFFFEB 		bl	cbor_encode_int
+ 440              	.LVL70:
+ 244:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                        lFileId );
+ 245:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     }
+ 246:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 247:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     /* Encode the block size key and value. */
+ 248:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     if( CborNoError == xCborResult )
+ 441              		.loc 2 248 0
+ 442 008c 000050E3 		cmp	r0, #0
+ 443 0090 2700001A 		bne	.L42
+ 249:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 250:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         xCborResult = cbor_encode_text_stringz( &xCborMapEncoder,
+ 444              		.loc 2 250 0
+ 445 0094 B0109FE5 		ldr	r1, .L44+8
+ 446 0098 10008DE2 		add	r0, sp, #16
+ 447              	.LVL71:
+ 448 009c FEFFFFEB 		bl	cbor_encode_text_stringz
+ 449              	.LVL72:
+ 251:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                 OTA_CBOR_BLOCKSIZE_KEY );
+ 252:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     }
+ 253:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 254:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     if( CborNoError == xCborResult )
+ 450              		.loc 2 254 0
+ 451 00a0 000050E3 		cmp	r0, #0
+ 452 00a4 2200001A 		bne	.L42
+ 255:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         xCborResult = cbor_encode_int( &xCborMapEncoder,
+ 453              		.loc 2 256 0
+ 454 00a8 34209DE5 		ldr	r2, [sp, #52]
+ 455 00ac 10008DE2 		add	r0, sp, #16
+ 456              	.LVL73:
+ 457 00b0 C23FA0E1 		asr	r3, r2, #31
+ 458 00b4 FEFFFFEB 		bl	cbor_encode_int
+ 459              	.LVL74:
+ 257:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                        lBlockSize );
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     }
+ 259:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 260:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     /* Encode the block offset key and value. */
+ 261:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     if( CborNoError == xCborResult )
+ 460              		.loc 2 261 0
+ 461 00b8 000050E3 		cmp	r0, #0
+ 462 00bc 1C00001A 		bne	.L42
+ 262:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 263:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         xCborResult = cbor_encode_text_stringz( &xCborMapEncoder,
+ 463              		.loc 2 263 0
+ 464 00c0 88109FE5 		ldr	r1, .L44+12
+ 465 00c4 10008DE2 		add	r0, sp, #16
+ 466              	.LVL75:
+ 467 00c8 FEFFFFEB 		bl	cbor_encode_text_stringz
+ 468              	.LVL76:
+ 264:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                 OTA_CBOR_BLOCKOFFSET_KEY );
+ 265:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     }
+ 266:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 267:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     if( CborNoError == xCborResult )
+ 469              		.loc 2 267 0
+ 470 00cc 000050E3 		cmp	r0, #0
+ 471 00d0 1700001A 		bne	.L42
+ 268:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 269:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         xCborResult = cbor_encode_int( &xCborMapEncoder,
+ 472              		.loc 2 269 0
+ 473 00d4 38209DE5 		ldr	r2, [sp, #56]
+ 474 00d8 10008DE2 		add	r0, sp, #16
+ 475              	.LVL77:
+ 476 00dc C23FA0E1 		asr	r3, r2, #31
+ 477 00e0 FEFFFFEB 		bl	cbor_encode_int
+ 478              	.LVL78:
+ 270:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                        lBlockOffset );
+ 271:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     }
+ 272:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 273:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     /* Encode the block bitmap key and value. */
+ 274:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     if( CborNoError == xCborResult )
+ 479              		.loc 2 274 0
+ 480 00e4 000050E3 		cmp	r0, #0
+ 481 00e8 1100001A 		bne	.L42
+ 275:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 276:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         xCborResult = cbor_encode_text_stringz( &xCborMapEncoder,
+ 482              		.loc 2 276 0
+ 483 00ec 60109FE5 		ldr	r1, .L44+16
+ 484 00f0 10008DE2 		add	r0, sp, #16
+ 485              	.LVL79:
+ 486 00f4 FEFFFFEB 		bl	cbor_encode_text_stringz
+ 487              	.LVL80:
+ 277:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                 OTA_CBOR_BLOCKBITMAP_KEY );
+ 278:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     }
+ 279:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 280:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     if( CborNoError == xCborResult )
+ 488              		.loc 2 280 0
+ 489 00f8 000050E3 		cmp	r0, #0
+ 490 00fc 0C00001A 		bne	.L42
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         xCborResult = cbor_encode_byte_string( &xCborMapEncoder,
+ 491              		.loc 2 282 0
+ 492 0100 40209DE5 		ldr	r2, [sp, #64]
+ 493 0104 10008DE2 		add	r0, sp, #16
+ 494              	.LVL81:
+ 495 0108 3C109DE5 		ldr	r1, [sp, #60]
+ 496 010c FEFFFFEB 		bl	cbor_encode_byte_string
+ 497              	.LVL82:
+ 283:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                pucBlockBitmap,
+ 284:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                xBlockBitmapSize );
+ 285:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     }
+ 286:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 287:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     /* Done with the encoder. */
+ 288:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     if( CborNoError == xCborResult )
+ 498              		.loc 2 288 0
+ 499 0110 000050E3 		cmp	r0, #0
+ 500 0114 0600001A 		bne	.L42
+ 289:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 290:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         xCborResult = cbor_encoder_close_container_checked( &xCborEncoder,
+ 501              		.loc 2 290 0
+ 502 0118 10108DE2 		add	r1, sp, #16
+ 503 011c 0D00A0E1 		mov	r0, sp
+ 504              	.LVL83:
+ 505 0120 FEFFFFEB 		bl	cbor_encoder_close_container_checked
+ 506              	.LVL84:
+ 291:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                             &xCborMapEncoder );
+ 292:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     }
+ 293:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 294:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     /* Get the encoded size. */
+ 295:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     if( CborNoError == xCborResult )
+ 507              		.loc 2 295 0
+ 508 0124 000050E3 		cmp	r0, #0
+ 509              	.LVL85:
+ 510              	.LBB36:
+ 511              	.LBB37:
+ 210:D:\Work\DeviceTester\amazon-freertos\lib\third_party\tinycbor\cbor.h **** }
+ 512              		.loc 1 210 0
+ 513 0128 00109D05 		ldreq	r1, [sp]
+ 514 012c 04104100 		subeq	r1, r1, r4
+ 515              	.LBE37:
+ 516              	.LBE36:
+ 296:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     {
+ 297:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****         *pxEncodedMessageSize = cbor_encoder_get_buffer_size( &xCborEncoder,
+ 517              		.loc 2 297 0
+ 518 0130 00108505 		streq	r1, [r5]
+ 519              	.LVL86:
+ 520              	.L42:
+ 298:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****                                                               pucMessageBuffer );
+ 299:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     }
+ 300:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** 
+ 301:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c ****     return CborNoError == xCborResult;
+ 302:D:/Work/DeviceTester/amazon-freertos/lib/ota\aws_ota_cbor.c **** }
+ 521              		.loc 2 302 0
+ 522 0134 100F6FE1 		clz	r0, r0
+ 523              	.LVL87:
+ 524 0138 A002A0E1 		lsr	r0, r0, #5
+ 525 013c 20D08DE2 		add	sp, sp, #32
+ 526              		.cfi_def_cfa_offset 16
+ 527              		@ sp needed
+ 528 0140 7080BDE8 		pop	{r4, r5, r6, pc}
+ 529              	.LVL88:
+ 530              	.L45:
+ 531              		.align	2
+ 532              	.L44:
+ 533 0144 00000000 		.word	.LC7
+ 534 0148 27000000 		.word	.LC6
+ 535 014c 02000000 		.word	.LC3
+ 536 0150 02000000 		.word	.LC8
+ 537 0154 04000000 		.word	.LC9
+ 538              		.cfi_endproc
+ 539              	.LFE50:
+ 541              		.section	.rodata.OTA_CBOR_Decode_GetStreamResponseMessage.str1.1,"aMS",%progbits,1
+ 542              	.LC2:
+ 543 0000 6900     		.ascii	"i\000"
+ 544              	.LC3:
+ 545 0002 6C00     		.ascii	"l\000"
+ 546              	.LC4:
+ 547 0004 7000     		.ascii	"p\000"
+ 548              	.LC5:
+ 549 0006 63626F72 		.ascii	"cbor_value_is_byte_string(value)\000"
+ 549      5F76616C 
+ 549      75655F69 
+ 549      735F6279 
+ 549      74655F73 
+ 550              	.LC6:
+ 551 0027 6600     		.ascii	"f\000"
+ 552              		.section	.rodata.OTA_CBOR_Encode_GetStreamRequestMessage.str1.1,"aMS",%progbits,1
+ 553              	.LC7:
+ 554 0000 6300     		.ascii	"c\000"
+ 555              	.LC8:
+ 556 0002 6F00     		.ascii	"o\000"
+ 557              	.LC9:
+ 558 0004 6200     		.ascii	"b\000"
+ 559              		.section	.rodata.__func__.7559,"a",%progbits
+ 560              		.set	.LANCHOR0,. + 0
+ 563              	__func__.7559:
+ 564 0000 63626F72 		.ascii	"cbor_value_get_int\000"
+ 564      5F76616C 
+ 564      75655F67 
+ 564      65745F69 
+ 564      6E7400
+ 565              		.section	.rodata.__func__.7617,"a",%progbits
+ 566              		.set	.LANCHOR1,. + 0
+ 569              	__func__.7617:
+ 570 0000 63626F72 		.ascii	"cbor_value_copy_byte_string\000"
+ 570      5F76616C 
+ 570      75655F63 
+ 570      6F70795F 
+ 570      62797465 
+ 571              		.section	.rodata.cbor_value_get_int.str1.1,"aMS",%progbits,1
+ 572              	.LC0:
+ 573 0000 63626F72 		.ascii	"cbor_value_is_integer(value)\000"
+ 573      5F76616C 
+ 573      75655F69 
+ 573      735F696E 
+ 573      74656765 
+ 574              	.LC1:
+ 575 001d 443A5C57 		.ascii	"D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third"
+ 575      6F726B5C 
+ 575      44657669 
+ 575      63655465 
+ 575      73746572 
+ 576 004b 5F706172 		.ascii	"_party\\tinycbor/cbor.h\000"
+ 576      74795C74 
+ 576      696E7963 
+ 576      626F722F 
+ 576      63626F72 
+ 577              		.text
+ 578              	.Letext0:
+ 579              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 580              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 581              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 582              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 583              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 584              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 585              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 586              		.file 10 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 587              		.file 11 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\src/unity_internals.h"
+ 588              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS\\portable\\GCC\\ARM_CA9_RZA2M/por
+ 589              		.file 13 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 590              		.file 14 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include\\private/portable.h"
+ 591              		.file 15 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+DEFINED SYMBOLS
+                            *ABS*:00000000 aws_ota_cbor.c
+C:\Users\a5089698\AppData\Local\Temp\cc5fdlu1.s:17     .text.cbor_encode_text_stringz:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc5fdlu1.s:22     .text.cbor_encode_text_stringz:00000000 cbor_encode_text_stringz
+C:\Users\a5089698\AppData\Local\Temp\cc5fdlu1.s:59     .text.cbor_value_get_int:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc5fdlu1.s:64     .text.cbor_value_get_int:00000000 cbor_value_get_int
+C:\Users\a5089698\AppData\Local\Temp\cc5fdlu1.s:125    .text.cbor_value_get_int:0000005c $d
+C:\Users\a5089698\AppData\Local\Temp\cc5fdlu1.s:132    .text.OTA_CBOR_Decode_GetStreamResponseMessage:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc5fdlu1.s:138    .text.OTA_CBOR_Decode_GetStreamResponseMessage:00000000 OTA_CBOR_Decode_GetStreamResponseMessage
+C:\Users\a5089698\AppData\Local\Temp\cc5fdlu1.s:349    .text.OTA_CBOR_Decode_GetStreamResponseMessage:00000188 $d
+C:\Users\a5089698\AppData\Local\Temp\cc5fdlu1.s:362    .text.OTA_CBOR_Encode_GetStreamRequestMessage:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc5fdlu1.s:368    .text.OTA_CBOR_Encode_GetStreamRequestMessage:00000000 OTA_CBOR_Encode_GetStreamRequestMessage
+C:\Users\a5089698\AppData\Local\Temp\cc5fdlu1.s:533    .text.OTA_CBOR_Encode_GetStreamRequestMessage:00000144 $d
+C:\Users\a5089698\AppData\Local\Temp\cc5fdlu1.s:563    .rodata.__func__.7559:00000000 __func__.7559
+C:\Users\a5089698\AppData\Local\Temp\cc5fdlu1.s:569    .rodata.__func__.7617:00000000 __func__.7617
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+strlen
+cbor_encode_text_string
+__assert_func
+_cbor_value_decode_int64_internal
+cbor_parser_init
+_cbor_value_copy_string
+cbor_value_map_find_value
+cbor_value_calculate_string_length
+pvPortMalloc
+cbor_encoder_init
+cbor_encoder_create_map
+cbor_encode_int
+cbor_encode_byte_string
+cbor_encoder_close_container_checked

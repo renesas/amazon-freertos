@@ -1,0 +1,382 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"freertos_tick_config.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.vConfigureTickInterrupt,"ax",%progbits
+  17              		.align	2
+  18              		.global	vConfigureTickInterrupt
+  19              		.syntax unified
+  20              		.arm
+  21              		.fpu neon
+  23              	vConfigureTickInterrupt:
+  24              	.LFB0:
+  25              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/ama
+   1:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** /*
+   2:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  * FreeRTOS Kernel V10.0.0
+   3:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  * Copyright (C) 2017 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+   4:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  *
+   5:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  * Permission is hereby granted, free of charge, to any person obtaining a copy of
+   6:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  * this software and associated documentation files (the "Software"), to deal in
+   7:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  * the Software without restriction, including without limitation the rights to
+   8:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+   9:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  * the Software, and to permit persons to whom the Software is furnished to do so,
+  10:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  * subject to the following conditions:
+  11:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  *
+  12:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  * The above copyright notice and this permission notice shall be included in all
+  13:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  * copies or substantial portions of the Software. If you wish to use our Amazon
+  14:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  * FreeRTOS name, please do so in a fair use way that does not cause confusion.
+  15:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  *
+  16:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  17:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+  18:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+  19:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+  20:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  21:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  22:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  *
+  23:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  * http://www.FreeRTOS.org
+  24:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  * http://aws.amazon.com/freertos
+  25:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  *
+  26:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  * 1 tab == 4 spaces!
+  27:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  */
+  28:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+  29:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** /* FreeRTOS includes. */
+  30:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** #include "FreeRTOS.h"
+  31:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** #include "Task.h"
+  32:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+  33:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** /* Renesas driver includes. */
+  34:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** #include <stdint.h>
+  35:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** #include "iodefine.h"
+  36:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+  37:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** #include "r_intc_lld_rza2m.h"
+  38:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+  39:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** #define runtimeCLOCK_SCALE_SHIFT    ( 9UL )
+  40:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** #define runtimeOVERFLOW_BIT         ( 1UL << ( 32UL - runtimeCLOCK_SCALE_SHIFT ) )
+  41:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+  42:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** /* --- P1 clock (Uint:kHz) for RZ/A2 --- */
+  43:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** #define P1_CLOCK_FREQUENCY_kHz  (66 * 1000)  /* Assume 66MHz */
+  44:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+  45:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** /* ---- Timer cycle specification(Argument cycle)(Unit : ms) maximum value ---- */
+  46:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     /* The maximum value is H'FFFF_FFFF because CMP is the register which has 32 bits */
+  47:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     /* 65,075msec * 66MHz = 4,294,950,000 (H'FFFF_BC70)   : No Error                  */
+  48:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     /* 65,076msec * 66MHz = 4,295,016,000 (H'1_0000_BE40) : Error                     */
+  49:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     /* Timer cycle specification > Error when the cycle is 65,075ms                   */
+  50:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** #define MAX_CYCLE_msec          (0xFFFFFFFFuL / P1_CLOCK_FREQUENCY_kHz)
+  51:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+  52:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** #define OSTM_INT_DISABLE    (0xFE)  /* OSTM interrupt disable */
+  53:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** #define OSTM_INT_ENABLE     (0x01)  /* OSTM interrupt enable */
+  54:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** #define OSTM_MODE_INTERVAL  (0xFD)  /* OSTM operating mode : Interval timer mode       */
+  55:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** #define OSTM_MODE_COMPARE   (0x02)  /* OSTM operating mode : Free running compare mode */
+  56:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+  57:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** /* To make casting to the ISR prototype expected by the Renesas GIC drivers. */
+  58:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** typedef void (*ISR_FUNCTION)( uint32_t );
+  59:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+  60:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** /*
+  61:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  * The application must provide a function that configures a peripheral to
+  62:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  * create the FreeRTOS tick interrupt, then define configSETUP_TICK_INTERRUPT()
+  63:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  * in FreeRTOSConfig.h to call the function.  This file contains a function
+  64:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  * that is suitable for use on the Renesas RZ MPU.
+  65:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  */
+  66:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** void vConfigureTickInterrupt( void )
+  67:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** {
+  26              		.loc 1 67 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30 0000 70402DE9 		push	{r4, r5, r6, lr}
+  31              		.cfi_def_cfa_offset 16
+  32              		.cfi_offset 4, -16
+  33              		.cfi_offset 5, -12
+  34              		.cfi_offset 6, -8
+  35              		.cfi_offset 14, -4
+  68:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     /* Stop the counter. */
+  69:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     OSTM0.OSTMnTT.BYTE = 1;
+  36              		.loc 1 69 0
+  37 0004 0150A0E3 		mov	r5, #1
+  38 0008 58409FE5 		ldr	r4, .L3
+  70:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+  71:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     /* Work in interval mode. */
+  72:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     OSTM0.OSTMnCTL.BYTE |= OSTM_MODE_INTERVAL;
+  73:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+  74:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     /* Use interrupts after counting starts. */
+  75:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     OSTM0.OSTMnCTL.BYTE |= OSTM_INT_ENABLE;
+  76:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+  77:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     /* Start value for down counter.
+  78:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****      * (configPERIPHERAL_CLOCK0_HZ / configTICK_RATE_HZ) + 14 ?? */
+  79:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     OSTM0.OSTMnCMP.LONG =  (uint32_t)(( P1_CLOCK_FREQUENCY_kHz )  - 1 ) ;
+  80:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+  81:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     /* Configure the interrupt controller. */
+  82:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     R_INTC_RegistIntFunc( INTC_ID_OSTM_OSTMI0, ( ISR_FUNCTION ) FreeRTOS_Tick_Handler );
+  39              		.loc 1 82 0
+  40 000c 5800A0E3 		mov	r0, #88
+  41 0010 54109FE5 		ldr	r1, .L3+4
+  69:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+  42              		.loc 1 69 0
+  43 0014 1850C4E5 		strb	r5, [r4, #24]
+  72:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+  44              		.loc 1 72 0
+  45 0018 2030D4E5 		ldrb	r3, [r4, #32]	@ zero_extendqisi2
+  46 001c FD3083E3 		orr	r3, r3, #253
+  47 0020 2030C4E5 		strb	r3, [r4, #32]
+  75:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+  48              		.loc 1 75 0
+  49 0024 2030D4E5 		ldrb	r3, [r4, #32]	@ zero_extendqisi2
+  50 0028 053083E1 		orr	r3, r3, r5
+  51 002c 2030C4E5 		strb	r3, [r4, #32]
+  79:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+  52              		.loc 1 79 0
+  53 0030 38309FE5 		ldr	r3, .L3+8
+  54 0034 003084E5 		str	r3, [r4]
+  55              		.loc 1 82 0
+  56 0038 FEFFFFEB 		bl	R_INTC_RegistIntFunc
+  57              	.LVL0:
+  83:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+  84:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     /* Tick must be assigned the lowest interrupt priority. */
+  85:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     R_INTC_SetPriority( INTC_ID_OSTM_OSTMI0, portLOWEST_USABLE_INTERRUPT_PRIORITY );
+  58              		.loc 1 85 0
+  59 003c 1E10A0E3 		mov	r1, #30
+  60 0040 5800A0E3 		mov	r0, #88
+  61 0044 FEFFFFEB 		bl	R_INTC_SetPriority
+  62              	.LVL1:
+  86:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+  87:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     INTC.GICC_BPR.BIT.Binarypoint = 0;
+  63              		.loc 1 87 0
+  64 0048 24309FE5 		ldr	r3, .L3+12
+  88:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     R_INTC_Enable( INTC_ID_OSTM_OSTMI0 );
+  65              		.loc 1 88 0
+  66 004c 5800A0E3 		mov	r0, #88
+  87:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     R_INTC_Enable( INTC_ID_OSTM_OSTMI0 );
+  67              		.loc 1 87 0
+  68 0050 082093E5 		ldr	r2, [r3, #8]
+  69 0054 1F20C2E7 		bfc	r2, #0, #3
+  70 0058 082083E5 		str	r2, [r3, #8]
+  71              		.loc 1 88 0
+  72 005c FEFFFFEB 		bl	R_INTC_Enable
+  73              	.LVL2:
+  89:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+  90:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     OSTM0.OSTMnTS.BYTE = 0x01;  /* Start counting */
+  74              		.loc 1 90 0
+  75 0060 1450C4E5 		strb	r5, [r4, #20]
+  76 0064 7080BDE8 		pop	{r4, r5, r6, pc}
+  77              	.L4:
+  78              		.align	2
+  79              	.L3:
+  80 0068 00B003E8 		.word	-402411520
+  81 006c 00000000 		.word	FreeRTOS_Tick_Handler
+  82 0070 CF010100 		.word	65999
+  83 0074 002022E8 		.word	-400416768
+  84              		.cfi_endproc
+  85              	.LFE0:
+  87              		.section	.text.ulGetRunTimeCounterValue,"ax",%progbits
+  88              		.align	2
+  89              		.global	ulGetRunTimeCounterValue
+  90              		.syntax unified
+  91              		.arm
+  92              		.fpu neon
+  94              	ulGetRunTimeCounterValue:
+  95              	.LFB1:
+  91:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** }
+  92:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** /*-----------------------------------------------------------*/
+  93:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+  94:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** /*
+  95:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  * Crude implementation of a run time counter used to measure how much time
+  96:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  * each task spends in the Running state.
+  97:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****  */
+  98:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** unsigned long ulGetRunTimeCounterValue( void )
+  99:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** {
+  96              		.loc 1 99 0
+  97              		.cfi_startproc
+  98              		@ args = 0, pretend = 0, frame = 0
+  99              		@ frame_needed = 0, uses_anonymous_args = 0
+ 100              		@ link register save eliminated.
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     static unsigned long last_counter_value = 0UL;
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     static unsigned long overflows = 0;
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     unsigned long value_now;
+ 103:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     value_now = OSTM1.OSTMnCNT.LONG;
+ 101              		.loc 1 104 0
+ 102 0000 30309FE5 		ldr	r3, .L7
+ 103 0004 040093E5 		ldr	r0, [r3, #4]
+ 104              	.LVL3:
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     /* Has the value overflowed since it was last read. */
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     if( value_now < last_counter_value )
+ 105              		.loc 1 107 0
+ 106 0008 2C309FE5 		ldr	r3, .L7+4
+ 107 000c 002093E5 		ldr	r2, [r3]
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     {
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****         overflows++;
+ 110:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     }
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     last_counter_value = value_now;
+ 108              		.loc 1 111 0
+ 109 0010 000083E5 		str	r0, [r3]
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     {
+ 110              		.loc 1 107 0
+ 111 0014 020050E1 		cmp	r0, r2
+ 112 0018 20209FE5 		ldr	r2, .L7+8
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     }
+ 113              		.loc 1 109 0
+ 114 001c 00109235 		ldrcc	r1, [r2]
+ 115 0020 01108132 		addcc	r1, r1, #1
+ 116 0024 00108235 		strcc	r1, [r2]
+ 117              	.LVL4:
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     /* There is no prescale on the counter, so simulate in software. */
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     value_now >>= runtimeCLOCK_SCALE_SHIFT;
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     value_now += ( runtimeOVERFLOW_BIT * overflows );
+ 118              		.loc 1 115 0
+ 119 0028 003092E5 		ldr	r3, [r2]
+ 120 002c 833BA0E1 		lsl	r3, r3, #23
+ 116:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     return value_now;
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** }
+ 121              		.loc 1 118 0
+ 122 0030 A00483E0 		add	r0, r3, r0, lsr #9
+ 123 0034 1EFF2FE1 		bx	lr
+ 124              	.L8:
+ 125              		.align	2
+ 126              	.L7:
+ 127 0038 00C003E8 		.word	-402407424
+ 128 003c 00000000 		.word	.LANCHOR0
+ 129 0040 00000000 		.word	.LANCHOR1
+ 130              		.cfi_endproc
+ 131              	.LFE1:
+ 133              		.section	.text.vInitialiseRunTimeStats,"ax",%progbits
+ 134              		.align	2
+ 135              		.global	vInitialiseRunTimeStats
+ 136              		.syntax unified
+ 137              		.arm
+ 138              		.fpu neon
+ 140              	vInitialiseRunTimeStats:
+ 141              	.LFB2:
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** /*-----------------------------------------------------------*/
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** void vInitialiseRunTimeStats( void )
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** {
+ 142              		.loc 1 122 0
+ 143              		.cfi_startproc
+ 144              		@ args = 0, pretend = 0, frame = 8
+ 145              		@ frame_needed = 0, uses_anonymous_args = 0
+ 146              		@ link register save eliminated.
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     volatile uint8_t dummy_buf;
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     /* OSTM1 is used as the run time stats counter. */
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     CPG.STBCR3.BYTE = 0x9fu;      /* [1], OSTM0, OSTM1, OSTM3, MTU3, CAN-FD, ADC, GPT */
+ 147              		.loc 1 126 0
+ 148 0000 4C309FE5 		ldr	r3, .L11
+ 149 0004 6020E0E3 		mvn	r2, #96
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     volatile uint8_t dummy_buf;
+ 150              		.loc 1 122 0
+ 151 0008 08D04DE2 		sub	sp, sp, #8
+ 152              		.cfi_def_cfa_offset 8
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     dummy_buf = CPG.STBCR3.BYTE;  /* (Dummy read)                                         */
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     /* Stop the counter. */
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     OSTM1.OSTMnTT.BYTE = 1;
+ 153              		.loc 1 130 0
+ 154 000c 0110A0E3 		mov	r1, #1
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     dummy_buf = CPG.STBCR3.BYTE;  /* (Dummy read)                                         */
+ 155              		.loc 1 126 0
+ 156 0010 2123C3E5 		strb	r2, [r3, #801]
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     dummy_buf = CPG.STBCR3.BYTE;  /* (Dummy read)                                         */
+ 157              		.loc 1 127 0
+ 158 0014 2133D3E5 		ldrb	r3, [r3, #801]	@ zero_extendqisi2
+ 159 0018 7330EFE6 		uxtb	r3, r3
+ 160 001c 0730CDE5 		strb	r3, [sp, #7]
+ 161              		.loc 1 130 0
+ 162 0020 30309FE5 		ldr	r3, .L11+4
+ 163 0024 1810C3E5 		strb	r1, [r3, #24]
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     /* Work in compare mode mode. */
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     OSTM1.OSTMnCTL.BYTE |= OSTM_MODE_COMPARE;
+ 164              		.loc 1 133 0
+ 165 0028 2020D3E5 		ldrb	r2, [r3, #32]	@ zero_extendqisi2
+ 166 002c 022082E3 		orr	r2, r2, #2
+ 167 0030 2020C3E5 		strb	r2, [r3, #32]
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     /* Don't use interrupts. */
+ 136:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     OSTM1.OSTMnCTL.BYTE &= OSTM_INT_DISABLE;
+ 168              		.loc 1 136 0
+ 169 0034 2020D3E5 		ldrb	r2, [r3, #32]	@ zero_extendqisi2
+ 170 0038 FE2002E2 		and	r2, r2, #254
+ 171 003c 2020C3E5 		strb	r2, [r3, #32]
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     /* Compare is just set to 0. */
+ 139:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     OSTM1.OSTMnCMP.LONG = 0;
+ 172              		.loc 1 139 0
+ 173 0040 0020A0E3 		mov	r2, #0
+ 174 0044 002083E5 		str	r2, [r3]
+ 140:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** 
+ 141:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c ****     OSTM1.OSTMnTS.BYTE = 0x01;  /* Start counting */
+ 175              		.loc 1 141 0
+ 176 0048 1410C3E5 		strb	r1, [r3, #20]
+ 142:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\freertos_tick_config.c **** }
+ 177              		.loc 1 142 0
+ 178 004c 08D08DE2 		add	sp, sp, #8
+ 179              		.cfi_def_cfa_offset 0
+ 180              		@ sp needed
+ 181 0050 1EFF2FE1 		bx	lr
+ 182              	.L12:
+ 183              		.align	2
+ 184              	.L11:
+ 185 0054 FF00FEFC 		.word	-50462465
+ 186 0058 00C003E8 		.word	-402407424
+ 187              		.cfi_endproc
+ 188              	.LFE2:
+ 190              		.section	.bss.last_counter_value.69506,"aw",%nobits
+ 191              		.align	2
+ 192              		.set	.LANCHOR0,. + 0
+ 195              	last_counter_value.69506:
+ 196 0000 00000000 		.space	4
+ 197              		.section	.bss.overflows.69507,"aw",%nobits
+ 198              		.align	2
+ 199              		.set	.LANCHOR1,. + 0
+ 202              	overflows.69507:
+ 203 0000 00000000 		.space	4
+ 204              		.text
+ 205              	.Letext0:
+ 206              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 207              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 208              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 209              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 210              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 211              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 212              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 213              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 214              		.file 10 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\src/unity_internals.h"
+ 215              		.file 11 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 216              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 217              		.file 13 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 218              		.file 14 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+DEFINED SYMBOLS
+                            *ABS*:00000000 freertos_tick_config.c
+C:\Users\a5089698\AppData\Local\Temp\ccPNL56A.s:17     .text.vConfigureTickInterrupt:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccPNL56A.s:23     .text.vConfigureTickInterrupt:00000000 vConfigureTickInterrupt
+C:\Users\a5089698\AppData\Local\Temp\ccPNL56A.s:80     .text.vConfigureTickInterrupt:00000068 $d
+C:\Users\a5089698\AppData\Local\Temp\ccPNL56A.s:88     .text.ulGetRunTimeCounterValue:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccPNL56A.s:94     .text.ulGetRunTimeCounterValue:00000000 ulGetRunTimeCounterValue
+C:\Users\a5089698\AppData\Local\Temp\ccPNL56A.s:127    .text.ulGetRunTimeCounterValue:00000038 $d
+C:\Users\a5089698\AppData\Local\Temp\ccPNL56A.s:134    .text.vInitialiseRunTimeStats:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccPNL56A.s:140    .text.vInitialiseRunTimeStats:00000000 vInitialiseRunTimeStats
+C:\Users\a5089698\AppData\Local\Temp\ccPNL56A.s:185    .text.vInitialiseRunTimeStats:00000054 $d
+C:\Users\a5089698\AppData\Local\Temp\ccPNL56A.s:191    .bss.last_counter_value.69506:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccPNL56A.s:195    .bss.last_counter_value.69506:00000000 last_counter_value.69506
+C:\Users\a5089698\AppData\Local\Temp\ccPNL56A.s:198    .bss.overflows.69507:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccPNL56A.s:202    .bss.overflows.69507:00000000 overflows.69507
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+R_INTC_RegistIntFunc
+R_INTC_SetPriority
+R_INTC_Enable
+FreeRTOS_Tick_Handler

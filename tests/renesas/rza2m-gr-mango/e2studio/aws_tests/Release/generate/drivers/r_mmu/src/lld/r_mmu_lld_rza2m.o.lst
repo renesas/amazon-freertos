@@ -1,0 +1,1031 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"r_mmu_lld_rza2m.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.mmu_get_ttb_entry,"ax",%progbits
+  17              		.align	2
+  18              		.syntax unified
+  19              		.arm
+  20              		.fpu neon
+  22              	mmu_get_ttb_entry:
+  23              	.LFB5:
+  24              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/cor
+   1:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** /*******************************************************************************
+   2:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * DISCLAIMER
+   3:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * This software is supplied by Renesas Electronics Corporation and is only
+   4:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * intended for use with Renesas products. No other uses are authorized. This
+   5:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * software is owned by Renesas Electronics Corporation and is protected under
+   6:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * all applicable laws, including copyright laws.
+   7:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   8:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT
+   9:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+  10:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED.
+  11:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * TO THE MAXIMUM EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS
+  12:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES SHALL BE LIABLE
+  13:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR
+  14:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * ANY REASON RELATED TO THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE
+  15:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+  16:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Renesas reserves the right, without notice, to make changes to this software
+  17:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * and to discontinue the availability of this software. By using this software,
+  18:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * you agree to the additional terms and conditions found by accessing the
+  19:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * following link:
+  20:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * http://www.renesas.com/disclaimer
+  21:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+  22:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** *******************************************************************************/
+  23:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** /*******************************************************************************
+  24:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * File Name : r_mmu_lld_rza2m.c
+  25:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Description : Memory Management Unit Low Layer Driver
+  26:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** ******************************************************************************/
+  27:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+  28:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** /******************************************************************************
+  29:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** Includes   <System Includes> , "Project Includes"
+  30:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** ******************************************************************************/
+  31:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** #include "r_mmu_drv_link.h"
+  32:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** #include "r_mmu_drv_sc_cfg.h"
+  33:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** #include "r_compiler_abstraction_api.h"
+  34:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+  35:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** /******************************************************************************
+  36:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** Private global variables and functions
+  37:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** ******************************************************************************/
+  38:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** /*! Version Information */
+  39:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** static const st_drv_info_t gs_lld_info =
+  40:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** {
+  41:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     {
+  42:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****         ((STDIO_MMU_RZ_LLD_VERSION_MAJOR << 16) + STDIO_MMU_RZ_LLD_VERSION_MINOR)
+  43:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     },
+  44:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     STDIO_MMU_RZ_LLD_BUILD_NUM,
+  45:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     STDIO_MMU_RZ_LLD_DRV_NAME
+  46:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** };
+  47:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+  48:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** static uint32_t * mmu_get_ttb_entry(uint32_t address);
+  49:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+  50:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+  51:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** /******************************************************************************
+  52:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Function Name: R_MMU_WriteTbl
+  53:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Description  : Write MMU entry data
+  54:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Arguments    : uint32_t   vaddress  ; I : virtual address to be mapped
+  55:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** *              : uint32_t   paddress  ; I : physical address to be mapped
+  56:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** *              : uint32_t   size      ; I : size of 1M sections
+  57:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** *              : uint32_t   entry     ; I : initial data of fill pattern
+  58:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Return Value : MMU_SUCCESS      : successful
+  59:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** *                MMU_ERR_OVERFLOW : overflow of virtual or physical area
+  60:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** ******************************************************************************/
+  61:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** e_mmu_err_t R_MMU_WriteTbl(uint32_t vaddress, uint32_t paddress, uint32_t size, uint32_t entry)
+  62:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** {
+  63:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     uint32_t * p_ttb;
+  64:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     uint32_t dataindex;
+  65:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+  66:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     /* virtual address space check */
+  67:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     dataindex = (vaddress >> 20) + size;
+  68:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     if (dataindex > 4096)
+  69:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     {
+  70:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****         return (MMU_ERR_OVERFLOW);
+  71:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     }
+  72:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+  73:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     /* physical address space check */
+  74:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     dataindex = (paddress >> 20) + size;
+  75:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     if (dataindex > 4096)
+  76:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     {
+  77:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****         return (MMU_ERR_OVERFLOW);
+  78:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     }
+  79:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+  80:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     p_ttb = mmu_get_ttb_entry(vaddress);
+  81:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     entry = (entry & 0x000FFFFFuL) | (paddress & 0xFFF00000uL);
+  82:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+  83:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     while (0 != size)
+  84:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     {
+  85:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****         *p_ttb = entry;
+  86:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****         p_ttb++;
+  87:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****         entry += 0x00100000uL;
+  88:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****         size--;
+  89:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     }
+  90:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+  91:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     return (MMU_SUCCESS);
+  92:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** }
+  93:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** /******************************************************************************
+  94:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****  * End of function R_MMU_WriteTbl
+  95:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****  ******************************************************************************/
+  96:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+  97:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** /******************************************************************************
+  98:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Function Name: R_MMU_ReadTbl
+  99:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Description  : Read MMU entry data
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Arguments    : uint32_t   address  ; I : virtual address to be read
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Return Value : MMU table entry value
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** ******************************************************************************/
+ 103:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** uint32_t R_MMU_ReadTbl(uint32_t address)
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** {
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     uint32_t * p_ttb;
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     p_ttb = mmu_get_ttb_entry(address);
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     return *p_ttb;
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** }
+ 110:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** /******************************************************************************
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****  * End of function R_MMU_ReadTbl
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****  ******************************************************************************/
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** /******************************************************************************
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Function Name: mmu_get_ttb_entry
+ 116:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Description  : Get TTB entry address of specified address
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Arguments    : uint32_t   address   ; I : query address
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Return Value : TTB entry address
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** ******************************************************************************/
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** static uint32_t * mmu_get_ttb_entry(uint32_t address)
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** {
+  25              		.loc 1 121 0
+  26              		.cfi_startproc
+  27              		@ args = 0, pretend = 0, frame = 0
+  28              		@ frame_needed = 0, uses_anonymous_args = 0
+  29              	.LVL0:
+  30 0000 70402DE9 		push	{r4, r5, r6, lr}
+  31              		.cfi_def_cfa_offset 16
+  32              		.cfi_offset 4, -16
+  33              		.cfi_offset 5, -12
+  34              		.cfi_offset 6, -8
+  35              		.cfi_offset 14, -4
+  36              		.loc 1 121 0
+  37 0004 0040A0E1 		mov	r4, r0
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     uint32_t ttbcr;
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     uint32_t ttbr;
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     uint32_t mask;
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     uint32_t res;
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     ttbcr = r_mmu_get_ttbcr();
+  38              		.loc 1 127 0
+  39 0008 FEFFFFEB 		bl	r_mmu_get_ttbcr
+  40              	.LVL1:
+  41 000c 0050A0E1 		mov	r5, r0
+  42              	.LVL2:
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     ttbr = r_mmu_get_ttbr0();
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     mask = (0xFFFFC000uL) << (ttbcr&7);
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     res = (ttbr & mask) + ((address >> 18) & 0xFFFFFFFCuL);
+  43              		.loc 1 130 0
+  44 0010 2449A0E1 		lsr	r4, r4, #18
+  45              	.LVL3:
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     res = (ttbr & mask) + ((address >> 18) & 0xFFFFFFFCuL);
+  46              		.loc 1 129 0
+  47 0014 075005E2 		and	r5, r5, #7
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     ttbr = r_mmu_get_ttbr0();
+  48              		.loc 1 128 0
+  49 0018 FEFFFFEB 		bl	r_mmu_get_ttbr0
+  50              	.LVL4:
+  51              		.loc 1 130 0
+  52 001c 0C309FE5 		ldr	r3, .L3
+  53 0020 0340C4E3 		bic	r4, r4, #3
+  54 0024 130500E0 		and	r0, r0, r3, lsl r5
+  55              	.LVL5:
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     /* Cast to an appropriate type */
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     return ((uint32_t *) res);
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** }
+  56              		.loc 1 134 0
+  57 0028 040080E0 		add	r0, r0, r4
+  58 002c 7080BDE8 		pop	{r4, r5, r6, pc}
+  59              	.L4:
+  60              		.align	2
+  61              	.L3:
+  62 0030 00C0FFFF 		.word	-16384
+  63              		.cfi_endproc
+  64              	.LFE5:
+  66              		.section	.text.R_MMU_WriteTbl,"ax",%progbits
+  67              		.align	2
+  68              		.global	R_MMU_WriteTbl
+  69              		.syntax unified
+  70              		.arm
+  71              		.fpu neon
+  73              	R_MMU_WriteTbl:
+  74              	.LFB3:
+  62:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     uint32_t * p_ttb;
+  75              		.loc 1 62 0
+  76              		.cfi_startproc
+  77              		@ args = 0, pretend = 0, frame = 0
+  78              		@ frame_needed = 0, uses_anonymous_args = 0
+  79              	.LVL6:
+  80 0000 70402DE9 		push	{r4, r5, r6, lr}
+  81              		.cfi_def_cfa_offset 16
+  82              		.cfi_offset 4, -16
+  83              		.cfi_offset 5, -12
+  84              		.cfi_offset 6, -8
+  85              		.cfi_offset 14, -4
+  62:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     uint32_t * p_ttb;
+  86              		.loc 1 62 0
+  87 0004 0360A0E1 		mov	r6, r3
+  67:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     if (dataindex > 4096)
+  88              		.loc 1 67 0
+  89 0008 203A82E0 		add	r3, r2, r0, lsr #20
+  90              	.LVL7:
+  68:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     {
+  91              		.loc 1 68 0
+  92 000c 010A53E3 		cmp	r3, #4096
+  93 0010 1100008A 		bhi	.L10
+  74:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     if (dataindex > 4096)
+  94              		.loc 1 74 0
+  95 0014 213A82E0 		add	r3, r2, r1, lsr #20
+  96 0018 0150A0E1 		mov	r5, r1
+  97 001c 0240A0E1 		mov	r4, r2
+  98              	.LVL8:
+  75:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     {
+  99              		.loc 1 75 0
+ 100 0020 010A53E3 		cmp	r3, #4096
+ 101 0024 0C00008A 		bhi	.L10
+  80:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     entry = (entry & 0x000FFFFFuL) | (paddress & 0xFFF00000uL);
+ 102              		.loc 1 80 0
+ 103 0028 FEFFFFEB 		bl	mmu_get_ttb_entry
+ 104              	.LVL9:
+  81:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+ 105              		.loc 1 81 0
+ 106 002c 253AA0E1 		lsr	r3, r5, #20
+ 107 0030 5660F3E7 		ubfx	r6, r6, #0, #20
+ 108              	.LVL10:
+ 109 0034 033AA0E1 		lsl	r3, r3, #20
+ 110 0038 063083E1 		orr	r3, r3, r6
+ 111              	.LVL11:
+ 112              	.L7:
+  83:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     {
+ 113              		.loc 1 83 0
+ 114 003c 000054E3 		cmp	r4, #0
+ 115 0040 0100001A 		bne	.L8
+  91:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** }
+ 116              		.loc 1 91 0
+ 117 0044 0400A0E1 		mov	r0, r4
+ 118              	.LVL12:
+ 119 0048 7080BDE8 		pop	{r4, r5, r6, pc}
+ 120              	.LVL13:
+ 121              	.L8:
+  85:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****         p_ttb++;
+ 122              		.loc 1 85 0
+ 123 004c 043080E4 		str	r3, [r0], #4
+ 124              	.LVL14:
+  88:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     }
+ 125              		.loc 1 88 0
+ 126 0050 014044E2 		sub	r4, r4, #1
+ 127              	.LVL15:
+  87:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****         size--;
+ 128              		.loc 1 87 0
+ 129 0054 013683E2 		add	r3, r3, #1048576
+ 130              	.LVL16:
+ 131 0058 F7FFFFEA 		b	.L7
+ 132              	.LVL17:
+ 133              	.L10:
+  70:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     }
+ 134              		.loc 1 70 0
+ 135 005c 0000E0E3 		mvn	r0, #0
+ 136              	.LVL18:
+  92:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** /******************************************************************************
+ 137              		.loc 1 92 0
+ 138 0060 7080BDE8 		pop	{r4, r5, r6, pc}
+ 139              		.cfi_endproc
+ 140              	.LFE3:
+ 142              		.section	.text.R_MMU_ReadTbl,"ax",%progbits
+ 143              		.align	2
+ 144              		.global	R_MMU_ReadTbl
+ 145              		.syntax unified
+ 146              		.arm
+ 147              		.fpu neon
+ 149              	R_MMU_ReadTbl:
+ 150              	.LFB4:
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     uint32_t * p_ttb;
+ 151              		.loc 1 104 0
+ 152              		.cfi_startproc
+ 153              		@ args = 0, pretend = 0, frame = 0
+ 154              		@ frame_needed = 0, uses_anonymous_args = 0
+ 155              	.LVL19:
+ 156 0000 10402DE9 		push	{r4, lr}
+ 157              		.cfi_def_cfa_offset 8
+ 158              		.cfi_offset 4, -8
+ 159              		.cfi_offset 14, -4
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+ 160              		.loc 1 106 0
+ 161 0004 FEFFFFEB 		bl	mmu_get_ttb_entry
+ 162              	.LVL20:
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** /******************************************************************************
+ 163              		.loc 1 109 0
+ 164 0008 000090E5 		ldr	r0, [r0]
+ 165              	.LVL21:
+ 166 000c 1080BDE8 		pop	{r4, pc}
+ 167              		.cfi_endproc
+ 168              	.LFE4:
+ 170              		.section	.text.R_MMU_Disable,"ax",%progbits
+ 171              		.align	2
+ 172              		.global	R_MMU_Disable
+ 173              		.syntax unified
+ 174              		.arm
+ 175              		.fpu neon
+ 177              	R_MMU_Disable:
+ 178              	.LFB7:
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** /******************************************************************************
+ 136:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****  * End of function mmu_get_ttb_entry
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****  ******************************************************************************/
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+ 139:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** /******************************************************************************
+ 140:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Function Name: R_MMU_Init
+ 141:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Description  : Initialize MMU register
+ 142:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Arguments    : none
+ 143:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Return Value : none
+ 144:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** ******************************************************************************/
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** void R_MMU_Init(void)
+ 146:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** {
+ 147:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     /* ttbr0:RGN =b01 : outer cacheable Write-back cached, Write-allocate
+ 148:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****      * ttbr0:S   = b0 : translation table walk to non-shared memory
+ 149:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****      * ttbr0:IRGN=b01 : inner cacheability for the translation table walk is Write-back Write-alloc
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****      */
+ 151:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     uint32_t ttbr0 = (uint32_t) & (__mmu_page_table_base) | 0x48;
+ 152:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+ 153:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     int_t index;
+ 154:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     int_t count;
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     int_t mmu_error;
+ 156:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     R_MMU_Disable();
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+ 159:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     /* All area use TTBR0 entry */
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     r_mmu_set_ttbcr(0);
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+ 162:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     /* Set TTBR0 */
+ 163:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     r_mmu_set_ttbr0(ttbr0);
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+ 165:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     /* All domain sets to client */
+ 166:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     r_mmu_set_dacr(0x55555555);
+ 167:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+ 168:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     /* Create MMU table from SC-configured table  */
+ 169:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     count = (sizeof(MMU_SC_TABLE)) / (sizeof(MMU_SC_TABLE[0]));
+ 170:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     for (index = 0; index < count; index++)
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     {
+ 172:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****         mmu_error = R_MMU_WriteTbl(
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****                 MMU_SC_TABLE[index].virtual_address,
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****                 MMU_SC_TABLE[index].physical_address,
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****                 MMU_SC_TABLE[index].page_count,
+ 176:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****                 MMU_SC_TABLE[index].page_attribute);
+ 177:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****         if (MMU_SUCCESS != mmu_error)
+ 179:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****         {
+ 180:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****             while (1)
+ 181:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****             {
+ 182:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****                 /* Spin here forever.. */
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****             	R_COMPILER_Nop();
+ 184:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****             }
+ 185:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****         }
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     }
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** }
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** /******************************************************************************
+ 189:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****  * End of function R_MMU_Init
+ 190:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****  ******************************************************************************/
+ 191:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** /******************************************************************************
+ 193:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Function Name: R_MMU_Disable
+ 194:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Description  : Disable MMU
+ 195:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Arguments    : none
+ 196:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Return Value : none
+ 197:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** ******************************************************************************/
+ 198:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** void R_MMU_Disable(void)
+ 199:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** {
+ 179              		.loc 1 199 0
+ 180              		.cfi_startproc
+ 181              		@ args = 0, pretend = 0, frame = 0
+ 182              		@ frame_needed = 0, uses_anonymous_args = 0
+ 183 0000 10402DE9 		push	{r4, lr}
+ 184              		.cfi_def_cfa_offset 8
+ 185              		.cfi_offset 4, -8
+ 186              		.cfi_offset 14, -4
+ 200:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     uint32_t sctlr;
+ 201:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     sctlr = r_mmu_get_sctlr();
+ 187              		.loc 1 201 0
+ 188 0004 FEFFFFEB 		bl	r_mmu_get_sctlr
+ 189              	.LVL22:
+ 202:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     sctlr &= (~(0x0001uL));
+ 203:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     r_mmu_set_sctlr(sctlr);
+ 190              		.loc 1 203 0
+ 191 0008 0100C0E3 		bic	r0, r0, #1
+ 192              	.LVL23:
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** }
+ 193              		.loc 1 204 0
+ 194 000c 1040BDE8 		pop	{r4, lr}
+ 195              		.cfi_restore 14
+ 196              		.cfi_restore 4
+ 197              		.cfi_def_cfa_offset 0
+ 203:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** }
+ 198              		.loc 1 203 0
+ 199 0010 FEFFFFEA 		b	r_mmu_set_sctlr
+ 200              	.LVL24:
+ 201              		.cfi_endproc
+ 202              	.LFE7:
+ 204              		.section	.text.R_MMU_Init,"ax",%progbits
+ 205              		.align	2
+ 206              		.global	R_MMU_Init
+ 207              		.syntax unified
+ 208              		.arm
+ 209              		.fpu neon
+ 211              	R_MMU_Init:
+ 212              	.LFB6:
+ 146:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     /* ttbr0:RGN =b01 : outer cacheable Write-back cached, Write-allocate
+ 213              		.loc 1 146 0
+ 214              		.cfi_startproc
+ 215              		@ args = 0, pretend = 0, frame = 0
+ 216              		@ frame_needed = 0, uses_anonymous_args = 0
+ 217              	.LVL25:
+ 218 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 219              		.cfi_def_cfa_offset 16
+ 220              		.cfi_offset 4, -16
+ 221              		.cfi_offset 5, -12
+ 222              		.cfi_offset 6, -8
+ 223              		.cfi_offset 14, -4
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+ 224              		.loc 1 157 0
+ 225 0004 FEFFFFEB 		bl	R_MMU_Disable
+ 226              	.LVL26:
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+ 227              		.loc 1 160 0
+ 228 0008 0000A0E3 		mov	r0, #0
+ 229 000c FEFFFFEB 		bl	r_mmu_set_ttbcr
+ 230              	.LVL27:
+ 231 0010 44409FE5 		ldr	r4, .L23
+ 163:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+ 232              		.loc 1 163 0
+ 233 0014 44009FE5 		ldr	r0, .L23+4
+ 234 0018 1F5E84E2 		add	r5, r4, #496
+ 235 001c 480080E3 		orr	r0, r0, #72
+ 236              	.LVL28:
+ 237 0020 FEFFFFEB 		bl	r_mmu_set_ttbr0
+ 238              	.LVL29:
+ 166:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+ 239              		.loc 1 166 0
+ 240 0024 38009FE5 		ldr	r0, .L23+8
+ 241 0028 FEFFFFEB 		bl	r_mmu_set_dacr
+ 242              	.LVL30:
+ 243              	.L19:
+ 172:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****                 MMU_SC_TABLE[index].virtual_address,
+ 244              		.loc 1 172 0
+ 245 002c 0C3094E5 		ldr	r3, [r4, #12]
+ 246 0030 B820D4E1 		ldrh	r2, [r4, #8]
+ 247 0034 030094E8 		ldm	r4, {r0, r1}
+ 248 0038 FEFFFFEB 		bl	R_MMU_WriteTbl
+ 249              	.LVL31:
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****         {
+ 250              		.loc 1 178 0
+ 251 003c 000050E3 		cmp	r0, #0
+ 252 0040 0100000A 		beq	.L17
+ 253              	.L21:
+ 254              	.LBB4:
+ 255              	.LBB5:
+ 256              		.file 2 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_bo
+   1:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** /**************************************************************************************************
+   2:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * DISCLAIMER
+   3:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * This software is supplied by Renesas Electronics Corporation and is only intended for use with R
+   4:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * other uses are authorized. This software is owned by Renesas Electronics Corporation and is prot
+   5:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * applicable laws, including copyright laws.
+   6:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   7:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF
+   8:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAI
+   9:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS A
+  10:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY R
+  11:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES
+  12:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * Renesas reserves the right, without notice, to make changes to this software and to discontinue 
+  13:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * this software. By using this software, you agree to the additional terms and conditions found by
+  14:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * following link:
+  15:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * http://www.renesas.com/disclaimer
+  16:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  *
+  17:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
+  18:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  **************************************************************************************************
+  19:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** /**************************************************************************************************
+  20:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * File Name    : r_compiler_abstraction_api.h
+  21:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * Description  : Provides a common API for frequently used compiler specific operations
+  22:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  **************************************************************************************************
+  23:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** #include  "r_typedefs.h"
+  24:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** 
+  25:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** #ifndef SRC_PRV_RENESAS_COMPILER_INC_R_COMPILER_ABSTRACTION_API_H_
+  26:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** #define SRC_PRV_RENESAS_COMPILER_INC_R_COMPILER_ABSTRACTION_API_H_
+  27:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** 
+  28:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** /* Macro is used to declare linkage to a function as weak so that it can be overridden by a normall
+  29:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * Update this when using a different compiler. */
+  30:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** #define R_COMPILER_WEAK __attribute__((weak))
+  31:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** 
+  32:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** #define R_COMPILER_INLINE static inline
+  33:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** 
+  34:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** extern void __enable_irq (void);
+  35:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** extern uint32_t __disable_irq (void);
+  36:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** extern void __enable_fiq (void);
+  37:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** extern void __disable_fiq (void);
+  38:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** 
+  39:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** /**************************************************************************************************
+  40:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * Function Name: R_COMPILER_Nop
+  41:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * Description  : Abstracting a compiler No Operation opcode into a C function. Update this when us
+  42:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  *                compiler.
+  43:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * Return Value : None.
+  44:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  **************************************************************************************************
+  45:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** R_COMPILER_INLINE void R_COMPILER_Nop (void)
+  46:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****     {
+  47:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****         __asm volatile ("nop");
+ 257              		.loc 2 47 0 discriminator 1
+ 258              		.syntax divided
+ 259              	@ 47 "D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_pa
+ 260 0044 00F020E3 		nop
+ 261              	@ 0 "" 2
+ 262              		.arm
+ 263              		.syntax unified
+ 264 0048 FDFFFFEA 		b	.L21
+ 265              	.L17:
+ 266 004c 104084E2 		add	r4, r4, #16
+ 267              	.LBE5:
+ 268              	.LBE4:
+ 170:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     {
+ 269              		.loc 1 170 0 discriminator 2
+ 270 0050 050054E1 		cmp	r4, r5
+ 271 0054 F4FFFF1A 		bne	.L19
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** /******************************************************************************
+ 272              		.loc 1 187 0
+ 273 0058 7080BDE8 		pop	{r4, r5, r6, pc}
+ 274              	.L24:
+ 275              		.align	2
+ 276              	.L23:
+ 277 005c 00000000 		.word	.LANCHOR0
+ 278 0060 00000000 		.word	__mmu_page_table_base
+ 279 0064 55555555 		.word	1431655765
+ 280              		.cfi_endproc
+ 281              	.LFE6:
+ 283              		.section	.text.R_MMU_Enable,"ax",%progbits
+ 284              		.align	2
+ 285              		.global	R_MMU_Enable
+ 286              		.syntax unified
+ 287              		.arm
+ 288              		.fpu neon
+ 290              	R_MMU_Enable:
+ 291              	.LFB8:
+ 205:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** /******************************************************************************
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****  * End of function R_MMU_Disable
+ 207:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****  ******************************************************************************/
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** /******************************************************************************
+ 210:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Function Name: R_MMU_Enable
+ 211:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Description  : Enable MMU
+ 212:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Arguments    : none
+ 213:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Return Value : none
+ 214:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** ******************************************************************************/
+ 215:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** void R_MMU_Enable(void)
+ 216:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** {
+ 292              		.loc 1 216 0
+ 293              		.cfi_startproc
+ 294              		@ args = 0, pretend = 0, frame = 0
+ 295              		@ frame_needed = 0, uses_anonymous_args = 0
+ 296 0000 10402DE9 		push	{r4, lr}
+ 297              		.cfi_def_cfa_offset 8
+ 298              		.cfi_offset 4, -8
+ 299              		.cfi_offset 14, -4
+ 217:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     uint32_t sctlr;
+ 218:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     sctlr = r_mmu_get_sctlr();
+ 300              		.loc 1 218 0
+ 301 0004 FEFFFFEB 		bl	r_mmu_get_sctlr
+ 302              	.LVL32:
+ 219:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     sctlr |= 0x0001uL;
+ 220:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     r_mmu_set_sctlr(sctlr);
+ 303              		.loc 1 220 0
+ 304 0008 010080E3 		orr	r0, r0, #1
+ 305              	.LVL33:
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** }
+ 306              		.loc 1 221 0
+ 307 000c 1040BDE8 		pop	{r4, lr}
+ 308              		.cfi_restore 14
+ 309              		.cfi_restore 4
+ 310              		.cfi_def_cfa_offset 0
+ 220:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** }
+ 311              		.loc 1 220 0
+ 312 0010 FEFFFFEA 		b	r_mmu_set_sctlr
+ 313              	.LVL34:
+ 314              		.cfi_endproc
+ 315              	.LFE8:
+ 317              		.section	.text.R_MMU_VAtoPA,"ax",%progbits
+ 318              		.align	2
+ 319              		.global	R_MMU_VAtoPA
+ 320              		.syntax unified
+ 321              		.arm
+ 322              		.fpu neon
+ 324              	R_MMU_VAtoPA:
+ 325              	.LFB9:
+ 222:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** /******************************************************************************
+ 223:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****  * End of function R_MMU_Enable
+ 224:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****  ******************************************************************************/
+ 225:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+ 226:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** /******************************************************************************
+ 227:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Function Name: R_MMU_VAtoPA
+ 228:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Description  : Convert virtual address to physical address
+ 229:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Arguments    : uint32_t   vaddress  ; I : virtual address to be convert
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** *              : uint32_t * paddress  ; O : physical address
+ 231:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Return Value : MMU_SUCCESS         : successful
+ 232:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** *                MMU_ERR_TRANSLATION : translation error
+ 233:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** ******************************************************************************/
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** e_mmu_err_t R_MMU_VAtoPA(uint32_t vaddress, uint32_t * paddress)
+ 235:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** {
+ 326              		.loc 1 235 0
+ 327              		.cfi_startproc
+ 328              		@ args = 0, pretend = 0, frame = 0
+ 329              		@ frame_needed = 0, uses_anonymous_args = 0
+ 330              	.LVL35:
+ 331 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 332              		.cfi_def_cfa_offset 16
+ 333              		.cfi_offset 4, -16
+ 334              		.cfi_offset 5, -12
+ 335              		.cfi_offset 6, -8
+ 336              		.cfi_offset 14, -4
+ 337              		.loc 1 235 0
+ 338 0004 0040A0E1 		mov	r4, r0
+ 339 0008 0150A0E1 		mov	r5, r1
+ 236:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     uint32_t ttb;
+ 237:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     e_mmu_err_t err;
+ 238:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+ 239:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     ttb = R_MMU_ReadTbl(vaddress);
+ 340              		.loc 1 239 0
+ 341 000c FEFFFFEB 		bl	R_MMU_ReadTbl
+ 342              	.LVL36:
+ 240:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     if ((ttb & (0x40000 | 0x3)) == 2)
+ 343              		.loc 1 240 0
+ 344 0010 24309FE5 		ldr	r3, .L31
+ 345 0014 033000E0 		and	r3, r0, r3
+ 346 0018 020053E3 		cmp	r3, #2
+ 241:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     {
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****         *paddress = (ttb & 0xfff00000uL) | (vaddress & 0xfffff);
+ 347              		.loc 1 242 0
+ 348 001c 200AA001 		lsreq	r0, r0, #20
+ 349              	.LVL37:
+ 350 0020 5440F307 		ubfxeq	r4, r4, #0, #20
+ 351              	.LVL38:
+ 352 0024 000AA001 		lsleq	r0, r0, #20
+ 353 0028 04008001 		orreq	r0, r0, r4
+ 354 002c 00008505 		streq	r0, [r5]
+ 355              	.LVL39:
+ 243:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****         err = MMU_SUCCESS;
+ 356              		.loc 1 243 0
+ 357 0030 0000A003 		moveq	r0, #0
+ 244:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     }
+ 245:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     else
+ 246:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     {
+ 247:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****         err = MMU_ERR_TRANSLATION;
+ 358              		.loc 1 247 0
+ 359 0034 0100E013 		mvnne	r0, #1
+ 360              	.LVL40:
+ 248:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     }
+ 249:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+ 250:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     return (err);
+ 251:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** }
+ 361              		.loc 1 251 0
+ 362 0038 7080BDE8 		pop	{r4, r5, r6, pc}
+ 363              	.L32:
+ 364              		.align	2
+ 365              	.L31:
+ 366 003c 03000400 		.word	262147
+ 367              		.cfi_endproc
+ 368              	.LFE9:
+ 370              		.section	.text.R_MMU_TLBIALL,"ax",%progbits
+ 371              		.align	2
+ 372              		.global	R_MMU_TLBIALL
+ 373              		.syntax unified
+ 374              		.arm
+ 375              		.fpu neon
+ 377              	R_MMU_TLBIALL:
+ 378              	.LFB10:
+ 252:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** /******************************************************************************
+ 253:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****  * End of function R_MMU_VAtoPA
+ 254:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****  ******************************************************************************/
+ 255:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** /******************************************************************************
+ 257:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Function Name: R_MMU_TLBIALL
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Description  : execute TLBIALL
+ 259:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Arguments    : none
+ 260:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Return Value : none
+ 261:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** ******************************************************************************/
+ 262:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** void R_MMU_TLBIALL( void )
+ 263:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** {
+ 379              		.loc 1 263 0
+ 380              		.cfi_startproc
+ 381              		@ args = 0, pretend = 0, frame = 0
+ 382              		@ frame_needed = 0, uses_anonymous_args = 0
+ 383              		@ link register save eliminated.
+ 264:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     r_mmu_tlbiall();
+ 384              		.loc 1 264 0
+ 385 0000 FEFFFFEA 		b	r_mmu_tlbiall
+ 386              	.LVL41:
+ 387              		.cfi_endproc
+ 388              	.LFE10:
+ 390              		.section	.text.R_MMU_TLBIMVAA,"ax",%progbits
+ 391              		.align	2
+ 392              		.global	R_MMU_TLBIMVAA
+ 393              		.syntax unified
+ 394              		.arm
+ 395              		.fpu neon
+ 397              	R_MMU_TLBIMVAA:
+ 398              	.LFB11:
+ 265:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** }
+ 266:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** /******************************************************************************
+ 267:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****  * End of function R_MMU_TLBIALL
+ 268:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****  ******************************************************************************/
+ 269:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+ 270:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** /******************************************************************************
+ 271:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Function Name: R_MMU_TLBIMVAA
+ 272:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Description  : execute TLBIMVAA
+ 273:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Arguments    : vaddress: MVA to be invalidate TLB entry
+ 274:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** * Return Value : none
+ 275:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** ******************************************************************************/
+ 276:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** void R_MMU_TLBIMVAA(uint32_t vaddress)
+ 277:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** {
+ 399              		.loc 1 277 0
+ 400              		.cfi_startproc
+ 401              		@ args = 0, pretend = 0, frame = 0
+ 402              		@ frame_needed = 0, uses_anonymous_args = 0
+ 403              		@ link register save eliminated.
+ 404              	.LVL42:
+ 278:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     r_mmu_tlbimvaa(vaddress);
+ 405              		.loc 1 278 0
+ 406 0000 FEFFFFEA 		b	r_mmu_tlbimvaa
+ 407              	.LVL43:
+ 408              		.cfi_endproc
+ 409              	.LFE11:
+ 411              		.section	.text.R_MMU_GetVersion,"ax",%progbits
+ 412              		.align	2
+ 413              		.global	R_MMU_GetVersion
+ 414              		.syntax unified
+ 415              		.arm
+ 416              		.fpu neon
+ 418              	R_MMU_GetVersion:
+ 419              	.LFB12:
+ 279:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** }
+ 280:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** /******************************************************************************
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****  * End of function R_MMU_TLBIMVAA
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****  ******************************************************************************/
+ 283:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+ 284:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** /**
+ 285:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****  * @fn             R_MMU_GetVersion
+ 286:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****  * @brief          Obtains driver specific version information which is used for
+ 287:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****  *                 reporting
+ 288:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****  * @param[out]     p_ver_info: driver version information is populated into
+ 289:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****  *                               this structure
+ 290:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****  *                               @note the structure resources are created by
+ 291:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****  *                                     the application not this function.
+ 292:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****  * @retval         DRV_SUCCESS  Successful operation (always)
+ 293:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****  */
+ 294:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** int_t R_MMU_GetVersion(st_ver_info_t *p_ver_info)
+ 295:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** {
+ 420              		.loc 1 295 0
+ 421              		.cfi_startproc
+ 422              		@ args = 0, pretend = 0, frame = 0
+ 423              		@ frame_needed = 0, uses_anonymous_args = 0
+ 424              		@ link register save eliminated.
+ 425              	.LVL44:
+ 296:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     p_ver_info->lld.p_szdriver_name = gs_lld_info.p_szdriver_name;
+ 426              		.loc 1 296 0
+ 427 0000 20209FE5 		ldr	r2, .L36
+ 295:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     p_ver_info->lld.p_szdriver_name = gs_lld_info.p_szdriver_name;
+ 428              		.loc 1 295 0
+ 429 0004 0030A0E1 		mov	r3, r0
+ 430              		.loc 1 296 0
+ 431 0008 142080E5 		str	r2, [r0, #20]
+ 297:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     p_ver_info->lld.version.sub.major = gs_lld_info.version.sub.major;
+ 432              		.loc 1 297 0
+ 433 000c 0120A0E3 		mov	r2, #1
+ 434 0010 BE20C0E1 		strh	r2, [r0, #14]	@ movhi
+ 298:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     p_ver_info->lld.version.sub.minor = gs_lld_info.version.sub.minor;
+ 435              		.loc 1 298 0
+ 436 0014 0320A0E3 		mov	r2, #3
+ 437 0018 BC20C0E1 		strh	r2, [r0, #12]	@ movhi
+ 299:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     p_ver_info->lld.build = gs_lld_info.build;
+ 438              		.loc 1 299 0
+ 439 001c 0000A0E3 		mov	r0, #0
+ 440              	.LVL45:
+ 441 0020 100083E5 		str	r0, [r3, #16]
+ 300:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** 
+ 301:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c ****     return (DRV_SUCCESS);
+ 302:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/drivers/r_mmu/src/lld\r_mmu_lld_rza2m.c **** }
+ 442              		.loc 1 302 0
+ 443 0024 1EFF2FE1 		bx	lr
+ 444              	.L37:
+ 445              		.align	2
+ 446              	.L36:
+ 447 0028 00000000 		.word	.LC0
+ 448              		.cfi_endproc
+ 449              	.LFE12:
+ 451              		.section	.rodata.MMU_SC_TABLE,"a",%progbits
+ 452              		.align	2
+ 453              		.set	.LANCHOR0,. + 0
+ 456              	MMU_SC_TABLE:
+ 457 0000 00000000 		.word	0
+ 458 0004 00000000 		.word	0
+ 459 0008 0010     		.short	4096
+ 460 000a 0000     		.space	2
+ 461 000c F20D0800 		.word	527858
+ 462 0010 00000000 		.word	0
+ 463 0014 00000000 		.word	0
+ 464 0018 4000     		.short	64
+ 465 001a 0000     		.space	2
+ 466 001c F20D0800 		.word	527858
+ 467 0020 00000004 		.word	67108864
+ 468 0024 00000004 		.word	67108864
+ 469 0028 4000     		.short	64
+ 470 002a 0000     		.space	2
+ 471 002c F20D0800 		.word	527858
+ 472 0030 00000008 		.word	134217728
+ 473 0034 00000008 		.word	134217728
+ 474 0038 4000     		.short	64
+ 475 003a 0000     		.space	2
+ 476 003c F20D0800 		.word	527858
+ 477 0040 0000000C 		.word	201326592
+ 478 0044 0000000C 		.word	201326592
+ 479 0048 4000     		.short	64
+ 480 004a 0000     		.space	2
+ 481 004c EE1D0800 		.word	531950
+ 482 0050 00000010 		.word	268435456
+ 483 0054 00000010 		.word	268435456
+ 484 0058 4000     		.short	64
+ 485 005a 0000     		.space	2
+ 486 005c F20D0800 		.word	527858
+ 487 0060 00000014 		.word	335544320
+ 488 0064 00000014 		.word	335544320
+ 489 0068 4000     		.short	64
+ 490 006a 0000     		.space	2
+ 491 006c F20D0800 		.word	527858
+ 492 0070 00000018 		.word	402653184
+ 493 0074 00000018 		.word	402653184
+ 494 0078 7000     		.short	112
+ 495 007a 0000     		.space	2
+ 496 007c F2010800 		.word	524786
+ 497 0080 0000001F 		.word	520093696
+ 498 0084 0000001F 		.word	520093696
+ 499 0088 1000     		.short	16
+ 500 008a 0000     		.space	2
+ 501 008c F20D0000 		.word	3570
+ 502 0090 00000020 		.word	536870912
+ 503 0094 00000020 		.word	536870912
+ 504 0098 0001     		.short	256
+ 505 009a 0000     		.space	2
+ 506 009c EE1D0800 		.word	531950
+ 507 00a0 00000030 		.word	805306368
+ 508 00a4 00000030 		.word	805306368
+ 509 00a8 0001     		.short	256
+ 510 00aa 0000     		.space	2
+ 511 00ac EE1D0800 		.word	531950
+ 512 00b0 00000040 		.word	1073741824
+ 513 00b4 00000040 		.word	1073741824
+ 514 00b8 0001     		.short	256
+ 515 00ba 0000     		.space	2
+ 516 00bc EE1D0800 		.word	531950
+ 517 00c0 00000050 		.word	1342177280
+ 518 00c4 00000050 		.word	1342177280
+ 519 00c8 0001     		.short	256
+ 520 00ca 0000     		.space	2
+ 521 00cc EE1D0800 		.word	531950
+ 522 00d0 00000060 		.word	1610612736
+ 523 00d4 00000060 		.word	1610612736
+ 524 00d8 0001     		.short	256
+ 525 00da 0000     		.space	2
+ 526 00dc EE1D0800 		.word	531950
+ 527 00e0 00000070 		.word	1879048192
+ 528 00e4 00000020 		.word	536870912
+ 529 00e8 0001     		.short	256
+ 530 00ea 0000     		.space	2
+ 531 00ec E20D0800 		.word	527842
+ 532 00f0 00000080 		.word	-2147483648
+ 533 00f4 00000080 		.word	-2147483648
+ 534 00f8 0400     		.short	4
+ 535 00fa 0000     		.space	2
+ 536 00fc E64D0800 		.word	544230
+ 537 0100 00004080 		.word	-2143289344
+ 538 0104 00004080 		.word	-2143289344
+ 539 0108 1C00     		.short	28
+ 540 010a 0000     		.space	2
+ 541 010c F2010800 		.word	524786
+ 542 0110 00000082 		.word	-2113929216
+ 543 0114 00000080 		.word	-2147483648
+ 544 0118 0400     		.short	4
+ 545 011a 0000     		.space	2
+ 546 011c E24D0800 		.word	544226
+ 547 0120 00004082 		.word	-2109734912
+ 548 0124 00004082 		.word	-2109734912
+ 549 0128 5C00     		.short	92
+ 550 012a 0000     		.space	2
+ 551 012c F2010800 		.word	524786
+ 552 0130 00000088 		.word	-2013265920
+ 553 0134 00000000 		.word	0
+ 554 0138 4000     		.short	64
+ 555 013a 0000     		.space	2
+ 556 013c F20D0800 		.word	527858
+ 557 0140 0000008C 		.word	-1946157056
+ 558 0144 00000004 		.word	67108864
+ 559 0148 4000     		.short	64
+ 560 014a 0000     		.space	2
+ 561 014c F20D0800 		.word	527858
+ 562 0150 00000090 		.word	-1879048192
+ 563 0154 00000008 		.word	134217728
+ 564 0158 4000     		.short	64
+ 565 015a 0000     		.space	2
+ 566 015c F20D0800 		.word	527858
+ 567 0160 00000094 		.word	-1811939328
+ 568 0164 0000000C 		.word	201326592
+ 569 0168 4000     		.short	64
+ 570 016a 0000     		.space	2
+ 571 016c E24D0800 		.word	544226
+ 572 0170 00000098 		.word	-1744830464
+ 573 0174 00000010 		.word	268435456
+ 574 0178 4000     		.short	64
+ 575 017a 0000     		.space	2
+ 576 017c F20D0800 		.word	527858
+ 577 0180 0000009C 		.word	-1677721600
+ 578 0184 00000014 		.word	335544320
+ 579 0188 4000     		.short	64
+ 580 018a 0000     		.space	2
+ 581 018c F20D0800 		.word	527858
+ 582 0190 000000A0 		.word	-1610612736
+ 583 0194 00000030 		.word	805306368
+ 584 0198 0001     		.short	256
+ 585 019a 0000     		.space	2
+ 586 019c E20D0800 		.word	527842
+ 587 01a0 000000B0 		.word	-1342177280
+ 588 01a4 00000040 		.word	1073741824
+ 589 01a8 0001     		.short	256
+ 590 01aa 0000     		.space	2
+ 591 01ac E24D0800 		.word	544226
+ 592 01b0 000000C0 		.word	-1073741824
+ 593 01b4 00000050 		.word	1342177280
+ 594 01b8 0001     		.short	256
+ 595 01ba 0000     		.space	2
+ 596 01bc E24D0800 		.word	544226
+ 597 01c0 000000D0 		.word	-805306368
+ 598 01c4 00000060 		.word	1610612736
+ 599 01c8 0001     		.short	256
+ 600 01ca 0000     		.space	2
+ 601 01cc E24D0800 		.word	544226
+ 602 01d0 000000E0 		.word	-536870912
+ 603 01d4 000000E0 		.word	-536870912
+ 604 01d8 8000     		.short	128
+ 605 01da 0000     		.space	2
+ 606 01dc F2010800 		.word	524786
+ 607 01e0 000000E8 		.word	-402653184
+ 608 01e4 000000E8 		.word	-402653184
+ 609 01e8 8001     		.short	384
+ 610 01ea 0000     		.space	2
+ 611 01ec F20D0000 		.word	3570
+ 612              		.section	.rodata.R_MMU_GetVersion.str1.1,"aMS",%progbits,1
+ 613              	.LC0:
+ 614 0000 4C4C4420 		.ascii	"LLD EBK_RZA2M MMU\000"
+ 614      45424B5F 
+ 614      525A4132 
+ 614      4D204D4D 
+ 614      5500
+ 615              		.text
+ 616              	.Letext0:
+ 617              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 618              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 619              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 620              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 621              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 622              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 623              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 624              		.file 10 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 625              		.file 11 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 626              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 627              		.file 13 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+DEFINED SYMBOLS
+                            *ABS*:00000000 r_mmu_lld_rza2m.c
+C:\Users\a5089698\AppData\Local\Temp\cc2sZkvS.s:17     .text.mmu_get_ttb_entry:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc2sZkvS.s:22     .text.mmu_get_ttb_entry:00000000 mmu_get_ttb_entry
+C:\Users\a5089698\AppData\Local\Temp\cc2sZkvS.s:62     .text.mmu_get_ttb_entry:00000030 $d
+C:\Users\a5089698\AppData\Local\Temp\cc2sZkvS.s:67     .text.R_MMU_WriteTbl:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc2sZkvS.s:73     .text.R_MMU_WriteTbl:00000000 R_MMU_WriteTbl
+C:\Users\a5089698\AppData\Local\Temp\cc2sZkvS.s:143    .text.R_MMU_ReadTbl:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc2sZkvS.s:149    .text.R_MMU_ReadTbl:00000000 R_MMU_ReadTbl
+C:\Users\a5089698\AppData\Local\Temp\cc2sZkvS.s:171    .text.R_MMU_Disable:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc2sZkvS.s:177    .text.R_MMU_Disable:00000000 R_MMU_Disable
+C:\Users\a5089698\AppData\Local\Temp\cc2sZkvS.s:205    .text.R_MMU_Init:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc2sZkvS.s:211    .text.R_MMU_Init:00000000 R_MMU_Init
+C:\Users\a5089698\AppData\Local\Temp\cc2sZkvS.s:277    .text.R_MMU_Init:0000005c $d
+C:\Users\a5089698\AppData\Local\Temp\cc2sZkvS.s:284    .text.R_MMU_Enable:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc2sZkvS.s:290    .text.R_MMU_Enable:00000000 R_MMU_Enable
+C:\Users\a5089698\AppData\Local\Temp\cc2sZkvS.s:318    .text.R_MMU_VAtoPA:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc2sZkvS.s:324    .text.R_MMU_VAtoPA:00000000 R_MMU_VAtoPA
+C:\Users\a5089698\AppData\Local\Temp\cc2sZkvS.s:366    .text.R_MMU_VAtoPA:0000003c $d
+C:\Users\a5089698\AppData\Local\Temp\cc2sZkvS.s:371    .text.R_MMU_TLBIALL:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc2sZkvS.s:377    .text.R_MMU_TLBIALL:00000000 R_MMU_TLBIALL
+C:\Users\a5089698\AppData\Local\Temp\cc2sZkvS.s:391    .text.R_MMU_TLBIMVAA:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc2sZkvS.s:397    .text.R_MMU_TLBIMVAA:00000000 R_MMU_TLBIMVAA
+C:\Users\a5089698\AppData\Local\Temp\cc2sZkvS.s:412    .text.R_MMU_GetVersion:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc2sZkvS.s:418    .text.R_MMU_GetVersion:00000000 R_MMU_GetVersion
+C:\Users\a5089698\AppData\Local\Temp\cc2sZkvS.s:447    .text.R_MMU_GetVersion:00000028 $d
+C:\Users\a5089698\AppData\Local\Temp\cc2sZkvS.s:452    .rodata.MMU_SC_TABLE:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\cc2sZkvS.s:456    .rodata.MMU_SC_TABLE:00000000 MMU_SC_TABLE
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+r_mmu_get_ttbcr
+r_mmu_get_ttbr0
+r_mmu_get_sctlr
+r_mmu_set_sctlr
+r_mmu_set_ttbcr
+r_mmu_set_ttbr0
+r_mmu_set_dacr
+__mmu_page_table_base
+r_mmu_tlbiall
+r_mmu_tlbimvaa

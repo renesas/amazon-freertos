@@ -1,0 +1,1713 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"r_cbuffer.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.cbCreate,"ax",%progbits
+  17              		.align	2
+  18              		.global	cbCreate
+  19              		.syntax unified
+  20              		.arm
+  21              		.fpu neon
+  23              	cbCreate:
+  24              	.LFB0:
+  25              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/cor
+   1:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+   2:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * DISCLAIMER
+   3:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * This software is supplied by Renesas Electronics Corporation and is only
+   4:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * intended for use with Renesas products. No other uses are authorized. This
+   5:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * software is owned by Renesas Electronics Corporation and is protected under
+   6:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * all applicable laws, including copyright laws.
+   7:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   8:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT
+   9:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+  10:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED.
+  11:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * TO THE MAXIMUM EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS
+  12:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES SHALL BE LIABLE
+  13:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR
+  14:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * ANY REASON RELATED TO THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE
+  15:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+  16:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Renesas reserves the right, without notice, to make changes to this software
+  17:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * and to discontinue the availability of this software. By using this software,
+  18:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * you agree to the additional terms and conditions found by accessing the
+  19:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * following link:
+  20:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * http://www.renesas.com/disclaimer
+  21:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+  22:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+  23:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+  24:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * File Name    : r_cbuffer.c
+  25:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Version      : 1.03
+  26:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Description  : Circular Buffering Routines
+  27:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+  28:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+  29:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * History      : DD.MM.YYYY Version Description
+  30:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *              : 04.02.2010 1.00    First Release
+  31:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *              : 10.06.2010 1.01    Updated type definitions
+  32:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *              : 07.03.2011 1.02    Added Memory Type Parameter
+  33:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *              : 02.05.2019 1.03    Added buffer pointer validation
+  34:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+  35:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+  36:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+  37:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  Includes   <System Includes> , "Project Includes"
+  38:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+  39:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+  40:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** #include <stdlib.h>
+  41:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** #include <string.h>
+  42:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+  43:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** #include "r_cbuffer.h"
+  44:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** #include "r_typedefs.h"
+  45:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+  46:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /* OS abstraction specific API header */
+  47:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** #include "r_os_abstraction_api.h"
+  48:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+  49:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+  50:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  Typedef definitions
+  51:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+  52:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+  53:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /* Define the structure of a buffer */
+  54:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** typedef struct _cbuff_t
+  55:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** {
+  56:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     /* a pointer to the base of the memory */
+  57:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     uint8_t *p_base;
+  58:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+  59:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     /* The input index */
+  60:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     size_t  input_index;
+  61:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+  62:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     /* The output index */
+  63:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     size_t  output_index;
+  64:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+  65:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     /* The length of the circular buffer */
+  66:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     size_t  length;
+  67:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** } st_cbuff_t;
+  68:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+  69:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /* Define the structure of a buffer including alignment */
+  70:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** typedef struct _cobject_t
+  71:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** {
+  72:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     st_cbuff_t cbuffer;
+  73:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     uint32_t   ulalign;
+  74:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** } st_cobject_t;
+  75:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+  76:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** typedef struct _cobject_t *st_pcobject_t;
+  77:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+  78:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+  79:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  Function Prototypes
+  80:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+  81:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+  82:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** static void cbAdjustOutIndex (st_pcbuff_t pcBuffer, size_t length);
+  83:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** static void cbAdjustInIndex (st_pcbuff_t pcBuffer, size_t length);
+  84:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+  85:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+  86:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  Exported global variables and functions (to be accessed by other files)
+  87:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+  88:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+  89:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+  90:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Function Name: cbCreate
+  91:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Description  : Function to create a circular buffer
+  92:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Arguments    : IN  stBufferSize - The size of the circular buffer required
+  93:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Return Value : Pointer to the circular buffer or NULL on failure
+  94:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+  95:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** st_pcbuff_t cbCreate (size_t stBufferSize)
+  96:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** {
+  26              		.loc 1 96 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              	.LVL0:
+  31 0000 10402DE9 		push	{r4, lr}
+  32              		.cfi_def_cfa_offset 8
+  33              		.cfi_offset 4, -8
+  34              		.cfi_offset 14, -4
+  97:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     st_pcbuff_t cbuffer;
+  98:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+  99:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     /* prevent allocation of zero size buffer or buffer that would overflow max capacity of int32_t
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if ((0 == stBufferSize) || (0 != (stBufferSize & 0x80000000ul)))
+  35              		.loc 1 100 0
+  36 0004 004050E2 		subs	r4, r0, #0
+  37 0008 0C0000DA 		ble	.L3
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         return NULL;
+ 103:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     /* Allocate the buffer with enough memory for alignment and extra byte for signalling */
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     cbuffer = (st_pcbuff_t) R_OS_Malloc(stBufferSize + sizeof(st_cobject_t) + sizeof(uint8_t), R_ME
+  38              		.loc 1 106 0
+  39 000c 0010A0E3 		mov	r1, #0
+  40 0010 150084E2 		add	r0, r4, #21
+  41              	.LVL1:
+  42 0014 FEFFFFEB 		bl	R_OS_Malloc
+  43              	.LVL2:
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (cbuffer)
+  44              		.loc 1 108 0
+  45 0018 000050E3 		cmp	r0, #0
+  46 001c 1080BD08 		popeq	{r4, pc}
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 110:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         /* Initialise the buffer variables */
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         cbuffer->p_base = (uint8_t *) &((st_pcobject_t) cbuffer)->ulalign;
+  47              		.loc 1 111 0
+  48 0020 103080E2 		add	r3, r0, #16
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         cbuffer->length = (size_t) (stBufferSize + sizeof(uint8_t));
+  49              		.loc 1 112 0
+  50 0024 014084E2 		add	r4, r4, #1
+  51              	.LVL3:
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         cbuffer->length = (size_t) (stBufferSize + sizeof(uint8_t));
+  52              		.loc 1 111 0
+  53 0028 003080E5 		str	r3, [r0]
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         cbuffer->input_index = 0;
+  54              		.loc 1 113 0
+  55 002c 0030A0E3 		mov	r3, #0
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         cbuffer->length = (size_t) (stBufferSize + sizeof(uint8_t));
+  56              		.loc 1 112 0
+  57 0030 0C4080E5 		str	r4, [r0, #12]
+  58              		.loc 1 113 0
+  59 0034 043080E5 		str	r3, [r0, #4]
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         cbuffer->output_index = 0;
+  60              		.loc 1 114 0
+  61 0038 083080E5 		str	r3, [r0, #8]
+  62 003c 1080BDE8 		pop	{r4, pc}
+  63              	.LVL4:
+  64              	.L3:
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+  65              		.loc 1 102 0
+  66 0040 0000A0E3 		mov	r0, #0
+  67              	.LVL5:
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 116:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     return cbuffer;
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** }
+  68              		.loc 1 118 0
+  69 0044 1080BDE8 		pop	{r4, pc}
+  70              		.cfi_endproc
+  71              	.LFE0:
+  73              		.section	.text.cbDestroy,"ax",%progbits
+  74              		.align	2
+  75              		.global	cbDestroy
+  76              		.syntax unified
+  77              		.arm
+  78              		.fpu neon
+  80              	cbDestroy:
+  81              	.LFB1:
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  End of function cbCreate
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Function Name: cbDestroy
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Description  : Function to destroy a circular buffer
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Arguments    : IN  pcBuffer - Pointer to the buffer to destroy
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Return Value : DRV_SUCCESS on success
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                DRV_ERROR if the pcBuffer pointer is invalid
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** int_t cbDestroy (st_pcbuff_t pcBuffer)
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** {
+  82              		.loc 1 131 0
+  83              		.cfi_startproc
+  84              		@ args = 0, pretend = 0, frame = 8
+  85              		@ frame_needed = 0, uses_anonymous_args = 0
+  86              	.LVL6:
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (NULL == pcBuffer)
+  87              		.loc 1 132 0
+  88 0000 000050E3 		cmp	r0, #0
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (NULL == pcBuffer)
+  89              		.loc 1 131 0
+  90 0004 07402DE9 		push	{r0, r1, r2, lr}
+  91              		.cfi_def_cfa_offset 16
+  92              		.cfi_offset 14, -4
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (NULL == pcBuffer)
+  93              		.loc 1 131 0
+  94 0008 04008DE5 		str	r0, [sp, #4]
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         return DRV_ERROR;
+  95              		.loc 1 134 0
+  96 000c 0000E003 		mvneq	r0, #0
+  97              	.LVL7:
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+  98              		.loc 1 132 0
+  99 0010 0200000A 		beq	.L8
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 136:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     R_OS_Free((void **) &pcBuffer);
+ 100              		.loc 1 137 0
+ 101 0014 04008DE2 		add	r0, sp, #4
+ 102              	.LVL8:
+ 103 0018 FEFFFFEB 		bl	R_OS_Free
+ 104              	.LVL9:
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 139:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     return DRV_SUCCESS;
+ 105              		.loc 1 139 0
+ 106 001c 0000A0E3 		mov	r0, #0
+ 107              	.L8:
+ 140:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** }
+ 108              		.loc 1 140 0
+ 109 0020 0CD08DE2 		add	sp, sp, #12
+ 110              		.cfi_def_cfa_offset 4
+ 111              		@ sp needed
+ 112 0024 04F09DE4 		ldr	pc, [sp], #4
+ 113              		.cfi_endproc
+ 114              	.LFE1:
+ 116              		.section	.text.cbPut,"ax",%progbits
+ 117              		.align	2
+ 118              		.global	cbPut
+ 119              		.syntax unified
+ 120              		.arm
+ 121              		.fpu neon
+ 123              	cbPut:
+ 124              	.LFB2:
+ 141:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 142:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  End of function cbDestroy
+ 143:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 144:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 146:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Function Name: cbPut
+ 147:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Description:   Put a uint8_t in the Buffer
+ 148:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Arguments:     IN  pcBuffer - pointer to the circular buffer
+ 149:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                IN  byData - The data to put
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Return value:  true if the byte was entered into the buffer
+ 151:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                false if the byte was not entered because the buffer was full
+ 152:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                DRV_ERROR if the pcBuffer pointer is invalid
+ 153:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 154:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** int_t cbPut (st_pcbuff_t pcBuffer, uint8_t byData)
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** {
+ 125              		.loc 1 155 0
+ 126              		.cfi_startproc
+ 127              		@ args = 0, pretend = 0, frame = 0
+ 128              		@ frame_needed = 0, uses_anonymous_args = 0
+ 129              		@ link register save eliminated.
+ 130              	.LVL10:
+ 156:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (NULL == pcBuffer)
+ 131              		.loc 1 156 0
+ 132 0000 000050E3 		cmp	r0, #0
+ 133 0004 0C00000A 		beq	.L15
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         return DRV_ERROR;
+ 159:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     size_t l_input_index = (pcBuffer->input_index + sizeof(uint8_t));
+ 134              		.loc 1 161 0
+ 135 0008 042090E5 		ldr	r2, [r0, #4]
+ 162:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 163:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     /* Check for top of Buffer */
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (l_input_index >= pcBuffer->length)
+ 136              		.loc 1 164 0
+ 137 000c 0CC090E5 		ldr	ip, [r0, #12]
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 138              		.loc 1 161 0
+ 139 0010 013082E2 		add	r3, r2, #1
+ 140              	.LVL11:
+ 165:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 166:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         l_input_index = 0;
+ 141              		.loc 1 166 0
+ 142 0014 0C0053E1 		cmp	r3, ip
+ 167:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 168:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 169:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     /* If there is room */
+ 170:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (l_input_index != pcBuffer->output_index)
+ 143              		.loc 1 170 0
+ 144 0018 08C090E5 		ldr	ip, [r0, #8]
+ 166:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 145              		.loc 1 166 0
+ 146 001c 0030A023 		movcs	r3, #0
+ 147              	.LVL12:
+ 148              		.loc 1 170 0
+ 149 0020 0C0053E1 		cmp	r3, ip
+ 150 0024 0600000A 		beq	.L16
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 172:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         /* Put the byte in the buffer */
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         *(pcBuffer->p_base + pcBuffer->input_index) = byData;
+ 151              		.loc 1 173 0
+ 152 0028 00C090E5 		ldr	ip, [r0]
+ 153 002c 0210CCE7 		strb	r1, [ip, r2]
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         /* Update the index */
+ 176:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         pcBuffer->input_index = l_input_index;
+ 154              		.loc 1 176 0
+ 155 0030 043080E5 		str	r3, [r0, #4]
+ 177:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         return true;
+ 156              		.loc 1 177 0
+ 157 0034 0100A0E3 		mov	r0, #1
+ 158              	.LVL13:
+ 159 0038 1EFF2FE1 		bx	lr
+ 160              	.LVL14:
+ 161              	.L15:
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 162              		.loc 1 158 0
+ 163 003c 0000E0E3 		mvn	r0, #0
+ 164              	.LVL15:
+ 165 0040 1EFF2FE1 		bx	lr
+ 166              	.LVL16:
+ 167              	.L16:
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 179:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 180:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     return false;
+ 168              		.loc 1 180 0
+ 169 0044 0000A0E3 		mov	r0, #0
+ 170              	.LVL17:
+ 181:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** }
+ 171              		.loc 1 181 0
+ 172 0048 1EFF2FE1 		bx	lr
+ 173              		.cfi_endproc
+ 174              	.LFE2:
+ 176              		.section	.text.cbGet,"ax",%progbits
+ 177              		.align	2
+ 178              		.global	cbGet
+ 179              		.syntax unified
+ 180              		.arm
+ 181              		.fpu neon
+ 183              	cbGet:
+ 184              	.LFB3:
+ 182:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  End of function cbPut
+ 184:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 185:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Function Name: cbGet
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Description:   Get a byte from the Buffer
+ 189:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Arguments:     IN  pcBuffer - pointer to the circular buffer
+ 190:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                OUT pbyData - pointer to the destination byte of data
+ 191:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Return value:  true if a byte was retrieved
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                false if the buffer was empty
+ 193:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                DRV_ERROR if the pcBuffer pointer is invalid
+ 194:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 195:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** int_t cbGet (st_pcbuff_t pcBuffer, uint8_t *pbyData)
+ 196:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** {
+ 185              		.loc 1 196 0
+ 186              		.cfi_startproc
+ 187              		@ args = 0, pretend = 0, frame = 0
+ 188              		@ frame_needed = 0, uses_anonymous_args = 0
+ 189              		@ link register save eliminated.
+ 190              	.LVL18:
+ 197:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (NULL == pcBuffer)
+ 191              		.loc 1 197 0
+ 192 0000 000050E3 		cmp	r0, #0
+ 193 0004 0C00000A 		beq	.L20
+ 198:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 199:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         return DRV_ERROR;
+ 200:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 201:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 202:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     /* Check that the buffer is not empty */
+ 203:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (pcBuffer->input_index != pcBuffer->output_index)
+ 194              		.loc 1 203 0
+ 195 0008 0C0090E9 		ldmib	r0, {r2, r3}
+ 196 000c 030052E1 		cmp	r2, r3
+ 197 0010 0B00000A 		beq	.L21
+ 198              	.LVL19:
+ 199              	.LBB3:
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 205:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         size_t l_output_index;
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 207:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         /* Get Data from Buffer, bump in index */
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         l_output_index = pcBuffer->output_index;
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         *pbyData = *(pcBuffer->p_base + l_output_index);
+ 200              		.loc 1 209 0
+ 201 0014 002090E5 		ldr	r2, [r0]
+ 202 0018 0320D2E7 		ldrb	r2, [r2, r3]	@ zero_extendqisi2
+ 210:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         l_output_index++;
+ 203              		.loc 1 210 0
+ 204 001c 013083E2 		add	r3, r3, #1
+ 205              	.LVL20:
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         l_output_index++;
+ 206              		.loc 1 209 0
+ 207 0020 0020C1E5 		strb	r2, [r1]
+ 211:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 212:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         /* Check for top of Buffer */
+ 213:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         if (l_output_index >= pcBuffer->length)
+ 208              		.loc 1 213 0
+ 209 0024 0C2090E5 		ldr	r2, [r0, #12]
+ 214:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         {
+ 215:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****             l_output_index = 0;
+ 210              		.loc 1 215 0
+ 211 0028 020053E1 		cmp	r3, r2
+ 212 002c 0030A023 		movcs	r3, #0
+ 213              	.LVL21:
+ 216:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         }
+ 217:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 218:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         /* Update the index */
+ 219:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         pcBuffer->output_index = l_output_index;
+ 214              		.loc 1 219 0
+ 215 0030 083080E5 		str	r3, [r0, #8]
+ 220:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         return true;
+ 216              		.loc 1 220 0
+ 217 0034 0100A0E3 		mov	r0, #1
+ 218              	.LVL22:
+ 219 0038 1EFF2FE1 		bx	lr
+ 220              	.LVL23:
+ 221              	.L20:
+ 222              	.LBE3:
+ 199:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 223              		.loc 1 199 0
+ 224 003c 0000E0E3 		mvn	r0, #0
+ 225              	.LVL24:
+ 226 0040 1EFF2FE1 		bx	lr
+ 227              	.LVL25:
+ 228              	.L21:
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 222:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 223:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     return false;
+ 229              		.loc 1 223 0
+ 230 0044 0000A0E3 		mov	r0, #0
+ 231              	.LVL26:
+ 224:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** }
+ 232              		.loc 1 224 0
+ 233 0048 1EFF2FE1 		bx	lr
+ 234              		.cfi_endproc
+ 235              	.LFE3:
+ 237              		.section	.text.cbUsed,"ax",%progbits
+ 238              		.align	2
+ 239              		.global	cbUsed
+ 240              		.syntax unified
+ 241              		.arm
+ 242              		.fpu neon
+ 244              	cbUsed:
+ 245              	.LFB4:
+ 225:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 226:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  End of function cbGet
+ 227:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 228:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 229:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Function Name: cbUsed
+ 231:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Description:   Function to return the number of bytes in the buffer
+ 232:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Arguments:     IN  pcBuffer - Pointer to the buffer
+ 233:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Return value:  The number of bytes in the buffer
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                DRV_ERROR if the pcBuffer pointer is invalid
+ 235:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 236:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** int32_t cbUsed (st_pcbuff_t pcBuffer)
+ 237:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** {
+ 246              		.loc 1 237 0
+ 247              		.cfi_startproc
+ 248              		@ args = 0, pretend = 0, frame = 0
+ 249              		@ frame_needed = 0, uses_anonymous_args = 0
+ 250              		@ link register save eliminated.
+ 251              	.LVL27:
+ 238:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     size_t l_input_index;
+ 239:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     size_t l_output_index;
+ 240:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     size_t used;
+ 241:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (NULL == pcBuffer)
+ 252              		.loc 1 242 0
+ 253 0000 002050E2 		subs	r2, r0, #0
+ 254 0004 0500000A 		beq	.L26
+ 243:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 244:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         return DRV_ERROR;
+ 245:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 246:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 247:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     l_input_index = pcBuffer->input_index;
+ 248:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     l_output_index = pcBuffer->output_index;
+ 255              		.loc 1 248 0
+ 256 0008 090092E9 		ldmib	r2, {r0, r3}
+ 257              	.LVL28:
+ 249:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 250:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (l_input_index < l_output_index)
+ 258              		.loc 1 250 0
+ 259 000c 030050E1 		cmp	r0, r3
+ 251:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 252:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         used = (pcBuffer->length - (l_output_index - l_input_index));
+ 260              		.loc 1 252 0
+ 261 0010 0C209235 		ldrcc	r2, [r2, #12]
+ 262              	.LVL29:
+ 263 0014 02008030 		addcc	r0, r0, r2
+ 253:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 254:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     else
+ 255:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         used = (l_input_index - l_output_index);
+ 264              		.loc 1 256 0
+ 265 0018 030040E0 		sub	r0, r0, r3
+ 266              	.LVL30:
+ 257:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 259:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     return (int32_t) used;
+ 267              		.loc 1 259 0
+ 268 001c 1EFF2FE1 		bx	lr
+ 269              	.LVL31:
+ 270              	.L26:
+ 244:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 271              		.loc 1 244 0
+ 272 0020 0000E0E3 		mvn	r0, #0
+ 273              	.LVL32:
+ 260:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** }
+ 274              		.loc 1 260 0
+ 275 0024 1EFF2FE1 		bx	lr
+ 276              		.cfi_endproc
+ 277              	.LFE4:
+ 279              		.section	.text.cbFree,"ax",%progbits
+ 280              		.align	2
+ 281              		.global	cbFree
+ 282              		.syntax unified
+ 283              		.arm
+ 284              		.fpu neon
+ 286              	cbFree:
+ 287              	.LFB5:
+ 261:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 262:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  End of function  cbUsed
+ 263:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 264:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 265:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 266:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Function Name: cbFree
+ 267:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Description  : Function to return the number of free space in the buffer
+ 268:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Arguments    : IN  pcBuffer - Pointer to the buffer
+ 269:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Return Value : The number of bytes that can be put in the buffer
+ 270:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                DRV_ERROR if the pcBuffer pointer is invalid
+ 271:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 272:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** int32_t cbFree (st_pcbuff_t pcBuffer)
+ 273:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** {
+ 288              		.loc 1 273 0
+ 289              		.cfi_startproc
+ 290              		@ args = 0, pretend = 0, frame = 0
+ 291              		@ frame_needed = 0, uses_anonymous_args = 0
+ 292              	.LVL33:
+ 274:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (NULL == pcBuffer)
+ 293              		.loc 1 274 0
+ 294 0000 001050E2 		subs	r1, r0, #0
+ 295 0004 0500000A 		beq	.L29
+ 273:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (NULL == pcBuffer)
+ 296              		.loc 1 273 0
+ 297 0008 10402DE9 		push	{r4, lr}
+ 298              		.cfi_def_cfa_offset 8
+ 299              		.cfi_offset 4, -8
+ 300              		.cfi_offset 14, -4
+ 275:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 276:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         return DRV_ERROR;
+ 277:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 278:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 279:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     return (int32_t) (pcBuffer->length - ((size_t) cbUsed(pcBuffer) + sizeof(uint8_t)));
+ 301              		.loc 1 279 0
+ 302 000c FEFFFFEB 		bl	cbUsed
+ 303              	.LVL34:
+ 304 0010 0C3091E5 		ldr	r3, [r1, #12]
+ 305 0014 013043E2 		sub	r3, r3, #1
+ 306 0018 000043E0 		sub	r0, r3, r0
+ 307 001c 1080BDE8 		pop	{r4, pc}
+ 308              	.LVL35:
+ 309              	.L29:
+ 310              		.cfi_def_cfa_offset 0
+ 311              		.cfi_restore 4
+ 312              		.cfi_restore 14
+ 276:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 313              		.loc 1 276 0
+ 314 0020 0000E0E3 		mvn	r0, #0
+ 315              	.LVL36:
+ 316 0024 1EFF2FE1 		bx	lr
+ 317              		.cfi_endproc
+ 318              	.LFE5:
+ 320              		.section	.text.cbFull,"ax",%progbits
+ 321              		.align	2
+ 322              		.global	cbFull
+ 323              		.syntax unified
+ 324              		.arm
+ 325              		.fpu neon
+ 327              	cbFull:
+ 328              	.LFB6:
+ 280:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** }
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  End of function cbFree
+ 283:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 284:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 285:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 286:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Function Name: cbFull
+ 287:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Description  : Function to return true when the buffer is full
+ 288:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Arguments    : IN  pcBuffer - Pointer to the buffer
+ 289:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Return Value : true if the buffer is full
+ 290:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                false if it is not full
+ 291:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                DRV_ERROR if the pcBuffer pointer is invalid
+ 292:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 293:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** int_t cbFull (st_pcbuff_t pcBuffer)
+ 294:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** {
+ 329              		.loc 1 294 0
+ 330              		.cfi_startproc
+ 331              		@ args = 0, pretend = 0, frame = 0
+ 332              		@ frame_needed = 0, uses_anonymous_args = 0
+ 333              		@ link register save eliminated.
+ 334              	.LVL37:
+ 295:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (NULL == pcBuffer)
+ 335              		.loc 1 295 0
+ 336 0000 000050E3 		cmp	r0, #0
+ 337 0004 0900000A 		beq	.L37
+ 296:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 297:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         return DRV_ERROR;
+ 298:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 299:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 300:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     size_t l_input_index = (pcBuffer->input_index + sizeof(uint8_t));
+ 338              		.loc 1 300 0
+ 339 0008 043090E5 		ldr	r3, [r0, #4]
+ 301:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 302:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     /* Check for top of Buffer */
+ 303:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (l_input_index >= pcBuffer->length)
+ 340              		.loc 1 303 0
+ 341 000c 0C2090E5 		ldr	r2, [r0, #12]
+ 304:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 305:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         l_input_index = 0;
+ 306:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 307:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 308:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     /* Now test for full */
+ 309:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (l_input_index == pcBuffer->output_index)
+ 342              		.loc 1 309 0
+ 343 0010 080090E5 		ldr	r0, [r0, #8]
+ 344              	.LVL38:
+ 300:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 345              		.loc 1 300 0
+ 346 0014 013083E2 		add	r3, r3, #1
+ 347              	.LVL39:
+ 305:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 348              		.loc 1 305 0
+ 349 0018 020053E1 		cmp	r3, r2
+ 350 001c 0030A023 		movcs	r3, #0
+ 351              	.LVL40:
+ 352              		.loc 1 309 0
+ 353 0020 030040E0 		sub	r0, r0, r3
+ 354 0024 100F6FE1 		clz	r0, r0
+ 355 0028 A002A0E1 		lsr	r0, r0, #5
+ 356 002c 1EFF2FE1 		bx	lr
+ 357              	.LVL41:
+ 358              	.L37:
+ 297:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 359              		.loc 1 297 0
+ 360 0030 0000E0E3 		mvn	r0, #0
+ 361              	.LVL42:
+ 310:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 311:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         return true;
+ 312:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 313:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     else
+ 314:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 315:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         return false;
+ 316:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 317:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** }
+ 362              		.loc 1 317 0
+ 363 0034 1EFF2FE1 		bx	lr
+ 364              		.cfi_endproc
+ 365              	.LFE6:
+ 367              		.section	.text.cbClear,"ax",%progbits
+ 368              		.align	2
+ 369              		.global	cbClear
+ 370              		.syntax unified
+ 371              		.arm
+ 372              		.fpu neon
+ 374              	cbClear:
+ 375              	.LFB7:
+ 318:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 319:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  End of function cbFull
+ 320:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 321:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 322:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 323:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Function Name: cbClear
+ 324:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Description  : Function to clear the buffer
+ 325:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Arguments    : IN  pcBuffer - Pointer to the buffer to clear
+ 326:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Return Value : DRV_SUCCESS on success
+ 327:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                DRV_ERROR if the pcBuffer pointer is invalid
+ 328:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 329:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** int_t cbClear (st_pcbuff_t pcBuffer)
+ 330:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** {
+ 376              		.loc 1 330 0
+ 377              		.cfi_startproc
+ 378              		@ args = 0, pretend = 0, frame = 0
+ 379              		@ frame_needed = 0, uses_anonymous_args = 0
+ 380              		@ link register save eliminated.
+ 381              	.LVL43:
+ 331:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (NULL == pcBuffer)
+ 382              		.loc 1 331 0
+ 383 0000 003050E2 		subs	r3, r0, #0
+ 332:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 333:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         return DRV_ERROR;
+ 334:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 335:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 336:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     pcBuffer->input_index = pcBuffer->output_index = 0;
+ 384              		.loc 1 336 0
+ 385 0004 0000A013 		movne	r0, #0
+ 386              	.LVL44:
+ 333:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 387              		.loc 1 333 0
+ 388 0008 0000E003 		mvneq	r0, #0
+ 389              		.loc 1 336 0
+ 390 000c 08008315 		strne	r0, [r3, #8]
+ 391 0010 04008315 		strne	r0, [r3, #4]
+ 337:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 338:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     return DRV_SUCCESS;
+ 339:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** }
+ 392              		.loc 1 339 0
+ 393 0014 1EFF2FE1 		bx	lr
+ 394              		.cfi_endproc
+ 395              	.LFE7:
+ 397              		.section	.text.cbLinOut,"ax",%progbits
+ 398              		.align	2
+ 399              		.global	cbLinOut
+ 400              		.syntax unified
+ 401              		.arm
+ 402              		.fpu neon
+ 404              	cbLinOut:
+ 405              	.LFB12:
+ 340:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 341:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  End of function  cbClear
+ 342:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 343:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 344:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 345:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Function Name: cbGetPacket
+ 346:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Description  : Function to get data from the buffer but not check it out
+ 347:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                cbUsed should be called before calls to this function to
+ 348:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                ensure that there is sufficient data in the buffer
+ 349:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Arguments    : IN  pcBuffer - pointer to the IO buffer to get the data from
+ 350:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                IN  stPacketLength - the length of data to read from the
+ 351:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                                     buffer
+ 352:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                IN  pDest - the destination buffer address
+ 353:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Return Value : DRV_SUCCESS on success
+ 354:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                DRV_ERROR if the pcBuffer pointer is invalid
+ 355:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 356:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** int_t cbGetPacket (st_pcbuff_t pcBuffer, size_t stPacketLength, void *pDest)
+ 357:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** {
+ 358:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     uint8_t *p_data;
+ 359:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     uint8_t *p_temp;
+ 360:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     size_t block_length;
+ 361:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 362:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (NULL == pcBuffer)
+ 363:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 364:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         return DRV_ERROR;
+ 365:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 366:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 367:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     /* Get the pointer to the data */
+ 368:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     p_data = (pcBuffer->p_base + pcBuffer->output_index);
+ 369:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 370:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     /* Get the length of the linear chunk */
+ 371:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     block_length = (size_t) cbLinOut(pcBuffer);
+ 372:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 373:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     /* Check to see if this can be done in one hit */
+ 374:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (block_length >= stPacketLength)
+ 375:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 376:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         /* All in one block */
+ 377:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         memcpy(pDest, p_data, stPacketLength);
+ 378:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 379:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     else
+ 380:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 381:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         /* Splits into two blocks */
+ 382:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         memcpy(pDest, p_data, block_length);
+ 383:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         p_data = pcBuffer->p_base;
+ 384:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 385:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         /* re-calculate the address */
+ 386:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         p_temp = ((uint8_t *) pDest) + block_length;
+ 387:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 388:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         /* calculate size of second block */
+ 389:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         block_length = (stPacketLength - block_length);
+ 390:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         memcpy(p_temp, p_data, block_length);
+ 391:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 392:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 393:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     return DRV_SUCCESS;
+ 394:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** }
+ 395:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 396:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  End of function cbGetPacket
+ 397:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 398:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 399:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 400:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Function Name: cbCheckOut
+ 401:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Description  : Function to check the data out of the data following a call to
+ 402:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                cbGetPacket
+ 403:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Arguments    : IN  pcBuffer - Pointer to the buffer
+ 404:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                IN  stPacketLength - the size of the data to check out
+ 405:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Return Value : DRV_SUCCESS on success
+ 406:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                DRV_ERROR if the pcBuffer pointer is invalid
+ 407:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 408:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** int_t cbCheckOut (st_pcbuff_t pcBuffer, size_t stPacketLength)
+ 409:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** {
+ 410:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     size_t block_length;
+ 411:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 412:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (NULL == pcBuffer)
+ 413:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 414:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         return DRV_ERROR;
+ 415:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 416:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 417:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     /* Get the length of the linear chunk */
+ 418:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     block_length = (size_t) cbLinOut(pcBuffer);
+ 419:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 420:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     /* Check to see if this can be done in one hit */
+ 421:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (block_length >= stPacketLength)
+ 422:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 423:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         /* All in one block */
+ 424:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         cbAdjustOutIndex(pcBuffer, stPacketLength);
+ 425:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 426:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     else
+ 427:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 428:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         /* Two blocks */
+ 429:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         cbAdjustOutIndex(pcBuffer, block_length);
+ 430:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 431:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         /* Calculate size of second block */
+ 432:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         block_length = (stPacketLength - block_length);
+ 433:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         cbAdjustOutIndex(pcBuffer, block_length);
+ 434:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 435:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 436:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     return DRV_SUCCESS;
+ 437:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** }
+ 438:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 439:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  End of function cbCheckOut
+ 440:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 441:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 442:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 443:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Function Name: cbPutPacket
+ 444:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Description  : Function to put a packet of data into the buffer
+ 445:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Arguments    : IN  pcBuffer - Pointer to the buffer
+ 446:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                IN  stPacketLength - The length of the packet to put
+ 447:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                IN  pSrc - Pointer to the data to put
+ 448:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Return Value : DRV_SUCCESS on success
+ 449:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                DRV_ERROR if the pcBuffer pointer is invalid
+ 450:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 451:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** int_t cbPutPacket (st_pcbuff_t pcBuffer, size_t stPacketLength, void *pSrc)
+ 452:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** {
+ 453:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     uint8_t *p_data;
+ 454:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     uint8_t *p_temp;
+ 455:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     size_t block_length;
+ 456:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 457:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (NULL == pcBuffer)
+ 458:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 459:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         return DRV_ERROR;
+ 460:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 461:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 462:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     /* How much linear space is there */
+ 463:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     block_length = (size_t) cbLinIn(pcBuffer);
+ 464:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     p_data = (pcBuffer->p_base + pcBuffer->input_index);
+ 465:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 466:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     /* Check for one or two blocks */
+ 467:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (block_length >= stPacketLength)
+ 468:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 469:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         /* All in one block */
+ 470:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         memcpy(p_data, pSrc, stPacketLength);
+ 471:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 472:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     else
+ 473:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 474:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         /* Splits into two blocks */
+ 475:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         memcpy(p_data, pSrc, block_length);
+ 476:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         p_data = pcBuffer->p_base;
+ 477:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 478:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         /* Re-calculate the address */
+ 479:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         p_temp = ((uint8_t *) pSrc) + block_length;
+ 480:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 481:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         /* Calculate size of second block */
+ 482:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         block_length = (stPacketLength - block_length);
+ 483:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         memcpy(p_data, p_temp, block_length);
+ 484:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 485:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 486:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     return DRV_SUCCESS;
+ 487:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** }
+ 488:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 489:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  End of function cbPutPacket
+ 490:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 491:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 492:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 493:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Function Name: cbCheckIn
+ 494:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Description  : Function to check a packet into the buffer
+ 495:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Arguments    : IN  pcBuffer - Pointer to the buffer
+ 496:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                IN  stPacketLength - The length of data to check in
+ 497:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Return Value : DRV_SUCCESS on success
+ 498:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                DRV_ERROR if the pcBuffer pointer is invalid
+ 499:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 500:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** int_t cbCheckIn (st_pcbuff_t pcBuffer, size_t stPacketLength)
+ 501:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** {
+ 502:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     size_t block_length;
+ 503:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 504:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (NULL == pcBuffer)
+ 505:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 506:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         return DRV_ERROR;
+ 507:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 508:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 509:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     /* Find out the free linear space there is in the buffer */
+ 510:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     block_length = (size_t) cbLinIn(pcBuffer);
+ 511:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 512:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     /* Test to see if it fits or if it splits */
+ 513:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (block_length >= stPacketLength)
+ 514:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 515:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         /* All in one block */
+ 516:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         cbAdjustInIndex(pcBuffer, stPacketLength);
+ 517:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 518:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     else
+ 519:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 520:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         /* Two blocks */
+ 521:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         cbAdjustInIndex(pcBuffer, block_length);
+ 522:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 523:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         /* Calculate size of second block */
+ 524:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         block_length = (stPacketLength - block_length);
+ 525:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         cbAdjustInIndex(pcBuffer, block_length);
+ 526:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 527:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 528:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     return DRV_SUCCESS;
+ 529:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** }
+ 530:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 531:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  End of function cbCheckIn
+ 532:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 533:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 534:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 535:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Function Name: cbLinOut
+ 536:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Description  : Function to calculate how much can be delivered in one hit
+ 537:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Arguments    : IN  pcBuffer - Pointer to the buffer
+ 538:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Return Value : The number of bytes until the end of the data or the buffer
+ 539:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                DRV_ERROR if the pcBuffer pointer is invalid
+ 540:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 541:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** int32_t cbLinOut (st_pcbuff_t pcBuffer)
+ 542:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** {
+ 406              		.loc 1 542 0
+ 407              		.cfi_startproc
+ 408              		@ args = 0, pretend = 0, frame = 0
+ 409              		@ frame_needed = 0, uses_anonymous_args = 0
+ 410              		@ link register save eliminated.
+ 411              	.LVL45:
+ 543:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (NULL == pcBuffer)
+ 412              		.loc 1 543 0
+ 413 0000 003050E2 		subs	r3, r0, #0
+ 414 0004 0700000A 		beq	.L44
+ 544:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 545:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         return DRV_ERROR;
+ 546:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 547:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 548:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (pcBuffer->input_index == pcBuffer->output_index)
+ 415              		.loc 1 548 0
+ 416 0008 042093E5 		ldr	r2, [r3, #4]
+ 417 000c 080093E5 		ldr	r0, [r3, #8]
+ 418              	.LVL46:
+ 419 0010 000052E1 		cmp	r2, r0
+ 420 0014 0500000A 		beq	.L45
+ 421              	.LVL47:
+ 422              	.LBB4:
+ 549:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 550:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         /* When empty nothing to take out */
+ 551:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         return 0;
+ 552:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 553:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     else
+ 554:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 555:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         size_t l_input_index;
+ 556:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         size_t l_output_index;
+ 557:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 558:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         /* Snap shot of Buffer controls as  ISR may be updating in background */
+ 559:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         l_input_index = pcBuffer->input_index;
+ 560:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         l_output_index = pcBuffer->output_index;
+ 561:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 562:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         /* Test for buffer wrap */
+ 563:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         if (l_output_index > l_input_index)
+ 564:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         {
+ 565:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****             /* Until the end (wrapped) */
+ 566:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****             return (int32_t) (pcBuffer->length - l_output_index);
+ 423              		.loc 1 566 0
+ 424 0018 0C309335 		ldrcc	r3, [r3, #12]
+ 425              	.LVL48:
+ 426 001c 00004330 		subcc	r0, r3, r0
+ 427              	.LVL49:
+ 567:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         }
+ 568:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         else
+ 569:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         {
+ 570:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****             /* Until the in index */
+ 571:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****             return (int32_t) (l_input_index - l_output_index);
+ 428              		.loc 1 571 0
+ 429 0020 00004220 		subcs	r0, r2, r0
+ 430 0024 1EFF2FE1 		bx	lr
+ 431              	.LVL50:
+ 432              	.L44:
+ 433              	.LBE4:
+ 545:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 434              		.loc 1 545 0
+ 435 0028 0000E0E3 		mvn	r0, #0
+ 436              	.LVL51:
+ 437 002c 1EFF2FE1 		bx	lr
+ 438              	.L45:
+ 551:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 439              		.loc 1 551 0
+ 440 0030 0000A0E3 		mov	r0, #0
+ 572:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         }
+ 573:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 574:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** }
+ 441              		.loc 1 574 0
+ 442 0034 1EFF2FE1 		bx	lr
+ 443              		.cfi_endproc
+ 444              	.LFE12:
+ 446              		.section	.text.cbGetPacket,"ax",%progbits
+ 447              		.align	2
+ 448              		.global	cbGetPacket
+ 449              		.syntax unified
+ 450              		.arm
+ 451              		.fpu neon
+ 453              	cbGetPacket:
+ 454              	.LFB8:
+ 357:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     uint8_t *p_data;
+ 455              		.loc 1 357 0
+ 456              		.cfi_startproc
+ 457              		@ args = 0, pretend = 0, frame = 0
+ 458              		@ frame_needed = 0, uses_anonymous_args = 0
+ 459              	.LVL52:
+ 460 0000 F0412DE9 		push	{r4, r5, r6, r7, r8, lr}
+ 461              		.cfi_def_cfa_offset 24
+ 462              		.cfi_offset 4, -24
+ 463              		.cfi_offset 5, -20
+ 464              		.cfi_offset 6, -16
+ 465              		.cfi_offset 7, -12
+ 466              		.cfi_offset 8, -8
+ 467              		.cfi_offset 14, -4
+ 362:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 468              		.loc 1 362 0
+ 469 0004 005050E2 		subs	r5, r0, #0
+ 470 0008 1300000A 		beq	.L49
+ 471 000c 0160A0E1 		mov	r6, r1
+ 368:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 472              		.loc 1 368 0
+ 473 0010 083095E5 		ldr	r3, [r5, #8]
+ 474 0014 001095E5 		ldr	r1, [r5]
+ 475              	.LVL53:
+ 476 0018 0240A0E1 		mov	r4, r2
+ 477 001c 031081E0 		add	r1, r1, r3
+ 478              	.LVL54:
+ 371:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 479              		.loc 1 371 0
+ 480 0020 FEFFFFEB 		bl	cbLinOut
+ 481              	.LVL55:
+ 374:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 482              		.loc 1 374 0
+ 483 0024 060050E1 		cmp	r0, r6
+ 371:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 484              		.loc 1 371 0
+ 485 0028 0070A0E1 		mov	r7, r0
+ 486              	.LVL56:
+ 377:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 487              		.loc 1 377 0
+ 488 002c 0620A021 		movcs	r2, r6
+ 489 0030 0400A021 		movcs	r0, r4
+ 490              	.LVL57:
+ 374:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 491              		.loc 1 374 0
+ 492 0034 0500002A 		bcs	.L51
+ 382:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         p_data = pcBuffer->p_base;
+ 493              		.loc 1 382 0
+ 494 0038 0720A0E1 		mov	r2, r7
+ 495 003c 0400A0E1 		mov	r0, r4
+ 496 0040 FEFFFFEB 		bl	memcpy
+ 497              	.LVL58:
+ 390:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 498              		.loc 1 390 0
+ 499 0044 001095E5 		ldr	r1, [r5]
+ 500 0048 072046E0 		sub	r2, r6, r7
+ 501              	.LVL59:
+ 502 004c 070084E0 		add	r0, r4, r7
+ 503              	.LVL60:
+ 504              	.L51:
+ 505 0050 FEFFFFEB 		bl	memcpy
+ 506              	.LVL61:
+ 393:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** }
+ 507              		.loc 1 393 0
+ 508 0054 0000A0E3 		mov	r0, #0
+ 509 0058 F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 510              	.LVL62:
+ 511              	.L49:
+ 364:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 512              		.loc 1 364 0
+ 513 005c 0000E0E3 		mvn	r0, #0
+ 514              	.LVL63:
+ 394:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 515              		.loc 1 394 0
+ 516 0060 F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 517              		.cfi_endproc
+ 518              	.LFE8:
+ 520              		.section	.text.cbCheckOut,"ax",%progbits
+ 521              		.align	2
+ 522              		.global	cbCheckOut
+ 523              		.syntax unified
+ 524              		.arm
+ 525              		.fpu neon
+ 527              	cbCheckOut:
+ 528              	.LFB9:
+ 409:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     size_t block_length;
+ 529              		.loc 1 409 0
+ 530              		.cfi_startproc
+ 531              		@ args = 0, pretend = 0, frame = 0
+ 532              		@ frame_needed = 0, uses_anonymous_args = 0
+ 533              	.LVL64:
+ 534 0000 10402DE9 		push	{r4, lr}
+ 535              		.cfi_def_cfa_offset 8
+ 536              		.cfi_offset 4, -8
+ 537              		.cfi_offset 14, -4
+ 412:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 538              		.loc 1 412 0
+ 539 0004 004050E2 		subs	r4, r0, #0
+ 540 0008 0F00000A 		beq	.L58
+ 418:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 541              		.loc 1 418 0
+ 542 000c FEFFFFEB 		bl	cbLinOut
+ 543              	.LVL65:
+ 544 0010 083094E5 		ldr	r3, [r4, #8]
+ 421:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 545              		.loc 1 421 0
+ 546 0014 010050E1 		cmp	r0, r1
+ 547 0018 0C2094E5 		ldr	r2, [r4, #12]
+ 548              	.LBB11:
+ 549              	.LBB12:
+ 575:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 576:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  End of function cbLinOut
+ 577:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 578:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 579:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 580:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Function Name: cbLinIn
+ 581:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Description  : Function to return how much data can be placed in the buffer
+ 582:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Arguments    : IN  pcBuffer - Pointer to the buffer
+ 583:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Return Value : The length of data until the end of the data or the buffer
+ 584:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                DRV_ERROR if the pcBuffer pointer is invalid
+ 585:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 586:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** int32_t cbLinIn (st_pcbuff_t pcBuffer)
+ 587:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** {
+ 588:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (NULL == pcBuffer)
+ 589:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 590:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         return DRV_ERROR;
+ 591:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 592:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 593:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (cbFull(pcBuffer) == false)
+ 594:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 595:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         size_t l_input_index;
+ 596:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         size_t l_output_index;
+ 597:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 598:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         /* Snap shot of Buffer controls as */
+ 599:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         /* ISR may be updating in background */
+ 600:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         l_input_index = pcBuffer->input_index;
+ 601:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         l_output_index = pcBuffer->output_index;
+ 602:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 603:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         /* Test for buffer wrap */
+ 604:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         if (l_input_index < l_output_index)
+ 605:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         {
+ 606:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****             /* Lin in is between out and in */
+ 607:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****             return (int32_t) ((l_output_index - sizeof(uint8_t)) - l_input_index);
+ 608:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         }
+ 609:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         else if (l_output_index)
+ 610:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         {
+ 611:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****             /* Lin in until top but room at bottom */
+ 612:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****             return (int32_t) (pcBuffer->length - l_input_index);
+ 613:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         }
+ 614:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         else
+ 615:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         {
+ 616:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****             /* lin in to the end - 1 */
+ 617:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****             return (int32_t) ((pcBuffer->length - sizeof(uint8_t)) - l_input_index);
+ 618:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         }
+ 619:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 620:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 621:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     return 0;
+ 622:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** }
+ 623:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 624:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  End of function cbLinIn
+ 625:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 626:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 627:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 628:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Function Name: cbInPointer
+ 629:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Description  : Function to return a pointer to the input of the buffer
+ 630:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Arguments    : IN  pcBuffer - Pointer to the buffer
+ 631:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Return Value : Pointer to the buffer input
+ 632:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                NULL if the pcBuffer pointer is invalid
+ 633:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 634:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** void *cbInPointer (st_pcbuff_t pcBuffer)
+ 635:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** {
+ 636:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (NULL == pcBuffer)
+ 637:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 638:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         return NULL;
+ 639:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 640:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 641:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     return (pcBuffer->p_base + pcBuffer->input_index);
+ 642:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** }
+ 643:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 644:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  End of function cbInPointer
+ 645:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 646:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 647:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 648:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Function Name: cbOutPointer
+ 649:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Description  : Function to return a pointer to the output of the buffer
+ 650:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Arguments    : IN  pcBuffer - Pointer to the buffer
+ 651:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Return Value : Pointer to the buffer input
+ 652:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                NULL if the pcBuffer pointer is invalid
+ 653:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 654:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** void *cbOutPointer (st_pcbuff_t pcBuffer)
+ 655:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** {
+ 656:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (NULL == pcBuffer)
+ 657:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 658:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         return NULL;
+ 659:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 660:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 661:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     return (pcBuffer->p_base + pcBuffer->output_index);
+ 662:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** }
+ 663:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /******************************************************************************
+ 664:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  End of function cbOutPointer
+ 665:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  ******************************************************************************/
+ 666:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 667:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 668:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  Static Functions
+ 669:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 670:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 671:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 672:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Function Name: cbAdjustOutIndex
+ 673:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Description  : Function to adjust the out index of the buffer
+ 674:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Arguments    : IN  pcBuffer - Pointer to the buffer
+ 675:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                IN  length - The length of data to adjust for
+ 676:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Return Value : none
+ 677:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 678:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** static void cbAdjustOutIndex (st_pcbuff_t pcBuffer, size_t length)
+ 679:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** {
+ 680:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     size_t l_output_index = (pcBuffer->output_index + length);
+ 550              		.loc 1 680 0
+ 551 001c 03008120 		addcs	r0, r1, r3
+ 552              	.LVL66:
+ 553              	.LBE12:
+ 554              	.LBE11:
+ 421:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 555              		.loc 1 421 0
+ 556 0020 0400002A 		bcs	.L62
+ 557              	.LVL67:
+ 558              	.LBB13:
+ 559              	.LBB14:
+ 560              		.loc 1 680 0
+ 561 0024 033080E0 		add	r3, r0, r3
+ 562              	.LVL68:
+ 563              	.LBE14:
+ 564              	.LBE13:
+ 432:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         cbAdjustOutIndex(pcBuffer, block_length);
+ 565              		.loc 1 432 0
+ 566 0028 000041E0 		sub	r0, r1, r0
+ 567              	.LVL69:
+ 568              	.LBB16:
+ 569              	.LBB15:
+ 681:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 682:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     /* Check for top of Buffer */
+ 683:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (l_output_index >= pcBuffer->length)
+ 570              		.loc 1 683 0
+ 571 002c 020053E1 		cmp	r3, r2
+ 684:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 685:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         l_output_index = (l_output_index - pcBuffer->length);
+ 572              		.loc 1 685 0
+ 573 0030 02304320 		subcs	r3, r3, r2
+ 574              	.LVL70:
+ 575              	.LBE15:
+ 576              	.LBE16:
+ 577              	.LBB17:
+ 578              	.LBB18:
+ 680:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 579              		.loc 1 680 0
+ 580 0034 030080E0 		add	r0, r0, r3
+ 581              	.LVL71:
+ 582              	.L62:
+ 683:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 583              		.loc 1 683 0
+ 584 0038 020050E1 		cmp	r0, r2
+ 585              		.loc 1 685 0
+ 586 003c 02004020 		subcs	r0, r0, r2
+ 587              	.LVL72:
+ 686:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 687:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 688:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     pcBuffer->output_index = l_output_index;
+ 588              		.loc 1 688 0
+ 589 0040 080084E5 		str	r0, [r4, #8]
+ 590              	.LBE18:
+ 591              	.LBE17:
+ 436:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** }
+ 592              		.loc 1 436 0
+ 593 0044 0000A0E3 		mov	r0, #0
+ 594              	.LVL73:
+ 595 0048 1080BDE8 		pop	{r4, pc}
+ 596              	.LVL74:
+ 597              	.L58:
+ 414:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 598              		.loc 1 414 0
+ 599 004c 0000E0E3 		mvn	r0, #0
+ 600              	.LVL75:
+ 437:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 601              		.loc 1 437 0
+ 602 0050 1080BDE8 		pop	{r4, pc}
+ 603              		.cfi_endproc
+ 604              	.LFE9:
+ 606              		.section	.text.cbLinIn,"ax",%progbits
+ 607              		.align	2
+ 608              		.global	cbLinIn
+ 609              		.syntax unified
+ 610              		.arm
+ 611              		.fpu neon
+ 613              	cbLinIn:
+ 614              	.LFB13:
+ 587:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (NULL == pcBuffer)
+ 615              		.loc 1 587 0
+ 616              		.cfi_startproc
+ 617              		@ args = 0, pretend = 0, frame = 0
+ 618              		@ frame_needed = 0, uses_anonymous_args = 0
+ 619              	.LVL76:
+ 588:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 620              		.loc 1 588 0
+ 621 0000 001050E2 		subs	r1, r0, #0
+ 622 0004 0D00000A 		beq	.L67
+ 587:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (NULL == pcBuffer)
+ 623              		.loc 1 587 0
+ 624 0008 10402DE9 		push	{r4, lr}
+ 625              		.cfi_def_cfa_offset 8
+ 626              		.cfi_offset 4, -8
+ 627              		.cfi_offset 14, -4
+ 593:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 628              		.loc 1 593 0
+ 629 000c FEFFFFEB 		bl	cbFull
+ 630              	.LVL77:
+ 631 0010 000050E3 		cmp	r0, #0
+ 632 0014 0B00001A 		bne	.L68
+ 633              	.LVL78:
+ 634              	.LBB22:
+ 635              	.LBB23:
+ 601:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 636              		.loc 1 601 0
+ 637 0018 090091E9 		ldmib	r1, {r0, r3}
+ 638              	.LVL79:
+ 604:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         {
+ 639              		.loc 1 604 0
+ 640 001c 030050E1 		cmp	r0, r3
+ 641 0020 0100002A 		bcs	.L65
+ 642              	.LVL80:
+ 643              	.L66:
+ 617:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         }
+ 644              		.loc 1 617 0
+ 645 0024 013043E2 		sub	r3, r3, #1
+ 646 0028 020000EA 		b	.L73
+ 647              	.LVL81:
+ 648              	.L65:
+ 609:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         {
+ 649              		.loc 1 609 0
+ 650 002c 000053E3 		cmp	r3, #0
+ 651 0030 0C3091E5 		ldr	r3, [r1, #12]
+ 652              	.LVL82:
+ 653 0034 FAFFFF0A 		beq	.L66
+ 654              	.L73:
+ 617:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         }
+ 655              		.loc 1 617 0
+ 656 0038 000043E0 		sub	r0, r3, r0
+ 657 003c 1080BDE8 		pop	{r4, pc}
+ 658              	.LVL83:
+ 659              	.L67:
+ 660              		.cfi_def_cfa_offset 0
+ 661              		.cfi_restore 4
+ 662              		.cfi_restore 14
+ 663              	.LBE23:
+ 664              	.LBE22:
+ 590:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 665              		.loc 1 590 0
+ 666 0040 0000E0E3 		mvn	r0, #0
+ 667              	.LVL84:
+ 668 0044 1EFF2FE1 		bx	lr
+ 669              	.L68:
+ 670              		.cfi_def_cfa_offset 8
+ 671              		.cfi_offset 4, -8
+ 672              		.cfi_offset 14, -4
+ 621:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** }
+ 673              		.loc 1 621 0
+ 674 0048 0000A0E3 		mov	r0, #0
+ 622:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 675              		.loc 1 622 0
+ 676 004c 1080BDE8 		pop	{r4, pc}
+ 677              		.cfi_endproc
+ 678              	.LFE13:
+ 680              		.section	.text.cbPutPacket,"ax",%progbits
+ 681              		.align	2
+ 682              		.global	cbPutPacket
+ 683              		.syntax unified
+ 684              		.arm
+ 685              		.fpu neon
+ 687              	cbPutPacket:
+ 688              	.LFB10:
+ 452:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     uint8_t *p_data;
+ 689              		.loc 1 452 0
+ 690              		.cfi_startproc
+ 691              		@ args = 0, pretend = 0, frame = 0
+ 692              		@ frame_needed = 0, uses_anonymous_args = 0
+ 693              	.LVL85:
+ 694 0000 F0412DE9 		push	{r4, r5, r6, r7, r8, lr}
+ 695              		.cfi_def_cfa_offset 24
+ 696              		.cfi_offset 4, -24
+ 697              		.cfi_offset 5, -20
+ 698              		.cfi_offset 6, -16
+ 699              		.cfi_offset 7, -12
+ 700              		.cfi_offset 8, -8
+ 701              		.cfi_offset 14, -4
+ 457:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 702              		.loc 1 457 0
+ 703 0004 004050E2 		subs	r4, r0, #0
+ 704 0008 1200000A 		beq	.L77
+ 705 000c 0160A0E1 		mov	r6, r1
+ 706 0010 0250A0E1 		mov	r5, r2
+ 463:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     p_data = (pcBuffer->p_base + pcBuffer->input_index);
+ 707              		.loc 1 463 0
+ 708 0014 FEFFFFEB 		bl	cbLinIn
+ 709              	.LVL86:
+ 710 0018 0070A0E1 		mov	r7, r0
+ 711              	.LVL87:
+ 464:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 712              		.loc 1 464 0
+ 713 001c 090094E8 		ldmia	r4, {r0, r3}
+ 714 0020 030080E0 		add	r0, r0, r3
+ 715              	.LVL88:
+ 467:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 716              		.loc 1 467 0
+ 717 0024 060057E1 		cmp	r7, r6
+ 470:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 718              		.loc 1 470 0
+ 719 0028 0620A021 		movcs	r2, r6
+ 720 002c 0510A021 		movcs	r1, r5
+ 467:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 721              		.loc 1 467 0
+ 722 0030 0500002A 		bcs	.L79
+ 475:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         p_data = pcBuffer->p_base;
+ 723              		.loc 1 475 0
+ 724 0034 0720A0E1 		mov	r2, r7
+ 725 0038 0510A0E1 		mov	r1, r5
+ 726 003c FEFFFFEB 		bl	memcpy
+ 727              	.LVL89:
+ 483:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 728              		.loc 1 483 0
+ 729 0040 000094E5 		ldr	r0, [r4]
+ 730 0044 072046E0 		sub	r2, r6, r7
+ 731              	.LVL90:
+ 732 0048 071085E0 		add	r1, r5, r7
+ 733              	.LVL91:
+ 734              	.L79:
+ 735 004c FEFFFFEB 		bl	memcpy
+ 736              	.LVL92:
+ 486:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** }
+ 737              		.loc 1 486 0
+ 738 0050 0000A0E3 		mov	r0, #0
+ 739 0054 F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 740              	.LVL93:
+ 741              	.L77:
+ 459:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 742              		.loc 1 459 0
+ 743 0058 0000E0E3 		mvn	r0, #0
+ 744              	.LVL94:
+ 487:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 745              		.loc 1 487 0
+ 746 005c F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 747              		.cfi_endproc
+ 748              	.LFE10:
+ 750              		.section	.text.cbCheckIn,"ax",%progbits
+ 751              		.align	2
+ 752              		.global	cbCheckIn
+ 753              		.syntax unified
+ 754              		.arm
+ 755              		.fpu neon
+ 757              	cbCheckIn:
+ 758              	.LFB11:
+ 501:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     size_t block_length;
+ 759              		.loc 1 501 0
+ 760              		.cfi_startproc
+ 761              		@ args = 0, pretend = 0, frame = 0
+ 762              		@ frame_needed = 0, uses_anonymous_args = 0
+ 763              	.LVL95:
+ 764 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 765              		.cfi_def_cfa_offset 16
+ 766              		.cfi_offset 4, -16
+ 767              		.cfi_offset 5, -12
+ 768              		.cfi_offset 6, -8
+ 769              		.cfi_offset 14, -4
+ 504:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 770              		.loc 1 504 0
+ 771 0004 005050E2 		subs	r5, r0, #0
+ 772 0008 1000000A 		beq	.L86
+ 773 000c 0140A0E1 		mov	r4, r1
+ 510:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 774              		.loc 1 510 0
+ 775 0010 FEFFFFEB 		bl	cbLinIn
+ 776              	.LVL96:
+ 777 0014 043095E5 		ldr	r3, [r5, #4]
+ 513:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 778              		.loc 1 513 0
+ 779 0018 040050E1 		cmp	r0, r4
+ 780 001c 0C2095E5 		ldr	r2, [r5, #12]
+ 781              	.LBB30:
+ 782              	.LBB31:
+ 689:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** }
+ 690:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 691:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  End of function cbAdjustOutIndex
+ 692:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 693:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 694:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 695:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Function Name: cbAdjustInIndex
+ 696:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Description  : Function to adjust the in index of the buffer
+ 697:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Arguments    : IN  pcBuffer - Pointer to the buffer
+ 698:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  *                IN  length - The length of data to adjust for
+ 699:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  * Return Value : none
+ 700:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****  **************************************************************************************************
+ 701:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** static void cbAdjustInIndex (st_pcbuff_t pcBuffer, size_t length)
+ 702:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** {
+ 703:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     size_t l_input_index = (pcBuffer->input_index + length);
+ 783              		.loc 1 703 0
+ 784 0020 03008420 		addcs	r0, r4, r3
+ 785              	.LVL97:
+ 786              	.LBE31:
+ 787              	.LBE30:
+ 513:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 788              		.loc 1 513 0
+ 789 0024 0400002A 		bcs	.L90
+ 790              	.LVL98:
+ 791              	.LBB32:
+ 792              	.LBB33:
+ 793              		.loc 1 703 0
+ 794 0028 033080E0 		add	r3, r0, r3
+ 795              	.LVL99:
+ 796              	.LBE33:
+ 797              	.LBE32:
+ 524:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         cbAdjustInIndex(pcBuffer, block_length);
+ 798              		.loc 1 524 0
+ 799 002c 000044E0 		sub	r0, r4, r0
+ 800              	.LVL100:
+ 801              	.LBB35:
+ 802              	.LBB34:
+ 704:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 705:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     /* Check for top of Buffer */
+ 706:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (l_input_index >= pcBuffer->length)
+ 803              		.loc 1 706 0
+ 804 0030 020053E1 		cmp	r3, r2
+ 707:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 708:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****         l_input_index = (l_input_index - pcBuffer->length);
+ 805              		.loc 1 708 0
+ 806 0034 02304320 		subcs	r3, r3, r2
+ 807              	.LVL101:
+ 808              	.LBE34:
+ 809              	.LBE35:
+ 810              	.LBB36:
+ 811              	.LBB37:
+ 703:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 812              		.loc 1 703 0
+ 813 0038 030080E0 		add	r0, r0, r3
+ 814              	.LVL102:
+ 815              	.L90:
+ 706:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 816              		.loc 1 706 0
+ 817 003c 020050E1 		cmp	r0, r2
+ 818              		.loc 1 708 0
+ 819 0040 02004020 		subcs	r0, r0, r2
+ 820              	.LVL103:
+ 709:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 710:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** 
+ 711:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     pcBuffer->input_index = l_input_index;
+ 821              		.loc 1 711 0
+ 822 0044 040085E5 		str	r0, [r5, #4]
+ 823              	.LBE37:
+ 824              	.LBE36:
+ 528:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** }
+ 825              		.loc 1 528 0
+ 826 0048 0000A0E3 		mov	r0, #0
+ 827              	.LVL104:
+ 828 004c 7080BDE8 		pop	{r4, r5, r6, pc}
+ 829              	.LVL105:
+ 830              	.L86:
+ 506:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     }
+ 831              		.loc 1 506 0
+ 832 0050 0000E0E3 		mvn	r0, #0
+ 833              	.LVL106:
+ 529:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 834              		.loc 1 529 0
+ 835 0054 7080BDE8 		pop	{r4, r5, r6, pc}
+ 836              		.cfi_endproc
+ 837              	.LFE11:
+ 839              		.section	.text.cbInPointer,"ax",%progbits
+ 840              		.align	2
+ 841              		.global	cbInPointer
+ 842              		.syntax unified
+ 843              		.arm
+ 844              		.fpu neon
+ 846              	cbInPointer:
+ 847              	.LFB14:
+ 635:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (NULL == pcBuffer)
+ 848              		.loc 1 635 0
+ 849              		.cfi_startproc
+ 850              		@ args = 0, pretend = 0, frame = 0
+ 851              		@ frame_needed = 0, uses_anonymous_args = 0
+ 852              		@ link register save eliminated.
+ 853              	.LVL107:
+ 636:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 854              		.loc 1 636 0
+ 855 0000 000050E3 		cmp	r0, #0
+ 641:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** }
+ 856              		.loc 1 641 0
+ 857 0004 09009018 		ldmiane	r0, {r0, r3}
+ 858 0008 03008010 		addne	r0, r0, r3
+ 859              	.LVL108:
+ 642:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /**************************************************************************************************
+ 860              		.loc 1 642 0
+ 861 000c 1EFF2FE1 		bx	lr
+ 862              		.cfi_endproc
+ 863              	.LFE14:
+ 865              		.section	.text.cbOutPointer,"ax",%progbits
+ 866              		.align	2
+ 867              		.global	cbOutPointer
+ 868              		.syntax unified
+ 869              		.arm
+ 870              		.fpu neon
+ 872              	cbOutPointer:
+ 873              	.LFB15:
+ 655:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     if (NULL == pcBuffer)
+ 874              		.loc 1 655 0
+ 875              		.cfi_startproc
+ 876              		@ args = 0, pretend = 0, frame = 0
+ 877              		@ frame_needed = 0, uses_anonymous_args = 0
+ 878              		@ link register save eliminated.
+ 879              	.LVL109:
+ 656:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c ****     {
+ 880              		.loc 1 656 0
+ 881 0000 000050E3 		cmp	r0, #0
+ 661:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** }
+ 882              		.loc 1 661 0
+ 883 0004 00309015 		ldrne	r3, [r0]
+ 884 0008 08009015 		ldrne	r0, [r0, #8]
+ 885              	.LVL110:
+ 886 000c 00008310 		addne	r0, r3, r0
+ 662:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_cbuffer/src\r_cbuffer.c **** /******************************************************************************
+ 887              		.loc 1 662 0
+ 888 0010 1EFF2FE1 		bx	lr
+ 889              		.cfi_endproc
+ 890              	.LFE15:
+ 892              		.text
+ 893              	.Letext0:
+ 894              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 895              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 896              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 897              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 898              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 899              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 900              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 901              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 902              		.file 10 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 903              		.file 11 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 904              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 905              		.file 13 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 906              		.file 14 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 907              		.file 15 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+DEFINED SYMBOLS
+                            *ABS*:00000000 r_cbuffer.c
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:17     .text.cbCreate:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:23     .text.cbCreate:00000000 cbCreate
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:74     .text.cbDestroy:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:80     .text.cbDestroy:00000000 cbDestroy
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:117    .text.cbPut:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:123    .text.cbPut:00000000 cbPut
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:177    .text.cbGet:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:183    .text.cbGet:00000000 cbGet
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:238    .text.cbUsed:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:244    .text.cbUsed:00000000 cbUsed
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:280    .text.cbFree:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:286    .text.cbFree:00000000 cbFree
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:321    .text.cbFull:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:327    .text.cbFull:00000000 cbFull
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:368    .text.cbClear:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:374    .text.cbClear:00000000 cbClear
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:398    .text.cbLinOut:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:404    .text.cbLinOut:00000000 cbLinOut
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:447    .text.cbGetPacket:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:453    .text.cbGetPacket:00000000 cbGetPacket
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:521    .text.cbCheckOut:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:527    .text.cbCheckOut:00000000 cbCheckOut
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:607    .text.cbLinIn:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:613    .text.cbLinIn:00000000 cbLinIn
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:681    .text.cbPutPacket:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:687    .text.cbPutPacket:00000000 cbPutPacket
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:751    .text.cbCheckIn:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:757    .text.cbCheckIn:00000000 cbCheckIn
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:840    .text.cbInPointer:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:846    .text.cbInPointer:00000000 cbInPointer
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:866    .text.cbOutPointer:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cccL4Y7X.s:872    .text.cbOutPointer:00000000 cbOutPointer
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+R_OS_Malloc
+R_OS_Free
+memcpy

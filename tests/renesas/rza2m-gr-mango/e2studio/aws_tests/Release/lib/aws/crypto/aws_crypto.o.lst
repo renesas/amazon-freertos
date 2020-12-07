@@ -1,0 +1,710 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"aws_crypto.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.prvCalloc,"ax",%progbits
+  17              		.align	2
+  18              		.syntax unified
+  19              		.arm
+  20              		.fpu neon
+  22              	prvCalloc:
+  23              	.LFB4:
+  24              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/crypto/aws_crypto.c"
+   1:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** /*
+   2:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * Amazon FreeRTOS Crypto V1.0.3
+   3:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * Copyright (C) 2017 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+   4:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  *
+   5:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * Permission is hereby granted, free of charge, to any person obtaining a copy of
+   6:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * this software and associated documentation files (the "Software"), to deal in
+   7:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * the Software without restriction, including without limitation the rights to
+   8:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+   9:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * the Software, and to permit persons to whom the Software is furnished to do so,
+  10:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * subject to the following conditions:
+  11:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  *
+  12:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * The above copyright notice and this permission notice shall be included in all
+  13:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * copies or substantial portions of the Software.
+  14:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  *
+  15:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  16:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+  17:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+  18:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+  19:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  20:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  21:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  *
+  22:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * http://aws.amazon.com/freertos
+  23:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * http://www.FreeRTOS.org
+  24:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  */
+  25:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+  26:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+  27:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** /* FreeRTOS includes. */
+  28:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** #include "FreeRTOS.h"
+  29:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** #include "FreeRTOSIPConfig.h"
+  30:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** #include "aws_crypto.h"
+  31:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+  32:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** /* mbedTLS includes. */
+  33:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** #include "mbedtls/config.h"
+  34:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** #include "mbedtls/platform.h"
+  35:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** #include "mbedtls/sha256.h"
+  36:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** #include "mbedtls/sha1.h"
+  37:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** #include "mbedtls/pk.h"
+  38:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** #include "mbedtls/x509_crt.h"
+  39:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+  40:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** /* C runtime includes. */
+  41:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** #include <string.h>
+  42:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+  43:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** /**
+  44:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * @brief Internal signature verification context structure
+  45:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  */
+  46:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** typedef struct SignatureVerificationState
+  47:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** {
+  48:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     BaseType_t xAsymmetricAlgorithm;
+  49:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     BaseType_t xHashAlgorithm;
+  50:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     mbedtls_sha1_context xSHA1Context;
+  51:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     mbedtls_sha256_context xSHA256Context;
+  52:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** } SignatureVerificationState_t, * SignatureVerificationStatePtr_t;
+  53:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+  54:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** /*
+  55:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * Helper routines
+  56:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  */
+  57:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+  58:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** /**
+  59:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * @brief Implements libc calloc semantics using the FreeRTOS heap
+  60:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  */
+  61:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** static void * prvCalloc( size_t xNmemb,
+  62:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****                          size_t xSize )
+  63:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** {
+  25              		.loc 1 63 0
+  26              		.cfi_startproc
+  27              		@ args = 0, pretend = 0, frame = 0
+  28              		@ frame_needed = 0, uses_anonymous_args = 0
+  29              	.LVL0:
+  30 0000 70402DE9 		push	{r4, r5, r6, lr}
+  31              		.cfi_def_cfa_offset 16
+  32              		.cfi_offset 4, -16
+  33              		.cfi_offset 5, -12
+  34              		.cfi_offset 6, -8
+  35              		.cfi_offset 14, -4
+  64:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     void * pvNew = pvPortMalloc( xNmemb * xSize );
+  36              		.loc 1 64 0
+  37 0004 910004E0 		mul	r4, r1, r0
+  38 0008 0400A0E1 		mov	r0, r4
+  39              	.LVL1:
+  40 000c FEFFFFEB 		bl	pvPortMalloc
+  41              	.LVL2:
+  65:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+  66:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     if( NULL != pvNew )
+  42              		.loc 1 66 0
+  43 0010 005050E2 		subs	r5, r0, #0
+  44 0014 0200000A 		beq	.L1
+  67:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     {
+  68:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****         memset( pvNew, 0, xNmemb * xSize );
+  45              		.loc 1 68 0
+  46 0018 0420A0E1 		mov	r2, r4
+  47 001c 0010A0E3 		mov	r1, #0
+  48 0020 FEFFFFEB 		bl	memset
+  49              	.LVL3:
+  50              	.L1:
+  69:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     }
+  70:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+  71:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     return pvNew;
+  72:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** }
+  51              		.loc 1 72 0
+  52 0024 0500A0E1 		mov	r0, r5
+  53 0028 7080BDE8 		pop	{r4, r5, r6, pc}
+  54              		.cfi_endproc
+  55              	.LFE4:
+  57              		.section	.text.CRYPTO_ConfigureHeap,"ax",%progbits
+  58              		.align	2
+  59              		.global	CRYPTO_ConfigureHeap
+  60              		.syntax unified
+  61              		.arm
+  62              		.fpu neon
+  64              	CRYPTO_ConfigureHeap:
+  65              	.LFB6:
+  73:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+  74:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** /**
+  75:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * @brief Verifies a cryptographic signature based on the signer
+  76:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * certificate, hash algorithm, and the data that was signed.
+  77:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  */
+  78:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** static BaseType_t prvVerifySignature( char * pcSignerCertificate,
+  79:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****                                       size_t xSignerCertificateLength,
+  80:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****                                       BaseType_t xHashAlgorithm,
+  81:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****                                       uint8_t * pucHash,
+  82:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****                                       size_t xHashLength,
+  83:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****                                       uint8_t * pucSignature,
+  84:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****                                       size_t xSignatureLength )
+  85:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** {
+  86:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     BaseType_t xResult = pdTRUE;
+  87:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     mbedtls_x509_crt xCertCtx;
+  88:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     mbedtls_md_type_t xMbedHashAlg = MBEDTLS_MD_SHA256;
+  89:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+  90:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+  91:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     memset( &xCertCtx, 0, sizeof( mbedtls_x509_crt ) );
+  92:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+  93:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     /*
+  94:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****      * Map the hash algorithm
+  95:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****      */
+  96:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     if( cryptoHASH_ALGORITHM_SHA1 == xHashAlgorithm )
+  97:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     {
+  98:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****         xMbedHashAlg = MBEDTLS_MD_SHA1;
+  99:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     }
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     /*
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****      * Decode and create a certificate context
+ 103:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****      */
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     mbedtls_x509_crt_init( &xCertCtx );
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     if( 0 != mbedtls_x509_crt_parse(
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****             &xCertCtx, ( const unsigned char * ) pcSignerCertificate, xSignerCertificateLength ) )
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     {
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****         xResult = pdFALSE;
+ 110:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     }
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     /*
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****      * Verify the signature using the public key from the decoded certificate
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****      */
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     if( pdTRUE == xResult )
+ 116:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     {
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****         if( 0 != mbedtls_pk_verify(
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****                 &xCertCtx.pk,
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****                 xMbedHashAlg,
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****                 pucHash,
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****                 xHashLength,
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****                 pucSignature,
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****                 xSignatureLength ) )
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****         {
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****             xResult = pdFALSE;
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****         }
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     }
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     /*
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****      * Clean-up
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****      */
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     mbedtls_x509_crt_free( &xCertCtx );
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     return xResult;
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** }
+ 136:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** /*
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * Interface routines
+ 139:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  */
+ 140:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+ 141:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** /**
+ 142:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * @brief Overrides CRT heap callouts to use FreeRTOS instead
+ 143:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  */
+ 144:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** void CRYPTO_ConfigureHeap( void )
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** {
+  66              		.loc 1 145 0
+  67              		.cfi_startproc
+  68              		@ args = 0, pretend = 0, frame = 0
+  69              		@ frame_needed = 0, uses_anonymous_args = 0
+  70              		@ link register save eliminated.
+ 146:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     /*
+ 147:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****      * Ensure that the FreeRTOS heap is used
+ 148:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****      */
+ 149:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     mbedtls_platform_set_calloc_free( prvCalloc, vPortFree ); /*lint !e534 This function always ret
+  71              		.loc 1 149 0
+  72 0000 04109FE5 		ldr	r1, .L8
+  73 0004 04009FE5 		ldr	r0, .L8+4
+  74 0008 FEFFFFEA 		b	mbedtls_platform_set_calloc_free
+  75              	.LVL4:
+  76              	.L9:
+  77              		.align	2
+  78              	.L8:
+  79 000c 00000000 		.word	vPortFree
+  80 0010 00000000 		.word	prvCalloc
+  81              		.cfi_endproc
+  82              	.LFE6:
+  84              		.section	.text.CRYPTO_SignatureVerificationStart,"ax",%progbits
+  85              		.align	2
+  86              		.global	CRYPTO_SignatureVerificationStart
+  87              		.syntax unified
+  88              		.arm
+  89              		.fpu neon
+  91              	CRYPTO_SignatureVerificationStart:
+  92              	.LFB7:
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** }
+ 151:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+ 152:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** /**
+ 153:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * @brief Creates signature verification context.
+ 154:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  */
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** BaseType_t CRYPTO_SignatureVerificationStart( void ** ppvContext,
+ 156:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****                                               BaseType_t xAsymmetricAlgorithm,
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****                                               BaseType_t xHashAlgorithm )
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** {
+  93              		.loc 1 158 0
+  94              		.cfi_startproc
+  95              		@ args = 0, pretend = 0, frame = 0
+  96              		@ frame_needed = 0, uses_anonymous_args = 0
+  97              	.LVL5:
+  98 0000 70402DE9 		push	{r4, r5, r6, lr}
+  99              		.cfi_def_cfa_offset 16
+ 100              		.cfi_offset 4, -16
+ 101              		.cfi_offset 5, -12
+ 102              		.cfi_offset 6, -8
+ 103              		.cfi_offset 14, -4
+ 104              		.loc 1 158 0
+ 105 0004 0060A0E1 		mov	r6, r0
+ 159:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     BaseType_t xResult = pdTRUE;
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     SignatureVerificationStatePtr_t pxCtx = NULL;
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+ 162:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     /*
+ 163:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****      * Allocate the context
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****      */
+ 165:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     if( NULL == ( pxCtx = ( SignatureVerificationStatePtr_t ) pvPortMalloc(
+ 106              		.loc 1 165 0
+ 107 0008 D000A0E3 		mov	r0, #208
+ 108              	.LVL6:
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     BaseType_t xResult = pdTRUE;
+ 109              		.loc 1 158 0
+ 110 000c 0140A0E1 		mov	r4, r1
+ 111 0010 0250A0E1 		mov	r5, r2
+ 112              		.loc 1 165 0
+ 113 0014 FEFFFFEB 		bl	pvPortMalloc
+ 114              	.LVL7:
+ 115 0018 000050E3 		cmp	r0, #0
+ 116 001c 0700001A 		bne	.L16
+ 117 0020 7080BDE8 		pop	{r4, r5, r6, pc}
+ 118              	.L17:
+ 166:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****                       sizeof( *pxCtx ) ) ) ) /*lint !e9087 Allow casting void* to other types. */
+ 167:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     {
+ 168:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****         xResult = pdFALSE;
+ 169:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     }
+ 170:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     if( pdTRUE == xResult )
+ 172:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     {
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****         *ppvContext = pxCtx;
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****         /*
+ 176:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****          * Store the algorithm identifiers
+ 177:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****          */
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****         pxCtx->xAsymmetricAlgorithm = xAsymmetricAlgorithm;
+ 179:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****         pxCtx->xHashAlgorithm = xHashAlgorithm;
+ 180:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+ 181:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****         /*
+ 182:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****          * Initialize the requested hash type
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****          */
+ 184:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****         if( cryptoHASH_ALGORITHM_SHA1 == pxCtx->xHashAlgorithm )
+ 185:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****         {
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****             mbedtls_sha1_init( &pxCtx->xSHA1Context );
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****             ( void )mbedtls_sha1_starts_ret( &pxCtx->xSHA1Context );
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****         }
+ 189:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****         else
+ 190:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****         {
+ 191:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****             mbedtls_sha256_init( &pxCtx->xSHA256Context );
+ 119              		.loc 1 191 0
+ 120 0024 644080E2 		add	r4, r0, #100
+ 121              	.LVL8:
+ 122 0028 0400A0E1 		mov	r0, r4
+ 123              	.LVL9:
+ 124 002c FEFFFFEB 		bl	mbedtls_sha256_init
+ 125              	.LVL10:
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****             ( void )mbedtls_sha256_starts_ret( &pxCtx->xSHA256Context, 0 );
+ 126              		.loc 1 192 0
+ 127 0030 0010A0E3 		mov	r1, #0
+ 128 0034 0400A0E1 		mov	r0, r4
+ 129 0038 FEFFFFEB 		bl	mbedtls_sha256_starts_ret
+ 130              	.LVL11:
+ 131 003c 080000EA 		b	.L19
+ 132              	.LVL12:
+ 133              	.L16:
+ 184:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****         {
+ 134              		.loc 1 184 0
+ 135 0040 010055E3 		cmp	r5, #1
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+ 136              		.loc 1 173 0
+ 137 0044 000086E5 		str	r0, [r6]
+ 179:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+ 138              		.loc 1 179 0
+ 139 0048 300080E8 		stm	r0, {r4, r5}
+ 184:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****         {
+ 140              		.loc 1 184 0
+ 141 004c F4FFFF1A 		bne	.L17
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****             ( void )mbedtls_sha1_starts_ret( &pxCtx->xSHA1Context );
+ 142              		.loc 1 186 0
+ 143 0050 084080E2 		add	r4, r0, #8
+ 144              	.LVL13:
+ 145 0054 0400A0E1 		mov	r0, r4
+ 146              	.LVL14:
+ 147 0058 FEFFFFEB 		bl	mbedtls_sha1_init
+ 148              	.LVL15:
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****         }
+ 149              		.loc 1 187 0
+ 150 005c 0400A0E1 		mov	r0, r4
+ 151 0060 FEFFFFEB 		bl	mbedtls_sha1_starts_ret
+ 152              	.LVL16:
+ 153              	.L19:
+ 159:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     SignatureVerificationStatePtr_t pxCtx = NULL;
+ 154              		.loc 1 159 0
+ 155 0064 0100A0E3 		mov	r0, #1
+ 156 0068 7080BDE8 		pop	{r4, r5, r6, pc}
+ 157              		.cfi_endproc
+ 158              	.LFE7:
+ 160              		.section	.text.CRYPTO_SignatureVerificationUpdate,"ax",%progbits
+ 161              		.align	2
+ 162              		.global	CRYPTO_SignatureVerificationUpdate
+ 163              		.syntax unified
+ 164              		.arm
+ 165              		.fpu neon
+ 167              	CRYPTO_SignatureVerificationUpdate:
+ 168              	.LFB8:
+ 193:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****         }
+ 194:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     }
+ 195:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+ 196:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     return xResult;
+ 197:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** }
+ 198:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+ 199:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** /**
+ 200:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * @brief Adds bytes to an in-progress hash for subsequent signature
+ 201:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * verification.
+ 202:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  */
+ 203:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** void CRYPTO_SignatureVerificationUpdate( void * pvContext,
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****                                          const uint8_t * pucData,
+ 205:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****                                          size_t xDataLength )
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** {
+ 169              		.loc 1 206 0
+ 170              		.cfi_startproc
+ 171              		@ args = 0, pretend = 0, frame = 0
+ 172              		@ frame_needed = 0, uses_anonymous_args = 0
+ 173              		@ link register save eliminated.
+ 174              	.LVL17:
+ 207:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     SignatureVerificationStatePtr_t pxCtx = ( SignatureVerificationStatePtr_t ) pvContext; /*lint !
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     /*
+ 210:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****      * Add the data to the hash of the requested type
+ 211:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****      */
+ 212:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     if( cryptoHASH_ALGORITHM_SHA1 == pxCtx->xHashAlgorithm )
+ 175              		.loc 1 212 0
+ 176 0000 043090E5 		ldr	r3, [r0, #4]
+ 177 0004 010053E3 		cmp	r3, #1
+ 178 0008 0100001A 		bne	.L21
+ 213:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     {
+ 214:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****         ( void )mbedtls_sha1_update_ret( &pxCtx->xSHA1Context, pucData, xDataLength );
+ 179              		.loc 1 214 0
+ 180 000c 080080E2 		add	r0, r0, #8
+ 181              	.LVL18:
+ 182 0010 FEFFFFEA 		b	mbedtls_sha1_update_ret
+ 183              	.LVL19:
+ 184              	.L21:
+ 215:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     }
+ 216:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     else
+ 217:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     {
+ 218:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****         ( void )mbedtls_sha256_update_ret( &pxCtx->xSHA256Context, pucData, xDataLength );
+ 185              		.loc 1 218 0
+ 186 0014 640080E2 		add	r0, r0, #100
+ 187              	.LVL20:
+ 188 0018 FEFFFFEA 		b	mbedtls_sha256_update_ret
+ 189              	.LVL21:
+ 190              		.cfi_endproc
+ 191              	.LFE8:
+ 193              		.section	.text.CRYPTO_SignatureVerificationFinal,"ax",%progbits
+ 194              		.align	2
+ 195              		.global	CRYPTO_SignatureVerificationFinal
+ 196              		.syntax unified
+ 197              		.arm
+ 198              		.fpu neon
+ 200              	CRYPTO_SignatureVerificationFinal:
+ 201              	.LFB9:
+ 219:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     }
+ 220:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** }
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+ 222:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** /**
+ 223:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  * @brief Performs signature verification on a cryptographic hash.
+ 224:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****  */
+ 225:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** BaseType_t CRYPTO_SignatureVerificationFinal( void * pvContext,
+ 226:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****                                               char * pcSignerCertificate,
+ 227:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****                                               size_t xSignerCertificateLength,
+ 228:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****                                               uint8_t * pucSignature,
+ 229:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****                                               size_t xSignatureLength )
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** {
+ 202              		.loc 1 230 0
+ 203              		.cfi_startproc
+ 204              		@ args = 4, pretend = 0, frame = 344
+ 205              		@ frame_needed = 0, uses_anonymous_args = 0
+ 206              	.LVL22:
+ 207 0000 F0472DE9 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 208              		.cfi_def_cfa_offset 32
+ 209              		.cfi_offset 4, -32
+ 210              		.cfi_offset 5, -28
+ 211              		.cfi_offset 6, -24
+ 212              		.cfi_offset 7, -20
+ 213              		.cfi_offset 8, -16
+ 214              		.cfi_offset 9, -12
+ 215              		.cfi_offset 10, -8
+ 216              		.cfi_offset 14, -4
+ 231:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     BaseType_t xResult = pdFALSE;
+ 232:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 	if ( pvContext != NULL )
+ 217              		.loc 1 232 0
+ 218 0004 004050E2 		subs	r4, r0, #0
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     BaseType_t xResult = pdFALSE;
+ 219              		.loc 1 230 0
+ 220 0008 16DE4DE2 		sub	sp, sp, #352
+ 221              		.cfi_def_cfa_offset 384
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     BaseType_t xResult = pdFALSE;
+ 222              		.loc 1 230 0
+ 223 000c 80919DE5 		ldr	r9, [sp, #384]
+ 224              		.loc 1 232 0
+ 225 0010 2900000A 		beq	.L22
+ 226              	.LBB5:
+ 233:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 	{
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 		SignatureVerificationStatePtr_t pxCtx =
+ 235:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 			(SignatureVerificationStatePtr_t)pvContext;	/*lint !e9087 Allow casting void* to other types. */
+ 236:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 		uint8_t ucSHA1or256[cryptoSHA256_DIGEST_BYTES];	/* Reserve enough space for the larger of SHA1 or
+ 237:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 		uint8_t * pucHash = NULL;
+ 238:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 		size_t xHashLength = 0;
+ 239:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+ 240:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 		if ((pcSignerCertificate != NULL) &&
+ 227              		.loc 1 240 0
+ 228 0014 000051E3 		cmp	r1, #0
+ 229 0018 00005313 		cmpne	r3, #0
+ 230 001c 0460A0E1 		mov	r6, r4
+ 231 0020 0350A0E1 		mov	r5, r3
+ 232 0024 0280A0E1 		mov	r8, r2
+ 233 0028 0170A0E1 		mov	r7, r1
+ 234              	.LVL23:
+ 235 002c 0140A013 		movne	r4, #1
+ 236 0030 0040A003 		moveq	r4, #0
+ 237 0034 1E00000A 		beq	.L24
+ 241:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 			(pucSignature != NULL) &&
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 			(xSignerCertificateLength > 0UL) &&
+ 238              		.loc 1 242 0
+ 239 0038 000052E3 		cmp	r2, #0
+ 240 003c 00005913 		cmpne	r9, #0
+ 241 0040 0140A013 		movne	r4, #1
+ 242 0044 0040A003 		moveq	r4, #0
+ 243 0048 1900000A 		beq	.L24
+ 243:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 			(xSignatureLength > 0UL))
+ 244:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 		{
+ 245:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 			/*
+ 246:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 			 * Finish the hash
+ 247:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 			 */
+ 248:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 			if (cryptoHASH_ALGORITHM_SHA1 == pxCtx->xHashAlgorithm)
+ 244              		.loc 1 248 0
+ 245 004c 043096E5 		ldr	r3, [r6, #4]
+ 246              	.LVL24:
+ 249:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 			{
+ 250:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 				(void)mbedtls_sha1_finish_ret (&pxCtx->xSHA1Context, ucSHA1or256);
+ 247              		.loc 1 250 0
+ 248 0050 0C108DE2 		add	r1, sp, #12
+ 249              	.LVL25:
+ 248:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 			{
+ 250              		.loc 1 248 0
+ 251 0054 010053E3 		cmp	r3, #1
+ 252 0058 1A00001A 		bne	.L25
+ 251:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 				pucHash = ucSHA1or256;
+ 252:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 				xHashLength = cryptoSHA1_DIGEST_BYTES;
+ 253              		.loc 1 252 0
+ 254 005c 1440A0E3 		mov	r4, #20
+ 250:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 				pucHash = ucSHA1or256;
+ 255              		.loc 1 250 0
+ 256 0060 080086E2 		add	r0, r6, #8
+ 257              	.LVL26:
+ 258 0064 FEFFFFEB 		bl	mbedtls_sha1_finish_ret
+ 259              	.LVL27:
+ 260              	.L26:
+ 253:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 			}
+ 254:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 			else
+ 255:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 			{
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 				(void)mbedtls_sha256_finish_ret (&pxCtx->xSHA256Context, ucSHA1or256);
+ 257:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 				pucHash = ucSHA1or256;
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 				xHashLength = cryptoSHA256_DIGEST_BYTES;
+ 259:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 			}
+ 260:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+ 261:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 			/*
+ 262:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 			 * Verify the signature
+ 263:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 			 */
+ 264:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 			xResult = prvVerifySignature (pcSignerCertificate,
+ 261              		.loc 1 264 0
+ 262 0068 04A096E5 		ldr	r10, [r6, #4]
+ 263              	.LVL28:
+ 264              	.LBB6:
+ 265              	.LBB7:
+  91:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+ 266              		.loc 1 91 0
+ 267 006c 4D2FA0E3 		mov	r2, #308
+ 268 0070 0010A0E3 		mov	r1, #0
+ 269 0074 2C008DE2 		add	r0, sp, #44
+ 270 0078 FEFFFFEB 		bl	memset
+ 271              	.LVL29:
+  98:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     }
+ 272              		.loc 1 98 0
+ 273 007c 01005AE3 		cmp	r10, #1
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+ 274              		.loc 1 104 0
+ 275 0080 2C008DE2 		add	r0, sp, #44
+  98:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     }
+ 276              		.loc 1 98 0
+ 277 0084 06A0A013 		movne	r10, #6
+ 278              	.LVL30:
+ 279 0088 04A0A003 		moveq	r10, #4
+ 280              	.LVL31:
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+ 281              		.loc 1 104 0
+ 282 008c FEFFFFEB 		bl	mbedtls_x509_crt_init
+ 283              	.LVL32:
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****             &xCertCtx, ( const unsigned char * ) pcSignerCertificate, xSignerCertificateLength ) )
+ 284              		.loc 1 106 0
+ 285 0090 0820A0E1 		mov	r2, r8
+ 286 0094 0710A0E1 		mov	r1, r7
+ 287 0098 2C008DE2 		add	r0, sp, #44
+ 288 009c FEFFFFEB 		bl	mbedtls_x509_crt_parse
+ 289              	.LVL33:
+ 290 00a0 000050E3 		cmp	r0, #0
+ 291 00a4 0B00000A 		beq	.L28
+ 292 00a8 0040A0E3 		mov	r4, #0
+ 293              	.LVL34:
+ 294              	.L29:
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 
+ 295              		.loc 1 132 0
+ 296 00ac 2C008DE2 		add	r0, sp, #44
+ 297 00b0 FEFFFFEB 		bl	mbedtls_x509_crt_free
+ 298              	.LVL35:
+ 299              	.L24:
+ 300              	.LBE7:
+ 301              	.LBE6:
+ 265:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 				xSignerCertificateLength,
+ 266:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 				pxCtx->xHashAlgorithm,
+ 267:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 				pucHash,
+ 268:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 				xHashLength,
+ 269:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 				pucSignature,
+ 270:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 				xSignatureLength);
+ 271:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 		}
+ 272:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 		else
+ 273:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 		{
+ 274:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 			/* Allow function to be called with only the context pointer for cleanup after a failure. */
+ 275:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 		}
+ 276:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 		/*
+ 277:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 		 * Clean-up
+ 278:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 		 */
+ 279:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 		vPortFree (pxCtx);
+ 302              		.loc 1 279 0
+ 303 00b4 0600A0E1 		mov	r0, r6
+ 304 00b8 FEFFFFEB 		bl	vPortFree
+ 305              	.LVL36:
+ 306              	.L22:
+ 307              	.LBE5:
+ 280:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 	}
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****     return xResult;
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** }
+ 308              		.loc 1 282 0
+ 309 00bc 0400A0E1 		mov	r0, r4
+ 310 00c0 16DE8DE2 		add	sp, sp, #352
+ 311              		.cfi_remember_state
+ 312              		.cfi_def_cfa_offset 32
+ 313              		@ sp needed
+ 314 00c4 F087BDE8 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 315              	.LVL37:
+ 316              	.L25:
+ 317              		.cfi_restore_state
+ 318              	.LBB10:
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 				pucHash = ucSHA1or256;
+ 319              		.loc 1 256 0
+ 320 00c8 640086E2 		add	r0, r6, #100
+ 321              	.LVL38:
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 			}
+ 322              		.loc 1 258 0
+ 323 00cc 2040A0E3 		mov	r4, #32
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c **** 				pucHash = ucSHA1or256;
+ 324              		.loc 1 256 0
+ 325 00d0 FEFFFFEB 		bl	mbedtls_sha256_finish_ret
+ 326              	.LVL39:
+ 327 00d4 E3FFFFEA 		b	.L26
+ 328              	.LVL40:
+ 329              	.L28:
+ 330              	.LBB9:
+ 331              	.LBB8:
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/crypto\aws_crypto.c ****                 &xCertCtx.pk,
+ 332              		.loc 1 117 0
+ 333 00d8 0430A0E1 		mov	r3, r4
+ 334 00dc 20028DE8 		stm	sp, {r5, r9}
+ 335 00e0 0C208DE2 		add	r2, sp, #12
+ 336              	.LVL41:
+ 337 00e4 0A10A0E1 		mov	r1, r10
+ 338 00e8 E8008DE2 		add	r0, sp, #232
+ 339 00ec FEFFFFEB 		bl	mbedtls_pk_verify
+ 340              	.LVL42:
+ 341 00f0 104F6FE1 		clz	r4, r0
+ 342              	.LVL43:
+ 343 00f4 A442A0E1 		lsr	r4, r4, #5
+ 344 00f8 EBFFFFEA 		b	.L29
+ 345              	.LBE8:
+ 346              	.LBE9:
+ 347              	.LBE10:
+ 348              		.cfi_endproc
+ 349              	.LFE9:
+ 351              		.text
+ 352              	.Letext0:
+ 353              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 354              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 355              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 356              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 357              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 358              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 359              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 360              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 361              		.file 10 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\src/unity_internals.h"
+ 362              		.file 11 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 363              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS\\portable\\GCC\\ARM_CA9_RZA2M/por
+ 364              		.file 13 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 365              		.file 14 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 366              		.file 15 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 367              		.file 16 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 368              		.file 17 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 369              		.file 18 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 370              		.file 19 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 371              		.file 20 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/sha2
+ 372              		.file 21 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/sha1
+ 373              		.file 22 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/md.h
+ 374              		.file 23 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/queue.h"
+ 375              		.file 24 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/semphr.h"
+ 376              		.file 25 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include\\private/threading_alt.h"
+ 377              		.file 26 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/thre
+ 378              		.file 27 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/pk.h
+ 379              		.file 28 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/asn1
+ 380              		.file 29 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/x509
+ 381              		.file 30 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/x509
+ 382              		.file 31 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include\\private/portable.h"
+ 383              		.file 32 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/plat
+DEFINED SYMBOLS
+                            *ABS*:00000000 aws_crypto.c
+C:\Users\a5089698\AppData\Local\Temp\cc3eJeeq.s:17     .text.prvCalloc:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc3eJeeq.s:22     .text.prvCalloc:00000000 prvCalloc
+C:\Users\a5089698\AppData\Local\Temp\cc3eJeeq.s:58     .text.CRYPTO_ConfigureHeap:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc3eJeeq.s:64     .text.CRYPTO_ConfigureHeap:00000000 CRYPTO_ConfigureHeap
+C:\Users\a5089698\AppData\Local\Temp\cc3eJeeq.s:79     .text.CRYPTO_ConfigureHeap:0000000c $d
+C:\Users\a5089698\AppData\Local\Temp\cc3eJeeq.s:85     .text.CRYPTO_SignatureVerificationStart:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc3eJeeq.s:91     .text.CRYPTO_SignatureVerificationStart:00000000 CRYPTO_SignatureVerificationStart
+C:\Users\a5089698\AppData\Local\Temp\cc3eJeeq.s:161    .text.CRYPTO_SignatureVerificationUpdate:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc3eJeeq.s:167    .text.CRYPTO_SignatureVerificationUpdate:00000000 CRYPTO_SignatureVerificationUpdate
+C:\Users\a5089698\AppData\Local\Temp\cc3eJeeq.s:194    .text.CRYPTO_SignatureVerificationFinal:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc3eJeeq.s:200    .text.CRYPTO_SignatureVerificationFinal:00000000 CRYPTO_SignatureVerificationFinal
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+pvPortMalloc
+memset
+mbedtls_platform_set_calloc_free
+vPortFree
+mbedtls_sha256_init
+mbedtls_sha256_starts_ret
+mbedtls_sha1_init
+mbedtls_sha1_starts_ret
+mbedtls_sha1_update_ret
+mbedtls_sha256_update_ret
+mbedtls_sha1_finish_ret
+mbedtls_x509_crt_init
+mbedtls_x509_crt_parse
+mbedtls_x509_crt_free
+mbedtls_sha256_finish_ret
+mbedtls_pk_verify

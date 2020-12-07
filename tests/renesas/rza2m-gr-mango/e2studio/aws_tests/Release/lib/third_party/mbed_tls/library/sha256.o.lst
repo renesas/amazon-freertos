@@ -1,0 +1,2547 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"sha256.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.mbedtls_sha256_init,"ax",%progbits
+  17              		.align	2
+  18              		.global	mbedtls_sha256_init
+  19              		.syntax unified
+  20              		.arm
+  21              		.fpu neon
+  23              	mbedtls_sha256_init:
+  24              	.LFB1:
+  25              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library/sha256.c"
+   1:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** /*
+   2:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  *  FIPS-180-2 compliant SHA-256 implementation
+   3:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  *
+   4:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
+   5:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  *  SPDX-License-Identifier: Apache-2.0
+   6:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  *
+   7:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+   8:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  *  not use this file except in compliance with the License.
+   9:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  *  You may obtain a copy of the License at
+  10:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  *
+  11:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  *  http://www.apache.org/licenses/LICENSE-2.0
+  12:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  *
+  13:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  *  Unless required by applicable law or agreed to in writing, software
+  14:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  15:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  16:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  *  See the License for the specific language governing permissions and
+  17:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  *  limitations under the License.
+  18:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  *
+  19:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  *  This file is part of mbed TLS (https://tls.mbed.org)
+  20:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  */
+  21:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** /*
+  22:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  *  The SHA-256 Secure Hash Standard was published by NIST in 2002.
+  23:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  *
+  24:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  *  http://csrc.nist.gov/publications/fips/fips180-2/fips180-2.pdf
+  25:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  */
+  26:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+  27:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #if !defined(MBEDTLS_CONFIG_FILE)
+  28:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #include "mbedtls/config.h"
+  29:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #else
+  30:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #include MBEDTLS_CONFIG_FILE
+  31:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #endif
+  32:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+  33:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #if defined(MBEDTLS_SHA256_C)
+  34:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+  35:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #include "mbedtls/sha256.h"
+  36:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #include "mbedtls/platform_util.h"
+  37:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+  38:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #include <string.h>
+  39:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+  40:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #if defined(MBEDTLS_SELF_TEST)
+  41:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #if defined(MBEDTLS_PLATFORM_C)
+  42:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #include "mbedtls/platform.h"
+  43:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #else
+  44:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #include <stdio.h>
+  45:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #include <stdlib.h>
+  46:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #define mbedtls_printf printf
+  47:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #define mbedtls_calloc    calloc
+  48:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #define mbedtls_free       free
+  49:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #endif /* MBEDTLS_PLATFORM_C */
+  50:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #endif /* MBEDTLS_SELF_TEST */
+  51:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+  52:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #if !defined(MBEDTLS_SHA256_ALT)
+  53:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+  54:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** /*
+  55:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  * 32-bit integer manipulation macros (big endian)
+  56:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  */
+  57:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #ifndef GET_UINT32_BE
+  58:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #define GET_UINT32_BE(n,b,i)                            \
+  59:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** do {                                                    \
+  60:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     (n) = ( (uint32_t) (b)[(i)    ] << 24 )             \
+  61:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         | ( (uint32_t) (b)[(i) + 1] << 16 )             \
+  62:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         | ( (uint32_t) (b)[(i) + 2] <<  8 )             \
+  63:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         | ( (uint32_t) (b)[(i) + 3]       );            \
+  64:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** } while( 0 )
+  65:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #endif
+  66:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+  67:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #ifndef PUT_UINT32_BE
+  68:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #define PUT_UINT32_BE(n,b,i)                            \
+  69:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** do {                                                    \
+  70:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     (b)[(i)    ] = (unsigned char) ( (n) >> 24 );       \
+  71:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     (b)[(i) + 1] = (unsigned char) ( (n) >> 16 );       \
+  72:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     (b)[(i) + 2] = (unsigned char) ( (n) >>  8 );       \
+  73:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     (b)[(i) + 3] = (unsigned char) ( (n)       );       \
+  74:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** } while( 0 )
+  75:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #endif
+  76:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+  77:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** void mbedtls_sha256_init( mbedtls_sha256_context *ctx )
+  78:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** {
+  26              		.loc 1 78 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              		@ link register save eliminated.
+  31              	.LVL0:
+  79:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     memset( ctx, 0, sizeof( mbedtls_sha256_context ) );
+  32              		.loc 1 79 0
+  33 0000 6C20A0E3 		mov	r2, #108
+  34 0004 0010A0E3 		mov	r1, #0
+  35 0008 FEFFFFEA 		b	memset
+  36              	.LVL1:
+  37              		.cfi_endproc
+  38              	.LFE1:
+  40              		.section	.text.mbedtls_sha256_free,"ax",%progbits
+  41              		.align	2
+  42              		.global	mbedtls_sha256_free
+  43              		.syntax unified
+  44              		.arm
+  45              		.fpu neon
+  47              	mbedtls_sha256_free:
+  48              	.LFB2:
+  80:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** }
+  81:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+  82:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** void mbedtls_sha256_free( mbedtls_sha256_context *ctx )
+  83:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** {
+  49              		.loc 1 83 0
+  50              		.cfi_startproc
+  51              		@ args = 0, pretend = 0, frame = 0
+  52              		@ frame_needed = 0, uses_anonymous_args = 0
+  53              		@ link register save eliminated.
+  54              	.LVL2:
+  84:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     if( ctx == NULL )
+  55              		.loc 1 84 0
+  56 0000 000050E3 		cmp	r0, #0
+  57 0004 1EFF2F01 		bxeq	lr
+  85:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         return;
+  86:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+  87:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     mbedtls_platform_zeroize( ctx, sizeof( mbedtls_sha256_context ) );
+  58              		.loc 1 87 0
+  59 0008 6C10A0E3 		mov	r1, #108
+  60 000c FEFFFFEA 		b	mbedtls_platform_zeroize
+  61              	.LVL3:
+  62              		.cfi_endproc
+  63              	.LFE2:
+  65              		.section	.text.mbedtls_sha256_clone,"ax",%progbits
+  66              		.align	2
+  67              		.global	mbedtls_sha256_clone
+  68              		.syntax unified
+  69              		.arm
+  70              		.fpu neon
+  72              	mbedtls_sha256_clone:
+  73              	.LFB3:
+  88:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** }
+  89:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+  90:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** void mbedtls_sha256_clone( mbedtls_sha256_context *dst,
+  91:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****                            const mbedtls_sha256_context *src )
+  92:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** {
+  74              		.loc 1 92 0
+  75              		.cfi_startproc
+  76              		@ args = 0, pretend = 0, frame = 0
+  77              		@ frame_needed = 0, uses_anonymous_args = 0
+  78              	.LVL4:
+  79 0000 10402DE9 		push	{r4, lr}
+  80              		.cfi_def_cfa_offset 8
+  81              		.cfi_offset 4, -8
+  82              		.cfi_offset 14, -4
+  93:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     *dst = *src;
+  83              		.loc 1 93 0
+  84 0004 6C20A0E3 		mov	r2, #108
+  85 0008 FEFFFFEB 		bl	memcpy
+  86              	.LVL5:
+  87 000c 1080BDE8 		pop	{r4, pc}
+  88              		.cfi_endproc
+  89              	.LFE3:
+  91              		.section	.text.mbedtls_sha256_starts_ret,"ax",%progbits
+  92              		.align	2
+  93              		.global	mbedtls_sha256_starts_ret
+  94              		.syntax unified
+  95              		.arm
+  96              		.fpu neon
+  98              	mbedtls_sha256_starts_ret:
+  99              	.LFB4:
+  94:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** }
+  95:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+  96:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** /*
+  97:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  * SHA-256 context setup
+  98:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  */
+  99:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** int mbedtls_sha256_starts_ret( mbedtls_sha256_context *ctx, int is224 )
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** {
+ 100              		.loc 1 100 0
+ 101              		.cfi_startproc
+ 102              		@ args = 0, pretend = 0, frame = 0
+ 103              		@ frame_needed = 0, uses_anonymous_args = 0
+ 104              		@ link register save eliminated.
+ 105              	.LVL6:
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     ctx->total[0] = 0;
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     ctx->total[1] = 0;
+ 103:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     if( is224 == 0 )
+ 106              		.loc 1 104 0
+ 107 0000 000051E3 		cmp	r1, #0
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     ctx->total[0] = 0;
+ 108              		.loc 1 101 0
+ 109 0004 0030A0E3 		mov	r3, #0
+ 110 0008 003080E5 		str	r3, [r0]
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 111              		.loc 1 102 0
+ 112 000c 043080E5 		str	r3, [r0, #4]
+ 113              		.loc 1 104 0
+ 114 0010 1200001A 		bne	.L7
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     {
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         /* SHA-256 */
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ctx->state[0] = 0x6A09E667;
+ 115              		.loc 1 107 0
+ 116 0014 94309FE5 		ldr	r3, .L10
+ 117 0018 083080E5 		str	r3, [r0, #8]
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ctx->state[1] = 0xBB67AE85;
+ 118              		.loc 1 108 0
+ 119 001c 90309FE5 		ldr	r3, .L10+4
+ 120 0020 0C3080E5 		str	r3, [r0, #12]
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ctx->state[2] = 0x3C6EF372;
+ 121              		.loc 1 109 0
+ 122 0024 8C309FE5 		ldr	r3, .L10+8
+ 123 0028 103080E5 		str	r3, [r0, #16]
+ 110:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ctx->state[3] = 0xA54FF53A;
+ 124              		.loc 1 110 0
+ 125 002c 88309FE5 		ldr	r3, .L10+12
+ 126 0030 143080E5 		str	r3, [r0, #20]
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ctx->state[4] = 0x510E527F;
+ 127              		.loc 1 111 0
+ 128 0034 84309FE5 		ldr	r3, .L10+16
+ 129 0038 183080E5 		str	r3, [r0, #24]
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ctx->state[5] = 0x9B05688C;
+ 130              		.loc 1 112 0
+ 131 003c 80309FE5 		ldr	r3, .L10+20
+ 132 0040 1C3080E5 		str	r3, [r0, #28]
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ctx->state[6] = 0x1F83D9AB;
+ 133              		.loc 1 113 0
+ 134 0044 7C309FE5 		ldr	r3, .L10+24
+ 135 0048 203080E5 		str	r3, [r0, #32]
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ctx->state[7] = 0x5BE0CD19;
+ 136              		.loc 1 114 0
+ 137 004c 78309FE5 		ldr	r3, .L10+28
+ 138              	.L9:
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     }
+ 116:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     else
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     {
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         /* SHA-224 */
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ctx->state[0] = 0xC1059ED8;
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ctx->state[1] = 0x367CD507;
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ctx->state[2] = 0x3070DD17;
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ctx->state[3] = 0xF70E5939;
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ctx->state[4] = 0xFFC00B31;
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ctx->state[5] = 0x68581511;
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ctx->state[6] = 0x64F98FA7;
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ctx->state[7] = 0xBEFA4FA4;
+ 139              		.loc 1 126 0
+ 140 0050 243080E5 		str	r3, [r0, #36]
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     }
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     ctx->is224 = is224;
+ 141              		.loc 1 129 0
+ 142 0054 681080E5 		str	r1, [r0, #104]
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     return( 0 );
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** }
+ 143              		.loc 1 132 0
+ 144 0058 0000A0E3 		mov	r0, #0
+ 145              	.LVL7:
+ 146 005c 1EFF2FE1 		bx	lr
+ 147              	.LVL8:
+ 148              	.L7:
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ctx->state[1] = 0x367CD507;
+ 149              		.loc 1 119 0
+ 150 0060 68309FE5 		ldr	r3, .L10+32
+ 151 0064 083080E5 		str	r3, [r0, #8]
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ctx->state[2] = 0x3070DD17;
+ 152              		.loc 1 120 0
+ 153 0068 64309FE5 		ldr	r3, .L10+36
+ 154 006c 0C3080E5 		str	r3, [r0, #12]
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ctx->state[3] = 0xF70E5939;
+ 155              		.loc 1 121 0
+ 156 0070 F93483E2 		add	r3, r3, #-117440512
+ 157 0074 3D3783E2 		add	r3, r3, #15990784
+ 158 0078 813E83E2 		add	r3, r3, #2064
+ 159 007c 103080E5 		str	r3, [r0, #16]
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ctx->state[4] = 0xFFC00B31;
+ 160              		.loc 1 122 0
+ 161 0080 50309FE5 		ldr	r3, .L10+40
+ 162 0084 143080E5 		str	r3, [r0, #20]
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ctx->state[5] = 0x68581511;
+ 163              		.loc 1 123 0
+ 164 0088 4C309FE5 		ldr	r3, .L10+44
+ 165 008c 183080E5 		str	r3, [r0, #24]
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ctx->state[6] = 0x64F98FA7;
+ 166              		.loc 1 124 0
+ 167 0090 1A3383E2 		add	r3, r3, #1744830464
+ 168 0094 263783E2 		add	r3, r3, #9961472
+ 169 0098 9E3E83E2 		add	r3, r3, #2528
+ 170 009c 1C3080E5 		str	r3, [r0, #28]
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ctx->state[7] = 0xBEFA4FA4;
+ 171              		.loc 1 125 0
+ 172 00a0 38309FE5 		ldr	r3, .L10+48
+ 173 00a4 203080E5 		str	r3, [r0, #32]
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     }
+ 174              		.loc 1 126 0
+ 175 00a8 34309FE5 		ldr	r3, .L10+52
+ 176 00ac E7FFFFEA 		b	.L9
+ 177              	.L11:
+ 178              		.align	2
+ 179              	.L10:
+ 180 00b0 67E6096A 		.word	1779033703
+ 181 00b4 85AE67BB 		.word	-1150833019
+ 182 00b8 72F36E3C 		.word	1013904242
+ 183 00bc 3AF54FA5 		.word	-1521486534
+ 184 00c0 7F520E51 		.word	1359893119
+ 185 00c4 8C68059B 		.word	-1694144372
+ 186 00c8 ABD9831F 		.word	528734635
+ 187 00cc 19CDE05B 		.word	1541459225
+ 188 00d0 D89E05C1 		.word	-1056596264
+ 189 00d4 07D57C36 		.word	914150663
+ 190 00d8 39590EF7 		.word	-150054599
+ 191 00dc 310BC0FF 		.word	-4191439
+ 192 00e0 A78FF964 		.word	1694076839
+ 193 00e4 A44FFABE 		.word	-1090891868
+ 194              		.cfi_endproc
+ 195              	.LFE4:
+ 197              		.section	.text.mbedtls_internal_sha256_process,"ax",%progbits
+ 198              		.align	2
+ 199              		.global	mbedtls_internal_sha256_process
+ 200              		.syntax unified
+ 201              		.arm
+ 202              		.fpu neon
+ 204              	mbedtls_internal_sha256_process:
+ 205              	.LFB5:
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #if !defined(MBEDTLS_DEPRECATED_REMOVED)
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** void mbedtls_sha256_starts( mbedtls_sha256_context *ctx,
+ 136:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****                             int is224 )
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** {
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     mbedtls_sha256_starts_ret( ctx, is224 );
+ 139:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** }
+ 140:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #endif
+ 141:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 142:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #if !defined(MBEDTLS_SHA256_PROCESS_ALT)
+ 143:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** static const uint32_t K[] =
+ 144:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** {
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     0x428A2F98, 0x71374491, 0xB5C0FBCF, 0xE9B5DBA5,
+ 146:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     0x3956C25B, 0x59F111F1, 0x923F82A4, 0xAB1C5ED5,
+ 147:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     0xD807AA98, 0x12835B01, 0x243185BE, 0x550C7DC3,
+ 148:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     0x72BE5D74, 0x80DEB1FE, 0x9BDC06A7, 0xC19BF174,
+ 149:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     0xE49B69C1, 0xEFBE4786, 0x0FC19DC6, 0x240CA1CC,
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     0x2DE92C6F, 0x4A7484AA, 0x5CB0A9DC, 0x76F988DA,
+ 151:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     0x983E5152, 0xA831C66D, 0xB00327C8, 0xBF597FC7,
+ 152:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     0xC6E00BF3, 0xD5A79147, 0x06CA6351, 0x14292967,
+ 153:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     0x27B70A85, 0x2E1B2138, 0x4D2C6DFC, 0x53380D13,
+ 154:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     0x650A7354, 0x766A0ABB, 0x81C2C92E, 0x92722C85,
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     0xA2BFE8A1, 0xA81A664B, 0xC24B8B70, 0xC76C51A3,
+ 156:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     0xD192E819, 0xD6990624, 0xF40E3585, 0x106AA070,
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     0x19A4C116, 0x1E376C08, 0x2748774C, 0x34B0BCB5,
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     0x391C0CB3, 0x4ED8AA4A, 0x5B9CCA4F, 0x682E6FF3,
+ 159:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     0x748F82EE, 0x78A5636F, 0x84C87814, 0x8CC70208,
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     0x90BEFFFA, 0xA4506CEB, 0xBEF9A3F7, 0xC67178F2,
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** };
+ 162:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 163:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #define  SHR(x,n) ((x & 0xFFFFFFFF) >> n)
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #define ROTR(x,n) (SHR(x,n) | (x << (32 - n)))
+ 165:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 166:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #define S0(x) (ROTR(x, 7) ^ ROTR(x,18) ^  SHR(x, 3))
+ 167:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #define S1(x) (ROTR(x,17) ^ ROTR(x,19) ^  SHR(x,10))
+ 168:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 169:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #define S2(x) (ROTR(x, 2) ^ ROTR(x,13) ^ ROTR(x,22))
+ 170:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #define S3(x) (ROTR(x, 6) ^ ROTR(x,11) ^ ROTR(x,25))
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 172:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #define F0(x,y,z) ((x & y) | (z & (x | y)))
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #define F1(x,y,z) (z ^ (x & (y ^ z)))
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #define R(t)                                    \
+ 176:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** (                                               \
+ 177:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     W[t] = S1(W[t -  2]) + W[t -  7] +          \
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****            S0(W[t - 15]) + W[t - 16]            \
+ 179:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** )
+ 180:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 181:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #define P(a,b,c,d,e,f,g,h,x,K)                  \
+ 182:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** {                                               \
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     temp1 = h + S3(e) + F1(e,f,g) + K + x;      \
+ 184:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     temp2 = S2(a) + F0(a,b,c);                  \
+ 185:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     d += temp1; h = temp1 + temp2;              \
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** }
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** int mbedtls_internal_sha256_process( mbedtls_sha256_context *ctx,
+ 189:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****                                 const unsigned char data[64] )
+ 190:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** {
+ 206              		.loc 1 190 0
+ 207              		.cfi_startproc
+ 208              		@ args = 0, pretend = 0, frame = 304
+ 209              		@ frame_needed = 0, uses_anonymous_args = 0
+ 210              	.LVL9:
+ 211 0000 083080E2 		add	r3, r0, #8
+ 212 0004 F04F2DE9 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 213              		.cfi_def_cfa_offset 36
+ 214              		.cfi_offset 4, -36
+ 215              		.cfi_offset 5, -32
+ 216              		.cfi_offset 6, -28
+ 217              		.cfi_offset 7, -24
+ 218              		.cfi_offset 8, -20
+ 219              		.cfi_offset 9, -16
+ 220              		.cfi_offset 10, -12
+ 221              		.cfi_offset 11, -8
+ 222              		.cfi_offset 14, -4
+ 223 0008 4DDF4DE2 		sub	sp, sp, #308
+ 224              		.cfi_def_cfa_offset 344
+ 225              		.loc 1 190 0
+ 226 000c 0320A0E1 		mov	r2, r3
+ 227 0010 0C308DE5 		str	r3, [sp, #12]
+ 191:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     uint32_t temp1, temp2, W[64];
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     uint32_t A[8];
+ 193:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     unsigned int i;
+ 194:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 195:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     for( i = 0; i < 8; i++ )
+ 228              		.loc 1 195 0
+ 229 0014 0030A0E3 		mov	r3, #0
+ 230              	.LVL10:
+ 231              	.L13:
+ 196:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         A[i] = ctx->state[i];
+ 232              		.loc 1 196 0 discriminator 3
+ 233 0018 040092E4 		ldr	r0, [r2], #4
+ 234 001c 10C08DE2 		add	ip, sp, #16
+ 235 0020 03018CE7 		str	r0, [ip, r3, lsl #2]
+ 195:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         A[i] = ctx->state[i];
+ 236              		.loc 1 195 0 discriminator 3
+ 237 0024 013083E2 		add	r3, r3, #1
+ 238              	.LVL11:
+ 239 0028 080053E3 		cmp	r3, #8
+ 240 002c F9FFFF1A 		bne	.L13
+ 195:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         A[i] = ctx->state[i];
+ 241              		.loc 1 195 0 is_stmt 0
+ 242 0030 0020A0E3 		mov	r2, #0
+ 197:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 198:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #if defined(MBEDTLS_SHA256_SMALLER)
+ 199:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     for( i = 0; i < 64; i++ )
+ 200:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     {
+ 201:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         if( i < 16 )
+ 202:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****             GET_UINT32_BE( W[i], data, 4 * i );
+ 203:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         else
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****             R( i );
+ 205:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[0], A[1], A[2], A[3], A[4], A[5], A[6], A[7], W[i], K[i] );
+ 207:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         temp1 = A[7]; A[7] = A[6]; A[6] = A[5]; A[5] = A[4]; A[4] = A[3];
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         A[3] = A[2]; A[2] = A[1]; A[1] = A[0]; A[0] = temp1;
+ 210:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     }
+ 211:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #else /* MBEDTLS_SHA256_SMALLER */
+ 212:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     for( i = 0; i < 16; i++ )
+ 213:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         GET_UINT32_BE( W[i], data, 4 * i );
+ 243              		.loc 1 213 0 is_stmt 1
+ 244 0034 30E08DE2 		add	lr, sp, #48
+ 245              	.LVL12:
+ 246              	.L14:
+ 247              		.loc 1 213 0 is_stmt 0 discriminator 3
+ 248 0038 0130D1E5 		ldrb	r3, [r1, #1]	@ zero_extendqisi2
+ 249 003c 041081E2 		add	r1, r1, #4
+ 250 0040 040051E5 		ldrb	r0, [r1, #-4]	@ zero_extendqisi2
+ 251 0044 0338A0E1 		lsl	r3, r3, #16
+ 252 0048 003C83E1 		orr	r3, r3, r0, lsl #24
+ 253 004c 010051E5 		ldrb	r0, [r1, #-1]	@ zero_extendqisi2
+ 254 0050 003083E1 		orr	r3, r3, r0
+ 255 0054 020051E5 		ldrb	r0, [r1, #-2]	@ zero_extendqisi2
+ 256 0058 003483E1 		orr	r3, r3, r0, lsl #8
+ 257 005c 02318EE7 		str	r3, [lr, r2, lsl #2]
+ 212:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         GET_UINT32_BE( W[i], data, 4 * i );
+ 258              		.loc 1 212 0 is_stmt 1 discriminator 3
+ 259 0060 012082E2 		add	r2, r2, #1
+ 260              	.LVL13:
+ 261 0064 100052E3 		cmp	r2, #16
+ 262 0068 F2FFFF1A 		bne	.L14
+ 263 006c 2C809DE5 		ldr	r8, [sp, #44]
+ 212:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         GET_UINT32_BE( W[i], data, 4 * i );
+ 264              		.loc 1 212 0 is_stmt 0
+ 265 0070 0E60A0E1 		mov	r6, lr
+ 266 0074 1C309DE5 		ldr	r3, [sp, #28]
+ 267 0078 28C09DE5 		ldr	ip, [sp, #40]
+ 268 007c 18209DE5 		ldr	r2, [sp, #24]
+ 269              	.LVL14:
+ 270 0080 24009DE5 		ldr	r0, [sp, #36]
+ 271 0084 14109DE5 		ldr	r1, [sp, #20]
+ 272 0088 20409DE5 		ldr	r4, [sp, #32]
+ 273 008c 10709DE5 		ldr	r7, [sp, #16]
+ 274 0090 C0579FE5 		ldr	r5, .L24
+ 275 0094 00508DE5 		str	r5, [sp]
+ 276              	.L15:
+ 214:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 215:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     for( i = 0; i < 16; i += 8 )
+ 216:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     {
+ 217:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[0], A[1], A[2], A[3], A[4], A[5], A[6], A[7], W[i+0], K[i+0] );
+ 277              		.loc 1 217 0 is_stmt 1 discriminator 3
+ 278 0098 E4A5A0E1 		ror	r10, r4, #11
+ 279 009c 009095E5 		ldr	r9, [r5]
+ 280 00a0 00B096E5 		ldr	fp, [r6]
+ 281 00a4 205085E2 		add	r5, r5, #32
+ 282 00a8 64A32AE0 		eor	r10, r10, r4, ror #6
+ 283 00ac 206086E2 		add	r6, r6, #32
+ 284 00b0 E4AC2AE0 		eor	r10, r10, r4, ror #25
+ 285 00b4 0B9089E0 		add	r9, r9, fp
+ 286 00b8 0CB020E0 		eor	fp, r0, ip
+ 287 00bc 09A08AE0 		add	r10, r10, r9
+ 288 00c0 04B00BE0 		and	fp, fp, r4
+ 289 00c4 E796A0E1 		ror	r9, r7, #13
+ 290 00c8 0CB02BE0 		eor	fp, fp, ip
+ 291 00cc 0BA08AE0 		add	r10, r10, fp
+ 292 00d0 679129E0 		eor	r9, r9, r7, ror #2
+ 293 00d4 08808AE0 		add	r8, r10, r8
+ 294              	.LVL15:
+ 295 00d8 07A081E1 		orr	r10, r1, r7
+ 296 00dc 07B001E0 		and	fp, r1, r7
+ 297 00e0 679B29E0 		eor	r9, r9, r7, ror #22
+ 298 00e4 02A00AE0 		and	r10, r10, r2
+ 299 00e8 0BA08AE1 		orr	r10, r10, fp
+ 300 00ec 033088E0 		add	r3, r8, r3
+ 301 00f0 0AA089E0 		add	r10, r9, r10
+ 218:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[7], A[0], A[1], A[2], A[3], A[4], A[5], A[6], W[i+1], K[i+1] );
+ 302              		.loc 1 218 0 discriminator 3
+ 303 00f4 1C9015E5 		ldr	r9, [r5, #-28]
+ 217:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[7], A[0], A[1], A[2], A[3], A[4], A[5], A[6], W[i+1], K[i+1] );
+ 304              		.loc 1 217 0 discriminator 3
+ 305 00f8 08808AE0 		add	r8, r10, r8
+ 306              	.LVL16:
+ 307              		.loc 1 218 0 discriminator 3
+ 308 00fc 1CA016E5 		ldr	r10, [r6, #-28]
+ 309 0100 0A9089E0 		add	r9, r9, r10
+ 310 0104 07A088E1 		orr	r10, r8, r7
+ 311 0108 0C9089E0 		add	r9, r9, ip
+ 312 010c 04C020E0 		eor	ip, r0, r4
+ 313 0110 03C00CE0 		and	ip, ip, r3
+ 314 0114 01A00AE0 		and	r10, r10, r1
+ 315 0118 00B02CE0 		eor	fp, ip, r0
+ 316 011c 0BC089E0 		add	ip, r9, fp
+ 317 0120 E395A0E1 		ror	r9, r3, #11
+ 318 0124 07B008E0 		and	fp, r8, r7
+ 319 0128 639329E0 		eor	r9, r9, r3, ror #6
+ 320 012c 0BA08AE1 		orr	r10, r10, fp
+ 321 0130 E39C29E0 		eor	r9, r9, r3, ror #25
+ 322 0134 09908CE0 		add	r9, ip, r9
+ 323              	.LVL17:
+ 324 0138 E8C6A0E1 		ror	ip, r8, #13
+ 325 013c 022089E0 		add	r2, r9, r2
+ 326 0140 68C12CE0 		eor	ip, ip, r8, ror #2
+ 327 0144 68CB2CE0 		eor	ip, ip, r8, ror #22
+ 328 0148 0AC08CE0 		add	ip, ip, r10
+ 219:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[6], A[7], A[0], A[1], A[2], A[3], A[4], A[5], W[i+2], K[i+2] );
+ 329              		.loc 1 219 0 discriminator 3
+ 330 014c 18A016E5 		ldr	r10, [r6, #-24]
+ 218:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[7], A[0], A[1], A[2], A[3], A[4], A[5], A[6], W[i+1], K[i+1] );
+ 331              		.loc 1 218 0 discriminator 3
+ 332 0150 09C08CE0 		add	ip, ip, r9
+ 333              		.loc 1 219 0 discriminator 3
+ 334 0154 189015E5 		ldr	r9, [r5, #-24]
+ 335              	.LVL18:
+ 336 0158 0A9089E0 		add	r9, r9, r10
+ 337 015c 0CA088E1 		orr	r10, r8, ip
+ 338 0160 009089E0 		add	r9, r9, r0
+ 339 0164 040023E0 		eor	r0, r3, r4
+ 340 0168 020000E0 		and	r0, r0, r2
+ 341 016c 07A00AE0 		and	r10, r10, r7
+ 342 0170 04B020E0 		eor	fp, r0, r4
+ 343 0174 0B0089E0 		add	r0, r9, fp
+ 344 0178 E295A0E1 		ror	r9, r2, #11
+ 345 017c 0CB008E0 		and	fp, r8, ip
+ 346 0180 629329E0 		eor	r9, r9, r2, ror #6
+ 347 0184 0BA08AE1 		orr	r10, r10, fp
+ 220:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[5], A[6], A[7], A[0], A[1], A[2], A[3], A[4], W[i+3], K[i+3] );
+ 348              		.loc 1 220 0 discriminator 3
+ 349 0188 02B023E0 		eor	fp, r3, r2
+ 219:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[6], A[7], A[0], A[1], A[2], A[3], A[4], A[5], W[i+2], K[i+2] );
+ 350              		.loc 1 219 0 discriminator 3
+ 351 018c E29C29E0 		eor	r9, r9, r2, ror #25
+ 352 0190 099080E0 		add	r9, r0, r9
+ 353              	.LVL19:
+ 354 0194 EC06A0E1 		ror	r0, ip, #13
+ 355 0198 011089E0 		add	r1, r9, r1
+ 356 019c 6C0120E0 		eor	r0, r0, ip, ror #2
+ 357              		.loc 1 220 0 discriminator 3
+ 358 01a0 01B00BE0 		and	fp, fp, r1
+ 359 01a4 03B02BE0 		eor	fp, fp, r3
+ 219:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[6], A[7], A[0], A[1], A[2], A[3], A[4], A[5], W[i+2], K[i+2] );
+ 360              		.loc 1 219 0 discriminator 3
+ 361 01a8 6C0B20E0 		eor	r0, r0, ip, ror #22
+ 362 01ac 0A0080E0 		add	r0, r0, r10
+ 363              		.loc 1 220 0 discriminator 3
+ 364 01b0 14A016E5 		ldr	r10, [r6, #-20]
+ 219:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[6], A[7], A[0], A[1], A[2], A[3], A[4], A[5], W[i+2], K[i+2] );
+ 365              		.loc 1 219 0 discriminator 3
+ 366 01b4 090080E0 		add	r0, r0, r9
+ 367              		.loc 1 220 0 discriminator 3
+ 368 01b8 149015E5 		ldr	r9, [r5, #-20]
+ 369              	.LVL20:
+ 370 01bc 0A9089E0 		add	r9, r9, r10
+ 371 01c0 00A08CE1 		orr	r10, ip, r0
+ 372 01c4 044089E0 		add	r4, r9, r4
+ 373 01c8 E195A0E1 		ror	r9, r1, #11
+ 374 01cc 0B4084E0 		add	r4, r4, fp
+ 375 01d0 619329E0 		eor	r9, r9, r1, ror #6
+ 376 01d4 00B00CE0 		and	fp, ip, r0
+ 377 01d8 08A00AE0 		and	r10, r10, r8
+ 378 01dc E19C29E0 		eor	r9, r9, r1, ror #25
+ 379 01e0 0BA08AE1 		orr	r10, r10, fp
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[4], A[5], A[6], A[7], A[0], A[1], A[2], A[3], W[i+4], K[i+4] );
+ 380              		.loc 1 221 0 discriminator 3
+ 381 01e4 01B022E0 		eor	fp, r2, r1
+ 220:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[5], A[6], A[7], A[0], A[1], A[2], A[3], A[4], W[i+3], K[i+3] );
+ 382              		.loc 1 220 0 discriminator 3
+ 383 01e8 099084E0 		add	r9, r4, r9
+ 384              	.LVL21:
+ 385 01ec E046A0E1 		ror	r4, r0, #13
+ 386 01f0 077089E0 		add	r7, r9, r7
+ 387 01f4 604124E0 		eor	r4, r4, r0, ror #2
+ 388              		.loc 1 221 0 discriminator 3
+ 389 01f8 07B00BE0 		and	fp, fp, r7
+ 390 01fc 02B02BE0 		eor	fp, fp, r2
+ 220:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[5], A[6], A[7], A[0], A[1], A[2], A[3], A[4], W[i+3], K[i+3] );
+ 391              		.loc 1 220 0 discriminator 3
+ 392 0200 604B24E0 		eor	r4, r4, r0, ror #22
+ 393 0204 0A4084E0 		add	r4, r4, r10
+ 394              		.loc 1 221 0 discriminator 3
+ 395 0208 10A016E5 		ldr	r10, [r6, #-16]
+ 220:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[5], A[6], A[7], A[0], A[1], A[2], A[3], A[4], W[i+3], K[i+3] );
+ 396              		.loc 1 220 0 discriminator 3
+ 397 020c 094084E0 		add	r4, r4, r9
+ 398              		.loc 1 221 0 discriminator 3
+ 399 0210 109015E5 		ldr	r9, [r5, #-16]
+ 400              	.LVL22:
+ 401 0214 0A9089E0 		add	r9, r9, r10
+ 402 0218 04A080E1 		orr	r10, r0, r4
+ 403 021c 033089E0 		add	r3, r9, r3
+ 404 0220 E795A0E1 		ror	r9, r7, #11
+ 405 0224 0B3083E0 		add	r3, r3, fp
+ 406 0228 679329E0 		eor	r9, r9, r7, ror #6
+ 407 022c 04B000E0 		and	fp, r0, r4
+ 408 0230 0CA00AE0 		and	r10, r10, ip
+ 409 0234 E79C29E0 		eor	r9, r9, r7, ror #25
+ 410 0238 0BA08AE1 		orr	r10, r10, fp
+ 222:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[3], A[4], A[5], A[6], A[7], A[0], A[1], A[2], W[i+5], K[i+5] );
+ 411              		.loc 1 222 0 discriminator 3
+ 412 023c 07B021E0 		eor	fp, r1, r7
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[4], A[5], A[6], A[7], A[0], A[1], A[2], A[3], W[i+4], K[i+4] );
+ 413              		.loc 1 221 0 discriminator 3
+ 414 0240 099083E0 		add	r9, r3, r9
+ 415              	.LVL23:
+ 416 0244 E436A0E1 		ror	r3, r4, #13
+ 417 0248 098088E0 		add	r8, r8, r9
+ 418 024c 643123E0 		eor	r3, r3, r4, ror #2
+ 419              		.loc 1 222 0 discriminator 3
+ 420 0250 08B00BE0 		and	fp, fp, r8
+ 421 0254 01B02BE0 		eor	fp, fp, r1
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[4], A[5], A[6], A[7], A[0], A[1], A[2], A[3], W[i+4], K[i+4] );
+ 422              		.loc 1 221 0 discriminator 3
+ 423 0258 643B23E0 		eor	r3, r3, r4, ror #22
+ 424 025c 0A3083E0 		add	r3, r3, r10
+ 425              		.loc 1 222 0 discriminator 3
+ 426 0260 0CA016E5 		ldr	r10, [r6, #-12]
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[4], A[5], A[6], A[7], A[0], A[1], A[2], A[3], W[i+4], K[i+4] );
+ 427              		.loc 1 221 0 discriminator 3
+ 428 0264 093083E0 		add	r3, r3, r9
+ 429              		.loc 1 222 0 discriminator 3
+ 430 0268 0C9015E5 		ldr	r9, [r5, #-12]
+ 431              	.LVL24:
+ 432 026c 0A9089E0 		add	r9, r9, r10
+ 433 0270 03A084E1 		orr	r10, r4, r3
+ 434 0274 022089E0 		add	r2, r9, r2
+ 435 0278 E895A0E1 		ror	r9, r8, #11
+ 436 027c 0B2082E0 		add	r2, r2, fp
+ 437 0280 689329E0 		eor	r9, r9, r8, ror #6
+ 438 0284 03B004E0 		and	fp, r4, r3
+ 439 0288 00A00AE0 		and	r10, r10, r0
+ 440 028c E89C29E0 		eor	r9, r9, r8, ror #25
+ 441 0290 0BA08AE1 		orr	r10, r10, fp
+ 223:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[2], A[3], A[4], A[5], A[6], A[7], A[0], A[1], W[i+6], K[i+6] );
+ 442              		.loc 1 223 0 discriminator 3
+ 443 0294 08B027E0 		eor	fp, r7, r8
+ 222:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[3], A[4], A[5], A[6], A[7], A[0], A[1], A[2], W[i+5], K[i+5] );
+ 444              		.loc 1 222 0 discriminator 3
+ 445 0298 099082E0 		add	r9, r2, r9
+ 446              	.LVL25:
+ 447 029c E326A0E1 		ror	r2, r3, #13
+ 448 02a0 09C08CE0 		add	ip, ip, r9
+ 449 02a4 632122E0 		eor	r2, r2, r3, ror #2
+ 450              		.loc 1 223 0 discriminator 3
+ 451 02a8 0CB00BE0 		and	fp, fp, ip
+ 452 02ac 07B02BE0 		eor	fp, fp, r7
+ 222:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[3], A[4], A[5], A[6], A[7], A[0], A[1], A[2], W[i+5], K[i+5] );
+ 453              		.loc 1 222 0 discriminator 3
+ 454 02b0 632B22E0 		eor	r2, r2, r3, ror #22
+ 455 02b4 0A2082E0 		add	r2, r2, r10
+ 456              		.loc 1 223 0 discriminator 3
+ 457 02b8 08A016E5 		ldr	r10, [r6, #-8]
+ 222:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[3], A[4], A[5], A[6], A[7], A[0], A[1], A[2], W[i+5], K[i+5] );
+ 458              		.loc 1 222 0 discriminator 3
+ 459 02bc 092082E0 		add	r2, r2, r9
+ 460              		.loc 1 223 0 discriminator 3
+ 461 02c0 089015E5 		ldr	r9, [r5, #-8]
+ 462              	.LVL26:
+ 463 02c4 0A9089E0 		add	r9, r9, r10
+ 464 02c8 02A083E1 		orr	r10, r3, r2
+ 465 02cc 011089E0 		add	r1, r9, r1
+ 466 02d0 EC95A0E1 		ror	r9, ip, #11
+ 467 02d4 0B1081E0 		add	r1, r1, fp
+ 468 02d8 6C9329E0 		eor	r9, r9, ip, ror #6
+ 469 02dc 04A00AE0 		and	r10, r10, r4
+ 470 02e0 02B003E0 		and	fp, r3, r2
+ 471 02e4 EC9C29E0 		eor	r9, r9, ip, ror #25
+ 472 02e8 0BA08AE1 		orr	r10, r10, fp
+ 224:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[1], A[2], A[3], A[4], A[5], A[6], A[7], A[0], W[i+7], K[i+7] );
+ 473              		.loc 1 224 0 discriminator 3
+ 474 02ec 0CB028E0 		eor	fp, r8, ip
+ 223:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[2], A[3], A[4], A[5], A[6], A[7], A[0], A[1], W[i+6], K[i+6] );
+ 475              		.loc 1 223 0 discriminator 3
+ 476 02f0 099081E0 		add	r9, r1, r9
+ 477              	.LVL27:
+ 478 02f4 E216A0E1 		ror	r1, r2, #13
+ 479 02f8 090080E0 		add	r0, r0, r9
+ 480 02fc 621121E0 		eor	r1, r1, r2, ror #2
+ 481              		.loc 1 224 0 discriminator 3
+ 482 0300 00B00BE0 		and	fp, fp, r0
+ 483 0304 08B02BE0 		eor	fp, fp, r8
+ 223:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[2], A[3], A[4], A[5], A[6], A[7], A[0], A[1], W[i+6], K[i+6] );
+ 484              		.loc 1 223 0 discriminator 3
+ 485 0308 621B21E0 		eor	r1, r1, r2, ror #22
+ 486 030c 0A1081E0 		add	r1, r1, r10
+ 487              		.loc 1 224 0 discriminator 3
+ 488 0310 04A016E5 		ldr	r10, [r6, #-4]
+ 223:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[2], A[3], A[4], A[5], A[6], A[7], A[0], A[1], W[i+6], K[i+6] );
+ 489              		.loc 1 223 0 discriminator 3
+ 490 0314 091081E0 		add	r1, r1, r9
+ 491              		.loc 1 224 0 discriminator 3
+ 492 0318 049015E5 		ldr	r9, [r5, #-4]
+ 493              	.LVL28:
+ 494 031c 0A9089E0 		add	r9, r9, r10
+ 495 0320 01A082E1 		orr	r10, r2, r1
+ 496 0324 077089E0 		add	r7, r9, r7
+ 497 0328 E095A0E1 		ror	r9, r0, #11
+ 498 032c 0B7087E0 		add	r7, r7, fp
+ 499 0330 609329E0 		eor	r9, r9, r0, ror #6
+ 500 0334 03A00AE0 		and	r10, r10, r3
+ 501 0338 01B002E0 		and	fp, r2, r1
+ 502 033c E09C29E0 		eor	r9, r9, r0, ror #25
+ 503 0340 0BA08AE1 		orr	r10, r10, fp
+ 504 0344 097087E0 		add	r7, r7, r9
+ 505              	.LVL29:
+ 506 0348 E196A0E1 		ror	r9, r1, #13
+ 507 034c 074084E0 		add	r4, r4, r7
+ 508 0350 619129E0 		eor	r9, r9, r1, ror #2
+ 509 0354 619B29E0 		eor	r9, r9, r1, ror #22
+ 510 0358 0AA089E0 		add	r10, r9, r10
+ 215:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     {
+ 511              		.loc 1 215 0 discriminator 3
+ 512 035c F8949FE5 		ldr	r9, .L24+4
+ 513              		.loc 1 224 0 discriminator 3
+ 514 0360 07708AE0 		add	r7, r10, r7
+ 515              	.LVL30:
+ 215:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     {
+ 516              		.loc 1 215 0 discriminator 3
+ 517 0364 050059E1 		cmp	r9, r5
+ 518 0368 4AFFFF1A 		bne	.L15
+ 519              	.LVL31:
+ 520              	.L16:
+ 225:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     }
+ 226:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 227:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     for( i = 16; i < 64; i += 8 )
+ 228:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     {
+ 229:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[0], A[1], A[2], A[3], A[4], A[5], A[6], A[7], R(i+0), K[i+0] );
+ 521              		.loc 1 229 0 discriminator 3
+ 522 036c 38509EE5 		ldr	r5, [lr, #56]
+ 523 0370 20E08EE2 		add	lr, lr, #32
+ 524 0374 1CB01EE5 		ldr	fp, [lr, #-28]
+ 525 0378 20901EE5 		ldr	r9, [lr, #-32]
+ 526 037c E569A0E1 		ror	r6, r5, #19
+ 527 0380 6BA9A0E1 		ror	r10, fp, #18
+ 528 0384 E56826E0 		eor	r6, r6, r5, ror #17
+ 529 0388 EBA32AE0 		eor	r10, r10, fp, ror #7
+ 530 038c 256526E0 		eor	r6, r6, r5, lsr #10
+ 531 0390 04509EE5 		ldr	r5, [lr, #4]
+ 532 0394 ABA12AE0 		eor	r10, r10, fp, lsr #3
+ 533 0398 095085E0 		add	r5, r5, r9
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[7], A[0], A[1], A[2], A[3], A[4], A[5], A[6], R(i+1), K[i+1] );
+ 534              		.loc 1 230 0 discriminator 3
+ 535 039c 18901EE5 		ldr	r9, [lr, #-24]
+ 229:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[7], A[0], A[1], A[2], A[3], A[4], A[5], A[6], R(i+1), K[i+1] );
+ 536              		.loc 1 229 0 discriminator 3
+ 537 03a0 056086E0 		add	r6, r6, r5
+ 538 03a4 0A5086E0 		add	r5, r6, r10
+ 539 03a8 08508DE5 		str	r5, [sp, #8]
+ 540 03ac E455A0E1 		ror	r5, r4, #11
+ 541 03b0 645325E0 		eor	r5, r5, r4, ror #6
+ 542 03b4 E46C25E0 		eor	r6, r5, r4, ror #25
+ 543 03b8 0C5020E0 		eor	r5, r0, ip
+ 544 03bc 045005E0 		and	r5, r5, r4
+ 545 03c0 0C5025E0 		eor	r5, r5, ip
+ 546 03c4 055086E0 		add	r5, r6, r5
+ 547 03c8 00609DE5 		ldr	r6, [sp]
+ 548 03cc 406096E5 		ldr	r6, [r6, #64]
+ 549 03d0 065085E0 		add	r5, r5, r6
+ 550 03d4 08609DE5 		ldr	r6, [sp, #8]
+ 551 03d8 065085E0 		add	r5, r5, r6
+ 552 03dc 20608EE5 		str	r6, [lr, #32]
+ 553 03e0 058088E0 		add	r8, r8, r5
+ 554              	.LVL32:
+ 555 03e4 075081E1 		orr	r5, r1, r7
+ 556 03e8 03A088E0 		add	r10, r8, r3
+ 557 03ec E736A0E1 		ror	r3, r7, #13
+ 558 03f0 076001E0 		and	r6, r1, r7
+ 559 03f4 673123E0 		eor	r3, r3, r7, ror #2
+ 560 03f8 025005E0 		and	r5, r5, r2
+ 561 03fc 065085E1 		orr	r5, r5, r6
+ 562 0400 673B23E0 		eor	r3, r3, r7, ror #22
+ 563 0404 055083E0 		add	r5, r3, r5
+ 564              		.loc 1 230 0 discriminator 3
+ 565 0408 1C309EE5 		ldr	r3, [lr, #28]
+ 229:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[7], A[0], A[1], A[2], A[3], A[4], A[5], A[6], R(i+1), K[i+1] );
+ 566              		.loc 1 229 0 discriminator 3
+ 567 040c 088085E0 		add	r8, r5, r8
+ 568              	.LVL33:
+ 569              		.loc 1 230 0 discriminator 3
+ 570 0410 1C509EE5 		ldr	r5, [lr, #28]
+ 571 0414 E339A0E1 		ror	r3, r3, #19
+ 572 0418 E53823E0 		eor	r3, r3, r5, ror #17
+ 573 041c 253523E0 		eor	r3, r3, r5, lsr #10
+ 574 0420 08509EE5 		ldr	r5, [lr, #8]
+ 575 0424 05508BE0 		add	r5, fp, r5
+ 576 0428 04B020E0 		eor	fp, r0, r4
+ 577 042c 053083E0 		add	r3, r3, r5
+ 578 0430 6959A0E1 		ror	r5, r9, #18
+ 579 0434 0AB00BE0 		and	fp, fp, r10
+ 580 0438 E95325E0 		eor	r5, r5, r9, ror #7
+ 581 043c 00B02BE0 		eor	fp, fp, r0
+ 582 0440 A95125E0 		eor	r5, r5, r9, lsr #3
+ 583 0444 055083E0 		add	r5, r3, r5
+ 584 0448 00309DE5 		ldr	r3, [sp]
+ 585 044c 24508EE5 		str	r5, [lr, #36]
+ 586 0450 443093E5 		ldr	r3, [r3, #68]
+ 587 0454 03C08CE0 		add	ip, ip, r3
+ 588 0458 E836A0E1 		ror	r3, r8, #13
+ 589 045c 05608CE0 		add	r6, ip, r5
+ 590 0460 EAC5A0E1 		ror	ip, r10, #11
+ 591 0464 06B08BE0 		add	fp, fp, r6
+ 592 0468 683123E0 		eor	r3, r3, r8, ror #2
+ 593 046c 6AC32CE0 		eor	ip, ip, r10, ror #6
+ 594 0470 683B23E0 		eor	r3, r3, r8, ror #22
+ 595 0474 EACC2CE0 		eor	ip, ip, r10, ror #25
+ 596 0478 0B608CE0 		add	r6, ip, fp
+ 597              	.LVL34:
+ 598 047c 07C088E1 		orr	ip, r8, r7
+ 599 0480 02B086E0 		add	fp, r6, r2
+ 600 0484 01C00CE0 		and	ip, ip, r1
+ 601 0488 072008E0 		and	r2, r8, r7
+ 602 048c 02C08CE1 		orr	ip, ip, r2
+ 603 0490 0CC083E0 		add	ip, r3, ip
+ 231:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[6], A[7], A[0], A[1], A[2], A[3], A[4], A[5], R(i+2), K[i+2] );
+ 604              		.loc 1 231 0 discriminator 3
+ 605 0494 08309DE5 		ldr	r3, [sp, #8]
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[7], A[0], A[1], A[2], A[3], A[4], A[5], A[6], R(i+1), K[i+1] );
+ 606              		.loc 1 230 0 discriminator 3
+ 607 0498 06C08CE0 		add	ip, ip, r6
+ 608              		.loc 1 231 0 discriminator 3
+ 609 049c 14601EE5 		ldr	r6, [lr, #-20]
+ 610              	.LVL35:
+ 611 04a0 E329A0E1 		ror	r2, r3, #19
+ 612 04a4 E32822E0 		eor	r2, r2, r3, ror #17
+ 613 04a8 232522E0 		eor	r2, r2, r3, lsr #10
+ 614 04ac 0C309EE5 		ldr	r3, [lr, #12]
+ 615 04b0 033089E0 		add	r3, r9, r3
+ 616 04b4 032082E0 		add	r2, r2, r3
+ 617 04b8 6639A0E1 		ror	r3, r6, #18
+ 618 04bc E63323E0 		eor	r3, r3, r6, ror #7
+ 619 04c0 A63123E0 		eor	r3, r3, r6, lsr #3
+ 620 04c4 033082E0 		add	r3, r2, r3
+ 621 04c8 00209DE5 		ldr	r2, [sp]
+ 622 04cc 28308EE5 		str	r3, [lr, #40]
+ 623 04d0 489092E5 		ldr	r9, [r2, #72]
+ 624 04d4 04202AE0 		eor	r2, r10, r4
+ 625 04d8 0B2002E0 		and	r2, r2, fp
+ 626 04dc 042022E0 		eor	r2, r2, r4
+ 627 04e0 090080E0 		add	r0, r0, r9
+ 628 04e4 030080E0 		add	r0, r0, r3
+ 629 04e8 029080E0 		add	r9, r0, r2
+ 630 04ec EB05A0E1 		ror	r0, fp, #11
+ 631 04f0 6B0320E0 		eor	r0, r0, fp, ror #6
+ 632 04f4 EB0C20E0 		eor	r0, r0, fp, ror #25
+ 633 04f8 092080E0 		add	r2, r0, r9
+ 634              	.LVL36:
+ 635 04fc EC06A0E1 		ror	r0, ip, #13
+ 636 0500 011082E0 		add	r1, r2, r1
+ 637 0504 6C0120E0 		eor	r0, r0, ip, ror #2
+ 638 0508 04108DE5 		str	r1, [sp, #4]
+ 639 050c 0C1088E1 		orr	r1, r8, ip
+ 640 0510 0C9008E0 		and	r9, r8, ip
+ 641 0514 6C0B20E0 		eor	r0, r0, ip, ror #22
+ 642 0518 071001E0 		and	r1, r1, r7
+ 643 051c 091081E1 		orr	r1, r1, r9
+ 232:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[5], A[6], A[7], A[0], A[1], A[2], A[3], A[4], R(i+3), K[i+3] );
+ 644              		.loc 1 232 0 discriminator 3
+ 645 0520 10901EE5 		ldr	r9, [lr, #-16]
+ 231:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[6], A[7], A[0], A[1], A[2], A[3], A[4], A[5], R(i+2), K[i+2] );
+ 646              		.loc 1 231 0 discriminator 3
+ 647 0524 010080E0 		add	r0, r0, r1
+ 648 0528 00109DE5 		ldr	r1, [sp]
+ 649 052c 020080E0 		add	r0, r0, r2
+ 650              		.loc 1 232 0 discriminator 3
+ 651 0530 E529A0E1 		ror	r2, r5, #19
+ 652              	.LVL37:
+ 653 0534 E52822E0 		eor	r2, r2, r5, ror #17
+ 654 0538 255522E0 		eor	r5, r2, r5, lsr #10
+ 655 053c 10209EE5 		ldr	r2, [lr, #16]
+ 656 0540 022086E0 		add	r2, r6, r2
+ 657 0544 00600CE0 		and	r6, ip, r0
+ 658 0548 025085E0 		add	r5, r5, r2
+ 659 054c 6929A0E1 		ror	r2, r9, #18
+ 660 0550 E92322E0 		eor	r2, r2, r9, ror #7
+ 661 0554 A92122E0 		eor	r2, r2, r9, lsr #3
+ 662 0558 022085E0 		add	r2, r5, r2
+ 663 055c 4C5091E5 		ldr	r5, [r1, #76]
+ 664 0560 0B102AE0 		eor	r1, r10, fp
+ 665 0564 2C208EE5 		str	r2, [lr, #44]
+ 666 0568 054084E0 		add	r4, r4, r5
+ 667 056c 04509DE5 		ldr	r5, [sp, #4]
+ 668 0570 024084E0 		add	r4, r4, r2
+ 669 0574 051001E0 		and	r1, r1, r5
+ 670 0578 0A1021E0 		eor	r1, r1, r10
+ 671 057c 015084E0 		add	r5, r4, r1
+ 672 0580 04109DE5 		ldr	r1, [sp, #4]
+ 673 0584 E145A0E1 		ror	r4, r1, #11
+ 674 0588 614324E0 		eor	r4, r4, r1, ror #6
+ 675 058c E14C24E0 		eor	r4, r4, r1, ror #25
+ 676 0590 051084E0 		add	r1, r4, r5
+ 677              	.LVL38:
+ 678 0594 E046A0E1 		ror	r4, r0, #13
+ 679 0598 00508CE1 		orr	r5, ip, r0
+ 680 059c 604124E0 		eor	r4, r4, r0, ror #2
+ 681 05a0 085005E0 		and	r5, r5, r8
+ 682 05a4 065085E1 		orr	r5, r5, r6
+ 233:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[4], A[5], A[6], A[7], A[0], A[1], A[2], A[3], R(i+4), K[i+4] );
+ 683              		.loc 1 233 0 discriminator 3
+ 684 05a8 0C601EE5 		ldr	r6, [lr, #-12]
+ 232:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[5], A[6], A[7], A[0], A[1], A[2], A[3], A[4], R(i+3), K[i+3] );
+ 685              		.loc 1 232 0 discriminator 3
+ 686 05ac 604B24E0 		eor	r4, r4, r0, ror #22
+ 687 05b0 077081E0 		add	r7, r1, r7
+ 688 05b4 054084E0 		add	r4, r4, r5
+ 689 05b8 014084E0 		add	r4, r4, r1
+ 690              		.loc 1 233 0 discriminator 3
+ 691 05bc E319A0E1 		ror	r1, r3, #19
+ 692              	.LVL39:
+ 693 05c0 E31821E0 		eor	r1, r1, r3, ror #17
+ 694 05c4 233521E0 		eor	r3, r1, r3, lsr #10
+ 695 05c8 14109EE5 		ldr	r1, [lr, #20]
+ 696 05cc 011089E0 		add	r1, r9, r1
+ 697 05d0 013083E0 		add	r3, r3, r1
+ 698 05d4 6619A0E1 		ror	r1, r6, #18
+ 699 05d8 E61321E0 		eor	r1, r1, r6, ror #7
+ 700 05dc A61121E0 		eor	r1, r1, r6, lsr #3
+ 701 05e0 011083E0 		add	r1, r3, r1
+ 702 05e4 04309DE5 		ldr	r3, [sp, #4]
+ 703 05e8 30108EE5 		str	r1, [lr, #48]
+ 704 05ec 03902BE0 		eor	r9, fp, r3
+ 705 05f0 00309DE5 		ldr	r3, [sp]
+ 706 05f4 079009E0 		and	r9, r9, r7
+ 707 05f8 0B9029E0 		eor	r9, r9, fp
+ 708 05fc 503093E5 		ldr	r3, [r3, #80]
+ 709 0600 033081E0 		add	r3, r1, r3
+ 710 0604 0A3083E0 		add	r3, r3, r10
+ 711 0608 04A000E0 		and	r10, r0, r4
+ 712 060c 039089E0 		add	r9, r9, r3
+ 713 0610 E735A0E1 		ror	r3, r7, #11
+ 714 0614 673323E0 		eor	r3, r3, r7, ror #6
+ 715 0618 E73C23E0 		eor	r3, r3, r7, ror #25
+ 716 061c 095083E0 		add	r5, r3, r9
+ 717              	.LVL40:
+ 718 0620 E436A0E1 		ror	r3, r4, #13
+ 719 0624 049080E1 		orr	r9, r0, r4
+ 720 0628 643123E0 		eor	r3, r3, r4, ror #2
+ 721 062c 0C9009E0 		and	r9, r9, ip
+ 722 0630 0A9089E1 		orr	r9, r9, r10
+ 723 0634 643B23E0 		eor	r3, r3, r4, ror #22
+ 724 0638 058088E0 		add	r8, r8, r5
+ 725 063c 093083E0 		add	r3, r3, r9
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[3], A[4], A[5], A[6], A[7], A[0], A[1], A[2], R(i+5), K[i+5] );
+ 726              		.loc 1 234 0 discriminator 3
+ 727 0640 08901EE5 		ldr	r9, [lr, #-8]
+ 233:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[4], A[5], A[6], A[7], A[0], A[1], A[2], A[3], R(i+4), K[i+4] );
+ 728              		.loc 1 233 0 discriminator 3
+ 729 0644 053083E0 		add	r3, r3, r5
+ 730              		.loc 1 234 0 discriminator 3
+ 731 0648 E259A0E1 		ror	r5, r2, #19
+ 732              	.LVL41:
+ 733 064c E25825E0 		eor	r5, r5, r2, ror #17
+ 734 0650 222525E0 		eor	r2, r5, r2, lsr #10
+ 735 0654 18509EE5 		ldr	r5, [lr, #24]
+ 736 0658 065085E0 		add	r5, r5, r6
+ 737 065c 055082E0 		add	r5, r2, r5
+ 738 0660 6929A0E1 		ror	r2, r9, #18
+ 739 0664 E92322E0 		eor	r2, r2, r9, ror #7
+ 740 0668 A92122E0 		eor	r2, r2, r9, lsr #3
+ 741 066c 025085E0 		add	r5, r5, r2
+ 742 0670 04209DE5 		ldr	r2, [sp, #4]
+ 743 0674 34508EE5 		str	r5, [lr, #52]
+ 744 0678 07A022E0 		eor	r10, r2, r7
+ 745 067c 08A00AE0 		and	r10, r10, r8
+ 746 0680 02A02AE0 		eor	r10, r10, r2
+ 747 0684 00209DE5 		ldr	r2, [sp]
+ 748 0688 542092E5 		ldr	r2, [r2, #84]
+ 749 068c 022085E0 		add	r2, r5, r2
+ 750 0690 0B2082E0 		add	r2, r2, fp
+ 751 0694 03B004E0 		and	fp, r4, r3
+ 752 0698 02A08AE0 		add	r10, r10, r2
+ 753 069c E825A0E1 		ror	r2, r8, #11
+ 754 06a0 682322E0 		eor	r2, r2, r8, ror #6
+ 755 06a4 E82C22E0 		eor	r2, r2, r8, ror #25
+ 756 06a8 0A6082E0 		add	r6, r2, r10
+ 757              	.LVL42:
+ 758 06ac E326A0E1 		ror	r2, r3, #13
+ 759 06b0 03A084E1 		orr	r10, r4, r3
+ 760 06b4 632122E0 		eor	r2, r2, r3, ror #2
+ 761 06b8 00A00AE0 		and	r10, r10, r0
+ 762 06bc 0BA08AE1 		orr	r10, r10, fp
+ 763 06c0 632B22E0 		eor	r2, r2, r3, ror #22
+ 764 06c4 06C08CE0 		add	ip, ip, r6
+ 765 06c8 0A2082E0 		add	r2, r2, r10
+ 235:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[2], A[3], A[4], A[5], A[6], A[7], A[0], A[1], R(i+6), K[i+6] );
+ 766              		.loc 1 235 0 discriminator 3
+ 767 06cc E1A9A0E1 		ror	r10, r1, #19
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[3], A[4], A[5], A[6], A[7], A[0], A[1], A[2], R(i+5), K[i+5] );
+ 768              		.loc 1 234 0 discriminator 3
+ 769 06d0 062082E0 		add	r2, r2, r6
+ 770              		.loc 1 235 0 discriminator 3
+ 771 06d4 04601EE5 		ldr	r6, [lr, #-4]
+ 772              	.LVL43:
+ 773 06d8 E1A82AE0 		eor	r10, r10, r1, ror #17
+ 774 06dc 02B003E0 		and	fp, r3, r2
+ 775 06e0 21152AE0 		eor	r1, r10, r1, lsr #10
+ 776 06e4 1CA09EE5 		ldr	r10, [lr, #28]
+ 777 06e8 09908AE0 		add	r9, r10, r9
+ 778 06ec 04A09DE5 		ldr	r10, [sp, #4]
+ 779 06f0 099081E0 		add	r9, r1, r9
+ 780 06f4 6619A0E1 		ror	r1, r6, #18
+ 781 06f8 E61321E0 		eor	r1, r1, r6, ror #7
+ 782 06fc A61121E0 		eor	r1, r1, r6, lsr #3
+ 783 0700 019089E0 		add	r9, r9, r1
+ 784 0704 00109DE5 		ldr	r1, [sp]
+ 785 0708 38908EE5 		str	r9, [lr, #56]
+ 786 070c 581091E5 		ldr	r1, [r1, #88]
+ 787 0710 011089E0 		add	r1, r9, r1
+ 788 0714 E296A0E1 		ror	r9, r2, #13
+ 789 0718 0A1081E0 		add	r1, r1, r10
+ 790 071c 08A027E0 		eor	r10, r7, r8
+ 791 0720 629129E0 		eor	r9, r9, r2, ror #2
+ 792 0724 0CA00AE0 		and	r10, r10, ip
+ 793 0728 07A02AE0 		eor	r10, r10, r7
+ 794 072c 629B29E0 		eor	r9, r9, r2, ror #22
+ 795 0730 0AA081E0 		add	r10, r1, r10
+ 796 0734 EC15A0E1 		ror	r1, ip, #11
+ 797 0738 6C1321E0 		eor	r1, r1, ip, ror #6
+ 798 073c EC1C21E0 		eor	r1, r1, ip, ror #25
+ 799 0740 0AA081E0 		add	r10, r1, r10
+ 800              	.LVL44:
+ 801 0744 021083E1 		orr	r1, r3, r2
+ 802 0748 041001E0 		and	r1, r1, r4
+ 803 074c 0A0080E0 		add	r0, r0, r10
+ 804 0750 0B1081E1 		orr	r1, r1, fp
+ 805 0754 011089E0 		add	r1, r9, r1
+ 236:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[1], A[2], A[3], A[4], A[5], A[6], A[7], A[0], R(i+7), K[i+7] );
+ 806              		.loc 1 236 0 discriminator 3
+ 807 0758 E599A0E1 		ror	r9, r5, #19
+ 235:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         P( A[2], A[3], A[4], A[5], A[6], A[7], A[0], A[1], R(i+6), K[i+6] );
+ 808              		.loc 1 235 0 discriminator 3
+ 809 075c 0A1081E0 		add	r1, r1, r10
+ 810              		.loc 1 236 0 discriminator 3
+ 811 0760 00A09EE5 		ldr	r10, [lr]
+ 812              	.LVL45:
+ 813 0764 E59829E0 		eor	r9, r9, r5, ror #17
+ 814 0768 255529E0 		eor	r5, r9, r5, lsr #10
+ 815 076c 08909DE5 		ldr	r9, [sp, #8]
+ 816 0770 066089E0 		add	r6, r9, r6
+ 817 0774 0C9028E0 		eor	r9, r8, ip
+ 818 0778 065085E0 		add	r5, r5, r6
+ 819 077c 6A69A0E1 		ror	r6, r10, #18
+ 820 0780 009009E0 		and	r9, r9, r0
+ 821 0784 EA6326E0 		eor	r6, r6, r10, ror #7
+ 822 0788 089029E0 		eor	r9, r9, r8
+ 823 078c AAA126E0 		eor	r10, r6, r10, lsr #3
+ 824 0790 00609DE5 		ldr	r6, [sp]
+ 825 0794 0A5085E0 		add	r5, r5, r10
+ 826 0798 5C6096E5 		ldr	r6, [r6, #92]
+ 827 079c 3C508EE5 		str	r5, [lr, #60]
+ 828 07a0 066085E0 		add	r6, r5, r6
+ 829 07a4 E156A0E1 		ror	r5, r1, #13
+ 830 07a8 077086E0 		add	r7, r6, r7
+ 831              	.LVL46:
+ 832 07ac 079089E0 		add	r9, r9, r7
+ 833 07b0 E075A0E1 		ror	r7, r0, #11
+ 834 07b4 615125E0 		eor	r5, r5, r1, ror #2
+ 835 07b8 016082E1 		orr	r6, r2, r1
+ 836 07bc 607327E0 		eor	r7, r7, r0, ror #6
+ 837 07c0 036006E0 		and	r6, r6, r3
+ 838 07c4 615B25E0 		eor	r5, r5, r1, ror #22
+ 839 07c8 E07C27E0 		eor	r7, r7, r0, ror #25
+ 840 07cc 097087E0 		add	r7, r7, r9
+ 841              	.LVL47:
+ 842 07d0 019002E0 		and	r9, r2, r1
+ 843 07d4 096086E1 		orr	r6, r6, r9
+ 844 07d8 074084E0 		add	r4, r4, r7
+ 845 07dc 065085E0 		add	r5, r5, r6
+ 846 07e0 077085E0 		add	r7, r5, r7
+ 847              	.LVL48:
+ 848 07e4 00509DE5 		ldr	r5, [sp]
+ 849 07e8 205085E2 		add	r5, r5, #32
+ 850 07ec 00508DE5 		str	r5, [sp]
+ 227:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     {
+ 851              		.loc 1 227 0 discriminator 3
+ 852 07f0 F0508DE2 		add	r5, sp, #240
+ 853 07f4 0E0055E1 		cmp	r5, lr
+ 854 07f8 DBFEFF1A 		bne	.L16
+ 855 07fc 1C308DE5 		str	r3, [sp, #28]
+ 227:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     {
+ 856              		.loc 1 227 0 is_stmt 0
+ 857 0800 0030A0E3 		mov	r3, #0
+ 858              	.LVL49:
+ 859 0804 2C808DE5 		str	r8, [sp, #44]
+ 860 0808 20408DE5 		str	r4, [sp, #32]
+ 861 080c 28C08DE5 		str	ip, [sp, #40]
+ 862 0810 24008DE5 		str	r0, [sp, #36]
+ 863 0814 10708DE5 		str	r7, [sp, #16]
+ 864 0818 14108DE5 		str	r1, [sp, #20]
+ 865 081c 18208DE5 		str	r2, [sp, #24]
+ 866              	.LVL50:
+ 867              	.L17:
+ 237:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     }
+ 238:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #endif /* MBEDTLS_SHA256_SMALLER */
+ 239:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 240:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     for( i = 0; i < 8; i++ )
+ 241:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ctx->state[i] += A[i];
+ 868              		.loc 1 241 0 is_stmt 1 discriminator 3
+ 869 0820 0C209DE5 		ldr	r2, [sp, #12]
+ 870 0824 10108DE2 		add	r1, sp, #16
+ 871 0828 031191E7 		ldr	r1, [r1, r3, lsl #2]
+ 240:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ctx->state[i] += A[i];
+ 872              		.loc 1 240 0 discriminator 3
+ 873 082c 013083E2 		add	r3, r3, #1
+ 874              	.LVL51:
+ 875 0830 080053E3 		cmp	r3, #8
+ 876              		.loc 1 241 0 discriminator 3
+ 877 0834 002092E5 		ldr	r2, [r2]
+ 878 0838 012082E0 		add	r2, r2, r1
+ 879 083c 0C109DE5 		ldr	r1, [sp, #12]
+ 880 0840 042081E4 		str	r2, [r1], #4
+ 881 0844 0C108DE5 		str	r1, [sp, #12]
+ 240:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ctx->state[i] += A[i];
+ 882              		.loc 1 240 0 discriminator 3
+ 883 0848 F4FFFF1A 		bne	.L17
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 243:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     return( 0 );
+ 244:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** }
+ 884              		.loc 1 244 0
+ 885 084c 0000A0E3 		mov	r0, #0
+ 886 0850 4DDF8DE2 		add	sp, sp, #308
+ 887              		.cfi_def_cfa_offset 36
+ 888              		@ sp needed
+ 889 0854 F08FBDE8 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 890              	.L25:
+ 891              		.align	2
+ 892              	.L24:
+ 893 0858 00000000 		.word	.LANCHOR0
+ 894 085c 40000000 		.word	.LANCHOR0+64
+ 895              		.cfi_endproc
+ 896              	.LFE5:
+ 898              		.section	.text.mbedtls_sha256_update_ret.part.0,"ax",%progbits
+ 899              		.align	2
+ 900              		.syntax unified
+ 901              		.arm
+ 902              		.fpu neon
+ 904              	mbedtls_sha256_update_ret.part.0:
+ 905              	.LFB10:
+ 245:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 246:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #if !defined(MBEDTLS_DEPRECATED_REMOVED)
+ 247:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** void mbedtls_sha256_process( mbedtls_sha256_context *ctx,
+ 248:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****                              const unsigned char data[64] )
+ 249:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** {
+ 250:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     mbedtls_internal_sha256_process( ctx, data );
+ 251:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** }
+ 252:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #endif
+ 253:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #endif /* !MBEDTLS_SHA256_PROCESS_ALT */
+ 254:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 255:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** /*
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  * SHA-256 process buffer
+ 257:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  */
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** int mbedtls_sha256_update_ret( mbedtls_sha256_context *ctx,
+ 906              		.loc 1 258 0
+ 907              		.cfi_startproc
+ 908              		@ args = 0, pretend = 0, frame = 0
+ 909              		@ frame_needed = 0, uses_anonymous_args = 0
+ 910              	.LVL52:
+ 259:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****                                const unsigned char *input,
+ 260:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****                                size_t ilen )
+ 261:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** {
+ 262:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     int ret;
+ 263:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     size_t fill;
+ 264:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     uint32_t left;
+ 265:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 266:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     if( ilen == 0 )
+ 267:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         return( 0 );
+ 268:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 269:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     left = ctx->total[0] & 0x3F;
+ 911              		.loc 1 269 0
+ 912 0000 003090E5 		ldr	r3, [r0]
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****                                const unsigned char *input,
+ 913              		.loc 1 258 0
+ 914 0004 F0472DE9 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 915              		.cfi_def_cfa_offset 32
+ 916              		.cfi_offset 4, -32
+ 917              		.cfi_offset 5, -28
+ 918              		.cfi_offset 6, -24
+ 919              		.cfi_offset 7, -20
+ 920              		.cfi_offset 8, -16
+ 921              		.cfi_offset 9, -12
+ 922              		.cfi_offset 10, -8
+ 923              		.cfi_offset 14, -4
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****                                const unsigned char *input,
+ 924              		.loc 1 258 0
+ 925 0008 0040A0E1 		mov	r4, r0
+ 926 000c 0180A0E1 		mov	r8, r1
+ 927 0010 0260A0E1 		mov	r6, r2
+ 928              		.loc 1 269 0
+ 929 0014 3F7003E2 		and	r7, r3, #63
+ 930              	.LVL53:
+ 270:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     fill = 64 - left;
+ 271:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 272:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     ctx->total[0] += (uint32_t) ilen;
+ 931              		.loc 1 272 0
+ 932 0018 023083E0 		add	r3, r3, r2
+ 273:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     ctx->total[0] &= 0xFFFFFFFF;
+ 274:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 275:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     if( ctx->total[0] < (uint32_t) ilen )
+ 933              		.loc 1 275 0
+ 934 001c 030052E1 		cmp	r2, r3
+ 272:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     ctx->total[0] &= 0xFFFFFFFF;
+ 935              		.loc 1 272 0
+ 936 0020 003080E5 		str	r3, [r0]
+ 276:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ctx->total[1]++;
+ 937              		.loc 1 276 0
+ 938 0024 04309085 		ldrhi	r3, [r0, #4]
+ 270:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 939              		.loc 1 270 0
+ 940 0028 405067E2 		rsb	r5, r7, #64
+ 941              	.LVL54:
+ 942              		.loc 1 276 0
+ 943 002c 01308382 		addhi	r3, r3, #1
+ 944 0030 04308085 		strhi	r3, [r0, #4]
+ 277:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 278:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     if( left && ilen >= fill )
+ 945              		.loc 1 278 0
+ 946 0034 003097E2 		adds	r3, r7, #0
+ 947 0038 0130A013 		movne	r3, #1
+ 948 003c 020055E1 		cmp	r5, r2
+ 949 0040 0030A083 		movhi	r3, #0
+ 950 0044 000053E3 		cmp	r3, #0
+ 951 0048 0B00000A 		beq	.L28
+ 279:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     {
+ 280:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         memcpy( (void *) (ctx->buffer + left), input, fill );
+ 952              		.loc 1 280 0
+ 953 004c 289080E2 		add	r9, r0, #40
+ 954 0050 0520A0E1 		mov	r2, r5
+ 955              	.LVL55:
+ 956 0054 070089E0 		add	r0, r9, r7
+ 957              	.LVL56:
+ 958 0058 FEFFFFEB 		bl	memcpy
+ 959              	.LVL57:
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         if( ( ret = mbedtls_internal_sha256_process( ctx, ctx->buffer ) ) != 0 )
+ 960              		.loc 1 282 0
+ 961 005c 0910A0E1 		mov	r1, r9
+ 962 0060 0400A0E1 		mov	r0, r4
+ 963 0064 FEFFFFEB 		bl	mbedtls_internal_sha256_process
+ 964              	.LVL58:
+ 965 0068 000050E3 		cmp	r0, #0
+ 966 006c F087BD18 		popne	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 283:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****             return( ret );
+ 284:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 285:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         input += fill;
+ 967              		.loc 1 285 0
+ 968 0070 058088E0 		add	r8, r8, r5
+ 969              	.LVL59:
+ 286:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ilen  -= fill;
+ 970              		.loc 1 286 0
+ 971 0074 056046E0 		sub	r6, r6, r5
+ 972              	.LVL60:
+ 287:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         left = 0;
+ 973              		.loc 1 287 0
+ 974 0078 0070A0E1 		mov	r7, r0
+ 975              	.LVL61:
+ 976              	.L28:
+ 977 007c 0650A0E1 		mov	r5, r6
+ 978              	.LVL62:
+ 979              	.L30:
+ 288:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     }
+ 289:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 290:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     while( ilen >= 64 )
+ 980              		.loc 1 290 0
+ 981 0080 3F0055E3 		cmp	r5, #63
+ 982 0084 051046E0 		sub	r1, r6, r5
+ 983 0088 011088E0 		add	r1, r8, r1
+ 984              	.LVL63:
+ 985 008c 0700008A 		bhi	.L31
+ 291:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     {
+ 292:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         if( ( ret = mbedtls_internal_sha256_process( ctx, input ) ) != 0 )
+ 293:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****             return( ret );
+ 294:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 295:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         input += 64;
+ 296:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         ilen  -= 64;
+ 297:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     }
+ 298:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 299:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     if( ilen > 0 )
+ 986              		.loc 1 299 0
+ 987 0090 000055E3 		cmp	r5, #0
+ 988 0094 0300000A 		beq	.L37
+ 300:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         memcpy( (void *) (ctx->buffer + left), input, ilen );
+ 989              		.loc 1 300 0
+ 990 0098 280084E2 		add	r0, r4, #40
+ 991 009c 0520A0E1 		mov	r2, r5
+ 992 00a0 070080E0 		add	r0, r0, r7
+ 993 00a4 FEFFFFEB 		bl	memcpy
+ 994              	.LVL64:
+ 995              	.L37:
+ 301:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 302:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     return( 0 );
+ 996              		.loc 1 302 0
+ 997 00a8 0000A0E3 		mov	r0, #0
+ 998 00ac F087BDE8 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 999              	.LVL65:
+ 1000              	.L31:
+ 292:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****             return( ret );
+ 1001              		.loc 1 292 0
+ 1002 00b0 0400A0E1 		mov	r0, r4
+ 1003 00b4 FEFFFFEB 		bl	mbedtls_internal_sha256_process
+ 1004              	.LVL66:
+ 1005 00b8 000050E3 		cmp	r0, #0
+ 1006 00bc F087BD18 		popne	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 1007              	.LVL67:
+ 296:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     }
+ 1008              		.loc 1 296 0
+ 1009 00c0 405045E2 		sub	r5, r5, #64
+ 1010              	.LVL68:
+ 1011 00c4 EDFFFFEA 		b	.L30
+ 1012              		.cfi_endproc
+ 1013              	.LFE10:
+ 1015              		.section	.text.mbedtls_sha256_update_ret,"ax",%progbits
+ 1016              		.align	2
+ 1017              		.global	mbedtls_sha256_update_ret
+ 1018              		.syntax unified
+ 1019              		.arm
+ 1020              		.fpu neon
+ 1022              	mbedtls_sha256_update_ret:
+ 1023              	.LFB6:
+ 261:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     int ret;
+ 1024              		.loc 1 261 0
+ 1025              		.cfi_startproc
+ 1026              		@ args = 0, pretend = 0, frame = 0
+ 1027              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1028              		@ link register save eliminated.
+ 1029              	.LVL69:
+ 266:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         return( 0 );
+ 1030              		.loc 1 266 0
+ 1031 0000 003052E2 		subs	r3, r2, #0
+ 1032 0004 0000000A 		beq	.L39
+ 1033 0008 FEFFFFEA 		b	mbedtls_sha256_update_ret.part.0
+ 1034              	.LVL70:
+ 1035              	.L39:
+ 303:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** }
+ 1036              		.loc 1 303 0
+ 1037 000c 0300A0E1 		mov	r0, r3
+ 1038              	.LVL71:
+ 1039 0010 1EFF2FE1 		bx	lr
+ 1040              		.cfi_endproc
+ 1041              	.LFE6:
+ 1043              		.section	.text.mbedtls_sha256_finish_ret,"ax",%progbits
+ 1044              		.align	2
+ 1045              		.global	mbedtls_sha256_finish_ret
+ 1046              		.syntax unified
+ 1047              		.arm
+ 1048              		.fpu neon
+ 1050              	mbedtls_sha256_finish_ret:
+ 1051              	.LFB7:
+ 304:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 305:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #if !defined(MBEDTLS_DEPRECATED_REMOVED)
+ 306:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** void mbedtls_sha256_update( mbedtls_sha256_context *ctx,
+ 307:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****                             const unsigned char *input,
+ 308:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****                             size_t ilen )
+ 309:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** {
+ 310:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     mbedtls_sha256_update_ret( ctx, input, ilen );
+ 311:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** }
+ 312:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #endif
+ 313:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 314:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** /*
+ 315:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  * SHA-256 final digest
+ 316:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  */
+ 317:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** int mbedtls_sha256_finish_ret( mbedtls_sha256_context *ctx,
+ 318:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****                                unsigned char output[32] )
+ 319:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** {
+ 1052              		.loc 1 319 0
+ 1053              		.cfi_startproc
+ 1054              		@ args = 0, pretend = 0, frame = 0
+ 1055              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1056              	.LVL72:
+ 320:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     int ret;
+ 321:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     uint32_t used;
+ 322:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     uint32_t high, low;
+ 323:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 324:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     /*
+ 325:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****      * Add padding: 0x80 then 0x00 until 8 bytes remain for the length
+ 326:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****      */
+ 327:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     used = ctx->total[0] & 0x3F;
+ 1057              		.loc 1 327 0
+ 1058 0000 003090E5 		ldr	r3, [r0]
+ 328:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 329:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     ctx->buffer[used++] = 0x80;
+ 1059              		.loc 1 329 0
+ 1060 0004 7F20E0E3 		mvn	r2, #127
+ 319:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     int ret;
+ 1061              		.loc 1 319 0
+ 1062 0008 70402DE9 		push	{r4, r5, r6, lr}
+ 1063              		.cfi_def_cfa_offset 16
+ 1064              		.cfi_offset 4, -16
+ 1065              		.cfi_offset 5, -12
+ 1066              		.cfi_offset 6, -8
+ 1067              		.cfi_offset 14, -4
+ 319:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     int ret;
+ 1068              		.loc 1 319 0
+ 1069 000c 0040A0E1 		mov	r4, r0
+ 1070 0010 286084E2 		add	r6, r4, #40
+ 1071 0014 0150A0E1 		mov	r5, r1
+ 327:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 1072              		.loc 1 327 0
+ 1073 0018 3F3003E2 		and	r3, r3, #63
+ 1074              	.LVL73:
+ 1075              		.loc 1 329 0
+ 1076 001c 010083E2 		add	r0, r3, #1
+ 1077              	.LVL74:
+ 1078 0020 033084E0 		add	r3, r4, r3
+ 330:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 331:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     if( used <= 56 )
+ 1079              		.loc 1 331 0
+ 1080 0024 380050E3 		cmp	r0, #56
+ 329:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 1081              		.loc 1 329 0
+ 1082 0028 2820C3E5 		strb	r2, [r3, #40]
+ 332:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     {
+ 333:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         /* Enough room for padding + length in current block */
+ 334:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         memset( ctx->buffer + used, 0, 56 - used );
+ 1083              		.loc 1 334 0
+ 1084 002c 0010A093 		movls	r1, #0
+ 1085              	.LVL75:
+ 1086 0030 38206092 		rsbls	r2, r0, #56
+ 1087 0034 00008690 		addls	r0, r6, r0
+ 1088              	.LVL76:
+ 331:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     {
+ 1089              		.loc 1 331 0
+ 1090 0038 0B00009A 		bls	.L45
+ 335:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     }
+ 336:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     else
+ 337:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     {
+ 338:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         /* We'll need an extra block */
+ 339:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         memset( ctx->buffer + used, 0, 64 - used );
+ 1091              		.loc 1 339 0
+ 1092 003c 402060E2 		rsb	r2, r0, #64
+ 1093 0040 0010A0E3 		mov	r1, #0
+ 1094 0044 000086E0 		add	r0, r6, r0
+ 1095 0048 FEFFFFEB 		bl	memset
+ 1096              	.LVL77:
+ 340:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 341:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         if( ( ret = mbedtls_internal_sha256_process( ctx, ctx->buffer ) ) != 0 )
+ 1097              		.loc 1 341 0
+ 1098 004c 0610A0E1 		mov	r1, r6
+ 1099 0050 0400A0E1 		mov	r0, r4
+ 1100 0054 FEFFFFEB 		bl	mbedtls_internal_sha256_process
+ 1101              	.LVL78:
+ 1102 0058 000050E3 		cmp	r0, #0
+ 1103 005c 7080BD18 		popne	{r4, r5, r6, pc}
+ 342:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****             return( ret );
+ 343:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 344:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         memset( ctx->buffer, 0, 56 );
+ 1104              		.loc 1 344 0
+ 1105 0060 0010A0E1 		mov	r1, r0
+ 1106 0064 3820A0E3 		mov	r2, #56
+ 1107 0068 0600A0E1 		mov	r0, r6
+ 1108              	.LVL79:
+ 1109              	.L45:
+ 1110 006c FEFFFFEB 		bl	memset
+ 1111              	.LVL80:
+ 1112              	.LBB4:
+ 1113              	.LBB5:
+ 345:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     }
+ 346:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 347:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     /*
+ 348:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****      * Add message length
+ 349:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****      */
+ 350:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     high = ( ctx->total[0] >> 29 )
+ 1114              		.loc 1 350 0
+ 1115 0070 003094E5 		ldr	r3, [r4]
+ 351:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****          | ( ctx->total[1] <<  3 );
+ 352:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     low  = ( ctx->total[0] <<  3 );
+ 353:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 354:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     PUT_UINT32_BE( high, ctx->buffer, 56 );
+ 355:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     PUT_UINT32_BE( low,  ctx->buffer, 60 );
+ 356:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 357:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     if( ( ret = mbedtls_internal_sha256_process( ctx, ctx->buffer ) ) != 0 )
+ 1116              		.loc 1 357 0
+ 1117 0074 0400A0E1 		mov	r0, r4
+ 351:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****          | ( ctx->total[1] <<  3 );
+ 1118              		.loc 1 351 0
+ 1119 0078 041094E5 		ldr	r1, [r4, #4]
+ 350:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****          | ( ctx->total[1] <<  3 );
+ 1120              		.loc 1 350 0
+ 1121 007c A32EA0E1 		lsr	r2, r3, #29
+ 352:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 1122              		.loc 1 352 0
+ 1123 0080 8331A0E1 		lsl	r3, r3, #3
+ 350:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****          | ( ctx->total[1] <<  3 );
+ 1124              		.loc 1 350 0
+ 1125 0084 812182E1 		orr	r2, r2, r1, lsl #3
+ 1126              	.LVL81:
+ 355:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 1127              		.loc 1 355 0
+ 1128 0088 6730C4E5 		strb	r3, [r4, #103]
+ 354:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     PUT_UINT32_BE( low,  ctx->buffer, 60 );
+ 1129              		.loc 1 354 0
+ 1130 008c 221CA0E1 		lsr	r1, r2, #24
+ 1131 0090 6320C4E5 		strb	r2, [r4, #99]
+ 1132 0094 6010C4E5 		strb	r1, [r4, #96]
+ 1133 0098 2218A0E1 		lsr	r1, r2, #16
+ 1134 009c 6110C4E5 		strb	r1, [r4, #97]
+ 1135 00a0 2214A0E1 		lsr	r1, r2, #8
+ 355:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 1136              		.loc 1 355 0
+ 1137 00a4 232CA0E1 		lsr	r2, r3, #24
+ 1138              	.LVL82:
+ 354:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     PUT_UINT32_BE( low,  ctx->buffer, 60 );
+ 1139              		.loc 1 354 0
+ 1140 00a8 6210C4E5 		strb	r1, [r4, #98]
+ 1141              		.loc 1 357 0
+ 1142 00ac 0610A0E1 		mov	r1, r6
+ 355:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 1143              		.loc 1 355 0
+ 1144 00b0 6420C4E5 		strb	r2, [r4, #100]
+ 1145 00b4 2328A0E1 		lsr	r2, r3, #16
+ 1146 00b8 6520C4E5 		strb	r2, [r4, #101]
+ 1147 00bc 2324A0E1 		lsr	r2, r3, #8
+ 1148 00c0 6620C4E5 		strb	r2, [r4, #102]
+ 1149              		.loc 1 357 0
+ 1150 00c4 FEFFFFEB 		bl	mbedtls_internal_sha256_process
+ 1151              	.LVL83:
+ 1152 00c8 000050E3 		cmp	r0, #0
+ 1153 00cc 7080BD18 		popne	{r4, r5, r6, pc}
+ 358:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         return( ret );
+ 359:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 360:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     /*
+ 361:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****      * Output final state
+ 362:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****      */
+ 363:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     PUT_UINT32_BE( ctx->state[0], output,  0 );
+ 1154              		.loc 1 363 0
+ 1155 00d0 0B30D4E5 		ldrb	r3, [r4, #11]	@ zero_extendqisi2
+ 1156 00d4 0030C5E5 		strb	r3, [r5]
+ 1157 00d8 BA30D4E1 		ldrh	r3, [r4, #10]
+ 1158 00dc 0130C5E5 		strb	r3, [r5, #1]
+ 1159 00e0 083094E5 		ldr	r3, [r4, #8]
+ 1160 00e4 2334A0E1 		lsr	r3, r3, #8
+ 1161 00e8 0230C5E5 		strb	r3, [r5, #2]
+ 1162 00ec 083094E5 		ldr	r3, [r4, #8]
+ 1163 00f0 0330C5E5 		strb	r3, [r5, #3]
+ 364:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     PUT_UINT32_BE( ctx->state[1], output,  4 );
+ 1164              		.loc 1 364 0
+ 1165 00f4 0F30D4E5 		ldrb	r3, [r4, #15]	@ zero_extendqisi2
+ 1166 00f8 0430C5E5 		strb	r3, [r5, #4]
+ 1167 00fc BE30D4E1 		ldrh	r3, [r4, #14]
+ 1168 0100 0530C5E5 		strb	r3, [r5, #5]
+ 1169 0104 0C3094E5 		ldr	r3, [r4, #12]
+ 1170 0108 2334A0E1 		lsr	r3, r3, #8
+ 1171 010c 0630C5E5 		strb	r3, [r5, #6]
+ 1172 0110 0C3094E5 		ldr	r3, [r4, #12]
+ 1173 0114 0730C5E5 		strb	r3, [r5, #7]
+ 365:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     PUT_UINT32_BE( ctx->state[2], output,  8 );
+ 1174              		.loc 1 365 0
+ 1175 0118 1330D4E5 		ldrb	r3, [r4, #19]	@ zero_extendqisi2
+ 1176 011c 0830C5E5 		strb	r3, [r5, #8]
+ 1177 0120 B231D4E1 		ldrh	r3, [r4, #18]
+ 1178 0124 0930C5E5 		strb	r3, [r5, #9]
+ 1179 0128 103094E5 		ldr	r3, [r4, #16]
+ 1180 012c 2334A0E1 		lsr	r3, r3, #8
+ 1181 0130 0A30C5E5 		strb	r3, [r5, #10]
+ 1182 0134 103094E5 		ldr	r3, [r4, #16]
+ 1183 0138 0B30C5E5 		strb	r3, [r5, #11]
+ 366:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     PUT_UINT32_BE( ctx->state[3], output, 12 );
+ 1184              		.loc 1 366 0
+ 1185 013c 1730D4E5 		ldrb	r3, [r4, #23]	@ zero_extendqisi2
+ 1186 0140 0C30C5E5 		strb	r3, [r5, #12]
+ 1187 0144 B631D4E1 		ldrh	r3, [r4, #22]
+ 1188 0148 0D30C5E5 		strb	r3, [r5, #13]
+ 1189 014c 143094E5 		ldr	r3, [r4, #20]
+ 1190 0150 2334A0E1 		lsr	r3, r3, #8
+ 1191 0154 0E30C5E5 		strb	r3, [r5, #14]
+ 1192 0158 143094E5 		ldr	r3, [r4, #20]
+ 1193 015c 0F30C5E5 		strb	r3, [r5, #15]
+ 367:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     PUT_UINT32_BE( ctx->state[4], output, 16 );
+ 1194              		.loc 1 367 0
+ 1195 0160 1B30D4E5 		ldrb	r3, [r4, #27]	@ zero_extendqisi2
+ 1196 0164 1030C5E5 		strb	r3, [r5, #16]
+ 1197 0168 BA31D4E1 		ldrh	r3, [r4, #26]
+ 1198 016c 1130C5E5 		strb	r3, [r5, #17]
+ 1199 0170 183094E5 		ldr	r3, [r4, #24]
+ 1200 0174 2334A0E1 		lsr	r3, r3, #8
+ 1201 0178 1230C5E5 		strb	r3, [r5, #18]
+ 1202 017c 183094E5 		ldr	r3, [r4, #24]
+ 1203 0180 1330C5E5 		strb	r3, [r5, #19]
+ 368:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     PUT_UINT32_BE( ctx->state[5], output, 20 );
+ 1204              		.loc 1 368 0
+ 1205 0184 1F30D4E5 		ldrb	r3, [r4, #31]	@ zero_extendqisi2
+ 1206 0188 1430C5E5 		strb	r3, [r5, #20]
+ 1207 018c BE31D4E1 		ldrh	r3, [r4, #30]
+ 1208 0190 1530C5E5 		strb	r3, [r5, #21]
+ 1209 0194 1C3094E5 		ldr	r3, [r4, #28]
+ 1210 0198 2334A0E1 		lsr	r3, r3, #8
+ 1211 019c 1630C5E5 		strb	r3, [r5, #22]
+ 1212 01a0 1C3094E5 		ldr	r3, [r4, #28]
+ 1213 01a4 1730C5E5 		strb	r3, [r5, #23]
+ 369:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     PUT_UINT32_BE( ctx->state[6], output, 24 );
+ 1214              		.loc 1 369 0
+ 1215 01a8 2330D4E5 		ldrb	r3, [r4, #35]	@ zero_extendqisi2
+ 1216 01ac 1830C5E5 		strb	r3, [r5, #24]
+ 1217 01b0 B232D4E1 		ldrh	r3, [r4, #34]
+ 1218 01b4 1930C5E5 		strb	r3, [r5, #25]
+ 1219 01b8 203094E5 		ldr	r3, [r4, #32]
+ 1220 01bc 2334A0E1 		lsr	r3, r3, #8
+ 1221 01c0 1A30C5E5 		strb	r3, [r5, #26]
+ 1222 01c4 203094E5 		ldr	r3, [r4, #32]
+ 1223 01c8 1B30C5E5 		strb	r3, [r5, #27]
+ 370:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 371:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     if( ctx->is224 == 0 )
+ 1224              		.loc 1 371 0
+ 1225 01cc 683094E5 		ldr	r3, [r4, #104]
+ 1226 01d0 000053E3 		cmp	r3, #0
+ 1227 01d4 7080BD18 		popne	{r4, r5, r6, pc}
+ 372:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         PUT_UINT32_BE( ctx->state[7], output, 28 );
+ 1228              		.loc 1 372 0
+ 1229 01d8 2730D4E5 		ldrb	r3, [r4, #39]	@ zero_extendqisi2
+ 1230 01dc 1C30C5E5 		strb	r3, [r5, #28]
+ 1231 01e0 B632D4E1 		ldrh	r3, [r4, #38]
+ 1232 01e4 1D30C5E5 		strb	r3, [r5, #29]
+ 1233 01e8 243094E5 		ldr	r3, [r4, #36]
+ 1234 01ec 2334A0E1 		lsr	r3, r3, #8
+ 1235 01f0 1E30C5E5 		strb	r3, [r5, #30]
+ 1236 01f4 243094E5 		ldr	r3, [r4, #36]
+ 1237 01f8 1F30C5E5 		strb	r3, [r5, #31]
+ 1238              	.LBE5:
+ 1239              	.LBE4:
+ 373:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 374:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     return( 0 );
+ 375:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** }
+ 1240              		.loc 1 375 0
+ 1241 01fc 7080BDE8 		pop	{r4, r5, r6, pc}
+ 1242              		.cfi_endproc
+ 1243              	.LFE7:
+ 1245              		.section	.text.mbedtls_sha256_ret,"ax",%progbits
+ 1246              		.align	2
+ 1247              		.global	mbedtls_sha256_ret
+ 1248              		.syntax unified
+ 1249              		.arm
+ 1250              		.fpu neon
+ 1252              	mbedtls_sha256_ret:
+ 1253              	.LFB8:
+ 376:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 377:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #if !defined(MBEDTLS_DEPRECATED_REMOVED)
+ 378:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** void mbedtls_sha256_finish( mbedtls_sha256_context *ctx,
+ 379:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****                             unsigned char output[32] )
+ 380:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** {
+ 381:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     mbedtls_sha256_finish_ret( ctx, output );
+ 382:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** }
+ 383:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #endif
+ 384:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 385:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #endif /* !MBEDTLS_SHA256_ALT */
+ 386:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 387:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** /*
+ 388:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  * output = SHA-256( input buffer )
+ 389:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  */
+ 390:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** int mbedtls_sha256_ret( const unsigned char *input,
+ 391:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****                         size_t ilen,
+ 392:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****                         unsigned char output[32],
+ 393:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****                         int is224 )
+ 394:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** {
+ 1254              		.loc 1 394 0
+ 1255              		.cfi_startproc
+ 1256              		@ args = 0, pretend = 0, frame = 112
+ 1257              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1258              	.LVL84:
+ 1259 0000 F0402DE9 		push	{r4, r5, r6, r7, lr}
+ 1260              		.cfi_def_cfa_offset 20
+ 1261              		.cfi_offset 4, -20
+ 1262              		.cfi_offset 5, -16
+ 1263              		.cfi_offset 6, -12
+ 1264              		.cfi_offset 7, -8
+ 1265              		.cfi_offset 14, -4
+ 1266 0004 74D04DE2 		sub	sp, sp, #116
+ 1267              		.cfi_def_cfa_offset 136
+ 1268              		.loc 1 394 0
+ 1269 0008 0340A0E1 		mov	r4, r3
+ 1270 000c 0060A0E1 		mov	r6, r0
+ 395:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     int ret;
+ 396:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     mbedtls_sha256_context ctx;
+ 397:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 398:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     mbedtls_sha256_init( &ctx );
+ 1271              		.loc 1 398 0
+ 1272 0010 04008DE2 		add	r0, sp, #4
+ 1273              	.LVL85:
+ 394:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     int ret;
+ 1274              		.loc 1 394 0
+ 1275 0014 0170A0E1 		mov	r7, r1
+ 1276 0018 0250A0E1 		mov	r5, r2
+ 1277              		.loc 1 398 0
+ 1278 001c FEFFFFEB 		bl	mbedtls_sha256_init
+ 1279              	.LVL86:
+ 399:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 400:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     if( ( ret = mbedtls_sha256_starts_ret( &ctx, is224 ) ) != 0 )
+ 1280              		.loc 1 400 0
+ 1281 0020 0410A0E1 		mov	r1, r4
+ 1282 0024 04008DE2 		add	r0, sp, #4
+ 1283 0028 FEFFFFEB 		bl	mbedtls_sha256_starts_ret
+ 1284              	.LVL87:
+ 1285 002c 004050E2 		subs	r4, r0, #0
+ 1286              	.LVL88:
+ 1287 0030 0900001A 		bne	.L47
+ 401:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         goto exit;
+ 402:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 403:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     if( ( ret = mbedtls_sha256_update_ret( &ctx, input, ilen ) ) != 0 )
+ 1288              		.loc 1 403 0
+ 1289 0034 0720A0E1 		mov	r2, r7
+ 1290 0038 0610A0E1 		mov	r1, r6
+ 1291 003c 04008DE2 		add	r0, sp, #4
+ 1292              	.LVL89:
+ 1293 0040 FEFFFFEB 		bl	mbedtls_sha256_update_ret
+ 1294              	.LVL90:
+ 1295 0044 004050E2 		subs	r4, r0, #0
+ 1296 0048 0300001A 		bne	.L47
+ 404:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         goto exit;
+ 405:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 406:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     if( ( ret = mbedtls_sha256_finish_ret( &ctx, output ) ) != 0 )
+ 1297              		.loc 1 406 0
+ 1298 004c 0510A0E1 		mov	r1, r5
+ 1299 0050 04008DE2 		add	r0, sp, #4
+ 1300              	.LVL91:
+ 1301 0054 FEFFFFEB 		bl	mbedtls_sha256_finish_ret
+ 1302              	.LVL92:
+ 1303 0058 0040A0E1 		mov	r4, r0
+ 1304              	.LVL93:
+ 1305              	.L47:
+ 407:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         goto exit;
+ 408:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 409:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** exit:
+ 410:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     mbedtls_sha256_free( &ctx );
+ 1306              		.loc 1 410 0
+ 1307 005c 04008DE2 		add	r0, sp, #4
+ 1308              	.LVL94:
+ 1309 0060 FEFFFFEB 		bl	mbedtls_sha256_free
+ 1310              	.LVL95:
+ 411:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 412:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     return( ret );
+ 413:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** }
+ 1311              		.loc 1 413 0
+ 1312 0064 0400A0E1 		mov	r0, r4
+ 1313 0068 74D08DE2 		add	sp, sp, #116
+ 1314              		.cfi_def_cfa_offset 20
+ 1315              		@ sp needed
+ 1316 006c F080BDE8 		pop	{r4, r5, r6, r7, pc}
+ 1317              		.cfi_endproc
+ 1318              	.LFE8:
+ 1320              		.global	__aeabi_idivmod
+ 1321              		.section	.text.mbedtls_sha256_self_test,"ax",%progbits
+ 1322              		.align	2
+ 1323              		.global	mbedtls_sha256_self_test
+ 1324              		.syntax unified
+ 1325              		.arm
+ 1326              		.fpu neon
+ 1328              	mbedtls_sha256_self_test:
+ 1329              	.LFB9:
+ 414:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 415:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #if !defined(MBEDTLS_DEPRECATED_REMOVED)
+ 416:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** void mbedtls_sha256( const unsigned char *input,
+ 417:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****                      size_t ilen,
+ 418:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****                      unsigned char output[32],
+ 419:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****                      int is224 )
+ 420:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** {
+ 421:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     mbedtls_sha256_ret( input, ilen, output, is224 );
+ 422:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** }
+ 423:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #endif
+ 424:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 425:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** #if defined(MBEDTLS_SELF_TEST)
+ 426:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** /*
+ 427:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  * FIPS-180-2 test vectors
+ 428:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  */
+ 429:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** static const unsigned char sha256_test_buf[3][57] =
+ 430:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** {
+ 431:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     { "abc" },
+ 432:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     { "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq" },
+ 433:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     { "" }
+ 434:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** };
+ 435:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 436:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** static const size_t sha256_test_buflen[3] =
+ 437:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** {
+ 438:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     3, 56, 1000
+ 439:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** };
+ 440:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 441:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** static const unsigned char sha256_test_sum[6][32] =
+ 442:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** {
+ 443:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     /*
+ 444:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****      * SHA-224 test vectors
+ 445:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****      */
+ 446:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     { 0x23, 0x09, 0x7D, 0x22, 0x34, 0x05, 0xD8, 0x22,
+ 447:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****       0x86, 0x42, 0xA4, 0x77, 0xBD, 0xA2, 0x55, 0xB3,
+ 448:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****       0x2A, 0xAD, 0xBC, 0xE4, 0xBD, 0xA0, 0xB3, 0xF7,
+ 449:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****       0xE3, 0x6C, 0x9D, 0xA7 },
+ 450:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     { 0x75, 0x38, 0x8B, 0x16, 0x51, 0x27, 0x76, 0xCC,
+ 451:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****       0x5D, 0xBA, 0x5D, 0xA1, 0xFD, 0x89, 0x01, 0x50,
+ 452:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****       0xB0, 0xC6, 0x45, 0x5C, 0xB4, 0xF5, 0x8B, 0x19,
+ 453:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****       0x52, 0x52, 0x25, 0x25 },
+ 454:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     { 0x20, 0x79, 0x46, 0x55, 0x98, 0x0C, 0x91, 0xD8,
+ 455:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****       0xBB, 0xB4, 0xC1, 0xEA, 0x97, 0x61, 0x8A, 0x4B,
+ 456:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****       0xF0, 0x3F, 0x42, 0x58, 0x19, 0x48, 0xB2, 0xEE,
+ 457:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****       0x4E, 0xE7, 0xAD, 0x67 },
+ 458:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 459:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     /*
+ 460:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****      * SHA-256 test vectors
+ 461:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****      */
+ 462:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     { 0xBA, 0x78, 0x16, 0xBF, 0x8F, 0x01, 0xCF, 0xEA,
+ 463:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****       0x41, 0x41, 0x40, 0xDE, 0x5D, 0xAE, 0x22, 0x23,
+ 464:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****       0xB0, 0x03, 0x61, 0xA3, 0x96, 0x17, 0x7A, 0x9C,
+ 465:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****       0xB4, 0x10, 0xFF, 0x61, 0xF2, 0x00, 0x15, 0xAD },
+ 466:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     { 0x24, 0x8D, 0x6A, 0x61, 0xD2, 0x06, 0x38, 0xB8,
+ 467:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****       0xE5, 0xC0, 0x26, 0x93, 0x0C, 0x3E, 0x60, 0x39,
+ 468:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****       0xA3, 0x3C, 0xE4, 0x59, 0x64, 0xFF, 0x21, 0x67,
+ 469:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****       0xF6, 0xEC, 0xED, 0xD4, 0x19, 0xDB, 0x06, 0xC1 },
+ 470:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     { 0xCD, 0xC7, 0x6E, 0x5C, 0x99, 0x14, 0xFB, 0x92,
+ 471:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****       0x81, 0xA1, 0xC7, 0xE2, 0x84, 0xD7, 0x3E, 0x67,
+ 472:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****       0xF1, 0x80, 0x9A, 0x48, 0xA4, 0x97, 0x20, 0x0E,
+ 473:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****       0x04, 0x6D, 0x39, 0xCC, 0xC7, 0x11, 0x2C, 0xD0 }
+ 474:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** };
+ 475:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 476:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** /*
+ 477:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  * Checkup routine
+ 478:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****  */
+ 479:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** int mbedtls_sha256_self_test( int verbose )
+ 480:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** {
+ 1330              		.loc 1 480 0
+ 1331              		.cfi_startproc
+ 1332              		@ args = 0, pretend = 0, frame = 144
+ 1333              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1334              	.LVL96:
+ 1335 0000 F04F2DE9 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 1336              		.cfi_def_cfa_offset 36
+ 1337              		.cfi_offset 4, -36
+ 1338              		.cfi_offset 5, -32
+ 1339              		.cfi_offset 6, -28
+ 1340              		.cfi_offset 7, -24
+ 1341              		.cfi_offset 8, -20
+ 1342              		.cfi_offset 9, -16
+ 1343              		.cfi_offset 10, -12
+ 1344              		.cfi_offset 11, -8
+ 1345              		.cfi_offset 14, -4
+ 481:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     int i, j, k, buflen, ret = 0;
+ 482:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     unsigned char *buf;
+ 483:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     unsigned char sha256sum[32];
+ 484:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     mbedtls_sha256_context ctx;
+ 485:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 486:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     buf = mbedtls_calloc( 1024, sizeof(unsigned char) );
+ 1346              		.loc 1 486 0
+ 1347 0004 0110A0E3 		mov	r1, #1
+ 480:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     int i, j, k, buflen, ret = 0;
+ 1348              		.loc 1 480 0
+ 1349 0008 94D04DE2 		sub	sp, sp, #148
+ 1350              		.cfi_def_cfa_offset 184
+ 480:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     int i, j, k, buflen, ret = 0;
+ 1351              		.loc 1 480 0
+ 1352 000c 0050A0E1 		mov	r5, r0
+ 1353              		.loc 1 486 0
+ 1354 0010 010BA0E3 		mov	r0, #1024
+ 1355              	.LVL97:
+ 1356 0014 FEFFFFEB 		bl	mbedtls_calloc
+ 1357              	.LVL98:
+ 487:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     if( NULL == buf )
+ 1358              		.loc 1 487 0
+ 1359 0018 008050E2 		subs	r8, r0, #0
+ 1360 001c 0500001A 		bne	.L50
+ 488:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     {
+ 489:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         if( verbose != 0 )
+ 1361              		.loc 1 489 0
+ 1362 0020 000055E3 		cmp	r5, #0
+ 1363 0024 0100000A 		beq	.L61
+ 490:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****             mbedtls_printf( "Buffer allocation failed\n" );
+ 1364              		.loc 1 490 0
+ 1365 0028 60019FE5 		ldr	r0, .L77
+ 1366              	.LVL99:
+ 1367 002c FEFFFFEB 		bl	puts
+ 1368              	.LVL100:
+ 1369              	.L61:
+ 491:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 492:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         return( 1 );
+ 1370              		.loc 1 492 0
+ 1371 0030 0140A0E3 		mov	r4, #1
+ 1372 0034 500000EA 		b	.L49
+ 1373              	.LVL101:
+ 1374              	.L50:
+ 493:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     }
+ 494:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 495:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     mbedtls_sha256_init( &ctx );
+ 496:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 497:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     for( i = 0; i < 6; i++ )
+ 498:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     {
+ 499:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         j = i % 3;
+ 500:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         k = i < 3;
+ 501:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 502:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         if( verbose != 0 )
+ 503:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****             mbedtls_printf( "  SHA-%d test #%d: ", 256 - k * 32, j + 1 );
+ 504:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 505:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         if( ( ret = mbedtls_sha256_starts_ret( &ctx, k ) ) != 0 )
+ 506:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****             goto fail;
+ 507:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 508:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         if( j == 2 )
+ 509:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         {
+ 510:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****             memset( buf, 'a', buflen = 1000 );
+ 511:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 512:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****             for( j = 0; j < 1000; j++ )
+ 513:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****             {
+ 514:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****                 ret = mbedtls_sha256_update_ret( &ctx, buf, buflen );
+ 515:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****                 if( ret != 0 )
+ 516:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****                     goto fail;
+ 517:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****             }
+ 518:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 519:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         }
+ 520:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         else
+ 521:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         {
+ 522:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****             ret = mbedtls_sha256_update_ret( &ctx, sha256_test_buf[j],
+ 1375              		.loc 1 522 0
+ 1376 0038 54A19FE5 		ldr	r10, .L77+4
+ 497:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     {
+ 1377              		.loc 1 497 0
+ 1378 003c 0060A0E3 		mov	r6, #0
+ 1379              		.loc 1 522 0
+ 1380 0040 50B19FE5 		ldr	fp, .L77+8
+ 495:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 1381              		.loc 1 495 0
+ 1382 0044 24008DE2 		add	r0, sp, #36
+ 1383              	.LVL102:
+ 1384 0048 FEFFFFEB 		bl	mbedtls_sha256_init
+ 1385              	.LVL103:
+ 1386              	.L59:
+ 499:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         k = i < 3;
+ 1387              		.loc 1 499 0
+ 1388 004c 0310A0E3 		mov	r1, #3
+ 1389 0050 0600A0E1 		mov	r0, r6
+ 1390 0054 FEFFFFEB 		bl	__aeabi_idivmod
+ 1391              	.LVL104:
+ 500:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 1392              		.loc 1 500 0
+ 1393 0058 020056E3 		cmp	r6, #2
+ 499:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         k = i < 3;
+ 1394              		.loc 1 499 0
+ 1395 005c 0190A0E1 		mov	r9, r1
+ 1396              	.LVL105:
+ 500:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 1397              		.loc 1 500 0
+ 1398 0060 0070A0C3 		movgt	r7, #0
+ 1399 0064 0170A0D3 		movle	r7, #1
+ 1400              	.LVL106:
+ 502:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****             mbedtls_printf( "  SHA-%d test #%d: ", 256 - k * 32, j + 1 );
+ 1401              		.loc 1 502 0
+ 1402 0068 000055E3 		cmp	r5, #0
+ 1403 006c 0400000A 		beq	.L52
+ 503:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 1404              		.loc 1 503 0
+ 1405 0070 081067E2 		rsb	r1, r7, #8
+ 1406              	.LVL107:
+ 1407 0074 012089E2 		add	r2, r9, #1
+ 1408 0078 8112A0E1 		lsl	r1, r1, #5
+ 1409 007c 18019FE5 		ldr	r0, .L77+12
+ 1410 0080 FEFFFFEB 		bl	printf
+ 1411              	.LVL108:
+ 1412              	.L52:
+ 505:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****             goto fail;
+ 1413              		.loc 1 505 0
+ 1414 0084 0710A0E1 		mov	r1, r7
+ 1415 0088 24008DE2 		add	r0, sp, #36
+ 1416 008c FEFFFFEB 		bl	mbedtls_sha256_starts_ret
+ 1417              	.LVL109:
+ 1418 0090 004050E2 		subs	r4, r0, #0
+ 1419 0094 1300001A 		bne	.L53
+ 508:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         {
+ 1420              		.loc 1 508 0
+ 1421 0098 020059E3 		cmp	r9, #2
+ 1422 009c 1600001A 		bne	.L54
+ 1423              	.LVL110:
+ 510:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 1424              		.loc 1 510 0
+ 1425 00a0 FA9FA0E3 		mov	r9, #1000
+ 1426              	.LVL111:
+ 1427 00a4 FA2FA0E3 		mov	r2, #1000
+ 1428 00a8 6110A0E3 		mov	r1, #97
+ 1429 00ac 0800A0E1 		mov	r0, r8
+ 1430              	.LVL112:
+ 1431 00b0 FEFFFFEB 		bl	memset
+ 1432              	.LVL113:
+ 1433              	.L55:
+ 1434              	.LBB8:
+ 1435              	.LBB9:
+ 1436 00b4 FA2FA0E3 		mov	r2, #1000
+ 1437 00b8 0810A0E1 		mov	r1, r8
+ 1438 00bc 24008DE2 		add	r0, sp, #36
+ 1439              	.LVL114:
+ 1440 00c0 FEFFFFEB 		bl	mbedtls_sha256_update_ret.part.0
+ 1441              	.LVL115:
+ 1442              	.LBE9:
+ 1443              	.LBE8:
+ 515:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****                     goto fail;
+ 1444              		.loc 1 515 0
+ 1445 00c4 004050E2 		subs	r4, r0, #0
+ 1446 00c8 0600001A 		bne	.L53
+ 1447              	.LVL116:
+ 512:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****             {
+ 1448              		.loc 1 512 0 discriminator 2
+ 1449 00cc 019059E2 		subs	r9, r9, #1
+ 1450              	.LVL117:
+ 1451 00d0 F7FFFF1A 		bne	.L55
+ 1452              	.LVL118:
+ 1453              	.L57:
+ 523:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****                                              sha256_test_buflen[j] );
+ 524:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****             if( ret != 0 )
+ 525:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****                  goto fail;
+ 526:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         }
+ 527:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 528:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         if( ( ret = mbedtls_sha256_finish_ret( &ctx, sha256sum ) ) != 0 )
+ 1454              		.loc 1 528 0
+ 1455 00d4 04108DE2 		add	r1, sp, #4
+ 1456 00d8 24008DE2 		add	r0, sp, #36
+ 1457 00dc FEFFFFEB 		bl	mbedtls_sha256_finish_ret
+ 1458              	.LVL119:
+ 1459 00e0 004050E2 		subs	r4, r0, #0
+ 1460 00e4 0C00000A 		beq	.L75
+ 1461              	.LVL120:
+ 1462              	.L53:
+ 529:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****             goto fail;
+ 530:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 531:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 532:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         if( memcmp( sha256sum, sha256_test_sum[i], 32 - k * 4 ) != 0 )
+ 533:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         {
+ 534:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****             ret = 1;
+ 535:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****             goto fail;
+ 536:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         }
+ 537:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 538:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         if( verbose != 0 )
+ 539:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****             mbedtls_printf( "passed\n" );
+ 540:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     }
+ 541:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 542:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     if( verbose != 0 )
+ 543:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         mbedtls_printf( "\n" );
+ 544:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 545:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     goto exit;
+ 546:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 547:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** fail:
+ 548:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     if( verbose != 0 )
+ 1463              		.loc 1 548 0
+ 1464 00e8 000055E3 		cmp	r5, #0
+ 1465 00ec 1E00000A 		beq	.L60
+ 549:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         mbedtls_printf( "failed\n" );
+ 1466              		.loc 1 549 0
+ 1467 00f0 A8009FE5 		ldr	r0, .L77+16
+ 1468 00f4 FEFFFFEB 		bl	puts
+ 1469              	.LVL121:
+ 1470 00f8 1B0000EA 		b	.L60
+ 1471              	.LVL122:
+ 1472              	.L54:
+ 522:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****                                              sha256_test_buflen[j] );
+ 1473              		.loc 1 522 0
+ 1474 00fc 3910A0E3 		mov	r1, #57
+ 1475 0100 09219AE7 		ldr	r2, [r10, r9, lsl #2]
+ 1476 0104 91B921E0 		mla	r1, r1, r9, fp
+ 1477 0108 24008DE2 		add	r0, sp, #36
+ 1478              	.LVL123:
+ 1479 010c FEFFFFEB 		bl	mbedtls_sha256_update_ret
+ 1480              	.LVL124:
+ 524:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****                  goto fail;
+ 1481              		.loc 1 524 0
+ 1482 0110 004050E2 		subs	r4, r0, #0
+ 1483 0114 EEFFFF0A 		beq	.L57
+ 1484 0118 F2FFFFEA 		b	.L53
+ 1485              	.LVL125:
+ 1486              	.L75:
+ 532:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         {
+ 1487              		.loc 1 532 0
+ 1488 011c 80109FE5 		ldr	r1, .L77+20
+ 1489 0120 082067E2 		rsb	r2, r7, #8
+ 1490 0124 0221A0E1 		lsl	r2, r2, #2
+ 1491 0128 04008DE2 		add	r0, sp, #4
+ 1492              	.LVL126:
+ 1493 012c 861281E0 		add	r1, r1, r6, lsl #5
+ 1494 0130 FEFFFFEB 		bl	memcmp
+ 1495              	.LVL127:
+ 1496 0134 004050E2 		subs	r4, r0, #0
+ 1497              	.LVL128:
+ 1498 0138 1200001A 		bne	.L62
+ 538:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****             mbedtls_printf( "passed\n" );
+ 1499              		.loc 1 538 0
+ 1500 013c 000055E3 		cmp	r5, #0
+ 1501 0140 0100000A 		beq	.L58
+ 539:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     }
+ 1502              		.loc 1 539 0
+ 1503 0144 5C009FE5 		ldr	r0, .L77+24
+ 1504 0148 FEFFFFEB 		bl	puts
+ 1505              	.LVL129:
+ 1506              	.L58:
+ 497:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     {
+ 1507              		.loc 1 497 0 discriminator 2
+ 1508 014c 016086E2 		add	r6, r6, #1
+ 1509              	.LVL130:
+ 1510 0150 060056E3 		cmp	r6, #6
+ 1511 0154 BCFFFF1A 		bne	.L59
+ 542:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****         mbedtls_printf( "\n" );
+ 1512              		.loc 1 542 0
+ 1513 0158 000055E3 		cmp	r5, #0
+ 1514 015c 0540A001 		moveq	r4, r5
+ 1515 0160 0100000A 		beq	.L60
+ 543:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 1516              		.loc 1 543 0
+ 1517 0164 0A00A0E3 		mov	r0, #10
+ 1518 0168 FEFFFFEB 		bl	putchar
+ 1519              	.LVL131:
+ 1520              	.L60:
+ 550:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 551:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** exit:
+ 552:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     mbedtls_sha256_free( &ctx );
+ 1521              		.loc 1 552 0
+ 1522 016c 24008DE2 		add	r0, sp, #36
+ 1523 0170 FEFFFFEB 		bl	mbedtls_sha256_free
+ 1524              	.LVL132:
+ 553:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     mbedtls_free( buf );
+ 1525              		.loc 1 553 0
+ 1526 0174 0800A0E1 		mov	r0, r8
+ 1527 0178 FEFFFFEB 		bl	mbedtls_free
+ 1528              	.LVL133:
+ 1529              	.L49:
+ 554:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** 
+ 555:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****     return( ret );
+ 556:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c **** }
+ 1530              		.loc 1 556 0
+ 1531 017c 0400A0E1 		mov	r0, r4
+ 1532 0180 94D08DE2 		add	sp, sp, #148
+ 1533              		.cfi_remember_state
+ 1534              		.cfi_def_cfa_offset 36
+ 1535              		@ sp needed
+ 1536 0184 F08FBDE8 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 1537              	.LVL134:
+ 1538              	.L62:
+ 1539              		.cfi_restore_state
+ 534:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\sha256.c ****             goto fail;
+ 1540              		.loc 1 534 0
+ 1541 0188 0140A0E3 		mov	r4, #1
+ 1542 018c D5FFFFEA 		b	.L53
+ 1543              	.L78:
+ 1544              		.align	2
+ 1545              	.L77:
+ 1546 0190 00000000 		.word	.LC0
+ 1547 0194 00000000 		.word	.LANCHOR1
+ 1548 0198 00000000 		.word	.LANCHOR2
+ 1549 019c 19000000 		.word	.LC1
+ 1550 01a0 34000000 		.word	.LC3
+ 1551 01a4 00000000 		.word	.LANCHOR3
+ 1552 01a8 2D000000 		.word	.LC2
+ 1553              		.cfi_endproc
+ 1554              	.LFE9:
+ 1556              		.section	.rodata.K,"a",%progbits
+ 1557              		.align	2
+ 1558              		.set	.LANCHOR0,. + 0
+ 1561              	K:
+ 1562 0000 982F8A42 		.word	1116352408
+ 1563 0004 91443771 		.word	1899447441
+ 1564 0008 CFFBC0B5 		.word	-1245643825
+ 1565 000c A5DBB5E9 		.word	-373957723
+ 1566 0010 5BC25639 		.word	961987163
+ 1567 0014 F111F159 		.word	1508970993
+ 1568 0018 A4823F92 		.word	-1841331548
+ 1569 001c D55E1CAB 		.word	-1424204075
+ 1570 0020 98AA07D8 		.word	-670586216
+ 1571 0024 015B8312 		.word	310598401
+ 1572 0028 BE853124 		.word	607225278
+ 1573 002c C37D0C55 		.word	1426881987
+ 1574 0030 745DBE72 		.word	1925078388
+ 1575 0034 FEB1DE80 		.word	-2132889090
+ 1576 0038 A706DC9B 		.word	-1680079193
+ 1577 003c 74F19BC1 		.word	-1046744716
+ 1578 0040 C1699BE4 		.word	-459576895
+ 1579 0044 8647BEEF 		.word	-272742522
+ 1580 0048 C69DC10F 		.word	264347078
+ 1581 004c CCA10C24 		.word	604807628
+ 1582 0050 6F2CE92D 		.word	770255983
+ 1583 0054 AA84744A 		.word	1249150122
+ 1584 0058 DCA9B05C 		.word	1555081692
+ 1585 005c DA88F976 		.word	1996064986
+ 1586 0060 52513E98 		.word	-1740746414
+ 1587 0064 6DC631A8 		.word	-1473132947
+ 1588 0068 C82703B0 		.word	-1341970488
+ 1589 006c C77F59BF 		.word	-1084653625
+ 1590 0070 F30BE0C6 		.word	-958395405
+ 1591 0074 4791A7D5 		.word	-710438585
+ 1592 0078 5163CA06 		.word	113926993
+ 1593 007c 67292914 		.word	338241895
+ 1594 0080 850AB727 		.word	666307205
+ 1595 0084 38211B2E 		.word	773529912
+ 1596 0088 FC6D2C4D 		.word	1294757372
+ 1597 008c 130D3853 		.word	1396182291
+ 1598 0090 54730A65 		.word	1695183700
+ 1599 0094 BB0A6A76 		.word	1986661051
+ 1600 0098 2EC9C281 		.word	-2117940946
+ 1601 009c 852C7292 		.word	-1838011259
+ 1602 00a0 A1E8BFA2 		.word	-1564481375
+ 1603 00a4 4B661AA8 		.word	-1474664885
+ 1604 00a8 708B4BC2 		.word	-1035236496
+ 1605 00ac A3516CC7 		.word	-949202525
+ 1606 00b0 19E892D1 		.word	-778901479
+ 1607 00b4 240699D6 		.word	-694614492
+ 1608 00b8 85350EF4 		.word	-200395387
+ 1609 00bc 70A06A10 		.word	275423344
+ 1610 00c0 16C1A419 		.word	430227734
+ 1611 00c4 086C371E 		.word	506948616
+ 1612 00c8 4C774827 		.word	659060556
+ 1613 00cc B5BCB034 		.word	883997877
+ 1614 00d0 B30C1C39 		.word	958139571
+ 1615 00d4 4AAAD84E 		.word	1322822218
+ 1616 00d8 4FCA9C5B 		.word	1537002063
+ 1617 00dc F36F2E68 		.word	1747873779
+ 1618 00e0 EE828F74 		.word	1955562222
+ 1619 00e4 6F63A578 		.word	2024104815
+ 1620 00e8 1478C884 		.word	-2067236844
+ 1621 00ec 0802C78C 		.word	-1933114872
+ 1622 00f0 FAFFBE90 		.word	-1866530822
+ 1623 00f4 EB6C50A4 		.word	-1538233109
+ 1624 00f8 F7A3F9BE 		.word	-1090935817
+ 1625 00fc F27871C6 		.word	-965641998
+ 1626              		.section	.rodata.mbedtls_sha256_self_test.str1.1,"aMS",%progbits,1
+ 1627              	.LC0:
+ 1628 0000 42756666 		.ascii	"Buffer allocation failed\000"
+ 1628      65722061 
+ 1628      6C6C6F63 
+ 1628      6174696F 
+ 1628      6E206661 
+ 1629              	.LC1:
+ 1630 0019 20205348 		.ascii	"  SHA-%d test #%d: \000"
+ 1630      412D2564 
+ 1630      20746573 
+ 1630      74202325 
+ 1630      643A2000 
+ 1631              	.LC2:
+ 1632 002d 70617373 		.ascii	"passed\000"
+ 1632      656400
+ 1633              	.LC3:
+ 1634 0034 6661696C 		.ascii	"failed\000"
+ 1634      656400
+ 1635              		.section	.rodata.sha256_test_buf,"a",%progbits
+ 1636              		.set	.LANCHOR2,. + 0
+ 1639              	sha256_test_buf:
+ 1640 0000 61626300 		.ascii	"abc\000"
+ 1641 0004 00000000 		.space	53
+ 1641      00000000 
+ 1641      00000000 
+ 1641      00000000 
+ 1641      00000000 
+ 1642 0039 61626364 		.ascii	"abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomno"
+ 1642      62636465 
+ 1642      63646566 
+ 1642      64656667 
+ 1642      65666768 
+ 1643 006c 706E6F70 		.ascii	"pnopq\000"
+ 1643      7100
+ 1644 0072 00       		.ascii	"\000"
+ 1645 0073 00000000 		.space	56
+ 1645      00000000 
+ 1645      00000000 
+ 1645      00000000 
+ 1645      00000000 
+ 1646              		.section	.rodata.sha256_test_buflen,"a",%progbits
+ 1647              		.align	2
+ 1648              		.set	.LANCHOR1,. + 0
+ 1651              	sha256_test_buflen:
+ 1652 0000 03000000 		.word	3
+ 1653 0004 38000000 		.word	56
+ 1654 0008 E8030000 		.word	1000
+ 1655              		.section	.rodata.sha256_test_sum,"a",%progbits
+ 1656              		.set	.LANCHOR3,. + 0
+ 1659              	sha256_test_sum:
+ 1660 0000 23       		.byte	35
+ 1661 0001 09       		.byte	9
+ 1662 0002 7D       		.byte	125
+ 1663 0003 22       		.byte	34
+ 1664 0004 34       		.byte	52
+ 1665 0005 05       		.byte	5
+ 1666 0006 D8       		.byte	-40
+ 1667 0007 22       		.byte	34
+ 1668 0008 86       		.byte	-122
+ 1669 0009 42       		.byte	66
+ 1670 000a A4       		.byte	-92
+ 1671 000b 77       		.byte	119
+ 1672 000c BD       		.byte	-67
+ 1673 000d A2       		.byte	-94
+ 1674 000e 55       		.byte	85
+ 1675 000f B3       		.byte	-77
+ 1676 0010 2A       		.byte	42
+ 1677 0011 AD       		.byte	-83
+ 1678 0012 BC       		.byte	-68
+ 1679 0013 E4       		.byte	-28
+ 1680 0014 BD       		.byte	-67
+ 1681 0015 A0       		.byte	-96
+ 1682 0016 B3       		.byte	-77
+ 1683 0017 F7       		.byte	-9
+ 1684 0018 E3       		.byte	-29
+ 1685 0019 6C       		.byte	108
+ 1686 001a 9D       		.byte	-99
+ 1687 001b A7       		.byte	-89
+ 1688 001c 00000000 		.space	4
+ 1689 0020 75       		.byte	117
+ 1690 0021 38       		.byte	56
+ 1691 0022 8B       		.byte	-117
+ 1692 0023 16       		.byte	22
+ 1693 0024 51       		.byte	81
+ 1694 0025 27       		.byte	39
+ 1695 0026 76       		.byte	118
+ 1696 0027 CC       		.byte	-52
+ 1697 0028 5D       		.byte	93
+ 1698 0029 BA       		.byte	-70
+ 1699 002a 5D       		.byte	93
+ 1700 002b A1       		.byte	-95
+ 1701 002c FD       		.byte	-3
+ 1702 002d 89       		.byte	-119
+ 1703 002e 01       		.byte	1
+ 1704 002f 50       		.byte	80
+ 1705 0030 B0       		.byte	-80
+ 1706 0031 C6       		.byte	-58
+ 1707 0032 45       		.byte	69
+ 1708 0033 5C       		.byte	92
+ 1709 0034 B4       		.byte	-76
+ 1710 0035 F5       		.byte	-11
+ 1711 0036 8B       		.byte	-117
+ 1712 0037 19       		.byte	25
+ 1713 0038 52       		.byte	82
+ 1714 0039 52       		.byte	82
+ 1715 003a 25       		.byte	37
+ 1716 003b 25       		.byte	37
+ 1717 003c 00000000 		.space	4
+ 1718 0040 20       		.byte	32
+ 1719 0041 79       		.byte	121
+ 1720 0042 46       		.byte	70
+ 1721 0043 55       		.byte	85
+ 1722 0044 98       		.byte	-104
+ 1723 0045 0C       		.byte	12
+ 1724 0046 91       		.byte	-111
+ 1725 0047 D8       		.byte	-40
+ 1726 0048 BB       		.byte	-69
+ 1727 0049 B4       		.byte	-76
+ 1728 004a C1       		.byte	-63
+ 1729 004b EA       		.byte	-22
+ 1730 004c 97       		.byte	-105
+ 1731 004d 61       		.byte	97
+ 1732 004e 8A       		.byte	-118
+ 1733 004f 4B       		.byte	75
+ 1734 0050 F0       		.byte	-16
+ 1735 0051 3F       		.byte	63
+ 1736 0052 42       		.byte	66
+ 1737 0053 58       		.byte	88
+ 1738 0054 19       		.byte	25
+ 1739 0055 48       		.byte	72
+ 1740 0056 B2       		.byte	-78
+ 1741 0057 EE       		.byte	-18
+ 1742 0058 4E       		.byte	78
+ 1743 0059 E7       		.byte	-25
+ 1744 005a AD       		.byte	-83
+ 1745 005b 67       		.byte	103
+ 1746 005c 00000000 		.space	4
+ 1747 0060 BA       		.byte	-70
+ 1748 0061 78       		.byte	120
+ 1749 0062 16       		.byte	22
+ 1750 0063 BF       		.byte	-65
+ 1751 0064 8F       		.byte	-113
+ 1752 0065 01       		.byte	1
+ 1753 0066 CF       		.byte	-49
+ 1754 0067 EA       		.byte	-22
+ 1755 0068 41       		.byte	65
+ 1756 0069 41       		.byte	65
+ 1757 006a 40       		.byte	64
+ 1758 006b DE       		.byte	-34
+ 1759 006c 5D       		.byte	93
+ 1760 006d AE       		.byte	-82
+ 1761 006e 22       		.byte	34
+ 1762 006f 23       		.byte	35
+ 1763 0070 B0       		.byte	-80
+ 1764 0071 03       		.byte	3
+ 1765 0072 61       		.byte	97
+ 1766 0073 A3       		.byte	-93
+ 1767 0074 96       		.byte	-106
+ 1768 0075 17       		.byte	23
+ 1769 0076 7A       		.byte	122
+ 1770 0077 9C       		.byte	-100
+ 1771 0078 B4       		.byte	-76
+ 1772 0079 10       		.byte	16
+ 1773 007a FF       		.byte	-1
+ 1774 007b 61       		.byte	97
+ 1775 007c F2       		.byte	-14
+ 1776 007d 00       		.byte	0
+ 1777 007e 15       		.byte	21
+ 1778 007f AD       		.byte	-83
+ 1779 0080 24       		.byte	36
+ 1780 0081 8D       		.byte	-115
+ 1781 0082 6A       		.byte	106
+ 1782 0083 61       		.byte	97
+ 1783 0084 D2       		.byte	-46
+ 1784 0085 06       		.byte	6
+ 1785 0086 38       		.byte	56
+ 1786 0087 B8       		.byte	-72
+ 1787 0088 E5       		.byte	-27
+ 1788 0089 C0       		.byte	-64
+ 1789 008a 26       		.byte	38
+ 1790 008b 93       		.byte	-109
+ 1791 008c 0C       		.byte	12
+ 1792 008d 3E       		.byte	62
+ 1793 008e 60       		.byte	96
+ 1794 008f 39       		.byte	57
+ 1795 0090 A3       		.byte	-93
+ 1796 0091 3C       		.byte	60
+ 1797 0092 E4       		.byte	-28
+ 1798 0093 59       		.byte	89
+ 1799 0094 64       		.byte	100
+ 1800 0095 FF       		.byte	-1
+ 1801 0096 21       		.byte	33
+ 1802 0097 67       		.byte	103
+ 1803 0098 F6       		.byte	-10
+ 1804 0099 EC       		.byte	-20
+ 1805 009a ED       		.byte	-19
+ 1806 009b D4       		.byte	-44
+ 1807 009c 19       		.byte	25
+ 1808 009d DB       		.byte	-37
+ 1809 009e 06       		.byte	6
+ 1810 009f C1       		.byte	-63
+ 1811 00a0 CD       		.byte	-51
+ 1812 00a1 C7       		.byte	-57
+ 1813 00a2 6E       		.byte	110
+ 1814 00a3 5C       		.byte	92
+ 1815 00a4 99       		.byte	-103
+ 1816 00a5 14       		.byte	20
+ 1817 00a6 FB       		.byte	-5
+ 1818 00a7 92       		.byte	-110
+ 1819 00a8 81       		.byte	-127
+ 1820 00a9 A1       		.byte	-95
+ 1821 00aa C7       		.byte	-57
+ 1822 00ab E2       		.byte	-30
+ 1823 00ac 84       		.byte	-124
+ 1824 00ad D7       		.byte	-41
+ 1825 00ae 3E       		.byte	62
+ 1826 00af 67       		.byte	103
+ 1827 00b0 F1       		.byte	-15
+ 1828 00b1 80       		.byte	-128
+ 1829 00b2 9A       		.byte	-102
+ 1830 00b3 48       		.byte	72
+ 1831 00b4 A4       		.byte	-92
+ 1832 00b5 97       		.byte	-105
+ 1833 00b6 20       		.byte	32
+ 1834 00b7 0E       		.byte	14
+ 1835 00b8 04       		.byte	4
+ 1836 00b9 6D       		.byte	109
+ 1837 00ba 39       		.byte	57
+ 1838 00bb CC       		.byte	-52
+ 1839 00bc C7       		.byte	-57
+ 1840 00bd 11       		.byte	17
+ 1841 00be 2C       		.byte	44
+ 1842 00bf D0       		.byte	-48
+ 1843              		.text
+ 1844              	.Letext0:
+ 1845              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1846              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 1847              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1848              		.file 5 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/sha25
+ 1849              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1850              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1851              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1852              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1853              		.file 10 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1854              		.file 11 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/plat
+ 1855              		.file 12 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1856              		.file 13 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1857              		.file 14 "<built-in>"
+ 1858              		.file 15 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/plat
+DEFINED SYMBOLS
+                            *ABS*:00000000 sha256.c
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:17     .text.mbedtls_sha256_init:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:23     .text.mbedtls_sha256_init:00000000 mbedtls_sha256_init
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:41     .text.mbedtls_sha256_free:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:47     .text.mbedtls_sha256_free:00000000 mbedtls_sha256_free
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:66     .text.mbedtls_sha256_clone:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:72     .text.mbedtls_sha256_clone:00000000 mbedtls_sha256_clone
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:92     .text.mbedtls_sha256_starts_ret:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:98     .text.mbedtls_sha256_starts_ret:00000000 mbedtls_sha256_starts_ret
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:180    .text.mbedtls_sha256_starts_ret:000000b0 $d
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:198    .text.mbedtls_internal_sha256_process:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:204    .text.mbedtls_internal_sha256_process:00000000 mbedtls_internal_sha256_process
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:893    .text.mbedtls_internal_sha256_process:00000858 $d
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:899    .text.mbedtls_sha256_update_ret.part.0:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:904    .text.mbedtls_sha256_update_ret.part.0:00000000 mbedtls_sha256_update_ret.part.0
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:1016   .text.mbedtls_sha256_update_ret:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:1022   .text.mbedtls_sha256_update_ret:00000000 mbedtls_sha256_update_ret
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:1044   .text.mbedtls_sha256_finish_ret:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:1050   .text.mbedtls_sha256_finish_ret:00000000 mbedtls_sha256_finish_ret
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:1246   .text.mbedtls_sha256_ret:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:1252   .text.mbedtls_sha256_ret:00000000 mbedtls_sha256_ret
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:1322   .text.mbedtls_sha256_self_test:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:1328   .text.mbedtls_sha256_self_test:00000000 mbedtls_sha256_self_test
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:1546   .text.mbedtls_sha256_self_test:00000190 $d
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:1557   .rodata.K:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:1561   .rodata.K:00000000 K
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:1639   .rodata.sha256_test_buf:00000000 sha256_test_buf
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:1641   .rodata.sha256_test_buf:00000004 $d
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:1647   .rodata.sha256_test_buflen:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:1651   .rodata.sha256_test_buflen:00000000 sha256_test_buflen
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:1659   .rodata.sha256_test_sum:00000000 sha256_test_sum
+C:\Users\a5089698\AppData\Local\Temp\ccX9mLyz.s:1688   .rodata.sha256_test_sum:0000001c $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+memset
+mbedtls_platform_zeroize
+memcpy
+__aeabi_idivmod
+mbedtls_calloc
+puts
+printf
+memcmp
+putchar
+mbedtls_free

@@ -1,0 +1,190 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"init.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.__libc_init_array,"ax",%progbits
+  17              		.align	2
+  18              		.global	__libc_init_array
+  19              		.syntax unified
+  20              		.arm
+  21              		.fpu neon
+  23              	__libc_init_array:
+  24              	.LFB0:
+  25              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/cor
+   1:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** /*******************************************************************************
+   2:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** * DISCLAIMER
+   3:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** * This software is supplied by Renesas Electronics Corporation and is only
+   4:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** * intended for use with Renesas products. No other uses are authorized. This
+   5:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** * software is owned by Renesas Electronics Corporation and is protected under
+   6:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** * all applicable laws, including copyright laws.
+   7:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   8:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT
+   9:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** * LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+  10:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** * AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED.
+  11:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** * TO THE MAXIMUM EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS
+  12:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** * ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES SHALL BE LIABLE
+  13:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** * FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR
+  14:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** * ANY REASON RELATED TO THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE
+  15:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** * BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+  16:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** * Renesas reserves the right, without notice, to make changes to this software
+  17:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** * and to discontinue the availability of this software. By using this software,
+  18:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** * you agree to the additional terms and conditions found by accessing the
+  19:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** * following link:
+  20:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** * http://www.renesas.com/disclaimer
+  21:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** * Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+  22:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** *******************************************************************************/
+  23:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** /*******************************************************************************
+  24:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** * File Name : init.c
+  25:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** * Description :
+  26:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** ******************************************************************************/
+  27:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** /*
+  28:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c ****  * Copyright (C) 2004 CodeSourcery, LLC
+  29:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c ****  *
+  30:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c ****  * Permission to use, copy, modify, and distribute this file
+  31:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c ****  * for any purpose is hereby granted without fee, provided that
+  32:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c ****  * the above copyright notice and this notice appears in all
+  33:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c ****  * copies.
+  34:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c ****  *
+  35:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c ****  * This file is distributed WITHOUT ANY WARRANTY; without even the implied
+  36:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c ****  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  37:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c ****  */
+  38:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** 
+  39:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** /* Handle ELF .{pre_init,init,fini}_array sections.  */
+  40:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** #include <sys/types.h>
+  41:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** 
+  42:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** //#ifdef HAVE_INITFINI_ARRAY
+  43:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** 
+  44:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** /* These magic symbols are provided by the linker.  */
+  45:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** extern void (*__preinit_array_start []) (void) __attribute__((weak));
+  46:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** extern void (*__preinit_array_end []) (void) __attribute__((weak));
+  47:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** extern void (*__init_array_start []) (void) __attribute__((weak));
+  48:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** extern void (*__init_array_end []) (void) __attribute__((weak));
+  49:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** 
+  50:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** extern void _init (void);
+  51:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** extern void __libc_init_array (void);
+  52:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** 
+  53:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** /* Iterate over all the init routines.  */
+  54:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** void __libc_init_array (void)
+  55:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** {
+  26              		.loc 1 55 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30 0000 70402DE9 		push	{r4, r5, r6, lr}
+  31              		.cfi_def_cfa_offset 16
+  32              		.cfi_offset 4, -16
+  33              		.cfi_offset 5, -12
+  34              		.cfi_offset 6, -8
+  35              		.cfi_offset 14, -4
+  56:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c ****   size_t count;
+  57:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c ****   size_t i;
+  58:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** 
+  59:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c ****   count = (size_t)(__preinit_array_end - __preinit_array_start);
+  60:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c ****   for (i = 0; i < count; i++)
+  36              		.loc 1 60 0
+  37 0004 0050A0E3 		mov	r5, #0
+  59:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c ****   for (i = 0; i < count; i++)
+  38              		.loc 1 59 0
+  39 0008 58309FE5 		ldr	r3, .L7
+  40 000c 58409FE5 		ldr	r4, .L7+4
+  41 0010 0360A0E1 		mov	r6, r3
+  42 0014 034044E0 		sub	r4, r4, r3
+  43 0018 4441A0E1 		asr	r4, r4, #2
+  44              	.LVL0:
+  45              	.L2:
+  46              		.loc 1 60 0 discriminator 1
+  47 001c 040055E1 		cmp	r5, r4
+  48 0020 0800001A 		bne	.L3
+  61:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c ****     __preinit_array_start[i] ();
+  62:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** 
+  63:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c ****   //_init ();
+  64:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** 
+  65:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c ****   count = (size_t)(__init_array_end - __init_array_start);
+  49              		.loc 1 65 0
+  50 0024 44309FE5 		ldr	r3, .L7+8
+  66:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c ****   for (i = 0; i < count; i++)
+  51              		.loc 1 66 0
+  52 0028 0050A0E3 		mov	r5, #0
+  53              	.LVL1:
+  65:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c ****   for (i = 0; i < count; i++)
+  54              		.loc 1 65 0
+  55 002c 40409FE5 		ldr	r4, .L7+12
+  56              	.LVL2:
+  57 0030 0360A0E1 		mov	r6, r3
+  58              	.LVL3:
+  59 0034 034044E0 		sub	r4, r4, r3
+  60 0038 4441A0E1 		asr	r4, r4, #2
+  61              	.LVL4:
+  62              	.L4:
+  63              		.loc 1 66 0 discriminator 1
+  64 003c 040055E1 		cmp	r5, r4
+  65 0040 0400001A 		bne	.L5
+  67:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c ****     __init_array_start[i] ();
+  68:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** }
+  66              		.loc 1 68 0
+  67 0044 7080BDE8 		pop	{r4, r5, r6, pc}
+  68              	.L3:
+  61:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** 
+  69              		.loc 1 61 0 discriminator 3
+  70 0048 053196E7 		ldr	r3, [r6, r5, lsl #2]
+  60:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c ****     __preinit_array_start[i] ();
+  71              		.loc 1 60 0 discriminator 3
+  72 004c 015085E2 		add	r5, r5, #1
+  73              	.LVL5:
+  61:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** 
+  74              		.loc 1 61 0 discriminator 3
+  75 0050 33FF2FE1 		blx	r3
+  76              	.LVL6:
+  77 0054 F0FFFFEA 		b	.L2
+  78              	.L5:
+  67:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c ****     __init_array_start[i] ();
+  79              		.loc 1 67 0 discriminator 3
+  80 0058 053196E7 		ldr	r3, [r6, r5, lsl #2]
+  66:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c ****     __init_array_start[i] ();
+  81              		.loc 1 66 0 discriminator 3
+  82 005c 015085E2 		add	r5, r5, #1
+  83              	.LVL7:
+  67:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/init\init.c **** }
+  84              		.loc 1 67 0 discriminator 3
+  85 0060 33FF2FE1 		blx	r3
+  86              	.LVL8:
+  87 0064 F4FFFFEA 		b	.L4
+  88              	.L8:
+  89              		.align	2
+  90              	.L7:
+  91 0068 00000000 		.word	__preinit_array_start
+  92 006c 00000000 		.word	__preinit_array_end
+  93 0070 00000000 		.word	__init_array_start
+  94 0074 00000000 		.word	__init_array_end
+  95              		.cfi_endproc
+  96              	.LFE0:
+  98              		.weak	__init_array_end
+  99              		.weak	__init_array_start
+ 100              		.weak	__preinit_array_end
+ 101              		.weak	__preinit_array_start
+ 102              		.text
+ 103              	.Letext0:
+ 104              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+DEFINED SYMBOLS
+                            *ABS*:00000000 init.c
+C:\Users\a5089698\AppData\Local\Temp\cc1Szz2Y.s:17     .text.__libc_init_array:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc1Szz2Y.s:23     .text.__libc_init_array:00000000 __libc_init_array
+C:\Users\a5089698\AppData\Local\Temp\cc1Szz2Y.s:91     .text.__libc_init_array:00000068 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+__preinit_array_start
+__preinit_array_end
+__init_array_start
+__init_array_end

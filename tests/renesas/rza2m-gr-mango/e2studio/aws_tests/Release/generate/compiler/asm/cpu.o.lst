@@ -1,0 +1,212 @@
+   1              	# 1 "D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_pac
+   1              	@/*******************************************************************************
+   0              	
+   0              	
+   0              	
+   2              	@* DISCLAIMER
+   3              	@* This software is supplied by Renesas Electronics Corporation and is only
+   4              	@* intended for use with Renesas products. No other uses are authorized. This
+   5              	@* software is owned by Renesas Electronics Corporation and is protected under
+   6              	@* all applicable laws, including copyright laws.
+   7              	@* THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   8              	@* THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT
+   9              	@* LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+  10              	@* AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED.
+  11              	@* TO THE MAXIMUM EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS
+  12              	@* ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES SHALL BE LIABLE
+  13              	@* FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR
+  14              	@* ANY REASON RELATED TO THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE
+  15              	@* BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+  16              	@* Renesas reserves the right, without notice, to make changes to this software
+  17              	@* and to discontinue the availability of this software. By using this software,
+  18              	@* you agree to the additional terms and conditions found by accessing the
+  19              	@* following link:
+  20              	@* http://www.renesas.com/disclaimer
+  21              	@* Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+  22              	@*******************************************************************************/
+  23              	@/*******************************************************************************
+  24              	@* File Name   : cpu.asm
+  25              	@* Description : cpu c15 sccess, etc
+  26              	@*******************************************************************************/
+  27              	
+  28              	
+  29              	    .arm
+  30              	
+  31              	@******************************************************************************
+  32              	@ Function Name : __set_sctlr
+  33              	@ Description   : Set SCTLR register
+  34              	@******************************************************************************
+  35              	    .section .text.__set_sctlr
+  36              	    .global __set_sctlr
+  38              	    .func   __set_sctlr
+  39              	__set_sctlr:
+  40 0000 100F01EE 	    MCR  p15, 0, r0, c1, c0, 0      @;; SCTLR
+  41 0004 1EFF2FE1 	    BX  LR
+  42              	
+  43              	    .endfunc
+  44              	
+  45              	
+  46              	@******************************************************************************
+  47              	@ Function Name : __get_sctlr
+  48              	@ Description   : Get SCTLR register
+  49              	@******************************************************************************
+  50              	    .section .text.__get_sctlr
+  51              	    .global __get_sctlr
+  53              	    .func   __get_sctlr
+  54              	__get_sctlr:
+  55 0000 100F11EE 	    MRC  p15, 0, r0, c1, c0, 0      @;; SCTLR
+  56 0004 1EFF2FE1 	    BX  LR
+  57              	
+  58              	    .endfunc
+  59              	
+  60              	@******************************************************************************
+  61              	@ Function Name : __set_cpsr
+  62              	@ Description   : Set CPSR register
+  63              	@******************************************************************************
+  64              	    .section .text.__set_cpsr
+  65              	    .global __set_cpsr
+  67              	    .func   __set_cpsr
+  68              	__set_cpsr:
+  69 0000 00F029E1 	    MSR  cpsr, r0
+  70 0004 1EFF2FE1 	    BX  LR
+  71              	
+  72              	    .endfunc
+  73              	
+  74              	@******************************************************************************
+  75              	@ Function Name : __get_cpsr
+  76              	@ Description   : Get CPSR register
+  77              	@******************************************************************************
+  78              	    .section .text.__get_cpsr
+  79              	    .global __get_cpsr
+  81              	    .func   __get_cpsr
+  82              	__get_cpsr:
+  83 0000 00000FE1 	    MRS  r0, cpsr
+  84 0004 1EFF2FE1 	    BX  LR
+  85              	
+  86              	    .endfunc
+  87              	
+  88              	@******************************************************************************
+  89              	@ Function Name : __set_vbar
+  90              	@ Description   : Set VBAR register
+  91              	@******************************************************************************
+  92              	    .section .text.__set_vbar
+  93              	    .global __set_vbar
+  95              	    .func   __set_vbar
+  96              	__set_vbar:
+  97 0000 100F0CEE 	    MCR  p15, 0, r0, c12, c0, 0      @;; VBAR
+  98 0004 1EFF2FE1 	    BX  LR
+  99              	
+ 100              	    .endfunc
+ 101              	
+ 102              	@******************************************************************************
+ 103              	@ Function Name : __get_vbar
+ 104              	@ Description   : Get VBAR register
+ 105              	@******************************************************************************
+ 106              	    .section .text.__get_vbar
+ 107              	    .global __get_vbar
+ 109              	    .func   __get_vbar
+ 110              	
+ 111              	__get_vbar:
+ 112 0000 100F1CEE 	    MRC  p15, 0, r0, c12, c0, 0      @;; VBAR
+ 113 0004 1EFF2FE1 	    BX  LR
+ 114              	
+ 115              	    .endfunc
+ 116              	
+ 117              	@******************************************************************************
+ 118              	@ Function Name : __wfi
+ 119              	@ Description   : WFI
+ 120              	@******************************************************************************
+ 121              	    .section .text.__wfi
+ 122              	    .global __wfi
+ 124              	    .func   __wfi
+ 125              	
+ 126              	__wfi:
+ 127 0000 03F020E3 	    WFI
+ 128 0004 1EFF2FE1 	    BX  LR
+ 129              	
+ 130              	    .endfunc
+ 131              	
+ 132              	@******************************************************************************
+ 133              	@ Function Name : __isb
+ 134              	@ Description   : ISB
+ 135              	@******************************************************************************
+ 136              	    .section .text.__isb
+ 137              	    .global __isb
+ 139              	    .func   __isb
+ 140              	
+ 141              	__isb:
+ 142 0000 6FF07FF5 	    ISB
+ 143 0004 1EFF2FE1 	    BX  LR
+ 144              	
+ 145              	    .endfunc
+ 146              	
+ 147              	@******************************************************************************
+ 148              	@ Function Name : __dsb
+ 149              	@ Description   : DSB
+ 150              	@******************************************************************************
+ 151              	    .section .text.__dsb
+ 152              	    .global __dsb
+ 154              	    .func   __dsb
+ 155              	
+ 156              	__dsb:
+ 157 0000 4FF07FF5 	    DSB
+ 158 0004 1EFF2FE1 	    BX  LR
+ 159              	
+ 160              	    .endfunc
+ 161              	
+ 162              	@******************************************************************************
+ 163              	@ Function Name : __dmb
+ 164              	@ Description   : DMB
+ 165              	@******************************************************************************
+ 166              	    .section .text.__dmb
+ 167              	    .global __dmb
+ 169              	    .func   __dmb
+ 170              	
+ 171              	__dmb:
+ 172 0000 5FF07FF5 	    DMB
+ 173 0004 1EFF2FE1 	    BX  LR
+ 174              	
+ 175              	    .endfunc
+ 176              	
+ 177              	@******************************************************************************
+ 178              	@ Function Name : R_SoftwareDelay
+ 179              	@ Description   : delay loop
+ 180              	@******************************************************************************
+ 181              	    .section .text.R_SoftwareDelay
+ 182              	    .global R_SoftwareDelay
+ 184              	R_SoftwareDelay:
+ 185              	    .fnstart
+ 186 0000 000050E3 	    CMP r0, #0
+ 187 0004 1EFF2F01 	1:  BXEQ  LR
+ 188 0008 010050E2 	    SUBS  r0, r0, #1
+ 189 000c FCFFFFEA 	    B     1b
+ 191              	    .cantunwind
+ 192              	    .fnend
+ 193              	
+ 194              	    .end
+DEFINED SYMBOLS
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/cpu.asm:39     .text.__set_sctlr:00000000 __set_sctlr
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/cpu.asm:40     .text.__set_sctlr:00000000 $a
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/cpu.asm:54     .text.__get_sctlr:00000000 __get_sctlr
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/cpu.asm:55     .text.__get_sctlr:00000000 $a
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/cpu.asm:68     .text.__set_cpsr:00000000 __set_cpsr
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/cpu.asm:69     .text.__set_cpsr:00000000 $a
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/cpu.asm:82     .text.__get_cpsr:00000000 __get_cpsr
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/cpu.asm:83     .text.__get_cpsr:00000000 $a
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/cpu.asm:96     .text.__set_vbar:00000000 __set_vbar
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/cpu.asm:97     .text.__set_vbar:00000000 $a
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/cpu.asm:111    .text.__get_vbar:00000000 __get_vbar
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/cpu.asm:112    .text.__get_vbar:00000000 $a
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/cpu.asm:126    .text.__wfi:00000000 __wfi
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/cpu.asm:127    .text.__wfi:00000000 $a
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/cpu.asm:141    .text.__isb:00000000 __isb
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/cpu.asm:142    .text.__isb:00000000 $a
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/cpu.asm:156    .text.__dsb:00000000 __dsb
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/cpu.asm:157    .text.__dsb:00000000 $a
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/cpu.asm:171    .text.__dmb:00000000 __dmb
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/cpu.asm:172    .text.__dmb:00000000 $a
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/cpu.asm:184    .text.R_SoftwareDelay:00000000 R_SoftwareDelay
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/cpu.asm:186    .text.R_SoftwareDelay:00000000 $a
+  .ARM.exidx.text.R_SoftwareDelay:00000000 $d
+
+NO UNDEFINED SYMBOLS

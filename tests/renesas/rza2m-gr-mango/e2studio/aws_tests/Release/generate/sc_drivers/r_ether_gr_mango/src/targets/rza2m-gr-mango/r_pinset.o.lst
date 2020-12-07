@@ -1,0 +1,187 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"r_pinset.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.R_ETHER_PinSet_ETHERC_RMII,"ax",%progbits
+  17              		.align	2
+  18              		.global	R_ETHER_PinSet_ETHERC_RMII
+  19              		.syntax unified
+  20              		.arm
+  21              		.fpu neon
+  23              	R_ETHER_PinSet_ETHERC_RMII:
+  24              	.LFB1:
+  25              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/cor
+   1:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** /**************************************************************************************************
+   2:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****  * DISCLAIMER
+   3:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****  * This software is supplied by Renesas Electronics Corporation and is only intended for use with R
+   4:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****  * other uses are authorized. This software is owned by Renesas Electronics Corporation and is prot
+   5:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****  * applicable laws, including copyright laws.
+   6:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****  * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   7:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****  * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF
+   8:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****  * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAI
+   9:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****  * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS A
+  10:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****  * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY R
+  11:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****  * THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DA
+  12:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****  * Renesas reserves the right, without notice, to make changes to this software and to discontinue 
+  13:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****  * this software. By using this software, you agree to the additional terms and conditions found by
+  14:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****  * following link:
+  15:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****  * http://www.renesas.com/disclaimer
+  16:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****  *
+  17:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****  * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+  18:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****  **************************************************************************************************
+  19:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** 
+  20:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** /**************************************************************************************************
+  21:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** * File Name    : r_pinset.c
+  22:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** * Version      : 1.01
+  23:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** * Device(s)    : R7S921053
+  24:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** * Tool-Chain   : GCC
+  25:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** * Description  : Setting of port and mpc registers
+  26:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** * Creation Date: 2018-12-06
+  27:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** ***************************************************************************************************
+  28:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** 
+  29:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** /**************************************************************************************************
+  30:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** Includes
+  31:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** ***************************************************************************************************
+  32:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** #include "r_pinset.h"
+  33:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** #include "iodefine.h"
+  34:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** #include "r_ether_drv_sc_cfg.h"
+  35:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** #include "driver.h"              /* Device Driver common header */
+  36:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** 
+  37:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** /**************************************************************************************************
+  38:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** Global variables and functions
+  39:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** ***************************************************************************************************
+  40:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** /**************************************************************************************************
+  41:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** * Function Name: R_ETHER_PinSet_ETHERC_RMII
+  42:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** * Description  : This function initializes pins for r_ether_rza2 module
+  43:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** * Arguments    : none
+  44:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** * Return Value : none
+  45:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** ***************************************************************************************************
+  46:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** void R_ETHER_PinSet_ETHERC_RMII(void)
+  47:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** {
+  26              		.loc 1 47 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30 0000 70402DE9 		push	{r4, r5, r6, lr}
+  31              		.cfi_def_cfa_offset 16
+  32              		.cfi_offset 4, -16
+  33              		.cfi_offset 5, -12
+  34              		.cfi_offset 6, -8
+  35              		.cfi_offset 14, -4
+  48:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****     /* NULL type is (void*) */
+  49:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****     if ((g_ether_sc_table[0].pin.p_config_table != NULL) && (g_ether_sc_table[0].pin.count > 0))
+  36              		.loc 1 49 0
+  37 0004 44409FE5 		ldr	r4, .L12
+  38 0008 283094E5 		ldr	r3, [r4, #40]
+  39 000c 000053E3 		cmp	r3, #0
+  40 0010 7080BD08 		popeq	{r4, r5, r6, pc}
+  41              		.loc 1 49 0 is_stmt 0 discriminator 1
+  42 0014 2C3094E5 		ldr	r3, [r4, #44]
+  43 0018 000053E3 		cmp	r3, #0
+  44 001c 7080BD08 		popeq	{r4, r5, r6, pc}
+  45              	.LVL0:
+  46              	.LBB2:
+  50:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****     {
+  51:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****         int_t gpio_handle = (-1);
+  52:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****         gpio_handle = direct_open("gpio", 0);
+  47              		.loc 1 52 0 is_stmt 1
+  48 0020 0010A0E3 		mov	r1, #0
+  49 0024 28009FE5 		ldr	r0, .L12+4
+  50 0028 FEFFFFEB 		bl	direct_open
+  51              	.LVL1:
+  53:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** 
+  54:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****         if ((-1) != gpio_handle)
+  52              		.loc 1 54 0
+  53 002c 010070E3 		cmn	r0, #1
+  52:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** 
+  54              		.loc 1 52 0
+  55 0030 0050A0E1 		mov	r5, r0
+  56              	.LVL2:
+  57              		.loc 1 54 0
+  58 0034 7080BD08 		popeq	{r4, r5, r6, pc}
+  55:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****         {
+  56:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****             /* direct_control as direct_control assumes parameter 3 is i/o,
+  57:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****              * but using the parameter in input only mode is acceptable */
+  58:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****             direct_control(gpio_handle,
+  59              		.loc 1 58 0
+  60 0038 282084E2 		add	r2, r4, #40
+  61 003c 0410A0E3 		mov	r1, #4
+  62 0040 FEFFFFEB 		bl	direct_control
+  63              	.LVL3:
+  59:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****                             CTL_GPIO_INIT_BY_TABLE,
+  60:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** 
+  61:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****                             /* cast to (st_r_drv_gpio_pin_init_table_t *) */
+  62:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****                             (st_r_drv_gpio_pin_init_table_t *) &g_ether_sc_table[0].pin);
+  63:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****             direct_close(gpio_handle);
+  64              		.loc 1 63 0
+  65 0044 0500A0E1 		mov	r0, r5
+  66              	.LBE2:
+  64:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****         }
+  65:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****     }
+  66:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c **** }  /* End of function R_ETHER_PinSet_ETHERC_RMII() */
+  67              		.loc 1 66 0
+  68 0048 7040BDE8 		pop	{r4, r5, r6, lr}
+  69              		.cfi_restore 14
+  70              		.cfi_restore 6
+  71              		.cfi_restore 5
+  72              		.cfi_restore 4
+  73              		.cfi_def_cfa_offset 0
+  74              	.LVL4:
+  75              	.LBB3:
+  63:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ether_gr_mango/src/targets/rza2m-gr-mango\r_pinset.c ****         }
+  76              		.loc 1 63 0
+  77 004c FEFFFFEA 		b	direct_close
+  78              	.LVL5:
+  79              	.L13:
+  80              		.align	2
+  81              	.L12:
+  82 0050 00000000 		.word	g_ether_sc_table
+  83 0054 00000000 		.word	.LC0
+  84              	.LBE3:
+  85              		.cfi_endproc
+  86              	.LFE1:
+  88              		.section	.rodata.R_ETHER_PinSet_ETHERC_RMII.str1.1,"aMS",%progbits,1
+  89              	.LC0:
+  90 0000 6770696F 		.ascii	"gpio\000"
+  90      00
+  91              		.text
+  92              	.Letext0:
+  93              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+  94              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+  95              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+  96              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+  97              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+  98              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+  99              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 100              		.file 9 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_bo
+ 101              		.file 10 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 102              		.file 11 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 103              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 104              		.file 13 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 105              		.file 14 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 106              		.file 15 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 107              		.file 16 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 108              		.file 17 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+DEFINED SYMBOLS
+                            *ABS*:00000000 r_pinset.c
+C:\Users\a5089698\AppData\Local\Temp\ccJa7Bla.s:17     .text.R_ETHER_PinSet_ETHERC_RMII:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJa7Bla.s:23     .text.R_ETHER_PinSet_ETHERC_RMII:00000000 R_ETHER_PinSet_ETHERC_RMII
+C:\Users\a5089698\AppData\Local\Temp\ccJa7Bla.s:82     .text.R_ETHER_PinSet_ETHERC_RMII:00000050 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+direct_open
+direct_control
+direct_close
+g_ether_sc_table

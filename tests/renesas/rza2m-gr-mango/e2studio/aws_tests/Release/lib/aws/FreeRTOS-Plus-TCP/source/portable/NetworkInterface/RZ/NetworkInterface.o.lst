@@ -1,0 +1,1353 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"NetworkInterface.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.check_ether_link,"ax",%progbits
+  17              		.align	2
+  18              		.syntax unified
+  19              		.arm
+  20              		.fpu neon
+  22              	check_ether_link:
+  23              	.LFB36:
+  24              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterfa
+   1:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** /**************************************************************************************************
+   2:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * DISCLAIMER
+   3:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * This software is supplied by Renesas Electronics Corporation and is only intended for use with R
+   4:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * other uses are authorized. This software is owned by Renesas Electronics Corporation and is prot
+   5:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * applicable laws, including copyright laws.
+   6:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   7:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF
+   8:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAI
+   9:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS A
+  10:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY R
+  11:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DA
+  12:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Renesas reserves the right, without notice, to make changes to this software and to discontinue 
+  13:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * this software. By using this software, you agree to the additional terms and conditions found by
+  14:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * following link:
+  15:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * http://www.renesas.com/disclaimer
+  16:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  *
+  17:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+  18:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  **************************************************************************************************
+  19:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+  20:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** /**************************************************************************************************
+  21:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** * File Name    : NetworkInterface.c
+  22:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** * Device(s)    : RX
+  23:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** * Description  : Interfaces FreeRTOS TCP/IP stack to RX Ethernet driver.
+  24:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** ***************************************************************************************************
+  25:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** /**************************************************************************************************
+  26:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** * History : DD.MM.YYYY Version  Description
+  27:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** *         : 07.03.2018 0.1     Development
+  28:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** ***************************************************************************************************
+  29:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** /**************************************************************************************************
+  30:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** Includes   <System Includes> , "Project Includes"
+  31:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** ***************************************************************************************************
+  32:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** #include <stdint.h>
+  33:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** #include <stdio.h>
+  34:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** #include <stdlib.h>
+  35:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** #include <string.h>
+  36:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+  37:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** /* FreeRTOS includes. */
+  38:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** #include "FreeRTOS.h"
+  39:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** #include "task.h"
+  40:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** #include "FreeRTOS_IP.h"
+  41:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** #include "FreeRTOS_IP_Private.h"
+  42:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** #include "NetworkBufferManagement.h"
+  43:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** #include "NetworkInterface.h"
+  44:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+  45:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** /* Renesas */
+  46:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** #include "r_ether_rza2_if.h"
+  47:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** #include "r_pinset.h"
+  48:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** #include "r_compiler_abstraction_api.h"
+  49:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+  50:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+  51:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+  52:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+  53:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** /**************************************************************************************************
+  54:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  Macro definitions
+  55:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  **************************************************************************************************
+  56:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** #define R_NOP() R_COMPILER_Nop()
+  57:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** #define ACTIVE_ETHER_CHANNEL ETHER_CHANNEL_1
+  58:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** #define ETHER_BUFSIZE_MIN (60)
+  59:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+  60:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** /**************************************************************************************************
+  61:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  Private global variables and functions
+  62:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  **************************************************************************************************
+  63:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** extern int32_t callback_ether_regist();
+  64:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+  65:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** static TaskHandle_t ether_receive_check_task_handle = 0;
+  66:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** static TaskHandle_t ether_link_check_task_handle = 0;
+  67:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+  68:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     /* set NULL as inital value */
+  69:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** static TaskHandle_t xTaskToNotify = NULL;
+  70:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** static TimerHandle_t timer_handle;
+  71:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** static uint32_t timer_id;
+  72:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+  73:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** static uint32_t tcpudp_time_cnt;
+  74:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+  75:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+  76:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** static int16_t send_data( uint8_t *pucBuffer, size_t length );
+  77:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** static BaseType_t initialize_network(void);
+  78:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** static void check_ether_link(void * pvParameters);
+  79:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** static void prvEMACDeferredInterruptHandlerTask( void *pvParameters );
+  80:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** static void clear_all_ether_rx_discriptors(uint32_t event);
+  81:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+  82:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** /**************************************************************************************************
+  83:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Function Name: xNetworkInterfaceInitialise ()
+  84:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Description  : Initialization of Ethernet driver.
+  85:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Arguments    : none
+  86:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Return Value : pdPASS, pdFAIL
+  87:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  **************************************************************************************************
+  88:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** BaseType_t xNetworkInterfaceInitialise( void )  __attribute((weak));
+  89:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** BaseType_t xNetworkInterfaceInitialise( void )
+  90:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** {
+  91:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     BaseType_t x_return;
+  92:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+  93:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     /*
+  94:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****      * Perform the hardware specific network initialization here using the Ethernet driver library 
+  95:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****      * Ethernet hardware, initialize DMA descriptors, and perform a PHY auto-negotiation to obtain 
+  96:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****      *
+  97:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****      * InitialiseNetwork() uses Ethernet peripheral driver library function, and returns 0 if the i
+  98:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****      */
+  99:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     if( initialize_network() == pdFALSE )
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         /* returns FAIL */
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         x_return = pdFAIL;
+ 103:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     }
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     else
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         /* returns PASS */
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         x_return = pdPASS;
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     }
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 110:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     return x_return;
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** } /* End of function xNetworkInterfaceInitialise() */
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** /**************************************************************************************************
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Function Name: xNetworkInterfaceOutput ()
+ 116:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Description  : Simple network output interface.
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Arguments    : pxDescriptor, xReleaseAfterSend
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Return Value : pdTRUE, pdFALSE
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  **************************************************************************************************
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** BaseType_t xNetworkInterfaceOutput( NetworkBufferDescriptor_t * const pxDescriptor, BaseType_t xRel
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** BaseType_t xNetworkInterfaceOutput( NetworkBufferDescriptor_t * const pxDescriptor, BaseType_t xRel
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** {
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     /* Simple network interfaces (as opposed to more efficient zero copy network
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     interfaces) just use Ethernet peripheral driver library functions to copy
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     data from the FreeRTOS+TCP buffer into the peripheral driver's own buffer.
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     This example assumes send_data() is a peripheral driver library function that
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     takes a pointer to the start of the data to be sent and the length of the
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     data to be sent as two separate parameters.  The start of the data is located
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     by pxDescriptor->pucEthernetBuffer.  The length of the data is located
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     by pxDescriptor->xDataLength. */
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     if(0  > send_data( pxDescriptor->pucEthernetBuffer, pxDescriptor->xDataLength ))
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         vReleaseNetworkBufferAndDescriptor( pxDescriptor );
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         /* set FALSE */
+ 136:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         return pdFALSE;
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     }
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 139:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     /* Call the standard trace macro to log the send event. */
+ 140:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     iptraceNETWORK_INTERFACE_TRANSMIT();
+ 141:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 142:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     /* check argument */
+ 143:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     if( xReleaseAfterSend != pdFALSE )
+ 144:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         /* It is assumed send_data() copies the data out of the FreeRTOS+TCP Ethernet
+ 146:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         buffer.  The Ethernet buffer is therefore no longer needed, and must be
+ 147:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         freed for re-use. */
+ 148:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         vReleaseNetworkBufferAndDescriptor( pxDescriptor );
+ 149:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     }
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 151:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     /* Succeed */
+ 152:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     return pdTRUE;
+ 153:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** } /* End of function xNetworkInterfaceOutput() */
+ 154:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 156:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** /**************************************************************************************************
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Function Name: prvEMACDeferredInterruptHandlerTask ()
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Description  : The deferred interrupt handler is a standard RTOS task.
+ 159:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Arguments    : pvParameters
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Return Value : none
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  **************************************************************************************************
+ 162:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** static void prvEMACDeferredInterruptHandlerTask( void *pvParameters )
+ 163:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** {
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     NetworkBufferDescriptor_t *p_px_buffer_descriptor;
+ 165:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     int32_t xbytes_received;
+ 166:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 167:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     /* Used to indicate that xSendEventStructToIPTask() is being called because of an Ethernet rece
+ 168:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     IPStackEvent_t x_rx_event;
+ 169:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 170:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     uint8_t *p_buffer_pointer;
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 172:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     for( ;; )
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         xTaskToNotify = ether_receive_check_task_handle;
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 176:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         /* Wait for the Ethernet MAC interrupt to indicate that another packet
+ 177:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         has been received.  */
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         ulTaskNotifyTake( pdFALSE, portMAX_DELAY );
+ 179:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 180:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         while(1)
+ 181:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         {
+ 182:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****             /* See how much data was received.  */
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****             xbytes_received = R_ETHER_Read_ZC2(ACTIVE_ETHER_CHANNEL, (void **)&p_buffer_pointer);
+ 184:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 185:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****             if( xbytes_received < 0 )
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****             {
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                 /* This is an error. Ignored. */
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                 break;
+ 189:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****             }
+ 190:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****             else if( xbytes_received > 0 )
+ 191:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****             {
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                 /* Allocate a network buffer descriptor that points to a buffer
+ 193:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                 large enough to hold the received frame.  As this is the simple
+ 194:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                 rather than efficient example the received data will just be copied
+ 195:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                 into this buffer. */
+ 196:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                 p_px_buffer_descriptor = pxGetNetworkBufferWithDescriptor( (size_t)xbytes_received,
+ 197:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 198:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                 /* check the result */
+ 199:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                 if( p_px_buffer_descriptor != NULL )
+ 200:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                 {
+ 201:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     /* p_px_buffer_descriptor->pucEthernetBuffer now points to an Ethernet
+ 202:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     buffer large enough to hold the received data.  Copy the
+ 203:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     received data into pcNetworkBuffer->pucEthernetBuffer.  Here it
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     is assumed ReceiveData() is a peripheral driver function that
+ 205:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     copies the received data into a buffer passed in as the function's
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     parameter.  Remember! While is is a simple robust technique -
+ 207:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     it is not efficient.  An example that uses a zero copy technique
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     is provided further down this page. */
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     memcpy(p_px_buffer_descriptor->pucEthernetBuffer, p_buffer_pointer, (size_t)xby
+ 210:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     #if NOT_USED
+ 211:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     ReceiveData( p_px_buffer_descriptor->pucEthernetBuffer );
+ 212:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     #endif
+ 213:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 214:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     /* Set the actual packet length, in case a larger buffer was returned. */
+ 215:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     p_px_buffer_descriptor->xDataLength = (size_t)xbytes_received;
+ 216:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 217:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     R_ETHER_Read_ZC2_BufRelease(ACTIVE_ETHER_CHANNEL);
+ 218:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 219:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     /* See if the data contained in the received Ethernet frame needs
+ 220:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     to be processed.  NOTE! It is preferable to do this in
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     the interrupt service routine itself, which would remove the need
+ 222:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     to unblock this task for packets that don't need processing. */
+ 223:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     if( eConsiderFrameForProcessing( p_px_buffer_descriptor->pucEthernetBuffer ) ==
+ 224:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     {
+ 225:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                         /* The event about to be sent to the TCP/IP is an Rx event. */
+ 226:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                         x_rx_event.eEventType = eNetworkRxEvent;
+ 227:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 228:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                         /* pvData is used to point to the network buffer descriptor that
+ 229:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                         now references the received data. */
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                         x_rx_event.pvData = ( void * ) p_px_buffer_descriptor;
+ 231:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 232:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                         /* Send the data to the TCP/IP stack. */
+ 233:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                         if( xSendEventStructToIPTask( &x_rx_event, 0 ) == pdFALSE )
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                         {
+ 235:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                             /* The buffer could not be sent to the IP task so the buffer must be re
+ 236:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                             vReleaseNetworkBufferAndDescriptor( p_px_buffer_descriptor );
+ 237:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 238:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                             /* Make a call to the standard trace macro to log the occurrence. */
+ 239:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                             iptraceETHERNET_RX_EVENT_LOST();
+ 240:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                             clear_all_ether_rx_discriptors(0);
+ 241:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                         }
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                         else
+ 243:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                         {
+ 244:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                             /* The message was successfully sent to the TCP/IP stack.
+ 245:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                             Call the standard trace macro to log the occurrence. */
+ 246:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                             iptraceNETWORK_INTERFACE_RECEIVE();
+ 247:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                             R_NOP();
+ 248:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                         }
+ 249:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     }
+ 250:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     else
+ 251:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     {
+ 252:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                         /* The Ethernet frame can be dropped, but the Ethernet buffer must be relea
+ 253:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                         vReleaseNetworkBufferAndDescriptor( p_px_buffer_descriptor );
+ 254:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     }
+ 255:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                 }
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                 else
+ 257:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                 {
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     /* The event was lost because a network buffer was not available.
+ 259:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     Call the standard trace macro to log the occurrence. */
+ 260:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     iptraceETHERNET_RX_EVENT_LOST();
+ 261:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     clear_all_ether_rx_discriptors(1);
+ 262:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                 }
+ 263:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****             }
+ 264:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****             else
+ 265:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****             {
+ 266:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                 /* nothing is received */
+ 267:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                 break;
+ 268:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****             }
+ 269:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         }
+ 270:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     }
+ 271:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** } /* End of function prvEMACDeferredInterruptHandlerTask() */
+ 272:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 273:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 274:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** /**************************************************************************************************
+ 275:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Function Name: xApplicationDNSQueryHook ()
+ 276:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Description  :
+ 277:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Arguments    : pcName string pointer
+ 278:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Return Value :
+ 279:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  **************************************************************************************************
+ 280:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** BaseType_t xApplicationDNSQueryHook(const char *pcName )
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** {
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     return strcmp( pcName, "RZA2M" ); //TODO complete stub function
+ 283:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** } /* End of function xApplicationDNSQueryHook() */
+ 284:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 285:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 286:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** /**************************************************************************************************
+ 287:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Function Name: vNetworkInterfaceAllocateRAMToBuffers ()
+ 288:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Description  : .
+ 289:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Arguments    : pxNetworkBuffers
+ 290:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Return Value : none
+ 291:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  **************************************************************************************************
+ 292:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** void vNetworkInterfaceAllocateRAMToBuffers( 
+ 293:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         NetworkBufferDescriptor_t pxNetworkBuffers[ ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS ] )
+ 294:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** {
+ 295:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     uint32_t ul;
+ 296:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     uint8_t *p_buffer_address;
+ 297:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 298:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** #if defined(__CCRX__)
+ 299:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     p_buffer_address = __sectop("B_ETHERNET_BUFFERS_1");
+ 300:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** #elif defined(__GNUC__)
+ 301:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     extern void *__sectop__ETHERNET_BUFFERS;
+ 302:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     p_buffer_address = __sectop__ETHERNET_BUFFERS;
+ 303:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** #elif defined(__ICCRX__)
+ 304:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     p_buffer_address = __section_begin("_ETHERNET_BUFFERS");
+ 305:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** #endif
+ 306:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 307:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     for( ul = 0; ul < ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS; ul++ )
+ 308:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 309:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         pxNetworkBuffers[ul].pucEthernetBuffer = (p_buffer_address + (ETHER_CFG_BUFSIZE * ul));
+ 310:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     }
+ 311:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** }  /* End of function vNetworkInterfaceAllocateRAMToBuffers() */
+ 312:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 313:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 314:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** /**************************************************************************************************
+ 315:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Function Name: initialize_network ()
+ 316:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Description  :
+ 317:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Arguments    : none
+ 318:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Return Value : pdTRUE, pdFALSE
+ 319:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  **************************************************************************************************
+ 320:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** static BaseType_t initialize_network( void )
+ 321:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** {
+ 322:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     ether_return_t eth_ret;
+ 323:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 324:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     /* set initial value */
+ 325:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     BaseType_t return_code = pdFALSE;
+ 326:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     ether_param_t   param;
+ 327:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     uint8_t myethaddr[6] =
+ 328:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 329:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         configMAC_ADDR0,
+ 330:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         configMAC_ADDR1,
+ 331:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         configMAC_ADDR2,
+ 332:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         configMAC_ADDR3,
+ 333:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         configMAC_ADDR4,
+ 334:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         configMAC_ADDR5
+ 335:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     };
+ 336:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 337:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     R_ETHER_PinSet_ETHERC_RMII();       /* RZ/A2M RTK */
+ 338:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 339:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     R_ETHER_Initial();
+ 340:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     callback_ether_regist();
+ 341:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 342:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     param.channel = ETHER_CHANNEL_1;
+ 343:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     eth_ret = R_ETHER_Control(CONTROL_POWER_ON, param);        /* PHY mode settings, module stop ca
+ 344:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 345:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     if (ETHER_SUCCESS != eth_ret)
+ 346:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 347:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         /* FALSE */
+ 348:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         return pdFALSE;
+ 349:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     }
+ 350:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 351:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     eth_ret = R_ETHER_Open_ZC2(param.channel, myethaddr, ETHER_FLAG_OFF);
+ 352:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 353:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     if (ETHER_SUCCESS != eth_ret)
+ 354:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 355:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         /* FALSE */
+ 356:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         return pdFALSE;
+ 357:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     }
+ 358:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 359:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     return_code = xTaskCreate(prvEMACDeferredInterruptHandlerTask,
+ 360:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                                 "ETHER_RECEIVE_CHECK_TASK",
+ 361:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 362:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                                 /* use small stack size */
+ 363:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                                 configSMALL_STACK_SIZE,
+ 364:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                                 0,
+ 365:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                                 configMAX_PRIORITIES,
+ 366:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                                 &ether_receive_check_task_handle);
+ 367:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 368:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     /* Check the result */
+ 369:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     if (pdFALSE == return_code)
+ 370:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 371:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         /* FALSE */
+ 372:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         return pdFALSE;
+ 373:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     }
+ 374:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 375:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     do
+ 376:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 377:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         eth_ret = R_ETHER_CheckLink_ZC(param.channel);
+ 378:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     } while(ETHER_SUCCESS != eth_ret);
+ 379:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 380:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     return_code = xTaskCreate(check_ether_link,
+ 381:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                                 "CHECK_ETHER_LINK_TIMER",
+ 382:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 383:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                                 /* set small stack */
+ 384:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                                 configSMALL_STACK_SIZE,
+ 385:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                                 0,
+ 386:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                                 configMAX_PRIORITIES,
+ 387:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                                 &ether_link_check_task_handle);
+ 388:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 389:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     /* check the result */
+ 390:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     if (pdFALSE == return_code)
+ 391:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 392:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         /* set FALSE */
+ 393:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         return pdFALSE;
+ 394:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     }
+ 395:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 396:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     /* set TRUE */
+ 397:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     return pdTRUE;
+ 398:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** } /* End of function initialize_network() */
+ 399:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 400:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 401:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** /**************************************************************************************************
+ 402:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Function Name: send_data ()
+ 403:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Description  :
+ 404:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Arguments    : pucBuffer, length
+ 405:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Return Value : 0 success, negative fail
+ 406:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  **************************************************************************************************
+ 407:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** static int16_t send_data( uint8_t *pucBuffer, size_t length )//TODO complete stub function
+ 408:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** {
+ 409:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     ether_return_t ret;
+ 410:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     uint8_t * p_write_buffer;
+ 411:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     uint16_t write_buf_size;
+ 412:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 413:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     /* (1) Retrieve the transmit buffer location controlled by the  descriptor. */
+ 414:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     ret = R_ETHER_Write_ZC2_GetBuf(ACTIVE_ETHER_CHANNEL, (void **) &p_write_buffer, &write_buf_size
+ 415:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 416:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     if (ETHER_SUCCESS == ret)
+ 417:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 418:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         if (write_buf_size >= length)
+ 419:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         {
+ 420:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****             /* copy buffer */
+ 421:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****             memcpy((void *)p_write_buffer, pucBuffer, length);
+ 422:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         }
+ 423:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         if (length < ETHER_BUFSIZE_MIN)                                         /*under minimum*/
+ 424:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         {
+ 425:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****             memset((p_write_buffer + length), 0, (ETHER_BUFSIZE_MIN - length));  /*padding*/
+ 426:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****             length = ETHER_BUFSIZE_MIN;                                         /*resize*/
+ 427:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         }
+ 428:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 429:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         /* write data */
+ 430:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         ret = R_ETHER_Write_ZC2_SetBuf(ACTIVE_ETHER_CHANNEL, (uint16_t)length);
+ 431:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         ret = R_ETHER_CheckWrite(ACTIVE_ETHER_CHANNEL);
+ 432:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     }
+ 433:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 434:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     if (ETHER_SUCCESS != ret)
+ 435:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 436:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         return -5;
+ 437:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     }
+ 438:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     else
+ 439:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 440:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         return 0;
+ 441:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     }
+ 442:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** } /* End of function send_data() */
+ 443:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 444:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 445:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** /**************************************************************************************************
+ 446:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** * Function Name: EINT_Trig_isr
+ 447:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** * Description  : Standard frame received interrupt handler
+ 448:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** * Arguments    : ectrl - EDMAC and ETHERC control structure
+ 449:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** * Return Value : None
+ 450:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** * Note         : This callback function is executed when EINT0 interrupt occurred.
+ 451:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** ***************************************************************************************************
+ 452:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** void EINT_Trig_isr(void *ectrl)
+ 453:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** {
+ 454:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     /* set the initial values */
+ 455:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     BaseType_t x_higher_priority_task_woken = pdFALSE;
+ 456:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     ether_cb_arg_t *p_decode;
+ 457:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 458:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     /* set temporary pointer */
+ 459:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     p_decode = (ether_cb_arg_t*)ectrl;
+ 460:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 461:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     if (p_decode->status_eesr & 0x00040000)// EDMAC FR (Frame Receive Event) interrupt
+ 462:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 463:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         /* Check where this function is called from? */
+ 464:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         if(xTaskToNotify != NULL)
+ 465:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         {
+ 466:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****             vTaskNotifyGiveFromISR(ether_receive_check_task_handle, &x_higher_priority_task_woken);
+ 467:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         }
+ 468:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         /* If x_higher_priority_task_woken is now set to pdTRUE then a context switch
+ 469:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         should be performed to ensure the interrupt returns directly to the highest
+ 470:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         priority task.  The macro used for this purpose is dependent on the port in
+ 471:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         use and may be called portEND_SWITCHING_ISR(). */
+ 472:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         portYIELD_FROM_ISR( x_higher_priority_task_woken );
+ 473:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     }
+ 474:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** } /* End of function EINT_Trig_isr() */
+ 475:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 476:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 477:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** /**************************************************************************************************
+ 478:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Function Name: check_ether_link ()
+ 479:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Description  : Checks status of Ethernet link channel 0. Should be executed on a periodic basis.
+ 480:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Arguments    : none
+ 481:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Return Value : none
+ 482:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  **************************************************************************************************
+ 483:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** static void check_ether_link(void * pvParameters)
+ 484:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** {
+  25              		.loc 1 484 0
+  26              		.cfi_startproc
+  27              		@ Volatile: function does not return.
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              	.LVL0:
+  31 0000 10402DE9 		push	{r4, lr}
+  32              		.cfi_def_cfa_offset 8
+  33              		.cfi_offset 4, -8
+  34              		.cfi_offset 14, -4
+  35              	.LVL1:
+  36              	.L2:
+ 485:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     /* unused argument */
+ 486:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     (void)pvParameters;
+ 487:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 488:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     while(1)
+ 489:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 490:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         vTaskDelay(1000);
+  37              		.loc 1 490 0 discriminator 1
+  38 0004 FA0FA0E3 		mov	r0, #1000
+  39 0008 FEFFFFEB 		bl	vTaskDelay
+  40              	.LVL2:
+ 491:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         R_ETHER_LinkProcess(ACTIVE_ETHER_CHANNEL);
+  41              		.loc 1 491 0 discriminator 1
+  42 000c 0100A0E3 		mov	r0, #1
+  43 0010 FEFFFFEB 		bl	R_ETHER_LinkProcess
+  44              	.LVL3:
+  45 0014 FAFFFFEA 		b	.L2
+  46              		.cfi_endproc
+  47              	.LFE36:
+  49              		.section	.text.clear_all_ether_rx_discriptors.isra.0,"ax",%progbits
+  50              		.align	2
+  51              		.syntax unified
+  52              		.arm
+  53              		.fpu neon
+  55              	clear_all_ether_rx_discriptors.isra.0:
+  56              	.LFB38:
+ 492:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     }
+ 493:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** } /* End of function check_ether_link() */
+ 494:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 495:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** /**************************************************************************************************
+ 496:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Function Name: clear_all_ether_rx_discriptors ()
+ 497:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Description  : Clear all Ether RX descriptors
+ 498:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Arguments    : event
+ 499:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  * Return Value : none
+ 500:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****  **************************************************************************************************
+ 501:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** static void clear_all_ether_rx_discriptors(uint32_t event)
+  57              		.loc 1 501 0
+  58              		.cfi_startproc
+  59              		@ args = 0, pretend = 0, frame = 8
+  60              		@ frame_needed = 0, uses_anonymous_args = 0
+  61 0000 07402DE9 		push	{r0, r1, r2, lr}
+  62              		.cfi_def_cfa_offset 16
+  63              		.cfi_offset 14, -4
+  64              	.L5:
+ 502:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** {
+ 503:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     int32_t xbytes_received;
+ 504:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     uint8_t *p_buffer_pointer;
+ 505:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 506:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     while(1)
+ 507:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 508:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         /* See how much data was received.  */
+ 509:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         xbytes_received = R_ETHER_Read_ZC2(ACTIVE_ETHER_CHANNEL, (void **)&p_buffer_pointer);
+  65              		.loc 1 509 0
+  66 0004 04108DE2 		add	r1, sp, #4
+  67 0008 0100A0E3 		mov	r0, #1
+  68 000c FEFFFFEB 		bl	R_ETHER_Read_ZC2
+  69              	.LVL4:
+ 510:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         if(0 > xbytes_received)
+  70              		.loc 1 510 0
+  71 0010 000050E3 		cmp	r0, #0
+  72 0014 FAFFFFBA 		blt	.L5
+ 511:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         {
+ 512:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****             /* This is an error. Ignored. */
+ 513:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         }
+ 514:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         else if(0 < xbytes_received)
+  73              		.loc 1 514 0
+  74 0018 0200000A 		beq	.L4
+ 515:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         {
+ 516:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****             R_ETHER_Read_ZC2_BufRelease(ACTIVE_ETHER_CHANNEL);
+  75              		.loc 1 516 0
+  76 001c 0100A0E3 		mov	r0, #1
+  77              	.LVL5:
+  78 0020 FEFFFFEB 		bl	R_ETHER_Read_ZC2_BufRelease
+  79              	.LVL6:
+  80 0024 F6FFFFEA 		b	.L5
+  81              	.LVL7:
+  82              	.L4:
+ 517:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****             iptraceETHERNET_RX_EVENT_LOST();
+ 518:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         }
+ 519:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         else
+ 520:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         {
+ 521:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****             break;
+ 522:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         }
+ 523:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     }
+ 524:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** }
+  83              		.loc 1 524 0
+  84 0028 0CD08DE2 		add	sp, sp, #12
+  85              		.cfi_def_cfa_offset 4
+  86              		@ sp needed
+  87 002c 04F09DE4 		ldr	pc, [sp], #4
+  88              		.cfi_endproc
+  89              	.LFE38:
+  91              		.section	.text.prvEMACDeferredInterruptHandlerTask,"ax",%progbits
+  92              		.align	2
+  93              		.syntax unified
+  94              		.arm
+  95              		.fpu neon
+  97              	prvEMACDeferredInterruptHandlerTask:
+  98              	.LFB30:
+ 163:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     NetworkBufferDescriptor_t *p_px_buffer_descriptor;
+  99              		.loc 1 163 0
+ 100              		.cfi_startproc
+ 101              		@ args = 0, pretend = 0, frame = 16
+ 102              		@ frame_needed = 0, uses_anonymous_args = 0
+ 103              	.LVL8:
+ 104 0000 F0402DE9 		push	{r4, r5, r6, r7, lr}
+ 105              		.cfi_def_cfa_offset 20
+ 106              		.cfi_offset 4, -20
+ 107              		.cfi_offset 5, -16
+ 108              		.cfi_offset 6, -12
+ 109              		.cfi_offset 7, -8
+ 110              		.cfi_offset 14, -4
+ 111 0004 14D04DE2 		sub	sp, sp, #20
+ 112              		.cfi_def_cfa_offset 40
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 113              		.loc 1 174 0
+ 114 0008 A4609FE5 		ldr	r6, .L19
+ 115 000c A4709FE5 		ldr	r7, .L19+4
+ 116              	.LVL9:
+ 117              	.L12:
+ 118 0010 003097E5 		ldr	r3, [r7]
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 119              		.loc 1 178 0
+ 120 0014 0010E0E3 		mvn	r1, #0
+ 121 0018 0000A0E3 		mov	r0, #0
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 122              		.loc 1 174 0
+ 123 001c 003086E5 		str	r3, [r6]
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 124              		.loc 1 178 0
+ 125 0020 FEFFFFEB 		bl	ulTaskNotifyTake
+ 126              	.LVL10:
+ 127              	.L11:
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 128              		.loc 1 183 0
+ 129 0024 04108DE2 		add	r1, sp, #4
+ 130 0028 0100A0E3 		mov	r0, #1
+ 131 002c FEFFFFEB 		bl	R_ETHER_Read_ZC2
+ 132              	.LVL11:
+ 190:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****             {
+ 133              		.loc 1 190 0
+ 134 0030 005050E2 		subs	r5, r0, #0
+ 135 0034 F5FFFFDA 		ble	.L12
+ 196:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 136              		.loc 1 196 0
+ 137 0038 0010A0E3 		mov	r1, #0
+ 138 003c FEFFFFEB 		bl	pxGetNetworkBufferWithDescriptor
+ 139              	.LVL12:
+ 199:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                 {
+ 140              		.loc 1 199 0
+ 141 0040 004050E2 		subs	r4, r0, #0
+ 142 0044 1300000A 		beq	.L13
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     #if NOT_USED
+ 143              		.loc 1 209 0
+ 144 0048 0520A0E1 		mov	r2, r5
+ 145 004c 04109DE5 		ldr	r1, [sp, #4]
+ 146 0050 180094E5 		ldr	r0, [r4, #24]
+ 147              	.LVL13:
+ 148 0054 FEFFFFEB 		bl	memcpy
+ 149              	.LVL14:
+ 215:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 150              		.loc 1 215 0
+ 151 0058 1C5084E5 		str	r5, [r4, #28]
+ 217:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 152              		.loc 1 217 0
+ 153 005c 0100A0E3 		mov	r0, #1
+ 154 0060 FEFFFFEB 		bl	R_ETHER_Read_ZC2_BufRelease
+ 155              	.LVL15:
+ 223:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     {
+ 156              		.loc 1 223 0
+ 157 0064 180094E5 		ldr	r0, [r4, #24]
+ 158 0068 FEFFFFEB 		bl	eConsiderFrameForProcessing
+ 159              	.LVL16:
+ 160 006c 010050E3 		cmp	r0, #1
+ 161 0070 0C00001A 		bne	.L14
+ 226:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 162              		.loc 1 226 0
+ 163 0074 0800CDE5 		strb	r0, [sp, #8]
+ 233:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                         {
+ 164              		.loc 1 233 0
+ 165 0078 0010A0E3 		mov	r1, #0
+ 166 007c 08008DE2 		add	r0, sp, #8
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 167              		.loc 1 230 0
+ 168 0080 0C408DE5 		str	r4, [sp, #12]
+ 233:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                         {
+ 169              		.loc 1 233 0
+ 170 0084 FEFFFFEB 		bl	xSendEventStructToIPTask
+ 171              	.LVL17:
+ 172 0088 000050E3 		cmp	r0, #0
+ 173 008c 0300001A 		bne	.L15
+ 236:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 174              		.loc 1 236 0
+ 175 0090 0400A0E1 		mov	r0, r4
+ 176 0094 FEFFFFEB 		bl	vReleaseNetworkBufferAndDescriptor
+ 177              	.LVL18:
+ 178              	.L13:
+ 261:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                 }
+ 179              		.loc 1 261 0
+ 180 0098 FEFFFFEB 		bl	clear_all_ether_rx_discriptors.isra.0
+ 181              	.LVL19:
+ 182 009c E0FFFFEA 		b	.L11
+ 183              	.L15:
+ 184              	.LBB4:
+ 185              	.LBB5:
+ 186              		.file 2 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_bo
+   1:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** /**************************************************************************************************
+   2:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * DISCLAIMER
+   3:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * This software is supplied by Renesas Electronics Corporation and is only intended for use with R
+   4:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * other uses are authorized. This software is owned by Renesas Electronics Corporation and is prot
+   5:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * applicable laws, including copyright laws.
+   6:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   7:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF
+   8:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAI
+   9:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS A
+  10:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY R
+  11:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES
+  12:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * Renesas reserves the right, without notice, to make changes to this software and to discontinue 
+  13:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * this software. By using this software, you agree to the additional terms and conditions found by
+  14:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * following link:
+  15:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * http://www.renesas.com/disclaimer
+  16:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  *
+  17:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
+  18:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  **************************************************************************************************
+  19:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** /**************************************************************************************************
+  20:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * File Name    : r_compiler_abstraction_api.h
+  21:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * Description  : Provides a common API for frequently used compiler specific operations
+  22:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  **************************************************************************************************
+  23:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** #include  "r_typedefs.h"
+  24:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** 
+  25:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** #ifndef SRC_PRV_RENESAS_COMPILER_INC_R_COMPILER_ABSTRACTION_API_H_
+  26:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** #define SRC_PRV_RENESAS_COMPILER_INC_R_COMPILER_ABSTRACTION_API_H_
+  27:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** 
+  28:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** /* Macro is used to declare linkage to a function as weak so that it can be overridden by a normall
+  29:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * Update this when using a different compiler. */
+  30:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** #define R_COMPILER_WEAK __attribute__((weak))
+  31:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** 
+  32:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** #define R_COMPILER_INLINE static inline
+  33:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** 
+  34:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** extern void __enable_irq (void);
+  35:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** extern uint32_t __disable_irq (void);
+  36:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** extern void __enable_fiq (void);
+  37:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** extern void __disable_fiq (void);
+  38:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** 
+  39:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** /**************************************************************************************************
+  40:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * Function Name: R_COMPILER_Nop
+  41:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * Description  : Abstracting a compiler No Operation opcode into a C function. Update this when us
+  42:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  *                compiler.
+  43:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  * Return Value : None.
+  44:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****  **************************************************************************************************
+  45:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h **** R_COMPILER_INLINE void R_COMPILER_Nop (void)
+  46:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****     {
+  47:D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_package\generate\compiler\inc\r_compiler_abstraction_api.h ****         __asm volatile ("nop");
+ 187              		.loc 2 47 0
+ 188              		.syntax divided
+ 189              	@ 47 "D:\Work\DeviceTester\amazon-freertos\lib\third_party\mcu_vendor\renesas\rz_mcu_boards\core_pa
+ 190 00a0 00F020E3 		nop
+ 191              	@ 0 "" 2
+ 192              		.arm
+ 193              		.syntax unified
+ 194 00a4 DEFFFFEA 		b	.L11
+ 195              	.L14:
+ 196              	.LBE5:
+ 197              	.LBE4:
+ 253:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                     }
+ 198              		.loc 1 253 0
+ 199 00a8 0400A0E1 		mov	r0, r4
+ 200 00ac FEFFFFEB 		bl	vReleaseNetworkBufferAndDescriptor
+ 201              	.LVL20:
+ 202 00b0 DBFFFFEA 		b	.L11
+ 203              	.L20:
+ 204              		.align	2
+ 205              	.L19:
+ 206 00b4 00000000 		.word	.LANCHOR0
+ 207 00b8 00000000 		.word	.LANCHOR1
+ 208              		.cfi_endproc
+ 209              	.LFE30:
+ 211              		.section	.text.xNetworkInterfaceInitialise,"ax",%progbits
+ 212              		.align	2
+ 213              		.weak	xNetworkInterfaceInitialise
+ 214              		.syntax unified
+ 215              		.arm
+ 216              		.fpu neon
+ 218              	xNetworkInterfaceInitialise:
+ 219              	.LFB28:
+  90:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     BaseType_t x_return;
+ 220              		.loc 1 90 0
+ 221              		.cfi_startproc
+ 222              		@ args = 0, pretend = 0, frame = 16
+ 223              		@ frame_needed = 0, uses_anonymous_args = 0
+ 224              	.LVL21:
+ 225 0000 10402DE9 		push	{r4, lr}
+ 226              		.cfi_def_cfa_offset 8
+ 227              		.cfi_offset 4, -8
+ 228              		.cfi_offset 14, -4
+ 229              	.LBB8:
+ 230              	.LBB9:
+ 327:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 231              		.loc 1 327 0
+ 232 0004 7430A0E3 		mov	r3, #116
+ 233              	.LBE9:
+ 234              	.LBE8:
+  90:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     BaseType_t x_return;
+ 235              		.loc 1 90 0
+ 236 0008 18D04DE2 		sub	sp, sp, #24
+ 237              		.cfi_def_cfa_offset 32
+ 238              	.LBB12:
+ 239              	.LBB10:
+ 343:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 240              		.loc 1 343 0
+ 241 000c 0140A0E3 		mov	r4, #1
+ 327:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 242              		.loc 1 327 0
+ 243 0010 0830CDE5 		strb	r3, [sp, #8]
+ 244 0014 6F30E0E3 		mvn	r3, #111
+ 245 0018 0930CDE5 		strb	r3, [sp, #9]
+ 246 001c 5030A0E3 		mov	r3, #80
+ 247 0020 0A30CDE5 		strb	r3, [sp, #10]
+ 248 0024 3F30E0E3 		mvn	r3, #63
+ 249 0028 0B30CDE5 		strb	r3, [sp, #11]
+ 250 002c 0130E0E3 		mvn	r3, #1
+ 251 0030 0C30CDE5 		strb	r3, [sp, #12]
+ 252 0034 0E30E0E3 		mvn	r3, #14
+ 253 0038 0D30CDE5 		strb	r3, [sp, #13]
+ 337:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 254              		.loc 1 337 0
+ 255 003c FEFFFFEB 		bl	R_ETHER_PinSet_ETHERC_RMII
+ 256              	.LVL22:
+ 339:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     callback_ether_regist();
+ 257              		.loc 1 339 0
+ 258 0040 FEFFFFEB 		bl	R_ETHER_Initial
+ 259              	.LVL23:
+ 340:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 260              		.loc 1 340 0
+ 261 0044 FEFFFFEB 		bl	callback_ether_regist
+ 262              	.LVL24:
+ 343:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 263              		.loc 1 343 0
+ 264 0048 18308DE2 		add	r3, sp, #24
+ 265 004c 0300A0E3 		mov	r0, #3
+ 266 0050 084023E5 		str	r4, [r3, #-8]!
+ 267 0054 060093E8 		ldm	r3, {r1, r2}
+ 268 0058 FEFFFFEB 		bl	R_ETHER_Control
+ 269              	.LVL25:
+ 345:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 270              		.loc 1 345 0
+ 271 005c 002050E2 		subs	r2, r0, #0
+ 272 0060 1D00001A 		bne	.L22
+ 351:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 273              		.loc 1 351 0
+ 274 0064 08108DE2 		add	r1, sp, #8
+ 275 0068 0400A0E1 		mov	r0, r4
+ 276              	.LVL26:
+ 277 006c FEFFFFEB 		bl	R_ETHER_Open_ZC2
+ 278              	.LVL27:
+ 353:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 279              		.loc 1 353 0
+ 280 0070 003050E2 		subs	r3, r0, #0
+ 281 0074 1800001A 		bne	.L22
+ 359:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                                 "ETHER_RECEIVE_CHECK_TASK",
+ 282              		.loc 1 359 0
+ 283 0078 68209FE5 		ldr	r2, .L36
+ 284 007c 68109FE5 		ldr	r1, .L36+4
+ 285 0080 68009FE5 		ldr	r0, .L36+8
+ 286              	.LVL28:
+ 287 0084 04208DE5 		str	r2, [sp, #4]
+ 288 0088 1420A0E3 		mov	r2, #20
+ 289 008c 00208DE5 		str	r2, [sp]
+ 290 0090 022BA0E3 		mov	r2, #2048
+ 291 0094 FEFFFFEB 		bl	xTaskCreate
+ 292              	.LVL29:
+ 369:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 293              		.loc 1 369 0
+ 294 0098 000050E3 		cmp	r0, #0
+ 295 009c 0E00000A 		beq	.L22
+ 296              	.LVL30:
+ 297              	.L30:
+ 377:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     } while(ETHER_SUCCESS != eth_ret);
+ 298              		.loc 1 377 0
+ 299 00a0 0100A0E3 		mov	r0, #1
+ 300 00a4 FEFFFFEB 		bl	R_ETHER_CheckLink_ZC
+ 301              	.LVL31:
+ 378:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 302              		.loc 1 378 0
+ 303 00a8 003050E2 		subs	r3, r0, #0
+ 304 00ac FBFFFF1A 		bne	.L30
+ 380:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****                                 "CHECK_ETHER_LINK_TIMER",
+ 305              		.loc 1 380 0
+ 306 00b0 3C209FE5 		ldr	r2, .L36+12
+ 307 00b4 3C109FE5 		ldr	r1, .L36+16
+ 308 00b8 3C009FE5 		ldr	r0, .L36+20
+ 309              	.LVL32:
+ 310 00bc 04208DE5 		str	r2, [sp, #4]
+ 311 00c0 1420A0E3 		mov	r2, #20
+ 312 00c4 00208DE5 		str	r2, [sp]
+ 313 00c8 022BA0E3 		mov	r2, #2048
+ 314 00cc FEFFFFEB 		bl	xTaskCreate
+ 315              	.LVL33:
+ 390:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 316              		.loc 1 390 0
+ 317 00d0 000050E3 		cmp	r0, #0
+ 318              	.LBE10:
+ 319              	.LBE12:
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     }
+ 320              		.loc 1 107 0
+ 321 00d4 0100A013 		movne	r0, #1
+ 322              	.LVL34:
+ 323              	.LBB13:
+ 324              	.LBB11:
+ 390:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 325              		.loc 1 390 0
+ 326 00d8 0000001A 		bne	.L21
+ 327              	.L22:
+ 328              	.LVL35:
+ 329              	.LBE11:
+ 330              	.LBE13:
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     }
+ 331              		.loc 1 102 0
+ 332 00dc 0000A0E3 		mov	r0, #0
+ 333              	.L21:
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 334              		.loc 1 111 0
+ 335 00e0 18D08DE2 		add	sp, sp, #24
+ 336              		.cfi_def_cfa_offset 8
+ 337              		@ sp needed
+ 338 00e4 1080BDE8 		pop	{r4, pc}
+ 339              	.L37:
+ 340              		.align	2
+ 341              	.L36:
+ 342 00e8 00000000 		.word	.LANCHOR1
+ 343 00ec 00000000 		.word	.LC1
+ 344 00f0 00000000 		.word	prvEMACDeferredInterruptHandlerTask
+ 345 00f4 00000000 		.word	.LANCHOR2
+ 346 00f8 19000000 		.word	.LC2
+ 347 00fc 00000000 		.word	check_ether_link
+ 348              		.cfi_endproc
+ 349              	.LFE28:
+ 351              		.section	.text.xNetworkInterfaceOutput,"ax",%progbits
+ 352              		.align	2
+ 353              		.weak	xNetworkInterfaceOutput
+ 354              		.syntax unified
+ 355              		.arm
+ 356              		.fpu neon
+ 358              	xNetworkInterfaceOutput:
+ 359              	.LFB29:
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     /* Simple network interfaces (as opposed to more efficient zero copy network
+ 360              		.loc 1 122 0
+ 361              		.cfi_startproc
+ 362              		@ args = 0, pretend = 0, frame = 8
+ 363              		@ frame_needed = 0, uses_anonymous_args = 0
+ 364              	.LVL36:
+ 365 0000 F7402DE9 		push	{r0, r1, r2, r4, r5, r6, r7, lr}
+ 366              		.cfi_def_cfa_offset 32
+ 367              		.cfi_offset 4, -20
+ 368              		.cfi_offset 5, -16
+ 369              		.cfi_offset 6, -12
+ 370              		.cfi_offset 7, -8
+ 371              		.cfi_offset 14, -4
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     /* Simple network interfaces (as opposed to more efficient zero copy network
+ 372              		.loc 1 122 0
+ 373 0004 0050A0E1 		mov	r5, r0
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 374              		.loc 1 131 0
+ 375 0008 187090E5 		ldr	r7, [r0, #24]
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     /* Simple network interfaces (as opposed to more efficient zero copy network
+ 376              		.loc 1 122 0
+ 377 000c 0160A0E1 		mov	r6, r1
+ 378              	.LBB16:
+ 379              	.LBB17:
+ 414:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 380              		.loc 1 414 0
+ 381 0010 02208DE2 		add	r2, sp, #2
+ 382 0014 04108DE2 		add	r1, sp, #4
+ 383              	.LVL37:
+ 384              	.LBE17:
+ 385              	.LBE16:
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 386              		.loc 1 131 0
+ 387 0018 1C4090E5 		ldr	r4, [r0, #28]
+ 388              	.LVL38:
+ 389              	.LBB19:
+ 390              	.LBB18:
+ 414:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 391              		.loc 1 414 0
+ 392 001c 0100A0E3 		mov	r0, #1
+ 393              	.LVL39:
+ 394 0020 FEFFFFEB 		bl	R_ETHER_Write_ZC2_GetBuf
+ 395              	.LVL40:
+ 416:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 396              		.loc 1 416 0
+ 397 0024 000050E3 		cmp	r0, #0
+ 398 0028 1500001A 		bne	.L39
+ 418:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         {
+ 399              		.loc 1 418 0
+ 400 002c B230DDE1 		ldrh	r3, [sp, #2]
+ 401 0030 030054E1 		cmp	r4, r3
+ 402 0034 0300008A 		bhi	.L40
+ 421:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         }
+ 403              		.loc 1 421 0
+ 404 0038 0420A0E1 		mov	r2, r4
+ 405 003c 0710A0E1 		mov	r1, r7
+ 406 0040 04009DE5 		ldr	r0, [sp, #4]
+ 407              	.LVL41:
+ 408 0044 FEFFFFEB 		bl	memcpy
+ 409              	.LVL42:
+ 410              	.L40:
+ 423:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         {
+ 411              		.loc 1 423 0
+ 412 0048 3B0054E3 		cmp	r4, #59
+ 413 004c 0500008A 		bhi	.L41
+ 425:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****             length = ETHER_BUFSIZE_MIN;                                         /*resize*/
+ 414              		.loc 1 425 0
+ 415 0050 04009DE5 		ldr	r0, [sp, #4]
+ 416 0054 3C2064E2 		rsb	r2, r4, #60
+ 417 0058 0010A0E3 		mov	r1, #0
+ 418 005c 040080E0 		add	r0, r0, r4
+ 426:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         }
+ 419              		.loc 1 426 0
+ 420 0060 3C40A0E3 		mov	r4, #60
+ 421              	.LVL43:
+ 425:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****             length = ETHER_BUFSIZE_MIN;                                         /*resize*/
+ 422              		.loc 1 425 0
+ 423 0064 FEFFFFEB 		bl	memset
+ 424              	.LVL44:
+ 425              	.L41:
+ 430:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         ret = R_ETHER_CheckWrite(ACTIVE_ETHER_CHANNEL);
+ 426              		.loc 1 430 0
+ 427 0068 7410FFE6 		uxth	r1, r4
+ 428 006c 0100A0E3 		mov	r0, #1
+ 429 0070 FEFFFFEB 		bl	R_ETHER_Write_ZC2_SetBuf
+ 430              	.LVL45:
+ 431:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     }
+ 431              		.loc 1 431 0
+ 432 0074 0100A0E3 		mov	r0, #1
+ 433 0078 FEFFFFEB 		bl	R_ETHER_CheckWrite
+ 434              	.LVL46:
+ 434:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 435              		.loc 1 434 0
+ 436 007c 000050E3 		cmp	r0, #0
+ 437 0080 0400000A 		beq	.L42
+ 438              	.L39:
+ 439              	.LVL47:
+ 440              	.LBE18:
+ 441              	.LBE19:
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 442              		.loc 1 133 0
+ 443 0084 0500A0E1 		mov	r0, r5
+ 444 0088 FEFFFFEB 		bl	vReleaseNetworkBufferAndDescriptor
+ 445              	.LVL48:
+ 136:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     }
+ 446              		.loc 1 136 0
+ 447 008c 0000A0E3 		mov	r0, #0
+ 448              	.L38:
+ 153:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 449              		.loc 1 153 0
+ 450 0090 0CD08DE2 		add	sp, sp, #12
+ 451              		.cfi_remember_state
+ 452              		.cfi_def_cfa_offset 20
+ 453              		@ sp needed
+ 454 0094 F080BDE8 		pop	{r4, r5, r6, r7, pc}
+ 455              	.LVL49:
+ 456              	.L42:
+ 457              		.cfi_restore_state
+ 143:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 458              		.loc 1 143 0
+ 459 0098 000056E3 		cmp	r6, #0
+ 460 009c 0100000A 		beq	.L46
+ 148:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     }
+ 461              		.loc 1 148 0
+ 462 00a0 0500A0E1 		mov	r0, r5
+ 463 00a4 FEFFFFEB 		bl	vReleaseNetworkBufferAndDescriptor
+ 464              	.LVL50:
+ 465              	.L46:
+ 152:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** } /* End of function xNetworkInterfaceOutput() */
+ 466              		.loc 1 152 0
+ 467 00a8 0100A0E3 		mov	r0, #1
+ 468 00ac F7FFFFEA 		b	.L38
+ 469              		.cfi_endproc
+ 470              	.LFE29:
+ 472              		.section	.text.xApplicationDNSQueryHook,"ax",%progbits
+ 473              		.align	2
+ 474              		.global	xApplicationDNSQueryHook
+ 475              		.syntax unified
+ 476              		.arm
+ 477              		.fpu neon
+ 479              	xApplicationDNSQueryHook:
+ 480              	.LFB31:
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     return strcmp( pcName, "RZA2M" ); //TODO complete stub function
+ 481              		.loc 1 281 0
+ 482              		.cfi_startproc
+ 483              		@ args = 0, pretend = 0, frame = 0
+ 484              		@ frame_needed = 0, uses_anonymous_args = 0
+ 485              		@ link register save eliminated.
+ 486              	.LVL51:
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** } /* End of function xApplicationDNSQueryHook() */
+ 487              		.loc 1 282 0
+ 488 0000 00109FE5 		ldr	r1, .L48
+ 489 0004 FEFFFFEA 		b	strcmp
+ 490              	.LVL52:
+ 491              	.L49:
+ 492              		.align	2
+ 493              	.L48:
+ 494 0008 00000000 		.word	.LC3
+ 495              		.cfi_endproc
+ 496              	.LFE31:
+ 498              		.section	.text.vNetworkInterfaceAllocateRAMToBuffers,"ax",%progbits
+ 499              		.align	2
+ 500              		.global	vNetworkInterfaceAllocateRAMToBuffers
+ 501              		.syntax unified
+ 502              		.arm
+ 503              		.fpu neon
+ 505              	vNetworkInterfaceAllocateRAMToBuffers:
+ 506              	.LFB32:
+ 294:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     uint32_t ul;
+ 507              		.loc 1 294 0
+ 508              		.cfi_startproc
+ 509              		@ args = 0, pretend = 0, frame = 0
+ 510              		@ frame_needed = 0, uses_anonymous_args = 0
+ 511              		@ link register save eliminated.
+ 512              	.LVL53:
+ 302:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** #elif defined(__ICCRX__)
+ 513              		.loc 1 302 0
+ 514 0000 1C309FE5 		ldr	r3, .L53
+ 515 0004 003093E5 		ldr	r3, [r3]
+ 516              	.LVL54:
+ 517 0008 032A83E2 		add	r2, r3, #12288
+ 518              	.LVL55:
+ 519              	.L51:
+ 309:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     }
+ 520              		.loc 1 309 0 discriminator 3
+ 521 000c 183080E5 		str	r3, [r0, #24]
+ 522 0010 063C83E2 		add	r3, r3, #1536
+ 307:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 523              		.loc 1 307 0 discriminator 3
+ 524 0014 020053E1 		cmp	r3, r2
+ 525 0018 240080E2 		add	r0, r0, #36
+ 526 001c FAFFFF1A 		bne	.L51
+ 311:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 527              		.loc 1 311 0
+ 528 0020 1EFF2FE1 		bx	lr
+ 529              	.L54:
+ 530              		.align	2
+ 531              	.L53:
+ 532 0024 00000000 		.word	__sectop__ETHERNET_BUFFERS
+ 533              		.cfi_endproc
+ 534              	.LFE32:
+ 536              		.section	.text.EINT_Trig_isr,"ax",%progbits
+ 537              		.align	2
+ 538              		.global	EINT_Trig_isr
+ 539              		.syntax unified
+ 540              		.arm
+ 541              		.fpu neon
+ 543              	EINT_Trig_isr:
+ 544              	.LFB35:
+ 453:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     /* set the initial values */
+ 545              		.loc 1 453 0
+ 546              		.cfi_startproc
+ 547              		@ args = 0, pretend = 0, frame = 8
+ 548              		@ frame_needed = 0, uses_anonymous_args = 0
+ 549              	.LVL56:
+ 455:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     ether_cb_arg_t *p_decode;
+ 550              		.loc 1 455 0
+ 551 0000 0030A0E3 		mov	r3, #0
+ 453:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     /* set the initial values */
+ 552              		.loc 1 453 0
+ 553 0004 07402DE9 		push	{r0, r1, r2, lr}
+ 554              		.cfi_def_cfa_offset 16
+ 555              		.cfi_offset 14, -4
+ 455:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     ether_cb_arg_t *p_decode;
+ 556              		.loc 1 455 0
+ 557 0008 04308DE5 		str	r3, [sp, #4]
+ 558              	.LVL57:
+ 461:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     {
+ 559              		.loc 1 461 0
+ 560 000c 0C3090E5 		ldr	r3, [r0, #12]
+ 561 0010 010713E3 		tst	r3, #262144
+ 562 0014 0C00000A 		beq	.L55
+ 464:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         {
+ 563              		.loc 1 464 0
+ 564 0018 34309FE5 		ldr	r3, .L67
+ 565 001c 003093E5 		ldr	r3, [r3]
+ 566 0020 000053E3 		cmp	r3, #0
+ 567 0024 0300000A 		beq	.L58
+ 466:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****         }
+ 568              		.loc 1 466 0
+ 569 0028 28309FE5 		ldr	r3, .L67+4
+ 570 002c 04108DE2 		add	r1, sp, #4
+ 571 0030 000093E5 		ldr	r0, [r3]
+ 572              	.LVL58:
+ 573 0034 FEFFFFEB 		bl	vTaskNotifyGiveFromISR
+ 574              	.LVL59:
+ 575              	.L58:
+ 576              	.LBB20:
+ 472:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c ****     }
+ 577              		.loc 1 472 0
+ 578 0038 04309DE5 		ldr	r3, [sp, #4]
+ 579 003c 000053E3 		cmp	r3, #0
+ 580 0040 14309F15 		ldrne	r3, .L67+8
+ 581 0044 0120A013 		movne	r2, #1
+ 582 0048 00208315 		strne	r2, [r3]
+ 583              	.L55:
+ 584              	.LBE20:
+ 474:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\NetworkInterface.c **** 
+ 585              		.loc 1 474 0
+ 586 004c 0CD08DE2 		add	sp, sp, #12
+ 587              		.cfi_def_cfa_offset 4
+ 588              		@ sp needed
+ 589 0050 04F09DE4 		ldr	pc, [sp], #4
+ 590              	.L68:
+ 591              		.align	2
+ 592              	.L67:
+ 593 0054 00000000 		.word	.LANCHOR0
+ 594 0058 00000000 		.word	.LANCHOR1
+ 595 005c 00000000 		.word	ulPortYieldRequired
+ 596              		.cfi_endproc
+ 597              	.LFE35:
+ 599              		.section	.bss.ether_link_check_task_handle,"aw",%nobits
+ 600              		.align	2
+ 601              		.set	.LANCHOR2,. + 0
+ 604              	ether_link_check_task_handle:
+ 605 0000 00000000 		.space	4
+ 606              		.section	.bss.ether_receive_check_task_handle,"aw",%nobits
+ 607              		.align	2
+ 608              		.set	.LANCHOR1,. + 0
+ 611              	ether_receive_check_task_handle:
+ 612 0000 00000000 		.space	4
+ 613              		.section	.bss.xTaskToNotify,"aw",%nobits
+ 614              		.align	2
+ 615              		.set	.LANCHOR0,. + 0
+ 618              	xTaskToNotify:
+ 619 0000 00000000 		.space	4
+ 620              		.section	.rodata.xApplicationDNSQueryHook.str1.1,"aMS",%progbits,1
+ 621              	.LC3:
+ 622 0000 525A4132 		.ascii	"RZA2M\000"
+ 622      4D00
+ 623              		.section	.rodata.xNetworkInterfaceInitialise.str1.1,"aMS",%progbits,1
+ 624              	.LC1:
+ 625 0000 45544845 		.ascii	"ETHER_RECEIVE_CHECK_TASK\000"
+ 625      525F5245 
+ 625      43454956 
+ 625      455F4348 
+ 625      45434B5F 
+ 626              	.LC2:
+ 627 0019 43484543 		.ascii	"CHECK_ETHER_LINK_TIMER\000"
+ 627      4B5F4554 
+ 627      4845525F 
+ 627      4C494E4B 
+ 627      5F54494D 
+ 628              		.text
+ 629              	.Letext0:
+ 630              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 631              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 632              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 633              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 634              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 635              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 636              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 637              		.file 10 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 638              		.file 11 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 639              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\src/unity_internals.h"
+ 640              		.file 13 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 641              		.file 14 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS\\portable\\GCC\\ARM_CA9_RZA2M/por
+ 642              		.file 15 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include\\private/list.h"
+ 643              		.file 16 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/task.h"
+ 644              		.file 17 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 645              		.file 18 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 646              		.file 19 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 647              		.file 20 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 648              		.file 21 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 649              		.file 22 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 650              		.file 23 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS-Plus-TCP\\include/FreeRTOS_IP.h"
+ 651              		.file 24 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/timers.h"
+ 652              		.file 25 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS-Plus-TCP\\include/FreeRTOS_TCP_WI
+ 653              		.file 26 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS-Plus-TCP\\include/FreeRTOS_IP_Pri
+ 654              		.file 27 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 655              		.file 28 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 656              		.file 29 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS-Plus-TCP\\include/NetworkBufferMa
+ 657              		.file 30 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+DEFINED SYMBOLS
+                            *ABS*:00000000 NetworkInterface.c
+C:\Users\a5089698\AppData\Local\Temp\ccPopDBu.s:17     .text.check_ether_link:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccPopDBu.s:22     .text.check_ether_link:00000000 check_ether_link
+C:\Users\a5089698\AppData\Local\Temp\ccPopDBu.s:50     .text.clear_all_ether_rx_discriptors.isra.0:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccPopDBu.s:55     .text.clear_all_ether_rx_discriptors.isra.0:00000000 clear_all_ether_rx_discriptors.isra.0
+C:\Users\a5089698\AppData\Local\Temp\ccPopDBu.s:92     .text.prvEMACDeferredInterruptHandlerTask:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccPopDBu.s:97     .text.prvEMACDeferredInterruptHandlerTask:00000000 prvEMACDeferredInterruptHandlerTask
+C:\Users\a5089698\AppData\Local\Temp\ccPopDBu.s:206    .text.prvEMACDeferredInterruptHandlerTask:000000b4 $d
+C:\Users\a5089698\AppData\Local\Temp\ccPopDBu.s:212    .text.xNetworkInterfaceInitialise:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccPopDBu.s:218    .text.xNetworkInterfaceInitialise:00000000 xNetworkInterfaceInitialise
+C:\Users\a5089698\AppData\Local\Temp\ccPopDBu.s:342    .text.xNetworkInterfaceInitialise:000000e8 $d
+C:\Users\a5089698\AppData\Local\Temp\ccPopDBu.s:352    .text.xNetworkInterfaceOutput:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccPopDBu.s:358    .text.xNetworkInterfaceOutput:00000000 xNetworkInterfaceOutput
+C:\Users\a5089698\AppData\Local\Temp\ccPopDBu.s:473    .text.xApplicationDNSQueryHook:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccPopDBu.s:479    .text.xApplicationDNSQueryHook:00000000 xApplicationDNSQueryHook
+C:\Users\a5089698\AppData\Local\Temp\ccPopDBu.s:494    .text.xApplicationDNSQueryHook:00000008 $d
+C:\Users\a5089698\AppData\Local\Temp\ccPopDBu.s:499    .text.vNetworkInterfaceAllocateRAMToBuffers:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccPopDBu.s:505    .text.vNetworkInterfaceAllocateRAMToBuffers:00000000 vNetworkInterfaceAllocateRAMToBuffers
+C:\Users\a5089698\AppData\Local\Temp\ccPopDBu.s:532    .text.vNetworkInterfaceAllocateRAMToBuffers:00000024 $d
+C:\Users\a5089698\AppData\Local\Temp\ccPopDBu.s:537    .text.EINT_Trig_isr:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccPopDBu.s:543    .text.EINT_Trig_isr:00000000 EINT_Trig_isr
+C:\Users\a5089698\AppData\Local\Temp\ccPopDBu.s:593    .text.EINT_Trig_isr:00000054 $d
+C:\Users\a5089698\AppData\Local\Temp\ccPopDBu.s:600    .bss.ether_link_check_task_handle:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccPopDBu.s:604    .bss.ether_link_check_task_handle:00000000 ether_link_check_task_handle
+C:\Users\a5089698\AppData\Local\Temp\ccPopDBu.s:607    .bss.ether_receive_check_task_handle:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccPopDBu.s:611    .bss.ether_receive_check_task_handle:00000000 ether_receive_check_task_handle
+C:\Users\a5089698\AppData\Local\Temp\ccPopDBu.s:614    .bss.xTaskToNotify:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccPopDBu.s:618    .bss.xTaskToNotify:00000000 xTaskToNotify
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+vTaskDelay
+R_ETHER_LinkProcess
+R_ETHER_Read_ZC2
+R_ETHER_Read_ZC2_BufRelease
+ulTaskNotifyTake
+pxGetNetworkBufferWithDescriptor
+memcpy
+eConsiderFrameForProcessing
+xSendEventStructToIPTask
+vReleaseNetworkBufferAndDescriptor
+R_ETHER_PinSet_ETHERC_RMII
+R_ETHER_Initial
+callback_ether_regist
+R_ETHER_Control
+R_ETHER_Open_ZC2
+xTaskCreate
+R_ETHER_CheckLink_ZC
+R_ETHER_Write_ZC2_GetBuf
+memset
+R_ETHER_Write_ZC2_SetBuf
+R_ETHER_CheckWrite
+strcmp
+__sectop__ETHERNET_BUFFERS
+vTaskNotifyGiveFromISR
+ulPortYieldRequired

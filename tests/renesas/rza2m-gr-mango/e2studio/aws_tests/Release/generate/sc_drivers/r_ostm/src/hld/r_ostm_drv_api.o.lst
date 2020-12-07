@@ -1,0 +1,819 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"r_ostm_drv_api.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.ostm_get_version,"ax",%progbits
+  17              		.align	2
+  18              		.syntax unified
+  19              		.arm
+  20              		.fpu neon
+  22              	ostm_get_version:
+  23              	.LFB6:
+  24              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/cor
+   1:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /*******************************************************************************
+   2:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * DISCLAIMER
+   3:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * This software is supplied by Renesas Electronics Corporation and is only
+   4:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * intended for use with Renesas products. No other uses are authorized. This
+   5:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * software is owned by Renesas Electronics Corporation and is protected under
+   6:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * all applicable laws, including copyright laws.
+   7:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   8:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT
+   9:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+  10:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED.
+  11:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * TO THE MAXIMUM EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS
+  12:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES SHALL BE LIABLE
+  13:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR
+  14:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * ANY REASON RELATED TO THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE
+  15:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+  16:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * Renesas reserves the right, without notice, to make changes to this software
+  17:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * and to discontinue the availability of this software. By using this software,
+  18:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * you agree to the additional terms and conditions found by accessing the
+  19:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * following link:
+  20:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * http://www.renesas.com/disclaimer
+  21:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * Copyright (C) 2012 - 2014 Renesas Electronics Corporation. All rights reserved.
+  22:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  *******************************************************************************/
+  23:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /*******************************************************************************
+  24:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * File Name   : r_ostm_drv_api.c
+  25:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * Description : OS timer driver high layer driver
+  26:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  *******************************************************************************/
+  27:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+  28:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /******************************************************************************
+  29:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  Includes   <System Includes> , "Project Includes"
+  30:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  ******************************************************************************/
+  31:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** #include "r_ostm_drv_api.h"
+  32:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** #include "r_ostm_drv_link.h"
+  33:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** #include "r_ostm_drv_sc_cfg.h"
+  34:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+  35:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /******************************************************************************
+  36:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  Typedef definitions
+  37:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  ******************************************************************************/
+  38:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+  39:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /******************************************************************************
+  40:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  Macro definitions
+  41:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  ******************************************************************************/
+  42:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /* Comment this line out to turn ON module trace in this file */
+  43:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** #undef _TRACE_ON_
+  44:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+  45:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** #ifndef _TRACE_ON_
+  46:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** #undef DEBUG_PRV_TRACE
+  47:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** #define  DEBUG_PRV_TRACE(x)
+  48:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** #endif
+  49:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+  50:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /******************************************************************************
+  51:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  Enumerated Types
+  52:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  ******************************************************************************/
+  53:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+  54:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /******************************************************************************
+  55:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  Typedefs
+  56:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  ******************************************************************************/
+  57:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+  58:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /*****************************************************************************
+  59:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  Function Prototypes
+  60:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  ******************************************************************************/
+  61:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** static int_t ostm_open(st_stream_ptr_t stream_ptr);
+  62:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** static void ostm_close(st_stream_ptr_t stream_ptr);
+  63:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** static int_t ostm_read(st_stream_ptr_t stream_ptr, uint8_t *buff_ptr, uint32_t count);
+  64:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** static int_t ostm_control(st_stream_ptr_t stream_ptr, uint32_t ctrl_code, void *ctrl_ptr);
+  65:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** static int_t ostm_get_version(st_stream_ptr_t stream_ptr, st_ver_info_t *pVerInfo);
+  66:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+  67:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /*****************************************************************************
+  68:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  Constant Data
+  69:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  ******************************************************************************/
+  70:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+  71:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /******************************************************************************
+  72:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  Private global variables and functions
+  73:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  ******************************************************************************/
+  74:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /*! Version Information */
+  75:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** static const st_drv_info_t gs_hld_info =
+  76:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** {
+  77:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     {
+  78:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         ((STDIO_OSTM_HLD_VERSION_MAJOR << 16) + STDIO_OSTM_HLD_VERSION_MINOR)
+  79:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     },
+  80:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     STDIO_OSTM_HLD_BUILD_NUM,
+  81:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     STDIO_OSTM_HLD_DRV_NAME
+  82:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** };
+  83:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+  84:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** bool_t gs_r_drv_ostm_open[OSTM_CH_MAX] = {false, false, false};
+  85:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+  86:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+  87:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /* Define the driver function table for this implementation */
+  88:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /* GSCE Warning (global variable 'g_ostm_Driver' not declared static [9.3a])
+  89:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * can be safely ignored */
+  90:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** const st_r_driver_t g_ostm_driver =
+  91:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** {
+  92:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     /* st_r_driver_t p_device */
+  93:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     "OS Timer Driver",
+  94:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     ostm_open,
+  95:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     ostm_close,
+  96:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     ostm_read,
+  97:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     no_dev_write,
+  98:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     ostm_control,
+  99:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     ostm_get_version
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** };
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /**
+ 103:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * @brief          reconfigure_timer
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  *                 Reconfigure opened channel
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * @param[in]      channel:     desired channel
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * @param[in/out]  p_config:    configuration for the channel
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * @retval         DRV_SUCCESS  Successful operation
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * @retval         DRV_ERROR    Failure operation
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  */
+ 110:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** static int_t reconfigure_timer(e_r_drv_ostm_channel_t channel, const st_r_drv_ostm_config_t * p_con
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** {
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     int_t ret = DRV_SUCCESS;
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     /* 1: stop current timer */
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     if (DRV_SUCCESS == ret)
+ 116:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     {
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         ret = R_OSTM_Stop(channel);
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     }
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     /* 2: close the timer */
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     if (DRV_SUCCESS == ret)
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     {
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         ret = R_OSTM_Close(channel);
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     }
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     /* 3: re-initialise the timer */
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     if (DRV_SUCCESS == ret)
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     {
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         ret = R_OSTM_Init(channel, p_config);
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     }
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     return (ret);
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** }
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /**************************************************************************************************
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  End of function reconfigure_timer
+ 136:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  **************************************************************************************************
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /******************************************************************************
+ 139:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  Function Name: ostm_open
+ 140:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  Description:   Function to open the system timer device driver
+ 141:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  Arguments:     IN  stream_ptr - Pointer to the file stream
+ 142:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  Return Value:  DRV_SUCCESS for success otherwise DRV_ERROR
+ 143:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  ******************************************************************************/
+ 144:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** static int_t ostm_open(st_stream_ptr_t stream_ptr)
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** {
+ 146:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     int_t ret = DRV_ERROR;
+ 147:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     e_r_drv_ostm_channel_t channel;
+ 148:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 149:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     /* obtain the OSTM channel */
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     channel = OSTM_SC_TABLE[stream_ptr->sc_config_index].channel;
+ 151:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 152:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     /* only 1 instance of each channel is permissible */
+ 153:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     /* check to see if channel is available HLD */
+ 154:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     if (!gs_r_drv_ostm_open[channel])
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     {
+ 156:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         ret = R_OSTM_Init(channel, &OSTM_SC_TABLE[stream_ptr->sc_config_index].config);
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         if (DRV_SUCCESS == ret)
+ 159:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         {
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****             gs_r_drv_ostm_open[channel] = true;
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         }
+ 162:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     }
+ 163:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     else
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     {
+ 165:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         /* No more modules can be granted simultaneous access to this driver */
+ 166:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         DEBUG_PRV_TRACE(("Error - Can not open %s channel is already opened\r\n", stream_ptr->pszSt
+ 167:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     }
+ 168:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 169:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     return (ret);
+ 170:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** }
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /******************************************************************************
+ 172:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  End of function  ostm_open
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  ******************************************************************************/
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /******************************************************************************
+ 176:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  Function Name: ostm_close
+ 177:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  Description:   Function to close the standard IN driver. All open devices
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  connected to the led are closed.
+ 179:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  Arguments:     IN  stream_ptr - Pointer to the file stream
+ 180:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  Return value:  none
+ 181:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  ******************************************************************************/
+ 182:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** static void ostm_close(st_stream_ptr_t stream_ptr)
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** {
+ 184:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     e_r_drv_ostm_channel_t channel;
+ 185:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     /* obtain the OSTM channel */
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     channel = OSTM_SC_TABLE[stream_ptr->sc_config_index].channel;
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 189:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     if (gs_r_drv_ostm_open[channel])
+ 190:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     {
+ 191:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         /* reset the state of this driver so that the next time it is opened the driver is reinitia
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         gs_r_drv_ostm_open[channel] = false;
+ 193:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 194:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         R_OSTM_Close(channel);
+ 195:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     }
+ 196:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** }
+ 197:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /******************************************************************************
+ 198:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  End of function  ostm_close
+ 199:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  ******************************************************************************/
+ 200:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 201:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /******************************************************************************
+ 202:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  Function Name: ostm_read
+ 203:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  Description:   Function to read data from the OSTM device
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  Arguments:     IN  stream_ptr - Pointer to the file stream
+ 205:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****                 IN  buffer - Pointer to the destination memory
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****                 IN  count - The number of bytes to read
+ 207:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  Return value:  data count for success or Error Code on error
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  ******************************************************************************/
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** static int_t ostm_read(st_stream_ptr_t stream_ptr, uint8_t *buff_ptr, uint32_t count)
+ 210:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** {
+ 211:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     int_t err_code = DRV_ERROR;
+ 212:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     e_r_drv_ostm_channel_t channel;
+ 213:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 214:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     /* the counter is a uint32_t, so the buffer needs to be at least that big */
+ 215:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     if (count < sizeof(uint32_t))
+ 216:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     {
+ 217:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         return (DRV_ERROR);
+ 218:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     }
+ 219:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 220:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     /* obtain the OSTM channel */
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     channel = OSTM_SC_TABLE[stream_ptr->sc_config_index].channel;
+ 222:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 223:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     /* obtain the current counter
+ 224:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****      * (safe for change to uint32_t pointer due to count restricts 4 byte or more)
+ 225:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****      */
+ 226:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     err_code = R_OSTM_GetCount(channel, (uint32_t *) buff_ptr);
+ 227:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 228:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     return (err_code);
+ 229:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** }
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /******************************************************************************
+ 231:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  End of function ostm_read
+ 232:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  ******************************************************************************/
+ 233:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /******************************************************************************
+ 235:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  Function Name: ostm_control
+ 236:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  Description:   Function to handle custom controls for the standard IN device
+ 237:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  Arguments:     IN  stream_ptr - Pointer to the file stream
+ 238:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  IN  ctrl_code - The custom control code
+ 239:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  IN  ctrl_ptr - Pointer to the custom control structure
+ 240:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  Return value:  0 for success -1 on error
+ 241:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  ******************************************************************************/
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** static int_t ostm_control(st_stream_ptr_t stream_ptr, uint32_t ctrl_code, void *ctrl_ptr)
+ 243:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** {
+ 244:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     int_t retval = DRV_ERROR;
+ 245:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     e_r_drv_ostm_channel_t channel;
+ 246:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     st_r_drv_ostm_config_t * p_config;
+ 247:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 248:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     /* obtain the OSTM channel */
+ 249:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     channel = OSTM_SC_TABLE[stream_ptr->sc_config_index].channel;
+ 250:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 251:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     switch (ctrl_code)
+ 252:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     {
+ 253:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         case CTRL_OSTM_START_TIMER:
+ 254:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         {
+ 255:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****             /* start timer */
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****             retval = R_OSTM_Start(channel);
+ 257:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****             break;
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         }
+ 259:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 260:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         case CTRL_OSTM_STOP_TIMER:
+ 261:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         {
+ 262:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****             /* stop timer */
+ 263:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****             retval = R_OSTM_Stop(channel);
+ 264:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****             break;
+ 265:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         }
+ 266:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 267:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         case CTRL_OSTM_RECONFIGURE:
+ 268:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         {
+ 269:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****             if (NULL != ctrl_ptr)
+ 270:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****             {
+ 271:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****                 /* convert parameter pointer to the function specific */
+ 272:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****                 p_config = (st_r_drv_ostm_config_t *) ctrl_ptr;
+ 273:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 274:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****                 retval = reconfigure_timer(channel, p_config);
+ 275:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****             }
+ 276:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 277:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****             break;
+ 278:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         }
+ 279:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 280:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         case CTRL_OSTM_READ_COUNTER:
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         {
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****             if (NULL != ctrl_ptr)
+ 283:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****             {
+ 284:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****                 /* read the timer */
+ 285:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****                 retval = R_OSTM_GetCount(channel, (uint32_t *) ctrl_ptr);
+ 286:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****             }
+ 287:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 288:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****             break;
+ 289:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         }
+ 290:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 291:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         default:
+ 292:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         {
+ 293:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****             DEBUG_PRV_TRACE(("drvOSTM: Unknown control code\r\n"));
+ 294:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****             break;
+ 295:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         }
+ 296:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     }
+ 297:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 298:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     return (retval);
+ 299:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** }
+ 300:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /******************************************************************************
+ 301:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  End of function  ostm_control
+ 302:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  ******************************************************************************/
+ 303:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 304:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /*******************************************************************************
+ 305:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * Function Name: ostm_get_version
+ 306:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * Description  : Provides build information even if driver fails to open
+ 307:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  *                version information is updated by developer
+ 308:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * Arguments    : none
+ 309:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  * Return Value : 0 (never fails)
+ 310:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****  ******************************************************************************/
+ 311:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** static int_t ostm_get_version(st_stream_ptr_t stream_ptr, st_ver_info_t *pVerInfo)
+ 312:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** {
+  25              		.loc 1 312 0
+  26              		.cfi_startproc
+  27              		@ args = 0, pretend = 0, frame = 0
+  28              		@ frame_needed = 0, uses_anonymous_args = 0
+  29              		@ link register save eliminated.
+  30              	.LVL0:
+ 313:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     /* stream_ptr not used */
+ 314:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     UNUSED_PARAM (stream_ptr);
+ 315:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 316:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     pVerInfo->hld.version.sub.major = gs_hld_info.version.sub.major;
+  31              		.loc 1 316 0
+  32 0000 0130A0E3 		mov	r3, #1
+ 317:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     pVerInfo->hld.version.sub.minor = gs_hld_info.version.sub.minor;
+ 318:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     pVerInfo->hld.build = gs_hld_info.build;
+ 319:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     pVerInfo->hld.p_szdriver_name = gs_hld_info.p_szdriver_name;
+ 320:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 321:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     /* Obtain version information from Low Layer Driver */
+ 322:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     return R_OSTM_GetVersion (pVerInfo);
+  33              		.loc 1 322 0
+  34 0004 0100A0E1 		mov	r0, r1
+  35              	.LVL1:
+ 316:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     pVerInfo->hld.version.sub.minor = gs_hld_info.version.sub.minor;
+  36              		.loc 1 316 0
+  37 0008 B230C1E1 		strh	r3, [r1, #2]	@ movhi
+ 317:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     pVerInfo->hld.version.sub.minor = gs_hld_info.version.sub.minor;
+  38              		.loc 1 317 0
+  39 000c 0230A0E3 		mov	r3, #2
+  40 0010 B030C1E1 		strh	r3, [r1]	@ movhi
+ 318:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     pVerInfo->hld.p_szdriver_name = gs_hld_info.p_szdriver_name;
+  41              		.loc 1 318 0
+  42 0014 0030A0E3 		mov	r3, #0
+  43 0018 043081E5 		str	r3, [r1, #4]
+ 319:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+  44              		.loc 1 319 0
+  45 001c 04309FE5 		ldr	r3, .L2
+  46 0020 083081E5 		str	r3, [r1, #8]
+  47              		.loc 1 322 0
+  48 0024 FEFFFFEA 		b	R_OSTM_GetVersion
+  49              	.LVL2:
+  50              	.L3:
+  51              		.align	2
+  52              	.L2:
+  53 0028 00000000 		.word	.LC0
+  54              		.cfi_endproc
+  55              	.LFE6:
+  57              		.section	.text.ostm_read,"ax",%progbits
+  58              		.align	2
+  59              		.syntax unified
+  60              		.arm
+  61              		.fpu neon
+  63              	ostm_read:
+  64              	.LFB4:
+ 210:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     int_t err_code = DRV_ERROR;
+  65              		.loc 1 210 0
+  66              		.cfi_startproc
+  67              		@ args = 0, pretend = 0, frame = 0
+  68              		@ frame_needed = 0, uses_anonymous_args = 0
+  69              		@ link register save eliminated.
+  70              	.LVL3:
+ 215:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     {
+  71              		.loc 1 215 0
+  72 0000 030052E3 		cmp	r2, #3
+  73 0004 0500009A 		bls	.L5
+  74              	.LVL4:
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+  75              		.loc 1 221 0
+  76 0008 1C20D0E5 		ldrb	r2, [r0, #28]	@ zero_extendqisi2
+  77              	.LVL5:
+  78 000c 1430A0E3 		mov	r3, #20
+  79 0010 930203E0 		mul	r3, r3, r2
+ 226:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+  80              		.loc 1 226 0
+  81 0014 0C209FE5 		ldr	r2, .L6
+  82 0018 0300D2E7 		ldrb	r0, [r2, r3]	@ zero_extendqisi2
+  83              	.LVL6:
+  84 001c FEFFFFEA 		b	R_OSTM_GetCount
+  85              	.LVL7:
+  86              	.L5:
+ 229:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /******************************************************************************
+  87              		.loc 1 229 0
+  88 0020 0000E0E3 		mvn	r0, #0
+  89              	.LVL8:
+  90 0024 1EFF2FE1 		bx	lr
+  91              	.L7:
+  92              		.align	2
+  93              	.L6:
+  94 0028 00000000 		.word	.LANCHOR0
+  95              		.cfi_endproc
+  96              	.LFE4:
+  98              		.section	.text.ostm_close,"ax",%progbits
+  99              		.align	2
+ 100              		.syntax unified
+ 101              		.arm
+ 102              		.fpu neon
+ 104              	ostm_close:
+ 105              	.LFB3:
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     e_r_drv_ostm_channel_t channel;
+ 106              		.loc 1 183 0
+ 107              		.cfi_startproc
+ 108              		@ args = 0, pretend = 0, frame = 0
+ 109              		@ frame_needed = 0, uses_anonymous_args = 0
+ 110              		@ link register save eliminated.
+ 111              	.LVL9:
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 112              		.loc 1 187 0
+ 113 0000 1C20D0E5 		ldrb	r2, [r0, #28]	@ zero_extendqisi2
+ 114 0004 1430A0E3 		mov	r3, #20
+ 115 0008 930203E0 		mul	r3, r3, r2
+ 116              	.LVL10:
+ 117 000c 1C209FE5 		ldr	r2, .L10
+ 118 0010 0300D2E7 		ldrb	r0, [r2, r3]	@ zero_extendqisi2
+ 119              	.LVL11:
+ 189:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     {
+ 120              		.loc 1 189 0
+ 121 0014 18309FE5 		ldr	r3, .L10+4
+ 122              	.LVL12:
+ 123 0018 002193E7 		ldr	r2, [r3, r0, lsl #2]
+ 124 001c 000052E3 		cmp	r2, #0
+ 125 0020 1EFF2F01 		bxeq	lr
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 126              		.loc 1 192 0
+ 127 0024 0020A0E3 		mov	r2, #0
+ 128 0028 002183E7 		str	r2, [r3, r0, lsl #2]
+ 194:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     }
+ 129              		.loc 1 194 0
+ 130 002c FEFFFFEA 		b	R_OSTM_Close
+ 131              	.LVL13:
+ 132              	.L11:
+ 133              		.align	2
+ 134              	.L10:
+ 135 0030 00000000 		.word	.LANCHOR0
+ 136 0034 00000000 		.word	.LANCHOR1
+ 137              		.cfi_endproc
+ 138              	.LFE3:
+ 140              		.section	.text.ostm_control,"ax",%progbits
+ 141              		.align	2
+ 142              		.syntax unified
+ 143              		.arm
+ 144              		.fpu neon
+ 146              	ostm_control:
+ 147              	.LFB5:
+ 243:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     int_t retval = DRV_ERROR;
+ 148              		.loc 1 243 0
+ 149              		.cfi_startproc
+ 150              		@ args = 0, pretend = 0, frame = 0
+ 151              		@ frame_needed = 0, uses_anonymous_args = 0
+ 152              	.LVL14:
+ 249:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 153              		.loc 1 249 0
+ 154 0000 1C00D0E5 		ldrb	r0, [r0, #28]	@ zero_extendqisi2
+ 155              	.LVL15:
+ 156 0004 1430A0E3 		mov	r3, #20
+ 243:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     int_t retval = DRV_ERROR;
+ 157              		.loc 1 243 0
+ 158 0008 70402DE9 		push	{r4, r5, r6, lr}
+ 159              		.cfi_def_cfa_offset 16
+ 160              		.cfi_offset 4, -16
+ 161              		.cfi_offset 5, -12
+ 162              		.cfi_offset 6, -8
+ 163              		.cfi_offset 14, -4
+ 249:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 164              		.loc 1 249 0
+ 165 000c 930003E0 		mul	r3, r3, r0
+ 166 0010 90009FE5 		ldr	r0, .L23
+ 167 0014 0340D0E7 		ldrb	r4, [r0, r3]	@ zero_extendqisi2
+ 168              	.LVL16:
+ 251:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     {
+ 169              		.loc 1 251 0
+ 170 0018 030051E3 		cmp	r1, #3
+ 171 001c 01F19F97 		ldrls	pc, [pc, r1, asl #2]
+ 172 0020 1E0000EA 		b	.L21
+ 173              	.L15:
+ 174 0024 34000000 		.word	.L14
+ 175 0028 40000000 		.word	.L16
+ 176 002c 4C000000 		.word	.L17
+ 177 0030 88000000 		.word	.L18
+ 178              	.L14:
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****             break;
+ 179              		.loc 1 256 0
+ 180 0034 0400A0E1 		mov	r0, r4
+ 299:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /******************************************************************************
+ 181              		.loc 1 299 0
+ 182 0038 7040BDE8 		pop	{r4, r5, r6, lr}
+ 183              		.cfi_remember_state
+ 184              		.cfi_restore 14
+ 185              		.cfi_restore 6
+ 186              		.cfi_restore 5
+ 187              		.cfi_restore 4
+ 188              		.cfi_def_cfa_offset 0
+ 189              	.LVL17:
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****             break;
+ 190              		.loc 1 256 0
+ 191 003c FEFFFFEA 		b	R_OSTM_Start
+ 192              	.LVL18:
+ 193              	.L16:
+ 194              		.cfi_restore_state
+ 263:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****             break;
+ 195              		.loc 1 263 0
+ 196 0040 0400A0E1 		mov	r0, r4
+ 299:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /******************************************************************************
+ 197              		.loc 1 299 0
+ 198 0044 7040BDE8 		pop	{r4, r5, r6, lr}
+ 199              		.cfi_remember_state
+ 200              		.cfi_restore 14
+ 201              		.cfi_restore 6
+ 202              		.cfi_restore 5
+ 203              		.cfi_restore 4
+ 204              		.cfi_def_cfa_offset 0
+ 205              	.LVL19:
+ 263:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****             break;
+ 206              		.loc 1 263 0
+ 207 0048 FEFFFFEA 		b	R_OSTM_Stop
+ 208              	.LVL20:
+ 209              	.L17:
+ 210              		.cfi_restore_state
+ 269:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****             {
+ 211              		.loc 1 269 0
+ 212 004c 000052E3 		cmp	r2, #0
+ 213 0050 1200000A 		beq	.L21
+ 214              	.LBB4:
+ 215              	.LBB5:
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     }
+ 216              		.loc 1 117 0
+ 217 0054 0400A0E1 		mov	r0, r4
+ 218 0058 0250A0E1 		mov	r5, r2
+ 219              	.LVL21:
+ 220 005c FEFFFFEB 		bl	R_OSTM_Stop
+ 221              	.LVL22:
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     {
+ 222              		.loc 1 121 0
+ 223 0060 000050E3 		cmp	r0, #0
+ 224 0064 7080BD18 		popne	{r4, r5, r6, pc}
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     }
+ 225              		.loc 1 123 0
+ 226 0068 0400A0E1 		mov	r0, r4
+ 227              	.LVL23:
+ 228 006c FEFFFFEB 		bl	R_OSTM_Close
+ 229              	.LVL24:
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     {
+ 230              		.loc 1 127 0
+ 231 0070 000050E3 		cmp	r0, #0
+ 232 0074 7080BD18 		popne	{r4, r5, r6, pc}
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     }
+ 233              		.loc 1 129 0
+ 234 0078 0510A0E1 		mov	r1, r5
+ 235 007c 0400A0E1 		mov	r0, r4
+ 236              	.LVL25:
+ 237              	.LBE5:
+ 238              	.LBE4:
+ 299:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /******************************************************************************
+ 239              		.loc 1 299 0
+ 240 0080 7040BDE8 		pop	{r4, r5, r6, lr}
+ 241              		.cfi_remember_state
+ 242              		.cfi_restore 14
+ 243              		.cfi_restore 6
+ 244              		.cfi_restore 5
+ 245              		.cfi_restore 4
+ 246              		.cfi_def_cfa_offset 0
+ 247              	.LVL26:
+ 248              	.LBB7:
+ 249              	.LBB6:
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     }
+ 250              		.loc 1 129 0
+ 251 0084 FEFFFFEA 		b	R_OSTM_Init
+ 252              	.LVL27:
+ 253              	.L18:
+ 254              		.cfi_restore_state
+ 255              	.LBE6:
+ 256              	.LBE7:
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****             {
+ 257              		.loc 1 282 0
+ 258 0088 000052E3 		cmp	r2, #0
+ 259 008c 0300000A 		beq	.L21
+ 285:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****             }
+ 260              		.loc 1 285 0
+ 261 0090 0400A0E1 		mov	r0, r4
+ 262 0094 0210A0E1 		mov	r1, r2
+ 263              	.LVL28:
+ 299:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /******************************************************************************
+ 264              		.loc 1 299 0
+ 265 0098 7040BDE8 		pop	{r4, r5, r6, lr}
+ 266              		.cfi_remember_state
+ 267              		.cfi_restore 14
+ 268              		.cfi_restore 6
+ 269              		.cfi_restore 5
+ 270              		.cfi_restore 4
+ 271              		.cfi_def_cfa_offset 0
+ 272              	.LVL29:
+ 285:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****             }
+ 273              		.loc 1 285 0
+ 274 009c FEFFFFEA 		b	R_OSTM_GetCount
+ 275              	.LVL30:
+ 276              	.L21:
+ 277              		.cfi_restore_state
+ 244:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     e_r_drv_ostm_channel_t channel;
+ 278              		.loc 1 244 0
+ 279 00a0 0000E0E3 		mvn	r0, #0
+ 299:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /******************************************************************************
+ 280              		.loc 1 299 0
+ 281 00a4 7080BDE8 		pop	{r4, r5, r6, pc}
+ 282              	.L24:
+ 283              		.align	2
+ 284              	.L23:
+ 285 00a8 00000000 		.word	.LANCHOR0
+ 286              		.cfi_endproc
+ 287              	.LFE5:
+ 289              		.section	.text.ostm_open,"ax",%progbits
+ 290              		.align	2
+ 291              		.syntax unified
+ 292              		.arm
+ 293              		.fpu neon
+ 295              	ostm_open:
+ 296              	.LFB2:
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     int_t ret = DRV_ERROR;
+ 297              		.loc 1 145 0
+ 298              		.cfi_startproc
+ 299              		@ args = 0, pretend = 0, frame = 0
+ 300              		@ frame_needed = 0, uses_anonymous_args = 0
+ 301              	.LVL31:
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 302              		.loc 1 150 0
+ 303 0000 1C20D0E5 		ldrb	r2, [r0, #28]	@ zero_extendqisi2
+ 304 0004 1430A0E3 		mov	r3, #20
+ 305 0008 40109FE5 		ldr	r1, .L29
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     int_t ret = DRV_ERROR;
+ 306              		.loc 1 145 0
+ 307 000c 70402DE9 		push	{r4, r5, r6, lr}
+ 308              		.cfi_def_cfa_offset 16
+ 309              		.cfi_offset 4, -16
+ 310              		.cfi_offset 5, -12
+ 311              		.cfi_offset 6, -8
+ 312              		.cfi_offset 14, -4
+ 154:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     {
+ 313              		.loc 1 154 0
+ 314 0010 3C509FE5 		ldr	r5, .L29+4
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 315              		.loc 1 150 0
+ 316 0014 930203E0 		mul	r3, r3, r2
+ 317 0018 0340D1E7 		ldrb	r4, [r1, r3]	@ zero_extendqisi2
+ 318              	.LVL32:
+ 154:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     {
+ 319              		.loc 1 154 0
+ 320 001c 042195E7 		ldr	r2, [r5, r4, lsl #2]
+ 321 0020 000052E3 		cmp	r2, #0
+ 322 0024 0700001A 		bne	.L27
+ 156:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** 
+ 323              		.loc 1 156 0
+ 324 0028 043083E2 		add	r3, r3, #4
+ 325 002c 0400A0E1 		mov	r0, r4
+ 326              	.LVL33:
+ 327 0030 031081E0 		add	r1, r1, r3
+ 328 0034 FEFFFFEB 		bl	R_OSTM_Init
+ 329              	.LVL34:
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         {
+ 330              		.loc 1 158 0
+ 331 0038 000050E3 		cmp	r0, #0
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****         }
+ 332              		.loc 1 160 0
+ 333 003c 0130A003 		moveq	r3, #1
+ 334 0040 04318507 		streq	r3, [r5, r4, lsl #2]
+ 335 0044 7080BDE8 		pop	{r4, r5, r6, pc}
+ 336              	.LVL35:
+ 337              	.L27:
+ 146:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c ****     e_r_drv_ostm_channel_t channel;
+ 338              		.loc 1 146 0
+ 339 0048 0000E0E3 		mvn	r0, #0
+ 340              	.LVL36:
+ 170:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_ostm/src/hld\r_ostm_drv_api.c **** /******************************************************************************
+ 341              		.loc 1 170 0
+ 342 004c 7080BDE8 		pop	{r4, r5, r6, pc}
+ 343              	.L30:
+ 344              		.align	2
+ 345              	.L29:
+ 346 0050 00000000 		.word	.LANCHOR0
+ 347 0054 00000000 		.word	.LANCHOR1
+ 348              		.cfi_endproc
+ 349              	.LFE2:
+ 351              		.global	g_ostm_driver
+ 352              		.global	gs_r_drv_ostm_open
+ 353              		.section	.bss.gs_r_drv_ostm_open,"aw",%nobits
+ 354              		.align	2
+ 355              		.set	.LANCHOR1,. + 0
+ 358              	gs_r_drv_ostm_open:
+ 359 0000 00000000 		.space	12
+ 359      00000000 
+ 359      00000000 
+ 360              		.section	.rodata.OSTM_SC_TABLE,"a",%progbits
+ 361              		.align	2
+ 362              		.set	.LANCHOR0,. + 0
+ 365              	OSTM_SC_TABLE:
+ 366 0000 02000000 		.word	2
+ 367 0004 00       		.byte	0
+ 368 0005 00       		.byte	0
+ 369 0006 0000     		.space	2
+ 370 0008 01000000 		.word	1
+ 371 000c 00       		.byte	0
+ 372 000d 00       		.byte	0
+ 373 000e 1E       		.byte	30
+ 374 000f 00       		.space	1
+ 375 0010 00000000 		.word	FreeRTOS_Tick_Handler
+ 376 0014 01000000 		.word	1
+ 377 0018 01       		.byte	1
+ 378 0019 01       		.byte	1
+ 379 001a 0000     		.space	2
+ 380 001c 00000000 		.word	0
+ 381 0020 00       		.byte	0
+ 382 0021 01       		.byte	1
+ 383 0022 00       		.byte	0
+ 384 0023 00       		.space	1
+ 385 0024 00000000 		.word	0
+ 386              		.section	.rodata.g_ostm_driver,"a",%progbits
+ 387              		.align	2
+ 390              	g_ostm_driver:
+ 391 0000 00000000 		.word	.LC1
+ 392 0004 00000000 		.word	ostm_open
+ 393 0008 00000000 		.word	ostm_close
+ 394 000c 00000000 		.word	ostm_read
+ 395 0010 00000000 		.word	no_dev_write
+ 396 0014 00000000 		.word	ostm_control
+ 397 0018 00000000 		.word	ostm_get_version
+ 398              		.section	.rodata.ostm_get_version.str1.1,"aMS",%progbits,1
+ 399              	.LC0:
+ 400 0000 484C4420 		.ascii	"HLD OSTM\000"
+ 400      4F53544D 
+ 400      00
+ 401              		.section	.rodata.str1.1,"aMS",%progbits,1
+ 402              	.LC1:
+ 403 0000 4F532054 		.ascii	"OS Timer Driver\000"
+ 403      696D6572 
+ 403      20447269 
+ 403      76657200 
+ 404              		.text
+ 405              	.Letext0:
+ 406              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 407              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 408              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 409              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 410              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 411              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 412              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 413              		.file 9 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_bo
+ 414              		.file 10 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 415              		.file 11 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 416              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 417              		.file 13 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 418              		.file 14 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 419              		.file 15 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 420              		.file 16 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+DEFINED SYMBOLS
+                            *ABS*:00000000 r_ostm_drv_api.c
+C:\Users\a5089698\AppData\Local\Temp\cctWMLBb.s:17     .text.ostm_get_version:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cctWMLBb.s:22     .text.ostm_get_version:00000000 ostm_get_version
+C:\Users\a5089698\AppData\Local\Temp\cctWMLBb.s:53     .text.ostm_get_version:00000028 $d
+C:\Users\a5089698\AppData\Local\Temp\cctWMLBb.s:58     .text.ostm_read:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cctWMLBb.s:63     .text.ostm_read:00000000 ostm_read
+C:\Users\a5089698\AppData\Local\Temp\cctWMLBb.s:94     .text.ostm_read:00000028 $d
+C:\Users\a5089698\AppData\Local\Temp\cctWMLBb.s:99     .text.ostm_close:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cctWMLBb.s:104    .text.ostm_close:00000000 ostm_close
+C:\Users\a5089698\AppData\Local\Temp\cctWMLBb.s:135    .text.ostm_close:00000030 $d
+C:\Users\a5089698\AppData\Local\Temp\cctWMLBb.s:141    .text.ostm_control:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cctWMLBb.s:146    .text.ostm_control:00000000 ostm_control
+C:\Users\a5089698\AppData\Local\Temp\cctWMLBb.s:174    .text.ostm_control:00000024 $d
+C:\Users\a5089698\AppData\Local\Temp\cctWMLBb.s:180    .text.ostm_control:00000034 $a
+C:\Users\a5089698\AppData\Local\Temp\cctWMLBb.s:285    .text.ostm_control:000000a8 $d
+C:\Users\a5089698\AppData\Local\Temp\cctWMLBb.s:290    .text.ostm_open:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cctWMLBb.s:295    .text.ostm_open:00000000 ostm_open
+C:\Users\a5089698\AppData\Local\Temp\cctWMLBb.s:346    .text.ostm_open:00000050 $d
+C:\Users\a5089698\AppData\Local\Temp\cctWMLBb.s:390    .rodata.g_ostm_driver:00000000 g_ostm_driver
+C:\Users\a5089698\AppData\Local\Temp\cctWMLBb.s:358    .bss.gs_r_drv_ostm_open:00000000 gs_r_drv_ostm_open
+C:\Users\a5089698\AppData\Local\Temp\cctWMLBb.s:354    .bss.gs_r_drv_ostm_open:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\cctWMLBb.s:361    .rodata.OSTM_SC_TABLE:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\cctWMLBb.s:365    .rodata.OSTM_SC_TABLE:00000000 OSTM_SC_TABLE
+C:\Users\a5089698\AppData\Local\Temp\cctWMLBb.s:387    .rodata.g_ostm_driver:00000000 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+R_OSTM_GetVersion
+R_OSTM_GetCount
+R_OSTM_Close
+R_OSTM_Start
+R_OSTM_Stop
+R_OSTM_Init
+FreeRTOS_Tick_Handler
+no_dev_write

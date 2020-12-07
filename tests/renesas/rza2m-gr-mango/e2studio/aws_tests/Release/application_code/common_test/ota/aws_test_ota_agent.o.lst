@@ -1,0 +1,2256 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"aws_test_ota_agent.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.vOTACompleteCallback,"ax",%progbits
+  17              		.align	2
+  18              		.syntax unified
+  19              		.arm
+  20              		.fpu neon
+  22              	vOTACompleteCallback:
+  23              	.LFB0:
+  24              		.file 1 "D:/Work/DeviceTester/amazon-freertos/tests/common/ota/aws_test_ota_agent.c"
+   1:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** /*
+   2:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * Amazon FreeRTOS OTA AFQP V1.1.4
+   3:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * Copyright (C) 2017 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+   4:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  *
+   5:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * Permission is hereby granted, free of charge, to any person obtaining a copy of
+   6:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * this software and associated documentation files (the "Software"), to deal in
+   7:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * the Software without restriction, including without limitation the rights to
+   8:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+   9:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * the Software, and to permit persons to whom the Software is furnished to do so,
+  10:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * subject to the following conditions:
+  11:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  *
+  12:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * The above copyright notice and this permission notice shall be included in all
+  13:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * copies or substantial portions of the Software.
+  14:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  *
+  15:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  16:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+  17:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+  18:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+  19:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  20:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  21:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  *
+  22:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * http://aws.amazon.com/freertos
+  23:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * http://www.FreeRTOS.org
+  24:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  */
+  25:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** /* Standard includes. */
+  26:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #include <stdint.h>
+  27:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #include <stdbool.h>
+  28:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #include <string.h>
+  29:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+  30:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** /* FreeRTOS includes. */
+  31:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #include "FreeRTOS.h"
+  32:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+  33:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #include "unity_fixture.h"
+  34:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #include "unity.h"
+  35:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #include "jsmn.h"
+  36:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #include "aws_ota_agent_test_access_declare.h"
+  37:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #include "aws_ota_agent.h"
+  38:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #include "aws_clientcredential.h"
+  39:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #include "aws_ota_agent_internal.h"
+  40:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+  41:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** /* MQTT includes. */
+  42:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #include "aws_mqtt_agent.h"
+  43:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+  44:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** /* Configuration for this test. */
+  45:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #include "aws_test_ota_config.h"
+  46:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+  47:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** /**
+  48:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * @brief Configuration for this test group.
+  49:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  */
+  50:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #define otatestMAX_LOOP_MEM_LEAK_CHECK    ( 1 )
+  51:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #define otatestSHUTDOWN_WAIT              10000
+  52:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #define otatestAGENT_INIT_WAIT            10000
+  53:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #define otatestGARBAGE_JSON               "{sioudgoijergijoijosdigjoeiwgoiew893752379\"}"
+  54:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+  55:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #define otatestSTREAM_NAME                "1"
+  56:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #define otatestFILE_SIZE                  90860
+  57:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #define otatestFILE_PATH                  "payload.bin"
+  58:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #define otatestCERT_FILE                  "rsasigner.crt"
+  59:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #define otatestATTRIBUTES                 3
+  60:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #define otatestFILE_ID                    0
+  61:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** static const uint8_t ucOtatestSIGNATURE[] =
+  62:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** {
+  63:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     0x38, 0x78, 0xf9, 0xb0, 0xd8, 0xf1, 0xa8, 0xc3, 0x4a, 0xdd, 0x63, 0x44, 0xc1, 0xbc, 0x9f, 0xb3,
+  64:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     0xf3, 0xde, 0x49, 0x24, 0xb5, 0x93, 0x32, 0xe4, 0x01, 0x0e, 0x0c, 0x4a, 0xed, 0x32, 0x28, 0xd1,
+  65:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     0x68, 0x1b, 0x12, 0x6b, 0x50, 0xab, 0x88, 0x5a, 0x18, 0xd0, 0x6d, 0x08, 0x8f, 0x95, 0x77, 0x03,
+  66:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     0xb5, 0x79, 0x52, 0x5c, 0x4f, 0x32, 0x74, 0x0c, 0x28, 0xc6, 0x79, 0xf0, 0xe6, 0x57, 0x30, 0xa4,
+  67:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     0x9b, 0x1b, 0x5f, 0x10, 0xf5, 0x2b, 0x53, 0xf0, 0x64, 0x9a, 0x1c, 0xff, 0x79, 0xaf, 0xe5, 0x71,
+  68:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     0xd7, 0x6e, 0xfb, 0xc4, 0xa0, 0x5a, 0xf8, 0xc8, 0x0d, 0x2b, 0x85, 0x8e, 0x2d, 0xca, 0xb3, 0x03,
+  69:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     0x05, 0xeb, 0x04, 0xb4, 0xe5, 0x6b, 0x5b, 0x4c, 0x88, 0xe2, 0x63, 0x38, 0x2d, 0xd7, 0xb9, 0x3a,
+  70:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     0xd7, 0x48, 0xc6, 0x8f, 0x2c, 0x8d, 0x34, 0x8f, 0x19, 0x7a, 0x36, 0x12, 0x3b, 0xa1, 0x9f, 0xe2,
+  71:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     0xc3, 0x44, 0x3d, 0xe0, 0x29, 0xd6, 0xf5, 0x82, 0xd3, 0xe9, 0xa0, 0x9f, 0xd8, 0x05, 0x09, 0x98,
+  72:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     0x29, 0x71, 0xc5, 0x43, 0x94, 0x16, 0xe7, 0xc1, 0x8e, 0x4a, 0x50, 0x7d, 0xa6, 0xba, 0xb9, 0xbf,
+  73:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     0xe3, 0x25, 0xa1, 0x50, 0x80, 0x4e, 0x39, 0xb3, 0x6f, 0xdb, 0x6e, 0xe2, 0x6b, 0x12, 0x71, 0x76,
+  74:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     0x18, 0xcb, 0x8d, 0x62, 0x90, 0x48, 0x4a, 0xd9, 0xec, 0x9f, 0x97, 0xbf, 0xef, 0xa5, 0xcd, 0xaf,
+  75:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     0x30, 0xd5, 0xfa, 0xba, 0x1c, 0xb2, 0x79, 0x98, 0x64, 0xbb, 0xd9, 0xda, 0x98, 0x8e, 0x0e, 0x66,
+  76:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     0x6b, 0x29, 0xef, 0x6b, 0x4b, 0x2f, 0x80, 0xf8, 0xa4, 0x5b, 0x78, 0xfe, 0x70, 0xd6, 0x61, 0x20,
+  77:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     0x28, 0xf2, 0xc4, 0x00, 0xc2, 0x7b, 0x35, 0x44, 0xd6, 0x3e, 0x8f, 0x9d, 0x8a, 0x7e, 0xf8, 0x2f,
+  78:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     0x28, 0xa3, 0x77, 0xbb, 0xa1, 0xb7, 0xb2, 0xe1, 0x72, 0x55, 0x0a, 0x31, 0x58, 0x9b, 0xb7, 0x68
+  79:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** };
+  80:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+  81:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** /**
+  82:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * @brief Job document, with all required fields, that is expected to parse.
+  83:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  */
+  84:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #define otatestLASER_JSON                        "{\"clientToken\":\"mytoken\",\"timestamp\":150844
+  85:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+  86:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** /**
+  87:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * @brief Job document that is missing a required field.
+  88:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  */
+  89:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #define otatestBAD_LASER_JSON                    "{\"clientToken\":\"mytoken\",\"timestamp\":150844
+  90:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+  91:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** /**
+  92:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * @brief Has a duplicate JSON field, but otherwise valid.
+  93:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  */
+  94:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #define otatestLASER_JSON_WITH_DUPLICATE         "{\"clientToken\":\"mytoken0\",\"clientToken\":\"m
+  95:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+  96:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** /**
+  97:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * @brief Job document with an invalid client token (is a primitive instead of a string).
+  98:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  */
+  99:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #define otatestLASER_JSON_WITH_FIELD_MISMATCH    "{\"clientToken\":5,\"timestamp\":1508445004,\"exe
+ 100:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 101:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** /**
+ 102:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * @brief Job document with an invalid base64 signature.
+ 103:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  */
+ 104:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #define otatestLASER_JSON_WITH_BAD_BASE64        "{\"clientToken\":\"mytoken\",\"timestamp\":150844
+ 105:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 106:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** /**
+ 107:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * @brief Valid job document; includes the "self_test" key.
+ 108:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  */
+ 109:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** #define otatestLASER_JSON_WITH_SELF_TEST         "{\"clientToken\":\"mytoken\",\"timestamp\":150844
+ 110:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 111:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** /**
+ 112:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * @brief Shared MQTT client handle, used across setup, tests, and teardown.
+ 113:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * But only used by one test at a time. */
+ 114:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** static MQTTAgentHandle_t xMQTTClientHandle = NULL;
+ 115:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 116:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** /**
+ 117:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * @brief Application-defined callback for the OTA agent.
+ 118:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  */
+ 119:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** static void vOTACompleteCallback( OTA_JobEvent_t eResult )
+ 120:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** {
+  25              		.loc 1 120 0
+  26              		.cfi_startproc
+  27              		@ args = 0, pretend = 0, frame = 0
+  28              		@ frame_needed = 0, uses_anonymous_args = 0
+  29              		@ link register save eliminated.
+  30              	.LVL0:
+  31 0000 1EFF2FE1 		bx	lr
+  32              		.cfi_endproc
+  33              	.LFE0:
+  35              		.section	.text.TEST_Full_OTA_AGENT_SETUP,"ax",%progbits
+  36              		.align	2
+  37              		.global	TEST_Full_OTA_AGENT_SETUP
+  38              		.syntax unified
+  39              		.arm
+  40              		.fpu neon
+  42              	TEST_Full_OTA_AGENT_SETUP:
+  43              	.LFB1:
+ 121:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** }
+ 122:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 123:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** /**
+ 124:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * @brief Test group definition.
+ 125:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  */
+ 126:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** TEST_GROUP( Full_OTA_AGENT );
+ 127:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 128:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** /**
+ 129:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * @brief Set up the MQTT Agent before running any OTA tests.
+ 130:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  */
+ 131:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** TEST_SETUP( Full_OTA_AGENT )
+ 132:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** {
+  44              		.loc 1 132 0
+  45              		.cfi_startproc
+  46              		@ args = 0, pretend = 0, frame = 48
+  47              		@ frame_needed = 0, uses_anonymous_args = 0
+  48              		.loc 1 132 0
+  49 0000 30402DE9 		push	{r4, r5, lr}
+  50              		.cfi_def_cfa_offset 12
+  51              		.cfi_offset 4, -12
+  52              		.cfi_offset 5, -8
+  53              		.cfi_offset 14, -4
+  54 0004 3CD04DE2 		sub	sp, sp, #60
+  55              		.cfi_def_cfa_offset 72
+ 133:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     MQTTAgentReturnCode_t xMqttStatus;
+ 134:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     MQTTAgentConnectParams_t xConnectParams;
+ 135:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 136:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* Create the MQTT Client. */
+ 137:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     xMqttStatus = MQTT_AGENT_Create( &xMQTTClientHandle );
+  56              		.loc 1 137 0
+  57 0008 88509FE5 		ldr	r5, .L4
+ 138:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     TEST_ASSERT_EQUAL_INT( eMQTTAgentSuccess, xMqttStatus );
+  58              		.loc 1 138 0
+  59 000c 1440A0E3 		mov	r4, #20
+ 137:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     TEST_ASSERT_EQUAL_INT( eMQTTAgentSuccess, xMqttStatus );
+  60              		.loc 1 137 0
+  61 0010 0500A0E1 		mov	r0, r5
+  62 0014 FEFFFFEB 		bl	MQTT_AGENT_Create
+  63              	.LVL1:
+  64              		.loc 1 138 0
+  65 0018 0020A0E3 		mov	r2, #0
+  66 001c 8A30A0E3 		mov	r3, #138
+  67 0020 0010A0E1 		mov	r1, r0
+  68 0024 00408DE5 		str	r4, [sp]
+  69 0028 0200A0E1 		mov	r0, r2
+  70              	.LVL2:
+  71 002c FEFFFFEB 		bl	UnityAssertEqualNumber
+  72              	.LVL3:
+ 139:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 140:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* Connect to the broker. */
+ 141:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     memset( &xConnectParams, 0, sizeof( xConnectParams ) );
+  73              		.loc 1 141 0
+  74 0030 2C20A0E3 		mov	r2, #44
+  75 0034 0010A0E3 		mov	r1, #0
+  76 0038 0C008DE2 		add	r0, sp, #12
+  77 003c FEFFFFEB 		bl	memset
+  78              	.LVL4:
+ 142:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     xConnectParams.pucClientId = ( const uint8_t * ) ( clientcredentialIOT_THING_NAME );
+  79              		.loc 1 142 0
+  80 0040 54309FE5 		ldr	r3, .L4+4
+ 143:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     xConnectParams.usClientIdLength = sizeof( clientcredentialIOT_THING_NAME ) - 1; /* Length doesn
+ 144:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     xConnectParams.pcURL = clientcredentialMQTT_BROKER_ENDPOINT;
+ 145:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     xConnectParams.usPort = clientcredentialMQTT_BROKER_PORT;
+ 146:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     xConnectParams.xFlags = mqttagentREQUIRE_TLS;
+ 147:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     xMqttStatus = MQTT_AGENT_Connect( xMQTTClientHandle,
+  81              		.loc 1 147 0
+  82 0044 0C108DE2 		add	r1, sp, #12
+  83 0048 102702E3 		movw	r2, #10000
+  84 004c 000095E5 		ldr	r0, [r5]
+ 142:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     xConnectParams.pucClientId = ( const uint8_t * ) ( clientcredentialIOT_THING_NAME );
+  85              		.loc 1 142 0
+  86 0050 1C308DE5 		str	r3, [sp, #28]
+ 143:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     xConnectParams.usClientIdLength = sizeof( clientcredentialIOT_THING_NAME ) - 1; /* Length doesn
+  87              		.loc 1 143 0
+  88 0054 1730A0E3 		mov	r3, #23
+  89 0058 B032CDE1 		strh	r3, [sp, #32]	@ movhi
+ 144:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     xConnectParams.usPort = clientcredentialMQTT_BROKER_PORT;
+  90              		.loc 1 144 0
+  91 005c 3C309FE5 		ldr	r3, .L4+8
+  92 0060 0C308DE5 		str	r3, [sp, #12]
+ 145:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     xConnectParams.xFlags = mqttagentREQUIRE_TLS;
+  93              		.loc 1 145 0
+  94 0064 B33202E3 		movw	r3, #8883
+  95 0068 B831CDE1 		strh	r3, [sp, #24]	@ movhi
+ 146:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     xMqttStatus = MQTT_AGENT_Connect( xMQTTClientHandle,
+  96              		.loc 1 146 0
+  97 006c 0230A0E3 		mov	r3, #2
+  98 0070 10308DE5 		str	r3, [sp, #16]
+  99              		.loc 1 147 0
+ 100 0074 FEFFFFEB 		bl	MQTT_AGENT_Connect
+ 101              	.LVL5:
+ 148:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                                       &xConnectParams,
+ 149:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                                       pdMS_TO_TICKS( ( TickType_t ) otatestAGENT_INIT_WAIT ) );
+ 150:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     TEST_ASSERT_EQUAL_INT_MESSAGE( eMQTTAgentSuccess, xMqttStatus,
+ 102              		.loc 1 150 0
+ 103 0078 00408DE5 		str	r4, [sp]
+ 104 007c 0010A0E1 		mov	r1, r0
+ 105 0080 9830A0E3 		mov	r3, #152
+ 106 0084 18209FE5 		ldr	r2, .L4+12
+ 107 0088 0000A0E3 		mov	r0, #0
+ 108              	.LVL6:
+ 109 008c FEFFFFEB 		bl	UnityAssertEqualNumber
+ 110              	.LVL7:
+ 151:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                                    "Failed to connect to the MQTT broker in MQTT_AGENT_Connect() du
+ 152:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                                    "TEST_SETUP." );
+ 153:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** }
+ 111              		.loc 1 153 0
+ 112 0090 3CD08DE2 		add	sp, sp, #60
+ 113              		.cfi_def_cfa_offset 12
+ 114              		@ sp needed
+ 115 0094 3080BDE8 		pop	{r4, r5, pc}
+ 116              	.L5:
+ 117              		.align	2
+ 118              	.L4:
+ 119 0098 00000000 		.word	.LANCHOR0
+ 120 009c 00000000 		.word	.LC0
+ 121 00a0 00000000 		.word	.LANCHOR1
+ 122 00a4 18000000 		.word	.LC1
+ 123              		.cfi_endproc
+ 124              	.LFE1:
+ 126              		.section	.text.TEST_Full_OTA_AGENT_TEAR_DOWN,"ax",%progbits
+ 127              		.align	2
+ 128              		.global	TEST_Full_OTA_AGENT_TEAR_DOWN
+ 129              		.syntax unified
+ 130              		.arm
+ 131              		.fpu neon
+ 133              	TEST_Full_OTA_AGENT_TEAR_DOWN:
+ 134              	.LFB2:
+ 154:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 155:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** /**
+ 156:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  * @brief Disconnect and delete the MQTT Agent after the OTA tests.
+ 157:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****  */
+ 158:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** TEST_TEAR_DOWN( Full_OTA_AGENT )
+ 159:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** {
+ 135              		.loc 1 159 0
+ 136              		.cfi_startproc
+ 137              		@ args = 0, pretend = 0, frame = 0
+ 138              		@ frame_needed = 0, uses_anonymous_args = 0
+ 139 0000 37402DE9 		push	{r0, r1, r2, r4, r5, lr}
+ 140              		.cfi_def_cfa_offset 24
+ 141              		.cfi_offset 4, -12
+ 142              		.cfi_offset 5, -8
+ 143              		.cfi_offset 14, -4
+ 160:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     MQTTAgentReturnCode_t xMqttStatus;
+ 161:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 162:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* Disconnect from the MQTT broker. */
+ 163:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     xMqttStatus = MQTT_AGENT_Disconnect( xMQTTClientHandle,
+ 144              		.loc 1 163 0
+ 145 0004 101702E3 		movw	r1, #10000
+ 146 0008 50409FE5 		ldr	r4, .L8
+ 164:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                                          pdMS_TO_TICKS( otatestSHUTDOWN_WAIT ) );
+ 165:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     TEST_ASSERT_EQUAL_INT( eMQTTAgentSuccess, xMqttStatus );
+ 147              		.loc 1 165 0
+ 148 000c 1450A0E3 		mov	r5, #20
+ 163:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                                          pdMS_TO_TICKS( otatestSHUTDOWN_WAIT ) );
+ 149              		.loc 1 163 0
+ 150 0010 000094E5 		ldr	r0, [r4]
+ 151 0014 FEFFFFEB 		bl	MQTT_AGENT_Disconnect
+ 152              	.LVL8:
+ 153              		.loc 1 165 0
+ 154 0018 0020A0E3 		mov	r2, #0
+ 155 001c 0010A0E1 		mov	r1, r0
+ 156 0020 A530A0E3 		mov	r3, #165
+ 157 0024 0200A0E1 		mov	r0, r2
+ 158              	.LVL9:
+ 159 0028 00508DE5 		str	r5, [sp]
+ 160 002c FEFFFFEB 		bl	UnityAssertEqualNumber
+ 161              	.LVL10:
+ 166:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 167:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* Delete the MQTT handle. */
+ 168:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     xMqttStatus = MQTT_AGENT_Delete( xMQTTClientHandle );
+ 162              		.loc 1 168 0
+ 163 0030 000094E5 		ldr	r0, [r4]
+ 164 0034 FEFFFFEB 		bl	MQTT_AGENT_Delete
+ 165              	.LVL11:
+ 169:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     TEST_ASSERT_EQUAL_INT( eMQTTAgentSuccess, xMqttStatus );
+ 166              		.loc 1 169 0
+ 167 0038 0020A0E3 		mov	r2, #0
+ 168 003c 0010A0E1 		mov	r1, r0
+ 169 0040 00508DE5 		str	r5, [sp]
+ 170 0044 A930A0E3 		mov	r3, #169
+ 171 0048 0200A0E1 		mov	r0, r2
+ 172              	.LVL12:
+ 173 004c FEFFFFEB 		bl	UnityAssertEqualNumber
+ 174              	.LVL13:
+ 170:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 171:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     xMQTTClientHandle = NULL;
+ 175              		.loc 1 171 0
+ 176 0050 0030A0E3 		mov	r3, #0
+ 177 0054 003084E5 		str	r3, [r4]
+ 172:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** }
+ 178              		.loc 1 172 0
+ 179 0058 0CD08DE2 		add	sp, sp, #12
+ 180              		.cfi_def_cfa_offset 12
+ 181              		@ sp needed
+ 182 005c 3080BDE8 		pop	{r4, r5, pc}
+ 183              	.L9:
+ 184              		.align	2
+ 185              	.L8:
+ 186 0060 00000000 		.word	.LANCHOR0
+ 187              		.cfi_endproc
+ 188              	.LFE2:
+ 190              		.section	.text.TEST_Full_OTA_AGENT_OTA_SetImageState_InvalidParams_,"ax",%progbits
+ 191              		.align	2
+ 192              		.global	TEST_Full_OTA_AGENT_OTA_SetImageState_InvalidParams_
+ 193              		.syntax unified
+ 194              		.arm
+ 195              		.fpu neon
+ 197              	TEST_Full_OTA_AGENT_OTA_SetImageState_InvalidParams_:
+ 198              	.LFB5:
+ 173:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 174:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** TEST_GROUP_RUNNER( Full_OTA_AGENT )
+ 175:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** {
+ 176:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     RUN_TEST_CASE( Full_OTA_AGENT, OTA_SetImageState_InvalidParams );
+ 177:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     RUN_TEST_CASE( Full_OTA_AGENT, prvParseJobDocFromJSONandPrvOTA_Close );
+ 178:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     RUN_TEST_CASE( Full_OTA_AGENT, prvParseJSONbyModel_Errors );
+ 179:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** }
+ 180:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 181:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** TEST( Full_OTA_AGENT, OTA_SetImageState_InvalidParams )
+ 182:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** {
+ 199              		.loc 1 182 0
+ 200              		.cfi_startproc
+ 201              		@ args = 0, pretend = 0, frame = 0
+ 202              		@ frame_needed = 0, uses_anonymous_args = 0
+ 203 0000 37402DE9 		push	{r0, r1, r2, r4, r5, lr}
+ 204              		.cfi_def_cfa_offset 24
+ 205              		.cfi_offset 4, -12
+ 206              		.cfi_offset 5, -8
+ 207              		.cfi_offset 14, -4
+ 183:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* Initial OTA image state. */
+ 184:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     OTA_ImageState_t xOTAImageState = OTA_GetImageState();
+ 185:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 186:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* Attempt to set image state aborted without initializing the OTA Agent. */
+ 187:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     TEST_ASSERT_EQUAL_UINT32( kOTA_Err_Panic, OTA_SetImageState( eOTA_ImageState_Aborted ) );
+ 208              		.loc 1 187 0
+ 209 0004 2440A0E3 		mov	r4, #36
+ 184:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 210              		.loc 1 184 0
+ 211 0008 FEFFFFEB 		bl	OTA_GetImageState
+ 212              	.LVL14:
+ 213 000c 0050A0E1 		mov	r5, r0
+ 214              	.LVL15:
+ 215              		.loc 1 187 0
+ 216 0010 0400A0E3 		mov	r0, #4
+ 217 0014 FEFFFFEB 		bl	OTA_SetImageState
+ 218              	.LVL16:
+ 219 0018 BB30A0E3 		mov	r3, #187
+ 220 001c 0010A0E1 		mov	r1, r0
+ 221 0020 0020A0E3 		mov	r2, #0
+ 222 0024 00408DE5 		str	r4, [sp]
+ 223 0028 FE04A0E3 		mov	r0, #-33554432
+ 224 002c FEFFFFEB 		bl	UnityAssertEqualNumber
+ 225              	.LVL17:
+ 188:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 189:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* Attempt to set bad image states. */
+ 190:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     TEST_ASSERT_EQUAL_UINT32( kOTA_Err_BadImageState, OTA_SetImageState( eOTA_ImageState_Unknown ) 
+ 226              		.loc 1 190 0
+ 227 0030 0000A0E3 		mov	r0, #0
+ 228 0034 FEFFFFEB 		bl	OTA_SetImageState
+ 229              	.LVL18:
+ 230 0038 BE30A0E3 		mov	r3, #190
+ 231 003c 0010A0E1 		mov	r1, r0
+ 232 0040 0020A0E3 		mov	r2, #0
+ 233 0044 00408DE5 		str	r4, [sp]
+ 234 0048 0904A0E3 		mov	r0, #150994944
+ 235 004c FEFFFFEB 		bl	UnityAssertEqualNumber
+ 236              	.LVL19:
+ 191:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     TEST_ASSERT_EQUAL_UINT32( kOTA_Err_BadImageState, OTA_SetImageState( -1 ) );
+ 237              		.loc 1 191 0
+ 238 0050 FF00A0E3 		mov	r0, #255
+ 239 0054 FEFFFFEB 		bl	OTA_SetImageState
+ 240              	.LVL20:
+ 241 0058 BF30A0E3 		mov	r3, #191
+ 242 005c 0010A0E1 		mov	r1, r0
+ 243 0060 0020A0E3 		mov	r2, #0
+ 244 0064 00408DE5 		str	r4, [sp]
+ 245 0068 0904A0E3 		mov	r0, #150994944
+ 246 006c FEFFFFEB 		bl	UnityAssertEqualNumber
+ 247              	.LVL21:
+ 192:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 193:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* Ensure that the failed SetImageState calls didn't modify the image state. */
+ 194:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     TEST_ASSERT_EQUAL( xOTAImageState, OTA_GetImageState() );
+ 248              		.loc 1 194 0
+ 249 0070 FEFFFFEB 		bl	OTA_GetImageState
+ 250              	.LVL22:
+ 251 0074 1430A0E3 		mov	r3, #20
+ 252 0078 0010A0E1 		mov	r1, r0
+ 253 007c 00308DE5 		str	r3, [sp]
+ 254 0080 0020A0E3 		mov	r2, #0
+ 255 0084 C230A0E3 		mov	r3, #194
+ 256 0088 0500A0E1 		mov	r0, r5
+ 257 008c FEFFFFEB 		bl	UnityAssertEqualNumber
+ 258              	.LVL23:
+ 195:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** }
+ 259              		.loc 1 195 0
+ 260 0090 0CD08DE2 		add	sp, sp, #12
+ 261              		.cfi_def_cfa_offset 12
+ 262              		@ sp needed
+ 263 0094 3080BDE8 		pop	{r4, r5, pc}
+ 264              		.cfi_endproc
+ 265              	.LFE5:
+ 267              		.section	.text.TEST_Full_OTA_AGENT_prvParseJobDocFromJSONandPrvOTA_Close_,"ax",%progbits
+ 268              		.align	2
+ 269              		.global	TEST_Full_OTA_AGENT_prvParseJobDocFromJSONandPrvOTA_Close_
+ 270              		.syntax unified
+ 271              		.arm
+ 272              		.fpu neon
+ 274              	TEST_Full_OTA_AGENT_prvParseJobDocFromJSONandPrvOTA_Close_:
+ 275              	.LFB7:
+ 196:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 197:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** TEST( Full_OTA_AGENT, prvParseJobDocFromJSONandPrvOTA_Close )
+ 198:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** {
+ 276              		.loc 1 198 0
+ 277              		.cfi_startproc
+ 278              		@ args = 0, pretend = 0, frame = 8
+ 279              		@ frame_needed = 0, uses_anonymous_args = 0
+ 199:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     OTA_State_t eOtaStatus;
+ 200:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     OTA_FileContext_t * pxUpdateFile = NULL;
+ 201:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     uint32_t ulLoopIndex;
+ 202:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 203:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* Initialize the OTA agent. Some tests don't use an initialized OTA Agent,
+ 204:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****      * so this isn't done in SETUP.  This is done outside of TEST_PROTECT so that
+ 205:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****      * this test exits if OTA_AgentInit fails. */
+ 206:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     eOtaStatus = OTA_AgentInit(
+ 280              		.loc 1 206 0
+ 281 0000 9C029FE5 		ldr	r0, .L38
+ 200:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     uint32_t ulLoopIndex;
+ 282              		.loc 1 200 0
+ 283 0004 0030A0E3 		mov	r3, #0
+ 198:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     OTA_State_t eOtaStatus;
+ 284              		.loc 1 198 0
+ 285 0008 30402DE9 		push	{r4, r5, lr}
+ 286              		.cfi_def_cfa_offset 12
+ 287              		.cfi_offset 4, -12
+ 288              		.cfi_offset 5, -8
+ 289              		.cfi_offset 14, -4
+ 290 000c 1CD04DE2 		sub	sp, sp, #28
+ 291              		.cfi_def_cfa_offset 40
+ 200:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     uint32_t ulLoopIndex;
+ 292              		.loc 1 200 0
+ 293 0010 10308DE5 		str	r3, [sp, #16]
+ 294              	.LVL24:
+ 295              		.loc 1 206 0
+ 296 0014 103702E3 		movw	r3, #10000
+ 297 0018 88229FE5 		ldr	r2, .L38+4
+ 298 001c 88129FE5 		ldr	r1, .L38+8
+ 299 0020 000090E5 		ldr	r0, [r0]
+ 300 0024 FEFFFFEB 		bl	OTA_AgentInit
+ 301              	.LVL25:
+ 207:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         xMQTTClientHandle,
+ 208:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         ( const uint8_t * ) clientcredentialIOT_THING_NAME,
+ 209:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         vOTACompleteCallback,
+ 210:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         pdMS_TO_TICKS( otatestAGENT_INIT_WAIT ) );
+ 211:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     TEST_ASSERT_EQUAL_INT( eOTA_AgentState_Ready, eOtaStatus );
+ 302              		.loc 1 211 0
+ 303 0028 1430A0E3 		mov	r3, #20
+ 304 002c 0010A0E1 		mov	r1, r0
+ 305 0030 00308DE5 		str	r3, [sp]
+ 306 0034 0020A0E3 		mov	r2, #0
+ 307 0038 D330A0E3 		mov	r3, #211
+ 308 003c 0100A0E3 		mov	r0, #1
+ 309              	.LVL26:
+ 310 0040 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 311              	.LVL27:
+ 212:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 213:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* Test:
+ 214:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****      * 1. That in ideal scenario, the JSON gets correctly processed.
+ 215:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****      * 2. look for potential memory leak by alloc-dealloc several times.
+ 216:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****      * Start test.
+ 217:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****      */
+ 218:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     if( TEST_PROTECT() )
+ 312              		.loc 1 218 0
+ 313 0044 64029FE5 		ldr	r0, .L38+12
+ 314 0048 FEFFFFEB 		bl	setjmp
+ 315              	.LVL28:
+ 316 004c 004050E2 		subs	r4, r0, #0
+ 219:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     {
+ 220:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         /* Check OTA agent status. */
+ 221:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         eOtaStatus = OTA_GetAgentState();
+ 222:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         TEST_ASSERT_EQUAL_INT( eOTA_AgentState_Ready, eOtaStatus );
+ 223:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 224:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         for( ulLoopIndex = 0; ulLoopIndex < otatestMAX_LOOP_MEM_LEAK_CHECK; ulLoopIndex++ )
+ 225:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         {
+ 226:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****             pxUpdateFile = TEST_OTA_prvParseJobDoc( otatestLASER_JSON, sizeof( otatestLASER_JSON ) 
+ 227:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****             TEST_ASSERT_TRUE( pxUpdateFile != NULL );
+ 228:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 229:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****             /* Check the various document field conversions. */
+ 230:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****             TEST_ASSERT_EQUAL_STRING( otatestSTREAM_NAME, pxUpdateFile->pucStreamName );
+ 231:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****             TEST_ASSERT_EQUAL( otatestFILE_SIZE, pxUpdateFile->ulFileSize );
+ 232:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****             TEST_ASSERT_EQUAL_STRING( otatestFILE_PATH, pxUpdateFile->pucFilePath );
+ 233:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****             TEST_ASSERT_EQUAL_STRING( otatestCERT_FILE, pxUpdateFile->pucCertFilepath );
+ 234:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****             TEST_ASSERT_EQUAL( otatestATTRIBUTES, pxUpdateFile->ulFileAttributes );
+ 235:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****             TEST_ASSERT_EQUAL( otatestFILE_ID, pxUpdateFile->ulServerFileID );
+ 236:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****             TEST_ASSERT_EQUAL( sizeof( ucOtatestSIGNATURE ), pxUpdateFile->pxSignature->usSize );
+ 237:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****             TEST_ASSERT_EQUAL_MEMORY( ucOtatestSIGNATURE,
+ 238:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                                       pxUpdateFile->pxSignature->ucData,
+ 239:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                                       sizeof( ucOtatestSIGNATURE ) );
+ 240:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 241:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****             TEST_OTA_prvOTA_Close( pxUpdateFile );
+ 242:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****             pxUpdateFile = NULL;
+ 243:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         }
+ 244:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     }
+ 245:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 246:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     if( pxUpdateFile != NULL )
+ 247:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     {
+ 248:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         TEST_OTA_prvOTA_Close( pxUpdateFile );
+ 249:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         pxUpdateFile = NULL;
+ 250:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     }
+ 251:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 252:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* End test. */
+ 253:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 254:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* Test:
+ 255:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****      * 1. That null is returned if a field is missing from JSON file
+ 256:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****      * 2. That memory is correctly deallocated every time
+ 257:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****      * Start test.
+ 258:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****      */
+ 259:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     for( ulLoopIndex = 0; ulLoopIndex < otatestMAX_LOOP_MEM_LEAK_CHECK; ulLoopIndex++ )
+ 317              		.loc 1 259 0
+ 318 0050 0030A013 		movne	r3, #0
+ 319 0054 14308D15 		strne	r3, [sp, #20]
+ 218:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     {
+ 320              		.loc 1 218 0
+ 321 0058 4300001A 		bne	.L33
+ 221:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         TEST_ASSERT_EQUAL_INT( eOTA_AgentState_Ready, eOtaStatus );
+ 322              		.loc 1 221 0
+ 323 005c FEFFFFEB 		bl	OTA_GetAgentState
+ 324              	.LVL29:
+ 222:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 325              		.loc 1 222 0
+ 326 0060 1430A0E3 		mov	r3, #20
+ 327 0064 0420A0E1 		mov	r2, r4
+ 328 0068 0010A0E1 		mov	r1, r0
+ 329 006c 00308DE5 		str	r3, [sp]
+ 330 0070 0100A0E3 		mov	r0, #1
+ 331              	.LVL30:
+ 332 0074 DE30A0E3 		mov	r3, #222
+ 333 0078 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 334              	.LVL31:
+ 226:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****             TEST_ASSERT_TRUE( pxUpdateFile != NULL );
+ 335              		.loc 1 226 0
+ 336 007c D11200E3 		movw	r1, #721
+ 337 0080 2C029FE5 		ldr	r0, .L38+16
+ 338 0084 FEFFFFEB 		bl	TEST_OTA_prvParseJobDoc
+ 339              	.LVL32:
+ 227:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 340              		.loc 1 227 0
+ 341 0088 004050E2 		subs	r4, r0, #0
+ 342 008c 6800000A 		beq	.L15
+ 343              	.LVL33:
+ 344              	.L17:
+ 231:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****             TEST_ASSERT_EQUAL_STRING( otatestFILE_PATH, pxUpdateFile->pucFilePath );
+ 345              		.loc 1 231 0
+ 346 0090 1450A0E3 		mov	r5, #20
+ 230:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****             TEST_ASSERT_EQUAL( otatestFILE_SIZE, pxUpdateFile->ulFileSize );
+ 347              		.loc 1 230 0
+ 348 0094 E630A0E3 		mov	r3, #230
+ 349 0098 0020A0E3 		mov	r2, #0
+ 350 009c 241094E5 		ldr	r1, [r4, #36]
+ 351 00a0 10029FE5 		ldr	r0, .L38+20
+ 352 00a4 FEFFFFEB 		bl	UnityAssertEqualString
+ 353              	.LVL34:
+ 231:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****             TEST_ASSERT_EQUAL_STRING( otatestFILE_PATH, pxUpdateFile->pucFilePath );
+ 354              		.loc 1 231 0
+ 355 00a8 00508DE5 		str	r5, [sp]
+ 356 00ac E730A0E3 		mov	r3, #231
+ 357 00b0 0020A0E3 		mov	r2, #0
+ 358 00b4 0C1094E5 		ldr	r1, [r4, #12]
+ 359 00b8 FC019FE5 		ldr	r0, .L38+24
+ 360 00bc FEFFFFEB 		bl	UnityAssertEqualNumber
+ 361              	.LVL35:
+ 232:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****             TEST_ASSERT_EQUAL_STRING( otatestCERT_FILE, pxUpdateFile->pucCertFilepath );
+ 362              		.loc 1 232 0
+ 363 00c0 E830A0E3 		mov	r3, #232
+ 364 00c4 0020A0E3 		mov	r2, #0
+ 365 00c8 001094E5 		ldr	r1, [r4]
+ 366 00cc EC019FE5 		ldr	r0, .L38+28
+ 367 00d0 FEFFFFEB 		bl	UnityAssertEqualString
+ 368              	.LVL36:
+ 233:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****             TEST_ASSERT_EQUAL( otatestATTRIBUTES, pxUpdateFile->ulFileAttributes );
+ 369              		.loc 1 233 0
+ 370 00d4 E930A0E3 		mov	r3, #233
+ 371 00d8 0020A0E3 		mov	r2, #0
+ 372 00dc 301094E5 		ldr	r1, [r4, #48]
+ 373 00e0 DC019FE5 		ldr	r0, .L38+32
+ 374 00e4 FEFFFFEB 		bl	UnityAssertEqualString
+ 375              	.LVL37:
+ 234:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****             TEST_ASSERT_EQUAL( otatestFILE_ID, pxUpdateFile->ulServerFileID );
+ 376              		.loc 1 234 0
+ 377 00e8 00508DE5 		str	r5, [sp]
+ 378 00ec EA30A0E3 		mov	r3, #234
+ 379 00f0 0020A0E3 		mov	r2, #0
+ 380 00f4 141094E5 		ldr	r1, [r4, #20]
+ 381 00f8 0300A0E3 		mov	r0, #3
+ 382 00fc FEFFFFEB 		bl	UnityAssertEqualNumber
+ 383              	.LVL38:
+ 235:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****             TEST_ASSERT_EQUAL( sizeof( ucOtatestSIGNATURE ), pxUpdateFile->pxSignature->usSize );
+ 384              		.loc 1 235 0
+ 385 0100 0020A0E3 		mov	r2, #0
+ 386 0104 00508DE5 		str	r5, [sp]
+ 387 0108 0200A0E1 		mov	r0, r2
+ 388 010c EB30A0E3 		mov	r3, #235
+ 389 0110 181094E5 		ldr	r1, [r4, #24]
+ 390 0114 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 391              	.LVL39:
+ 236:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****             TEST_ASSERT_EQUAL_MEMORY( ucOtatestSIGNATURE,
+ 392              		.loc 1 236 0
+ 393 0118 283094E5 		ldr	r3, [r4, #40]
+ 394 011c 0020A0E3 		mov	r2, #0
+ 395 0120 010CA0E3 		mov	r0, #256
+ 396 0124 B010D3E1 		ldrh	r1, [r3]
+ 397 0128 EC30A0E3 		mov	r3, #236
+ 398 012c 00508DE5 		str	r5, [sp]
+ 399 0130 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 400              	.LVL40:
+ 237:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                                       pxUpdateFile->pxSignature->ucData,
+ 401              		.loc 1 237 0
+ 402 0134 281094E5 		ldr	r1, [r4, #40]
+ 403 0138 0130A0E3 		mov	r3, #1
+ 404 013c 0000A0E3 		mov	r0, #0
+ 405 0140 EF20A0E3 		mov	r2, #239
+ 406 0144 0D008DE8 		stm	sp, {r0, r2, r3}
+ 407 0148 012CA0E3 		mov	r2, #256
+ 408 014c 021081E2 		add	r1, r1, #2
+ 409 0150 70019FE5 		ldr	r0, .L38+36
+ 410 0154 FEFFFFEB 		bl	UnityAssertEqualMemory
+ 411              	.LVL41:
+ 241:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****             pxUpdateFile = NULL;
+ 412              		.loc 1 241 0
+ 413 0158 0400A0E1 		mov	r0, r4
+ 414 015c FEFFFFEB 		bl	TEST_OTA_prvOTA_Close
+ 415              	.LVL42:
+ 416              		.loc 1 259 0
+ 417 0160 0030A0E3 		mov	r3, #0
+ 418 0164 14308DE5 		str	r3, [sp, #20]
+ 242:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         }
+ 419              		.loc 1 242 0
+ 420 0168 10308DE5 		str	r3, [sp, #16]
+ 421              	.LVL43:
+ 422              	.L33:
+ 260:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     {
+ 261:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         if( TEST_PROTECT() )
+ 423              		.loc 1 261 0
+ 424 016c 3C019FE5 		ldr	r0, .L38+12
+ 425 0170 FEFFFFEB 		bl	setjmp
+ 426              	.LVL44:
+ 427 0174 000050E3 		cmp	r0, #0
+ 428 0178 0800001A 		bne	.L20
+ 262:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         {
+ 263:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****             pxUpdateFile = TEST_OTA_prvParseJobDoc( otatestBAD_LASER_JSON, sizeof( otatestBAD_LASER
+ 429              		.loc 1 263 0
+ 430 017c CF1200E3 		movw	r1, #719
+ 431 0180 44019FE5 		ldr	r0, .L38+40
+ 432 0184 FEFFFFEB 		bl	TEST_OTA_prvParseJobDoc
+ 433              	.LVL45:
+ 264:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****             TEST_ASSERT_TRUE( pxUpdateFile == NULL );
+ 434              		.loc 1 264 0
+ 435 0188 003050E2 		subs	r3, r0, #0
+ 436 018c 10308DE5 		str	r3, [sp, #16]
+ 437 0190 0900000A 		beq	.L21
+ 438              		.loc 1 264 0 is_stmt 0 discriminator 1
+ 439 0194 421FA0E3 		mov	r1, #264
+ 440 0198 30019FE5 		ldr	r0, .L38+44
+ 441 019c FEFFFFEB 		bl	UnityFail
+ 442              	.LVL46:
+ 443              	.L20:
+ 265:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         }
+ 266:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 267:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         if( pxUpdateFile != NULL )
+ 444              		.loc 1 267 0 is_stmt 1
+ 445 01a0 10309DE5 		ldr	r3, [sp, #16]
+ 446 01a4 000053E3 		cmp	r3, #0
+ 447 01a8 0300000A 		beq	.L21
+ 268:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         {
+ 269:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****             TEST_OTA_prvOTA_Close( pxUpdateFile );
+ 448              		.loc 1 269 0
+ 449 01ac 0300A0E1 		mov	r0, r3
+ 450 01b0 FEFFFFEB 		bl	TEST_OTA_prvOTA_Close
+ 451              	.LVL47:
+ 270:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****             pxUpdateFile = NULL;
+ 452              		.loc 1 270 0
+ 453 01b4 0030A0E3 		mov	r3, #0
+ 454 01b8 10308DE5 		str	r3, [sp, #16]
+ 455              	.LVL48:
+ 456              	.L21:
+ 259:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     {
+ 457              		.loc 1 259 0 discriminator 2
+ 458 01bc 14309DE5 		ldr	r3, [sp, #20]
+ 459 01c0 013093E2 		adds	r3, r3, #1
+ 460              	.LVL49:
+ 461 01c4 14308DE5 		str	r3, [sp, #20]
+ 462 01c8 E7FFFF0A 		beq	.L33
+ 271:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         }
+ 272:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     }
+ 273:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 274:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* End test. */
+ 275:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 276:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* Test that null is returned if JSON file with incorrect length is passed in parameter.
+ 277:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****      * Start test.
+ 278:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****      */
+ 279:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     pxUpdateFile = TEST_OTA_prvParseJobDoc( otatestLASER_JSON, sizeof( otatestLASER_JSON ) / 2 );
+ 463              		.loc 1 279 0
+ 464 01cc 5A1FA0E3 		mov	r1, #360
+ 465 01d0 DC009FE5 		ldr	r0, .L38+16
+ 466 01d4 FEFFFFEB 		bl	TEST_OTA_prvParseJobDoc
+ 467              	.LVL50:
+ 280:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     TEST_ASSERT_TRUE( pxUpdateFile == NULL );
+ 468              		.loc 1 280 0
+ 469 01d8 000050E3 		cmp	r0, #0
+ 470 01dc 1800001A 		bne	.L22
+ 471              	.LVL51:
+ 472              	.L24:
+ 281:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* End test. */
+ 282:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 283:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* Test that null is returned if corrupted JSON file is passed in parameter.
+ 284:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****      * Start test.
+ 285:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****      */
+ 286:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     pxUpdateFile = TEST_OTA_prvParseJobDoc( otatestGARBAGE_JSON, sizeof( otatestGARBAGE_JSON ) );
+ 473              		.loc 1 286 0
+ 474 01e0 2D10A0E3 		mov	r1, #45
+ 475 01e4 E8009FE5 		ldr	r0, .L38+48
+ 476 01e8 FEFFFFEB 		bl	TEST_OTA_prvParseJobDoc
+ 477              	.LVL52:
+ 287:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     TEST_ASSERT_TRUE( pxUpdateFile == NULL );
+ 478              		.loc 1 287 0
+ 479 01ec 000050E3 		cmp	r0, #0
+ 480 01f0 1700001A 		bne	.L25
+ 481              	.LVL53:
+ 482              	.L27:
+ 288:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* End test. */
+ 289:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 290:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* Test that prvOTA_Close doesn't try to free already freed memory.
+ 291:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****      * Start test.
+ 292:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****      */
+ 293:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     pxUpdateFile = TEST_OTA_prvParseJobDoc( otatestLASER_JSON, sizeof( otatestLASER_JSON ) );
+ 483              		.loc 1 293 0
+ 484 01f4 D11200E3 		movw	r1, #721
+ 485 01f8 B4009FE5 		ldr	r0, .L38+16
+ 486 01fc FEFFFFEB 		bl	TEST_OTA_prvParseJobDoc
+ 487              	.LVL54:
+ 294:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 295:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     if( pxUpdateFile != NULL )
+ 488              		.loc 1 295 0
+ 489 0200 004050E2 		subs	r4, r0, #0
+ 490 0204 1600001A 		bne	.L28
+ 491              	.LVL55:
+ 492              	.L30:
+ 296:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     {
+ 297:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         vPortFree( pxUpdateFile->pucFilePath );
+ 298:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         pxUpdateFile->pucFilePath = NULL;
+ 299:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         vPortFree( pxUpdateFile->pucCertFilepath );
+ 300:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         pxUpdateFile->pucCertFilepath = NULL;
+ 301:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         vPortFree( pxUpdateFile->pxSignature );
+ 302:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         pxUpdateFile->pxSignature = NULL;
+ 303:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         vPortFree( pxUpdateFile->pucStreamName );
+ 304:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         pxUpdateFile->pucStreamName = NULL;
+ 305:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         TEST_OTA_prvOTA_Close( pxUpdateFile );
+ 306:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     }
+ 307:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 308:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* Shutdown the OTA agent. */
+ 309:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     eOtaStatus = OTA_AgentShutdown( pdMS_TO_TICKS( otatestSHUTDOWN_WAIT ) );
+ 493              		.loc 1 309 0
+ 494 0208 100702E3 		movw	r0, #10000
+ 495 020c FEFFFFEB 		bl	OTA_AgentShutdown
+ 496              	.LVL56:
+ 310:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     TEST_ASSERT_EQUAL_INT( eOTA_AgentState_NotReady, eOtaStatus );
+ 497              		.loc 1 310 0
+ 498 0210 0020A0E3 		mov	r2, #0
+ 499 0214 1430A0E3 		mov	r3, #20
+ 309:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     TEST_ASSERT_EQUAL_INT( eOTA_AgentState_NotReady, eOtaStatus );
+ 500              		.loc 1 309 0
+ 501 0218 0010A0E1 		mov	r1, r0
+ 502              	.LVL57:
+ 503              		.loc 1 310 0
+ 504 021c 00308DE5 		str	r3, [sp]
+ 505 0220 0200A0E1 		mov	r0, r2
+ 506 0224 363100E3 		movw	r3, #310
+ 507 0228 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 508              	.LVL58:
+ 311:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 312:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* End test. */
+ 313:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** }
+ 509              		.loc 1 313 0
+ 510 022c 1CD08DE2 		add	sp, sp, #28
+ 511              		.cfi_remember_state
+ 512              		.cfi_def_cfa_offset 12
+ 513              		@ sp needed
+ 514 0230 3080BDE8 		pop	{r4, r5, pc}
+ 515              	.LVL59:
+ 516              	.L15:
+ 517              		.cfi_restore_state
+ 227:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 518              		.loc 1 227 0 discriminator 1
+ 519 0234 E310A0E3 		mov	r1, #227
+ 520 0238 90009FE5 		ldr	r0, .L38+44
+ 521              	.LVL60:
+ 522 023c FEFFFFEB 		bl	UnityFail
+ 523              	.LVL61:
+ 524 0240 92FFFFEA 		b	.L17
+ 525              	.LVL62:
+ 526              	.L22:
+ 280:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* End test. */
+ 527              		.loc 1 280 0 discriminator 1
+ 528 0244 461FA0E3 		mov	r1, #280
+ 529 0248 80009FE5 		ldr	r0, .L38+44
+ 530              	.LVL63:
+ 531 024c FEFFFFEB 		bl	UnityFail
+ 532              	.LVL64:
+ 533 0250 E2FFFFEA 		b	.L24
+ 534              	.LVL65:
+ 535              	.L25:
+ 287:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* End test. */
+ 536              		.loc 1 287 0 discriminator 1
+ 537 0254 1F1100E3 		movw	r1, #287
+ 538 0258 70009FE5 		ldr	r0, .L38+44
+ 539              	.LVL66:
+ 540 025c FEFFFFEB 		bl	UnityFail
+ 541              	.LVL67:
+ 542 0260 E3FFFFEA 		b	.L27
+ 543              	.LVL68:
+ 544              	.L28:
+ 298:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         vPortFree( pxUpdateFile->pucCertFilepath );
+ 545              		.loc 1 298 0
+ 546 0264 0050A0E3 		mov	r5, #0
+ 297:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         pxUpdateFile->pucFilePath = NULL;
+ 547              		.loc 1 297 0
+ 548 0268 000094E5 		ldr	r0, [r4]
+ 549              	.LVL69:
+ 550 026c FEFFFFEB 		bl	vPortFree
+ 551              	.LVL70:
+ 299:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         pxUpdateFile->pucCertFilepath = NULL;
+ 552              		.loc 1 299 0
+ 553 0270 300094E5 		ldr	r0, [r4, #48]
+ 298:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         vPortFree( pxUpdateFile->pucCertFilepath );
+ 554              		.loc 1 298 0
+ 555 0274 005084E5 		str	r5, [r4]
+ 299:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         pxUpdateFile->pucCertFilepath = NULL;
+ 556              		.loc 1 299 0
+ 557 0278 FEFFFFEB 		bl	vPortFree
+ 558              	.LVL71:
+ 301:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         pxUpdateFile->pxSignature = NULL;
+ 559              		.loc 1 301 0
+ 560 027c 280094E5 		ldr	r0, [r4, #40]
+ 300:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         vPortFree( pxUpdateFile->pxSignature );
+ 561              		.loc 1 300 0
+ 562 0280 305084E5 		str	r5, [r4, #48]
+ 301:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         pxUpdateFile->pxSignature = NULL;
+ 563              		.loc 1 301 0
+ 564 0284 FEFFFFEB 		bl	vPortFree
+ 565              	.LVL72:
+ 303:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         pxUpdateFile->pucStreamName = NULL;
+ 566              		.loc 1 303 0
+ 567 0288 240094E5 		ldr	r0, [r4, #36]
+ 302:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         vPortFree( pxUpdateFile->pucStreamName );
+ 568              		.loc 1 302 0
+ 569 028c 285084E5 		str	r5, [r4, #40]
+ 303:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         pxUpdateFile->pucStreamName = NULL;
+ 570              		.loc 1 303 0
+ 571 0290 FEFFFFEB 		bl	vPortFree
+ 572              	.LVL73:
+ 304:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         TEST_OTA_prvOTA_Close( pxUpdateFile );
+ 573              		.loc 1 304 0
+ 574 0294 245084E5 		str	r5, [r4, #36]
+ 305:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     }
+ 575              		.loc 1 305 0
+ 576 0298 0400A0E1 		mov	r0, r4
+ 577 029c FEFFFFEB 		bl	TEST_OTA_prvOTA_Close
+ 578              	.LVL74:
+ 579 02a0 D8FFFFEA 		b	.L30
+ 580              	.L39:
+ 581              		.align	2
+ 582              	.L38:
+ 583 02a4 00000000 		.word	.LANCHOR0
+ 584 02a8 00000000 		.word	vOTACompleteCallback
+ 585 02ac 00000000 		.word	.LC0
+ 586 02b0 28000000 		.word	Unity+40
+ 587 02b4 00000000 		.word	.LC2
+ 588 02b8 D1020000 		.word	.LC3
+ 589 02bc EC620100 		.word	90860
+ 590 02c0 EC020000 		.word	.LC5
+ 591 02c4 F8020000 		.word	.LC6
+ 592 02c8 00000000 		.word	.LANCHOR2
+ 593 02cc 06030000 		.word	.LC7
+ 594 02d0 D3020000 		.word	.LC4
+ 595 02d4 D5050000 		.word	.LC8
+ 596              		.cfi_endproc
+ 597              	.LFE7:
+ 599              		.section	.text.TEST_Full_OTA_AGENT_prvParseJSONbyModel_Errors_,"ax",%progbits
+ 600              		.align	2
+ 601              		.global	TEST_Full_OTA_AGENT_prvParseJSONbyModel_Errors_
+ 602              		.syntax unified
+ 603              		.arm
+ 604              		.fpu neon
+ 606              	TEST_Full_OTA_AGENT_prvParseJSONbyModel_Errors_:
+ 607              	.LFB9:
+ 314:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 315:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** TEST( Full_OTA_AGENT, prvParseJSONbyModel_Errors )
+ 316:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** {
+ 608              		.loc 1 316 0
+ 609              		.cfi_startproc
+ 610              		@ args = 0, pretend = 0, frame = 40
+ 611              		@ frame_needed = 0, uses_anonymous_args = 0
+ 612 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 613              		.cfi_def_cfa_offset 16
+ 614              		.cfi_offset 4, -16
+ 615              		.cfi_offset 5, -12
+ 616              		.cfi_offset 6, -8
+ 617              		.cfi_offset 14, -4
+ 317:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     JSON_DocModel_t xDocModel = { 0 };
+ 618              		.loc 1 317 0
+ 619 0004 1820A0E3 		mov	r2, #24
+ 316:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     JSON_DocModel_t xDocModel = { 0 };
+ 620              		.loc 1 316 0
+ 621 0008 30D04DE2 		sub	sp, sp, #48
+ 622              		.cfi_def_cfa_offset 64
+ 318:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     JSON_DocParam_t xDocParam = { 0 };
+ 319:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 320:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 321:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 322:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* Ensure that NULL parameters are rejected. */
+ 323:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     TEST_ASSERT_EQUAL( eDocParseErr_NullModelPointer,
+ 623              		.loc 1 323 0
+ 624 000c B8519FE5 		ldr	r5, .L46
+ 317:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     JSON_DocParam_t xDocParam = { 0 };
+ 625              		.loc 1 317 0
+ 626 0010 02008DE0 		add	r0, sp, r2
+ 318:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     JSON_DocParam_t xDocParam = { 0 };
+ 627              		.loc 1 318 0
+ 628 0014 08608DE2 		add	r6, sp, #8
+ 317:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     JSON_DocParam_t xDocParam = { 0 };
+ 629              		.loc 1 317 0
+ 630 0018 0010A0E3 		mov	r1, #0
+ 631              		.loc 1 323 0
+ 632 001c 1440A0E3 		mov	r4, #20
+ 317:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     JSON_DocParam_t xDocParam = { 0 };
+ 633              		.loc 1 317 0
+ 634 0020 FEFFFFEB 		bl	memset
+ 635              	.LVL75:
+ 318:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     JSON_DocParam_t xDocParam = { 0 };
+ 636              		.loc 1 318 0
+ 637 0024 1020A0E3 		mov	r2, #16
+ 638 0028 0010A0E3 		mov	r1, #0
+ 639 002c 0600A0E1 		mov	r0, r6
+ 640 0030 FEFFFFEB 		bl	memset
+ 641              	.LVL76:
+ 642              		.loc 1 323 0
+ 643 0034 0020A0E3 		mov	r2, #0
+ 644 0038 D11200E3 		movw	r1, #721
+ 645 003c 0500A0E1 		mov	r0, r5
+ 646 0040 FEFFFFEB 		bl	TEST_OTA_prvParseJSONbyModel
+ 647              	.LVL77:
+ 648 0044 463100E3 		movw	r3, #326
+ 649 0048 0010A0E1 		mov	r1, r0
+ 650 004c 00408DE5 		str	r4, [sp]
+ 651 0050 0020A0E3 		mov	r2, #0
+ 652 0054 0A00A0E3 		mov	r0, #10
+ 653 0058 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 654              	.LVL78:
+ 324:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                        TEST_OTA_prvParseJSONbyModel( otatestLASER_JSON,
+ 325:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                                                      sizeof( otatestLASER_JSON ),
+ 326:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                                                      NULL ) );
+ 327:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     TEST_ASSERT_EQUAL( eDocParseErr_NullBodyPointer,
+ 655              		.loc 1 327 0
+ 656 005c 18208DE2 		add	r2, sp, #24
+ 657 0060 D11200E3 		movw	r1, #721
+ 658 0064 0500A0E1 		mov	r0, r5
+ 659 0068 FEFFFFEB 		bl	TEST_OTA_prvParseJSONbyModel
+ 660              	.LVL79:
+ 661 006c 4A3100E3 		movw	r3, #330
+ 662 0070 0010A0E1 		mov	r1, r0
+ 663 0074 00408DE5 		str	r4, [sp]
+ 664 0078 0020A0E3 		mov	r2, #0
+ 665 007c 0B00A0E3 		mov	r0, #11
+ 666 0080 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 667              	.LVL80:
+ 328:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                        TEST_OTA_prvParseJSONbyModel( otatestLASER_JSON,
+ 329:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                                                      sizeof( otatestLASER_JSON ),
+ 330:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                                                      &xDocModel ) );
+ 331:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* Set pxBodyDef to a non-NULL value. */
+ 332:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     xDocModel.pxBodyDef = &xDocParam;
+ 333:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     TEST_ASSERT_EQUAL( eDocParseErr_NullDocPointer,
+ 668              		.loc 1 333 0
+ 669 0084 18208DE2 		add	r2, sp, #24
+ 670 0088 D11200E3 		movw	r1, #721
+ 671 008c 0000A0E3 		mov	r0, #0
+ 332:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     TEST_ASSERT_EQUAL( eDocParseErr_NullDocPointer,
+ 672              		.loc 1 332 0
+ 673 0090 20608DE5 		str	r6, [sp, #32]
+ 674              		.loc 1 333 0
+ 675 0094 FEFFFFEB 		bl	TEST_OTA_prvParseJSONbyModel
+ 676              	.LVL81:
+ 677 0098 153EA0E3 		mov	r3, #336
+ 678 009c 0010A0E1 		mov	r1, r0
+ 679 00a0 00408DE5 		str	r4, [sp]
+ 680 00a4 0020A0E3 		mov	r2, #0
+ 681 00a8 0C00A0E3 		mov	r0, #12
+ 682 00ac FEFFFFEB 		bl	UnityAssertEqualNumber
+ 683              	.LVL82:
+ 334:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                        TEST_OTA_prvParseJSONbyModel( NULL,
+ 335:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                                                      sizeof( otatestLASER_JSON ),
+ 336:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                                                      &xDocModel ) );
+ 337:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 338:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* Ensure an invalid JSON document is rejected. */
+ 339:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     TEST_ASSERT_EQUAL( eDocParseErr_NoTokens, TEST_OTA_prvParseJSONbyModel( otatestLASER_JSON,
+ 684              		.loc 1 339 0
+ 685 00b0 18208DE2 		add	r2, sp, #24
+ 686 00b4 0010A0E3 		mov	r1, #0
+ 687 00b8 0500A0E1 		mov	r0, r5
+ 688 00bc FEFFFFEB 		bl	TEST_OTA_prvParseJSONbyModel
+ 689              	.LVL83:
+ 690 00c0 00408DE5 		str	r4, [sp]
+ 691 00c4 0010A0E1 		mov	r1, r0
+ 692 00c8 553100E3 		movw	r3, #341
+ 693 00cc 0020A0E3 		mov	r2, #0
+ 694 00d0 0900A0E3 		mov	r0, #9
+ 695 00d4 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 696              	.LVL84:
+ 340:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                                                                             0,
+ 341:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                                                                             &xDocModel ) );
+ 342:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 343:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* Ensure usNumModelParams is rejected if too large. */
+ 344:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     xDocModel.usNumModelParams = ( uint16_t ) ( 0xffffU );
+ 697              		.loc 1 344 0
+ 698 00d8 0030E0E3 		mvn	r3, #0
+ 345:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     TEST_ASSERT_EQUAL( eDocParseErr_TooManyParams,
+ 699              		.loc 1 345 0
+ 700 00dc 18208DE2 		add	r2, sp, #24
+ 701 00e0 D11200E3 		movw	r1, #721
+ 702 00e4 0500A0E1 		mov	r0, r5
+ 344:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     TEST_ASSERT_EQUAL( eDocParseErr_TooManyParams,
+ 703              		.loc 1 344 0
+ 704 00e8 B432CDE1 		strh	r3, [sp, #36]	@ movhi
+ 705              		.loc 1 345 0
+ 706 00ec FEFFFFEB 		bl	TEST_OTA_prvParseJSONbyModel
+ 707              	.LVL85:
+ 708 00f0 573FA0E3 		mov	r3, #348
+ 709 00f4 0020A0E3 		mov	r2, #0
+ 710 00f8 0010A0E1 		mov	r1, r0
+ 711 00fc 00408DE5 		str	r4, [sp]
+ 712 0100 0D00A0E3 		mov	r0, #13
+ 713 0104 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 714              	.LVL86:
+ 346:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                        TEST_OTA_prvParseJSONbyModel( otatestLASER_JSON,
+ 347:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                                                      sizeof( otatestLASER_JSON ),
+ 348:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                                                      &xDocModel ) );
+ 349:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 350:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* Ensure that a JSON document containing duplicate keys is rejected. */
+ 351:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     TEST_ASSERT_EQUAL( NULL, TEST_OTA_prvParseJobDoc( otatestLASER_JSON_WITH_DUPLICATE,
+ 715              		.loc 1 351 0
+ 716 0108 EA1200E3 		movw	r1, #746
+ 717 010c BC009FE5 		ldr	r0, .L46+4
+ 718 0110 FEFFFFEB 		bl	TEST_OTA_prvParseJobDoc
+ 719              	.LVL87:
+ 720 0114 0020A0E3 		mov	r2, #0
+ 721 0118 163EA0E3 		mov	r3, #352
+ 722 011c 0010A0E1 		mov	r1, r0
+ 723 0120 00408DE5 		str	r4, [sp]
+ 724 0124 0200A0E1 		mov	r0, r2
+ 725 0128 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 726              	.LVL88:
+ 352:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                                                       sizeof( otatestLASER_JSON_WITH_DUPLICATE ) ) 
+ 353:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 354:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* Ensure that a JSON document containing a mismatched field is rejected. */
+ 355:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     TEST_ASSERT_EQUAL( NULL, TEST_OTA_prvParseJobDoc( otatestLASER_JSON_WITH_FIELD_MISMATCH,
+ 727              		.loc 1 355 0
+ 728 012c C91200E3 		movw	r1, #713
+ 729 0130 9C009FE5 		ldr	r0, .L46+8
+ 730 0134 FEFFFFEB 		bl	TEST_OTA_prvParseJobDoc
+ 731              	.LVL89:
+ 732 0138 0020A0E3 		mov	r2, #0
+ 733 013c 0010A0E1 		mov	r1, r0
+ 734 0140 00408DE5 		str	r4, [sp]
+ 735 0144 0200A0E1 		mov	r0, r2
+ 736 0148 593FA0E3 		mov	r3, #356
+ 737 014c FEFFFFEB 		bl	UnityAssertEqualNumber
+ 738              	.LVL90:
+ 356:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                                                       sizeof( otatestLASER_JSON_WITH_FIELD_MISMATCH
+ 357:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 358:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* Initialize the OTA Agent for the following test. */
+ 359:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     TEST_ASSERT_EQUAL_INT( eOTA_AgentState_Ready, OTA_AgentInit(
+ 739              		.loc 1 359 0
+ 740 0150 80009FE5 		ldr	r0, .L46+12
+ 741 0154 103702E3 		movw	r3, #10000
+ 742 0158 7C209FE5 		ldr	r2, .L46+16
+ 743 015c 7C109FE5 		ldr	r1, .L46+20
+ 744 0160 000090E5 		ldr	r0, [r0]
+ 745 0164 FEFFFFEB 		bl	OTA_AgentInit
+ 746              	.LVL91:
+ 747 0168 00408DE5 		str	r4, [sp]
+ 748 016c 0010A0E1 		mov	r1, r0
+ 749 0170 6B3100E3 		movw	r3, #363
+ 750 0174 0020A0E3 		mov	r2, #0
+ 751 0178 0100A0E3 		mov	r0, #1
+ 752 017c FEFFFFEB 		bl	UnityAssertEqualNumber
+ 753              	.LVL92:
+ 360:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                                xMQTTClientHandle,
+ 361:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                                ( const uint8_t * ) clientcredentialIOT_THING_NAME,
+ 362:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                                vOTACompleteCallback,
+ 363:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                                pdMS_TO_TICKS( otatestAGENT_INIT_WAIT ) ) );
+ 364:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 365:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* The OTA Agent must be shut down if these tests fail, so a TEST_PROTECT is necessary. */
+ 366:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     if( TEST_PROTECT() )
+ 754              		.loc 1 366 0
+ 755 0180 5C009FE5 		ldr	r0, .L46+24
+ 756 0184 FEFFFFEB 		bl	setjmp
+ 757              	.LVL93:
+ 758 0188 004050E2 		subs	r4, r0, #0
+ 759 018c 0300000A 		beq	.L41
+ 760              	.L43:
+ 367:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     {
+ 368:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         /* Ensure that a JSON document containing bad base64 character is rejected. */
+ 369:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****         TEST_ASSERT_EQUAL( NULL, TEST_OTA_prvParseJobDoc( otatestLASER_JSON_WITH_BAD_BASE64,
+ 370:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                                                           sizeof( otatestLASER_JSON_WITH_BAD_BASE64
+ 371:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     }
+ 372:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 373:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     /* Shut down the OTA Agent. */
+ 374:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     ( void ) OTA_AgentShutdown( pdMS_TO_TICKS( otatestSHUTDOWN_WAIT ) );
+ 761              		.loc 1 374 0
+ 762 0190 100702E3 		movw	r0, #10000
+ 763 0194 FEFFFFEB 		bl	OTA_AgentShutdown
+ 764              	.LVL94:
+ 375:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** }
+ 765              		.loc 1 375 0
+ 766 0198 30D08DE2 		add	sp, sp, #48
+ 767              		.cfi_remember_state
+ 768              		.cfi_def_cfa_offset 16
+ 769              		@ sp needed
+ 770 019c 7080BDE8 		pop	{r4, r5, r6, pc}
+ 771              	.L41:
+ 772              		.cfi_restore_state
+ 369:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****                                                           sizeof( otatestLASER_JSON_WITH_BAD_BASE64
+ 773              		.loc 1 369 0
+ 774 01a0 D11200E3 		movw	r1, #721
+ 775 01a4 3C009FE5 		ldr	r0, .L46+28
+ 776 01a8 FEFFFFEB 		bl	TEST_OTA_prvParseJobDoc
+ 777              	.LVL95:
+ 778 01ac 1430A0E3 		mov	r3, #20
+ 779 01b0 0010A0E1 		mov	r1, r0
+ 780 01b4 00308DE5 		str	r3, [sp]
+ 781 01b8 0420A0E1 		mov	r2, r4
+ 782 01bc 723100E3 		movw	r3, #370
+ 783 01c0 0400A0E1 		mov	r0, r4
+ 784 01c4 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 785              	.LVL96:
+ 786 01c8 F0FFFFEA 		b	.L43
+ 787              	.L47:
+ 788              		.align	2
+ 789              	.L46:
+ 790 01cc 00000000 		.word	.LC2
+ 791 01d0 00000000 		.word	.LC9
+ 792 01d4 EA020000 		.word	.LC10
+ 793 01d8 00000000 		.word	.LANCHOR0
+ 794 01dc 00000000 		.word	vOTACompleteCallback
+ 795 01e0 00000000 		.word	.LC0
+ 796 01e4 28000000 		.word	Unity+40
+ 797 01e8 B3050000 		.word	.LC11
+ 798              		.cfi_endproc
+ 799              	.LFE9:
+ 801              		.section	.text.TEST_Full_OTA_AGENT_OTA_SetImageState_InvalidParams_run,"ax",%progbits
+ 802              		.align	2
+ 803              		.global	TEST_Full_OTA_AGENT_OTA_SetImageState_InvalidParams_run
+ 804              		.syntax unified
+ 805              		.arm
+ 806              		.fpu neon
+ 808              	TEST_Full_OTA_AGENT_OTA_SetImageState_InvalidParams_run:
+ 809              	.LFB4:
+ 181:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** {
+ 810              		.loc 1 181 0
+ 811              		.cfi_startproc
+ 812              		@ args = 0, pretend = 0, frame = 0
+ 813              		@ frame_needed = 0, uses_anonymous_args = 0
+ 814 0000 1F402DE9 		push	{r0, r1, r2, r3, r4, lr}
+ 815              		.cfi_def_cfa_offset 24
+ 816              		.cfi_offset 14, -4
+ 181:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** {
+ 817              		.loc 1 181 0
+ 818 0004 B530A0E3 		mov	r3, #181
+ 819 0008 0C308DE5 		str	r3, [sp, #12]
+ 820 000c 2C309FE5 		ldr	r3, .L50
+ 821 0010 2C209FE5 		ldr	r2, .L50+4
+ 822 0014 2C109FE5 		ldr	r1, .L50+8
+ 823 0018 08308DE5 		str	r3, [sp, #8]
+ 824 001c 28309FE5 		ldr	r3, .L50+12
+ 825 0020 28009FE5 		ldr	r0, .L50+16
+ 826 0024 04308DE5 		str	r3, [sp, #4]
+ 827 0028 24309FE5 		ldr	r3, .L50+20
+ 828 002c 00308DE5 		str	r3, [sp]
+ 829 0030 20309FE5 		ldr	r3, .L50+24
+ 830 0034 FEFFFFEB 		bl	UnityTestRunner
+ 831              	.LVL97:
+ 832 0038 14D08DE2 		add	sp, sp, #20
+ 833              		.cfi_def_cfa_offset 4
+ 834              		@ sp needed
+ 835 003c 04F09DE4 		ldr	pc, [sp], #4
+ 836              	.L51:
+ 837              		.align	2
+ 838              	.L50:
+ 839 0040 36000000 		.word	.LC13
+ 840 0044 00000000 		.word	TEST_Full_OTA_AGENT_TEAR_DOWN
+ 841 0048 00000000 		.word	TEST_Full_OTA_AGENT_OTA_SetImageState_InvalidParams_
+ 842 004c 81000000 		.word	.LC14
+ 843 0050 00000000 		.word	TEST_Full_OTA_AGENT_SETUP
+ 844 0054 A1000000 		.word	.LC15
+ 845 0058 00000000 		.word	.LC12
+ 846              		.cfi_endproc
+ 847              	.LFE4:
+ 849              		.section	.text.TEST_Full_OTA_AGENT_prvParseJobDocFromJSONandPrvOTA_Close_run,"ax",%progbits
+ 850              		.align	2
+ 851              		.global	TEST_Full_OTA_AGENT_prvParseJobDocFromJSONandPrvOTA_Close_run
+ 852              		.syntax unified
+ 853              		.arm
+ 854              		.fpu neon
+ 856              	TEST_Full_OTA_AGENT_prvParseJobDocFromJSONandPrvOTA_Close_run:
+ 857              	.LFB6:
+ 197:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** {
+ 858              		.loc 1 197 0
+ 859              		.cfi_startproc
+ 860              		@ args = 0, pretend = 0, frame = 0
+ 861              		@ frame_needed = 0, uses_anonymous_args = 0
+ 862 0000 1F402DE9 		push	{r0, r1, r2, r3, r4, lr}
+ 863              		.cfi_def_cfa_offset 24
+ 864              		.cfi_offset 14, -4
+ 197:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** {
+ 865              		.loc 1 197 0
+ 866 0004 C530A0E3 		mov	r3, #197
+ 867 0008 0C308DE5 		str	r3, [sp, #12]
+ 868 000c 2C309FE5 		ldr	r3, .L54
+ 869 0010 2C209FE5 		ldr	r2, .L54+4
+ 870 0014 2C109FE5 		ldr	r1, .L54+8
+ 871 0018 08308DE5 		str	r3, [sp, #8]
+ 872 001c 28309FE5 		ldr	r3, .L54+12
+ 873 0020 28009FE5 		ldr	r0, .L54+16
+ 874 0024 04308DE5 		str	r3, [sp, #4]
+ 875 0028 24309FE5 		ldr	r3, .L54+20
+ 876 002c 00308DE5 		str	r3, [sp]
+ 877 0030 20309FE5 		ldr	r3, .L54+24
+ 878 0034 FEFFFFEB 		bl	UnityTestRunner
+ 879              	.LVL98:
+ 880 0038 14D08DE2 		add	sp, sp, #20
+ 881              		.cfi_def_cfa_offset 4
+ 882              		@ sp needed
+ 883 003c 04F09DE4 		ldr	pc, [sp], #4
+ 884              	.L55:
+ 885              		.align	2
+ 886              	.L54:
+ 887 0040 36000000 		.word	.LC13
+ 888 0044 00000000 		.word	TEST_Full_OTA_AGENT_TEAR_DOWN
+ 889 0048 00000000 		.word	TEST_Full_OTA_AGENT_prvParseJobDocFromJSONandPrvOTA_Close_
+ 890 004c 3C000000 		.word	.LC17
+ 891 0050 00000000 		.word	TEST_Full_OTA_AGENT_SETUP
+ 892 0054 A1000000 		.word	.LC15
+ 893 0058 00000000 		.word	.LC16
+ 894              		.cfi_endproc
+ 895              	.LFE6:
+ 897              		.section	.text.TEST_Full_OTA_AGENT_prvParseJSONbyModel_Errors_run,"ax",%progbits
+ 898              		.align	2
+ 899              		.global	TEST_Full_OTA_AGENT_prvParseJSONbyModel_Errors_run
+ 900              		.syntax unified
+ 901              		.arm
+ 902              		.fpu neon
+ 904              	TEST_Full_OTA_AGENT_prvParseJSONbyModel_Errors_run:
+ 905              	.LFB8:
+ 315:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** {
+ 906              		.loc 1 315 0
+ 907              		.cfi_startproc
+ 908              		@ args = 0, pretend = 0, frame = 0
+ 909              		@ frame_needed = 0, uses_anonymous_args = 0
+ 910 0000 1F402DE9 		push	{r0, r1, r2, r3, r4, lr}
+ 911              		.cfi_def_cfa_offset 24
+ 912              		.cfi_offset 14, -4
+ 315:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** {
+ 913              		.loc 1 315 0
+ 914 0004 3B3100E3 		movw	r3, #315
+ 915 0008 0C308DE5 		str	r3, [sp, #12]
+ 916 000c 2C309FE5 		ldr	r3, .L58
+ 917 0010 2C209FE5 		ldr	r2, .L58+4
+ 918 0014 2C109FE5 		ldr	r1, .L58+8
+ 919 0018 08308DE5 		str	r3, [sp, #8]
+ 920 001c 28309FE5 		ldr	r3, .L58+12
+ 921 0020 28009FE5 		ldr	r0, .L58+16
+ 922 0024 04308DE5 		str	r3, [sp, #4]
+ 923 0028 24309FE5 		ldr	r3, .L58+20
+ 924 002c 00308DE5 		str	r3, [sp]
+ 925 0030 20309FE5 		ldr	r3, .L58+24
+ 926 0034 FEFFFFEB 		bl	UnityTestRunner
+ 927              	.LVL99:
+ 928 0038 14D08DE2 		add	sp, sp, #20
+ 929              		.cfi_def_cfa_offset 4
+ 930              		@ sp needed
+ 931 003c 04F09DE4 		ldr	pc, [sp], #4
+ 932              	.L59:
+ 933              		.align	2
+ 934              	.L58:
+ 935 0040 36000000 		.word	.LC13
+ 936 0044 00000000 		.word	TEST_Full_OTA_AGENT_TEAR_DOWN
+ 937 0048 00000000 		.word	TEST_Full_OTA_AGENT_prvParseJSONbyModel_Errors_
+ 938 004c 31000000 		.word	.LC19
+ 939 0050 00000000 		.word	TEST_Full_OTA_AGENT_SETUP
+ 940 0054 A1000000 		.word	.LC15
+ 941 0058 00000000 		.word	.LC18
+ 942              		.cfi_endproc
+ 943              	.LFE8:
+ 945              		.section	.text.TEST_Full_OTA_AGENT_GROUP_RUNNER,"ax",%progbits
+ 946              		.align	2
+ 947              		.global	TEST_Full_OTA_AGENT_GROUP_RUNNER
+ 948              		.syntax unified
+ 949              		.arm
+ 950              		.fpu neon
+ 952              	TEST_Full_OTA_AGENT_GROUP_RUNNER:
+ 953              	.LFB3:
+ 175:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     RUN_TEST_CASE( Full_OTA_AGENT, OTA_SetImageState_InvalidParams );
+ 954              		.loc 1 175 0
+ 955              		.cfi_startproc
+ 956              		@ args = 0, pretend = 0, frame = 0
+ 957              		@ frame_needed = 0, uses_anonymous_args = 0
+ 958 0000 10402DE9 		push	{r4, lr}
+ 959              		.cfi_def_cfa_offset 8
+ 960              		.cfi_offset 4, -8
+ 961              		.cfi_offset 14, -4
+ 962              	.LBB2:
+ 176:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     RUN_TEST_CASE( Full_OTA_AGENT, prvParseJobDocFromJSONandPrvOTA_Close );
+ 963              		.loc 1 176 0
+ 964 0004 FEFFFFEB 		bl	TEST_Full_OTA_AGENT_OTA_SetImageState_InvalidParams_run
+ 965              	.LVL100:
+ 966              	.LBE2:
+ 967              	.LBB3:
+ 177:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c ****     RUN_TEST_CASE( Full_OTA_AGENT, prvParseJSONbyModel_Errors );
+ 968              		.loc 1 177 0
+ 969 0008 FEFFFFEB 		bl	TEST_Full_OTA_AGENT_prvParseJobDocFromJSONandPrvOTA_Close_run
+ 970              	.LVL101:
+ 971              	.LBE3:
+ 179:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** 
+ 972              		.loc 1 179 0
+ 973 000c 1040BDE8 		pop	{r4, lr}
+ 974              		.cfi_restore 14
+ 975              		.cfi_restore 4
+ 976              		.cfi_def_cfa_offset 0
+ 977              	.LBB4:
+ 178:D:/Work/DeviceTester/amazon-freertos/tests/common/ota\aws_test_ota_agent.c **** }
+ 978              		.loc 1 178 0
+ 979 0010 FEFFFFEA 		b	TEST_Full_OTA_AGENT_prvParseJSONbyModel_Errors_run
+ 980              	.LVL102:
+ 981              	.LBE4:
+ 982              		.cfi_endproc
+ 983              	.LFE3:
+ 985              		.section	.bss.xMQTTClientHandle,"aw",%nobits
+ 986              		.align	2
+ 987              		.set	.LANCHOR0,. + 0
+ 990              	xMQTTClientHandle:
+ 991 0000 00000000 		.space	4
+ 992              		.section	.rodata.TEST_Full_OTA_AGENT_OTA_SetImageState_InvalidParams_run.str1.1,"aMS",%progbits,1
+ 993              	.LC12:
+ 994 0000 54455354 		.ascii	"TEST(Full_OTA_AGENT, OTA_SetImageState_InvalidParam"
+ 994      2846756C 
+ 994      6C5F4F54 
+ 994      415F4147 
+ 994      454E542C 
+ 995 0033 732900   		.ascii	"s)\000"
+ 996              	.LC13:
+ 997 0036 443A2F57 		.ascii	"D:/Work/DeviceTester/amazon-freertos/tests/common/o"
+ 997      6F726B2F 
+ 997      44657669 
+ 997      63655465 
+ 997      73746572 
+ 998 0069 74612F61 		.ascii	"ta/aws_test_ota_agent.c\000"
+ 998      77735F74 
+ 998      6573745F 
+ 998      6F74615F 
+ 998      6167656E 
+ 999              	.LC14:
+ 1000 0081 4F54415F 		.ascii	"OTA_SetImageState_InvalidParams\000"
+ 1000      53657449 
+ 1000      6D616765 
+ 1000      53746174 
+ 1000      655F496E 
+ 1001              	.LC15:
+ 1002 00a1 46756C6C 		.ascii	"Full_OTA_AGENT\000"
+ 1002      5F4F5441 
+ 1002      5F414745 
+ 1002      4E5400
+ 1003              		.section	.rodata.TEST_Full_OTA_AGENT_SETUP.str1.1,"aMS",%progbits,1
+ 1004              	.LC0:
+ 1005 0000 6964742D 		.ascii	"idt-6287306328291364584\000"
+ 1005      36323837 
+ 1005      33303633 
+ 1005      32383239 
+ 1005      31333634 
+ 1006              	.LC1:
+ 1007 0018 4661696C 		.ascii	"Failed to connect to the MQTT broker in MQTT_AGENT_"
+ 1007      65642074 
+ 1007      6F20636F 
+ 1007      6E6E6563 
+ 1007      7420746F 
+ 1008 004b 436F6E6E 		.ascii	"Connect() during TEST_SETUP.\000"
+ 1008      65637428 
+ 1008      29206475 
+ 1008      72696E67 
+ 1008      20544553 
+ 1009              		.section	.rodata.TEST_Full_OTA_AGENT_prvParseJSONbyModel_Errors_.str1.1,"aMS",%progbits,1
+ 1010              	.LC9:
+ 1011 0000 7B22636C 		.ascii	"{\"clientToken\":\"mytoken0\",\"clientToken\":\"myt"
+ 1011      69656E74 
+ 1011      546F6B65 
+ 1011      6E223A22 
+ 1011      6D79746F 
+ 1012 002c 6F6B656E 		.ascii	"oken\",\"timestamp\":1508445004,\"execution\":{\"jo"
+ 1012      222C2274 
+ 1012      696D6573 
+ 1012      74616D70 
+ 1012      223A3135 
+ 1013 0059 62496422 		.ascii	"bId\":\"15\",\"status\":\"QUEUED\",\"queuedAt\":150"
+ 1013      3A223135 
+ 1013      222C2273 
+ 1013      74617475 
+ 1013      73223A22 
+ 1014 0083 37363937 		.ascii	"7697924,\"lastUpdatedAt\":1507697924,\"versionNumbe"
+ 1014      3932342C 
+ 1014      226C6173 
+ 1014      74557064 
+ 1014      61746564 
+ 1015 00b3 72223A31 		.ascii	"r\":1,\"executionNumber\":1,\"jobDocument\":{\"afr_"
+ 1015      2C226578 
+ 1015      65637574 
+ 1015      696F6E4E 
+ 1015      756D6265 
+ 1016 00e0 6F746122 		.ascii	"ota\": {\"streamname\": \"1\",\"files\": [{\"filepa"
+ 1016      3A207B22 
+ 1016      73747265 
+ 1016      616D6E61 
+ 1016      6D65223A 
+ 1017 010b 7468223A 		.ascii	"th\": \"payload.bin\",\"version\":\"1.0.0.0\",\"fil"
+ 1017      20227061 
+ 1017      796C6F61 
+ 1017      642E6269 
+ 1017      6E222C22 
+ 1018 0136 6573697A 		.ascii	"esize\": 90860,\"fileid\": 0,\"attr\": 3,\"certfile"
+ 1018      65223A20 
+ 1018      39303836 
+ 1018      302C2266 
+ 1018      696C6569 
+ 1019 0163 223A2272 		.ascii	"\":\"rsasigner.crt\", \"sig-sha256-ecdsa\":\"OHj5sN"
+ 1019      73617369 
+ 1019      676E6572 
+ 1019      2E637274 
+ 1019      222C2022 
+ 1020 0190 6A78714D 		.ascii	"jxqMNK3WNEwbyfs/PeSSS1kzLkAQ4MSu0yKNFoGxJrUKuIWhjQb"
+ 1020      4E4B3357 
+ 1020      4E457762 
+ 1020      7966732F 
+ 1020      50655353 
+ 1021 01c3 5169506C 		.ascii	"QiPlXcDtXlSXE8ydAwoxnnw5lcwpJsbXxD1K1PwZJoc/3mv5XHX"
+ 1021      58634474 
+ 1021      586C5358 
+ 1021      45387964 
+ 1021      41776F78 
+ 1022 01f6 62767645 		.ascii	"bvvEoFr4yA0rhY4tyrMDBesEtOVrW0yI4mM4Lde5OtdIxo8sjTS"
+ 1022      6F467234 
+ 1022      79413072 
+ 1022      68593474 
+ 1022      79724D44 
+ 1023 0229 5047586F 		.ascii	"PGXo2Ejuhn+LDRD3gKdb1gtPpoJ/YBQmYKXHFQ5QW58GOSlB9pr"
+ 1023      32456A75 
+ 1023      686E2B4C 
+ 1023      44524433 
+ 1023      674B6462 
+ 1024 025c 7135762B 		.ascii	"q5v+MloVCATjmzb9tu4msScXYYy41ikEhK2eyfl7/vpc2vMNX6u"
+ 1024      4D6C6F56 
+ 1024      4341546A 
+ 1024      6D7A6239 
+ 1024      7475346D 
+ 1025 028f 68797965 		.ascii	"hyyeZhku9namI4OZmsp72tLL4D4pFt4/nDWYSAo8sQAwns1RNY+"
+ 1025      5A686B75 
+ 1025      396E616D 
+ 1025      49344F5A 
+ 1025      6D737037 
+ 1026 02c2 6A35324B 		.ascii	"j52KfvgvKKN3u6G3suFyVQoxWJu3aA==\"}]}}}}\000"
+ 1026      66766776 
+ 1026      4B4B4E33 
+ 1026      75364733 
+ 1026      73754679 
+ 1027              	.LC10:
+ 1028 02ea 7B22636C 		.ascii	"{\"clientToken\":5,\"timestamp\":1508445004,\"execu"
+ 1028      69656E74 
+ 1028      546F6B65 
+ 1028      6E223A35 
+ 1028      2C227469 
+ 1029 0318 74696F6E 		.ascii	"tion\":{\"jobId\":\"15\",\"status\":\"QUEUED\",\"qu"
+ 1029      223A7B22 
+ 1029      6A6F6249 
+ 1029      64223A22 
+ 1029      3135222C 
+ 1030 0341 65756564 		.ascii	"euedAt\":1507697924,\"lastUpdatedAt\":1507697924,\""
+ 1030      4174223A 
+ 1030      31353037 
+ 1030      36393739 
+ 1030      32342C22 
+ 1031 0370 76657273 		.ascii	"versionNumber\":1,\"executionNumber\":1,\"jobDocume"
+ 1031      696F6E4E 
+ 1031      756D6265 
+ 1031      72223A31 
+ 1031      2C226578 
+ 1032 039f 6E74223A 		.ascii	"nt\":{\"afr_ota\": {\"streamname\": \"1\",\"files\""
+ 1032      7B226166 
+ 1032      725F6F74 
+ 1032      61223A20 
+ 1032      7B227374 
+ 1033 03c9 3A205B7B 		.ascii	": [{\"filepath\": \"payload.bin\",\"version\":\"1.0"
+ 1033      2266696C 
+ 1033      65706174 
+ 1033      68223A20 
+ 1033      22706179 
+ 1034 03f5 2E302E30 		.ascii	".0.0\",\"filesize\": 90860,\"fileid\": 0,\"attr\": "
+ 1034      222C2266 
+ 1034      696C6573 
+ 1034      697A6522 
+ 1034      3A203930 
+ 1035 0421 332C2263 		.ascii	"3,\"certfile\":\"rsasigner.crt\", \"sig-sha256-ecds"
+ 1035      65727466 
+ 1035      696C6522 
+ 1035      3A227273 
+ 1035      61736967 
+ 1036 044f 61223A22 		.ascii	"a\":\"OHj5sNjxqMNK3WNEwbyfs/PeSSS1kzLkAQ4MSu0yKNFoG"
+ 1036      4F486A35 
+ 1036      734E6A78 
+ 1036      714D4E4B 
+ 1036      33574E45 
+ 1037 0480 784A7255 		.ascii	"xJrUKuIWhjQbQiPlXcDtXlSXE8ydAwoxnnw5lcwpJsbXxD1K1Pw"
+ 1037      4B754957 
+ 1037      686A5162 
+ 1037      5169506C 
+ 1037      58634474 
+ 1038 04b3 5A4A6F63 		.ascii	"ZJoc/3mv5XHXbvvEoFr4yA0rhY4tyrMDBesEtOVrW0yI4mM4Lde"
+ 1038      2F336D76 
+ 1038      35584858 
+ 1038      62767645 
+ 1038      6F467234 
+ 1039 04e6 354F7464 		.ascii	"5OtdIxo8sjTSPGXo2Ejuhn+LDRD3gKdb1gtPpoJ/YBQmYKXHFQ5"
+ 1039      49786F38 
+ 1039      736A5453 
+ 1039      5047586F 
+ 1039      32456A75 
+ 1040 0519 51573538 		.ascii	"QW58GOSlB9prq5v+MloVCATjmzb9tu4msScXYYy41ikEhK2eyfl"
+ 1040      474F536C 
+ 1040      42397072 
+ 1040      7135762B 
+ 1040      4D6C6F56 
+ 1041 054c 372F7670 		.ascii	"7/vpc2vMNX6uhyyeZhku9namI4OZmsp72tLL4D4pFt4/nDWYSAo"
+ 1041      6332764D 
+ 1041      4E583675 
+ 1041      68797965 
+ 1041      5A686B75 
+ 1042 057f 38735141 		.ascii	"8sQAwns1RNY+j52KfvgvKKN3u6G3suFyVQoxWJu3aA==\"}]}}}"
+ 1042      776E7331 
+ 1042      524E592B 
+ 1042      6A35324B 
+ 1042      66766776 
+ 1043 05b1 7D00     		.ascii	"}\000"
+ 1044              	.LC11:
+ 1045 05b3 7B22636C 		.ascii	"{\"clientToken\":\"mytoken\",\"timestamp\":15084450"
+ 1045      69656E74 
+ 1045      546F6B65 
+ 1045      6E223A22 
+ 1045      6D79746F 
+ 1046 05e0 30342C22 		.ascii	"04,\"execution\":{\"jobId\":\"15\",\"status\":\"QUE"
+ 1046      65786563 
+ 1046      7574696F 
+ 1046      6E223A7B 
+ 1046      226A6F62 
+ 1047 060a 55454422 		.ascii	"UED\",\"queuedAt\":1507697924,\"lastUpdatedAt\":150"
+ 1047      2C227175 
+ 1047      65756564 
+ 1047      4174223A 
+ 1047      31353037 
+ 1048 0638 37363937 		.ascii	"7697924,\"versionNumber\":1,\"executionNumber\":1,\""
+ 1048      3932342C 
+ 1048      22766572 
+ 1048      73696F6E 
+ 1048      4E756D62 
+ 1049 0667 6A6F6244 		.ascii	"jobDocument\":{\"afr_ota\": {\"streamname\": \"1\","
+ 1049      6F63756D 
+ 1049      656E7422 
+ 1049      3A7B2261 
+ 1049      66725F6F 
+ 1050 0693 2266696C 		.ascii	"\"files\": [{\"filepath\": \"payload.bin\",\"versio"
+ 1050      6573223A 
+ 1050      205B7B22 
+ 1050      66696C65 
+ 1050      70617468 
+ 1051 06bf 6E223A22 		.ascii	"n\":\"1.0.0.0\",\"filesize\": 90860,\"fileid\": 0,\""
+ 1051      312E302E 
+ 1051      302E3022 
+ 1051      2C226669 
+ 1051      6C657369 
+ 1052 06eb 61747472 		.ascii	"attr\": 3,\"certfile\":\"rsasigner.crt\", \"sig-sha"
+ 1052      223A2033 
+ 1052      2C226365 
+ 1052      72746669 
+ 1052      6C65223A 
+ 1053 0718 3235362D 		.ascii	"256-ecdsa\":\"(Hj5sNjxqMNK3WNEwbyfs/PeSSS1kzLkAQ4MS"
+ 1053      65636473 
+ 1053      61223A22 
+ 1053      28486A35 
+ 1053      734E6A78 
+ 1054 0749 7530794B 		.ascii	"u0yKNFoGxJrUKuIWhjQbQiPlXcDtXlSXE8ydAwoxnnw5lcwpJsb"
+ 1054      4E466F47 
+ 1054      784A7255 
+ 1054      4B754957 
+ 1054      686A5162 
+ 1055 077c 58784431 		.ascii	"XxD1K1PwZJoc/3mv5XHXbvvEoFr4yA0rhY4tyrMDBesEtOVrW0y"
+ 1055      4B315077 
+ 1055      5A4A6F63 
+ 1055      2F336D76 
+ 1055      35584858 
+ 1056 07af 49346D4D 		.ascii	"I4mM4Lde5OtdIxo8sjTSPGXo2Ejuhn+LDRD3gKdb1gtPpoJ/YBQ"
+ 1056      344C6465 
+ 1056      354F7464 
+ 1056      49786F38 
+ 1056      736A5453 
+ 1057 07e2 6D594B58 		.ascii	"mYKXHFQ5QW58GOSlB9prq5v+MloVCATjmzb9tu4msScXYYy41ik"
+ 1057      48465135 
+ 1057      51573538 
+ 1057      474F536C 
+ 1057      42397072 
+ 1058 0815 45684B32 		.ascii	"EhK2eyfl7/vpc2vMNX6uhyyeZhku9namI4OZmsp72tLL4D4pFt4"
+ 1058      6579666C 
+ 1058      372F7670 
+ 1058      6332764D 
+ 1058      4E583675 
+ 1059 0848 2F6E4457 		.ascii	"/nDWYSAo8sQAwns1RNY+j52KfvgvKKN3u6G3suFyVQoxWJu3aA="
+ 1059      5953416F 
+ 1059      38735141 
+ 1059      776E7331 
+ 1059      524E592B 
+ 1060 087b 3D227D5D 		.ascii	"=\"}]}}}}\000"
+ 1060      7D7D7D7D 
+ 1060      00
+ 1061              		.section	.rodata.TEST_Full_OTA_AGENT_prvParseJSONbyModel_Errors_run.str1.1,"aMS",%progbits,1
+ 1062              	.LC18:
+ 1063 0000 54455354 		.ascii	"TEST(Full_OTA_AGENT, prvParseJSONbyModel_Errors)\000"
+ 1063      2846756C 
+ 1063      6C5F4F54 
+ 1063      415F4147 
+ 1063      454E542C 
+ 1064              	.LC19:
+ 1065 0031 70727650 		.ascii	"prvParseJSONbyModel_Errors\000"
+ 1065      61727365 
+ 1065      4A534F4E 
+ 1065      62794D6F 
+ 1065      64656C5F 
+ 1066              		.section	.rodata.TEST_Full_OTA_AGENT_prvParseJobDocFromJSONandPrvOTA_Close_.str1.1,"aMS",%progbits
+ 1067              	.LC2:
+ 1068 0000 7B22636C 		.ascii	"{\"clientToken\":\"mytoken\",\"timestamp\":15084450"
+ 1068      69656E74 
+ 1068      546F6B65 
+ 1068      6E223A22 
+ 1068      6D79746F 
+ 1069 002d 30342C22 		.ascii	"04,\"execution\":{\"jobId\":\"15\",\"status\":\"QUE"
+ 1069      65786563 
+ 1069      7574696F 
+ 1069      6E223A7B 
+ 1069      226A6F62 
+ 1070 0057 55454422 		.ascii	"UED\",\"queuedAt\":1507697924,\"lastUpdatedAt\":150"
+ 1070      2C227175 
+ 1070      65756564 
+ 1070      4174223A 
+ 1070      31353037 
+ 1071 0085 37363937 		.ascii	"7697924,\"versionNumber\":1,\"executionNumber\":1,\""
+ 1071      3932342C 
+ 1071      22766572 
+ 1071      73696F6E 
+ 1071      4E756D62 
+ 1072 00b4 6A6F6244 		.ascii	"jobDocument\":{\"afr_ota\": {\"streamname\": \"1\","
+ 1072      6F63756D 
+ 1072      656E7422 
+ 1072      3A7B2261 
+ 1072      66725F6F 
+ 1073 00e0 2266696C 		.ascii	"\"files\": [{\"filepath\": \"payload.bin\",\"versio"
+ 1073      6573223A 
+ 1073      205B7B22 
+ 1073      66696C65 
+ 1073      70617468 
+ 1074 010c 6E223A22 		.ascii	"n\":\"1.0.0.0\",\"filesize\": 90860,\"fileid\": 0,\""
+ 1074      312E302E 
+ 1074      302E3022 
+ 1074      2C226669 
+ 1074      6C657369 
+ 1075 0138 61747472 		.ascii	"attr\": 3,\"certfile\":\"rsasigner.crt\", \"sig-sha"
+ 1075      223A2033 
+ 1075      2C226365 
+ 1075      72746669 
+ 1075      6C65223A 
+ 1076 0165 3235362D 		.ascii	"256-ecdsa\":\"OHj5sNjxqMNK3WNEwbyfs/PeSSS1kzLkAQ4MS"
+ 1076      65636473 
+ 1076      61223A22 
+ 1076      4F486A35 
+ 1076      734E6A78 
+ 1077 0196 7530794B 		.ascii	"u0yKNFoGxJrUKuIWhjQbQiPlXcDtXlSXE8ydAwoxnnw5lcwpJsb"
+ 1077      4E466F47 
+ 1077      784A7255 
+ 1077      4B754957 
+ 1077      686A5162 
+ 1078 01c9 58784431 		.ascii	"XxD1K1PwZJoc/3mv5XHXbvvEoFr4yA0rhY4tyrMDBesEtOVrW0y"
+ 1078      4B315077 
+ 1078      5A4A6F63 
+ 1078      2F336D76 
+ 1078      35584858 
+ 1079 01fc 49346D4D 		.ascii	"I4mM4Lde5OtdIxo8sjTSPGXo2Ejuhn+LDRD3gKdb1gtPpoJ/YBQ"
+ 1079      344C6465 
+ 1079      354F7464 
+ 1079      49786F38 
+ 1079      736A5453 
+ 1080 022f 6D594B58 		.ascii	"mYKXHFQ5QW58GOSlB9prq5v+MloVCATjmzb9tu4msScXYYy41ik"
+ 1080      48465135 
+ 1080      51573538 
+ 1080      474F536C 
+ 1080      42397072 
+ 1081 0262 45684B32 		.ascii	"EhK2eyfl7/vpc2vMNX6uhyyeZhku9namI4OZmsp72tLL4D4pFt4"
+ 1081      6579666C 
+ 1081      372F7670 
+ 1081      6332764D 
+ 1081      4E583675 
+ 1082 0295 2F6E4457 		.ascii	"/nDWYSAo8sQAwns1RNY+j52KfvgvKKN3u6G3suFyVQoxWJu3aA="
+ 1082      5953416F 
+ 1082      38735141 
+ 1082      776E7331 
+ 1082      524E592B 
+ 1083 02c8 3D227D5D 		.ascii	"=\"}]}}}}\000"
+ 1083      7D7D7D7D 
+ 1083      00
+ 1084              	.LC3:
+ 1085 02d1 3100     		.ascii	"1\000"
+ 1086              	.LC4:
+ 1087 02d3 20457870 		.ascii	" Expected TRUE Was FALSE\000"
+ 1087      65637465 
+ 1087      64205452 
+ 1087      55452057 
+ 1087      61732046 
+ 1088              	.LC5:
+ 1089 02ec 7061796C 		.ascii	"payload.bin\000"
+ 1089      6F61642E 
+ 1089      62696E00 
+ 1090              	.LC6:
+ 1091 02f8 72736173 		.ascii	"rsasigner.crt\000"
+ 1091      69676E65 
+ 1091      722E6372 
+ 1091      7400
+ 1092              	.LC7:
+ 1093 0306 7B22636C 		.ascii	"{\"clientToken\":\"mytoken\",\"timestamp\":15084450"
+ 1093      69656E74 
+ 1093      546F6B65 
+ 1093      6E223A22 
+ 1093      6D79746F 
+ 1094 0333 30342C22 		.ascii	"04,\"execution\":{\"jobId\":\"15\",\"status\":\"QUE"
+ 1094      65786563 
+ 1094      7574696F 
+ 1094      6E223A7B 
+ 1094      226A6F62 
+ 1095 035d 55454422 		.ascii	"UED\",\"queuedAt\":1507697924,\"lastUpdatedAt\":150"
+ 1095      2C227175 
+ 1095      65756564 
+ 1095      4174223A 
+ 1095      31353037 
+ 1096 038b 37363937 		.ascii	"7697924,\"versionNumber\":1,\"executionNumber\":1,\""
+ 1096      3932342C 
+ 1096      22766572 
+ 1096      73696F6E 
+ 1096      4E756D62 
+ 1097 03ba 6A6F6244 		.ascii	"jobDocument\":{\"afr_ota\": {\"streamname\": \"1\","
+ 1097      6F63756D 
+ 1097      656E7422 
+ 1097      3A7B2261 
+ 1097      66725F6F 
+ 1098 03e6 2266696C 		.ascii	"\"files\": [{\"filepath\": \"payload.bin\",\"versio"
+ 1098      6573223A 
+ 1098      205B7B22 
+ 1098      66696C65 
+ 1098      70617468 
+ 1099 0412 6E223A22 		.ascii	"n\":\"1.0.0.0\",\"filesize\": 90860,\"fileid\": 0,\""
+ 1099      312E302E 
+ 1099      302E3022 
+ 1099      2C226669 
+ 1099      6C657369 
+ 1100 043e 61747472 		.ascii	"attr\": 3,\"certfile\":\"rsasigner.crt\", \"sig-sha"
+ 1100      223A2033 
+ 1100      2C226365 
+ 1100      72746669 
+ 1100      6C65223A 
+ 1101 046b 3235362D 		.ascii	"256-rsa\":\"OHj5sNjxqMNK3WNEwbyfs/PeSSS1kzLkAQ4MSu0"
+ 1101      72736122 
+ 1101      3A224F48 
+ 1101      6A35734E 
+ 1101      6A78714D 
+ 1102 049c 794B4E46 		.ascii	"yKNFoGxJrUKuIWhjQbQiPlXcDtXlSXE8ydAwoxnnw5lcwpJsbXx"
+ 1102      6F47784A 
+ 1102      72554B75 
+ 1102      4957686A 
+ 1102      51625169 
+ 1103 04cf 44314B31 		.ascii	"D1K1PwZJoc/3mv5XHXbvvEoFr4yA0rhY4tyrMDBesEtOVrW0yI4"
+ 1103      50775A4A 
+ 1103      6F632F33 
+ 1103      6D763558 
+ 1103      48586276 
+ 1104 0502 6D4D344C 		.ascii	"mM4Lde5OtdIxo8sjTSPGXo2Ejuhn+LDRD3gKdb1gtPpoJ/YBQmY"
+ 1104      6465354F 
+ 1104      74644978 
+ 1104      6F38736A 
+ 1104      54535047 
+ 1105 0535 4B584846 		.ascii	"KXHFQ5QW58GOSlB9prq5v+MloVCATjmzb9tu4msScXYYy41ikEh"
+ 1105      51355157 
+ 1105      3538474F 
+ 1105      536C4239 
+ 1105      70727135 
+ 1106 0568 4B326579 		.ascii	"K2eyfl7/vpc2vMNX6uhyyeZhku9namI4OZmsp72tLL4D4pFt4/n"
+ 1106      666C372F 
+ 1106      76706332 
+ 1106      764D4E58 
+ 1106      36756879 
+ 1107 059b 44575953 		.ascii	"DWYSAo8sQAwns1RNY+j52KfvgvKKN3u6G3suFyVQoxWJu3aA==\""
+ 1107      416F3873 
+ 1107      5141776E 
+ 1107      7331524E 
+ 1107      592B6A35 
+ 1108 05ce 7D5D7D7D 		.ascii	"}]}}}}\000"
+ 1108      7D7D00
+ 1109              	.LC8:
+ 1110 05d5 7B73696F 		.ascii	"{sioudgoijergijoijosdigjoeiwgoiew893752379\"}\000"
+ 1110      7564676F 
+ 1110      696A6572 
+ 1110      67696A6F 
+ 1110      696A6F73 
+ 1111              		.section	.rodata.TEST_Full_OTA_AGENT_prvParseJobDocFromJSONandPrvOTA_Close_run.str1.1,"aMS",%progb
+ 1112              	.LC16:
+ 1113 0000 54455354 		.ascii	"TEST(Full_OTA_AGENT, prvParseJobDocFromJSONandPrvOT"
+ 1113      2846756C 
+ 1113      6C5F4F54 
+ 1113      415F4147 
+ 1113      454E542C 
+ 1114 0033 415F436C 		.ascii	"A_Close)\000"
+ 1114      6F736529 
+ 1114      00
+ 1115              	.LC17:
+ 1116 003c 70727650 		.ascii	"prvParseJobDocFromJSONandPrvOTA_Close\000"
+ 1116      61727365 
+ 1116      4A6F6244 
+ 1116      6F634672 
+ 1116      6F6D4A53 
+ 1117              		.section	.rodata.clientcredentialMQTT_BROKER_ENDPOINT,"a",%progbits
+ 1118              		.set	.LANCHOR1,. + 0
+ 1121              	clientcredentialMQTT_BROKER_ENDPOINT:
+ 1122 0000 61333369 		.ascii	"a33i4lqfcxqo2.iot.ap-northeast-1.amazonaws.com\000"
+ 1122      346C7166 
+ 1122      6378716F 
+ 1122      322E696F 
+ 1122      742E6170 
+ 1123              		.section	.rodata.ucOtatestSIGNATURE,"a",%progbits
+ 1124              		.set	.LANCHOR2,. + 0
+ 1127              	ucOtatestSIGNATURE:
+ 1128 0000 38       		.byte	56
+ 1129 0001 78       		.byte	120
+ 1130 0002 F9       		.byte	-7
+ 1131 0003 B0       		.byte	-80
+ 1132 0004 D8       		.byte	-40
+ 1133 0005 F1       		.byte	-15
+ 1134 0006 A8       		.byte	-88
+ 1135 0007 C3       		.byte	-61
+ 1136 0008 4A       		.byte	74
+ 1137 0009 DD       		.byte	-35
+ 1138 000a 63       		.byte	99
+ 1139 000b 44       		.byte	68
+ 1140 000c C1       		.byte	-63
+ 1141 000d BC       		.byte	-68
+ 1142 000e 9F       		.byte	-97
+ 1143 000f B3       		.byte	-77
+ 1144 0010 F3       		.byte	-13
+ 1145 0011 DE       		.byte	-34
+ 1146 0012 49       		.byte	73
+ 1147 0013 24       		.byte	36
+ 1148 0014 B5       		.byte	-75
+ 1149 0015 93       		.byte	-109
+ 1150 0016 32       		.byte	50
+ 1151 0017 E4       		.byte	-28
+ 1152 0018 01       		.byte	1
+ 1153 0019 0E       		.byte	14
+ 1154 001a 0C       		.byte	12
+ 1155 001b 4A       		.byte	74
+ 1156 001c ED       		.byte	-19
+ 1157 001d 32       		.byte	50
+ 1158 001e 28       		.byte	40
+ 1159 001f D1       		.byte	-47
+ 1160 0020 68       		.byte	104
+ 1161 0021 1B       		.byte	27
+ 1162 0022 12       		.byte	18
+ 1163 0023 6B       		.byte	107
+ 1164 0024 50       		.byte	80
+ 1165 0025 AB       		.byte	-85
+ 1166 0026 88       		.byte	-120
+ 1167 0027 5A       		.byte	90
+ 1168 0028 18       		.byte	24
+ 1169 0029 D0       		.byte	-48
+ 1170 002a 6D       		.byte	109
+ 1171 002b 08       		.byte	8
+ 1172 002c 8F       		.byte	-113
+ 1173 002d 95       		.byte	-107
+ 1174 002e 77       		.byte	119
+ 1175 002f 03       		.byte	3
+ 1176 0030 B5       		.byte	-75
+ 1177 0031 79       		.byte	121
+ 1178 0032 52       		.byte	82
+ 1179 0033 5C       		.byte	92
+ 1180 0034 4F       		.byte	79
+ 1181 0035 32       		.byte	50
+ 1182 0036 74       		.byte	116
+ 1183 0037 0C       		.byte	12
+ 1184 0038 28       		.byte	40
+ 1185 0039 C6       		.byte	-58
+ 1186 003a 79       		.byte	121
+ 1187 003b F0       		.byte	-16
+ 1188 003c E6       		.byte	-26
+ 1189 003d 57       		.byte	87
+ 1190 003e 30       		.byte	48
+ 1191 003f A4       		.byte	-92
+ 1192 0040 9B       		.byte	-101
+ 1193 0041 1B       		.byte	27
+ 1194 0042 5F       		.byte	95
+ 1195 0043 10       		.byte	16
+ 1196 0044 F5       		.byte	-11
+ 1197 0045 2B       		.byte	43
+ 1198 0046 53       		.byte	83
+ 1199 0047 F0       		.byte	-16
+ 1200 0048 64       		.byte	100
+ 1201 0049 9A       		.byte	-102
+ 1202 004a 1C       		.byte	28
+ 1203 004b FF       		.byte	-1
+ 1204 004c 79       		.byte	121
+ 1205 004d AF       		.byte	-81
+ 1206 004e E5       		.byte	-27
+ 1207 004f 71       		.byte	113
+ 1208 0050 D7       		.byte	-41
+ 1209 0051 6E       		.byte	110
+ 1210 0052 FB       		.byte	-5
+ 1211 0053 C4       		.byte	-60
+ 1212 0054 A0       		.byte	-96
+ 1213 0055 5A       		.byte	90
+ 1214 0056 F8       		.byte	-8
+ 1215 0057 C8       		.byte	-56
+ 1216 0058 0D       		.byte	13
+ 1217 0059 2B       		.byte	43
+ 1218 005a 85       		.byte	-123
+ 1219 005b 8E       		.byte	-114
+ 1220 005c 2D       		.byte	45
+ 1221 005d CA       		.byte	-54
+ 1222 005e B3       		.byte	-77
+ 1223 005f 03       		.byte	3
+ 1224 0060 05       		.byte	5
+ 1225 0061 EB       		.byte	-21
+ 1226 0062 04       		.byte	4
+ 1227 0063 B4       		.byte	-76
+ 1228 0064 E5       		.byte	-27
+ 1229 0065 6B       		.byte	107
+ 1230 0066 5B       		.byte	91
+ 1231 0067 4C       		.byte	76
+ 1232 0068 88       		.byte	-120
+ 1233 0069 E2       		.byte	-30
+ 1234 006a 63       		.byte	99
+ 1235 006b 38       		.byte	56
+ 1236 006c 2D       		.byte	45
+ 1237 006d D7       		.byte	-41
+ 1238 006e B9       		.byte	-71
+ 1239 006f 3A       		.byte	58
+ 1240 0070 D7       		.byte	-41
+ 1241 0071 48       		.byte	72
+ 1242 0072 C6       		.byte	-58
+ 1243 0073 8F       		.byte	-113
+ 1244 0074 2C       		.byte	44
+ 1245 0075 8D       		.byte	-115
+ 1246 0076 34       		.byte	52
+ 1247 0077 8F       		.byte	-113
+ 1248 0078 19       		.byte	25
+ 1249 0079 7A       		.byte	122
+ 1250 007a 36       		.byte	54
+ 1251 007b 12       		.byte	18
+ 1252 007c 3B       		.byte	59
+ 1253 007d A1       		.byte	-95
+ 1254 007e 9F       		.byte	-97
+ 1255 007f E2       		.byte	-30
+ 1256 0080 C3       		.byte	-61
+ 1257 0081 44       		.byte	68
+ 1258 0082 3D       		.byte	61
+ 1259 0083 E0       		.byte	-32
+ 1260 0084 29       		.byte	41
+ 1261 0085 D6       		.byte	-42
+ 1262 0086 F5       		.byte	-11
+ 1263 0087 82       		.byte	-126
+ 1264 0088 D3       		.byte	-45
+ 1265 0089 E9       		.byte	-23
+ 1266 008a A0       		.byte	-96
+ 1267 008b 9F       		.byte	-97
+ 1268 008c D8       		.byte	-40
+ 1269 008d 05       		.byte	5
+ 1270 008e 09       		.byte	9
+ 1271 008f 98       		.byte	-104
+ 1272 0090 29       		.byte	41
+ 1273 0091 71       		.byte	113
+ 1274 0092 C5       		.byte	-59
+ 1275 0093 43       		.byte	67
+ 1276 0094 94       		.byte	-108
+ 1277 0095 16       		.byte	22
+ 1278 0096 E7       		.byte	-25
+ 1279 0097 C1       		.byte	-63
+ 1280 0098 8E       		.byte	-114
+ 1281 0099 4A       		.byte	74
+ 1282 009a 50       		.byte	80
+ 1283 009b 7D       		.byte	125
+ 1284 009c A6       		.byte	-90
+ 1285 009d BA       		.byte	-70
+ 1286 009e B9       		.byte	-71
+ 1287 009f BF       		.byte	-65
+ 1288 00a0 E3       		.byte	-29
+ 1289 00a1 25       		.byte	37
+ 1290 00a2 A1       		.byte	-95
+ 1291 00a3 50       		.byte	80
+ 1292 00a4 80       		.byte	-128
+ 1293 00a5 4E       		.byte	78
+ 1294 00a6 39       		.byte	57
+ 1295 00a7 B3       		.byte	-77
+ 1296 00a8 6F       		.byte	111
+ 1297 00a9 DB       		.byte	-37
+ 1298 00aa 6E       		.byte	110
+ 1299 00ab E2       		.byte	-30
+ 1300 00ac 6B       		.byte	107
+ 1301 00ad 12       		.byte	18
+ 1302 00ae 71       		.byte	113
+ 1303 00af 76       		.byte	118
+ 1304 00b0 18       		.byte	24
+ 1305 00b1 CB       		.byte	-53
+ 1306 00b2 8D       		.byte	-115
+ 1307 00b3 62       		.byte	98
+ 1308 00b4 90       		.byte	-112
+ 1309 00b5 48       		.byte	72
+ 1310 00b6 4A       		.byte	74
+ 1311 00b7 D9       		.byte	-39
+ 1312 00b8 EC       		.byte	-20
+ 1313 00b9 9F       		.byte	-97
+ 1314 00ba 97       		.byte	-105
+ 1315 00bb BF       		.byte	-65
+ 1316 00bc EF       		.byte	-17
+ 1317 00bd A5       		.byte	-91
+ 1318 00be CD       		.byte	-51
+ 1319 00bf AF       		.byte	-81
+ 1320 00c0 30       		.byte	48
+ 1321 00c1 D5       		.byte	-43
+ 1322 00c2 FA       		.byte	-6
+ 1323 00c3 BA       		.byte	-70
+ 1324 00c4 1C       		.byte	28
+ 1325 00c5 B2       		.byte	-78
+ 1326 00c6 79       		.byte	121
+ 1327 00c7 98       		.byte	-104
+ 1328 00c8 64       		.byte	100
+ 1329 00c9 BB       		.byte	-69
+ 1330 00ca D9       		.byte	-39
+ 1331 00cb DA       		.byte	-38
+ 1332 00cc 98       		.byte	-104
+ 1333 00cd 8E       		.byte	-114
+ 1334 00ce 0E       		.byte	14
+ 1335 00cf 66       		.byte	102
+ 1336 00d0 6B       		.byte	107
+ 1337 00d1 29       		.byte	41
+ 1338 00d2 EF       		.byte	-17
+ 1339 00d3 6B       		.byte	107
+ 1340 00d4 4B       		.byte	75
+ 1341 00d5 2F       		.byte	47
+ 1342 00d6 80       		.byte	-128
+ 1343 00d7 F8       		.byte	-8
+ 1344 00d8 A4       		.byte	-92
+ 1345 00d9 5B       		.byte	91
+ 1346 00da 78       		.byte	120
+ 1347 00db FE       		.byte	-2
+ 1348 00dc 70       		.byte	112
+ 1349 00dd D6       		.byte	-42
+ 1350 00de 61       		.byte	97
+ 1351 00df 20       		.byte	32
+ 1352 00e0 28       		.byte	40
+ 1353 00e1 F2       		.byte	-14
+ 1354 00e2 C4       		.byte	-60
+ 1355 00e3 00       		.byte	0
+ 1356 00e4 C2       		.byte	-62
+ 1357 00e5 7B       		.byte	123
+ 1358 00e6 35       		.byte	53
+ 1359 00e7 44       		.byte	68
+ 1360 00e8 D6       		.byte	-42
+ 1361 00e9 3E       		.byte	62
+ 1362 00ea 8F       		.byte	-113
+ 1363 00eb 9D       		.byte	-99
+ 1364 00ec 8A       		.byte	-118
+ 1365 00ed 7E       		.byte	126
+ 1366 00ee F8       		.byte	-8
+ 1367 00ef 2F       		.byte	47
+ 1368 00f0 28       		.byte	40
+ 1369 00f1 A3       		.byte	-93
+ 1370 00f2 77       		.byte	119
+ 1371 00f3 BB       		.byte	-69
+ 1372 00f4 A1       		.byte	-95
+ 1373 00f5 B7       		.byte	-73
+ 1374 00f6 B2       		.byte	-78
+ 1375 00f7 E1       		.byte	-31
+ 1376 00f8 72       		.byte	114
+ 1377 00f9 55       		.byte	85
+ 1378 00fa 0A       		.byte	10
+ 1379 00fb 31       		.byte	49
+ 1380 00fc 58       		.byte	88
+ 1381 00fd 9B       		.byte	-101
+ 1382 00fe B7       		.byte	-73
+ 1383 00ff 68       		.byte	104
+ 1384              		.text
+ 1385              	.Letext0:
+ 1386              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1387              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1388              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1389              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1390              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 1391              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1392              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1393              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1394              		.file 10 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\src/unity_internals.h"
+ 1395              		.file 11 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS\\portable\\GCC\\ARM_CA9_RZA2M/por
+ 1396              		.file 12 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1397              		.file 13 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\extras\\fixture\\src/u
+ 1398              		.file 14 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\jsmn/jsmn.h"
+ 1399              		.file 15 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/timers.h"
+ 1400              		.file 16 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/aws_ota_agent.h"
+ 1401              		.file 17 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include\\private/aws_ota_agent_internal.h"
+ 1402              		.file 18 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\common\\include/aws_clientcredential_key
+ 1403              		.file 19 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include\\private/aws_mqtt_buffer.h"
+ 1404              		.file 20 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/aws_mqtt_lib.h"
+ 1405              		.file 21 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/aws_mqtt_agent.h"
+ 1406              		.file 22 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\common\\include/aws_clientcredential.h"
+ 1407              		.file 23 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\common\\ota/aws_test_ota_pal_ecdsa_sha25
+ 1408              		.file 24 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\common\\include/aws_ota_agent_test_acces
+ 1409              		.file 25 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1410              		.file 26 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include\\private/portable.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 aws_test_ota_agent.c
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:17     .text.vOTACompleteCallback:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:22     .text.vOTACompleteCallback:00000000 vOTACompleteCallback
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:36     .text.TEST_Full_OTA_AGENT_SETUP:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:42     .text.TEST_Full_OTA_AGENT_SETUP:00000000 TEST_Full_OTA_AGENT_SETUP
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:119    .text.TEST_Full_OTA_AGENT_SETUP:00000098 $d
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:127    .text.TEST_Full_OTA_AGENT_TEAR_DOWN:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:133    .text.TEST_Full_OTA_AGENT_TEAR_DOWN:00000000 TEST_Full_OTA_AGENT_TEAR_DOWN
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:186    .text.TEST_Full_OTA_AGENT_TEAR_DOWN:00000060 $d
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:191    .text.TEST_Full_OTA_AGENT_OTA_SetImageState_InvalidParams_:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:197    .text.TEST_Full_OTA_AGENT_OTA_SetImageState_InvalidParams_:00000000 TEST_Full_OTA_AGENT_OTA_SetImageState_InvalidParams_
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:268    .text.TEST_Full_OTA_AGENT_prvParseJobDocFromJSONandPrvOTA_Close_:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:274    .text.TEST_Full_OTA_AGENT_prvParseJobDocFromJSONandPrvOTA_Close_:00000000 TEST_Full_OTA_AGENT_prvParseJobDocFromJSONandPrvOTA_Close_
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:583    .text.TEST_Full_OTA_AGENT_prvParseJobDocFromJSONandPrvOTA_Close_:000002a4 $d
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:600    .text.TEST_Full_OTA_AGENT_prvParseJSONbyModel_Errors_:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:606    .text.TEST_Full_OTA_AGENT_prvParseJSONbyModel_Errors_:00000000 TEST_Full_OTA_AGENT_prvParseJSONbyModel_Errors_
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:790    .text.TEST_Full_OTA_AGENT_prvParseJSONbyModel_Errors_:000001cc $d
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:802    .text.TEST_Full_OTA_AGENT_OTA_SetImageState_InvalidParams_run:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:808    .text.TEST_Full_OTA_AGENT_OTA_SetImageState_InvalidParams_run:00000000 TEST_Full_OTA_AGENT_OTA_SetImageState_InvalidParams_run
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:839    .text.TEST_Full_OTA_AGENT_OTA_SetImageState_InvalidParams_run:00000040 $d
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:850    .text.TEST_Full_OTA_AGENT_prvParseJobDocFromJSONandPrvOTA_Close_run:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:856    .text.TEST_Full_OTA_AGENT_prvParseJobDocFromJSONandPrvOTA_Close_run:00000000 TEST_Full_OTA_AGENT_prvParseJobDocFromJSONandPrvOTA_Close_run
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:887    .text.TEST_Full_OTA_AGENT_prvParseJobDocFromJSONandPrvOTA_Close_run:00000040 $d
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:898    .text.TEST_Full_OTA_AGENT_prvParseJSONbyModel_Errors_run:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:904    .text.TEST_Full_OTA_AGENT_prvParseJSONbyModel_Errors_run:00000000 TEST_Full_OTA_AGENT_prvParseJSONbyModel_Errors_run
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:935    .text.TEST_Full_OTA_AGENT_prvParseJSONbyModel_Errors_run:00000040 $d
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:946    .text.TEST_Full_OTA_AGENT_GROUP_RUNNER:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:952    .text.TEST_Full_OTA_AGENT_GROUP_RUNNER:00000000 TEST_Full_OTA_AGENT_GROUP_RUNNER
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:986    .bss.xMQTTClientHandle:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:990    .bss.xMQTTClientHandle:00000000 xMQTTClientHandle
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:1121   .rodata.clientcredentialMQTT_BROKER_ENDPOINT:00000000 clientcredentialMQTT_BROKER_ENDPOINT
+C:\Users\a5089698\AppData\Local\Temp\cc8IIYNS.s:1127   .rodata.ucOtatestSIGNATURE:00000000 ucOtatestSIGNATURE
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+MQTT_AGENT_Create
+UnityAssertEqualNumber
+memset
+MQTT_AGENT_Connect
+MQTT_AGENT_Disconnect
+MQTT_AGENT_Delete
+OTA_GetImageState
+OTA_SetImageState
+OTA_AgentInit
+setjmp
+OTA_GetAgentState
+TEST_OTA_prvParseJobDoc
+UnityAssertEqualString
+UnityAssertEqualMemory
+TEST_OTA_prvOTA_Close
+UnityFail
+OTA_AgentShutdown
+vPortFree
+Unity
+TEST_OTA_prvParseJSONbyModel
+UnityTestRunner

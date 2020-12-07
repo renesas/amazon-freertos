@@ -1,0 +1,239 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"hwsetup_userdef.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.Userdef_PreHardwareSetup,"ax",%progbits
+  17              		.align	2
+  18              		.weak	Userdef_PreHardwareSetup
+  19              		.syntax unified
+  20              		.arm
+  21              		.fpu neon
+  23              	Userdef_PreHardwareSetup:
+  24              	.LFB4:
+  25              		.file 1 "D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code
+   1:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** /**************************************************************************************************
+   2:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * DISCLAIMER
+   3:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * This software is supplied by Renesas Electronics Corporation and is only intended for use with R
+   4:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * other uses are authorized. This software is owned by Renesas Electronics Corporation and is prot
+   5:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * applicable laws, including copyright laws.
+   6:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   7:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF
+   8:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAI
+   9:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS A
+  10:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY R
+  11:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DA
+  12:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * Renesas reserves the right, without notice, to make changes to this software and to discontinue 
+  13:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * this software. By using this software, you agree to the additional terms and conditions found by
+  14:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * following link:
+  15:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * http://www.renesas.com/disclaimer
+  16:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  *
+  17:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+  18:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  **************************************************************************************************
+  19:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** /**************************************************************************************************
+  20:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * File Name    : hwsetup_userdef.c
+  21:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * Version      : 1.0
+  22:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * Description  : .
+  23:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  **************************************************************************************************
+  24:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** /**************************************************************************************************
+  25:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * History : DD.MM.YYYY Version  Description
+  26:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  *         : 29.08.2019 1.00     First Release
+  27:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  **************************************************************************************************
+  28:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** 
+  29:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** /**************************************************************************************************
+  30:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  Includes   <System Includes> , "Project Includes"
+  31:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  **************************************************************************************************
+  32:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** #include "r_typedefs.h"
+  33:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** #include "iodefine.h"
+  34:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** #include "iobitmask.h"
+  35:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** #include "rza_io_regrw.h"
+  36:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** #include "r_cpg_drv_api.h"
+  37:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** #include "hwsetup.h"
+  38:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** 
+  39:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** /**************************************************************************************************
+  40:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  Macro definitions
+  41:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  **************************************************************************************************
+  42:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** /* Comment it if you does not need to use pre hardware setup function */
+  43:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** #define R_PRV_USE_PRE_HWSETUP
+  44:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** 
+  45:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** /* Comment it if you does not need to use post hardware setup function */
+  46:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** #define R_PRV_USE_POST_HWSETUP
+  47:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** 
+  48:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** /**************************************************************************************************
+  49:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  Local Typedef definitions
+  50:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  **************************************************************************************************
+  51:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** 
+  52:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** /**************************************************************************************************
+  53:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  Exported global variables
+  54:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  **************************************************************************************************
+  55:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** 
+  56:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** /**************************************************************************************************
+  57:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  Private (static) variables and functions
+  58:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  **************************************************************************************************
+  59:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** 
+  60:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** /**************************************************************************************************
+  61:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * Function Name: Userdef_PreHardwareSetup
+  62:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * Description  : User defined hardware setup called earlier of R_SC_HardwareSetup.
+  63:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * Arguments    : None.
+  64:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * Return Value : None.
+  65:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  **************************************************************************************************
+  66:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** #if defined(R_PRV_USE_PRE_HWSETUP)
+  67:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** void Userdef_PreHardwareSetup(void)
+  68:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** {
+  26              		.loc 1 68 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30 0000 10402DE9 		push	{r4, lr}
+  31              		.cfi_def_cfa_offset 8
+  32              		.cfi_offset 4, -8
+  33              		.cfi_offset 14, -4
+  69:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****     /* If the IOKEEP is 1, then clear to 0. */
+  70:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****     if(1 == RZA_IO_RegRead_16(&PMG.DSFR.WORD, PMG_DSFR_IOKEEP_SHIFT, PMG_DSFR_IOKEEP))
+  34              		.loc 1 70 0
+  35 0004 0229A0E3 		mov	r2, #32768
+  36 0008 0F10A0E3 		mov	r1, #15
+  37 000c 30009FE5 		ldr	r0, .L4
+  38 0010 FEFFFFEB 		bl	RZA_IO_RegRead_16
+  39              	.LVL0:
+  40 0014 010050E3 		cmp	r0, #1
+  41 0018 1080BD18 		popne	{r4, pc}
+  71:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****     {
+  72:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****         /* Clear IOKEEP bit */
+  73:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****         RZA_IO_RegWrite_16(&PMG.DSFR.WORD, 0, PMG_DSFR_IOKEEP_SHIFT, PMG_DSFR_IOKEEP);
+  42              		.loc 1 73 0
+  43 001c 0F20A0E3 		mov	r2, #15
+  44 0020 0010A0E3 		mov	r1, #0
+  45 0024 18009FE5 		ldr	r0, .L4
+  46 0028 0239A0E3 		mov	r3, #32768
+  47 002c FEFFFFEB 		bl	RZA_IO_RegWrite_16
+  48              	.LVL1:
+  74:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** 
+  75:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****         /* dummy read*/
+  76:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****         RZA_IO_RegRead_16(&PMG.DSFR.WORD, IOREG_NONSHIFT_ACCESS, IOREG_NONMASK_ACCESS);
+  49              		.loc 1 76 0
+  50 0030 0020E0E3 		mvn	r2, #0
+  51 0034 0010A0E3 		mov	r1, #0
+  52 0038 04009FE5 		ldr	r0, .L4
+  77:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****     }
+  78:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** }
+  53              		.loc 1 78 0
+  54 003c 1040BDE8 		pop	{r4, lr}
+  55              		.cfi_restore 14
+  56              		.cfi_restore 4
+  57              		.cfi_def_cfa_offset 0
+  76:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****     }
+  58              		.loc 1 76 0
+  59 0040 FEFFFFEA 		b	RZA_IO_RegRead_16
+  60              	.LVL2:
+  61              	.L5:
+  62              		.align	2
+  63              	.L4:
+  64 0044 08C0FFFC 		.word	-50348024
+  65              		.cfi_endproc
+  66              	.LFE4:
+  68              		.section	.text.Userdef_PostHardwareSetup,"ax",%progbits
+  69              		.align	2
+  70              		.weak	Userdef_PostHardwareSetup
+  71              		.syntax unified
+  72              		.arm
+  73              		.fpu neon
+  75              	Userdef_PostHardwareSetup:
+  76              	.LFB5:
+  79:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** #endif
+  80:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** /**************************************************************************************************
+  81:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * End of function Userdef_PreHardwareSetup
+  82:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  **************************************************************************************************
+  83:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** 
+  84:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** /**************************************************************************************************
+  85:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * Function Name: Userdef_PostHardwareSetup
+  86:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * Description  : User defined hardware setup called later of R_SC_HardwareSetup.
+  87:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * Arguments    : None.
+  88:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  * Return Value : None.
+  89:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****  **************************************************************************************************
+  90:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** #if defined(R_PRV_USE_POST_HWSETUP)
+  91:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** void Userdef_PostHardwareSetup(void)
+  92:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** {
+  77              		.loc 1 92 0
+  78              		.cfi_startproc
+  79              		@ args = 0, pretend = 0, frame = 0
+  80              		@ frame_needed = 0, uses_anonymous_args = 0
+  81 0000 10402DE9 		push	{r4, lr}
+  82              		.cfi_def_cfa_offset 8
+  83              		.cfi_offset 4, -8
+  84              		.cfi_offset 14, -4
+  93:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****     /* Enable write access for the retention RAM (0x8000_0000 ~ 0x8001_FFFF) */
+  94:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****     RZA_IO_RegWrite_8(&CPG.SYSCR3.BYTE, 0xf, IOREG_NONSHIFT_ACCESS, IOREG_NONMASK_ACCESS);
+  85              		.loc 1 94 0
+  86 0004 0020A0E3 		mov	r2, #0
+  87 0008 20409FE5 		ldr	r4, .L8
+  88 000c 0F10A0E3 		mov	r1, #15
+  89 0010 0030E0E3 		mvn	r3, #0
+  90 0014 0400A0E1 		mov	r0, r4
+  91 0018 FEFFFFEB 		bl	RZA_IO_RegWrite_8
+  92              	.LVL3:
+  95:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** 
+  96:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****     /* dummy read*/
+  97:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c ****     RZA_IO_RegRead_8(&CPG.SYSCR3.BYTE, IOREG_NONSHIFT_ACCESS, IOREG_NONMASK_ACCESS);
+  93              		.loc 1 97 0
+  94 001c 0400A0E1 		mov	r0, r4
+  95 0020 0020E0E3 		mvn	r2, #0
+  96 0024 0010A0E3 		mov	r1, #0
+  98:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** }
+  97              		.loc 1 98 0
+  98 0028 1040BDE8 		pop	{r4, lr}
+  99              		.cfi_restore 14
+ 100              		.cfi_restore 4
+ 101              		.cfi_def_cfa_offset 0
+  97:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code/application/hwsetup\hwsetup_userdef.c **** }
+ 102              		.loc 1 97 0
+ 103 002c FEFFFFEA 		b	RZA_IO_RegRead_8
+ 104              	.LVL4:
+ 105              	.L9:
+ 106              		.align	2
+ 107              	.L8:
+ 108 0030 0804FEFC 		.word	-50461688
+ 109              		.cfi_endproc
+ 110              	.LFE5:
+ 112              		.text
+ 113              	.Letext0:
+ 114              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 115              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 116              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 117              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 118              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 119              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 120              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 121              		.file 9 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_bo
+ 122              		.file 10 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 123              		.file 11 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 124              		.file 12 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 125              		.file 13 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 126              		.file 14 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 127              		.file 15 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 128              		.file 16 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+DEFINED SYMBOLS
+                            *ABS*:00000000 hwsetup_userdef.c
+C:\Users\a5089698\AppData\Local\Temp\ccpRUeIj.s:17     .text.Userdef_PreHardwareSetup:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccpRUeIj.s:23     .text.Userdef_PreHardwareSetup:00000000 Userdef_PreHardwareSetup
+C:\Users\a5089698\AppData\Local\Temp\ccpRUeIj.s:64     .text.Userdef_PreHardwareSetup:00000044 $d
+C:\Users\a5089698\AppData\Local\Temp\ccpRUeIj.s:69     .text.Userdef_PostHardwareSetup:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccpRUeIj.s:75     .text.Userdef_PostHardwareSetup:00000000 Userdef_PostHardwareSetup
+C:\Users\a5089698\AppData\Local\Temp\ccpRUeIj.s:108    .text.Userdef_PostHardwareSetup:00000030 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+RZA_IO_RegRead_16
+RZA_IO_RegWrite_16
+RZA_IO_RegWrite_8
+RZA_IO_RegRead_8

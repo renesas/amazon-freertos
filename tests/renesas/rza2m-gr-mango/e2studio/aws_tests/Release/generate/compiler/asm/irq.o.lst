@@ -1,0 +1,103 @@
+   1              	# 1 "D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_pac
+   1              	@/*******************************************************************************
+   0              	
+   0              	
+   0              	
+   2              	@* DISCLAIMER
+   3              	@* This software is supplied by Renesas Electronics Corporation and is only
+   4              	@* intended for use with Renesas products. No other uses are authorized. This
+   5              	@* software is owned by Renesas Electronics Corporation and is protected under
+   6              	@* all applicable laws, including copyright laws.
+   7              	@* THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   8              	@* THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT
+   9              	@* LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+  10              	@* AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED.
+  11              	@* TO THE MAXIMUM EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS
+  12              	@* ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES SHALL BE LIABLE
+  13              	@* FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR
+  14              	@* ANY REASON RELATED TO THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE
+  15              	@* BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+  16              	@* Renesas reserves the right, without notice, to make changes to this software
+  17              	@* and to discontinue the availability of this software. By using this software,
+  18              	@* you agree to the additional terms and conditions found by accessing the
+  19              	@* following link:
+  20              	@* http://www.renesas.com/disclaimer
+  21              	@* Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+  22              	@*******************************************************************************/
+  23              	@/*******************************************************************************
+  24              	@* File Name   : irq.asm
+  25              	@* Description : enable/disable irq
+  26              	@*******************************************************************************/
+  27              	
+  28              	
+  29              	@******************************************************************************
+  30              	@ Function Name : __disable_irq
+  31              	@ Description   : Disable IRQ
+  32              	@******************************************************************************
+  33              	    .section .text.__disable_irq
+  34              	    .global __disable_irq
+  36              	    .func   __disable_irq
+  37              	__disable_irq:
+  38 0000 00000FE1 	    MRS     r0,APSR             @ formerly CPSR
+  39 0004 800000E2 	    AND     r0,r0,#0x80
+  40 0008 80000CF1 	    CPSID   I
+  41 000c 1EFF2FE1 	    BX      LR
+  42              	
+  43              	    .endfunc
+  44              	
+  45              	@******************************************************************************
+  46              	@ Function Name : __enable_irq
+  47              	@ Description   : Enable IRQ
+  48              	@******************************************************************************
+  49              	    .section .text.__enable_irq
+  50              	    .global __enable_irq
+  52              	    .func   __enable_irq
+  53              	
+  54              	__enable_irq:
+  55 0000 800008F1 	    CPSIE   I
+  56 0004 1EFF2FE1 	    BX      LR
+  57              	
+  58              	    .endfunc
+  59              	
+  60              	@******************************************************************************
+  61              	@ Function Name : __disable_fiq
+  62              	@ Description   : Disable FIQ
+  63              	@******************************************************************************
+  64              	    .section .text.__disable_fiq
+  65              	    .global __disable_fiq
+  67              	    .func   __disable_fiq
+  68              	
+  69              	__disable_fiq:
+  70 0000 40000CF1 	    CPSID   F
+  71 0004 1EFF2FE1 	    BX      LR
+  72              	
+  73              	    .endfunc
+  74              	
+  75              	@******************************************************************************
+  76              	@ Function Name : __enable_fiq
+  77              	@ Description   : Enable FIQ
+  78              	@******************************************************************************
+  79              	    .section .text.__enable_fiq
+  80              	    .global __enable_fiq
+  82              	    .func   __enable_fiq
+  83              	
+  84              	__enable_fiq:
+  85 0000 400008F1 	    CPSIE   F
+  86 0004 1EFF2FE1 	    BX      LR
+  87              	
+  88              	
+  89              	    .endfunc
+  90              	
+  91              	
+  92              	    .END
+DEFINED SYMBOLS
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/irq.asm:37     .text.__disable_irq:00000000 __disable_irq
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/irq.asm:38     .text.__disable_irq:00000000 $a
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/irq.asm:54     .text.__enable_irq:00000000 __enable_irq
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/irq.asm:55     .text.__enable_irq:00000000 $a
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/irq.asm:69     .text.__disable_fiq:00000000 __disable_fiq
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/irq.asm:70     .text.__disable_fiq:00000000 $a
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/irq.asm:84     .text.__enable_fiq:00000000 __enable_fiq
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/irq.asm:85     .text.__enable_fiq:00000000 $a
+
+NO UNDEFINED SYMBOLS

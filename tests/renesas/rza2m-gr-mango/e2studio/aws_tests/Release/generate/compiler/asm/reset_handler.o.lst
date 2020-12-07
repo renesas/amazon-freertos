@@ -1,0 +1,356 @@
+   1              	# 1 "D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_pac
+   1              	@/*******************************************************************************
+   0              	
+   0              	
+   0              	
+   2              	@* DISCLAIMER
+   3              	@* This software is supplied by Renesas Electronics Corporation and is only
+   4              	@* intended for use with Renesas products. No other uses are authorized. This
+   5              	@* software is owned by Renesas Electronics Corporation and is protected under
+   6              	@* all applicable laws, including copyright laws.
+   7              	@* THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   8              	@* THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT
+   9              	@* LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+  10              	@* AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED.
+  11              	@* TO THE MAXIMUM EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS
+  12              	@* ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES SHALL BE LIABLE
+  13              	@* FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR
+  14              	@* ANY REASON RELATED TO THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE
+  15              	@* BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+  16              	@* Renesas reserves the right, without notice, to make changes to this software
+  17              	@* and to discontinue the availability of this software. By using this software,
+  18              	@* you agree to the additional terms and conditions found by accessing the
+  19              	@* following link:
+  20              	@* http://www.renesas.com/disclaimer
+  21              	@* Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+  22              	@*******************************************************************************/
+  23              	@/*******************************************************************************
+  24              	@* File Name   : reset_handler.asm
+  25              	@* Description : Reset handler
+  26              	@*******************************************************************************/
+  27              	
+  28              	
+  29              	@ Standard definitions of mode bits and interrupt (I & F) flags in PSRs
+  30              	    .EQU    USR_MODE,   0x10
+  31              	    .EQU    FIQ_MODE,   0x11
+  32              	    .EQU    IRQ_MODE,   0x12
+  33              	    .EQU    SVC_MODE,   0x13
+  34              	    .EQU    ABT_MODE,   0x17
+  35              	    .EQU    UND_MODE,   0x1b
+  36              	    .EQU    SYS_MODE,   0x1f
+  37              	    .EQU    Thum_bit,   0x20            @ CPSR/SPSR Thumb bit
+  38              	
+  39              	@==================================================================
+  40              	@ Entry point for the Reset handler
+  41              	@==================================================================
+  42              	    .section    RESET_HANDLER, #execinstr
+  43              	    .arm
+  44              	
+  45              	    .extern  __sys_stack_end     @ Linker symbol from scatter file
+  46              	    .extern  __irq_stack_end     @ Linker symbol from scatter file
+  47              	    .extern  __fiq_stack_end     @ Linker symbol from scatter file
+  48              	    .extern  __svc_stack_end     @ Linker symbol from scatter file
+  49              	    .extern  __abt_stack_end     @ Linker symbol from scatter file
+  50              	
+  51              	    .weak    DTBL_F
+  52              	    .weak    BTBL_F
+  53              	    .weak    DTBL_F2
+  54              	    .weak    BTBL_F2
+  55              	    .weak    DTBL
+  56              	    .weak    BTBL
+  57              	
+  58              	    .extern  vector_table
+  59              	    .extern  R_SC_HardwareSetup
+  60              	    .extern  R_MMU_Init
+  61              	    .extern  Enable_VFP
+  62              	    .extern  INITSCT
+  63              	    .extern  __libc_init_array
+  64              	    .extern  main
+  65              	    .extern  exit
+  66              	    .extern  r_memclk_setup
+  67              	
+  68              	    .global  reset_handler
+  69              	    .global  undefined_handler
+  70              	    .global  svc_handler
+  71              	    .global  prefetch_handler
+  72              	    .global  abort_handler
+  73              	    .global  reserved_handler
+  74              	
+  75              	@******************************************************************************
+  76              	@ Function Name : reset_handler
+  77              	@ Description   : This function is the assembler function executed after reset
+  78              	@               : cancellation. After initial setting for the stack pointer or
+  79              	@               : the MMU and reset cancellation, executes initial setting for
+  80              	@               : the minimum required peripheral functions. Calls the main
+  81              	@               : function to execute.
+  82              	@******************************************************************************
+  83              	reset_handler:
+  84              	
+  85              	@===================================================================
+  86              	@ Clock Setting
+  87              	@ Set FRQCR.IFC : CPU Clock 1/8(132MHz) -> 1/2(528MHz)
+  88              	@===================================================================
+  89              	    @; Set standby_mode_en of REG15 Power Control Register
+  90 0000 74019FE5 	    LDR  r0, =0x1F003F80            @;; Address(REG15 Power Control Register)
+  91 0004 0110A0E3 	    LDR  r1, =0x00000001            @;; Setting Value (REG15 Power Control Register)
+  92 0008 001080E5 	    STR  r1, [r0]                   @;; REG15_POWER_CTRL = 0x00000001
+  93 000c 001090E5 	    LDR  r1, [r0]                   @;; dummy read
+  94              	
+  95              	    @; FRQCR = 0x0012 PLL(x88), I:B:P1:P0 = 22:5.5:2.75:1.375
+  96 0010 68019FE5 	    LDR  r0, =0xFCFE0010            @;; Address(FRQCR Register)
+  97 0014 1210A0E3 	    LDR  r1, =0x0012                @;; Setting Value(FRQCR Register)
+  98 0018 B010C0E1 	    STRH r1, [r0]                   @;; FRQCR = 0x0012
+  99 001c B000D0E1 	    LDRH r0, [r0]                   @;; dummy read
+ 100              	
+ 101              	@===================================================================
+ 102              	@ Set Vector Base Address Register (VBAR) to point to initializer routine
+ 103              	@===================================================================
+ 104 0020 5C019FE5 	    LDR r0, =vector_table
+ 105 0024 100F0CEE 	    MCR p15, 0, r0, c12, c0, 0
+ 106              	
+ 107              	@==================================================================
+ 108              	@ Disable cache and MMU in case it was left enabled from an earlier run
+ 109              	@ This does not need to be done from a cold reset
+ 110              	@==================================================================
+ 111 0028 100F11EE 	    MRC  p15, 0, r0, c1, c0, 0      @;; Read CP15 System Control register (SCTLR)
+ 112 002c 020AC0E3 	    BIC  r0, r0, #(0x1 << 13)       @;; Set Low Vectors
+ 113 0030 010AC0E3 	    BIC  r0, r0, #(0x1 << 12)       @;; Clear I bit 12 to disable I Cache
+ 114 0034 0400C0E3 	    BIC  r0, r0, #(0x1 <<  2)       @;; Clear C bit  2 to disable D Cache
+ 115 0038 0100C0E3 	    BIC  r0, r0, #0x1               @;; Clear M bit  0 to disable MMU
+ 116 003c 100F01EE 	    MCR  p15, 0, r0, c1, c0, 0      @;; Write value back to CP15 System Control register
+ 117              	
+ 118              	@==================================================================
+ 119              	@ Setting up Stack Area (SVC/IRQ/FIQ/ABT/SYS)
+ 120              	@==================================================================
+ 121 0040 130002F1 	    CPS  #SVC_MODE                  @;; SVC Mode
+ 122 0044 3CD19FE5 	    LDR  sp, =__svc_stack_end
+ 123              	
+ 124 0048 120002F1 	    CPS  #IRQ_MODE                  @;; IRQ Mode
+ 125 004c 38D19FE5 	    LDR  sp, =__irq_stack_end
+ 126              	
+ 127 0050 110002F1 	    CPS  #FIQ_MODE                  @;; FIQ Mode
+ 128 0054 34D19FE5 	    LDR  sp, =__fiq_stack_end
+ 129              	
+ 130 0058 170002F1 	    CPS  #ABT_MODE                  @;; ABT Mode
+ 131 005c 30D19FE5 	    LDR  sp, =__abt_stack_end
+ 132              	
+ 133 0060 1F0002F1 	    CPS  #SYS_MODE                  @;; SYS Mode
+ 134 0064 2CD19FE5 	    LDR  sp, =__sys_stack_end
+ 135              	
+ 136              	#if defined(__ARM_FP) || defined(__ARM_NEON_FP)
+ 137              	@===================================================================
+ 138              	@ Enable the vfp
+ 139              	@===================================================================
+ 140 0068 2CC19FE5 	    LDR  r12,=Enable_VFP            @;; Save this in register for possible long jump
+ 141 006c 3CFF2FE1 	    BLX  r12                        @;; Call to enable the vfp
+ 142              	#endif
+ 143              	
+ 144              	@==================================================================
+ 145              	@ Section initialize for r_memclk_setup
+ 146              	@==================================================================
+ 147 0070 28019FE5 	    LDR  r0, =DTBL_F2                @;; ROM to RAM table for r_memclk_setup
+ 148 0074 28119FE5 	    LDR  r1, =BTBL_F2                @;; RAM zero fill table for r_memclk_setup
+ 149 0078 28C19FE5 	    LDR  r12,=INITSCT                @;; Function for Initialize sections
+ 150 007c 3CFF2FE1 	    BLX  r12                         @;; Call
+ 151              	
+ 152              	@==================================================================
+ 153              	@ setting memory clock before R_SC_HardwareSetup function
+ 154              	@==================================================================
+ 155 0080 24C19FE5 	    LDR  r12,=r_memclk_setup       @;; Save this in register for possible long jump
+ 156 0084 3CFF2FE1 	    BLX  r12                       @;; Hardware Initialize
+ 157              	
+ 158              	@==================================================================
+ 159              	@ Section initialize for R_SC_HardwareSetup
+ 160              	@==================================================================
+ 161 0088 20019FE5 	    LDR  r0, =DTBL_F                @;; ROM to RAM table for R_SC_HardwareSetup
+ 162 008c 20119FE5 	    LDR  r1, =BTBL_F                @;; RAM zero fill table for R_SC_HardwareSetup
+ 163 0090 10C19FE5 	    LDR  r12,=INITSCT               @;; Function for Initialize sections
+ 164 0094 3CFF2FE1 	    BLX  r12                        @;; Call
+ 165              	
+ 166              	@==================================================================
+ 167              	@ Hardware initialized earlier than section-init
+ 168              	@==================================================================
+ 169 0098 18C19FE5 	    LDR  r12,=R_SC_HardwareSetup    @;; Save this in register for possible long jump
+ 170 009c 3CFF2FE1 	    BLX  r12                        @;; Hardware Initialize
+ 171              	
+ 172              	@==================================================================
+ 173              	@ Initialize MMU translation table
+ 174              	@==================================================================
+ 175 00a0 14C19FE5 	    LDR  r12,=R_MMU_Init            @;; Save this in register for possible long jump
+ 176 00a4 3CFF2FE1 	    BLX  r12                        @;; Initialize MMU
+ 177              	
+ 178              	@==================================================================
+ 179              	@ TLB maintenance, Invalidate Data and Instruction TLBs
+ 180              	@==================================================================
+ 181 00a8 0000A0E3 	    MOV  r0,#0
+ 182 00ac 170F08EE 	    MCR  p15, 0, r0, c8, c7, 0      @;; Cortex-A9 I-TLB and D-TLB invalidation (TLBIALL)
+ 183              	
+ 184              	@===================================================================
+ 185              	@ Invalidate instruction cache, also flushes BTAC
+ 186              	@===================================================================
+ 187 00b0 0000A0E3 	    MOV  r0, #0                     @;; SBZ
+ 188 00b4 150F07EE 	    MCR  p15, 0, r0, c7, c5, 0      @;; ICIALLU - Invalidate entire I Cache, and flushes branch tar
+ 189              	
+ 190              	@==================================================================
+ 191              	@ Cache Invalidation code for Cortex-A9
+ 192              	@==================================================================
+ 193              	    @;; Invalidate L1 Instruction Cache
+ 194 00b8 300F30EE 	    MRC  p15, 1, r0, c0, c0, 1      @;; Read Cache Level ID Register (CLIDR)
+ 195 00bc 030010E3 	    TST  r0, #0x3                   @;; Harvard Cache?
+ 196 00c0 0000A0E3 	    MOV  r0, #0
+ 197 00c4 150F071E 	    MCRNE   p15, 0, r0, c7, c5, 0   @;; Invalidate Instruction Cache
+ 198              	
+ 199              	    @;; Invalidate Data/Unified Caches
+ 200 00c8 300F30EE 	    MRC  p15, 1, r0, c0, c0, 1      @;; Read CLIDR
+ 201 00cc 073410E2 	    ANDS r3, r0, #0x07000000        @;; Extract coherency level
+ 202 00d0 A33BA0E1 	    MOV  r3, r3, LSR #23            @;; Total cache levels << 1
+ 203 00d4 1A00000A 	    BEQ  Finished                   @;; If 0, no need to clean
+ 204              	
+ 205 00d8 00A0A0E3 	    MOV  r10, #0                    @;; R10 holds current cache level << 1
+ 206              	Loop1:
+ 207 00dc AA208AE0 	    ADD  r2, r10, r10, LSR #1       @;; R2 holds cache "Set" position
+ 208 00e0 3012A0E1 	    MOV  r1, r0, LSR r2             @;; Bottom 3 bits are the Cache-type for this level
+ 209 00e4 071001E2 	    AND  r1, r1, #7                 @;; Isolate those lower 3 bits
+ 210 00e8 020051E3 	    CMP  r1, #2
+ 211 00ec 110000BA 	    BLT  Skip                       @;; No cache or only instruction cache at this level
+ 212              	
+ 213 00f0 10AF40EE 	    MCR  p15, 2, r10, c0, c0, 0     @;; Write the Cache Size selection register (CSSELR)
+ 214 00f4 6FF07FF5 	    ISB                             @;; ISB to sync the change to the CacheSizeID reg
+ 215 00f8 101F30EE 	    MRC  p15, 1, r1, c0, c0, 0      @;; Reads current Cache Size ID register (CCSIDR)
+ 216 00fc 072001E2 	    AND  r2, r1, #7                 @;; Extract the line length field
+ 217 0100 042082E2 	    ADD  r2, r2, #4                 @;; Add 4 for the line length offset (log2 16 bytes)
+ 218 0104 B4409FE5 	    LDR  r4, =0x3FF
+ 219 0108 A14114E0 	    ANDS r4, r4, r1, LSR #3         @;; R4 is the max number on the way size (right aligned)
+ 220 010c 145F6FE1 	    CLZ  r5, r4                     @;; R5 is the bit position of the way size increment
+ 221 0110 AC709FE5 	    LDR  r7, =0x7FFF
+ 222 0114 A17617E0 	    ANDS r7, r7, r1, LSR #13        @;; R7 is the max number of the index size (right aligned)
+ 223              	Loop2:
+ 224 0118 0490A0E1 	    MOV  r9, r4                     @;; R9 working copy of the max way size (right aligned)
+ 225              	
+ 226              	Loop3:
+ 227 011c 19B58AE1 	    ORR  r11, r10, r9, LSL r5       @;; Factor in the Way number and cache number into R11
+ 228 0120 17B28BE1 	    ORR  r11, r11, r7, LSL r2       @;; Factor in the Set number
+ 229 0124 56BF07EE 	    MCR  p15, 0, r11, c7, c6, 2     @;; Invalidate by Set/Way (DCISW)
+ 230 0128 019059E2 	    SUBS r9, r9, #1                 @;; Decrement the Way number
+ 231 012c FAFFFFAA 	    BGE  Loop3
+ 232 0130 017057E2 	    SUBS r7, r7, #1                 @;; Decrement the Set number
+ 233 0134 F7FFFFAA 	    BGE  Loop2
+ 234              	Skip:
+ 235 0138 02A08AE2 	    ADD  r10, r10, #2               @;; increment the cache number
+ 236 013c 0A0053E1 	    CMP  r3, r10
+ 237 0140 E5FFFFCA 	    BGT  Loop1
+ 238              	
+ 239              	Finished:
+ 240              	
+ 241              	
+ 242              	@===================================================================
+ 243              	@ Enable MMU
+ 244              	@ Leaving the caches disabled until (main).
+ 245              	@===================================================================
+ 246 0144 100F11EE 	    MRC  p15, 0, r0, c1, c0, 0      @;; Read CP15 System Control register (SCTLR)
+ 247 0148 010AC0E3 	    BIC  r0, r0, #(0x1 << 12)       @;; Clear I bit 12 to disable I Cache
+ 248 014c 0400C0E3 	    BIC  r0, r0, #(0x1 <<  2)       @;; Clear C bit  2 to disable D Cache
+ 249 0150 0200C0E3 	    BIC  r0, r0, #0x2               @;; Clear A bit  1 to disable strict alignment fault checking
+ 250 0154 010080E3 	    ORR  r0, r0, #0x1               @;; Set M bit 1 to enable MMU before section initialization pro
+ 251 0158 100F01EE 	    MCR  p15, 0, r0, c1, c0, 0      @;; Write CP15 System Control register
+ 252              	
+ 253              	@===================================================================
+ 254              	@ copy and clear the sections
+ 255              	@===================================================================
+ 256 015c 64009FE5 	    LDR  r0, =DTBL                  @;; ROM to RAM table
+ 257 0160 64109FE5 	    LDR  r1, =BTBL                  @;; RAM zero fill table
+ 258 0164 3CC09FE5 	    LDR  r12,=INITSCT               @;; Save this in register for possible long jump
+ 259 0168 3CFF2FE1 	    BLX  r12                        @;; Call to copy and to clear the sections
+ 260              	
+ 261              	@===================================================================
+ 262              	@ Call global constructors
+ 263              	@===================================================================
+ 264 016c 5CC09FE5 	    LDR  r12,=__libc_init_array     @;; Save this in register for possible long jump
+ 265 0170 3CFF2FE1 	    BLX  r12                        @;; Call to global objects initializer
+ 266              	
+ 267              	@ =========================================================================
+ 268              	@ Branch to C library entry point
+ 269              	@ =========================================================================
+ 270 0174 58C09FE5 	    LDR  r12,=resetprg
+ 271 0178 1CFF2FE1 	    BX   r12                              /* Branch to C library entry point */
+ 272              	
+ 273              	
+ 274              	Literals2:
+ 275 017c 803F001F 	    .LTORG
+ 275      1000FEFC 
+ 275      00000000 
+ 275      00000000 
+ 275      00000000 
+ 276              	
+ 277              	r_rza2m_startup_verison :
+ 278              	    .align 2
+ 279 01d8 312E3032 	    .ascii "1.02"
+ 280              	
+ 281              	
+ 282              	@==================================================================
+ 283              	@ Other Handler
+ 284              	@==================================================================
+ 285              	undefined_handler:
+ 286 01dc FEFFFFEA 	    B   undefined_handler           @;; Looping in this address
+ 287              	
+ 288              	svc_handler:
+ 289 01e0 FEFFFFEA 	    B   svc_handler                 @;; Looping in this address
+ 290              	
+ 291              	prefetch_handler:
+ 292 01e4 FEFFFFEA 	    B   prefetch_handler            @;; Looping in this address
+ 293              	
+ 294              	abort_handler:
+ 295 01e8 FEFFFFEA 	    B   abort_handler               @;; Looping in this address
+ 296              	
+ 297              	reserved_handler:
+ 298 01ec FEFFFFEA 	    B   reserved_handler            @;; Looping in this address
+ 299              	
+ 300              	
+ 301              	    .END
+DEFINED SYMBOLS
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/reset_handler.asm:30     *ABS*:00000010 USR_MODE
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/reset_handler.asm:31     *ABS*:00000011 FIQ_MODE
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/reset_handler.asm:32     *ABS*:00000012 IRQ_MODE
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/reset_handler.asm:33     *ABS*:00000013 SVC_MODE
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/reset_handler.asm:34     *ABS*:00000017 ABT_MODE
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/reset_handler.asm:35     *ABS*:0000001b UND_MODE
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/reset_handler.asm:36     *ABS*:0000001f SYS_MODE
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/reset_handler.asm:37     *ABS*:00000020 Thum_bit
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/reset_handler.asm:83     RESET_HANDLER:00000000 reset_handler
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/reset_handler.asm:285    RESET_HANDLER:000001dc undefined_handler
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/reset_handler.asm:288    RESET_HANDLER:000001e0 svc_handler
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/reset_handler.asm:291    RESET_HANDLER:000001e4 prefetch_handler
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/reset_handler.asm:294    RESET_HANDLER:000001e8 abort_handler
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/reset_handler.asm:297    RESET_HANDLER:000001ec reserved_handler
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/reset_handler.asm:90     RESET_HANDLER:00000000 $a
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/reset_handler.asm:239    RESET_HANDLER:00000144 Finished
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/reset_handler.asm:206    RESET_HANDLER:000000dc Loop1
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/reset_handler.asm:234    RESET_HANDLER:00000138 Skip
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/reset_handler.asm:223    RESET_HANDLER:00000118 Loop2
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/reset_handler.asm:226    RESET_HANDLER:0000011c Loop3
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/reset_handler.asm:274    RESET_HANDLER:0000017c Literals2
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/reset_handler.asm:275    RESET_HANDLER:0000017c $d
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/reset_handler.asm:277    RESET_HANDLER:000001d8 r_rza2m_startup_verison
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/reset_handler.asm:279    RESET_HANDLER:000001d8 $d
+D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/compiler/asm/reset_handler.asm:286    RESET_HANDLER:000001dc $a
+
+UNDEFINED SYMBOLS
+DTBL_F
+BTBL_F
+DTBL_F2
+BTBL_F2
+DTBL
+BTBL
+vector_table
+__svc_stack_end
+__irq_stack_end
+__fiq_stack_end
+__abt_stack_end
+__sys_stack_end
+Enable_VFP
+INITSCT
+r_memclk_setup
+R_SC_HardwareSetup
+R_MMU_Init
+__libc_init_array
+resetprg

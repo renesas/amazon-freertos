@@ -1,0 +1,2187 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"ecp_curves.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.add32,"ax",%progbits
+  17              		.align	2
+  18              		.syntax unified
+  19              		.arm
+  20              		.fpu neon
+  22              	add32:
+  23              	.LFB4:
+  24              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library/ecp_curves.c"
+   1:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /*
+   2:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  *  Elliptic curves over GF(p): curve-specific data and functions
+   3:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  *
+   4:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
+   5:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  *  SPDX-License-Identifier: Apache-2.0
+   6:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  *
+   7:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+   8:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  *  not use this file except in compliance with the License.
+   9:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  *  You may obtain a copy of the License at
+  10:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  *
+  11:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  *  http://www.apache.org/licenses/LICENSE-2.0
+  12:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  *
+  13:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  *  Unless required by applicable law or agreed to in writing, software
+  14:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  15:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  16:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  *  See the License for the specific language governing permissions and
+  17:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  *  limitations under the License.
+  18:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  *
+  19:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  *  This file is part of mbed TLS (https://tls.mbed.org)
+  20:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  */
+  21:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+  22:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if !defined(MBEDTLS_CONFIG_FILE)
+  23:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #include "mbedtls/config.h"
+  24:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #else
+  25:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #include MBEDTLS_CONFIG_FILE
+  26:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif
+  27:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+  28:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_C)
+  29:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+  30:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #include "mbedtls/ecp.h"
+  31:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+  32:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #include <string.h>
+  33:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+  34:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if !defined(MBEDTLS_ECP_ALT)
+  35:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+  36:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if ( defined(__ARMCC_VERSION) || defined(_MSC_VER) ) && \
+  37:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     !defined(inline) && !defined(__cplusplus)
+  38:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define inline __inline
+  39:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif
+  40:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+  41:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /*
+  42:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * Conversion macros for embedded constants:
+  43:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * build lists of mbedtls_mpi_uint's from lists of unsigned char's grouped by 8, 4 or 2
+  44:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  */
+  45:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_HAVE_INT32)
+  46:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+  47:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define BYTES_TO_T_UINT_4( a, b, c, d )             \
+  48:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ( (mbedtls_mpi_uint) a <<  0 ) |                          \
+  49:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ( (mbedtls_mpi_uint) b <<  8 ) |                          \
+  50:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ( (mbedtls_mpi_uint) c << 16 ) |                          \
+  51:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ( (mbedtls_mpi_uint) d << 24 )
+  52:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+  53:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define BYTES_TO_T_UINT_2( a, b )                   \
+  54:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_4( a, b, 0, 0 )
+  55:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+  56:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define BYTES_TO_T_UINT_8( a, b, c, d, e, f, g, h ) \
+  57:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_4( a, b, c, d ),                \
+  58:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_4( e, f, g, h )
+  59:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+  60:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #else /* 64-bits */
+  61:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+  62:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define BYTES_TO_T_UINT_8( a, b, c, d, e, f, g, h ) \
+  63:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ( (mbedtls_mpi_uint) a <<  0 ) |                          \
+  64:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ( (mbedtls_mpi_uint) b <<  8 ) |                          \
+  65:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ( (mbedtls_mpi_uint) c << 16 ) |                          \
+  66:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ( (mbedtls_mpi_uint) d << 24 ) |                          \
+  67:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ( (mbedtls_mpi_uint) e << 32 ) |                          \
+  68:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ( (mbedtls_mpi_uint) f << 40 ) |                          \
+  69:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ( (mbedtls_mpi_uint) g << 48 ) |                          \
+  70:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ( (mbedtls_mpi_uint) h << 56 )
+  71:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+  72:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define BYTES_TO_T_UINT_4( a, b, c, d )             \
+  73:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( a, b, c, d, 0, 0, 0, 0 )
+  74:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+  75:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define BYTES_TO_T_UINT_2( a, b )                   \
+  76:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( a, b, 0, 0, 0, 0, 0, 0 )
+  77:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+  78:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* bits in mbedtls_mpi_uint */
+  79:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+  80:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /*
+  81:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * Note: the constants are in little-endian order
+  82:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * to be directly usable in MPIs
+  83:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  */
+  84:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+  85:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /*
+  86:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * Domain parameters for secp192r1
+  87:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  */
+  88:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP192R1_ENABLED)
+  89:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp192r1_p[] = {
+  90:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+  91:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+  92:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+  93:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+  94:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp192r1_b[] = {
+  95:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xB1, 0xB9, 0x46, 0xC1, 0xEC, 0xDE, 0xB8, 0xFE ),
+  96:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x49, 0x30, 0x24, 0x72, 0xAB, 0xE9, 0xA7, 0x0F ),
+  97:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xE7, 0x80, 0x9C, 0xE5, 0x19, 0x05, 0x21, 0x64 ),
+  98:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+  99:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp192r1_gx[] = {
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x12, 0x10, 0xFF, 0x82, 0xFD, 0x0A, 0xFF, 0xF4 ),
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x00, 0x88, 0xA1, 0x43, 0xEB, 0x20, 0xBF, 0x7C ),
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xF6, 0x90, 0x30, 0xB0, 0x0E, 0xA8, 0x8D, 0x18 ),
+ 103:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp192r1_gy[] = {
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x11, 0x48, 0x79, 0x1E, 0xA1, 0x77, 0xF9, 0x73 ),
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xD5, 0xCD, 0x24, 0x6B, 0xED, 0x11, 0x10, 0x63 ),
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x78, 0xDA, 0xC8, 0xFF, 0x95, 0x2B, 0x19, 0x07 ),
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp192r1_n[] = {
+ 110:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x31, 0x28, 0xD2, 0xB4, 0xB1, 0xC9, 0x6B, 0x14 ),
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x36, 0xF8, 0xDE, 0x99, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP192R1_ENABLED */
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 116:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /*
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * Domain parameters for secp224r1
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  */
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP224R1_ENABLED)
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp224r1_p[] = {
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 ),
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00 ),
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp224r1_b[] = {
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xB4, 0xFF, 0x55, 0x23, 0x43, 0x39, 0x0B, 0x27 ),
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xBA, 0xD8, 0xBF, 0xD7, 0xB7, 0xB0, 0x44, 0x50 ),
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x56, 0x32, 0x41, 0xF5, 0xAB, 0xB3, 0x04, 0x0C ),
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_4( 0x85, 0x0A, 0x05, 0xB4 ),
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp224r1_gx[] = {
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x21, 0x1D, 0x5C, 0x11, 0xD6, 0x80, 0x32, 0x34 ),
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x22, 0x11, 0xC2, 0x56, 0xD3, 0xC1, 0x03, 0x4A ),
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xB9, 0x90, 0x13, 0x32, 0x7F, 0xBF, 0xB4, 0x6B ),
+ 136:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_4( 0xBD, 0x0C, 0x0E, 0xB7 ),
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp224r1_gy[] = {
+ 139:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x34, 0x7E, 0x00, 0x85, 0x99, 0x81, 0xD5, 0x44 ),
+ 140:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x64, 0x47, 0x07, 0x5A, 0xA0, 0x75, 0x43, 0xCD ),
+ 141:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xE6, 0xDF, 0x22, 0x4C, 0xFB, 0x23, 0xF7, 0xB5 ),
+ 142:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_4( 0x88, 0x63, 0x37, 0xBD ),
+ 143:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 144:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp224r1_n[] = {
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x3D, 0x2A, 0x5C, 0x5C, 0x45, 0x29, 0xDD, 0x13 ),
+ 146:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x3E, 0xF0, 0xB8, 0xE0, 0xA2, 0x16, 0xFF, 0xFF ),
+ 147:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 148:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_4( 0xFF, 0xFF, 0xFF, 0xFF ),
+ 149:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP224R1_ENABLED */
+ 151:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 152:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /*
+ 153:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * Domain parameters for secp256r1
+ 154:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  */
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP256R1_ENABLED)
+ 156:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp256r1_p[] = {
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00 ),
+ 159:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 ),
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x01, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 162:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp256r1_b[] = {
+ 163:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x4B, 0x60, 0xD2, 0x27, 0x3E, 0x3C, 0xCE, 0x3B ),
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xF6, 0xB0, 0x53, 0xCC, 0xB0, 0x06, 0x1D, 0x65 ),
+ 165:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xBC, 0x86, 0x98, 0x76, 0x55, 0xBD, 0xEB, 0xB3 ),
+ 166:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xE7, 0x93, 0x3A, 0xAA, 0xD8, 0x35, 0xC6, 0x5A ),
+ 167:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 168:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp256r1_gx[] = {
+ 169:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x96, 0xC2, 0x98, 0xD8, 0x45, 0x39, 0xA1, 0xF4 ),
+ 170:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xA0, 0x33, 0xEB, 0x2D, 0x81, 0x7D, 0x03, 0x77 ),
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xF2, 0x40, 0xA4, 0x63, 0xE5, 0xE6, 0xBC, 0xF8 ),
+ 172:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x47, 0x42, 0x2C, 0xE1, 0xF2, 0xD1, 0x17, 0x6B ),
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp256r1_gy[] = {
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xF5, 0x51, 0xBF, 0x37, 0x68, 0x40, 0xB6, 0xCB ),
+ 176:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xCE, 0x5E, 0x31, 0x6B, 0x57, 0x33, 0xCE, 0x2B ),
+ 177:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x16, 0x9E, 0x0F, 0x7C, 0x4A, 0xEB, 0xE7, 0x8E ),
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x9B, 0x7F, 0x1A, 0xFE, 0xE2, 0x42, 0xE3, 0x4F ),
+ 179:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 180:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp256r1_n[] = {
+ 181:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x51, 0x25, 0x63, 0xFC, 0xC2, 0xCA, 0xB9, 0xF3 ),
+ 182:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x84, 0x9E, 0x17, 0xA7, 0xAD, 0xFA, 0xE6, 0xBC ),
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 184:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 185:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP256R1_ENABLED */
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /*
+ 189:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * Domain parameters for secp384r1
+ 190:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  */
+ 191:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP384R1_ENABLED)
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp384r1_p[] = {
+ 193:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00 ),
+ 194:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 195:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 196:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 197:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 198:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 199:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 200:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp384r1_b[] = {
+ 201:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xEF, 0x2A, 0xEC, 0xD3, 0xED, 0xC8, 0x85, 0x2A ),
+ 202:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x9D, 0xD1, 0x2E, 0x8A, 0x8D, 0x39, 0x56, 0xC6 ),
+ 203:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x5A, 0x87, 0x13, 0x50, 0x8F, 0x08, 0x14, 0x03 ),
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x12, 0x41, 0x81, 0xFE, 0x6E, 0x9C, 0x1D, 0x18 ),
+ 205:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x19, 0x2D, 0xF8, 0xE3, 0x6B, 0x05, 0x8E, 0x98 ),
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xE4, 0xE7, 0x3E, 0xE2, 0xA7, 0x2F, 0x31, 0xB3 ),
+ 207:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp384r1_gx[] = {
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xB7, 0x0A, 0x76, 0x72, 0x38, 0x5E, 0x54, 0x3A ),
+ 210:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x6C, 0x29, 0x55, 0xBF, 0x5D, 0xF2, 0x02, 0x55 ),
+ 211:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x38, 0x2A, 0x54, 0x82, 0xE0, 0x41, 0xF7, 0x59 ),
+ 212:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x98, 0x9B, 0xA7, 0x8B, 0x62, 0x3B, 0x1D, 0x6E ),
+ 213:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x74, 0xAD, 0x20, 0xF3, 0x1E, 0xC7, 0xB1, 0x8E ),
+ 214:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x37, 0x05, 0x8B, 0xBE, 0x22, 0xCA, 0x87, 0xAA ),
+ 215:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 216:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp384r1_gy[] = {
+ 217:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x5F, 0x0E, 0xEA, 0x90, 0x7C, 0x1D, 0x43, 0x7A ),
+ 218:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x9D, 0x81, 0x7E, 0x1D, 0xCE, 0xB1, 0x60, 0x0A ),
+ 219:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xC0, 0xB8, 0xF0, 0xB5, 0x13, 0x31, 0xDA, 0xE9 ),
+ 220:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x7C, 0x14, 0x9A, 0x28, 0xBD, 0x1D, 0xF4, 0xF8 ),
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x29, 0xDC, 0x92, 0x92, 0xBF, 0x98, 0x9E, 0x5D ),
+ 222:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x6F, 0x2C, 0x26, 0x96, 0x4A, 0xDE, 0x17, 0x36 ),
+ 223:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 224:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp384r1_n[] = {
+ 225:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x73, 0x29, 0xC5, 0xCC, 0x6A, 0x19, 0xEC, 0xEC ),
+ 226:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x7A, 0xA7, 0xB0, 0x48, 0xB2, 0x0D, 0x1A, 0x58 ),
+ 227:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xDF, 0x2D, 0x37, 0xF4, 0x81, 0x4D, 0x63, 0xC7 ),
+ 228:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 229:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 231:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 232:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP384R1_ENABLED */
+ 233:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /*
+ 235:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * Domain parameters for secp521r1
+ 236:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  */
+ 237:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP521R1_ENABLED)
+ 238:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp521r1_p[] = {
+ 239:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 240:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 241:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 243:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 244:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 245:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 246:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 247:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_2( 0xFF, 0x01 ),
+ 248:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 249:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp521r1_b[] = {
+ 250:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x00, 0x3F, 0x50, 0x6B, 0xD4, 0x1F, 0x45, 0xEF ),
+ 251:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xF1, 0x34, 0x2C, 0x3D, 0x88, 0xDF, 0x73, 0x35 ),
+ 252:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x07, 0xBF, 0xB1, 0x3B, 0xBD, 0xC0, 0x52, 0x16 ),
+ 253:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x7B, 0x93, 0x7E, 0xEC, 0x51, 0x39, 0x19, 0x56 ),
+ 254:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xE1, 0x09, 0xF1, 0x8E, 0x91, 0x89, 0xB4, 0xB8 ),
+ 255:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xF3, 0x15, 0xB3, 0x99, 0x5B, 0x72, 0xDA, 0xA2 ),
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xEE, 0x40, 0x85, 0xB6, 0xA0, 0x21, 0x9A, 0x92 ),
+ 257:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x1F, 0x9A, 0x1C, 0x8E, 0x61, 0xB9, 0x3E, 0x95 ),
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_2( 0x51, 0x00 ),
+ 259:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 260:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp521r1_gx[] = {
+ 261:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x66, 0xBD, 0xE5, 0xC2, 0x31, 0x7E, 0x7E, 0xF9 ),
+ 262:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x9B, 0x42, 0x6A, 0x85, 0xC1, 0xB3, 0x48, 0x33 ),
+ 263:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xDE, 0xA8, 0xFF, 0xA2, 0x27, 0xC1, 0x1D, 0xFE ),
+ 264:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x28, 0x59, 0xE7, 0xEF, 0x77, 0x5E, 0x4B, 0xA1 ),
+ 265:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xBA, 0x3D, 0x4D, 0x6B, 0x60, 0xAF, 0x28, 0xF8 ),
+ 266:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x21, 0xB5, 0x3F, 0x05, 0x39, 0x81, 0x64, 0x9C ),
+ 267:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x42, 0xB4, 0x95, 0x23, 0x66, 0xCB, 0x3E, 0x9E ),
+ 268:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xCD, 0xE9, 0x04, 0x04, 0xB7, 0x06, 0x8E, 0x85 ),
+ 269:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_2( 0xC6, 0x00 ),
+ 270:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 271:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp521r1_gy[] = {
+ 272:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x50, 0x66, 0xD1, 0x9F, 0x76, 0x94, 0xBE, 0x88 ),
+ 273:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x40, 0xC2, 0x72, 0xA2, 0x86, 0x70, 0x3C, 0x35 ),
+ 274:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x61, 0x07, 0xAD, 0x3F, 0x01, 0xB9, 0x50, 0xC5 ),
+ 275:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x40, 0x26, 0xF4, 0x5E, 0x99, 0x72, 0xEE, 0x97 ),
+ 276:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x2C, 0x66, 0x3E, 0x27, 0x17, 0xBD, 0xAF, 0x17 ),
+ 277:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x68, 0x44, 0x9B, 0x57, 0x49, 0x44, 0xF5, 0x98 ),
+ 278:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xD9, 0x1B, 0x7D, 0x2C, 0xB4, 0x5F, 0x8A, 0x5C ),
+ 279:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x04, 0xC0, 0x3B, 0x9A, 0x78, 0x6A, 0x29, 0x39 ),
+ 280:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_2( 0x18, 0x01 ),
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp521r1_n[] = {
+ 283:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x09, 0x64, 0x38, 0x91, 0x1E, 0xB7, 0x6F, 0xBB ),
+ 284:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xAE, 0x47, 0x9C, 0x89, 0xB8, 0xC9, 0xB5, 0x3B ),
+ 285:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xD0, 0xA5, 0x09, 0xF7, 0x48, 0x01, 0xCC, 0x7F ),
+ 286:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x6B, 0x96, 0x2F, 0xBF, 0x83, 0x87, 0x86, 0x51 ),
+ 287:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFA, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 288:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 289:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 290:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 291:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_2( 0xFF, 0x01 ),
+ 292:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 293:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP521R1_ENABLED */
+ 294:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 295:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP192K1_ENABLED)
+ 296:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp192k1_p[] = {
+ 297:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x37, 0xEE, 0xFF, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF ),
+ 298:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 299:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 300:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 301:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp192k1_a[] = {
+ 302:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_2( 0x00, 0x00 ),
+ 303:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 304:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp192k1_b[] = {
+ 305:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_2( 0x03, 0x00 ),
+ 306:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 307:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp192k1_gx[] = {
+ 308:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x7D, 0x6C, 0xE0, 0xEA, 0xB1, 0xD1, 0xA5, 0x1D ),
+ 309:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x34, 0xF4, 0xB7, 0x80, 0x02, 0x7D, 0xB0, 0x26 ),
+ 310:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xAE, 0xE9, 0x57, 0xC0, 0x0E, 0xF1, 0x4F, 0xDB ),
+ 311:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 312:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp192k1_gy[] = {
+ 313:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x9D, 0x2F, 0x5E, 0xD9, 0x88, 0xAA, 0x82, 0x40 ),
+ 314:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x34, 0x86, 0xBE, 0x15, 0xD0, 0x63, 0x41, 0x84 ),
+ 315:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xA7, 0x28, 0x56, 0x9C, 0x6D, 0x2F, 0x2F, 0x9B ),
+ 316:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 317:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp192k1_n[] = {
+ 318:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x8D, 0xFD, 0xDE, 0x74, 0x6A, 0x46, 0x69, 0x0F ),
+ 319:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x17, 0xFC, 0xF2, 0x26, 0xFE, 0xFF, 0xFF, 0xFF ),
+ 320:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 321:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 322:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP192K1_ENABLED */
+ 323:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 324:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP224K1_ENABLED)
+ 325:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp224k1_p[] = {
+ 326:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x6D, 0xE5, 0xFF, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF ),
+ 327:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 328:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 329:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_4( 0xFF, 0xFF, 0xFF, 0xFF ),
+ 330:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 331:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp224k1_a[] = {
+ 332:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_2( 0x00, 0x00 ),
+ 333:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 334:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp224k1_b[] = {
+ 335:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_2( 0x05, 0x00 ),
+ 336:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 337:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp224k1_gx[] = {
+ 338:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x5C, 0xA4, 0xB7, 0xB6, 0x0E, 0x65, 0x7E, 0x0F ),
+ 339:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xA9, 0x75, 0x70, 0xE4, 0xE9, 0x67, 0xA4, 0x69 ),
+ 340:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xA1, 0x28, 0xFC, 0x30, 0xDF, 0x99, 0xF0, 0x4D ),
+ 341:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_4( 0x33, 0x5B, 0x45, 0xA1 ),
+ 342:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 343:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp224k1_gy[] = {
+ 344:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xA5, 0x61, 0x6D, 0x55, 0xDB, 0x4B, 0xCA, 0xE2 ),
+ 345:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x59, 0xBD, 0xB0, 0xC0, 0xF7, 0x19, 0xE3, 0xF7 ),
+ 346:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xD6, 0xFB, 0xCA, 0x82, 0x42, 0x34, 0xBA, 0x7F ),
+ 347:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_4( 0xED, 0x9F, 0x08, 0x7E ),
+ 348:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 349:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp224k1_n[] = {
+ 350:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xF7, 0xB1, 0x9F, 0x76, 0x71, 0xA9, 0xF0, 0xCA ),
+ 351:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x84, 0x61, 0xEC, 0xD2, 0xE8, 0xDC, 0x01, 0x00 ),
+ 352:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 ),
+ 353:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00 ),
+ 354:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 355:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP224K1_ENABLED */
+ 356:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 357:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP256K1_ENABLED)
+ 358:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp256k1_p[] = {
+ 359:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x2F, 0xFC, 0xFF, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF ),
+ 360:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 361:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 362:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 363:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 364:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp256k1_a[] = {
+ 365:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_2( 0x00, 0x00 ),
+ 366:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 367:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp256k1_b[] = {
+ 368:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_2( 0x07, 0x00 ),
+ 369:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 370:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp256k1_gx[] = {
+ 371:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x98, 0x17, 0xF8, 0x16, 0x5B, 0x81, 0xF2, 0x59 ),
+ 372:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xD9, 0x28, 0xCE, 0x2D, 0xDB, 0xFC, 0x9B, 0x02 ),
+ 373:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x07, 0x0B, 0x87, 0xCE, 0x95, 0x62, 0xA0, 0x55 ),
+ 374:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xAC, 0xBB, 0xDC, 0xF9, 0x7E, 0x66, 0xBE, 0x79 ),
+ 375:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 376:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp256k1_gy[] = {
+ 377:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xB8, 0xD4, 0x10, 0xFB, 0x8F, 0xD0, 0x47, 0x9C ),
+ 378:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x19, 0x54, 0x85, 0xA6, 0x48, 0xB4, 0x17, 0xFD ),
+ 379:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xA8, 0x08, 0x11, 0x0E, 0xFC, 0xFB, 0xA4, 0x5D ),
+ 380:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x65, 0xC4, 0xA3, 0x26, 0x77, 0xDA, 0x3A, 0x48 ),
+ 381:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 382:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint secp256k1_n[] = {
+ 383:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x41, 0x41, 0x36, 0xD0, 0x8C, 0x5E, 0xD2, 0xBF ),
+ 384:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x3B, 0xA0, 0x48, 0xAF, 0xE6, 0xDC, 0xAE, 0xBA ),
+ 385:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 386:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF ),
+ 387:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 388:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP256K1_ENABLED */
+ 389:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 390:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /*
+ 391:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * Domain parameters for brainpoolP256r1 (RFC 5639 3.4)
+ 392:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  */
+ 393:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_BP256R1_ENABLED)
+ 394:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP256r1_p[] = {
+ 395:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x77, 0x53, 0x6E, 0x1F, 0x1D, 0x48, 0x13, 0x20 ),
+ 396:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x28, 0x20, 0x26, 0xD5, 0x23, 0xF6, 0x3B, 0x6E ),
+ 397:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x72, 0x8D, 0x83, 0x9D, 0x90, 0x0A, 0x66, 0x3E ),
+ 398:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xBC, 0xA9, 0xEE, 0xA1, 0xDB, 0x57, 0xFB, 0xA9 ),
+ 399:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 400:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP256r1_a[] = {
+ 401:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xD9, 0xB5, 0x30, 0xF3, 0x44, 0x4B, 0x4A, 0xE9 ),
+ 402:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x6C, 0x5C, 0xDC, 0x26, 0xC1, 0x55, 0x80, 0xFB ),
+ 403:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xE7, 0xFF, 0x7A, 0x41, 0x30, 0x75, 0xF6, 0xEE ),
+ 404:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x57, 0x30, 0x2C, 0xFC, 0x75, 0x09, 0x5A, 0x7D ),
+ 405:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 406:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP256r1_b[] = {
+ 407:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xB6, 0x07, 0x8C, 0xFF, 0x18, 0xDC, 0xCC, 0x6B ),
+ 408:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xCE, 0xE1, 0xF7, 0x5C, 0x29, 0x16, 0x84, 0x95 ),
+ 409:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xBF, 0x7C, 0xD7, 0xBB, 0xD9, 0xB5, 0x30, 0xF3 ),
+ 410:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x44, 0x4B, 0x4A, 0xE9, 0x6C, 0x5C, 0xDC, 0x26 ),
+ 411:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 412:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP256r1_gx[] = {
+ 413:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x62, 0x32, 0xCE, 0x9A, 0xBD, 0x53, 0x44, 0x3A ),
+ 414:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xC2, 0x23, 0xBD, 0xE3, 0xE1, 0x27, 0xDE, 0xB9 ),
+ 415:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xAF, 0xB7, 0x81, 0xFC, 0x2F, 0x48, 0x4B, 0x2C ),
+ 416:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xCB, 0x57, 0x7E, 0xCB, 0xB9, 0xAE, 0xD2, 0x8B ),
+ 417:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 418:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP256r1_gy[] = {
+ 419:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x97, 0x69, 0x04, 0x2F, 0xC7, 0x54, 0x1D, 0x5C ),
+ 420:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x54, 0x8E, 0xED, 0x2D, 0x13, 0x45, 0x77, 0xC2 ),
+ 421:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xC9, 0x1D, 0x61, 0x14, 0x1A, 0x46, 0xF8, 0x97 ),
+ 422:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFD, 0xC4, 0xDA, 0xC3, 0x35, 0xF8, 0x7E, 0x54 ),
+ 423:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 424:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP256r1_n[] = {
+ 425:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xA7, 0x56, 0x48, 0x97, 0x82, 0x0E, 0x1E, 0x90 ),
+ 426:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xF7, 0xA6, 0x61, 0xB5, 0xA3, 0x7A, 0x39, 0x8C ),
+ 427:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x71, 0x8D, 0x83, 0x9D, 0x90, 0x0A, 0x66, 0x3E ),
+ 428:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xBC, 0xA9, 0xEE, 0xA1, 0xDB, 0x57, 0xFB, 0xA9 ),
+ 429:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 430:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_BP256R1_ENABLED */
+ 431:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 432:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /*
+ 433:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * Domain parameters for brainpoolP384r1 (RFC 5639 3.6)
+ 434:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  */
+ 435:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_BP384R1_ENABLED)
+ 436:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP384r1_p[] = {
+ 437:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x53, 0xEC, 0x07, 0x31, 0x13, 0x00, 0x47, 0x87 ),
+ 438:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x71, 0x1A, 0x1D, 0x90, 0x29, 0xA7, 0xD3, 0xAC ),
+ 439:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x23, 0x11, 0xB7, 0x7F, 0x19, 0xDA, 0xB1, 0x12 ),
+ 440:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xB4, 0x56, 0x54, 0xED, 0x09, 0x71, 0x2F, 0x15 ),
+ 441:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xDF, 0x41, 0xE6, 0x50, 0x7E, 0x6F, 0x5D, 0x0F ),
+ 442:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x28, 0x6D, 0x38, 0xA3, 0x82, 0x1E, 0xB9, 0x8C ),
+ 443:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 444:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP384r1_a[] = {
+ 445:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x26, 0x28, 0xCE, 0x22, 0xDD, 0xC7, 0xA8, 0x04 ),
+ 446:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xEB, 0xD4, 0x3A, 0x50, 0x4A, 0x81, 0xA5, 0x8A ),
+ 447:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x0F, 0xF9, 0x91, 0xBA, 0xEF, 0x65, 0x91, 0x13 ),
+ 448:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x87, 0x27, 0xB2, 0x4F, 0x8E, 0xA2, 0xBE, 0xC2 ),
+ 449:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xA0, 0xAF, 0x05, 0xCE, 0x0A, 0x08, 0x72, 0x3C ),
+ 450:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x0C, 0x15, 0x8C, 0x3D, 0xC6, 0x82, 0xC3, 0x7B ),
+ 451:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 452:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP384r1_b[] = {
+ 453:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x11, 0x4C, 0x50, 0xFA, 0x96, 0x86, 0xB7, 0x3A ),
+ 454:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x94, 0xC9, 0xDB, 0x95, 0x02, 0x39, 0xB4, 0x7C ),
+ 455:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xD5, 0x62, 0xEB, 0x3E, 0xA5, 0x0E, 0x88, 0x2E ),
+ 456:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xA6, 0xD2, 0xDC, 0x07, 0xE1, 0x7D, 0xB7, 0x2F ),
+ 457:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x7C, 0x44, 0xF0, 0x16, 0x54, 0xB5, 0x39, 0x8B ),
+ 458:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x26, 0x28, 0xCE, 0x22, 0xDD, 0xC7, 0xA8, 0x04 ),
+ 459:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 460:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP384r1_gx[] = {
+ 461:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x1E, 0xAF, 0xD4, 0x47, 0xE2, 0xB2, 0x87, 0xEF ),
+ 462:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xAA, 0x46, 0xD6, 0x36, 0x34, 0xE0, 0x26, 0xE8 ),
+ 463:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xE8, 0x10, 0xBD, 0x0C, 0xFE, 0xCA, 0x7F, 0xDB ),
+ 464:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xE3, 0x4F, 0xF1, 0x7E, 0xE7, 0xA3, 0x47, 0x88 ),
+ 465:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x6B, 0x3F, 0xC1, 0xB7, 0x81, 0x3A, 0xA6, 0xA2 ),
+ 466:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFF, 0x45, 0xCF, 0x68, 0xF0, 0x64, 0x1C, 0x1D ),
+ 467:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 468:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP384r1_gy[] = {
+ 469:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x15, 0x53, 0x3C, 0x26, 0x41, 0x03, 0x82, 0x42 ),
+ 470:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x11, 0x81, 0x91, 0x77, 0x21, 0x46, 0x46, 0x0E ),
+ 471:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x28, 0x29, 0x91, 0xF9, 0x4F, 0x05, 0x9C, 0xE1 ),
+ 472:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x64, 0x58, 0xEC, 0xFE, 0x29, 0x0B, 0xB7, 0x62 ),
+ 473:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x52, 0xD5, 0xCF, 0x95, 0x8E, 0xEB, 0xB1, 0x5C ),
+ 474:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xA4, 0xC2, 0xF9, 0x20, 0x75, 0x1D, 0xBE, 0x8A ),
+ 475:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 476:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP384r1_n[] = {
+ 477:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x65, 0x65, 0x04, 0xE9, 0x02, 0x32, 0x88, 0x3B ),
+ 478:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x10, 0xC3, 0x7F, 0x6B, 0xAF, 0xB6, 0x3A, 0xCF ),
+ 479:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xA7, 0x25, 0x04, 0xAC, 0x6C, 0x6E, 0x16, 0x1F ),
+ 480:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xB3, 0x56, 0x54, 0xED, 0x09, 0x71, 0x2F, 0x15 ),
+ 481:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xDF, 0x41, 0xE6, 0x50, 0x7E, 0x6F, 0x5D, 0x0F ),
+ 482:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x28, 0x6D, 0x38, 0xA3, 0x82, 0x1E, 0xB9, 0x8C ),
+ 483:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 484:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_BP384R1_ENABLED */
+ 485:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 486:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /*
+ 487:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * Domain parameters for brainpoolP512r1 (RFC 5639 3.7)
+ 488:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  */
+ 489:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_BP512R1_ENABLED)
+ 490:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP512r1_p[] = {
+ 491:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xF3, 0x48, 0x3A, 0x58, 0x56, 0x60, 0xAA, 0x28 ),
+ 492:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x85, 0xC6, 0x82, 0x2D, 0x2F, 0xFF, 0x81, 0x28 ),
+ 493:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xE6, 0x80, 0xA3, 0xE6, 0x2A, 0xA1, 0xCD, 0xAE ),
+ 494:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x42, 0x68, 0xC6, 0x9B, 0x00, 0x9B, 0x4D, 0x7D ),
+ 495:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x71, 0x08, 0x33, 0x70, 0xCA, 0x9C, 0x63, 0xD6 ),
+ 496:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x0E, 0xD2, 0xC9, 0xB3, 0xB3, 0x8D, 0x30, 0xCB ),
+ 497:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x07, 0xFC, 0xC9, 0x33, 0xAE, 0xE6, 0xD4, 0x3F ),
+ 498:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x8B, 0xC4, 0xE9, 0xDB, 0xB8, 0x9D, 0xDD, 0xAA ),
+ 499:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 500:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP512r1_a[] = {
+ 501:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xCA, 0x94, 0xFC, 0x77, 0x4D, 0xAC, 0xC1, 0xE7 ),
+ 502:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xB9, 0xC7, 0xF2, 0x2B, 0xA7, 0x17, 0x11, 0x7F ),
+ 503:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xB5, 0xC8, 0x9A, 0x8B, 0xC9, 0xF1, 0x2E, 0x0A ),
+ 504:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xA1, 0x3A, 0x25, 0xA8, 0x5A, 0x5D, 0xED, 0x2D ),
+ 505:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xBC, 0x63, 0x98, 0xEA, 0xCA, 0x41, 0x34, 0xA8 ),
+ 506:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x10, 0x16, 0xF9, 0x3D, 0x8D, 0xDD, 0xCB, 0x94 ),
+ 507:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xC5, 0x4C, 0x23, 0xAC, 0x45, 0x71, 0x32, 0xE2 ),
+ 508:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x89, 0x3B, 0x60, 0x8B, 0x31, 0xA3, 0x30, 0x78 ),
+ 509:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 510:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP512r1_b[] = {
+ 511:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x23, 0xF7, 0x16, 0x80, 0x63, 0xBD, 0x09, 0x28 ),
+ 512:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xDD, 0xE5, 0xBA, 0x5E, 0xB7, 0x50, 0x40, 0x98 ),
+ 513:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x67, 0x3E, 0x08, 0xDC, 0xCA, 0x94, 0xFC, 0x77 ),
+ 514:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x4D, 0xAC, 0xC1, 0xE7, 0xB9, 0xC7, 0xF2, 0x2B ),
+ 515:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xA7, 0x17, 0x11, 0x7F, 0xB5, 0xC8, 0x9A, 0x8B ),
+ 516:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xC9, 0xF1, 0x2E, 0x0A, 0xA1, 0x3A, 0x25, 0xA8 ),
+ 517:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x5A, 0x5D, 0xED, 0x2D, 0xBC, 0x63, 0x98, 0xEA ),
+ 518:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xCA, 0x41, 0x34, 0xA8, 0x10, 0x16, 0xF9, 0x3D ),
+ 519:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 520:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP512r1_gx[] = {
+ 521:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x22, 0xF8, 0xB9, 0xBC, 0x09, 0x22, 0x35, 0x8B ),
+ 522:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x68, 0x5E, 0x6A, 0x40, 0x47, 0x50, 0x6D, 0x7C ),
+ 523:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x5F, 0x7D, 0xB9, 0x93, 0x7B, 0x68, 0xD1, 0x50 ),
+ 524:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x8D, 0xD4, 0xD0, 0xE2, 0x78, 0x1F, 0x3B, 0xFF ),
+ 525:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x8E, 0x09, 0xD0, 0xF4, 0xEE, 0x62, 0x3B, 0xB4 ),
+ 526:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xC1, 0x16, 0xD9, 0xB5, 0x70, 0x9F, 0xED, 0x85 ),
+ 527:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x93, 0x6A, 0x4C, 0x9C, 0x2E, 0x32, 0x21, 0x5A ),
+ 528:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x64, 0xD9, 0x2E, 0xD8, 0xBD, 0xE4, 0xAE, 0x81 ),
+ 529:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 530:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP512r1_gy[] = {
+ 531:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x92, 0x08, 0xD8, 0x3A, 0x0F, 0x1E, 0xCD, 0x78 ),
+ 532:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x06, 0x54, 0xF0, 0xA8, 0x2F, 0x2B, 0xCA, 0xD1 ),
+ 533:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xAE, 0x63, 0x27, 0x8A, 0xD8, 0x4B, 0xCA, 0x5B ),
+ 534:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x5E, 0x48, 0x5F, 0x4A, 0x49, 0xDE, 0xDC, 0xB2 ),
+ 535:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x11, 0x81, 0x1F, 0x88, 0x5B, 0xC5, 0x00, 0xA0 ),
+ 536:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x1A, 0x7B, 0xA5, 0x24, 0x00, 0xF7, 0x09, 0xF2 ),
+ 537:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xFD, 0x22, 0x78, 0xCF, 0xA9, 0xBF, 0xEA, 0xC0 ),
+ 538:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xEC, 0x32, 0x63, 0x56, 0x5D, 0x38, 0xDE, 0x7D ),
+ 539:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 540:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static const mbedtls_mpi_uint brainpoolP512r1_n[] = {
+ 541:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x69, 0x00, 0xA9, 0x9C, 0x82, 0x96, 0x87, 0xB5 ),
+ 542:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0xDD, 0xDA, 0x5D, 0x08, 0x81, 0xD3, 0xB1, 0x1D ),
+ 543:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x47, 0x10, 0xAC, 0x7F, 0x19, 0x61, 0x86, 0x41 ),
+ 544:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x19, 0x26, 0xA9, 0x4C, 0x41, 0x5C, 0x3E, 0x55 ),
+ 545:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x70, 0x08, 0x33, 0x70, 0xCA, 0x9C, 0x63, 0xD6 ),
+ 546:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x0E, 0xD2, 0xC9, 0xB3, 0xB3, 0x8D, 0x30, 0xCB ),
+ 547:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x07, 0xFC, 0xC9, 0x33, 0xAE, 0xE6, 0xD4, 0x3F ),
+ 548:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     BYTES_TO_T_UINT_8( 0x8B, 0xC4, 0xE9, 0xDB, 0xB8, 0x9D, 0xDD, 0xAA ),
+ 549:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** };
+ 550:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_BP512R1_ENABLED */
+ 551:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 552:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /*
+ 553:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * Create an MPI from embedded constants
+ 554:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * (assumes len is an exact multiple of sizeof mbedtls_mpi_uint)
+ 555:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  */
+ 556:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static inline void ecp_mpi_load( mbedtls_mpi *X, const mbedtls_mpi_uint *p, size_t len )
+ 557:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** {
+ 558:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     X->s = 1;
+ 559:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     X->n = len / sizeof( mbedtls_mpi_uint );
+ 560:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     X->p = (mbedtls_mpi_uint *) p;
+ 561:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** }
+ 562:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 563:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /*
+ 564:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * Set an MPI to static value 1
+ 565:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  */
+ 566:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static inline void ecp_mpi_set1( mbedtls_mpi *X )
+ 567:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** {
+ 568:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     static mbedtls_mpi_uint one[] = { 1 };
+ 569:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     X->s = 1;
+ 570:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     X->n = 1;
+ 571:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     X->p = one;
+ 572:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** }
+ 573:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 574:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /*
+ 575:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * Make group available from embedded constants
+ 576:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  */
+ 577:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static int ecp_group_load( mbedtls_ecp_group *grp,
+ 578:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****                            const mbedtls_mpi_uint *p,  size_t plen,
+ 579:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****                            const mbedtls_mpi_uint *a,  size_t alen,
+ 580:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****                            const mbedtls_mpi_uint *b,  size_t blen,
+ 581:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****                            const mbedtls_mpi_uint *gx, size_t gxlen,
+ 582:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****                            const mbedtls_mpi_uint *gy, size_t gylen,
+ 583:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****                            const mbedtls_mpi_uint *n,  size_t nlen)
+ 584:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** {
+ 585:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ecp_mpi_load( &grp->P, p, plen );
+ 586:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     if( a != NULL )
+ 587:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         ecp_mpi_load( &grp->A, a, alen );
+ 588:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ecp_mpi_load( &grp->B, b, blen );
+ 589:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ecp_mpi_load( &grp->N, n, nlen );
+ 590:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 591:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ecp_mpi_load( &grp->G.X, gx, gxlen );
+ 592:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ecp_mpi_load( &grp->G.Y, gy, gylen );
+ 593:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ecp_mpi_set1( &grp->G.Z );
+ 594:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 595:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     grp->pbits = mbedtls_mpi_bitlen( &grp->P );
+ 596:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     grp->nbits = mbedtls_mpi_bitlen( &grp->N );
+ 597:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 598:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     grp->h = 1;
+ 599:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 600:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     return( 0 );
+ 601:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** }
+ 602:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 603:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_NIST_OPTIM)
+ 604:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /* Forward declarations */
+ 605:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP192R1_ENABLED)
+ 606:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static int ecp_mod_p192( mbedtls_mpi * );
+ 607:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif
+ 608:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP224R1_ENABLED)
+ 609:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static int ecp_mod_p224( mbedtls_mpi * );
+ 610:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif
+ 611:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP256R1_ENABLED)
+ 612:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static int ecp_mod_p256( mbedtls_mpi * );
+ 613:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif
+ 614:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP384R1_ENABLED)
+ 615:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static int ecp_mod_p384( mbedtls_mpi * );
+ 616:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif
+ 617:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP521R1_ENABLED)
+ 618:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static int ecp_mod_p521( mbedtls_mpi * );
+ 619:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif
+ 620:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 621:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define NIST_MODP( P )      grp->modp = ecp_mod_ ## P;
+ 622:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #else
+ 623:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define NIST_MODP( P )
+ 624:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_NIST_OPTIM */
+ 625:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 626:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /* Additional forward declarations */
+ 627:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_CURVE25519_ENABLED)
+ 628:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static int ecp_mod_p255( mbedtls_mpi * );
+ 629:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif
+ 630:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_CURVE448_ENABLED)
+ 631:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static int ecp_mod_p448( mbedtls_mpi * );
+ 632:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif
+ 633:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP192K1_ENABLED)
+ 634:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static int ecp_mod_p192k1( mbedtls_mpi * );
+ 635:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif
+ 636:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP224K1_ENABLED)
+ 637:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static int ecp_mod_p224k1( mbedtls_mpi * );
+ 638:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif
+ 639:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP256K1_ENABLED)
+ 640:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static int ecp_mod_p256k1( mbedtls_mpi * );
+ 641:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif
+ 642:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 643:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define LOAD_GROUP_A( G )   ecp_group_load( grp,            \
+ 644:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****                             G ## _p,  sizeof( G ## _p  ),   \
+ 645:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****                             G ## _a,  sizeof( G ## _a  ),   \
+ 646:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****                             G ## _b,  sizeof( G ## _b  ),   \
+ 647:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****                             G ## _gx, sizeof( G ## _gx ),   \
+ 648:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****                             G ## _gy, sizeof( G ## _gy ),   \
+ 649:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****                             G ## _n,  sizeof( G ## _n  ) )
+ 650:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 651:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define LOAD_GROUP( G )     ecp_group_load( grp,            \
+ 652:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****                             G ## _p,  sizeof( G ## _p  ),   \
+ 653:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****                             NULL,     0,                    \
+ 654:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****                             G ## _b,  sizeof( G ## _b  ),   \
+ 655:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****                             G ## _gx, sizeof( G ## _gx ),   \
+ 656:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****                             G ## _gy, sizeof( G ## _gy ),   \
+ 657:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****                             G ## _n,  sizeof( G ## _n  ) )
+ 658:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 659:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_CURVE25519_ENABLED)
+ 660:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /*
+ 661:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * Specialized function for creating the Curve25519 group
+ 662:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  */
+ 663:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static int ecp_use_curve25519( mbedtls_ecp_group *grp )
+ 664:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** {
+ 665:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     int ret;
+ 666:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 667:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     /* Actually ( A + 2 ) / 4 */
+ 668:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_read_string( &grp->A, 16, "01DB42" ) );
+ 669:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 670:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     /* P = 2^255 - 19 */
+ 671:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_lset( &grp->P, 1 ) );
+ 672:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_shift_l( &grp->P, 255 ) );
+ 673:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_sub_int( &grp->P, &grp->P, 19 ) );
+ 674:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     grp->pbits = mbedtls_mpi_bitlen( &grp->P );
+ 675:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 676:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     /* N = 2^252 + 27742317777372353535851937790883648493 */
+ 677:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_read_string( &grp->N, 16,
+ 678:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****                                               "14DEF9DEA2F79CD65812631A5CF5D3ED" ) );
+ 679:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_set_bit( &grp->N, 252, 1 ) );
+ 680:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 681:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     /* Y intentionally not set, since we use x/z coordinates.
+ 682:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****      * This is used as a marker to identify Montgomery curves! */
+ 683:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_lset( &grp->G.X, 9 ) );
+ 684:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_lset( &grp->G.Z, 1 ) );
+ 685:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     mbedtls_mpi_free( &grp->G.Y );
+ 686:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 687:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     /* Actually, the required msb for private keys */
+ 688:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     grp->nbits = 254;
+ 689:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 690:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** cleanup:
+ 691:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     if( ret != 0 )
+ 692:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         mbedtls_ecp_group_free( grp );
+ 693:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 694:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     return( ret );
+ 695:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** }
+ 696:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_CURVE25519_ENABLED */
+ 697:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 698:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_CURVE448_ENABLED)
+ 699:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /*
+ 700:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * Specialized function for creating the Curve448 group
+ 701:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  */
+ 702:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static int ecp_use_curve448( mbedtls_ecp_group *grp )
+ 703:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** {
+ 704:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     mbedtls_mpi Ns;
+ 705:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     int ret;
+ 706:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 707:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     mbedtls_mpi_init( &Ns );
+ 708:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 709:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     /* Actually ( A + 2 ) / 4 */
+ 710:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_read_string( &grp->A, 16, "98AA" ) );
+ 711:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 712:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     /* P = 2^448 - 2^224 - 1 */
+ 713:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_lset( &grp->P, 1 ) );
+ 714:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_shift_l( &grp->P, 224 ) );
+ 715:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_sub_int( &grp->P, &grp->P, 1 ) );
+ 716:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_shift_l( &grp->P, 224 ) );
+ 717:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_sub_int( &grp->P, &grp->P, 1 ) );
+ 718:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     grp->pbits = mbedtls_mpi_bitlen( &grp->P );
+ 719:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 720:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     /* Y intentionally not set, since we use x/z coordinates.
+ 721:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****      * This is used as a marker to identify Montgomery curves! */
+ 722:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_lset( &grp->G.X, 5 ) );
+ 723:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_lset( &grp->G.Z, 1 ) );
+ 724:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     mbedtls_mpi_free( &grp->G.Y );
+ 725:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 726:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     /* N = 2^446 - 13818066809895115352007386748515426880336692474882178609894547503885 */
+ 727:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_set_bit( &grp->N, 446, 1 ) );
+ 728:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_read_string( &Ns, 16,
+ 729:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****                                               "8335DC163BB124B65129C96FDE933D8D723A70AADC873D6D54A7
+ 730:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_sub_mpi( &grp->N, &grp->N, &Ns ) );
+ 731:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 732:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     /* Actually, the required msb for private keys */
+ 733:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     grp->nbits = 447;
+ 734:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 735:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** cleanup:
+ 736:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     mbedtls_mpi_free( &Ns );
+ 737:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     if( ret != 0 )
+ 738:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         mbedtls_ecp_group_free( grp );
+ 739:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 740:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     return( ret );
+ 741:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** }
+ 742:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_CURVE448_ENABLED */
+ 743:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 744:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /*
+ 745:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * Set a group using well-known domain parameters
+ 746:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  */
+ 747:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** int mbedtls_ecp_group_load( mbedtls_ecp_group *grp, mbedtls_ecp_group_id id )
+ 748:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** {
+ 749:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     mbedtls_ecp_group_free( grp );
+ 750:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 751:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     grp->id = id;
+ 752:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 753:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     switch( id )
+ 754:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     {
+ 755:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP192R1_ENABLED)
+ 756:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         case MBEDTLS_ECP_DP_SECP192R1:
+ 757:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             NIST_MODP( p192 );
+ 758:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             return( LOAD_GROUP( secp192r1 ) );
+ 759:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP192R1_ENABLED */
+ 760:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 761:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP224R1_ENABLED)
+ 762:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         case MBEDTLS_ECP_DP_SECP224R1:
+ 763:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             NIST_MODP( p224 );
+ 764:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             return( LOAD_GROUP( secp224r1 ) );
+ 765:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP224R1_ENABLED */
+ 766:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 767:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP256R1_ENABLED)
+ 768:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         case MBEDTLS_ECP_DP_SECP256R1:
+ 769:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             NIST_MODP( p256 );
+ 770:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             return( LOAD_GROUP( secp256r1 ) );
+ 771:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP256R1_ENABLED */
+ 772:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 773:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP384R1_ENABLED)
+ 774:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         case MBEDTLS_ECP_DP_SECP384R1:
+ 775:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             NIST_MODP( p384 );
+ 776:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             return( LOAD_GROUP( secp384r1 ) );
+ 777:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP384R1_ENABLED */
+ 778:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 779:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP521R1_ENABLED)
+ 780:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         case MBEDTLS_ECP_DP_SECP521R1:
+ 781:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             NIST_MODP( p521 );
+ 782:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             return( LOAD_GROUP( secp521r1 ) );
+ 783:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP521R1_ENABLED */
+ 784:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 785:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP192K1_ENABLED)
+ 786:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         case MBEDTLS_ECP_DP_SECP192K1:
+ 787:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             grp->modp = ecp_mod_p192k1;
+ 788:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             return( LOAD_GROUP_A( secp192k1 ) );
+ 789:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP192K1_ENABLED */
+ 790:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 791:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP224K1_ENABLED)
+ 792:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         case MBEDTLS_ECP_DP_SECP224K1:
+ 793:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             grp->modp = ecp_mod_p224k1;
+ 794:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             return( LOAD_GROUP_A( secp224k1 ) );
+ 795:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP224K1_ENABLED */
+ 796:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 797:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP256K1_ENABLED)
+ 798:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         case MBEDTLS_ECP_DP_SECP256K1:
+ 799:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             grp->modp = ecp_mod_p256k1;
+ 800:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             return( LOAD_GROUP_A( secp256k1 ) );
+ 801:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP256K1_ENABLED */
+ 802:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 803:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_BP256R1_ENABLED)
+ 804:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         case MBEDTLS_ECP_DP_BP256R1:
+ 805:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             return( LOAD_GROUP_A( brainpoolP256r1 ) );
+ 806:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_BP256R1_ENABLED */
+ 807:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 808:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_BP384R1_ENABLED)
+ 809:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         case MBEDTLS_ECP_DP_BP384R1:
+ 810:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             return( LOAD_GROUP_A( brainpoolP384r1 ) );
+ 811:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_BP384R1_ENABLED */
+ 812:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 813:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_BP512R1_ENABLED)
+ 814:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         case MBEDTLS_ECP_DP_BP512R1:
+ 815:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             return( LOAD_GROUP_A( brainpoolP512r1 ) );
+ 816:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_BP512R1_ENABLED */
+ 817:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 818:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_CURVE25519_ENABLED)
+ 819:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         case MBEDTLS_ECP_DP_CURVE25519:
+ 820:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             grp->modp = ecp_mod_p255;
+ 821:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             return( ecp_use_curve25519( grp ) );
+ 822:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_CURVE25519_ENABLED */
+ 823:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 824:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_CURVE448_ENABLED)
+ 825:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         case MBEDTLS_ECP_DP_CURVE448:
+ 826:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             grp->modp = ecp_mod_p448;
+ 827:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             return( ecp_use_curve448( grp ) );
+ 828:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_CURVE448_ENABLED */
+ 829:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 830:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         default:
+ 831:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             mbedtls_ecp_group_free( grp );
+ 832:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             return( MBEDTLS_ERR_ECP_FEATURE_UNAVAILABLE );
+ 833:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     }
+ 834:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** }
+ 835:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 836:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_NIST_OPTIM)
+ 837:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /*
+ 838:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * Fast reduction modulo the primes used by the NIST curves.
+ 839:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  *
+ 840:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * These functions are critical for speed, but not needed for correct
+ 841:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * operations. So, we make the choice to heavily rely on the internals of our
+ 842:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * bignum library, which creates a tight coupling between these functions and
+ 843:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * our MPI implementation.  However, the coupling between the ECP module and
+ 844:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * MPI remains loose, since these functions can be deactivated at will.
+ 845:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  */
+ 846:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 847:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP192R1_ENABLED)
+ 848:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /*
+ 849:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * Compared to the way things are presented in FIPS 186-3 D.2,
+ 850:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * we proceed in columns, from right (least significant chunk) to left,
+ 851:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * adding chunks to N in place, and keeping a carry for the next chunk.
+ 852:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * This avoids moving things around in memory, and uselessly adding zeros,
+ 853:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * compared to the more straightforward, line-oriented approach.
+ 854:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  *
+ 855:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * For this prime we need to handle data in chunks of 64 bits.
+ 856:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * Since this is always a multiple of our basic mbedtls_mpi_uint, we can
+ 857:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * use a mbedtls_mpi_uint * to designate such a chunk, and small loops to handle it.
+ 858:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  */
+ 859:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 860:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /* Add 64-bit chunks (dst += src) and update carry */
+ 861:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static inline void add64( mbedtls_mpi_uint *dst, mbedtls_mpi_uint *src, mbedtls_mpi_uint *carry )
+ 862:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** {
+ 863:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     unsigned char i;
+ 864:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     mbedtls_mpi_uint c = 0;
+ 865:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     for( i = 0; i < 8 / sizeof( mbedtls_mpi_uint ); i++, dst++, src++ )
+ 866:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     {
+ 867:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         *dst += c;      c  = ( *dst < c );
+ 868:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         *dst += *src;   c += ( *dst < *src );
+ 869:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     }
+ 870:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     *carry += c;
+ 871:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** }
+ 872:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 873:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /* Add carry to a 64-bit chunk and update carry */
+ 874:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static inline void carry64( mbedtls_mpi_uint *dst, mbedtls_mpi_uint *carry )
+ 875:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** {
+ 876:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     unsigned char i;
+ 877:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     for( i = 0; i < 8 / sizeof( mbedtls_mpi_uint ); i++, dst++ )
+ 878:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     {
+ 879:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         *dst += *carry;
+ 880:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         *carry  = ( *dst < *carry );
+ 881:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     }
+ 882:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** }
+ 883:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 884:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define WIDTH       8 / sizeof( mbedtls_mpi_uint )
+ 885:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define A( i )      N->p + i * WIDTH
+ 886:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define ADD( i )    add64( p, A( i ), &c )
+ 887:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define NEXT        p += WIDTH; carry64( p, &c )
+ 888:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define LAST        p += WIDTH; *p = c; while( ++p < end ) *p = 0
+ 889:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 890:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /*
+ 891:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * Fast quasi-reduction modulo p192 (FIPS 186-3 D.2.1)
+ 892:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  */
+ 893:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static int ecp_mod_p192( mbedtls_mpi *N )
+ 894:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** {
+ 895:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     int ret;
+ 896:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     mbedtls_mpi_uint c = 0;
+ 897:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     mbedtls_mpi_uint *p, *end;
+ 898:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 899:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     /* Make sure we have enough blocks so that A(5) is legal */
+ 900:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_grow( N, 6 * WIDTH ) );
+ 901:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 902:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     p = N->p;
+ 903:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     end = p + N->n;
+ 904:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 905:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ADD( 3 ); ADD( 5 );             NEXT; // A0 += A3 + A5
+ 906:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ADD( 3 ); ADD( 4 ); ADD( 5 );   NEXT; // A1 += A3 + A4 + A5
+ 907:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ADD( 4 ); ADD( 5 );             LAST; // A2 += A4 + A5
+ 908:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 909:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** cleanup:
+ 910:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     return( ret );
+ 911:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** }
+ 912:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 913:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #undef WIDTH
+ 914:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #undef A
+ 915:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #undef ADD
+ 916:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #undef NEXT
+ 917:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #undef LAST
+ 918:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP192R1_ENABLED */
+ 919:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 920:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP224R1_ENABLED) ||   \
+ 921:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     defined(MBEDTLS_ECP_DP_SECP256R1_ENABLED) ||   \
+ 922:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     defined(MBEDTLS_ECP_DP_SECP384R1_ENABLED)
+ 923:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /*
+ 924:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * The reader is advised to first understand ecp_mod_p192() since the same
+ 925:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * general structure is used here, but with additional complications:
+ 926:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * (1) chunks of 32 bits, and (2) subtractions.
+ 927:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  */
+ 928:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 929:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /*
+ 930:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * For these primes, we need to handle data in chunks of 32 bits.
+ 931:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * This makes it more complicated if we use 64 bits limbs in MPI,
+ 932:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * which prevents us from using a uniform access method as for p192.
+ 933:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  *
+ 934:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * So, we define a mini abstraction layer to access 32 bit chunks,
+ 935:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * load them in 'cur' for work, and store them back from 'cur' when done.
+ 936:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  *
+ 937:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * While at it, also define the size of N in terms of 32-bit chunks.
+ 938:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  */
+ 939:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define LOAD32      cur = A( i );
+ 940:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 941:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_HAVE_INT32)  /* 32 bit */
+ 942:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 943:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define MAX32       N->n
+ 944:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define A( j )      N->p[j]
+ 945:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define STORE32     N->p[i] = cur;
+ 946:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 947:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #else                               /* 64-bit */
+ 948:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 949:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define MAX32       N->n * 2
+ 950:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define A( j ) j % 2 ? (uint32_t)( N->p[j/2] >> 32 ) : (uint32_t)( N->p[j/2] )
+ 951:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define STORE32                                   \
+ 952:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     if( i % 2 ) {                                 \
+ 953:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         N->p[i/2] &= 0x00000000FFFFFFFF;          \
+ 954:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         N->p[i/2] |= ((mbedtls_mpi_uint) cur) << 32;        \
+ 955:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     } else {                                      \
+ 956:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         N->p[i/2] &= 0xFFFFFFFF00000000;          \
+ 957:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         N->p[i/2] |= (mbedtls_mpi_uint) cur;                \
+ 958:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     }
+ 959:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 960:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* sizeof( mbedtls_mpi_uint ) */
+ 961:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 962:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /*
+ 963:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * Helpers for addition and subtraction of chunks, with signed carry.
+ 964:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  */
+ 965:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static inline void add32( uint32_t *dst, uint32_t src, signed char *carry )
+ 966:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** {
+  25              		.loc 1 966 0
+  26              		.cfi_startproc
+  27              		@ args = 0, pretend = 0, frame = 0
+  28              		@ frame_needed = 0, uses_anonymous_args = 0
+  29              		@ link register save eliminated.
+  30              	.LVL0:
+ 967:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     *dst += src;
+  31              		.loc 1 967 0
+  32 0000 003090E5 		ldr	r3, [r0]
+  33 0004 033081E0 		add	r3, r1, r3
+  34 0008 003080E5 		str	r3, [r0]
+ 968:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     *carry += ( *dst < src );
+  35              		.loc 1 968 0
+  36 000c 0000D2E5 		ldrb	r0, [r2]	@ zero_extendqisi2
+  37              	.LVL1:
+  38 0010 030051E1 		cmp	r1, r3
+  39 0014 0030A091 		movls	r3, r0
+  40 0018 01308082 		addhi	r3, r0, #1
+  41 001c 0030C2E5 		strb	r3, [r2]
+  42 0020 1EFF2FE1 		bx	lr
+  43              		.cfi_endproc
+  44              	.LFE4:
+  46              		.section	.text.sub32,"ax",%progbits
+  47              		.align	2
+  48              		.syntax unified
+  49              		.arm
+  50              		.fpu neon
+  52              	sub32:
+  53              	.LFB5:
+ 969:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** }
+ 970:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 971:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static inline void sub32( uint32_t *dst, uint32_t src, signed char *carry )
+ 972:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** {
+  54              		.loc 1 972 0
+  55              		.cfi_startproc
+  56              		@ args = 0, pretend = 0, frame = 0
+  57              		@ frame_needed = 0, uses_anonymous_args = 0
+  58              		@ link register save eliminated.
+  59              	.LVL2:
+ 973:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     *carry -= ( *dst < src );
+  60              		.loc 1 973 0
+  61 0000 00C090E5 		ldr	ip, [r0]
+  62 0004 0030D2E5 		ldrb	r3, [r2]	@ zero_extendqisi2
+  63 0008 01005CE1 		cmp	ip, r1
+  64 000c 01304332 		subcc	r3, r3, #1
+  65 0010 0030C2E5 		strb	r3, [r2]
+ 974:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     *dst -= src;
+  66              		.loc 1 974 0
+  67 0014 003090E5 		ldr	r3, [r0]
+  68 0018 011043E0 		sub	r1, r3, r1
+  69              	.LVL3:
+  70 001c 001080E5 		str	r1, [r0]
+  71 0020 1EFF2FE1 		bx	lr
+  72              		.cfi_endproc
+  73              	.LFE5:
+  75              		.section	.text.ecp_mod_p256,"ax",%progbits
+  76              		.align	2
+  77              		.syntax unified
+  78              		.arm
+  79              		.fpu neon
+  81              	ecp_mod_p256:
+  82              	.LFB7:
+ 975:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** }
+ 976:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 977:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define ADD( j )    add32( &cur, A( j ), &c );
+ 978:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define SUB( j )    sub32( &cur, A( j ), &c );
+ 979:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 980:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /*
+ 981:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * Helpers for the main 'loop'
+ 982:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * (see fix_negative for the motivation of C)
+ 983:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  */
+ 984:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define INIT( b )                                           \
+ 985:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     int ret;                                                \
+ 986:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     signed char c = 0, cc;                                  \
+ 987:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     uint32_t cur;                                           \
+ 988:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     size_t i = 0, bits = b;                                 \
+ 989:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     mbedtls_mpi C;                                                  \
+ 990:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     mbedtls_mpi_uint Cp[ b / 8 / sizeof( mbedtls_mpi_uint) + 1 ];               \
+ 991:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****                                                             \
+ 992:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     C.s = 1;                                                \
+ 993:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     C.n = b / 8 / sizeof( mbedtls_mpi_uint) + 1;                      \
+ 994:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     C.p = Cp;                                               \
+ 995:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     memset( Cp, 0, C.n * sizeof( mbedtls_mpi_uint ) );                \
+ 996:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****                                                             \
+ 997:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_grow( N, b * 2 / 8 / sizeof( mbedtls_mpi_uint ) ) ); \
+ 998:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     LOAD32;
+ 999:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+1000:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define NEXT                    \
+1001:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     STORE32; i++; LOAD32;       \
+1002:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     cc = c; c = 0;              \
+1003:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     if( cc < 0 )                \
+1004:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         sub32( &cur, -cc, &c ); \
+1005:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     else                        \
+1006:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         add32( &cur, cc, &c );  \
+1007:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+1008:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #define LAST                                    \
+1009:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     STORE32; i++;                               \
+1010:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     cur = c > 0 ? c : 0; STORE32;               \
+1011:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     cur = 0; while( ++i < MAX32 ) { STORE32; }  \
+1012:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     if( c < 0 ) fix_negative( N, c, &C, bits );
+1013:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+1014:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /*
+1015:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * If the result is negative, we get it in the form
+1016:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * c * 2^(bits + 32) + N, with c negative and N positive shorter than 'bits'
+1017:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  */
+1018:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static inline int fix_negative( mbedtls_mpi *N, signed char c, mbedtls_mpi *C, size_t bits )
+1019:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** {
+1020:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     int ret;
+1021:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+1022:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     /* C = - c * 2^(bits + 32) */
+1023:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if !defined(MBEDTLS_HAVE_INT64)
+1024:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ((void) bits);
+1025:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #else
+1026:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     if( bits == 224 )
+1027:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         C->p[ C->n - 1 ] = ((mbedtls_mpi_uint) -c) << 32;
+1028:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     else
+1029:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif
+1030:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****         C->p[ C->n - 1 ] = (mbedtls_mpi_uint) -c;
+1031:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+1032:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     /* N = - ( C - N ) */
+1033:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     MBEDTLS_MPI_CHK( mbedtls_mpi_sub_abs( N, C, N ) );
+1034:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     N->s = -1;
+1035:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+1036:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** cleanup:
+1037:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+1038:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     return( ret );
+1039:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** }
+1040:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+1041:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP224R1_ENABLED)
+1042:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /*
+1043:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * Fast quasi-reduction modulo p224 (FIPS 186-3 D.2.2)
+1044:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  */
+1045:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static int ecp_mod_p224( mbedtls_mpi *N )
+1046:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** {
+1047:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     INIT( 224 );
+1048:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+1049:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     SUB(  7 ); SUB( 11 );               NEXT; // A0 += -A7 - A11
+1050:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     SUB(  8 ); SUB( 12 );               NEXT; // A1 += -A8 - A12
+1051:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     SUB(  9 ); SUB( 13 );               NEXT; // A2 += -A9 - A13
+1052:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     SUB( 10 ); ADD(  7 ); ADD( 11 );    NEXT; // A3 += -A10 + A7 + A11
+1053:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     SUB( 11 ); ADD(  8 ); ADD( 12 );    NEXT; // A4 += -A11 + A8 + A12
+1054:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     SUB( 12 ); ADD(  9 ); ADD( 13 );    NEXT; // A5 += -A12 + A9 + A13
+1055:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     SUB( 13 ); ADD( 10 );               LAST; // A6 += -A13 + A10
+1056:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+1057:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** cleanup:
+1058:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     return( ret );
+1059:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** }
+1060:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP224R1_ENABLED */
+1061:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+1062:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #if defined(MBEDTLS_ECP_DP_SECP256R1_ENABLED)
+1063:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** /*
+1064:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  * Fast quasi-reduction modulo p256 (FIPS 186-3 D.2.3)
+1065:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****  */
+1066:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** static int ecp_mod_p256( mbedtls_mpi *N )
+1067:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** {
+  83              		.loc 1 1067 0
+  84              		.cfi_startproc
+  85              		@ args = 0, pretend = 0, frame = 56
+  86              		@ frame_needed = 0, uses_anonymous_args = 0
+  87              	.LVL4:
+  88 0000 30402DE9 		push	{r4, r5, lr}
+  89              		.cfi_def_cfa_offset 12
+  90              		.cfi_offset 4, -12
+  91              		.cfi_offset 5, -8
+  92              		.cfi_offset 14, -4
+1068:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     INIT( 256 );
+  93              		.loc 1 1068 0
+  94 0004 0130A0E3 		mov	r3, #1
+1067:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     INIT( 256 );
+  95              		.loc 1 1067 0
+  96 0008 3CD04DE2 		sub	sp, sp, #60
+  97              		.cfi_def_cfa_offset 72
+  98              		.loc 1 1068 0
+  99 000c 0010A0E3 		mov	r1, #0
+1067:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     INIT( 256 );
+ 100              		.loc 1 1067 0
+ 101 0010 0040A0E1 		mov	r4, r0
+ 102              		.loc 1 1068 0
+ 103 0014 2420A0E3 		mov	r2, #36
+ 104 0018 08308DE5 		str	r3, [sp, #8]
+ 105 001c 14008DE2 		add	r0, sp, #20
+ 106              	.LVL5:
+ 107 0020 0930A0E3 		mov	r3, #9
+ 108 0024 0310CDE5 		strb	r1, [sp, #3]
+ 109              	.LVL6:
+ 110 0028 0C308DE5 		str	r3, [sp, #12]
+ 111 002c 10008DE5 		str	r0, [sp, #16]
+ 112 0030 FEFFFFEB 		bl	memset
+ 113              	.LVL7:
+ 114 0034 1010A0E3 		mov	r1, #16
+ 115 0038 0400A0E1 		mov	r0, r4
+ 116 003c FEFFFFEB 		bl	mbedtls_mpi_grow
+ 117              	.LVL8:
+ 118 0040 005050E2 		subs	r5, r0, #0
+ 119 0044 9001001A 		bne	.L3
+ 120              		.loc 1 1068 0 is_stmt 0 discriminator 1
+ 121 0048 083094E5 		ldr	r3, [r4, #8]
+1069:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+1070:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ADD(  8 ); ADD(  9 );
+ 122              		.loc 1 1070 0 is_stmt 1 discriminator 1
+ 123 004c 04008DE2 		add	r0, sp, #4
+ 124              	.LVL9:
+1068:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 125              		.loc 1 1068 0 discriminator 1
+ 126 0050 002093E5 		ldr	r2, [r3]
+ 127              		.loc 1 1070 0 discriminator 1
+ 128 0054 201093E5 		ldr	r1, [r3, #32]
+1068:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 129              		.loc 1 1068 0 discriminator 1
+ 130 0058 04208DE5 		str	r2, [sp, #4]
+ 131              		.loc 1 1070 0 discriminator 1
+ 132 005c 03208DE2 		add	r2, sp, #3
+ 133 0060 FEFFFFEB 		bl	add32
+ 134              	.LVL10:
+ 135 0064 083094E5 		ldr	r3, [r4, #8]
+ 136 0068 03208DE2 		add	r2, sp, #3
+ 137 006c 04008DE2 		add	r0, sp, #4
+ 138 0070 241093E5 		ldr	r1, [r3, #36]
+ 139 0074 FEFFFFEB 		bl	add32
+ 140              	.LVL11:
+1071:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     SUB( 11 ); SUB( 12 ); SUB( 13 ); SUB( 14 );             NEXT; // A0
+ 141              		.loc 1 1071 0 discriminator 1
+ 142 0078 083094E5 		ldr	r3, [r4, #8]
+ 143 007c 03208DE2 		add	r2, sp, #3
+ 144 0080 04008DE2 		add	r0, sp, #4
+ 145 0084 2C1093E5 		ldr	r1, [r3, #44]
+ 146 0088 FEFFFFEB 		bl	sub32
+ 147              	.LVL12:
+ 148 008c 083094E5 		ldr	r3, [r4, #8]
+ 149 0090 03208DE2 		add	r2, sp, #3
+ 150 0094 04008DE2 		add	r0, sp, #4
+ 151 0098 301093E5 		ldr	r1, [r3, #48]
+ 152 009c FEFFFFEB 		bl	sub32
+ 153              	.LVL13:
+ 154 00a0 083094E5 		ldr	r3, [r4, #8]
+ 155 00a4 03208DE2 		add	r2, sp, #3
+ 156 00a8 04008DE2 		add	r0, sp, #4
+ 157 00ac 341093E5 		ldr	r1, [r3, #52]
+ 158 00b0 FEFFFFEB 		bl	sub32
+ 159              	.LVL14:
+ 160 00b4 083094E5 		ldr	r3, [r4, #8]
+ 161 00b8 03208DE2 		add	r2, sp, #3
+ 162 00bc 04008DE2 		add	r0, sp, #4
+ 163 00c0 381093E5 		ldr	r1, [r3, #56]
+ 164 00c4 FEFFFFEB 		bl	sub32
+ 165              	.LVL15:
+ 166 00c8 04209DE5 		ldr	r2, [sp, #4]
+ 167 00cc 083094E5 		ldr	r3, [r4, #8]
+ 168 00d0 002083E5 		str	r2, [r3]
+ 169              	.LVL16:
+ 170 00d4 03208DE2 		add	r2, sp, #3
+ 171 00d8 D310DDE1 		ldrsb	r1, [sp, #3]
+ 172              	.LVL17:
+ 173 00dc 043093E5 		ldr	r3, [r3, #4]
+ 174 00e0 0350CDE5 		strb	r5, [sp, #3]
+ 175 00e4 000051E3 		cmp	r1, #0
+ 176 00e8 04308DE5 		str	r3, [sp, #4]
+ 177 00ec 690100AA 		bge	.L6
+ 178 00f0 001061E2 		rsb	r1, r1, #0
+ 179              	.LVL18:
+ 180 00f4 04008DE2 		add	r0, sp, #4
+ 181 00f8 FEFFFFEB 		bl	sub32
+ 182              	.LVL19:
+ 183              	.L7:
+1072:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+1073:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ADD(  9 ); ADD( 10 );
+ 184              		.loc 1 1073 0
+ 185 00fc 083094E5 		ldr	r3, [r4, #8]
+ 186 0100 03208DE2 		add	r2, sp, #3
+ 187 0104 04008DE2 		add	r0, sp, #4
+ 188 0108 241093E5 		ldr	r1, [r3, #36]
+ 189 010c FEFFFFEB 		bl	add32
+ 190              	.LVL20:
+ 191 0110 083094E5 		ldr	r3, [r4, #8]
+ 192 0114 03208DE2 		add	r2, sp, #3
+ 193 0118 04008DE2 		add	r0, sp, #4
+ 194 011c 281093E5 		ldr	r1, [r3, #40]
+ 195 0120 FEFFFFEB 		bl	add32
+ 196              	.LVL21:
+1074:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     SUB( 12 ); SUB( 13 ); SUB( 14 ); SUB( 15 );             NEXT; // A1
+ 197              		.loc 1 1074 0
+ 198 0124 083094E5 		ldr	r3, [r4, #8]
+ 199 0128 03208DE2 		add	r2, sp, #3
+ 200 012c 04008DE2 		add	r0, sp, #4
+ 201 0130 301093E5 		ldr	r1, [r3, #48]
+ 202 0134 FEFFFFEB 		bl	sub32
+ 203              	.LVL22:
+ 204 0138 083094E5 		ldr	r3, [r4, #8]
+ 205 013c 03208DE2 		add	r2, sp, #3
+ 206 0140 04008DE2 		add	r0, sp, #4
+ 207 0144 341093E5 		ldr	r1, [r3, #52]
+ 208 0148 FEFFFFEB 		bl	sub32
+ 209              	.LVL23:
+ 210 014c 083094E5 		ldr	r3, [r4, #8]
+ 211 0150 03208DE2 		add	r2, sp, #3
+ 212 0154 04008DE2 		add	r0, sp, #4
+ 213 0158 381093E5 		ldr	r1, [r3, #56]
+ 214 015c FEFFFFEB 		bl	sub32
+ 215              	.LVL24:
+ 216 0160 083094E5 		ldr	r3, [r4, #8]
+ 217 0164 03208DE2 		add	r2, sp, #3
+ 218 0168 04008DE2 		add	r0, sp, #4
+ 219 016c 3C1093E5 		ldr	r1, [r3, #60]
+ 220 0170 FEFFFFEB 		bl	sub32
+ 221              	.LVL25:
+ 222 0174 04209DE5 		ldr	r2, [sp, #4]
+ 223 0178 083094E5 		ldr	r3, [r4, #8]
+ 224 017c D310DDE1 		ldrsb	r1, [sp, #3]
+ 225 0180 042083E5 		str	r2, [r3, #4]
+ 226              	.LVL26:
+ 227 0184 03208DE2 		add	r2, sp, #3
+ 228 0188 083093E5 		ldr	r3, [r3, #8]
+ 229 018c 04308DE5 		str	r3, [sp, #4]
+ 230 0190 0030A0E3 		mov	r3, #0
+ 231 0194 030051E1 		cmp	r1, r3
+ 232 0198 0330CDE5 		strb	r3, [sp, #3]
+ 233 019c 400100AA 		bge	.L8
+ 234              		.loc 1 1074 0 is_stmt 0 discriminator 1
+ 235 01a0 001061E2 		rsb	r1, r1, #0
+ 236              	.LVL27:
+ 237 01a4 04008DE2 		add	r0, sp, #4
+ 238 01a8 FEFFFFEB 		bl	sub32
+ 239              	.LVL28:
+ 240              	.L9:
+1075:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+1076:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ADD( 10 ); ADD( 11 );
+ 241              		.loc 1 1076 0 is_stmt 1
+ 242 01ac 083094E5 		ldr	r3, [r4, #8]
+ 243 01b0 03208DE2 		add	r2, sp, #3
+ 244 01b4 04008DE2 		add	r0, sp, #4
+ 245 01b8 281093E5 		ldr	r1, [r3, #40]
+ 246 01bc FEFFFFEB 		bl	add32
+ 247              	.LVL29:
+ 248 01c0 083094E5 		ldr	r3, [r4, #8]
+ 249 01c4 03208DE2 		add	r2, sp, #3
+ 250 01c8 04008DE2 		add	r0, sp, #4
+ 251 01cc 2C1093E5 		ldr	r1, [r3, #44]
+ 252 01d0 FEFFFFEB 		bl	add32
+ 253              	.LVL30:
+1077:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     SUB( 13 ); SUB( 14 ); SUB( 15 );                        NEXT; // A2
+ 254              		.loc 1 1077 0
+ 255 01d4 083094E5 		ldr	r3, [r4, #8]
+ 256 01d8 03208DE2 		add	r2, sp, #3
+ 257 01dc 04008DE2 		add	r0, sp, #4
+ 258 01e0 341093E5 		ldr	r1, [r3, #52]
+ 259 01e4 FEFFFFEB 		bl	sub32
+ 260              	.LVL31:
+ 261 01e8 083094E5 		ldr	r3, [r4, #8]
+ 262 01ec 03208DE2 		add	r2, sp, #3
+ 263 01f0 04008DE2 		add	r0, sp, #4
+ 264 01f4 381093E5 		ldr	r1, [r3, #56]
+ 265 01f8 FEFFFFEB 		bl	sub32
+ 266              	.LVL32:
+ 267 01fc 083094E5 		ldr	r3, [r4, #8]
+ 268 0200 03208DE2 		add	r2, sp, #3
+ 269 0204 04008DE2 		add	r0, sp, #4
+ 270 0208 3C1093E5 		ldr	r1, [r3, #60]
+ 271 020c FEFFFFEB 		bl	sub32
+ 272              	.LVL33:
+ 273 0210 04209DE5 		ldr	r2, [sp, #4]
+ 274 0214 083094E5 		ldr	r3, [r4, #8]
+ 275 0218 D310DDE1 		ldrsb	r1, [sp, #3]
+ 276 021c 082083E5 		str	r2, [r3, #8]
+ 277              	.LVL34:
+ 278 0220 03208DE2 		add	r2, sp, #3
+ 279 0224 0C3093E5 		ldr	r3, [r3, #12]
+ 280 0228 04308DE5 		str	r3, [sp, #4]
+ 281 022c 0030A0E3 		mov	r3, #0
+ 282 0230 030051E1 		cmp	r1, r3
+ 283 0234 0330CDE5 		strb	r3, [sp, #3]
+ 284 0238 1C0100AA 		bge	.L10
+ 285              		.loc 1 1077 0 is_stmt 0 discriminator 1
+ 286 023c 001061E2 		rsb	r1, r1, #0
+ 287              	.LVL35:
+ 288 0240 04008DE2 		add	r0, sp, #4
+ 289 0244 FEFFFFEB 		bl	sub32
+ 290              	.LVL36:
+ 291              	.L11:
+1078:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+1079:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ADD( 11 ); ADD( 11 ); ADD( 12 ); ADD( 12 ); ADD( 13 );
+ 292              		.loc 1 1079 0 is_stmt 1
+ 293 0248 083094E5 		ldr	r3, [r4, #8]
+ 294 024c 03208DE2 		add	r2, sp, #3
+ 295 0250 04008DE2 		add	r0, sp, #4
+ 296 0254 2C1093E5 		ldr	r1, [r3, #44]
+ 297 0258 FEFFFFEB 		bl	add32
+ 298              	.LVL37:
+ 299 025c 083094E5 		ldr	r3, [r4, #8]
+ 300 0260 03208DE2 		add	r2, sp, #3
+ 301 0264 04008DE2 		add	r0, sp, #4
+ 302 0268 2C1093E5 		ldr	r1, [r3, #44]
+ 303 026c FEFFFFEB 		bl	add32
+ 304              	.LVL38:
+ 305 0270 083094E5 		ldr	r3, [r4, #8]
+ 306 0274 03208DE2 		add	r2, sp, #3
+ 307 0278 04008DE2 		add	r0, sp, #4
+ 308 027c 301093E5 		ldr	r1, [r3, #48]
+ 309 0280 FEFFFFEB 		bl	add32
+ 310              	.LVL39:
+ 311 0284 083094E5 		ldr	r3, [r4, #8]
+ 312 0288 03208DE2 		add	r2, sp, #3
+ 313 028c 04008DE2 		add	r0, sp, #4
+ 314 0290 301093E5 		ldr	r1, [r3, #48]
+ 315 0294 FEFFFFEB 		bl	add32
+ 316              	.LVL40:
+ 317 0298 083094E5 		ldr	r3, [r4, #8]
+ 318 029c 03208DE2 		add	r2, sp, #3
+ 319 02a0 04008DE2 		add	r0, sp, #4
+ 320 02a4 341093E5 		ldr	r1, [r3, #52]
+ 321 02a8 FEFFFFEB 		bl	add32
+ 322              	.LVL41:
+1080:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     SUB( 15 ); SUB(  8 ); SUB(  9 );                        NEXT; // A3
+ 323              		.loc 1 1080 0
+ 324 02ac 083094E5 		ldr	r3, [r4, #8]
+ 325 02b0 03208DE2 		add	r2, sp, #3
+ 326 02b4 04008DE2 		add	r0, sp, #4
+ 327 02b8 3C1093E5 		ldr	r1, [r3, #60]
+ 328 02bc FEFFFFEB 		bl	sub32
+ 329              	.LVL42:
+ 330 02c0 083094E5 		ldr	r3, [r4, #8]
+ 331 02c4 03208DE2 		add	r2, sp, #3
+ 332 02c8 04008DE2 		add	r0, sp, #4
+ 333 02cc 201093E5 		ldr	r1, [r3, #32]
+ 334 02d0 FEFFFFEB 		bl	sub32
+ 335              	.LVL43:
+ 336 02d4 083094E5 		ldr	r3, [r4, #8]
+ 337 02d8 03208DE2 		add	r2, sp, #3
+ 338 02dc 04008DE2 		add	r0, sp, #4
+ 339 02e0 241093E5 		ldr	r1, [r3, #36]
+ 340 02e4 FEFFFFEB 		bl	sub32
+ 341              	.LVL44:
+ 342 02e8 04209DE5 		ldr	r2, [sp, #4]
+ 343 02ec 083094E5 		ldr	r3, [r4, #8]
+ 344 02f0 D310DDE1 		ldrsb	r1, [sp, #3]
+ 345 02f4 0C2083E5 		str	r2, [r3, #12]
+ 346              	.LVL45:
+ 347 02f8 03208DE2 		add	r2, sp, #3
+ 348 02fc 103093E5 		ldr	r3, [r3, #16]
+ 349 0300 04308DE5 		str	r3, [sp, #4]
+ 350 0304 0030A0E3 		mov	r3, #0
+ 351 0308 030051E1 		cmp	r1, r3
+ 352 030c 0330CDE5 		strb	r3, [sp, #3]
+ 353 0310 E90000AA 		bge	.L12
+ 354              		.loc 1 1080 0 is_stmt 0 discriminator 1
+ 355 0314 001061E2 		rsb	r1, r1, #0
+ 356              	.LVL46:
+ 357 0318 04008DE2 		add	r0, sp, #4
+ 358 031c FEFFFFEB 		bl	sub32
+ 359              	.LVL47:
+ 360              	.L13:
+1081:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+1082:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ADD( 12 ); ADD( 12 ); ADD( 13 ); ADD( 13 ); ADD( 14 );
+ 361              		.loc 1 1082 0 is_stmt 1
+ 362 0320 083094E5 		ldr	r3, [r4, #8]
+ 363 0324 03208DE2 		add	r2, sp, #3
+ 364 0328 04008DE2 		add	r0, sp, #4
+ 365 032c 301093E5 		ldr	r1, [r3, #48]
+ 366 0330 FEFFFFEB 		bl	add32
+ 367              	.LVL48:
+ 368 0334 083094E5 		ldr	r3, [r4, #8]
+ 369 0338 03208DE2 		add	r2, sp, #3
+ 370 033c 04008DE2 		add	r0, sp, #4
+ 371 0340 301093E5 		ldr	r1, [r3, #48]
+ 372 0344 FEFFFFEB 		bl	add32
+ 373              	.LVL49:
+ 374 0348 083094E5 		ldr	r3, [r4, #8]
+ 375 034c 03208DE2 		add	r2, sp, #3
+ 376 0350 04008DE2 		add	r0, sp, #4
+ 377 0354 341093E5 		ldr	r1, [r3, #52]
+ 378 0358 FEFFFFEB 		bl	add32
+ 379              	.LVL50:
+ 380 035c 083094E5 		ldr	r3, [r4, #8]
+ 381 0360 03208DE2 		add	r2, sp, #3
+ 382 0364 04008DE2 		add	r0, sp, #4
+ 383 0368 341093E5 		ldr	r1, [r3, #52]
+ 384 036c FEFFFFEB 		bl	add32
+ 385              	.LVL51:
+ 386 0370 083094E5 		ldr	r3, [r4, #8]
+ 387 0374 03208DE2 		add	r2, sp, #3
+ 388 0378 04008DE2 		add	r0, sp, #4
+ 389 037c 381093E5 		ldr	r1, [r3, #56]
+ 390 0380 FEFFFFEB 		bl	add32
+ 391              	.LVL52:
+1083:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     SUB(  9 ); SUB( 10 );                                   NEXT; // A4
+ 392              		.loc 1 1083 0
+ 393 0384 083094E5 		ldr	r3, [r4, #8]
+ 394 0388 03208DE2 		add	r2, sp, #3
+ 395 038c 04008DE2 		add	r0, sp, #4
+ 396 0390 241093E5 		ldr	r1, [r3, #36]
+ 397 0394 FEFFFFEB 		bl	sub32
+ 398              	.LVL53:
+ 399 0398 083094E5 		ldr	r3, [r4, #8]
+ 400 039c 03208DE2 		add	r2, sp, #3
+ 401 03a0 04008DE2 		add	r0, sp, #4
+ 402 03a4 281093E5 		ldr	r1, [r3, #40]
+ 403 03a8 FEFFFFEB 		bl	sub32
+ 404              	.LVL54:
+ 405 03ac 04209DE5 		ldr	r2, [sp, #4]
+ 406 03b0 083094E5 		ldr	r3, [r4, #8]
+ 407 03b4 D310DDE1 		ldrsb	r1, [sp, #3]
+ 408 03b8 102083E5 		str	r2, [r3, #16]
+ 409              	.LVL55:
+ 410 03bc 03208DE2 		add	r2, sp, #3
+ 411 03c0 143093E5 		ldr	r3, [r3, #20]
+ 412 03c4 04308DE5 		str	r3, [sp, #4]
+ 413 03c8 0030A0E3 		mov	r3, #0
+ 414 03cc 030051E1 		cmp	r1, r3
+ 415 03d0 0330CDE5 		strb	r3, [sp, #3]
+ 416 03d4 BB0000AA 		bge	.L14
+ 417              		.loc 1 1083 0 is_stmt 0 discriminator 1
+ 418 03d8 001061E2 		rsb	r1, r1, #0
+ 419              	.LVL56:
+ 420 03dc 04008DE2 		add	r0, sp, #4
+ 421 03e0 FEFFFFEB 		bl	sub32
+ 422              	.LVL57:
+ 423              	.L15:
+1084:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+1085:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ADD( 13 ); ADD( 13 ); ADD( 14 ); ADD( 14 ); ADD( 15 );
+ 424              		.loc 1 1085 0 is_stmt 1
+ 425 03e4 083094E5 		ldr	r3, [r4, #8]
+ 426 03e8 03208DE2 		add	r2, sp, #3
+ 427 03ec 04008DE2 		add	r0, sp, #4
+ 428 03f0 341093E5 		ldr	r1, [r3, #52]
+ 429 03f4 FEFFFFEB 		bl	add32
+ 430              	.LVL58:
+ 431 03f8 083094E5 		ldr	r3, [r4, #8]
+ 432 03fc 03208DE2 		add	r2, sp, #3
+ 433 0400 04008DE2 		add	r0, sp, #4
+ 434 0404 341093E5 		ldr	r1, [r3, #52]
+ 435 0408 FEFFFFEB 		bl	add32
+ 436              	.LVL59:
+ 437 040c 083094E5 		ldr	r3, [r4, #8]
+ 438 0410 03208DE2 		add	r2, sp, #3
+ 439 0414 04008DE2 		add	r0, sp, #4
+ 440 0418 381093E5 		ldr	r1, [r3, #56]
+ 441 041c FEFFFFEB 		bl	add32
+ 442              	.LVL60:
+ 443 0420 083094E5 		ldr	r3, [r4, #8]
+ 444 0424 03208DE2 		add	r2, sp, #3
+ 445 0428 04008DE2 		add	r0, sp, #4
+ 446 042c 381093E5 		ldr	r1, [r3, #56]
+ 447 0430 FEFFFFEB 		bl	add32
+ 448              	.LVL61:
+ 449 0434 083094E5 		ldr	r3, [r4, #8]
+ 450 0438 03208DE2 		add	r2, sp, #3
+ 451 043c 04008DE2 		add	r0, sp, #4
+ 452 0440 3C1093E5 		ldr	r1, [r3, #60]
+ 453 0444 FEFFFFEB 		bl	add32
+ 454              	.LVL62:
+1086:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     SUB( 10 ); SUB( 11 );                                   NEXT; // A5
+ 455              		.loc 1 1086 0
+ 456 0448 083094E5 		ldr	r3, [r4, #8]
+ 457 044c 03208DE2 		add	r2, sp, #3
+ 458 0450 04008DE2 		add	r0, sp, #4
+ 459 0454 281093E5 		ldr	r1, [r3, #40]
+ 460 0458 FEFFFFEB 		bl	sub32
+ 461              	.LVL63:
+ 462 045c 083094E5 		ldr	r3, [r4, #8]
+ 463 0460 03208DE2 		add	r2, sp, #3
+ 464 0464 04008DE2 		add	r0, sp, #4
+ 465 0468 2C1093E5 		ldr	r1, [r3, #44]
+ 466 046c FEFFFFEB 		bl	sub32
+ 467              	.LVL64:
+ 468 0470 04209DE5 		ldr	r2, [sp, #4]
+ 469 0474 083094E5 		ldr	r3, [r4, #8]
+ 470 0478 D310DDE1 		ldrsb	r1, [sp, #3]
+ 471 047c 142083E5 		str	r2, [r3, #20]
+ 472              	.LVL65:
+ 473 0480 03208DE2 		add	r2, sp, #3
+ 474 0484 183093E5 		ldr	r3, [r3, #24]
+ 475 0488 04308DE5 		str	r3, [sp, #4]
+ 476 048c 0030A0E3 		mov	r3, #0
+ 477 0490 030051E1 		cmp	r1, r3
+ 478 0494 0330CDE5 		strb	r3, [sp, #3]
+ 479 0498 8D0000AA 		bge	.L16
+ 480              		.loc 1 1086 0 is_stmt 0 discriminator 1
+ 481 049c 001061E2 		rsb	r1, r1, #0
+ 482              	.LVL66:
+ 483 04a0 04008DE2 		add	r0, sp, #4
+ 484 04a4 FEFFFFEB 		bl	sub32
+ 485              	.LVL67:
+ 486              	.L17:
+1087:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+1088:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ADD( 14 ); ADD( 14 ); ADD( 15 ); ADD( 15 ); ADD( 14 ); ADD( 13 );
+ 487              		.loc 1 1088 0 is_stmt 1
+ 488 04a8 083094E5 		ldr	r3, [r4, #8]
+ 489 04ac 03208DE2 		add	r2, sp, #3
+ 490 04b0 04008DE2 		add	r0, sp, #4
+ 491 04b4 381093E5 		ldr	r1, [r3, #56]
+ 492 04b8 FEFFFFEB 		bl	add32
+ 493              	.LVL68:
+ 494 04bc 083094E5 		ldr	r3, [r4, #8]
+ 495 04c0 03208DE2 		add	r2, sp, #3
+ 496 04c4 04008DE2 		add	r0, sp, #4
+ 497 04c8 381093E5 		ldr	r1, [r3, #56]
+ 498 04cc FEFFFFEB 		bl	add32
+ 499              	.LVL69:
+ 500 04d0 083094E5 		ldr	r3, [r4, #8]
+ 501 04d4 03208DE2 		add	r2, sp, #3
+ 502 04d8 04008DE2 		add	r0, sp, #4
+ 503 04dc 3C1093E5 		ldr	r1, [r3, #60]
+ 504 04e0 FEFFFFEB 		bl	add32
+ 505              	.LVL70:
+ 506 04e4 083094E5 		ldr	r3, [r4, #8]
+ 507 04e8 03208DE2 		add	r2, sp, #3
+ 508 04ec 04008DE2 		add	r0, sp, #4
+ 509 04f0 3C1093E5 		ldr	r1, [r3, #60]
+ 510 04f4 FEFFFFEB 		bl	add32
+ 511              	.LVL71:
+ 512 04f8 083094E5 		ldr	r3, [r4, #8]
+ 513 04fc 03208DE2 		add	r2, sp, #3
+ 514 0500 04008DE2 		add	r0, sp, #4
+ 515 0504 381093E5 		ldr	r1, [r3, #56]
+ 516 0508 FEFFFFEB 		bl	add32
+ 517              	.LVL72:
+ 518 050c 083094E5 		ldr	r3, [r4, #8]
+ 519 0510 03208DE2 		add	r2, sp, #3
+ 520 0514 04008DE2 		add	r0, sp, #4
+ 521 0518 341093E5 		ldr	r1, [r3, #52]
+ 522 051c FEFFFFEB 		bl	add32
+ 523              	.LVL73:
+1089:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     SUB(  8 ); SUB(  9 );                                   NEXT; // A6
+ 524              		.loc 1 1089 0
+ 525 0520 083094E5 		ldr	r3, [r4, #8]
+ 526 0524 03208DE2 		add	r2, sp, #3
+ 527 0528 04008DE2 		add	r0, sp, #4
+ 528 052c 201093E5 		ldr	r1, [r3, #32]
+ 529 0530 FEFFFFEB 		bl	sub32
+ 530              	.LVL74:
+ 531 0534 083094E5 		ldr	r3, [r4, #8]
+ 532 0538 03208DE2 		add	r2, sp, #3
+ 533 053c 04008DE2 		add	r0, sp, #4
+ 534 0540 241093E5 		ldr	r1, [r3, #36]
+ 535 0544 FEFFFFEB 		bl	sub32
+ 536              	.LVL75:
+ 537 0548 04209DE5 		ldr	r2, [sp, #4]
+ 538 054c 083094E5 		ldr	r3, [r4, #8]
+ 539 0550 D310DDE1 		ldrsb	r1, [sp, #3]
+ 540 0554 182083E5 		str	r2, [r3, #24]
+ 541              	.LVL76:
+ 542 0558 03208DE2 		add	r2, sp, #3
+ 543 055c 1C3093E5 		ldr	r3, [r3, #28]
+ 544 0560 04308DE5 		str	r3, [sp, #4]
+ 545 0564 0030A0E3 		mov	r3, #0
+ 546 0568 030051E1 		cmp	r1, r3
+ 547 056c 0330CDE5 		strb	r3, [sp, #3]
+ 548 0570 5A0000AA 		bge	.L18
+ 549              		.loc 1 1089 0 is_stmt 0 discriminator 1
+ 550 0574 001061E2 		rsb	r1, r1, #0
+ 551              	.LVL77:
+ 552 0578 04008DE2 		add	r0, sp, #4
+ 553 057c FEFFFFEB 		bl	sub32
+ 554              	.LVL78:
+ 555              	.L19:
+1090:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+1091:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     ADD( 15 ); ADD( 15 ); ADD( 15 ); ADD( 8 );
+ 556              		.loc 1 1091 0 is_stmt 1
+ 557 0580 083094E5 		ldr	r3, [r4, #8]
+ 558 0584 03208DE2 		add	r2, sp, #3
+ 559 0588 04008DE2 		add	r0, sp, #4
+ 560 058c 3C1093E5 		ldr	r1, [r3, #60]
+ 561 0590 FEFFFFEB 		bl	add32
+ 562              	.LVL79:
+ 563 0594 083094E5 		ldr	r3, [r4, #8]
+ 564 0598 03208DE2 		add	r2, sp, #3
+ 565 059c 04008DE2 		add	r0, sp, #4
+ 566 05a0 3C1093E5 		ldr	r1, [r3, #60]
+ 567 05a4 FEFFFFEB 		bl	add32
+ 568              	.LVL80:
+ 569 05a8 083094E5 		ldr	r3, [r4, #8]
+ 570 05ac 03208DE2 		add	r2, sp, #3
+ 571 05b0 04008DE2 		add	r0, sp, #4
+ 572 05b4 3C1093E5 		ldr	r1, [r3, #60]
+ 573 05b8 FEFFFFEB 		bl	add32
+ 574              	.LVL81:
+ 575 05bc 083094E5 		ldr	r3, [r4, #8]
+ 576 05c0 03208DE2 		add	r2, sp, #3
+ 577 05c4 04008DE2 		add	r0, sp, #4
+ 578 05c8 201093E5 		ldr	r1, [r3, #32]
+ 579 05cc FEFFFFEB 		bl	add32
+ 580              	.LVL82:
+1092:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     SUB( 10 ); SUB( 11 ); SUB( 12 ); SUB( 13 );             LAST; // A7
+ 581              		.loc 1 1092 0
+ 582 05d0 083094E5 		ldr	r3, [r4, #8]
+ 583 05d4 03208DE2 		add	r2, sp, #3
+ 584 05d8 04008DE2 		add	r0, sp, #4
+ 585 05dc 281093E5 		ldr	r1, [r3, #40]
+ 586 05e0 FEFFFFEB 		bl	sub32
+ 587              	.LVL83:
+ 588 05e4 083094E5 		ldr	r3, [r4, #8]
+ 589 05e8 03208DE2 		add	r2, sp, #3
+ 590 05ec 04008DE2 		add	r0, sp, #4
+ 591 05f0 2C1093E5 		ldr	r1, [r3, #44]
+ 592 05f4 FEFFFFEB 		bl	sub32
+ 593              	.LVL84:
+ 594 05f8 083094E5 		ldr	r3, [r4, #8]
+ 595 05fc 03208DE2 		add	r2, sp, #3
+ 596 0600 04008DE2 		add	r0, sp, #4
+ 597 0604 301093E5 		ldr	r1, [r3, #48]
+ 598 0608 FEFFFFEB 		bl	sub32
+ 599              	.LVL85:
+ 600 060c 083094E5 		ldr	r3, [r4, #8]
+ 601 0610 03208DE2 		add	r2, sp, #3
+ 602 0614 04008DE2 		add	r0, sp, #4
+ 603 0618 341093E5 		ldr	r1, [r3, #52]
+ 604 061c FEFFFFEB 		bl	sub32
+ 605              	.LVL86:
+ 606 0620 04309DE5 		ldr	r3, [sp, #4]
+ 607 0624 081094E5 		ldr	r1, [r4, #8]
+ 608 0628 040094E5 		ldr	r0, [r4, #4]
+ 609 062c 1C3081E5 		str	r3, [r1, #28]
+ 610              	.LVL87:
+ 611 0630 D330DDE1 		ldrsb	r3, [sp, #3]
+ 612 0634 C32FC3E1 		bic	r2, r3, r3, asr #31
+ 613 0638 202081E5 		str	r2, [r1, #32]
+ 614 063c 0020A0E3 		mov	r2, #0
+ 615 0640 04208DE5 		str	r2, [sp, #4]
+ 616 0644 0820A0E3 		mov	r2, #8
+ 617              	.LVL88:
+ 618              	.L20:
+ 619              		.loc 1 1092 0 is_stmt 0 discriminator 1
+ 620 0648 012082E2 		add	r2, r2, #1
+ 621              	.LVL89:
+ 622 064c 000052E1 		cmp	r2, r0
+ 623 0650 2500003A 		bcc	.L21
+ 624              		.loc 1 1092 0 discriminator 4
+ 625 0654 000053E3 		cmp	r3, #0
+ 626 0658 0B0000AA 		bge	.L3
+ 627              	.LVL90:
+ 628              	.LBB32:
+ 629              	.LBB33:
+1030:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 630              		.loc 1 1030 0 is_stmt 1
+ 631 065c 0C209DE5 		ldr	r2, [sp, #12]
+ 632              	.LVL91:
+ 633 0660 003063E2 		rsb	r3, r3, #0
+ 634              	.LVL92:
+ 635 0664 10109DE5 		ldr	r1, [sp, #16]
+1033:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     N->s = -1;
+ 636              		.loc 1 1033 0
+ 637 0668 0400A0E1 		mov	r0, r4
+1030:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 638              		.loc 1 1030 0
+ 639 066c 072142E2 		sub	r2, r2, #-1073741823
+ 640 0670 023181E7 		str	r3, [r1, r2, lsl #2]
+1033:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     N->s = -1;
+ 641              		.loc 1 1033 0
+ 642 0674 0420A0E1 		mov	r2, r4
+ 643 0678 08108DE2 		add	r1, sp, #8
+ 644              	.LVL93:
+ 645 067c FEFFFFEB 		bl	mbedtls_mpi_sub_abs
+ 646              	.LVL94:
+ 647 0680 000050E3 		cmp	r0, #0
+1034:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 648              		.loc 1 1034 0
+ 649 0684 0030E003 		mvneq	r3, #0
+ 650 0688 00308405 		streq	r3, [r4]
+ 651              	.L5:
+ 652              	.LVL95:
+ 653              	.L3:
+ 654              	.LBE33:
+ 655              	.LBE32:
+1093:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+1094:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** cleanup:
+1095:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     return( ret );
+1096:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** }
+ 656              		.loc 1 1096 0
+ 657 068c 0500A0E1 		mov	r0, r5
+ 658 0690 3CD08DE2 		add	sp, sp, #60
+ 659              		.cfi_remember_state
+ 660              		.cfi_def_cfa_offset 12
+ 661              		@ sp needed
+ 662 0694 3080BDE8 		pop	{r4, r5, pc}
+ 663              	.LVL96:
+ 664              	.L6:
+ 665              		.cfi_restore_state
+1071:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 666              		.loc 1 1071 0 discriminator 2
+ 667 0698 04008DE2 		add	r0, sp, #4
+ 668 069c FEFFFFEB 		bl	add32
+ 669              	.LVL97:
+ 670 06a0 95FEFFEA 		b	.L7
+ 671              	.LVL98:
+ 672              	.L8:
+1074:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 673              		.loc 1 1074 0 discriminator 2
+ 674 06a4 04008DE2 		add	r0, sp, #4
+ 675 06a8 FEFFFFEB 		bl	add32
+ 676              	.LVL99:
+ 677 06ac BEFEFFEA 		b	.L9
+ 678              	.LVL100:
+ 679              	.L10:
+1077:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 680              		.loc 1 1077 0 discriminator 2
+ 681 06b0 04008DE2 		add	r0, sp, #4
+ 682 06b4 FEFFFFEB 		bl	add32
+ 683              	.LVL101:
+ 684 06b8 E2FEFFEA 		b	.L11
+ 685              	.LVL102:
+ 686              	.L12:
+1080:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 687              		.loc 1 1080 0 discriminator 2
+ 688 06bc 04008DE2 		add	r0, sp, #4
+ 689 06c0 FEFFFFEB 		bl	add32
+ 690              	.LVL103:
+ 691 06c4 15FFFFEA 		b	.L13
+ 692              	.LVL104:
+ 693              	.L14:
+1083:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 694              		.loc 1 1083 0 discriminator 2
+ 695 06c8 04008DE2 		add	r0, sp, #4
+ 696 06cc FEFFFFEB 		bl	add32
+ 697              	.LVL105:
+ 698 06d0 43FFFFEA 		b	.L15
+ 699              	.LVL106:
+ 700              	.L16:
+1086:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 701              		.loc 1 1086 0 discriminator 2
+ 702 06d4 04008DE2 		add	r0, sp, #4
+ 703 06d8 FEFFFFEB 		bl	add32
+ 704              	.LVL107:
+ 705 06dc 71FFFFEA 		b	.L17
+ 706              	.LVL108:
+ 707              	.L18:
+1089:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 708              		.loc 1 1089 0 discriminator 2
+ 709 06e0 04008DE2 		add	r0, sp, #4
+ 710 06e4 FEFFFFEB 		bl	add32
+ 711              	.LVL109:
+ 712 06e8 A4FFFFEA 		b	.L19
+ 713              	.LVL110:
+ 714              	.L21:
+1092:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 715              		.loc 1 1092 0 discriminator 3
+ 716 06ec 04C09DE5 		ldr	ip, [sp, #4]
+ 717 06f0 02C181E7 		str	ip, [r1, r2, lsl #2]
+ 718 06f4 D3FFFFEA 		b	.L20
+ 719              		.cfi_endproc
+ 720              	.LFE7:
+ 722              		.section	.text.mbedtls_ecp_group_load,"ax",%progbits
+ 723              		.align	2
+ 724              		.global	mbedtls_ecp_group_load
+ 725              		.syntax unified
+ 726              		.arm
+ 727              		.fpu neon
+ 729              	mbedtls_ecp_group_load:
+ 730              	.LFB3:
+ 748:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     mbedtls_ecp_group_free( grp );
+ 731              		.loc 1 748 0
+ 732              		.cfi_startproc
+ 733              		@ args = 0, pretend = 0, frame = 0
+ 734              		@ frame_needed = 0, uses_anonymous_args = 0
+ 735              	.LVL111:
+ 736 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 737              		.cfi_def_cfa_offset 16
+ 738              		.cfi_offset 4, -16
+ 739              		.cfi_offset 5, -12
+ 740              		.cfi_offset 6, -8
+ 741              		.cfi_offset 14, -4
+ 748:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     mbedtls_ecp_group_free( grp );
+ 742              		.loc 1 748 0
+ 743 0004 0150A0E1 		mov	r5, r1
+ 744 0008 0040A0E1 		mov	r4, r0
+ 749:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 745              		.loc 1 749 0
+ 746 000c FEFFFFEB 		bl	mbedtls_ecp_group_free
+ 747              	.LVL112:
+ 753:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     {
+ 748              		.loc 1 753 0
+ 749 0010 030055E3 		cmp	r5, #3
+ 751:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 750              		.loc 1 751 0
+ 751 0014 0050C4E5 		strb	r5, [r4]
+ 753:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     {
+ 752              		.loc 1 753 0
+ 753 0018 2400001A 		bne	.L28
+ 754              	.LBB50:
+ 755              	.LBB51:
+ 756              	.LBB52:
+ 757              	.LBB53:
+ 560:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** }
+ 758              		.loc 1 560 0
+ 759 001c 9C209FE5 		ldr	r2, .L30
+ 558:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     X->n = len / sizeof( mbedtls_mpi_uint );
+ 760              		.loc 1 558 0
+ 761 0020 0150A0E3 		mov	r5, #1
+ 762              	.LBE53:
+ 763              	.LBE52:
+ 764              	.LBE51:
+ 765              	.LBE50:
+ 769:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             return( LOAD_GROUP( secp256r1 ) );
+ 766              		.loc 1 769 0
+ 767 0024 98309FE5 		ldr	r3, .L30+4
+ 768              	.LBB96:
+ 769              	.LBB94:
+ 595:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     grp->nbits = mbedtls_mpi_bitlen( &grp->N );
+ 770              		.loc 1 595 0
+ 771 0028 040084E2 		add	r0, r4, #4
+ 772              	.LBB56:
+ 773              	.LBB54:
+ 558:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     X->n = len / sizeof( mbedtls_mpi_uint );
+ 774              		.loc 1 558 0
+ 775 002c 045084E5 		str	r5, [r4, #4]
+ 560:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** }
+ 776              		.loc 1 560 0
+ 777 0030 0C2084E5 		str	r2, [r4, #12]
+ 778              	.LBE54:
+ 779              	.LBE56:
+ 780              	.LBB57:
+ 781              	.LBB58:
+ 782 0034 8C209FE5 		ldr	r2, .L30+8
+ 783              	.LBE58:
+ 784              	.LBE57:
+ 785              	.LBE94:
+ 786              	.LBE96:
+ 769:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             return( LOAD_GROUP( secp256r1 ) );
+ 787              		.loc 1 769 0
+ 788 0038 643084E5 		str	r3, [r4, #100]
+ 789              	.LVL113:
+ 790              	.LBB97:
+ 791              	.LBB95:
+ 792              	.LBB61:
+ 793              	.LBB55:
+ 559:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     X->p = (mbedtls_mpi_uint *) p;
+ 794              		.loc 1 559 0
+ 795 003c 0830A0E3 		mov	r3, #8
+ 796 0040 083084E5 		str	r3, [r4, #8]
+ 797              	.LBE55:
+ 798              	.LBE61:
+ 799              	.LBB62:
+ 800              	.LBB59:
+ 801 0044 203084E5 		str	r3, [r4, #32]
+ 560:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** }
+ 802              		.loc 1 560 0
+ 803 0048 242084E5 		str	r2, [r4, #36]
+ 804              	.LVL114:
+ 805              	.LBE59:
+ 806              	.LBE62:
+ 807              	.LBB63:
+ 808              	.LBB64:
+ 559:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     X->p = (mbedtls_mpi_uint *) p;
+ 809              		.loc 1 559 0
+ 810 004c 503084E5 		str	r3, [r4, #80]
+ 811              	.LBE64:
+ 812              	.LBE63:
+ 813              	.LBB68:
+ 814              	.LBB69:
+ 815 0050 2C3084E5 		str	r3, [r4, #44]
+ 816              	.LBE69:
+ 817              	.LBE68:
+ 818              	.LBB73:
+ 819              	.LBB74:
+ 820 0054 383084E5 		str	r3, [r4, #56]
+ 821              	.LBE74:
+ 822              	.LBE73:
+ 823              	.LBB78:
+ 824              	.LBB65:
+ 560:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** }
+ 825              		.loc 1 560 0
+ 826 0058 6C209FE5 		ldr	r2, .L30+12
+ 827              	.LBE65:
+ 828              	.LBE78:
+ 829              	.LBB79:
+ 830              	.LBB75:
+ 831 005c 6C309FE5 		ldr	r3, .L30+16
+ 832              	.LBE75:
+ 833              	.LBE79:
+ 834              	.LBB80:
+ 835              	.LBB60:
+ 558:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     X->n = len / sizeof( mbedtls_mpi_uint );
+ 836              		.loc 1 558 0
+ 837 0060 1C5084E5 		str	r5, [r4, #28]
+ 838              	.LBE60:
+ 839              	.LBE80:
+ 840              	.LBB81:
+ 841              	.LBB66:
+ 560:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** }
+ 842              		.loc 1 560 0
+ 843 0064 542084E5 		str	r2, [r4, #84]
+ 844              	.LVL115:
+ 845              	.LBE66:
+ 846              	.LBE81:
+ 847              	.LBB82:
+ 848              	.LBB76:
+ 849 0068 3C3084E5 		str	r3, [r4, #60]
+ 850              	.LBE76:
+ 851              	.LBE82:
+ 852              	.LBB83:
+ 853              	.LBB70:
+ 854 006c 60209FE5 		ldr	r2, .L30+20
+ 855              	.LBE70:
+ 856              	.LBE83:
+ 857              	.LBB84:
+ 858              	.LBB85:
+ 571:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** }
+ 859              		.loc 1 571 0
+ 860 0070 60309FE5 		ldr	r3, .L30+24
+ 861              	.LBE85:
+ 862              	.LBE84:
+ 863              	.LBB88:
+ 864              	.LBB67:
+ 558:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     X->n = len / sizeof( mbedtls_mpi_uint );
+ 865              		.loc 1 558 0
+ 866 0074 4C5084E5 		str	r5, [r4, #76]
+ 867              	.LBE67:
+ 868              	.LBE88:
+ 869              	.LBB89:
+ 870              	.LBB71:
+ 560:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** }
+ 871              		.loc 1 560 0
+ 872 0078 302084E5 		str	r2, [r4, #48]
+ 873              	.LVL116:
+ 874              	.LBE71:
+ 875              	.LBE89:
+ 876              	.LBB90:
+ 877              	.LBB86:
+ 571:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** }
+ 878              		.loc 1 571 0
+ 879 007c 483084E5 		str	r3, [r4, #72]
+ 880              	.LVL117:
+ 881              	.LBE86:
+ 882              	.LBE90:
+ 883              	.LBB91:
+ 884              	.LBB72:
+ 558:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     X->n = len / sizeof( mbedtls_mpi_uint );
+ 885              		.loc 1 558 0
+ 886 0080 285084E5 		str	r5, [r4, #40]
+ 887              	.LBE72:
+ 888              	.LBE91:
+ 889              	.LBB92:
+ 890              	.LBB77:
+ 891 0084 345084E5 		str	r5, [r4, #52]
+ 892              	.LBE77:
+ 893              	.LBE92:
+ 894              	.LBB93:
+ 895              	.LBB87:
+ 569:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     X->n = 1;
+ 896              		.loc 1 569 0
+ 897 0088 405084E5 		str	r5, [r4, #64]
+ 570:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     X->p = one;
+ 898              		.loc 1 570 0
+ 899 008c 445084E5 		str	r5, [r4, #68]
+ 900              	.LBE87:
+ 901              	.LBE93:
+ 595:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     grp->nbits = mbedtls_mpi_bitlen( &grp->N );
+ 902              		.loc 1 595 0
+ 903 0090 FEFFFFEB 		bl	mbedtls_mpi_bitlen
+ 904              	.LVL118:
+ 905 0094 580084E5 		str	r0, [r4, #88]
+ 596:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 906              		.loc 1 596 0
+ 907 0098 4C0084E2 		add	r0, r4, #76
+ 908 009c FEFFFFEB 		bl	mbedtls_mpi_bitlen
+ 909              	.LVL119:
+ 598:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 910              		.loc 1 598 0
+ 911 00a0 605084E5 		str	r5, [r4, #96]
+ 912              	.LVL120:
+ 596:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 913              		.loc 1 596 0
+ 914 00a4 5C0084E5 		str	r0, [r4, #92]
+ 915              	.LBE95:
+ 916              	.LBE97:
+ 770:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** #endif /* MBEDTLS_ECP_DP_SECP256R1_ENABLED */
+ 917              		.loc 1 770 0
+ 918 00a8 0000A0E3 		mov	r0, #0
+ 919 00ac 7080BDE8 		pop	{r4, r5, r6, pc}
+ 920              	.L28:
+ 831:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****             return( MBEDTLS_ERR_ECP_FEATURE_UNAVAILABLE );
+ 921              		.loc 1 831 0
+ 922 00b0 0400A0E1 		mov	r0, r4
+ 923 00b4 FEFFFFEB 		bl	mbedtls_ecp_group_free
+ 924              	.LVL121:
+ 832:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c ****     }
+ 925              		.loc 1 832 0
+ 926 00b8 1C009FE5 		ldr	r0, .L30+28
+ 834:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\ecp_curves.c **** 
+ 927              		.loc 1 834 0
+ 928 00bc 7080BDE8 		pop	{r4, r5, r6, pc}
+ 929              	.L31:
+ 930              		.align	2
+ 931              	.L30:
+ 932 00c0 00000000 		.word	.LANCHOR0
+ 933 00c4 00000000 		.word	ecp_mod_p256
+ 934 00c8 00000000 		.word	.LANCHOR1
+ 935 00cc 00000000 		.word	.LANCHOR2
+ 936 00d0 00000000 		.word	.LANCHOR4
+ 937 00d4 00000000 		.word	.LANCHOR3
+ 938 00d8 00000000 		.word	.LANCHOR5
+ 939 00dc 80B1FFFF 		.word	-20096
+ 940              		.cfi_endproc
+ 941              	.LFE3:
+ 943              		.section	.data.one.6038,"aw",%progbits
+ 944              		.align	2
+ 945              		.set	.LANCHOR5,. + 0
+ 948              	one.6038:
+ 949 0000 01000000 		.word	1
+ 950              		.section	.rodata.secp256r1_b,"a",%progbits
+ 951              		.align	2
+ 952              		.set	.LANCHOR1,. + 0
+ 955              	secp256r1_b:
+ 956 0000 4B60D227 		.word	668098635
+ 957 0004 3E3CCE3B 		.word	1003371582
+ 958 0008 F6B053CC 		.word	-866930442
+ 959 000c B0061D65 		.word	1696401072
+ 960 0010 BC869876 		.word	1989707452
+ 961 0014 55BDEBB3 		.word	-1276396203
+ 962 0018 E7933AAA 		.word	-1439001625
+ 963 001c D835C65A 		.word	1522939352
+ 964              		.section	.rodata.secp256r1_gx,"a",%progbits
+ 965              		.align	2
+ 966              		.set	.LANCHOR3,. + 0
+ 969              	secp256r1_gx:
+ 970 0000 96C298D8 		.word	-661077354
+ 971 0004 4539A1F4 		.word	-190760635
+ 972 0008 A033EB2D 		.word	770388896
+ 973 000c 817D0377 		.word	1996717441
+ 974 0010 F240A463 		.word	1671708914
+ 975 0014 E5E6BCF8 		.word	-121837851
+ 976 0018 47422CE1 		.word	-517193145
+ 977 001c F2D1176B 		.word	1796723186
+ 978              		.section	.rodata.secp256r1_gy,"a",%progbits
+ 979              		.align	2
+ 980              		.set	.LANCHOR4,. + 0
+ 983              	secp256r1_gy:
+ 984 0000 F551BF37 		.word	935285237
+ 985 0004 6840B6CB 		.word	-877248408
+ 986 0008 CE5E316B 		.word	1798397646
+ 987 000c 5733CE2B 		.word	734933847
+ 988 0010 169E0F7C 		.word	2081398294
+ 989 0014 4AEBE78E 		.word	-1897403574
+ 990 0018 9B7F1AFE 		.word	-31817829
+ 991 001c E242E34F 		.word	1340293858
+ 992              		.section	.rodata.secp256r1_n,"a",%progbits
+ 993              		.align	2
+ 994              		.set	.LANCHOR2,. + 0
+ 997              	secp256r1_n:
+ 998 0000 512563FC 		.word	-60611247
+ 999 0004 C2CAB9F3 		.word	-205927742
+ 1000 0008 849E17A7 		.word	-1491624316
+ 1001 000c ADFAE6BC 		.word	-1125713235
+ 1002 0010 FFFFFFFF 		.word	-1
+ 1003 0014 FFFFFFFF 		.word	-1
+ 1004 0018 00000000 		.word	0
+ 1005 001c FFFFFFFF 		.word	-1
+ 1006              		.section	.rodata.secp256r1_p,"a",%progbits
+ 1007              		.align	2
+ 1008              		.set	.LANCHOR0,. + 0
+ 1011              	secp256r1_p:
+ 1012 0000 FFFFFFFF 		.word	-1
+ 1013 0004 FFFFFFFF 		.word	-1
+ 1014 0008 FFFFFFFF 		.word	-1
+ 1015 000c 00000000 		.word	0
+ 1016 0010 00000000 		.word	0
+ 1017 0014 00000000 		.word	0
+ 1018 0018 01000000 		.word	1
+ 1019 001c FFFFFFFF 		.word	-1
+ 1020              		.text
+ 1021              	.Letext0:
+ 1022              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1023              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 1024              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1025              		.file 5 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/bignu
+ 1026              		.file 6 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/ecp.h
+ 1027              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1028              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1029              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+DEFINED SYMBOLS
+                            *ABS*:00000000 ecp_curves.c
+C:\Users\a5089698\AppData\Local\Temp\ccpq3maw.s:17     .text.add32:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccpq3maw.s:22     .text.add32:00000000 add32
+C:\Users\a5089698\AppData\Local\Temp\ccpq3maw.s:47     .text.sub32:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccpq3maw.s:52     .text.sub32:00000000 sub32
+C:\Users\a5089698\AppData\Local\Temp\ccpq3maw.s:76     .text.ecp_mod_p256:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccpq3maw.s:81     .text.ecp_mod_p256:00000000 ecp_mod_p256
+C:\Users\a5089698\AppData\Local\Temp\ccpq3maw.s:723    .text.mbedtls_ecp_group_load:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccpq3maw.s:729    .text.mbedtls_ecp_group_load:00000000 mbedtls_ecp_group_load
+C:\Users\a5089698\AppData\Local\Temp\ccpq3maw.s:932    .text.mbedtls_ecp_group_load:000000c0 $d
+C:\Users\a5089698\AppData\Local\Temp\ccpq3maw.s:944    .data.one.6038:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccpq3maw.s:948    .data.one.6038:00000000 one.6038
+C:\Users\a5089698\AppData\Local\Temp\ccpq3maw.s:951    .rodata.secp256r1_b:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccpq3maw.s:955    .rodata.secp256r1_b:00000000 secp256r1_b
+C:\Users\a5089698\AppData\Local\Temp\ccpq3maw.s:965    .rodata.secp256r1_gx:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccpq3maw.s:969    .rodata.secp256r1_gx:00000000 secp256r1_gx
+C:\Users\a5089698\AppData\Local\Temp\ccpq3maw.s:979    .rodata.secp256r1_gy:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccpq3maw.s:983    .rodata.secp256r1_gy:00000000 secp256r1_gy
+C:\Users\a5089698\AppData\Local\Temp\ccpq3maw.s:993    .rodata.secp256r1_n:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccpq3maw.s:997    .rodata.secp256r1_n:00000000 secp256r1_n
+C:\Users\a5089698\AppData\Local\Temp\ccpq3maw.s:1007   .rodata.secp256r1_p:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccpq3maw.s:1011   .rodata.secp256r1_p:00000000 secp256r1_p
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+memset
+mbedtls_mpi_grow
+mbedtls_mpi_sub_abs
+mbedtls_ecp_group_free
+mbedtls_mpi_bitlen

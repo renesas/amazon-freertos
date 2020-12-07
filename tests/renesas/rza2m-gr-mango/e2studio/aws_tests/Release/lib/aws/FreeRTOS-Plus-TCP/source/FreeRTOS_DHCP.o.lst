@@ -1,0 +1,2489 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"FreeRTOS_DHCP.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.prvProcessDHCPReplies,"ax",%progbits
+  17              		.align	2
+  18              		.syntax unified
+  19              		.arm
+  20              		.fpu neon
+  22              	prvProcessDHCPReplies:
+  23              	.LFB29:
+  24              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/FreeRTOS_DHCP.c"
+   1:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /*
+   2:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * FreeRTOS+TCP V2.0.10
+   3:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * Copyright (C) 2017 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+   4:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  *
+   5:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * Permission is hereby granted, free of charge, to any person obtaining a copy of
+   6:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * this software and associated documentation files (the "Software"), to deal in
+   7:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * the Software without restriction, including without limitation the rights to
+   8:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+   9:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * the Software, and to permit persons to whom the Software is furnished to do so,
+  10:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * subject to the following conditions:
+  11:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  *
+  12:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * The above copyright notice and this permission notice shall be included in all
+  13:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * copies or substantial portions of the Software.
+  14:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  *
+  15:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  16:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+  17:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+  18:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+  19:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  20:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  21:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  *
+  22:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * http://aws.amazon.com/freertos
+  23:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * http://www.FreeRTOS.org
+  24:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  */
+  25:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+  26:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /* Standard includes. */
+  27:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #include <stdint.h>
+  28:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+  29:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /* FreeRTOS includes. */
+  30:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #include "FreeRTOS.h"
+  31:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #include "task.h"
+  32:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #include "semphr.h"
+  33:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+  34:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /* FreeRTOS+TCP includes. */
+  35:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #include "FreeRTOS_IP.h"
+  36:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #include "FreeRTOS_Sockets.h"
+  37:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #include "FreeRTOS_IP_Private.h"
+  38:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #include "FreeRTOS_UDP_IP.h"
+  39:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #include "FreeRTOS_TCP_IP.h"
+  40:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #include "FreeRTOS_DHCP.h"
+  41:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #include "FreeRTOS_ARP.h"
+  42:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #include "NetworkInterface.h"
+  43:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #include "NetworkBufferManagement.h"
+  44:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+  45:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /* Exclude the entire file if DHCP is not enabled. */
+  46:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #if( ipconfigUSE_DHCP != 0 )
+  47:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+  48:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #if ( ipconfigUSE_DHCP != 0 ) && ( ipconfigNETWORK_MTU < 586u )
+  49:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	/* DHCP must be able to receive an options field of 312 bytes, the fixed
+  50:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	part of the DHCP packet is 240 bytes, and the IP/UDP headers take 28 bytes. */
+  51:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	#error ipconfigNETWORK_MTU needs to be at least 586 to use DHCP
+  52:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #endif
+  53:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+  54:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /* Parameter widths in the DHCP packet. */
+  55:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpCLIENT_HARDWARE_ADDRESS_LENGTH		16
+  56:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpSERVER_HOST_NAME_LENGTH				64
+  57:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpBOOT_FILE_NAME_LENGTH 				128
+  58:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+  59:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /* Timer parameters */
+  60:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #ifndef dhcpINITIAL_DHCP_TX_PERIOD
+  61:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	#define dhcpINITIAL_TIMER_PERIOD			( pdMS_TO_TICKS( 250 ) )
+  62:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	#define dhcpINITIAL_DHCP_TX_PERIOD			( pdMS_TO_TICKS( 5000 ) )
+  63:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #endif
+  64:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+  65:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /* Codes of interest found in the DHCP options field. */
+  66:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpZERO_PAD_OPTION_CODE				( 0u )
+  67:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpSUBNET_MASK_OPTION_CODE				( 1u )
+  68:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpGATEWAY_OPTION_CODE					( 3u )
+  69:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpDNS_SERVER_OPTIONS_CODE				( 6u )
+  70:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpDNS_HOSTNAME_OPTIONS_CODE			( 12u )
+  71:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpREQUEST_IP_ADDRESS_OPTION_CODE		( 50u )
+  72:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpLEASE_TIME_OPTION_CODE				( 51u )
+  73:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpMESSAGE_TYPE_OPTION_CODE			( 53u )
+  74:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpSERVER_IP_ADDRESS_OPTION_CODE		( 54u )
+  75:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpPARAMETER_REQUEST_OPTION_CODE		( 55u )
+  76:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpCLIENT_IDENTIFIER_OPTION_CODE		( 61u )
+  77:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+  78:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /* The four DHCP message types of interest. */
+  79:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpMESSAGE_TYPE_DISCOVER				( 1 )
+  80:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpMESSAGE_TYPE_OFFER					( 2 )
+  81:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpMESSAGE_TYPE_REQUEST				( 3 )
+  82:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpMESSAGE_TYPE_ACK					( 5 )
+  83:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpMESSAGE_TYPE_NACK					( 6 )
+  84:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+  85:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /* Offsets into the transmitted DHCP options fields at which various parameters
+  86:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** are located. */
+  87:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpCLIENT_IDENTIFIER_OFFSET			( 5 )
+  88:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpREQUESTED_IP_ADDRESS_OFFSET			( 13 )
+  89:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpDHCP_SERVER_IP_ADDRESS_OFFSET		( 19 )
+  90:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+  91:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /* Values used in the DHCP packets. */
+  92:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpREQUEST_OPCODE						( 1 )
+  93:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpREPLY_OPCODE						( 2 )
+  94:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpADDRESS_TYPE_ETHERNET				( 1 )
+  95:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpETHERNET_ADDRESS_LENGTH				( 6 )
+  96:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+  97:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /* If a lease time is not received, use the default of two days. */
+  98:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /* 48 hours in ticks.  Can not use pdMS_TO_TICKS() as integer overflow can occur. */
+  99:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpDEFAULT_LEASE_TIME					( ( 48UL * 60UL * 60UL ) * configTICK_RATE_HZ )
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /* Don't allow the lease time to be too short. */
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpMINIMUM_LEASE_TIME					( pdMS_TO_TICKS( 60000UL ) )	/* 60 seconds in ticks. */
+ 103:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /* Marks the end of the variable length options field in the DHCP packet. */
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpOPTION_END_BYTE 0xffu
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /* Offset into a DHCP message at which the first byte of the options is
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** located. */
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpFIRST_OPTION_BYTE_OFFSET			( 0xf0 )
+ 110:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /* When walking the variable length options field, the following value is used
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** to ensure the walk has not gone past the end of the valid options.  2 bytes is
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** made up of the length byte, and minimum one byte value. */
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #define dhcpMAX_OPTION_LENGTH_OF_INTEREST		( 2L )
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 116:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /* Standard DHCP port numbers and magic cookie value. */
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #if( ipconfigBYTE_ORDER == pdFREERTOS_LITTLE_ENDIAN )
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	#define dhcpCLIENT_PORT 0x4400u
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	#define dhcpSERVER_PORT 0x4300u
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	#define dhcpCOOKIE		0x63538263ul
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	#define dhcpBROADCAST	0x0080u
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #else
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	#define dhcpCLIENT_PORT 0x0044u
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	#define dhcpSERVER_PORT 0x0043u
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	#define dhcpCOOKIE		0x63825363ul
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	#define dhcpBROADCAST	0x8000u
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #endif /* ipconfigBYTE_ORDER */
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #include "pack_struct_start.h"
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** struct xDHCPMessage
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** {
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	uint8_t ucOpcode;
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	uint8_t ucAddressType;
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	uint8_t ucAddressLength;
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	uint8_t ucHops;
+ 136:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	uint32_t ulTransactionID;
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	uint16_t usElapsedTime;
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	uint16_t usFlags;
+ 139:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	uint32_t ulClientIPAddress_ciaddr;
+ 140:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	uint32_t ulYourIPAddress_yiaddr;
+ 141:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	uint32_t ulServerIPAddress_siaddr;
+ 142:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	uint32_t ulRelayAgentIPAddress_giaddr;
+ 143:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	uint8_t ucClientHardwareAddress[ dhcpCLIENT_HARDWARE_ADDRESS_LENGTH ];
+ 144:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	uint8_t ucServerHostName[ dhcpSERVER_HOST_NAME_LENGTH ];
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	uint8_t ucBootFileName[ dhcpBOOT_FILE_NAME_LENGTH ];
+ 146:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	uint32_t ulDHCPCookie;
+ 147:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	uint8_t ucFirstOptionByte;
+ 148:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** }
+ 149:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #include "pack_struct_end.h"
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** typedef struct xDHCPMessage DHCPMessage_t;
+ 151:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 152:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /* DHCP state machine states. */
+ 153:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** typedef enum
+ 154:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** {
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	eWaitingSendFirstDiscover = 0,	/* Initial state.  Send a discover the first time it is called, and
+ 156:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	eWaitingOffer,					/* Either resend the discover, or, if the offer is forthcoming, send a request.
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	eWaitingAcknowledge,			/* Either resend the request. */
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	#if( ipconfigDHCP_FALL_BACK_AUTO_IP != 0 )
+ 159:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		eGetLinkLayerAddress,		/* When DHCP didn't respond, try to obtain a LinkLayer address 168.254.x.x
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	#endif
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	eLeasedAddress,					/* Resend the request at the appropriate time to renew the lease. */
+ 162:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	eNotUsingLeasedAddress			/* DHCP failed, and a default IP address is being used. */
+ 163:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** } eDHCPState_t;
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 165:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /* Hold information in between steps in the DHCP state machine. */
+ 166:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** struct xDHCP_DATA
+ 167:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** {
+ 168:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	uint32_t ulTransactionId;
+ 169:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	uint32_t ulOfferedIPAddress;
+ 170:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	uint32_t ulDHCPServerAddress;
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	uint32_t ulLeaseTime;
+ 172:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	/* Hold information on the current timer state. */
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	TickType_t xDHCPTxTime;
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	TickType_t xDHCPTxPeriod;
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	/* Try both without and with the broadcast flag */
+ 176:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	BaseType_t xUseBroadcast;
+ 177:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	/* Maintains the DHCP state machine state. */
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	eDHCPState_t eDHCPState;
+ 179:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	/* The UDP socket used for all incoming and outgoing DHCP traffic. */
+ 180:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	Socket_t xDHCPSocket;
+ 181:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** };
+ 182:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** typedef struct xDHCP_DATA DHCPData_t;
+ 184:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 185:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #if( ipconfigDHCP_FALL_BACK_AUTO_IP != 0 )
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	/* Define the Link Layer IP address: 169.254.x.x */
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	#define LINK_LAYER_ADDRESS_0	169
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	#define LINK_LAYER_ADDRESS_1	254
+ 189:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 190:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	/* Define the netmask used: 255.255.0.0 */
+ 191:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	#define LINK_LAYER_NETMASK_0	255
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	#define LINK_LAYER_NETMASK_1	255
+ 193:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	#define LINK_LAYER_NETMASK_2	0
+ 194:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	#define LINK_LAYER_NETMASK_3	0
+ 195:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #endif
+ 196:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 197:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 198:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /*
+ 199:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * Generate a DHCP discover message and send it on the DHCP socket.
+ 200:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  */
+ 201:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** static void prvSendDHCPDiscover( void );
+ 202:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 203:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /*
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * Interpret message received on the DHCP socket.
+ 205:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  */
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** static BaseType_t prvProcessDHCPReplies( BaseType_t xExpectedMessageType );
+ 207:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /*
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * Generate a DHCP request packet, and send it on the DHCP socket.
+ 210:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  */
+ 211:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** static void prvSendDHCPRequest( void );
+ 212:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 213:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /*
+ 214:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * Prepare to start a DHCP transaction.  This initialises some state variables
+ 215:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * and creates the DHCP socket if necessary.
+ 216:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  */
+ 217:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** static void prvInitialiseDHCP( void );
+ 218:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 219:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /*
+ 220:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * Creates the part of outgoing DHCP messages that are common to all outgoing
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * DHCP messages.
+ 222:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  */
+ 223:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** static uint8_t *prvCreatePartDHCPMessage( struct freertos_sockaddr *pxAddress, BaseType_t xOpcode, 
+ 224:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 225:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /*
+ 226:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * Create the DHCP socket, if it has not been created already.
+ 227:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  */
+ 228:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** static void prvCreateDHCPSocket( void );
+ 229:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /*
+ 231:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * After DHCP has failed to answer, prepare everything to start searching
+ 232:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * for (trying-out) LinkLayer IP-addresses, using the random method: Send
+ 233:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  * a gratuitous ARP request and wait if another device responds to it.
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c ****  */
+ 235:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #if( ipconfigDHCP_FALL_BACK_AUTO_IP != 0 )
+ 236:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	static void prvPrepareLinkLayerIPLookUp( void );
+ 237:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #endif
+ 238:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 239:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /*-----------------------------------------------------------*/
+ 240:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 241:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /* The next DHCP transaction Id to be used. */
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** static DHCPData_t xDHCPData;
+ 243:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 244:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /*-----------------------------------------------------------*/
+ 245:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 246:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** BaseType_t xIsDHCPSocket( Socket_t xSocket )
+ 247:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** {
+ 248:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** BaseType_t xReturn;
+ 249:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 250:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	if( xDHCPData.xDHCPSocket == xSocket )
+ 251:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	{
+ 252:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		xReturn = pdTRUE;
+ 253:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	}
+ 254:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	else
+ 255:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	{
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		xReturn = pdFALSE;
+ 257:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	}
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 259:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	return xReturn;
+ 260:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** }
+ 261:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /*-----------------------------------------------------------*/
+ 262:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 263:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** void vDHCPProcess( BaseType_t xReset )
+ 264:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** {
+ 265:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** BaseType_t xGivingUp = pdFALSE;
+ 266:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #if( ipconfigUSE_DHCP_HOOK != 0 )
+ 267:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	eDHCPCallbackAnswer_t eAnswer;
+ 268:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #endif	/* ipconfigUSE_DHCP_HOOK */
+ 269:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 270:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	/* Is DHCP starting over? */
+ 271:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	if( xReset != pdFALSE )
+ 272:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	{
+ 273:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		xDHCPData.eDHCPState = eWaitingSendFirstDiscover;
+ 274:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	}
+ 275:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 276:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	switch( xDHCPData.eDHCPState )
+ 277:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	{
+ 278:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		case eWaitingSendFirstDiscover :
+ 279:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			/* Ask the user if a DHCP discovery is required. */
+ 280:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		#if( ipconfigUSE_DHCP_HOOK != 0 )
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			eAnswer = xApplicationDHCPHook( eDHCPPhasePreDiscover, xNetworkAddressing.ulDefaultIPAddress );
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			if( eAnswer == eDHCPContinue )
+ 283:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		#endif	/* ipconfigUSE_DHCP_HOOK */
+ 284:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			{
+ 285:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				/* Initial state.  Create the DHCP socket, timer, etc. if they
+ 286:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				have not already been created. */
+ 287:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				prvInitialiseDHCP();
+ 288:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 289:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				/* See if prvInitialiseDHCP() has creates a socket. */
+ 290:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				if( xDHCPData.xDHCPSocket == NULL )
+ 291:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				{
+ 292:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					xGivingUp = pdTRUE;
+ 293:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					break;
+ 294:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				}
+ 295:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 296:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				*ipLOCAL_IP_ADDRESS_POINTER = 0UL;
+ 297:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 298:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				/* Send the first discover request. */
+ 299:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				if( xDHCPData.xDHCPSocket != NULL )
+ 300:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				{
+ 301:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					xDHCPData.xDHCPTxTime = xTaskGetTickCount();
+ 302:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					prvSendDHCPDiscover( );
+ 303:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					xDHCPData.eDHCPState = eWaitingOffer;
+ 304:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				}
+ 305:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			}
+ 306:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		#if( ipconfigUSE_DHCP_HOOK != 0 )
+ 307:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			else
+ 308:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			{
+ 309:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				if( eAnswer == eDHCPUseDefaults )
+ 310:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				{
+ 311:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					memcpy( &xNetworkAddressing, &xDefaultAddressing, sizeof( xNetworkAddressing ) );
+ 312:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				}
+ 313:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 314:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				/* The user indicates that the DHCP process does not continue. */
+ 315:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				xGivingUp = pdTRUE;
+ 316:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			}
+ 317:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		#endif	/* ipconfigUSE_DHCP_HOOK */
+ 318:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			break;
+ 319:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 320:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		case eWaitingOffer :
+ 321:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 322:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			xGivingUp = pdFALSE;
+ 323:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 324:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			/* Look for offers coming in. */
+ 325:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			if( prvProcessDHCPReplies( dhcpMESSAGE_TYPE_OFFER ) == pdPASS )
+ 326:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			{
+ 327:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			#if( ipconfigUSE_DHCP_HOOK != 0 )
+ 328:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				/* Ask the user if a DHCP request is required. */
+ 329:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				eAnswer = xApplicationDHCPHook( eDHCPPhasePreRequest, xDHCPData.ulOfferedIPAddress );
+ 330:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 331:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				if( eAnswer == eDHCPContinue )
+ 332:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			#endif	/* ipconfigUSE_DHCP_HOOK */
+ 333:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				{
+ 334:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					/* An offer has been made, the user wants to continue,
+ 335:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					generate the request. */
+ 336:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					xDHCPData.xDHCPTxTime = xTaskGetTickCount();
+ 337:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					xDHCPData.xDHCPTxPeriod = dhcpINITIAL_DHCP_TX_PERIOD;
+ 338:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					prvSendDHCPRequest( );
+ 339:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					xDHCPData.eDHCPState = eWaitingAcknowledge;
+ 340:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					break;
+ 341:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				}
+ 342:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 343:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			#if( ipconfigUSE_DHCP_HOOK != 0 )
+ 344:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				if( eAnswer == eDHCPUseDefaults )
+ 345:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				{
+ 346:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					memcpy( &xNetworkAddressing, &xDefaultAddressing, sizeof( xNetworkAddressing ) );
+ 347:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				}
+ 348:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 349:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				/* The user indicates that the DHCP process does not continue. */
+ 350:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				xGivingUp = pdTRUE;
+ 351:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			#endif	/* ipconfigUSE_DHCP_HOOK */
+ 352:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			}
+ 353:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			else if( ( xTaskGetTickCount() - xDHCPData.xDHCPTxTime ) > xDHCPData.xDHCPTxPeriod )
+ 354:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			{
+ 355:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				/* It is time to send another Discover.  Increase the time
+ 356:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				period, and if it has not got to the point of giving up - send
+ 357:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				another discovery. */
+ 358:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				xDHCPData.xDHCPTxPeriod <<= 1;
+ 359:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 360:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				if( xDHCPData.xDHCPTxPeriod <= ipconfigMAXIMUM_DISCOVER_TX_PERIOD )
+ 361:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				{
+ 362:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					xDHCPData.ulTransactionId = ipconfigRAND32( );
+ 363:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 364:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					if( 0 != xDHCPData.ulTransactionId )
+ 365:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 366:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						xDHCPData.xDHCPTxTime = xTaskGetTickCount( );
+ 367:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						xDHCPData.xUseBroadcast = !xDHCPData.xUseBroadcast;
+ 368:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						prvSendDHCPDiscover( );
+ 369:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						FreeRTOS_debug_printf( ( "vDHCPProcess: timeout %lu ticks\n", xDHCPData.xDHCPTxPeriod ) );
+ 370:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					}
+ 371:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					else
+ 372:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 373:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						FreeRTOS_debug_printf( ( "vDHCPProcess: failed to generate a random Transaction ID\n" ) );
+ 374:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					}
+ 375:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				}
+ 376:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				else
+ 377:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				{
+ 378:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					FreeRTOS_debug_printf( ( "vDHCPProcess: giving up %lu > %lu ticks\n", xDHCPData.xDHCPTxPeriod,
+ 379:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 380:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					#if( ipconfigDHCP_FALL_BACK_AUTO_IP != 0 )
+ 381:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 382:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						/* Only use a fake Ack if the default IP address == 0x00
+ 383:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						and the link local addressing is used.  Start searching
+ 384:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						a free LinkLayer IP-address.  Next state will be
+ 385:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						'eGetLinkLayerAddress'. */
+ 386:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						prvPrepareLinkLayerIPLookUp();
+ 387:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 388:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						/* Setting an IP address manually so set to not using
+ 389:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						leased address mode. */
+ 390:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						xDHCPData.eDHCPState = eGetLinkLayerAddress;
+ 391:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					}
+ 392:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					#else
+ 393:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 394:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						xGivingUp = pdTRUE;
+ 395:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					}
+ 396:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					#endif /* ipconfigDHCP_FALL_BACK_AUTO_IP */
+ 397:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				}
+ 398:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			}
+ 399:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			break;
+ 400:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 401:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		case eWaitingAcknowledge :
+ 402:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 403:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			/* Look for acks coming in. */
+ 404:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			if( prvProcessDHCPReplies( dhcpMESSAGE_TYPE_ACK ) == pdPASS )
+ 405:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			{
+ 406:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				FreeRTOS_debug_printf( ( "vDHCPProcess: acked %lxip\n", FreeRTOS_ntohl( xDHCPData.ulOfferedIPAd
+ 407:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 408:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				/* DHCP completed.  The IP address can now be used, and the
+ 409:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				timer set to the lease timeout time. */
+ 410:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				*ipLOCAL_IP_ADDRESS_POINTER = xDHCPData.ulOfferedIPAddress;
+ 411:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 412:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				/* Setting the 'local' broadcast address, something like
+ 413:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				'192.168.1.255'. */
+ 414:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				xNetworkAddressing.ulBroadcastAddress = ( xDHCPData.ulOfferedIPAddress & xNetworkAddressing.ulN
+ 415:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				xDHCPData.eDHCPState = eLeasedAddress;
+ 416:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 417:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				iptraceDHCP_SUCCEDEED( xDHCPData.ulOfferedIPAddress );
+ 418:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 419:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				/* DHCP failed, the default configured IP-address will be used
+ 420:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				Now call vIPNetworkUpCalls() to send the network-up event and
+ 421:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				start the ARP timer. */
+ 422:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				vIPNetworkUpCalls( );
+ 423:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 424:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				/* Close socket to ensure packets don't queue on it. */
+ 425:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				vSocketClose( xDHCPData.xDHCPSocket );
+ 426:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				xDHCPData.xDHCPSocket = NULL;
+ 427:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 428:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				if( xDHCPData.ulLeaseTime == 0UL )
+ 429:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				{
+ 430:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					xDHCPData.ulLeaseTime = dhcpDEFAULT_LEASE_TIME;
+ 431:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				}
+ 432:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				else if( xDHCPData.ulLeaseTime < dhcpMINIMUM_LEASE_TIME )
+ 433:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				{
+ 434:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					xDHCPData.ulLeaseTime = dhcpMINIMUM_LEASE_TIME;
+ 435:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				}
+ 436:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				else
+ 437:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				{
+ 438:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					/* The lease time is already valid. */
+ 439:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				}
+ 440:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 441:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				/* Check for clashes. */
+ 442:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				vARPSendGratuitous();
+ 443:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				vIPReloadDHCPTimer( xDHCPData.ulLeaseTime );
+ 444:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			}
+ 445:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			else
+ 446:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			{
+ 447:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				/* Is it time to send another Discover? */
+ 448:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				if( ( xTaskGetTickCount() - xDHCPData.xDHCPTxTime ) > xDHCPData.xDHCPTxPeriod )
+ 449:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				{
+ 450:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					/* Increase the time period, and if it has not got to the
+ 451:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					point of giving up - send another request. */
+ 452:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					xDHCPData.xDHCPTxPeriod <<= 1;
+ 453:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 454:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					if( xDHCPData.xDHCPTxPeriod <= ipconfigMAXIMUM_DISCOVER_TX_PERIOD )
+ 455:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 456:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						xDHCPData.xDHCPTxTime = xTaskGetTickCount();
+ 457:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						prvSendDHCPRequest( );
+ 458:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					}
+ 459:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					else
+ 460:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 461:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						/* Give up, start again. */
+ 462:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						xDHCPData.eDHCPState = eWaitingSendFirstDiscover;
+ 463:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					}
+ 464:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				}
+ 465:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			}
+ 466:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			break;
+ 467:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 468:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	#if( ipconfigDHCP_FALL_BACK_AUTO_IP != 0 )
+ 469:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		case eGetLinkLayerAddress:
+ 470:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			if( ( xTaskGetTickCount() - xDHCPData.xDHCPTxTime ) > xDHCPData.xDHCPTxPeriod )
+ 471:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			{
+ 472:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				if( xARPHadIPClash == pdFALSE )
+ 473:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				{
+ 474:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					/* ARP OK. proceed. */
+ 475:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					iptraceDHCP_SUCCEDEED( xDHCPData.ulOfferedIPAddress );
+ 476:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 477:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					/* Auto-IP succeeded, the default configured IP-address will
+ 478:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					be used.  Now call vIPNetworkUpCalls() to send the
+ 479:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					network-up event and start the ARP timer. */
+ 480:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					vIPNetworkUpCalls( );
+ 481:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					xDHCPData.eDHCPState = eNotUsingLeasedAddress;
+ 482:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				}
+ 483:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				else
+ 484:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				{
+ 485:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					/* ARP clashed - try another IP address. */
+ 486:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					prvPrepareLinkLayerIPLookUp();
+ 487:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 488:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					/* Setting an IP address manually so set to not using leased
+ 489:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					address mode. */
+ 490:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					xDHCPData.eDHCPState = eGetLinkLayerAddress;
+ 491:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				}
+ 492:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			}
+ 493:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			break;
+ 494:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	#endif	/* ipconfigDHCP_FALL_BACK_AUTO_IP */
+ 495:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 496:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		case eLeasedAddress :
+ 497:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 498:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			/* Resend the request at the appropriate time to renew the lease. */
+ 499:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			prvCreateDHCPSocket();
+ 500:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 501:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			if( xDHCPData.xDHCPSocket != NULL )
+ 502:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			{
+ 503:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				xDHCPData.xDHCPTxTime = xTaskGetTickCount();
+ 504:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				xDHCPData.xDHCPTxPeriod = dhcpINITIAL_DHCP_TX_PERIOD;
+ 505:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				prvSendDHCPRequest( );
+ 506:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				xDHCPData.eDHCPState = eWaitingAcknowledge;
+ 507:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 508:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				/* From now on, we should be called more often */
+ 509:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				vIPReloadDHCPTimer( dhcpINITIAL_TIMER_PERIOD );
+ 510:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			}
+ 511:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			break;
+ 512:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 513:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		case eNotUsingLeasedAddress:
+ 514:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 515:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			vIPSetDHCPTimerEnableState( pdFALSE );
+ 516:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			break;
+ 517:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 518:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		default:
+ 519:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			break;
+ 520:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	}
+ 521:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 522:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	if( xGivingUp != pdFALSE )
+ 523:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	{
+ 524:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		/* xGivingUp became true either because of a time-out, or because
+ 525:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		xApplicationDHCPHook() returned another value than 'eDHCPContinue',
+ 526:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		meaning that the conversion is canceled from here. */
+ 527:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 528:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		/* Revert to static IP address. */
+ 529:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		taskENTER_CRITICAL();
+ 530:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		{
+ 531:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			*ipLOCAL_IP_ADDRESS_POINTER = xNetworkAddressing.ulDefaultIPAddress;
+ 532:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			iptraceDHCP_REQUESTS_FAILED_USING_DEFAULT_IP_ADDRESS( xNetworkAddressing.ulDefaultIPAddress );
+ 533:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		}
+ 534:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		taskEXIT_CRITICAL();
+ 535:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 536:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		xDHCPData.eDHCPState = eNotUsingLeasedAddress;
+ 537:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		vIPSetDHCPTimerEnableState( pdFALSE );
+ 538:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 539:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		/* DHCP failed, the default configured IP-address will be used.  Now
+ 540:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		call vIPNetworkUpCalls() to send the network-up event and start the ARP
+ 541:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		timer. */
+ 542:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		vIPNetworkUpCalls( );
+ 543:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 544:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		/* Test if socket was indeed created. */
+ 545:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		if( xDHCPData.xDHCPSocket != NULL )
+ 546:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		{
+ 547:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			/* Close socket to ensure packets don't queue on it. */
+ 548:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			vSocketClose( xDHCPData.xDHCPSocket );
+ 549:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			xDHCPData.xDHCPSocket = NULL;
+ 550:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		}
+ 551:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	}
+ 552:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** }
+ 553:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /*-----------------------------------------------------------*/
+ 554:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 555:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** static void prvCreateDHCPSocket( void )
+ 556:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** {
+ 557:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** struct freertos_sockaddr xAddress;
+ 558:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** BaseType_t xReturn;
+ 559:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** TickType_t xTimeoutTime = ( TickType_t ) 0;
+ 560:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 561:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	/* Create the socket, if it has not already been created. */
+ 562:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	if( xDHCPData.xDHCPSocket == NULL )
+ 563:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	{
+ 564:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		xDHCPData.xDHCPSocket = FreeRTOS_socket( FREERTOS_AF_INET, FREERTOS_SOCK_DGRAM, FREERTOS_IPPROTO_
+ 565:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		if( xDHCPData.xDHCPSocket != FREERTOS_INVALID_SOCKET )
+ 566:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		{
+ 567:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 568:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			/* Ensure the Rx and Tx timeouts are zero as the DHCP executes in the
+ 569:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			context of the IP task. */
+ 570:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			FreeRTOS_setsockopt( xDHCPData.xDHCPSocket, 0, FREERTOS_SO_RCVTIMEO, ( void * ) &xTimeoutTime, s
+ 571:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			FreeRTOS_setsockopt( xDHCPData.xDHCPSocket, 0, FREERTOS_SO_SNDTIMEO, ( void * ) &xTimeoutTime, s
+ 572:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 573:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			/* Bind to the standard DHCP client port. */
+ 574:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			xAddress.sin_port = ( uint16_t ) dhcpCLIENT_PORT;
+ 575:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			xReturn = vSocketBind( xDHCPData.xDHCPSocket, &xAddress, sizeof( xAddress ), pdFALSE );
+ 576:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			if( xReturn != 0 )
+ 577:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			{
+ 578:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				/* Binding failed, close the socket again. */
+ 579:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				vSocketClose( xDHCPData.xDHCPSocket );
+ 580:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				xDHCPData.xDHCPSocket = NULL;
+ 581:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			}
+ 582:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		}
+ 583:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		else
+ 584:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		{
+ 585:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			/* Change to NULL for easier testing. */
+ 586:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			xDHCPData.xDHCPSocket = NULL;
+ 587:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		}
+ 588:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	}
+ 589:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** }
+ 590:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /*-----------------------------------------------------------*/
+ 591:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 592:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** static void prvInitialiseDHCP( void )
+ 593:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** {
+ 594:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	/* Initialise the parameters that will be set by the DHCP process. Per
+ 595:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	https://www.ietf.org/rfc/rfc2131.txt, Transaction ID should be a random
+ 596:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	value chosen by the client. */
+ 597:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	xDHCPData.ulTransactionId = ipconfigRAND32();
+ 598:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 599:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	/* Check for random number generator API failure. */
+ 600:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	if( 0 != xDHCPData.ulTransactionId )
+ 601:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	{
+ 602:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		xDHCPData.xUseBroadcast = 0;
+ 603:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		xDHCPData.ulOfferedIPAddress = 0UL;
+ 604:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		xDHCPData.ulDHCPServerAddress = 0UL;
+ 605:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		xDHCPData.xDHCPTxPeriod = dhcpINITIAL_DHCP_TX_PERIOD;
+ 606:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 607:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		/* Create the DHCP socket if it has not already been created. */
+ 608:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		prvCreateDHCPSocket();
+ 609:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		FreeRTOS_debug_printf( ( "prvInitialiseDHCP: start after %lu ticks\n", dhcpINITIAL_TIMER_PERIOD )
+ 610:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		vIPReloadDHCPTimer( dhcpINITIAL_TIMER_PERIOD );
+ 611:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	}
+ 612:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** }
+ 613:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /*-----------------------------------------------------------*/
+ 614:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 615:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** static BaseType_t prvProcessDHCPReplies( BaseType_t xExpectedMessageType )
+ 616:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** {
+  25              		.loc 1 616 0
+  26              		.cfi_startproc
+  27              		@ args = 0, pretend = 0, frame = 40
+  28              		@ frame_needed = 0, uses_anonymous_args = 0
+  29              	.LVL0:
+  30 0000 F04F2DE9 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  31              		.cfi_def_cfa_offset 36
+  32              		.cfi_offset 4, -36
+  33              		.cfi_offset 5, -32
+  34              		.cfi_offset 6, -28
+  35              		.cfi_offset 7, -24
+  36              		.cfi_offset 8, -20
+  37              		.cfi_offset 9, -16
+  38              		.cfi_offset 10, -12
+  39              		.cfi_offset 11, -8
+  40              		.cfi_offset 14, -4
+ 617:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** uint8_t *pucUDPPayload, *pucLastByte;
+ 618:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** struct freertos_sockaddr xClient;
+ 619:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** uint32_t xClientLength = sizeof( xClient );
+  41              		.loc 1 619 0
+  42 0004 0830A0E3 		mov	r3, #8
+ 616:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** uint8_t *pucUDPPayload, *pucLastByte;
+  43              		.loc 1 616 0
+  44 0008 34D04DE2 		sub	sp, sp, #52
+  45              		.cfi_def_cfa_offset 88
+ 620:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** int32_t lBytes;
+ 621:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** DHCPMessage_t *pxDHCPMessage;
+ 622:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** uint8_t *pucByte, ucOptionCode, ucLength;
+ 623:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** uint32_t ulProcessed, ulParameter;
+ 624:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** BaseType_t xReturn = pdFALSE;
+ 625:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** const uint32_t ulMandatoryOptions = 2ul; /* DHCP server address, and the correct DHCP message type 
+ 626:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 627:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	lBytes = FreeRTOS_recvfrom( xDHCPData.xDHCPSocket, ( void * ) &pucUDPPayload, 0ul, FREERTOS_ZERO_C
+  46              		.loc 1 627 0
+  47 000c A8529FE5 		ldr	r5, .L35
+ 616:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** uint8_t *pucUDPPayload, *pucLastByte;
+  48              		.loc 1 616 0
+  49 0010 00A0A0E1 		mov	r10, r0
+  50              		.loc 1 627 0
+  51 0014 0020A0E3 		mov	r2, #0
+ 619:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** int32_t lBytes;
+  52              		.loc 1 619 0
+  53 0018 20308DE5 		str	r3, [sp, #32]
+  54              	.LVL1:
+  55              		.loc 1 627 0
+  56 001c 20308DE2 		add	r3, sp, #32
+  57 0020 04308DE5 		str	r3, [sp, #4]
+  58 0024 28308DE2 		add	r3, sp, #40
+  59 0028 00308DE5 		str	r3, [sp]
+  60 002c 1C108DE2 		add	r1, sp, #28
+  61 0030 0130A0E3 		mov	r3, #1
+  62 0034 200095E5 		ldr	r0, [r5, #32]
+  63              	.LVL2:
+  64 0038 FEFFFFEB 		bl	FreeRTOS_recvfrom
+  65              	.LVL3:
+ 628:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 629:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	if( lBytes > 0 )
+  66              		.loc 1 629 0
+  67 003c 008050E2 		subs	r8, r0, #0
+ 624:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** const uint32_t ulMandatoryOptions = 2ul; /* DHCP server address, and the correct DHCP message type 
+  68              		.loc 1 624 0
+  69 0040 0040A0D3 		movle	r4, #0
+  70              		.loc 1 629 0
+  71 0044 040000DA 		ble	.L1
+  72              	.LVL4:
+ 630:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	{
+ 631:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		/* Map a DHCP structure onto the received data. */
+ 632:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		pxDHCPMessage = ( DHCPMessage_t * ) ( pucUDPPayload );
+ 633:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 634:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		/* Sanity check. */
+ 635:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		if( ( lBytes >= sizeof( DHCPMessage_t ) ) &&
+  73              		.loc 1 635 0
+  74 0048 F00058E3 		cmp	r8, #240
+  75 004c 050000CA 		bgt	.L3
+  76              	.LVL5:
+  77              	.L5:
+ 624:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** const uint32_t ulMandatoryOptions = 2ul; /* DHCP server address, and the correct DHCP message type 
+  78              		.loc 1 624 0
+  79 0050 0040A0E3 		mov	r4, #0
+  80              	.LVL6:
+  81              	.L4:
+ 636:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			( pxDHCPMessage->ulDHCPCookie == ( uint32_t ) dhcpCOOKIE ) &&
+ 637:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			( pxDHCPMessage->ucOpcode == ( uint8_t ) dhcpREPLY_OPCODE ) &&
+ 638:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			( pxDHCPMessage->ulTransactionID == FreeRTOS_htonl( xDHCPData.ulTransactionId ) ) )
+ 639:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		{
+ 640:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			if( memcmp( ( void * ) &( pxDHCPMessage->ucClientHardwareAddress ),
+ 641:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						( void * ) ipLOCAL_MAC_ADDRESS,
+ 642:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						sizeof( MACAddress_t ) ) == 0 )
+ 643:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			{
+ 644:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				/* None of the essential options have been processed yet. */
+ 645:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				ulProcessed = 0ul;
+ 646:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 647:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				/* Walk through the options until the dhcpOPTION_END_BYTE byte
+ 648:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				is found, taking care not to walk off the end of the options. */
+ 649:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				pucByte = &( pxDHCPMessage->ucFirstOptionByte );
+ 650:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				pucLastByte = &( pucUDPPayload[ lBytes - dhcpMAX_OPTION_LENGTH_OF_INTEREST ] );
+ 651:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 652:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				while( pucByte < pucLastByte )
+ 653:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				{
+ 654:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					ucOptionCode = pucByte[ 0 ];
+ 655:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					if( ucOptionCode == dhcpOPTION_END_BYTE )
+ 656:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 657:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						/* Ready, the last byte has been seen. */
+ 658:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						break;
+ 659:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					}
+ 660:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					if( ucOptionCode == dhcpZERO_PAD_OPTION_CODE )
+ 661:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 662:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						/* The value zero is used as a pad byte,
+ 663:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						it is not followed by a length byte. */
+ 664:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						pucByte += 1;
+ 665:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						continue;
+ 666:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					}
+ 667:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 668:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					/* Stop if the response is malformed. */
+ 669:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					if( pucByte < pucLastByte - 1 )
+ 670:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 671:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						ucLength = pucByte[ 1 ];
+ 672:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						pucByte += 2;
+ 673:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 674:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						if( pucByte >= pucLastByte - ucLength )
+ 675:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						{
+ 676:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							break;
+ 677:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						}
+ 678:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					}
+ 679:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					else
+ 680:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 681:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						break;
+ 682:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					}
+ 683:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 684:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					/* In most cases, a 4-byte network-endian parameter follows,
+ 685:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					just get it once here and use later. */
+ 686:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					if( ucLength >= sizeof( ulParameter ) )
+ 687:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 688:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						memcpy( ( void * ) &( ulParameter ),
+ 689:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								( void * ) pucByte,
+ 690:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								( size_t ) sizeof( ulParameter ) );
+ 691:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					}
+ 692:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					else
+ 693:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 694:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						ulParameter = 0;
+ 695:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					}
+ 696:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 697:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					/* Option-specific handling. */
+ 698:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					switch( ucOptionCode )
+ 699:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 700:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						case dhcpMESSAGE_TYPE_OPTION_CODE	:
+ 701:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 702:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							if( *pucByte == ( uint8_t ) xExpectedMessageType )
+ 703:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							{
+ 704:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								/* The message type is the message type the
+ 705:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								state machine is expecting. */
+ 706:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								ulProcessed++;
+ 707:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							}
+ 708:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							else if( *pucByte == ( uint8_t ) dhcpMESSAGE_TYPE_NACK )
+ 709:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							{
+ 710:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								if( xExpectedMessageType == ( BaseType_t ) dhcpMESSAGE_TYPE_ACK )
+ 711:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								{
+ 712:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 									/* Start again. */
+ 713:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 									xDHCPData.eDHCPState = eWaitingSendFirstDiscover;
+ 714:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								}
+ 715:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							}
+ 716:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							else
+ 717:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							{
+ 718:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								/* Don't process other message types. */
+ 719:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							}
+ 720:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							break;
+ 721:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 722:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						case dhcpSUBNET_MASK_OPTION_CODE :
+ 723:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 724:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							if( ucLength == sizeof( uint32_t ) )
+ 725:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							{
+ 726:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								xNetworkAddressing.ulNetMask = ulParameter;
+ 727:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							}
+ 728:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							break;
+ 729:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 730:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						case dhcpGATEWAY_OPTION_CODE :
+ 731:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 732:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							if( ucLength == sizeof( uint32_t ) )
+ 733:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							{
+ 734:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								/* ulProcessed is not incremented in this case
+ 735:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								because the gateway is not essential. */
+ 736:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								xNetworkAddressing.ulGatewayAddress = ulParameter;
+ 737:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							}
+ 738:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							break;
+ 739:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 740:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						case dhcpDNS_SERVER_OPTIONS_CODE :
+ 741:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 742:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							/* ulProcessed is not incremented in this case
+ 743:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							because the DNS server is not essential.  Only the
+ 744:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							first DNS server address is taken. */
+ 745:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							xNetworkAddressing.ulDNSServerAddress = ulParameter;
+ 746:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							break;
+ 747:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 748:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						case dhcpSERVER_IP_ADDRESS_OPTION_CODE :
+ 749:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 750:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							if( ucLength == sizeof( uint32_t ) )
+ 751:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							{
+ 752:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								if( xExpectedMessageType == ( BaseType_t ) dhcpMESSAGE_TYPE_OFFER )
+ 753:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								{
+ 754:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 									/* Offers state the replying server. */
+ 755:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 									ulProcessed++;
+ 756:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 									xDHCPData.ulDHCPServerAddress = ulParameter;
+ 757:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								}
+ 758:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								else
+ 759:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								{
+ 760:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 									/* The ack must come from the expected server. */
+ 761:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 									if( xDHCPData.ulDHCPServerAddress == ulParameter )
+ 762:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 									{
+ 763:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 										ulProcessed++;
+ 764:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 									}
+ 765:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								}
+ 766:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							}
+ 767:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							break;
+ 768:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 769:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						case dhcpLEASE_TIME_OPTION_CODE :
+ 770:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 771:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							if( ucLength == sizeof( xDHCPData.ulLeaseTime ) )
+ 772:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							{
+ 773:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								/* ulProcessed is not incremented in this case
+ 774:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								because the lease time is not essential. */
+ 775:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								/* The DHCP parameter is in seconds, convert
+ 776:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								to host-endian format. */
+ 777:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								xDHCPData.ulLeaseTime = FreeRTOS_ntohl( ulParameter );
+ 778:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 779:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								/* Divide the lease time by two to ensure a
+ 780:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								renew request is sent before the lease actually
+ 781:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								expires. */
+ 782:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								xDHCPData.ulLeaseTime >>= 1UL;
+ 783:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 784:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								/* Multiply with configTICK_RATE_HZ to get clock
+ 785:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								ticks. */
+ 786:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								xDHCPData.ulLeaseTime = configTICK_RATE_HZ * xDHCPData.ulLeaseTime;
+ 787:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							}
+ 788:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							break;
+ 789:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 790:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						default :
+ 791:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 792:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							/* Not interested in this field. */
+ 793:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 794:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							break;
+ 795:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					}
+ 796:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 797:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					/* Jump over the data to find the next option code. */
+ 798:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					if( ucLength == 0u )
+ 799:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 800:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						break;
+ 801:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					}
+ 802:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					else
+ 803:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 804:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						pucByte += ucLength;
+ 805:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					}
+ 806:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				}
+ 807:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 808:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				/* Were all the mandatory options received? */
+ 809:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				if( ulProcessed >= ulMandatoryOptions )
+ 810:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				{
+ 811:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					/* HT:endian: used to be network order */
+ 812:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					xDHCPData.ulOfferedIPAddress = pxDHCPMessage->ulYourIPAddress_yiaddr;
+ 813:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					FreeRTOS_printf( ( "vDHCPProcess: offer %lxip\n", FreeRTOS_ntohl( xDHCPData.ulOfferedIPAddress
+ 814:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					xReturn = pdPASS;
+ 815:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				}
+ 816:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			}
+ 817:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		}
+ 818:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 819:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		FreeRTOS_ReleaseUDPPayloadBuffer( ( void * ) pucUDPPayload );
+  82              		.loc 1 819 0
+  83 0054 1C009DE5 		ldr	r0, [sp, #28]
+  84 0058 FEFFFFEB 		bl	FreeRTOS_ReleaseUDPPayloadBuffer
+  85              	.LVL7:
+  86              	.L1:
+ 820:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	}
+ 821:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 822:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	return xReturn;
+ 823:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** }
+  87              		.loc 1 823 0
+  88 005c 0400A0E1 		mov	r0, r4
+  89 0060 34D08DE2 		add	sp, sp, #52
+  90              		.cfi_remember_state
+  91              		.cfi_def_cfa_offset 36
+  92              		@ sp needed
+  93 0064 F08FBDE8 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+  94              	.LVL8:
+  95              	.L3:
+  96              		.cfi_restore_state
+ 632:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+  97              		.loc 1 632 0 discriminator 1
+  98 0068 1C409DE5 		ldr	r4, [sp, #28]
+ 636:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			( pxDHCPMessage->ulDHCPCookie == ( uint32_t ) dhcpCOOKIE ) &&
+  99              		.loc 1 636 0 discriminator 1
+ 100 006c ED20D4E5 		ldrb	r2, [r4, #237]	@ zero_extendqisi2
+ 101 0070 EC30D4E5 		ldrb	r3, [r4, #236]	@ zero_extendqisi2
+ 102 0074 023483E1 		orr	r3, r3, r2, lsl #8
+ 103 0078 EE20D4E5 		ldrb	r2, [r4, #238]	@ zero_extendqisi2
+ 104 007c 023883E1 		orr	r3, r3, r2, lsl #16
+ 105 0080 EF20D4E5 		ldrb	r2, [r4, #239]	@ zero_extendqisi2
+ 106 0084 023C83E1 		orr	r3, r3, r2, lsl #24
+ 635:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			( pxDHCPMessage->ulDHCPCookie == ( uint32_t ) dhcpCOOKIE ) &&
+ 107              		.loc 1 635 0 discriminator 1
+ 108 0088 30229FE5 		ldr	r2, .L35+4
+ 109 008c 020053E1 		cmp	r3, r2
+ 110 0090 EEFFFF1A 		bne	.L5
+ 636:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			( pxDHCPMessage->ucOpcode == ( uint8_t ) dhcpREPLY_OPCODE ) &&
+ 111              		.loc 1 636 0
+ 112 0094 0030D4E5 		ldrb	r3, [r4]	@ zero_extendqisi2
+ 113 0098 020053E3 		cmp	r3, #2
+ 114 009c EBFFFF1A 		bne	.L5
+ 638:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		{
+ 115              		.loc 1 638 0
+ 116 00a0 0510D4E5 		ldrb	r1, [r4, #5]	@ zero_extendqisi2
+ 117 00a4 0430D4E5 		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 118 00a8 002095E5 		ldr	r2, [r5]
+ 119 00ac 013483E1 		orr	r3, r3, r1, lsl #8
+ 120 00b0 0610D4E5 		ldrb	r1, [r4, #6]	@ zero_extendqisi2
+ 121 00b4 322FBFE6 		rev	r2, r2
+ 122 00b8 013883E1 		orr	r3, r3, r1, lsl #16
+ 123 00bc 0710D4E5 		ldrb	r1, [r4, #7]	@ zero_extendqisi2
+ 124 00c0 013C83E1 		orr	r3, r3, r1, lsl #24
+ 637:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			( pxDHCPMessage->ulTransactionID == FreeRTOS_htonl( xDHCPData.ulTransactionId ) ) )
+ 125              		.loc 1 637 0
+ 126 00c4 020053E1 		cmp	r3, r2
+ 127 00c8 E0FFFF1A 		bne	.L5
+ 640:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						( void * ) ipLOCAL_MAC_ADDRESS,
+ 128              		.loc 1 640 0
+ 129 00cc 0620A0E3 		mov	r2, #6
+ 130 00d0 EC119FE5 		ldr	r1, .L35+8
+ 131 00d4 1C0084E2 		add	r0, r4, #28
+ 132              	.LVL9:
+ 133 00d8 FEFFFFEB 		bl	memcmp
+ 134              	.LVL10:
+ 135 00dc 006050E2 		subs	r6, r0, #0
+ 136 00e0 DAFFFF1A 		bne	.L5
+ 137              	.LVL11:
+ 650:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 138              		.loc 1 650 0
+ 139 00e4 028048E2 		sub	r8, r8, #2
+ 140              	.LVL12:
+ 745:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							break;
+ 141              		.loc 1 745 0
+ 142 00e8 D8B19FE5 		ldr	fp, .L35+12
+ 650:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 143              		.loc 1 650 0
+ 144 00ec 083084E0 		add	r3, r4, r8
+ 649:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				pucLastByte = &( pucUDPPayload[ lBytes - dhcpMAX_OPTION_LENGTH_OF_INTEREST ] );
+ 145              		.loc 1 649 0
+ 146 00f0 F07084E2 		add	r7, r4, #240
+ 147              	.LVL13:
+ 650:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 148              		.loc 1 650 0
+ 149 00f4 08308DE5 		str	r3, [sp, #8]
+ 150              	.LVL14:
+ 669:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 151              		.loc 1 669 0
+ 152 00f8 013043E2 		sub	r3, r3, #1
+ 153              	.LVL15:
+ 154 00fc 0C308DE5 		str	r3, [sp, #12]
+ 702:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							{
+ 155              		.loc 1 702 0
+ 156 0100 7A30EFE6 		uxtb	r3, r10
+ 157 0104 10308DE5 		str	r3, [sp, #16]
+ 158              	.LVL16:
+ 159              	.L6:
+ 652:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				{
+ 160              		.loc 1 652 0
+ 161 0108 08309DE5 		ldr	r3, [sp, #8]
+ 162 010c 030057E1 		cmp	r7, r3
+ 163 0110 2100002A 		bcs	.L7
+ 654:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					if( ucOptionCode == dhcpOPTION_END_BYTE )
+ 164              		.loc 1 654 0
+ 165 0114 0090D7E5 		ldrb	r9, [r7]	@ zero_extendqisi2
+ 166              	.LVL17:
+ 655:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 167              		.loc 1 655 0
+ 168 0118 FF0059E3 		cmp	r9, #255
+ 169 011c 1E00000A 		beq	.L7
+ 660:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 170              		.loc 1 660 0
+ 171 0120 000059E3 		cmp	r9, #0
+ 664:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						continue;
+ 172              		.loc 1 664 0
+ 173 0124 01708702 		addeq	r7, r7, #1
+ 174              	.LVL18:
+ 660:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 175              		.loc 1 660 0
+ 176 0128 F6FFFF0A 		beq	.L6
+ 669:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 177              		.loc 1 669 0
+ 178 012c 0C309DE5 		ldr	r3, [sp, #12]
+ 179 0130 030057E1 		cmp	r7, r3
+ 180 0134 1800002A 		bcs	.L7
+ 671:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						pucByte += 2;
+ 181              		.loc 1 671 0
+ 182 0138 0180D7E5 		ldrb	r8, [r7, #1]	@ zero_extendqisi2
+ 183              	.LVL19:
+ 672:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 184              		.loc 1 672 0
+ 185 013c 023087E2 		add	r3, r7, #2
+ 186              	.LVL20:
+ 674:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						{
+ 187              		.loc 1 674 0
+ 188 0140 08209DE5 		ldr	r2, [sp, #8]
+ 189 0144 082042E0 		sub	r2, r2, r8
+ 190 0148 020053E1 		cmp	r3, r2
+ 191 014c 1200002A 		bcs	.L7
+ 686:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 192              		.loc 1 686 0
+ 193 0150 030058E3 		cmp	r8, #3
+ 694:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					}
+ 194              		.loc 1 694 0
+ 195 0154 0020A093 		movls	r2, #0
+ 196 0158 24208D95 		strls	r2, [sp, #36]
+ 686:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 197              		.loc 1 686 0
+ 198 015c 0500009A 		bls	.L11
+ 688:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								( void * ) pucByte,
+ 199              		.loc 1 688 0
+ 200 0160 0310A0E1 		mov	r1, r3
+ 201 0164 0420A0E3 		mov	r2, #4
+ 202 0168 24008DE2 		add	r0, sp, #36
+ 203 016c 14308DE5 		str	r3, [sp, #20]
+ 204 0170 FEFFFFEB 		bl	memcpy
+ 205              	.LVL21:
+ 206 0174 14309DE5 		ldr	r3, [sp, #20]
+ 207              	.LVL22:
+ 208              	.L11:
+ 698:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 209              		.loc 1 698 0
+ 210 0178 060059E3 		cmp	r9, #6
+ 211 017c 4000000A 		beq	.L13
+ 212 0180 1B00008A 		bhi	.L14
+ 213 0184 010059E3 		cmp	r9, #1
+ 214 0188 3200000A 		beq	.L15
+ 215 018c 030059E3 		cmp	r9, #3
+ 216 0190 3600000A 		beq	.L16
+ 217              	.LVL23:
+ 218              	.L12:
+ 798:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 219              		.loc 1 798 0
+ 220 0194 000058E3 		cmp	r8, #0
+ 221 0198 3200001A 		bne	.L21
+ 222              	.LVL24:
+ 223              	.L7:
+ 809:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				{
+ 224              		.loc 1 809 0
+ 225 019c 010056E3 		cmp	r6, #1
+ 226 01a0 AAFFFF9A 		bls	.L5
+ 812:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					FreeRTOS_printf( ( "vDHCPProcess: offer %lxip\n", FreeRTOS_ntohl( xDHCPData.ulOfferedIPAddress
+ 227              		.loc 1 812 0
+ 228 01a4 1120D4E5 		ldrb	r2, [r4, #17]	@ zero_extendqisi2
+ 229 01a8 1030D4E5 		ldrb	r3, [r4, #16]	@ zero_extendqisi2
+ 230 01ac 1210D4E5 		ldrb	r1, [r4, #18]	@ zero_extendqisi2
+ 813:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					xReturn = pdPASS;
+ 231              		.loc 1 813 0
+ 232 01b0 14019FE5 		ldr	r0, .L35+16
+ 812:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					FreeRTOS_printf( ( "vDHCPProcess: offer %lxip\n", FreeRTOS_ntohl( xDHCPData.ulOfferedIPAddress
+ 233              		.loc 1 812 0
+ 234 01b4 023483E1 		orr	r3, r3, r2, lsl #8
+ 235 01b8 013883E1 		orr	r3, r3, r1, lsl #16
+ 236 01bc 1310D4E5 		ldrb	r1, [r4, #19]	@ zero_extendqisi2
+ 814:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				}
+ 237              		.loc 1 814 0
+ 238 01c0 0140A0E3 		mov	r4, #1
+ 812:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					FreeRTOS_printf( ( "vDHCPProcess: offer %lxip\n", FreeRTOS_ntohl( xDHCPData.ulOfferedIPAddress
+ 239              		.loc 1 812 0
+ 240 01c4 013C83E1 		orr	r3, r3, r1, lsl #24
+ 813:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					xReturn = pdPASS;
+ 241              		.loc 1 813 0
+ 242 01c8 231CA0E1 		lsr	r1, r3, #24
+ 243 01cc 0324A0E1 		lsl	r2, r3, #8
+ 812:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					FreeRTOS_printf( ( "vDHCPProcess: offer %lxip\n", FreeRTOS_ntohl( xDHCPData.ulOfferedIPAddress
+ 244              		.loc 1 812 0
+ 245 01d0 043085E5 		str	r3, [r5, #4]
+ 813:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					xReturn = pdPASS;
+ 246              		.loc 1 813 0
+ 247 01d4 031C81E1 		orr	r1, r1, r3, lsl #24
+ 248 01d8 2334A0E1 		lsr	r3, r3, #8
+ 249 01dc FF2802E2 		and	r2, r2, #16711680
+ 250 01e0 FF3C03E2 		and	r3, r3, #65280
+ 251 01e4 021081E1 		orr	r1, r1, r2
+ 252 01e8 031081E1 		orr	r1, r1, r3
+ 253 01ec FEFFFFEB 		bl	vLoggingPrintf
+ 254              	.LVL25:
+ 255 01f0 97FFFFEA 		b	.L4
+ 256              	.LVL26:
+ 257              	.L14:
+ 698:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 258              		.loc 1 698 0
+ 259 01f4 350059E3 		cmp	r9, #53
+ 260 01f8 0C00000A 		beq	.L17
+ 261 01fc 360059E3 		cmp	r9, #54
+ 262 0200 2200000A 		beq	.L18
+ 263 0204 330059E3 		cmp	r9, #51
+ 264 0208 E1FFFF1A 		bne	.L12
+ 771:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							{
+ 265              		.loc 1 771 0
+ 266 020c 040058E3 		cmp	r8, #4
+ 267 0210 DFFFFF1A 		bne	.L12
+ 268 0214 24209DE5 		ldr	r2, [sp, #36]
+ 786:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							}
+ 269              		.loc 1 786 0
+ 270 0218 FA1FA0E3 		mov	r1, #1000
+ 271 021c 322FBFE6 		rev	r2, r2
+ 782:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 272              		.loc 1 782 0
+ 273 0220 A220A0E1 		lsr	r2, r2, #1
+ 786:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							}
+ 274              		.loc 1 786 0
+ 275 0224 910202E0 		mul	r2, r1, r2
+ 276 0228 0C2085E5 		str	r2, [r5, #12]
+ 277 022c 0D0000EA 		b	.L21
+ 278              	.L17:
+ 702:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							{
+ 279              		.loc 1 702 0
+ 280 0230 0220D7E5 		ldrb	r2, [r7, #2]	@ zero_extendqisi2
+ 281 0234 10109DE5 		ldr	r1, [sp, #16]
+ 282 0238 010052E1 		cmp	r2, r1
+ 706:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							}
+ 283              		.loc 1 706 0
+ 284 023c 01608602 		addeq	r6, r6, #1
+ 285              	.LVL27:
+ 702:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							{
+ 286              		.loc 1 702 0
+ 287 0240 D3FFFF0A 		beq	.L12
+ 710:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								{
+ 288              		.loc 1 710 0
+ 289 0244 05005AE3 		cmp	r10, #5
+ 290 0248 06005203 		cmpeq	r2, #6
+ 713:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								}
+ 291              		.loc 1 713 0
+ 292 024c 0020A003 		moveq	r2, #0
+ 293 0250 1C20C505 		strbeq	r2, [r5, #28]
+ 294 0254 CEFFFFEA 		b	.L12
+ 295              	.LVL28:
+ 296              	.L15:
+ 724:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							{
+ 297              		.loc 1 724 0
+ 298 0258 040058E3 		cmp	r8, #4
+ 726:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							}
+ 299              		.loc 1 726 0
+ 300 025c 24209D05 		ldreq	r2, [sp, #36]
+ 301 0260 04208B05 		streq	r2, [fp, #4]
+ 724:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							{
+ 302              		.loc 1 724 0
+ 303 0264 CAFFFF1A 		bne	.L12
+ 304              	.LVL29:
+ 305              	.L21:
+ 804:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					}
+ 306              		.loc 1 804 0
+ 307 0268 087083E0 		add	r7, r3, r8
+ 308              	.LVL30:
+ 309 026c A5FFFFEA 		b	.L6
+ 310              	.LVL31:
+ 311              	.L16:
+ 732:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							{
+ 312              		.loc 1 732 0
+ 313 0270 040058E3 		cmp	r8, #4
+ 736:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							}
+ 314              		.loc 1 736 0
+ 315 0274 24209D05 		ldreq	r2, [sp, #36]
+ 316 0278 08208B05 		streq	r2, [fp, #8]
+ 732:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							{
+ 317              		.loc 1 732 0
+ 318 027c C4FFFF1A 		bne	.L12
+ 319 0280 F8FFFFEA 		b	.L21
+ 320              	.L13:
+ 745:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							break;
+ 321              		.loc 1 745 0
+ 322 0284 24209DE5 		ldr	r2, [sp, #36]
+ 323 0288 0C208BE5 		str	r2, [fp, #12]
+ 746:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 324              		.loc 1 746 0
+ 325 028c C0FFFFEA 		b	.L12
+ 326              	.L18:
+ 750:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 							{
+ 327              		.loc 1 750 0
+ 328 0290 040058E3 		cmp	r8, #4
+ 329 0294 BEFFFF1A 		bne	.L12
+ 330 0298 24209DE5 		ldr	r2, [sp, #36]
+ 752:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								{
+ 331              		.loc 1 752 0
+ 332 029c 02005AE3 		cmp	r10, #2
+ 755:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 									xDHCPData.ulDHCPServerAddress = ulParameter;
+ 333              		.loc 1 755 0
+ 334 02a0 01608602 		addeq	r6, r6, #1
+ 335              	.LVL32:
+ 756:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								}
+ 336              		.loc 1 756 0
+ 337 02a4 08208505 		streq	r2, [r5, #8]
+ 752:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 								{
+ 338              		.loc 1 752 0
+ 339 02a8 EEFFFF0A 		beq	.L21
+ 761:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 									{
+ 340              		.loc 1 761 0
+ 341 02ac 081095E5 		ldr	r1, [r5, #8]
+ 342 02b0 020051E1 		cmp	r1, r2
+ 763:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 									}
+ 343              		.loc 1 763 0
+ 344 02b4 01608602 		addeq	r6, r6, #1
+ 345              	.LVL33:
+ 346 02b8 EAFFFFEA 		b	.L21
+ 347              	.L36:
+ 348              		.align	2
+ 349              	.L35:
+ 350 02bc 00000000 		.word	.LANCHOR0
+ 351 02c0 63825363 		.word	1666417251
+ 352 02c4 00000000 		.word	xDefaultPartUDPPacketHeader
+ 353 02c8 00000000 		.word	xNetworkAddressing
+ 354 02cc 00000000 		.word	.LC0
+ 355              		.cfi_endproc
+ 356              	.LFE29:
+ 358              		.section	.text.prvCreateDHCPSocket,"ax",%progbits
+ 359              		.align	2
+ 360              		.syntax unified
+ 361              		.arm
+ 362              		.fpu neon
+ 364              	prvCreateDHCPSocket:
+ 365              	.LFB27:
+ 556:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** struct freertos_sockaddr xAddress;
+ 366              		.loc 1 556 0
+ 367              		.cfi_startproc
+ 368              		@ args = 0, pretend = 0, frame = 16
+ 369              		@ frame_needed = 0, uses_anonymous_args = 0
+ 370 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 371              		.cfi_def_cfa_offset 16
+ 372              		.cfi_offset 4, -16
+ 373              		.cfi_offset 5, -12
+ 374              		.cfi_offset 6, -8
+ 375              		.cfi_offset 14, -4
+ 559:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 376              		.loc 1 559 0
+ 377 0004 0030A0E3 		mov	r3, #0
+ 562:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	{
+ 378              		.loc 1 562 0
+ 379 0008 94409FE5 		ldr	r4, .L46
+ 556:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** struct freertos_sockaddr xAddress;
+ 380              		.loc 1 556 0
+ 381 000c 18D04DE2 		sub	sp, sp, #24
+ 382              		.cfi_def_cfa_offset 40
+ 559:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 383              		.loc 1 559 0
+ 384 0010 0C308DE5 		str	r3, [sp, #12]
+ 562:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	{
+ 385              		.loc 1 562 0
+ 386 0014 205094E5 		ldr	r5, [r4, #32]
+ 387 0018 030055E1 		cmp	r5, r3
+ 388 001c 1E00001A 		bne	.L37
+ 564:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		if( xDHCPData.xDHCPSocket != FREERTOS_INVALID_SOCKET )
+ 389              		.loc 1 564 0
+ 390 0020 0210A0E3 		mov	r1, #2
+ 391 0024 1120A0E3 		mov	r2, #17
+ 392 0028 0100A0E1 		mov	r0, r1
+ 393 002c FEFFFFEB 		bl	FreeRTOS_socket
+ 394              	.LVL34:
+ 565:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		{
+ 395              		.loc 1 565 0
+ 396 0030 010070E3 		cmn	r0, #1
+ 564:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		if( xDHCPData.xDHCPSocket != FREERTOS_INVALID_SOCKET )
+ 397              		.loc 1 564 0
+ 398 0034 200084E5 		str	r0, [r4, #32]
+ 565:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		{
+ 399              		.loc 1 565 0
+ 400 0038 1600000A 		beq	.L40
+ 570:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			FreeRTOS_setsockopt( xDHCPData.xDHCPSocket, 0, FREERTOS_SO_SNDTIMEO, ( void * ) &xTimeoutTime, s
+ 401              		.loc 1 570 0
+ 402 003c 0460A0E3 		mov	r6, #4
+ 403 0040 0C308DE2 		add	r3, sp, #12
+ 404 0044 0520A0E1 		mov	r2, r5
+ 405 0048 0510A0E1 		mov	r1, r5
+ 406 004c 00608DE5 		str	r6, [sp]
+ 407 0050 FEFFFFEB 		bl	FreeRTOS_setsockopt
+ 408              	.LVL35:
+ 571:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 409              		.loc 1 571 0
+ 410 0054 0C308DE2 		add	r3, sp, #12
+ 411 0058 0120A0E3 		mov	r2, #1
+ 412 005c 0510A0E1 		mov	r1, r5
+ 413 0060 00608DE5 		str	r6, [sp]
+ 414 0064 200094E5 		ldr	r0, [r4, #32]
+ 415 0068 FEFFFFEB 		bl	FreeRTOS_setsockopt
+ 416              	.LVL36:
+ 574:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			xReturn = vSocketBind( xDHCPData.xDHCPSocket, &xAddress, sizeof( xAddress ), pdFALSE );
+ 417              		.loc 1 574 0
+ 418 006c 113BA0E3 		mov	r3, #17408
+ 575:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			if( xReturn != 0 )
+ 419              		.loc 1 575 0
+ 420 0070 0820A0E3 		mov	r2, #8
+ 574:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			xReturn = vSocketBind( xDHCPData.xDHCPSocket, &xAddress, sizeof( xAddress ), pdFALSE );
+ 421              		.loc 1 574 0
+ 422 0074 B231CDE1 		strh	r3, [sp, #18]	@ movhi
+ 575:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			if( xReturn != 0 )
+ 423              		.loc 1 575 0
+ 424 0078 10108DE2 		add	r1, sp, #16
+ 425 007c 0530A0E1 		mov	r3, r5
+ 426 0080 200094E5 		ldr	r0, [r4, #32]
+ 427 0084 FEFFFFEB 		bl	vSocketBind
+ 428              	.LVL37:
+ 576:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			{
+ 429              		.loc 1 576 0
+ 430 0088 000050E3 		cmp	r0, #0
+ 431 008c 0200000A 		beq	.L37
+ 432              	.LBB4:
+ 433              	.LBB5:
+ 579:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				xDHCPData.xDHCPSocket = NULL;
+ 434              		.loc 1 579 0
+ 435 0090 200094E5 		ldr	r0, [r4, #32]
+ 436              	.LVL38:
+ 437 0094 FEFFFFEB 		bl	vSocketClose
+ 438              	.LVL39:
+ 439              	.L40:
+ 440              	.LBE5:
+ 441              	.LBE4:
+ 586:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		}
+ 442              		.loc 1 586 0
+ 443 0098 205084E5 		str	r5, [r4, #32]
+ 444              	.L37:
+ 589:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /*-----------------------------------------------------------*/
+ 445              		.loc 1 589 0
+ 446 009c 18D08DE2 		add	sp, sp, #24
+ 447              		.cfi_def_cfa_offset 16
+ 448              		@ sp needed
+ 449 00a0 7080BDE8 		pop	{r4, r5, r6, pc}
+ 450              	.L47:
+ 451              		.align	2
+ 452              	.L46:
+ 453 00a4 00000000 		.word	.LANCHOR0
+ 454              		.cfi_endproc
+ 455              	.LFE27:
+ 457              		.section	.text.prvCreatePartDHCPMessage.constprop.1,"ax",%progbits
+ 458              		.align	2
+ 459              		.syntax unified
+ 460              		.arm
+ 461              		.fpu neon
+ 463              	prvCreatePartDHCPMessage.constprop.1:
+ 464              	.LFB34:
+ 824:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /*-----------------------------------------------------------*/
+ 825:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 826:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** static uint8_t *prvCreatePartDHCPMessage( struct freertos_sockaddr *pxAddress, BaseType_t xOpcode, 
+ 465              		.loc 1 826 0
+ 466              		.cfi_startproc
+ 467              		@ args = 0, pretend = 0, frame = 0
+ 468              		@ frame_needed = 0, uses_anonymous_args = 0
+ 469              	.LVL40:
+ 470 0000 F0472DE9 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 471              		.cfi_def_cfa_offset 32
+ 472              		.cfi_offset 4, -32
+ 473              		.cfi_offset 5, -28
+ 474              		.cfi_offset 6, -24
+ 475              		.cfi_offset 7, -20
+ 476              		.cfi_offset 8, -16
+ 477              		.cfi_offset 9, -12
+ 478              		.cfi_offset 10, -8
+ 479              		.cfi_offset 14, -4
+ 480              		.loc 1 826 0
+ 481 0004 0190A0E1 		mov	r9, r1
+ 827:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** {
+ 828:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** DHCPMessage_t *pxDHCPMessage;
+ 829:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** size_t xRequiredBufferSize = sizeof( DHCPMessage_t ) + *pxOptionsArraySize;
+ 482              		.loc 1 829 0
+ 483 0008 00A092E5 		ldr	r10, [r2]
+ 484              	.LVL41:
+ 826:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** {
+ 485              		.loc 1 826 0
+ 486 000c 0250A0E1 		mov	r5, r2
+ 487 0010 0070A0E1 		mov	r7, r0
+ 830:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** uint8_t *pucUDPPayloadBuffer;
+ 831:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 832:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #if( ipconfigDHCP_REGISTER_HOSTNAME == 1 )
+ 833:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	const char *pucHostName = pcApplicationHostnameHook ();
+ 488              		.loc 1 833 0
+ 489 0014 FEFFFFEB 		bl	pcApplicationHostnameHook
+ 490              	.LVL42:
+ 834:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	size_t xNameLength = strlen( pucHostName );
+ 835:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	uint8_t *pucPtr;
+ 836:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 837:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	xRequiredBufferSize += ( 2 + xNameLength );
+ 491              		.loc 1 837 0
+ 492 0018 F3A08AE2 		add	r10, r10, #243
+ 493              	.LVL43:
+ 833:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	size_t xNameLength = strlen( pucHostName );
+ 494              		.loc 1 833 0
+ 495 001c 0080A0E1 		mov	r8, r0
+ 496              	.LVL44:
+ 834:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	size_t xNameLength = strlen( pucHostName );
+ 497              		.loc 1 834 0
+ 498 0020 FEFFFFEB 		bl	strlen
+ 499              	.LVL45:
+ 500 0024 0060A0E1 		mov	r6, r0
+ 501              	.LVL46:
+ 502              		.loc 1 837 0
+ 503 0028 00A08AE0 		add	r10, r10, r0
+ 504              	.LVL47:
+ 505              	.L49:
+ 838:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** #endif
+ 839:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 840:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	/* Get a buffer.  This uses a maximum delay, but the delay will be capped
+ 841:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	to ipconfigUDP_MAX_SEND_BLOCK_TIME_TICKS so the return value still needs to
+ 842:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	be test. */
+ 843:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	do
+ 844:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	{
+ 845:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	} while( ( pucUDPPayloadBuffer = ( uint8_t * ) FreeRTOS_GetUDPPayloadBuffer( xRequiredBufferSize, 
+ 506              		.loc 1 845 0
+ 507 002c 0010E0E3 		mvn	r1, #0
+ 508 0030 0A00A0E1 		mov	r0, r10
+ 509 0034 FEFFFFEB 		bl	FreeRTOS_GetUDPPayloadBuffer
+ 510              	.LVL48:
+ 511 0038 004050E2 		subs	r4, r0, #0
+ 512 003c FAFFFF0A 		beq	.L49
+ 513              	.LVL49:
+ 846:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 847:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	pxDHCPMessage = ( DHCPMessage_t * ) pucUDPPayloadBuffer;
+ 848:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 849:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	/* Most fields need to be zero. */
+ 850:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	memset( ( void * ) pxDHCPMessage, 0x00, sizeof( DHCPMessage_t ) );
+ 514              		.loc 1 850 0
+ 515 0040 F120A0E3 		mov	r2, #241
+ 516 0044 0010A0E3 		mov	r1, #0
+ 517 0048 FEFFFFEB 		bl	memset
+ 518              	.LVL50:
+ 519 004c F4209FE5 		ldr	r2, .L56
+ 851:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 852:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	/* Create the message. */
+ 853:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	pxDHCPMessage->ucOpcode = ( uint8_t ) xOpcode;
+ 520              		.loc 1 853 0
+ 521 0050 0130A0E3 		mov	r3, #1
+ 522 0054 0030C4E5 		strb	r3, [r4]
+ 854:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	pxDHCPMessage->ucAddressType = ( uint8_t ) dhcpADDRESS_TYPE_ETHERNET;
+ 855:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	pxDHCPMessage->ucAddressLength = ( uint8_t ) dhcpETHERNET_ADDRESS_LENGTH;
+ 856:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	pxDHCPMessage->ulTransactionID = FreeRTOS_htonl( xDHCPData.ulTransactionId );
+ 857:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	pxDHCPMessage->ulDHCPCookie = ( uint32_t ) dhcpCOOKIE;
+ 858:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	if( xDHCPData.xUseBroadcast != pdFALSE )
+ 859:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	{
+ 860:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		pxDHCPMessage->usFlags = ( uint16_t ) dhcpBROADCAST;
+ 861:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	}
+ 862:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	else
+ 863:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	{
+ 864:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		pxDHCPMessage->usFlags = 0u;
+ 865:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	}
+ 866:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 867:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	memcpy( ( void * ) &( pxDHCPMessage->ucClientHardwareAddress[ 0 ] ), ( void * ) ipLOCAL_MAC_ADDRES
+ 523              		.loc 1 867 0
+ 524 0058 1C0084E2 		add	r0, r4, #28
+ 854:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	pxDHCPMessage->ucAddressType = ( uint8_t ) dhcpADDRESS_TYPE_ETHERNET;
+ 525              		.loc 1 854 0
+ 526 005c 0130C4E5 		strb	r3, [r4, #1]
+ 855:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	pxDHCPMessage->ulTransactionID = FreeRTOS_htonl( xDHCPData.ulTransactionId );
+ 527              		.loc 1 855 0
+ 528 0060 0630A0E3 		mov	r3, #6
+ 529 0064 0230C4E5 		strb	r3, [r4, #2]
+ 530 0068 003092E5 		ldr	r3, [r2]
+ 531 006c 333FBFE6 		rev	r3, r3
+ 856:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	pxDHCPMessage->ulDHCPCookie = ( uint32_t ) dhcpCOOKIE;
+ 532              		.loc 1 856 0
+ 533 0070 5314E7E7 		ubfx	r1, r3, #8, #8
+ 534 0074 0430C4E5 		strb	r3, [r4, #4]
+ 535 0078 0510C4E5 		strb	r1, [r4, #5]
+ 536 007c 5318E7E7 		ubfx	r1, r3, #16, #8
+ 537 0080 233CA0E1 		lsr	r3, r3, #24
+ 538 0084 0610C4E5 		strb	r1, [r4, #6]
+ 857:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	if( xDHCPData.xUseBroadcast != pdFALSE )
+ 539              		.loc 1 857 0
+ 540 0088 7D10E0E3 		mvn	r1, #125
+ 856:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	pxDHCPMessage->ulDHCPCookie = ( uint32_t ) dhcpCOOKIE;
+ 541              		.loc 1 856 0
+ 542 008c 0730C4E5 		strb	r3, [r4, #7]
+ 857:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	if( xDHCPData.xUseBroadcast != pdFALSE )
+ 543              		.loc 1 857 0
+ 544 0090 6330A0E3 		mov	r3, #99
+ 545 0094 EC30C4E5 		strb	r3, [r4, #236]
+ 546 0098 EF30C4E5 		strb	r3, [r4, #239]
+ 858:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	{
+ 547              		.loc 1 858 0
+ 548 009c 183092E5 		ldr	r3, [r2, #24]
+ 549              		.loc 1 867 0
+ 550 00a0 0620A0E3 		mov	r2, #6
+ 857:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	if( xDHCPData.xUseBroadcast != pdFALSE )
+ 551              		.loc 1 857 0
+ 552 00a4 ED10C4E5 		strb	r1, [r4, #237]
+ 553 00a8 5310A0E3 		mov	r1, #83
+ 554 00ac EE10C4E5 		strb	r1, [r4, #238]
+ 858:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	{
+ 555              		.loc 1 858 0
+ 556 00b0 000053E3 		cmp	r3, #0
+ 557              		.loc 1 867 0
+ 558 00b4 90109FE5 		ldr	r1, .L56+4
+ 860:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	}
+ 559              		.loc 1 860 0
+ 560 00b8 7F30E013 		mvnne	r3, #127
+ 864:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	}
+ 561              		.loc 1 864 0
+ 562 00bc 0A30C405 		strbeq	r3, [r4, #10]
+ 860:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	}
+ 563              		.loc 1 860 0
+ 564 00c0 0A30C415 		strbne	r3, [r4, #10]
+ 565 00c4 0030A013 		movne	r3, #0
+ 864:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	}
+ 566              		.loc 1 864 0
+ 567 00c8 0B30C4E5 		strb	r3, [r4, #11]
+ 568              		.loc 1 867 0
+ 569 00cc FEFFFFEB 		bl	memcpy
+ 570              	.LVL51:
+ 868:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 869:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	/* Copy in the const part of the options options. */
+ 870:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	memcpy( ( void * ) &( pucUDPPayloadBuffer[ dhcpFIRST_OPTION_BYTE_OFFSET ] ), ( void * ) pucOptions
+ 571              		.loc 1 870 0
+ 572 00d0 002095E5 		ldr	r2, [r5]
+ 573 00d4 0910A0E1 		mov	r1, r9
+ 574 00d8 F00084E2 		add	r0, r4, #240
+ 575 00dc FEFFFFEB 		bl	memcpy
+ 576              	.LVL52:
+ 871:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 872:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	#if( ipconfigDHCP_REGISTER_HOSTNAME == 1 )
+ 873:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	{
+ 874:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		/* With this option, the hostname can be registered as well which makes
+ 875:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		it easier to lookup a device in a router's list of DHCP clients. */
+ 876:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 877:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		/* Point to where the OPTION_END was stored to add data. */
+ 878:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		pucPtr = &( pucUDPPayloadBuffer[ dhcpFIRST_OPTION_BYTE_OFFSET + ( *pxOptionsArraySize - 1 ) ] );
+ 577              		.loc 1 878 0
+ 578 00e0 003095E5 		ldr	r3, [r5]
+ 879:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		pucPtr[ 0 ] = dhcpDNS_HOSTNAME_OPTIONS_CODE;
+ 579              		.loc 1 879 0
+ 580 00e4 0C20A0E3 		mov	r2, #12
+ 880:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		pucPtr[ 1 ] = ( uint8_t ) xNameLength;
+ 881:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		memcpy( ( void *) ( pucPtr + 2 ), pucHostName, xNameLength );
+ 581              		.loc 1 881 0
+ 582 00e8 0810A0E1 		mov	r1, r8
+ 882:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		pucPtr[ 2 + xNameLength ] = dhcpOPTION_END_BYTE;
+ 583              		.loc 1 882 0
+ 584 00ec 0080E0E3 		mvn	r8, #0
+ 585              	.LVL53:
+ 878:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		pucPtr[ 0 ] = dhcpDNS_HOSTNAME_OPTIONS_CODE;
+ 586              		.loc 1 878 0
+ 587 00f0 EF3083E2 		add	r3, r3, #239
+ 588 00f4 039084E0 		add	r9, r4, r3
+ 589              	.LVL54:
+ 879:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		pucPtr[ 1 ] = ( uint8_t ) xNameLength;
+ 590              		.loc 1 879 0
+ 591 00f8 0320C4E7 		strb	r2, [r4, r3]
+ 881:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		pucPtr[ 2 + xNameLength ] = dhcpOPTION_END_BYTE;
+ 592              		.loc 1 881 0
+ 593 00fc 020089E2 		add	r0, r9, #2
+ 880:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		memcpy( ( void *) ( pucPtr + 2 ), pucHostName, xNameLength );
+ 594              		.loc 1 880 0
+ 595 0100 0160C9E5 		strb	r6, [r9, #1]
+ 881:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		pucPtr[ 2 + xNameLength ] = dhcpOPTION_END_BYTE;
+ 596              		.loc 1 881 0
+ 597 0104 0620A0E1 		mov	r2, r6
+ 598              		.loc 1 882 0
+ 599 0108 069089E0 		add	r9, r9, r6
+ 600              	.LVL55:
+ 881:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		pucPtr[ 2 + xNameLength ] = dhcpOPTION_END_BYTE;
+ 601              		.loc 1 881 0
+ 602 010c FEFFFFEB 		bl	memcpy
+ 603              	.LVL56:
+ 604              		.loc 1 882 0
+ 605 0110 0280C9E5 		strb	r8, [r9, #2]
+ 883:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		*pxOptionsArraySize += ( 2 + xNameLength );
+ 884:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	}
+ 885:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	#endif
+ 886:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 887:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	/* Map in the client identifier. */
+ 888:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	memcpy( ( void * ) &( pucUDPPayloadBuffer[ dhcpFIRST_OPTION_BYTE_OFFSET + dhcpCLIENT_IDENTIFIER_OF
+ 606              		.loc 1 888 0
+ 607 0114 0620A0E3 		mov	r2, #6
+ 883:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		*pxOptionsArraySize += ( 2 + xNameLength );
+ 608              		.loc 1 883 0
+ 609 0118 003095E5 		ldr	r3, [r5]
+ 610              		.loc 1 888 0
+ 611 011c F50084E2 		add	r0, r4, #245
+ 612 0120 24109FE5 		ldr	r1, .L56+4
+ 883:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		*pxOptionsArraySize += ( 2 + xNameLength );
+ 613              		.loc 1 883 0
+ 614 0124 023083E2 		add	r3, r3, #2
+ 615 0128 066083E0 		add	r6, r3, r6
+ 616              	.LVL57:
+ 617 012c 006085E5 		str	r6, [r5]
+ 618              		.loc 1 888 0
+ 619 0130 FEFFFFEB 		bl	memcpy
+ 620              	.LVL58:
+ 889:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		( void * ) ipLOCAL_MAC_ADDRESS, sizeof( MACAddress_t ) );
+ 890:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 891:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	/* Set the addressing. */
+ 892:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	pxAddress->sin_addr = ipBROADCAST_IP_ADDRESS;
+ 893:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	pxAddress->sin_port = ( uint16_t ) dhcpSERVER_PORT;
+ 621              		.loc 1 893 0
+ 622 0134 433CA0E3 		mov	r3, #17152
+ 892:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	pxAddress->sin_port = ( uint16_t ) dhcpSERVER_PORT;
+ 623              		.loc 1 892 0
+ 624 0138 048087E5 		str	r8, [r7, #4]
+ 625              		.loc 1 893 0
+ 626 013c B230C7E1 		strh	r3, [r7, #2]	@ movhi
+ 894:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 895:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	return pucUDPPayloadBuffer;
+ 896:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** }
+ 627              		.loc 1 896 0
+ 628 0140 0400A0E1 		mov	r0, r4
+ 629 0144 F087BDE8 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 630              	.L57:
+ 631              		.align	2
+ 632              	.L56:
+ 633 0148 00000000 		.word	.LANCHOR0
+ 634 014c 00000000 		.word	xDefaultPartUDPPacketHeader
+ 635              		.cfi_endproc
+ 636              	.LFE34:
+ 638              		.section	.text.prvSendDHCPRequest,"ax",%progbits
+ 639              		.align	2
+ 640              		.syntax unified
+ 641              		.arm
+ 642              		.fpu neon
+ 644              	prvSendDHCPRequest:
+ 645              	.LFB31:
+ 897:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /*-----------------------------------------------------------*/
+ 898:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 899:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** static void prvSendDHCPRequest( void )
+ 900:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** {
+ 646              		.loc 1 900 0
+ 647              		.cfi_startproc
+ 648              		@ args = 0, pretend = 0, frame = 16
+ 649              		@ frame_needed = 0, uses_anonymous_args = 0
+ 650 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 651              		.cfi_def_cfa_offset 16
+ 652              		.cfi_offset 4, -16
+ 653              		.cfi_offset 5, -12
+ 654              		.cfi_offset 6, -8
+ 655              		.cfi_offset 14, -4
+ 656 0004 18D04DE2 		sub	sp, sp, #24
+ 657              		.cfi_def_cfa_offset 40
+ 901:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** uint8_t *pucUDPPayloadBuffer;
+ 902:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** struct freertos_sockaddr xAddress;
+ 903:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** static const uint8_t ucDHCPRequestOptions[] =
+ 904:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** {
+ 905:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	/* Do not change the ordering without also changing
+ 906:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	dhcpCLIENT_IDENTIFIER_OFFSET, dhcpREQUESTED_IP_ADDRESS_OFFSET and
+ 907:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	dhcpDHCP_SERVER_IP_ADDRESS_OFFSET. */
+ 908:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	dhcpMESSAGE_TYPE_OPTION_CODE, 1, dhcpMESSAGE_TYPE_REQUEST,		/* Message type option. */
+ 909:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	dhcpCLIENT_IDENTIFIER_OPTION_CODE, 6, 0, 0, 0, 0, 0, 0,			/* Client identifier. */
+ 910:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	dhcpREQUEST_IP_ADDRESS_OPTION_CODE, 4, 0, 0, 0, 0,				/* The IP address being requested. */
+ 911:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	dhcpSERVER_IP_ADDRESS_OPTION_CODE, 4, 0, 0, 0, 0,				/* The IP address of the DHCP server. */
+ 912:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	dhcpOPTION_END_BYTE
+ 913:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** };
+ 914:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** size_t xOptionsLength = sizeof( ucDHCPRequestOptions );
+ 658              		.loc 1 914 0
+ 659 0008 1830A0E3 		mov	r3, #24
+ 660 000c 18208DE2 		add	r2, sp, #24
+ 915:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 916:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	pucUDPPayloadBuffer = prvCreatePartDHCPMessage( &xAddress, dhcpREQUEST_OPCODE, ucDHCPRequestOption
+ 661              		.loc 1 916 0
+ 662 0010 10608DE2 		add	r6, sp, #16
+ 917:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 918:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	/* Copy in the IP address being requested. */
+ 919:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	memcpy( ( void * ) &( pucUDPPayloadBuffer[ dhcpFIRST_OPTION_BYTE_OFFSET + dhcpREQUESTED_IP_ADDRESS
+ 663              		.loc 1 919 0
+ 664 0014 70509FE5 		ldr	r5, .L61
+ 916:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 665              		.loc 1 916 0
+ 666 0018 0600A0E1 		mov	r0, r6
+ 914:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 667              		.loc 1 914 0
+ 668 001c 0C3022E5 		str	r3, [r2, #-12]!
+ 916:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 669              		.loc 1 916 0
+ 670 0020 68109FE5 		ldr	r1, .L61+4
+ 671 0024 FEFFFFEB 		bl	prvCreatePartDHCPMessage.constprop.1
+ 672              	.LVL59:
+ 673              		.loc 1 919 0
+ 674 0028 0420A0E3 		mov	r2, #4
+ 916:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 675              		.loc 1 916 0
+ 676 002c 0040A0E1 		mov	r4, r0
+ 677              	.LVL60:
+ 678              		.loc 1 919 0
+ 679 0030 021085E0 		add	r1, r5, r2
+ 680 0034 FD0080E2 		add	r0, r0, #253
+ 681              	.LVL61:
+ 682 0038 FEFFFFEB 		bl	memcpy
+ 683              	.LVL62:
+ 920:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		( void * ) &( xDHCPData.ulOfferedIPAddress ), sizeof( xDHCPData.ulOfferedIPAddress ) );
+ 921:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 922:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	/* Copy in the address of the DHCP server being used. */
+ 923:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	memcpy( ( void * ) &( pucUDPPayloadBuffer[ dhcpFIRST_OPTION_BYTE_OFFSET + dhcpDHCP_SERVER_IP_ADDRE
+ 684              		.loc 1 923 0
+ 685 003c 010C84E2 		add	r0, r4, #256
+ 686 0040 0420A0E3 		mov	r2, #4
+ 687 0044 081085E2 		add	r1, r5, #8
+ 688 0048 030080E2 		add	r0, r0, #3
+ 689 004c FEFFFFEB 		bl	memcpy
+ 690              	.LVL63:
+ 924:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		( void * ) &( xDHCPData.ulDHCPServerAddress ), sizeof( xDHCPData.ulDHCPServerAddress ) );
+ 925:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 926:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	FreeRTOS_debug_printf( ( "vDHCPProcess: reply %lxip\n", FreeRTOS_ntohl( xDHCPData.ulOfferedIPAddre
+ 927:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	iptraceSENDING_DHCP_REQUEST();
+ 928:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 929:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	if( FreeRTOS_sendto( xDHCPData.xDHCPSocket, pucUDPPayloadBuffer, ( sizeof( DHCPMessage_t ) + xOpti
+ 691              		.loc 1 929 0
+ 692 0050 0C209DE5 		ldr	r2, [sp, #12]
+ 693 0054 0830A0E3 		mov	r3, #8
+ 694 0058 04308DE5 		str	r3, [sp, #4]
+ 695 005c 0410A0E1 		mov	r1, r4
+ 696 0060 00608DE5 		str	r6, [sp]
+ 697 0064 0130A0E3 		mov	r3, #1
+ 698 0068 F12082E2 		add	r2, r2, #241
+ 699 006c 200095E5 		ldr	r0, [r5, #32]
+ 700 0070 FEFFFFEB 		bl	FreeRTOS_sendto
+ 701              	.LVL64:
+ 702 0074 000050E3 		cmp	r0, #0
+ 703 0078 0100001A 		bne	.L58
+ 930:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	{
+ 931:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		/* The packet was not successfully queued for sending and must be
+ 932:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		returned to the stack. */
+ 933:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		FreeRTOS_ReleaseUDPPayloadBuffer( pucUDPPayloadBuffer );
+ 704              		.loc 1 933 0
+ 705 007c 0400A0E1 		mov	r0, r4
+ 706 0080 FEFFFFEB 		bl	FreeRTOS_ReleaseUDPPayloadBuffer
+ 707              	.LVL65:
+ 708              	.L58:
+ 934:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	}
+ 935:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** }
+ 709              		.loc 1 935 0
+ 710 0084 18D08DE2 		add	sp, sp, #24
+ 711              		.cfi_def_cfa_offset 16
+ 712              		@ sp needed
+ 713 0088 7080BDE8 		pop	{r4, r5, r6, pc}
+ 714              	.LVL66:
+ 715              	.L62:
+ 716              		.align	2
+ 717              	.L61:
+ 718 008c 00000000 		.word	.LANCHOR0
+ 719 0090 00000000 		.word	.LANCHOR1
+ 720              		.cfi_endproc
+ 721              	.LFE31:
+ 723              		.section	.text.prvSendDHCPDiscover,"ax",%progbits
+ 724              		.align	2
+ 725              		.syntax unified
+ 726              		.arm
+ 727              		.fpu neon
+ 729              	prvSendDHCPDiscover:
+ 730              	.LFB32:
+ 936:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /*-----------------------------------------------------------*/
+ 937:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 938:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** static void prvSendDHCPDiscover( void )
+ 939:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** {
+ 731              		.loc 1 939 0
+ 732              		.cfi_startproc
+ 733              		@ args = 0, pretend = 0, frame = 16
+ 734              		@ frame_needed = 0, uses_anonymous_args = 0
+ 735 0000 30402DE9 		push	{r4, r5, lr}
+ 736              		.cfi_def_cfa_offset 12
+ 737              		.cfi_offset 4, -12
+ 738              		.cfi_offset 5, -8
+ 739              		.cfi_offset 14, -4
+ 740 0004 1CD04DE2 		sub	sp, sp, #28
+ 741              		.cfi_def_cfa_offset 40
+ 940:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** uint8_t *pucUDPPayloadBuffer;
+ 941:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** struct freertos_sockaddr xAddress;
+ 942:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** static const uint8_t ucDHCPDiscoverOptions[] =
+ 943:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** {
+ 944:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	/* Do not change the ordering without also changing dhcpCLIENT_IDENTIFIER_OFFSET. */
+ 945:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	dhcpMESSAGE_TYPE_OPTION_CODE, 1, dhcpMESSAGE_TYPE_DISCOVER,					/* Message type option. */
+ 946:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	dhcpCLIENT_IDENTIFIER_OPTION_CODE, 6, 0, 0, 0, 0, 0, 0,						/* Client identifier. */
+ 947:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	dhcpPARAMETER_REQUEST_OPTION_CODE, 3, dhcpSUBNET_MASK_OPTION_CODE, dhcpGATEWAY_OPTION_CODE, dhcpDN
+ 948:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	dhcpOPTION_END_BYTE
+ 949:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** };
+ 950:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** size_t xOptionsLength = sizeof( ucDHCPDiscoverOptions );
+ 742              		.loc 1 950 0
+ 743 0008 18208DE2 		add	r2, sp, #24
+ 744 000c 1130A0E3 		mov	r3, #17
+ 951:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 952:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	pucUDPPayloadBuffer = prvCreatePartDHCPMessage( &xAddress, dhcpREQUEST_OPCODE, ucDHCPDiscoverOptio
+ 745              		.loc 1 952 0
+ 746 0010 10508DE2 		add	r5, sp, #16
+ 950:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 747              		.loc 1 950 0
+ 748 0014 0C3022E5 		str	r3, [r2, #-12]!
+ 749              		.loc 1 952 0
+ 750 0018 0500A0E1 		mov	r0, r5
+ 751 001c 44109FE5 		ldr	r1, .L66
+ 752 0020 FEFFFFEB 		bl	prvCreatePartDHCPMessage.constprop.1
+ 753              	.LVL67:
+ 953:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 954:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	FreeRTOS_debug_printf( ( "vDHCPProcess: discover\n" ) );
+ 955:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	iptraceSENDING_DHCP_DISCOVER();
+ 956:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 957:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	if( FreeRTOS_sendto( xDHCPData.xDHCPSocket, pucUDPPayloadBuffer, ( sizeof( DHCPMessage_t ) + xOpti
+ 754              		.loc 1 957 0
+ 755 0024 0C209DE5 		ldr	r2, [sp, #12]
+ 756 0028 0010A0E1 		mov	r1, r0
+ 952:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 757              		.loc 1 952 0
+ 758 002c 0040A0E1 		mov	r4, r0
+ 759              	.LVL68:
+ 760              		.loc 1 957 0
+ 761 0030 34009FE5 		ldr	r0, .L66+4
+ 762              	.LVL69:
+ 763 0034 0830A0E3 		mov	r3, #8
+ 764 0038 00508DE5 		str	r5, [sp]
+ 765 003c 04308DE5 		str	r3, [sp, #4]
+ 766 0040 F12082E2 		add	r2, r2, #241
+ 767 0044 0130A0E3 		mov	r3, #1
+ 768 0048 200090E5 		ldr	r0, [r0, #32]
+ 769 004c FEFFFFEB 		bl	FreeRTOS_sendto
+ 770              	.LVL70:
+ 771 0050 000050E3 		cmp	r0, #0
+ 772 0054 0100001A 		bne	.L63
+ 958:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	{
+ 959:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		/* The packet was not successfully queued for sending and must be
+ 960:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		returned to the stack. */
+ 961:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		FreeRTOS_ReleaseUDPPayloadBuffer( pucUDPPayloadBuffer );
+ 773              		.loc 1 961 0
+ 774 0058 0400A0E1 		mov	r0, r4
+ 775 005c FEFFFFEB 		bl	FreeRTOS_ReleaseUDPPayloadBuffer
+ 776              	.LVL71:
+ 777              	.L63:
+ 962:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	}
+ 963:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** }
+ 778              		.loc 1 963 0
+ 779 0060 1CD08DE2 		add	sp, sp, #28
+ 780              		.cfi_def_cfa_offset 12
+ 781              		@ sp needed
+ 782 0064 3080BDE8 		pop	{r4, r5, pc}
+ 783              	.LVL72:
+ 784              	.L67:
+ 785              		.align	2
+ 786              	.L66:
+ 787 0068 00000000 		.word	.LANCHOR2
+ 788 006c 00000000 		.word	.LANCHOR0
+ 789              		.cfi_endproc
+ 790              	.LFE32:
+ 792              		.section	.text.xIsDHCPSocket,"ax",%progbits
+ 793              		.align	2
+ 794              		.global	xIsDHCPSocket
+ 795              		.syntax unified
+ 796              		.arm
+ 797              		.fpu neon
+ 799              	xIsDHCPSocket:
+ 800              	.LFB25:
+ 247:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** BaseType_t xReturn;
+ 801              		.loc 1 247 0
+ 802              		.cfi_startproc
+ 803              		@ args = 0, pretend = 0, frame = 0
+ 804              		@ frame_needed = 0, uses_anonymous_args = 0
+ 805              		@ link register save eliminated.
+ 806              	.LVL73:
+ 250:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	{
+ 807              		.loc 1 250 0
+ 808 0000 10309FE5 		ldr	r3, .L69
+ 809 0004 203093E5 		ldr	r3, [r3, #32]
+ 260:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /*-----------------------------------------------------------*/
+ 810              		.loc 1 260 0
+ 811 0008 000043E0 		sub	r0, r3, r0
+ 812              	.LVL74:
+ 813 000c 100F6FE1 		clz	r0, r0
+ 814 0010 A002A0E1 		lsr	r0, r0, #5
+ 815 0014 1EFF2FE1 		bx	lr
+ 816              	.L70:
+ 817              		.align	2
+ 818              	.L69:
+ 819 0018 00000000 		.word	.LANCHOR0
+ 820              		.cfi_endproc
+ 821              	.LFE25:
+ 823              		.section	.text.vDHCPProcess,"ax",%progbits
+ 824              		.align	2
+ 825              		.global	vDHCPProcess
+ 826              		.syntax unified
+ 827              		.arm
+ 828              		.fpu neon
+ 830              	vDHCPProcess:
+ 831              	.LFB26:
+ 264:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** BaseType_t xGivingUp = pdFALSE;
+ 832              		.loc 1 264 0
+ 833              		.cfi_startproc
+ 834              		@ args = 0, pretend = 0, frame = 0
+ 835              		@ frame_needed = 0, uses_anonymous_args = 0
+ 836              	.LVL75:
+ 837 0000 10402DE9 		push	{r4, lr}
+ 838              		.cfi_def_cfa_offset 8
+ 839              		.cfi_offset 4, -8
+ 840              		.cfi_offset 14, -4
+ 271:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	{
+ 841              		.loc 1 271 0
+ 842 0004 000050E3 		cmp	r0, #0
+ 843 0008 60429FE5 		ldr	r4, .L109
+ 273:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	}
+ 844              		.loc 1 273 0
+ 845 000c 0030A013 		movne	r3, #0
+ 846 0010 1C30C415 		strbne	r3, [r4, #28]
+ 276:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	{
+ 847              		.loc 1 276 0
+ 848 0014 1C30D4E5 		ldrb	r3, [r4, #28]	@ zero_extendqisi2
+ 849 0018 040053E3 		cmp	r3, #4
+ 850 001c 03F19F97 		ldrls	pc, [pc, r3, asl #2]
+ 851 0020 910000EA 		b	.L71
+ 852              	.L75:
+ 853 0024 38000000 		.word	.L74
+ 854 0028 9C000000 		.word	.L76
+ 855 002c 24010000 		.word	.L77
+ 856 0030 E4010000 		.word	.L78
+ 857 0034 18020000 		.word	.L79
+ 858              	.L74:
+ 859              	.LBB8:
+ 860              	.LBB9:
+ 597:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 861              		.loc 1 597 0
+ 862 0038 FEFFFFEB 		bl	ulRand
+ 863              	.LVL76:
+ 600:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	{
+ 864              		.loc 1 600 0
+ 865 003c 000050E3 		cmp	r0, #0
+ 597:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 866              		.loc 1 597 0
+ 867 0040 000084E5 		str	r0, [r4]
+ 600:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	{
+ 868              		.loc 1 600 0
+ 869 0044 0800000A 		beq	.L80
+ 602:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		xDHCPData.ulOfferedIPAddress = 0UL;
+ 870              		.loc 1 602 0
+ 871 0048 0030A0E3 		mov	r3, #0
+ 872 004c 183084E5 		str	r3, [r4, #24]
+ 603:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		xDHCPData.ulDHCPServerAddress = 0UL;
+ 873              		.loc 1 603 0
+ 874 0050 043084E5 		str	r3, [r4, #4]
+ 604:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		xDHCPData.xDHCPTxPeriod = dhcpINITIAL_DHCP_TX_PERIOD;
+ 875              		.loc 1 604 0
+ 876 0054 083084E5 		str	r3, [r4, #8]
+ 605:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 877              		.loc 1 605 0
+ 878 0058 883301E3 		movw	r3, #5000
+ 879 005c 143084E5 		str	r3, [r4, #20]
+ 608:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		FreeRTOS_debug_printf( ( "prvInitialiseDHCP: start after %lu ticks\n", dhcpINITIAL_TIMER_PERIOD )
+ 880              		.loc 1 608 0
+ 881 0060 FEFFFFEB 		bl	prvCreateDHCPSocket
+ 882              	.LVL77:
+ 610:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 	}
+ 883              		.loc 1 610 0
+ 884 0064 FA00A0E3 		mov	r0, #250
+ 885 0068 FEFFFFEB 		bl	vIPReloadDHCPTimer
+ 886              	.LVL78:
+ 887              	.L80:
+ 888              	.LBE9:
+ 889              	.LBE8:
+ 290:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				{
+ 890              		.loc 1 290 0
+ 891 006c 203094E5 		ldr	r3, [r4, #32]
+ 892 0070 000053E3 		cmp	r3, #0
+ 893 0074 6E00000A 		beq	.L81
+ 296:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 894              		.loc 1 296 0
+ 895 0078 F4319FE5 		ldr	r3, .L109+4
+ 896 007c 0020A0E3 		mov	r2, #0
+ 897 0080 142083E5 		str	r2, [r3, #20]
+ 301:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					prvSendDHCPDiscover( );
+ 898              		.loc 1 301 0
+ 899 0084 FEFFFFEB 		bl	xTaskGetTickCount
+ 900              	.LVL79:
+ 901 0088 100084E5 		str	r0, [r4, #16]
+ 302:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					xDHCPData.eDHCPState = eWaitingOffer;
+ 902              		.loc 1 302 0
+ 903 008c FEFFFFEB 		bl	prvSendDHCPDiscover
+ 904              	.LVL80:
+ 303:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				}
+ 905              		.loc 1 303 0
+ 906 0090 0130A0E3 		mov	r3, #1
+ 907              	.L108:
+ 462:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					}
+ 908              		.loc 1 462 0
+ 909 0094 1C30C4E5 		strb	r3, [r4, #28]
+ 910 0098 1080BDE8 		pop	{r4, pc}
+ 911              	.LVL81:
+ 912              	.L76:
+ 325:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			{
+ 913              		.loc 1 325 0
+ 914 009c 0200A0E3 		mov	r0, #2
+ 915              	.LVL82:
+ 916 00a0 FEFFFFEB 		bl	prvProcessDHCPReplies
+ 917              	.LVL83:
+ 918 00a4 010050E3 		cmp	r0, #1
+ 919 00a8 0600001A 		bne	.L82
+ 336:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					xDHCPData.xDHCPTxPeriod = dhcpINITIAL_DHCP_TX_PERIOD;
+ 920              		.loc 1 336 0
+ 921 00ac FEFFFFEB 		bl	xTaskGetTickCount
+ 922              	.LVL84:
+ 337:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					prvSendDHCPRequest( );
+ 923              		.loc 1 337 0
+ 924 00b0 883301E3 		movw	r3, #5000
+ 336:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					xDHCPData.xDHCPTxPeriod = dhcpINITIAL_DHCP_TX_PERIOD;
+ 925              		.loc 1 336 0
+ 926 00b4 100084E5 		str	r0, [r4, #16]
+ 337:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					prvSendDHCPRequest( );
+ 927              		.loc 1 337 0
+ 928 00b8 143084E5 		str	r3, [r4, #20]
+ 338:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					xDHCPData.eDHCPState = eWaitingAcknowledge;
+ 929              		.loc 1 338 0
+ 930 00bc FEFFFFEB 		bl	prvSendDHCPRequest
+ 931              	.LVL85:
+ 339:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					break;
+ 932              		.loc 1 339 0
+ 933 00c0 0230A0E3 		mov	r3, #2
+ 934 00c4 F2FFFFEA 		b	.L108
+ 935              	.L82:
+ 353:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			{
+ 936              		.loc 1 353 0
+ 937 00c8 FEFFFFEB 		bl	xTaskGetTickCount
+ 938              	.LVL86:
+ 939 00cc 102094E5 		ldr	r2, [r4, #16]
+ 940 00d0 143094E5 		ldr	r3, [r4, #20]
+ 941 00d4 020040E0 		sub	r0, r0, r2
+ 942 00d8 030050E1 		cmp	r0, r3
+ 943 00dc 1080BD98 		popls	{r4, pc}
+ 360:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				{
+ 944              		.loc 1 360 0
+ 945 00e0 90219FE5 		ldr	r2, .L109+8
+ 358:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 946              		.loc 1 358 0
+ 947 00e4 8330A0E1 		lsl	r3, r3, #1
+ 948 00e8 143084E5 		str	r3, [r4, #20]
+ 360:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				{
+ 949              		.loc 1 360 0
+ 950 00ec 020053E1 		cmp	r3, r2
+ 951 00f0 4F00008A 		bhi	.L81
+ 362:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 952              		.loc 1 362 0
+ 953 00f4 FEFFFFEB 		bl	ulRand
+ 954              	.LVL87:
+ 364:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 955              		.loc 1 364 0
+ 956 00f8 000050E3 		cmp	r0, #0
+ 362:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 957              		.loc 1 362 0
+ 958 00fc 000084E5 		str	r0, [r4]
+ 364:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 959              		.loc 1 364 0
+ 960 0100 1080BD08 		popeq	{r4, pc}
+ 366:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						xDHCPData.xUseBroadcast = !xDHCPData.xUseBroadcast;
+ 961              		.loc 1 366 0
+ 962 0104 FEFFFFEB 		bl	xTaskGetTickCount
+ 963              	.LVL88:
+ 367:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						prvSendDHCPDiscover( );
+ 964              		.loc 1 367 0
+ 965 0108 183094E5 		ldr	r3, [r4, #24]
+ 366:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						xDHCPData.xUseBroadcast = !xDHCPData.xUseBroadcast;
+ 966              		.loc 1 366 0
+ 967 010c 100084E5 		str	r0, [r4, #16]
+ 367:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						prvSendDHCPDiscover( );
+ 968              		.loc 1 367 0
+ 969 0110 133F6FE1 		clz	r3, r3
+ 970 0114 A332A0E1 		lsr	r3, r3, #5
+ 971 0118 183084E5 		str	r3, [r4, #24]
+ 552:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /*-----------------------------------------------------------*/
+ 972              		.loc 1 552 0
+ 973 011c 1040BDE8 		pop	{r4, lr}
+ 974              		.cfi_remember_state
+ 975              		.cfi_restore 14
+ 976              		.cfi_restore 4
+ 977              		.cfi_def_cfa_offset 0
+ 368:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						FreeRTOS_debug_printf( ( "vDHCPProcess: timeout %lu ticks\n", xDHCPData.xDHCPTxPeriod ) );
+ 978              		.loc 1 368 0
+ 979 0120 FEFFFFEA 		b	prvSendDHCPDiscover
+ 980              	.LVL89:
+ 981              	.L77:
+ 982              		.cfi_restore_state
+ 404:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			{
+ 983              		.loc 1 404 0
+ 984 0124 0500A0E3 		mov	r0, #5
+ 985              	.LVL90:
+ 986 0128 FEFFFFEB 		bl	prvProcessDHCPReplies
+ 987              	.LVL91:
+ 988 012c 010050E3 		cmp	r0, #1
+ 989 0130 1B00001A 		bne	.L85
+ 410:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 990              		.loc 1 410 0
+ 991 0134 041094E5 		ldr	r1, [r4, #4]
+ 414:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				xDHCPData.eDHCPState = eLeasedAddress;
+ 992              		.loc 1 414 0
+ 993 0138 3C219FE5 		ldr	r2, .L109+12
+ 410:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 994              		.loc 1 410 0
+ 995 013c 30319FE5 		ldr	r3, .L109+4
+ 996 0140 141083E5 		str	r1, [r3, #20]
+ 414:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				xDHCPData.eDHCPState = eLeasedAddress;
+ 997              		.loc 1 414 0
+ 998 0144 043092E5 		ldr	r3, [r2, #4]
+ 999 0148 0330E0E1 		mvn	r3, r3
+ 1000 014c 013083E1 		orr	r3, r3, r1
+ 1001 0150 103082E5 		str	r3, [r2, #16]
+ 415:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 1002              		.loc 1 415 0
+ 1003 0154 0330A0E3 		mov	r3, #3
+ 1004 0158 1C30C4E5 		strb	r3, [r4, #28]
+ 422:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 1005              		.loc 1 422 0
+ 1006 015c FEFFFFEB 		bl	vIPNetworkUpCalls
+ 1007              	.LVL92:
+ 425:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				xDHCPData.xDHCPSocket = NULL;
+ 1008              		.loc 1 425 0
+ 1009 0160 200094E5 		ldr	r0, [r4, #32]
+ 1010 0164 FEFFFFEB 		bl	vSocketClose
+ 1011              	.LVL93:
+ 426:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 1012              		.loc 1 426 0
+ 1013 0168 0030A0E3 		mov	r3, #0
+ 1014 016c 203084E5 		str	r3, [r4, #32]
+ 428:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				{
+ 1015              		.loc 1 428 0
+ 1016 0170 0C3094E5 		ldr	r3, [r4, #12]
+ 1017 0174 000053E3 		cmp	r3, #0
+ 430:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				}
+ 1018              		.loc 1 430 0
+ 1019 0178 00319F05 		ldreq	r3, .L109+16
+ 428:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				{
+ 1020              		.loc 1 428 0
+ 1021 017c 0300000A 		beq	.L106
+ 432:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				{
+ 1022              		.loc 1 432 0
+ 1023 0180 5F2A0EE3 		movw	r2, #59999
+ 1024 0184 020053E1 		cmp	r3, r2
+ 1025 0188 0100008A 		bhi	.L87
+ 434:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				}
+ 1026              		.loc 1 434 0
+ 1027 018c 603A0EE3 		movw	r3, #60000
+ 1028              	.L106:
+ 1029 0190 0C3084E5 		str	r3, [r4, #12]
+ 1030              	.L87:
+ 442:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				vIPReloadDHCPTimer( xDHCPData.ulLeaseTime );
+ 1031              		.loc 1 442 0
+ 1032 0194 FEFFFFEB 		bl	vARPSendGratuitous
+ 1033              	.LVL94:
+ 443:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			}
+ 1034              		.loc 1 443 0
+ 1035 0198 0C0094E5 		ldr	r0, [r4, #12]
+ 1036              	.L107:
+ 552:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /*-----------------------------------------------------------*/
+ 1037              		.loc 1 552 0
+ 1038 019c 1040BDE8 		pop	{r4, lr}
+ 1039              		.cfi_remember_state
+ 1040              		.cfi_restore 14
+ 1041              		.cfi_restore 4
+ 1042              		.cfi_def_cfa_offset 0
+ 509:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			}
+ 1043              		.loc 1 509 0
+ 1044 01a0 FEFFFFEA 		b	vIPReloadDHCPTimer
+ 1045              	.LVL95:
+ 1046              	.L85:
+ 1047              		.cfi_restore_state
+ 448:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				{
+ 1048              		.loc 1 448 0
+ 1049 01a4 FEFFFFEB 		bl	xTaskGetTickCount
+ 1050              	.LVL96:
+ 1051 01a8 102094E5 		ldr	r2, [r4, #16]
+ 1052 01ac 143094E5 		ldr	r3, [r4, #20]
+ 1053 01b0 020040E0 		sub	r0, r0, r2
+ 1054 01b4 030050E1 		cmp	r0, r3
+ 1055 01b8 1080BD98 		popls	{r4, pc}
+ 454:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 1056              		.loc 1 454 0
+ 1057 01bc B4209FE5 		ldr	r2, .L109+8
+ 452:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 1058              		.loc 1 452 0
+ 1059 01c0 8330A0E1 		lsl	r3, r3, #1
+ 1060 01c4 143084E5 		str	r3, [r4, #20]
+ 454:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 1061              		.loc 1 454 0
+ 1062 01c8 020053E1 		cmp	r3, r2
+ 462:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					}
+ 1063              		.loc 1 462 0
+ 1064 01cc 0030A083 		movhi	r3, #0
+ 454:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					{
+ 1065              		.loc 1 454 0
+ 1066 01d0 AFFFFF8A 		bhi	.L108
+ 456:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 						prvSendDHCPRequest( );
+ 1067              		.loc 1 456 0
+ 1068 01d4 FEFFFFEB 		bl	xTaskGetTickCount
+ 1069              	.LVL97:
+ 1070 01d8 100084E5 		str	r0, [r4, #16]
+ 552:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /*-----------------------------------------------------------*/
+ 1071              		.loc 1 552 0
+ 1072 01dc 1040BDE8 		pop	{r4, lr}
+ 1073              		.cfi_remember_state
+ 1074              		.cfi_restore 14
+ 1075              		.cfi_restore 4
+ 1076              		.cfi_def_cfa_offset 0
+ 457:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 					}
+ 1077              		.loc 1 457 0
+ 1078 01e0 FEFFFFEA 		b	prvSendDHCPRequest
+ 1079              	.LVL98:
+ 1080              	.L78:
+ 1081              		.cfi_restore_state
+ 499:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 1082              		.loc 1 499 0
+ 1083 01e4 FEFFFFEB 		bl	prvCreateDHCPSocket
+ 1084              	.LVL99:
+ 501:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			{
+ 1085              		.loc 1 501 0
+ 1086 01e8 203094E5 		ldr	r3, [r4, #32]
+ 1087 01ec 000053E3 		cmp	r3, #0
+ 1088 01f0 1080BD08 		popeq	{r4, pc}
+ 503:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				xDHCPData.xDHCPTxPeriod = dhcpINITIAL_DHCP_TX_PERIOD;
+ 1089              		.loc 1 503 0
+ 1090 01f4 FEFFFFEB 		bl	xTaskGetTickCount
+ 1091              	.LVL100:
+ 504:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				prvSendDHCPRequest( );
+ 1092              		.loc 1 504 0
+ 1093 01f8 883301E3 		movw	r3, #5000
+ 503:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				xDHCPData.xDHCPTxPeriod = dhcpINITIAL_DHCP_TX_PERIOD;
+ 1094              		.loc 1 503 0
+ 1095 01fc 100084E5 		str	r0, [r4, #16]
+ 504:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				prvSendDHCPRequest( );
+ 1096              		.loc 1 504 0
+ 1097 0200 143084E5 		str	r3, [r4, #20]
+ 505:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 				xDHCPData.eDHCPState = eWaitingAcknowledge;
+ 1098              		.loc 1 505 0
+ 1099 0204 FEFFFFEB 		bl	prvSendDHCPRequest
+ 1100              	.LVL101:
+ 506:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 1101              		.loc 1 506 0
+ 1102 0208 0230A0E3 		mov	r3, #2
+ 509:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			}
+ 1103              		.loc 1 509 0
+ 1104 020c FA00A0E3 		mov	r0, #250
+ 506:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 1105              		.loc 1 506 0
+ 1106 0210 1C30C4E5 		strb	r3, [r4, #28]
+ 1107 0214 E0FFFFEA 		b	.L107
+ 1108              	.LVL102:
+ 1109              	.L79:
+ 515:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			break;
+ 1110              		.loc 1 515 0
+ 1111 0218 0000A0E3 		mov	r0, #0
+ 1112              	.LVL103:
+ 552:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /*-----------------------------------------------------------*/
+ 1113              		.loc 1 552 0
+ 1114 021c 1040BDE8 		pop	{r4, lr}
+ 1115              		.cfi_remember_state
+ 1116              		.cfi_restore 14
+ 1117              		.cfi_restore 4
+ 1118              		.cfi_def_cfa_offset 0
+ 515:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			break;
+ 1119              		.loc 1 515 0
+ 1120 0220 FEFFFFEA 		b	vIPSetDHCPTimerEnableState
+ 1121              	.LVL104:
+ 1122              	.L89:
+ 1123              		.cfi_restore_state
+ 548:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			xDHCPData.xDHCPSocket = NULL;
+ 1124              		.loc 1 548 0
+ 1125 0224 FEFFFFEB 		bl	vSocketClose
+ 1126              	.LVL105:
+ 549:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		}
+ 1127              		.loc 1 549 0
+ 1128 0228 0030A0E3 		mov	r3, #0
+ 1129 022c 203084E5 		str	r3, [r4, #32]
+ 552:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** /*-----------------------------------------------------------*/
+ 1130              		.loc 1 552 0
+ 1131 0230 1080BDE8 		pop	{r4, pc}
+ 1132              	.LVL106:
+ 1133              	.L81:
+ 529:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		{
+ 1134              		.loc 1 529 0
+ 1135 0234 FEFFFFEB 		bl	vPortEnterCritical
+ 1136              	.LVL107:
+ 531:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 			iptraceDHCP_REQUESTS_FAILED_USING_DEFAULT_IP_ADDRESS( xNetworkAddressing.ulDefaultIPAddress );
+ 1137              		.loc 1 531 0
+ 1138 0238 3C309FE5 		ldr	r3, .L109+12
+ 1139 023c 002093E5 		ldr	r2, [r3]
+ 1140 0240 2C309FE5 		ldr	r3, .L109+4
+ 1141 0244 142083E5 		str	r2, [r3, #20]
+ 534:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 1142              		.loc 1 534 0
+ 1143 0248 FEFFFFEB 		bl	vPortExitCritical
+ 1144              	.LVL108:
+ 536:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		vIPSetDHCPTimerEnableState( pdFALSE );
+ 1145              		.loc 1 536 0
+ 1146 024c 0430A0E3 		mov	r3, #4
+ 537:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 1147              		.loc 1 537 0
+ 1148 0250 0000A0E3 		mov	r0, #0
+ 536:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		vIPSetDHCPTimerEnableState( pdFALSE );
+ 1149              		.loc 1 536 0
+ 1150 0254 1C30C4E5 		strb	r3, [r4, #28]
+ 537:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 1151              		.loc 1 537 0
+ 1152 0258 FEFFFFEB 		bl	vIPSetDHCPTimerEnableState
+ 1153              	.LVL109:
+ 542:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 
+ 1154              		.loc 1 542 0
+ 1155 025c FEFFFFEB 		bl	vIPNetworkUpCalls
+ 1156              	.LVL110:
+ 545:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_DHCP.c **** 		{
+ 1157              		.loc 1 545 0
+ 1158 0260 200094E5 		ldr	r0, [r4, #32]
+ 1159 0264 000050E3 		cmp	r0, #0
+ 1160 0268 EDFFFF1A 		bne	.L89
+ 1161              	.LVL111:
+ 1162              	.L71:
+ 1163 026c 1080BDE8 		pop	{r4, pc}
+ 1164              	.L110:
+ 1165              		.align	2
+ 1166              	.L109:
+ 1167 0270 00000000 		.word	.LANCHOR0
+ 1168 0274 00000000 		.word	xDefaultPartUDPPacketHeader
+ 1169 0278 C0D40100 		.word	120000
+ 1170 027c 00000000 		.word	xNetworkAddressing
+ 1171 0280 00B84C0A 		.word	172800000
+ 1172              		.cfi_endproc
+ 1173              	.LFE26:
+ 1175              		.section	.bss.xDHCPData,"aw",%nobits
+ 1176              		.align	2
+ 1177              		.set	.LANCHOR0,. + 0
+ 1180              	xDHCPData:
+ 1181 0000 00000000 		.space	36
+ 1181      00000000 
+ 1181      00000000 
+ 1181      00000000 
+ 1181      00000000 
+ 1182              		.section	.rodata.prvProcessDHCPReplies.str1.1,"aMS",%progbits,1
+ 1183              	.LC0:
+ 1184 0000 76444843 		.ascii	"vDHCPProcess: offer %lxip\012\000"
+ 1184      5050726F 
+ 1184      63657373 
+ 1184      3A206F66 
+ 1184      66657220 
+ 1185              		.section	.rodata.ucDHCPDiscoverOptions.72561,"a",%progbits
+ 1186              		.set	.LANCHOR2,. + 0
+ 1189              	ucDHCPDiscoverOptions.72561:
+ 1190 0000 35       		.byte	53
+ 1191 0001 01       		.byte	1
+ 1192 0002 01       		.byte	1
+ 1193 0003 3D       		.byte	61
+ 1194 0004 06       		.byte	6
+ 1195 0005 00       		.byte	0
+ 1196 0006 00       		.byte	0
+ 1197 0007 00       		.byte	0
+ 1198 0008 00       		.byte	0
+ 1199 0009 00       		.byte	0
+ 1200 000a 00       		.byte	0
+ 1201 000b 37       		.byte	55
+ 1202 000c 03       		.byte	3
+ 1203 000d 01       		.byte	1
+ 1204 000e 03       		.byte	3
+ 1205 000f 06       		.byte	6
+ 1206 0010 FF       		.byte	-1
+ 1207              		.section	.rodata.ucDHCPRequestOptions.72554,"a",%progbits
+ 1208              		.set	.LANCHOR1,. + 0
+ 1211              	ucDHCPRequestOptions.72554:
+ 1212 0000 35       		.byte	53
+ 1213 0001 01       		.byte	1
+ 1214 0002 03       		.byte	3
+ 1215 0003 3D       		.byte	61
+ 1216 0004 06       		.byte	6
+ 1217 0005 00       		.byte	0
+ 1218 0006 00       		.byte	0
+ 1219 0007 00       		.byte	0
+ 1220 0008 00       		.byte	0
+ 1221 0009 00       		.byte	0
+ 1222 000a 00       		.byte	0
+ 1223 000b 32       		.byte	50
+ 1224 000c 04       		.byte	4
+ 1225 000d 00       		.byte	0
+ 1226 000e 00       		.byte	0
+ 1227 000f 00       		.byte	0
+ 1228 0010 00       		.byte	0
+ 1229 0011 36       		.byte	54
+ 1230 0012 04       		.byte	4
+ 1231 0013 00       		.byte	0
+ 1232 0014 00       		.byte	0
+ 1233 0015 00       		.byte	0
+ 1234 0016 00       		.byte	0
+ 1235 0017 FF       		.byte	-1
+ 1236              		.text
+ 1237              	.Letext0:
+ 1238              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1239              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1240              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 1241              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1242              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1243              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1244              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1245              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1246              		.file 10 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\src/unity_internals.h"
+ 1247              		.file 11 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 1248              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS\\portable\\GCC\\ARM_CA9_RZA2M/por
+ 1249              		.file 13 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include\\private/list.h"
+ 1250              		.file 14 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1251              		.file 15 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1252              		.file 16 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 1253              		.file 17 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 1254              		.file 18 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 1255              		.file 19 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 1256              		.file 20 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 1257              		.file 21 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS-Plus-TCP\\include/FreeRTOS_IP.h"
+ 1258              		.file 22 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS-Plus-TCP\\include/FreeRTOS_Socket
+ 1259              		.file 23 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS-Plus-TCP\\include/FreeRTOS_TCP_WI
+ 1260              		.file 24 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS-Plus-TCP\\include/FreeRTOS_IP_Pri
+ 1261              		.file 25 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1262              		.file 26 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\renesas\\rza2m-gr-mango\\common\\config_
+ 1263              		.file 27 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\renesas\\rza2m-gr-mango\\common\\config_
+ 1264              		.file 28 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/task.h"
+ 1265              		.file 29 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS-Plus-TCP\\include/FreeRTOS_ARP.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 FreeRTOS_DHCP.c
+C:\Users\a5089698\AppData\Local\Temp\ccACrOvE.s:17     .text.prvProcessDHCPReplies:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccACrOvE.s:22     .text.prvProcessDHCPReplies:00000000 prvProcessDHCPReplies
+C:\Users\a5089698\AppData\Local\Temp\ccACrOvE.s:350    .text.prvProcessDHCPReplies:000002bc $d
+C:\Users\a5089698\AppData\Local\Temp\ccACrOvE.s:359    .text.prvCreateDHCPSocket:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccACrOvE.s:364    .text.prvCreateDHCPSocket:00000000 prvCreateDHCPSocket
+C:\Users\a5089698\AppData\Local\Temp\ccACrOvE.s:453    .text.prvCreateDHCPSocket:000000a4 $d
+C:\Users\a5089698\AppData\Local\Temp\ccACrOvE.s:458    .text.prvCreatePartDHCPMessage.constprop.1:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccACrOvE.s:463    .text.prvCreatePartDHCPMessage.constprop.1:00000000 prvCreatePartDHCPMessage.constprop.1
+C:\Users\a5089698\AppData\Local\Temp\ccACrOvE.s:633    .text.prvCreatePartDHCPMessage.constprop.1:00000148 $d
+C:\Users\a5089698\AppData\Local\Temp\ccACrOvE.s:639    .text.prvSendDHCPRequest:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccACrOvE.s:644    .text.prvSendDHCPRequest:00000000 prvSendDHCPRequest
+C:\Users\a5089698\AppData\Local\Temp\ccACrOvE.s:718    .text.prvSendDHCPRequest:0000008c $d
+C:\Users\a5089698\AppData\Local\Temp\ccACrOvE.s:724    .text.prvSendDHCPDiscover:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccACrOvE.s:729    .text.prvSendDHCPDiscover:00000000 prvSendDHCPDiscover
+C:\Users\a5089698\AppData\Local\Temp\ccACrOvE.s:787    .text.prvSendDHCPDiscover:00000068 $d
+C:\Users\a5089698\AppData\Local\Temp\ccACrOvE.s:793    .text.xIsDHCPSocket:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccACrOvE.s:799    .text.xIsDHCPSocket:00000000 xIsDHCPSocket
+C:\Users\a5089698\AppData\Local\Temp\ccACrOvE.s:819    .text.xIsDHCPSocket:00000018 $d
+C:\Users\a5089698\AppData\Local\Temp\ccACrOvE.s:824    .text.vDHCPProcess:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccACrOvE.s:830    .text.vDHCPProcess:00000000 vDHCPProcess
+C:\Users\a5089698\AppData\Local\Temp\ccACrOvE.s:853    .text.vDHCPProcess:00000024 $d
+C:\Users\a5089698\AppData\Local\Temp\ccACrOvE.s:862    .text.vDHCPProcess:00000038 $a
+C:\Users\a5089698\AppData\Local\Temp\ccACrOvE.s:1167   .text.vDHCPProcess:00000270 $d
+C:\Users\a5089698\AppData\Local\Temp\ccACrOvE.s:1176   .bss.xDHCPData:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccACrOvE.s:1180   .bss.xDHCPData:00000000 xDHCPData
+C:\Users\a5089698\AppData\Local\Temp\ccACrOvE.s:1189   .rodata.ucDHCPDiscoverOptions.72561:00000000 ucDHCPDiscoverOptions.72561
+C:\Users\a5089698\AppData\Local\Temp\ccACrOvE.s:1211   .rodata.ucDHCPRequestOptions.72554:00000000 ucDHCPRequestOptions.72554
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+FreeRTOS_recvfrom
+FreeRTOS_ReleaseUDPPayloadBuffer
+memcmp
+memcpy
+vLoggingPrintf
+xDefaultPartUDPPacketHeader
+xNetworkAddressing
+FreeRTOS_socket
+FreeRTOS_setsockopt
+vSocketBind
+vSocketClose
+pcApplicationHostnameHook
+strlen
+FreeRTOS_GetUDPPayloadBuffer
+memset
+FreeRTOS_sendto
+ulRand
+vIPReloadDHCPTimer
+xTaskGetTickCount
+vIPNetworkUpCalls
+vARPSendGratuitous
+vIPSetDHCPTimerEnableState
+vPortEnterCritical
+vPortExitCritical

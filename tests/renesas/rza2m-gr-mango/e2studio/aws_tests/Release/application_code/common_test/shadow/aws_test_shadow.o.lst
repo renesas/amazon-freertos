@@ -1,0 +1,2245 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"aws_test_shadow.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.TEST_Full_Shadow_TEAR_DOWN,"ax",%progbits
+  17              		.align	2
+  18              		.global	TEST_Full_Shadow_TEAR_DOWN
+  19              		.syntax unified
+  20              		.arm
+  21              		.fpu neon
+  23              	TEST_Full_Shadow_TEAR_DOWN:
+  24              	.LFB2:
+  25              		.file 1 "D:/Work/DeviceTester/amazon-freertos/tests/common/shadow/aws_test_shadow.c"
+   1:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** /*
+   2:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****  * Amazon FreeRTOS Shadow Test V1.1.4
+   3:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****  * Copyright (C) 2017 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+   4:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****  *
+   5:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****  * Permission is hereby granted, free of charge, to any person obtaining a copy of
+   6:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****  * this software and associated documentation files (the "Software"), to deal in
+   7:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****  * the Software without restriction, including without limitation the rights to
+   8:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+   9:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****  * the Software, and to permit persons to whom the Software is furnished to do so,
+  10:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****  * subject to the following conditions:
+  11:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****  *
+  12:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****  * The above copyright notice and this permission notice shall be included in all
+  13:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****  * copies or substantial portions of the Software.
+  14:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****  *
+  15:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  16:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+  17:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+  18:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+  19:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  20:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  21:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****  *
+  22:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****  * http://aws.amazon.com/freertos
+  23:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****  * http://www.FreeRTOS.org
+  24:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****  */
+  25:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+  26:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** /* Standard includes. */
+  27:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** #include <stdint.h>
+  28:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** #include <stdio.h>
+  29:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** #include <stdlib.h>
+  30:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** #include <string.h>
+  31:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+  32:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** /* FreeRTOS includes. */
+  33:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** #include "FreeRTOS.h"
+  34:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** #include "task.h"
+  35:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** #include "queue.h"
+  36:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** #include "semphr.h"
+  37:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+  38:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** /* AWS includes. */
+  39:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** #include "aws_clientcredential.h"
+  40:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** #include "aws_shadow.h"
+  41:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+  42:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** /* Unity framework includes. */
+  43:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** #include "unity_fixture.h"
+  44:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** #include "unity.h"
+  45:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+  46:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** #define shadowCLIENT_ID        clientcredentialIOT_THING_NAME
+  47:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** #define shadowTHING_NAME       clientcredentialIOT_THING_NAME
+  48:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** #define shadowTIMEOUT          pdMS_TO_TICKS( 10000UL )
+  49:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** /* Client token can be anything, as long as it's unique. */
+  50:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** #define shadowCLIENT_TOKEN     "aws-test-shadow-client-token"
+  51:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+  52:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** #define shadowBUFFER_LENGTH    512
+  53:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** static char pcUpdateBuffer[ shadowBUFFER_LENGTH ];
+  54:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+  55:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** /* Delay between test loops. */
+  56:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** #define shadowtestLOOP_DELAY    ( ( TickType_t ) 150 / portTICK_PERIOD_MS )
+  57:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+  58:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** /* notification from callbacks to task*/
+  59:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** static SemaphoreHandle_t xShadowUpdateSemaphore;
+  60:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+  61:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** /* Generate initial shadow document */
+  62:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** static uint32_t prvGenerateShadowJSON( void );
+  63:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+  64:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** /* Called when shadow service received UPDATE request and updated thing shadow*/
+  65:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** BaseType_t prvTestUpdatedCallback( void * pvUserData,
+  66:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                    const char * const pcThingName,
+  67:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                    const char * const pcDeltaDocument,
+  68:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                    uint32_t ulDocumentLength,
+  69:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                    MQTTBufferHandle_t xBuffer );
+  70:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+  71:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** /* Called when delta is reported in shadow document*/
+  72:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** BaseType_t prvTestDeltaCallback( const char * const pcThingName,
+  73:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                  const char * const pcDeltaDocument,
+  74:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                  uint32_t ulDocumentLength,
+  75:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                  MQTTBufferHandle_t xBuffer );
+  76:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+  77:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** /* Called when shadow document is deleted*/
+  78:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** BaseType_t prvTestDeleteCallback( const char * const pcThingName,
+  79:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                   const char * const pcDeltaDocument,
+  80:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                   uint32_t ulDocumentLength,
+  81:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                   MQTTBufferHandle_t xBuffer );
+  82:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+  83:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+  84:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** TEST_GROUP( Full_Shadow );
+  85:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+  86:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** TEST_SETUP( Full_Shadow )
+  87:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** {
+  88:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** }
+  89:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+  90:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** TEST_TEAR_DOWN( Full_Shadow )
+  91:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** {
+  26              		.loc 1 91 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              		@ link register save eliminated.
+  31 0000 1EFF2FE1 		bx	lr
+  32              		.cfi_endproc
+  33              	.LFE2:
+  35              		.section	.text.prvTestUpdatedCallback,"ax",%progbits
+  36              		.align	2
+  37              		.global	prvTestUpdatedCallback
+  38              		.syntax unified
+  39              		.arm
+  40              		.fpu neon
+  42              	prvTestUpdatedCallback:
+  43              	.LFB5:
+  92:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** }
+  93:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+  94:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** TEST_GROUP_RUNNER( Full_Shadow )
+  95:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** {
+  96:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     RUN_TEST_CASE( Full_Shadow, ClientCreateDelete );
+  97:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     RUN_TEST_CASE( Full_Shadow, ClientConnectDisconnect );
+  98:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     RUN_TEST_CASE( Full_Shadow, CreateShadowDocument );
+  99:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     RUN_TEST_CASE( Full_Shadow, DeleteShadowDocument );
+ 100:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     RUN_TEST_CASE( Full_Shadow, UpdateCallback );
+ 101:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** }
+ 102:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 103:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** /* Generate initial shadow document */
+ 104:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** static uint32_t prvGenerateShadowJSON()
+ 105:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** {
+ 106:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     /*simple shadow document for test */
+ 107:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 108:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     return ( uint32_t ) snprintf( pcUpdateBuffer, shadowBUFFER_LENGTH,
+ 109:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                   "{"
+ 110:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                   "\"state\":{"
+ 111:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                   "\"desired\":{"
+ 112:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                   "\"power\":\"on\""
+ 113:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                   "},"
+ 114:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                   "\"reported\":{"
+ 115:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                   "\"power\":\"on\""
+ 116:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                   "}"
+ 117:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                   "},"
+ 118:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                   "\"clientToken\": \"" shadowCLIENT_TOKEN "\""
+ 119:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                                                            "}" );
+ 120:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** }
+ 121:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 122:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** /* Called when shadow service received UPDATE request and updated thing shadow*/
+ 123:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** BaseType_t prvTestUpdatedCallback( void * pvUserData,
+ 124:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                    const char * const pcThingName,
+ 125:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                    const char * const pcDeltaDocument,
+ 126:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                    uint32_t ulDocumentLength,
+ 127:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                    MQTTBufferHandle_t xBuffer )
+ 128:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** {
+  44              		.loc 1 128 0
+  45              		.cfi_startproc
+  46              		@ args = 4, pretend = 0, frame = 0
+  47              		@ frame_needed = 0, uses_anonymous_args = 0
+  48              	.LVL0:
+ 129:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ( void ) pvUserData;
+ 130:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ( void ) pcThingName;
+ 131:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ( void ) pcDeltaDocument;
+ 132:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ( void ) ulDocumentLength;
+ 133:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ( void ) xBuffer;
+ 134:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 135:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     /* notify testing task . */
+ 136:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ( void ) xSemaphoreGive( xShadowUpdateSemaphore );
+  49              		.loc 1 136 0
+  50 0000 1C009FE5 		ldr	r0, .L4
+  51              	.LVL1:
+  52 0004 0030A0E3 		mov	r3, #0
+  53              	.LVL2:
+ 128:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ( void ) pvUserData;
+  54              		.loc 1 128 0
+  55 0008 10402DE9 		push	{r4, lr}
+  56              		.cfi_def_cfa_offset 8
+  57              		.cfi_offset 4, -8
+  58              		.cfi_offset 14, -4
+  59              		.loc 1 136 0
+  60 000c 0320A0E1 		mov	r2, r3
+  61              	.LVL3:
+  62 0010 0310A0E1 		mov	r1, r3
+  63              	.LVL4:
+  64 0014 000090E5 		ldr	r0, [r0]
+  65 0018 FEFFFFEB 		bl	xQueueGenericSend
+  66              	.LVL5:
+ 137:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 138:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     return pdFALSE;
+ 139:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** }
+  67              		.loc 1 139 0
+  68 001c 0000A0E3 		mov	r0, #0
+  69 0020 1080BDE8 		pop	{r4, pc}
+  70              	.L5:
+  71              		.align	2
+  72              	.L4:
+  73 0024 00000000 		.word	.LANCHOR0
+  74              		.cfi_endproc
+  75              	.LFE5:
+  77              		.section	.text.TEST_Full_Shadow_ClientCreateDelete_,"ax",%progbits
+  78              		.align	2
+  79              		.global	TEST_Full_Shadow_ClientCreateDelete_
+  80              		.syntax unified
+  81              		.arm
+  82              		.fpu neon
+  84              	TEST_Full_Shadow_ClientCreateDelete_:
+  85              	.LFB10:
+ 140:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 141:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** /* Called when delta is reported in shadow document*/
+ 142:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** BaseType_t prvTestDeltaCallback( const char * const pcThingName,
+ 143:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                  const char * const pcDeltaDocument,
+ 144:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                  uint32_t ulDocumentLength,
+ 145:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                  MQTTBufferHandle_t xBuffer )
+ 146:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** {
+ 147:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ( void ) pcThingName;
+ 148:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ( void ) pcDeltaDocument;
+ 149:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ( void ) ulDocumentLength;
+ 150:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ( void ) xBuffer;
+ 151:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 152:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 153:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     return pdFALSE;
+ 154:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** }
+ 155:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 156:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** /* Called when shadow document is deleted*/
+ 157:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** BaseType_t prvTestDeleteCallback( const char * const pcThingName,
+ 158:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                   const char * const pcDeltaDocument,
+ 159:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                   uint32_t ulDocumentLength,
+ 160:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                   MQTTBufferHandle_t xBuffer )
+ 161:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** {
+ 162:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ( void ) pcThingName;
+ 163:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ( void ) pcDeltaDocument;
+ 164:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ( void ) ulDocumentLength;
+ 165:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ( void ) xBuffer;
+ 166:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 167:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     return pdFALSE;
+ 168:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** }
+ 169:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 170:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** /* helper functions for setting MQTT params. */
+ 171:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** void TEST_SHADOW_Connect_Helper( MQTTAgentConnectParams_t * xConnectParams,
+ 172:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                  ShadowClientHandle_t * pxShadowClientHandle )
+ 173:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** {
+ 174:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     xConnectParams->pcURL = clientcredentialMQTT_BROKER_ENDPOINT;
+ 175:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     xConnectParams->xURLIsIPAddress = pdFALSE; /* Deprecated. */
+ 176:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     xConnectParams->usPort = clientcredentialMQTT_BROKER_PORT;
+ 177:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 178:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     xConnectParams->xSecuredConnection = pdFALSE; /* Deprecated. */
+ 179:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     xConnectParams->xFlags = mqttagentREQUIRE_TLS;
+ 180:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     xConnectParams->pcCertificate = NULL;
+ 181:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     xConnectParams->ulCertificateSize = 0;
+ 182:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     xConnectParams->pxCallback = NULL;
+ 183:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     xConnectParams->pvUserData = pxShadowClientHandle;
+ 184:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 185:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     xConnectParams->pucClientId = ( uint8_t * ) shadowCLIENT_ID;
+ 186:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     xConnectParams->usClientIdLength = ( uint16_t ) ( strlen( ( const char * ) shadowCLIENT_ID ) );
+ 187:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** }
+ 188:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 189:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** /* Test for shadow client create and delete api */
+ 190:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** TEST( Full_Shadow, ClientCreateDelete )
+ 191:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** {
+  86              		.loc 1 191 0
+  87              		.cfi_startproc
+  88              		@ args = 0, pretend = 0, frame = 16
+  89              		@ frame_needed = 0, uses_anonymous_args = 0
+  90              	.LVL6:
+  91 0000 1F402DE9 		push	{r0, r1, r2, r3, r4, lr}
+  92              		.cfi_def_cfa_offset 24
+  93              		.cfi_offset 14, -4
+ 192:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     /*Init required params and shadow library for test.*/
+ 193:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ShadowClientHandle_t xShadowClientHandle;
+ 194:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ShadowCreateParams_t xCreateParams;
+ 195:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ShadowReturnCode_t xReturn;
+ 196:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     uint32_t i, ulMaxLoopCount = 1;
+ 197:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 198:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     if( TEST_PROTECT() )
+  94              		.loc 1 198 0
+  95 0004 7C009FE5 		ldr	r0, .L17
+  96 0008 FEFFFFEB 		bl	setjmp
+  97              	.LVL7:
+  98 000c 000050E3 		cmp	r0, #0
+  99 0010 1800001A 		bne	.L15
+ 199:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     {
+ 200:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xCreateParams.xMQTTClientType = eDedicatedMQTTClient;
+ 100              		.loc 1 200 0
+ 101 0014 10108DE2 		add	r1, sp, #16
+ 102 0018 0130A0E3 		mov	r3, #1
+ 103 001c 083061E5 		strb	r3, [r1, #-8]!
+ 104              	.LVL8:
+ 201:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 202:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         for( i = 0; i < ulMaxLoopCount; i++ )
+ 203:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         {
+ 204:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****             /*create the shadow client.*/
+ 205:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****             xReturn = SHADOW_ClientCreate( &xShadowClientHandle, &xCreateParams );
+ 105              		.loc 1 205 0
+ 106 0020 04008DE2 		add	r0, sp, #4
+ 107 0024 FEFFFFEB 		bl	SHADOW_ClientCreate
+ 108              	.LVL9:
+ 206:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****             TEST_ASSERT_TRUE( eShadowSuccess == xReturn );
+ 109              		.loc 1 206 0
+ 110 0028 000050E3 		cmp	r0, #0
+ 111 002c 0900001A 		bne	.L9
+ 112              	.LVL10:
+ 113              	.L11:
+ 207:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 208:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****             /* Pause for a short while. */
+ 209:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****             vTaskDelay( shadowtestLOOP_DELAY );
+ 114              		.loc 1 209 0
+ 115 0030 9600A0E3 		mov	r0, #150
+ 116 0034 FEFFFFEB 		bl	vTaskDelay
+ 117              	.LVL11:
+ 210:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 211:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****             /* if shadow client was created successfully test delete.*/
+ 212:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****             xReturn = SHADOW_ClientDelete( xShadowClientHandle );
+ 118              		.loc 1 212 0
+ 119 0038 04009DE5 		ldr	r0, [sp, #4]
+ 120 003c FEFFFFEB 		bl	SHADOW_ClientDelete
+ 121              	.LVL12:
+ 213:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 214:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****             TEST_ASSERT_TRUE( eShadowSuccess == xReturn );
+ 122              		.loc 1 214 0
+ 123 0040 000050E3 		cmp	r0, #0
+ 124 0044 0700001A 		bne	.L12
+ 125              	.LVL13:
+ 126              	.L14:
+ 215:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 216:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****             /* Pause for a short while. */
+ 217:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****             vTaskDelay( shadowtestLOOP_DELAY );
+ 127              		.loc 1 217 0
+ 128 0048 9600A0E3 		mov	r0, #150
+ 129 004c FEFFFFEB 		bl	vTaskDelay
+ 130              	.LVL14:
+ 131              	.L6:
+ 218:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         }
+ 219:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     }
+ 220:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     else
+ 221:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     {
+ 222:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_FAIL();
+ 223:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     }
+ 224:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** }
+ 132              		.loc 1 224 0
+ 133 0050 14D08DE2 		add	sp, sp, #20
+ 134              		.cfi_remember_state
+ 135              		.cfi_def_cfa_offset 4
+ 136              		@ sp needed
+ 137 0054 04F09DE4 		ldr	pc, [sp], #4
+ 138              	.LVL15:
+ 139              	.L9:
+ 140              		.cfi_restore_state
+ 206:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 141              		.loc 1 206 0 discriminator 1
+ 142 0058 CE10A0E3 		mov	r1, #206
+ 143 005c 28009FE5 		ldr	r0, .L17+4
+ 144              	.LVL16:
+ 145 0060 FEFFFFEB 		bl	UnityFail
+ 146              	.LVL17:
+ 147 0064 F1FFFFEA 		b	.L11
+ 148              	.LVL18:
+ 149              	.L12:
+ 214:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 150              		.loc 1 214 0 discriminator 1
+ 151 0068 D610A0E3 		mov	r1, #214
+ 152 006c 18009FE5 		ldr	r0, .L17+4
+ 153              	.LVL19:
+ 154 0070 FEFFFFEB 		bl	UnityFail
+ 155              	.LVL20:
+ 156 0074 F3FFFFEA 		b	.L14
+ 157              	.LVL21:
+ 158              	.L15:
+ 222:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     }
+ 159              		.loc 1 222 0
+ 160 0078 DE10A0E3 		mov	r1, #222
+ 161 007c 0000A0E3 		mov	r0, #0
+ 162 0080 FEFFFFEB 		bl	UnityFail
+ 163              	.LVL22:
+ 164 0084 F1FFFFEA 		b	.L6
+ 165              	.L18:
+ 166              		.align	2
+ 167              	.L17:
+ 168 0088 28000000 		.word	Unity+40
+ 169 008c 00000000 		.word	.LC0
+ 170              		.cfi_endproc
+ 171              	.LFE10:
+ 173              		.section	.text.TEST_Full_Shadow_SETUP,"ax",%progbits
+ 174              		.align	2
+ 175              		.global	TEST_Full_Shadow_SETUP
+ 176              		.syntax unified
+ 177              		.arm
+ 178              		.fpu neon
+ 180              	TEST_Full_Shadow_SETUP:
+ 181              	.LFB22:
+ 182              		.cfi_startproc
+ 183              		@ args = 0, pretend = 0, frame = 0
+ 184              		@ frame_needed = 0, uses_anonymous_args = 0
+ 185              		@ link register save eliminated.
+ 186 0000 1EFF2FE1 		bx	lr
+ 187              		.cfi_endproc
+ 188              	.LFE22:
+ 190              		.section	.text.prvTestDeltaCallback,"ax",%progbits
+ 191              		.align	2
+ 192              		.global	prvTestDeltaCallback
+ 193              		.syntax unified
+ 194              		.arm
+ 195              		.fpu neon
+ 197              	prvTestDeltaCallback:
+ 198              	.LFB20:
+ 199              		.cfi_startproc
+ 200              		@ args = 0, pretend = 0, frame = 0
+ 201              		@ frame_needed = 0, uses_anonymous_args = 0
+ 202              		@ link register save eliminated.
+ 203 0000 0000A0E3 		mov	r0, #0
+ 204 0004 1EFF2FE1 		bx	lr
+ 205              		.cfi_endproc
+ 206              	.LFE20:
+ 208              		.section	.text.prvTestDeleteCallback,"ax",%progbits
+ 209              		.align	2
+ 210              		.global	prvTestDeleteCallback
+ 211              		.syntax unified
+ 212              		.arm
+ 213              		.fpu neon
+ 215              	prvTestDeleteCallback:
+ 216              	.LFB7:
+ 161:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ( void ) pcThingName;
+ 217              		.loc 1 161 0
+ 218              		.cfi_startproc
+ 219              		@ args = 0, pretend = 0, frame = 0
+ 220              		@ frame_needed = 0, uses_anonymous_args = 0
+ 221              		@ link register save eliminated.
+ 222              	.LVL23:
+ 168:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 223              		.loc 1 168 0
+ 224 0000 0000A0E3 		mov	r0, #0
+ 225              	.LVL24:
+ 226 0004 1EFF2FE1 		bx	lr
+ 227              		.cfi_endproc
+ 228              	.LFE7:
+ 230              		.section	.text.TEST_SHADOW_Connect_Helper,"ax",%progbits
+ 231              		.align	2
+ 232              		.global	TEST_SHADOW_Connect_Helper
+ 233              		.syntax unified
+ 234              		.arm
+ 235              		.fpu neon
+ 237              	TEST_SHADOW_Connect_Helper:
+ 238              	.LFB8:
+ 173:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     xConnectParams->pcURL = clientcredentialMQTT_BROKER_ENDPOINT;
+ 239              		.loc 1 173 0
+ 240              		.cfi_startproc
+ 241              		@ args = 0, pretend = 0, frame = 0
+ 242              		@ frame_needed = 0, uses_anonymous_args = 0
+ 243              		@ link register save eliminated.
+ 244              	.LVL25:
+ 174:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     xConnectParams->xURLIsIPAddress = pdFALSE; /* Deprecated. */
+ 245              		.loc 1 174 0
+ 246 0000 40309FE5 		ldr	r3, .L23
+ 176:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 247              		.loc 1 176 0
+ 248 0004 B32202E3 		movw	r2, #8883
+ 249 0008 BC20C0E1 		strh	r2, [r0, #12]	@ movhi
+ 179:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     xConnectParams->pcCertificate = NULL;
+ 250              		.loc 1 179 0
+ 251 000c 0220A0E3 		mov	r2, #2
+ 252 0010 042080E5 		str	r2, [r0, #4]
+ 174:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     xConnectParams->xURLIsIPAddress = pdFALSE; /* Deprecated. */
+ 253              		.loc 1 174 0
+ 254 0014 003080E5 		str	r3, [r0]
+ 175:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     xConnectParams->usPort = clientcredentialMQTT_BROKER_PORT;
+ 255              		.loc 1 175 0
+ 256 0018 0030A0E3 		mov	r3, #0
+ 257 001c 083080E5 		str	r3, [r0, #8]
+ 178:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     xConnectParams->xFlags = mqttagentREQUIRE_TLS;
+ 258              		.loc 1 178 0
+ 259 0020 183080E5 		str	r3, [r0, #24]
+ 180:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     xConnectParams->ulCertificateSize = 0;
+ 260              		.loc 1 180 0
+ 261 0024 243080E5 		str	r3, [r0, #36]
+ 181:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     xConnectParams->pxCallback = NULL;
+ 262              		.loc 1 181 0
+ 263 0028 283080E5 		str	r3, [r0, #40]
+ 182:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     xConnectParams->pvUserData = pxShadowClientHandle;
+ 264              		.loc 1 182 0
+ 265 002c 203080E5 		str	r3, [r0, #32]
+ 185:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     xConnectParams->usClientIdLength = ( uint16_t ) ( strlen( ( const char * ) shadowCLIENT_ID ) );
+ 266              		.loc 1 185 0
+ 267 0030 14309FE5 		ldr	r3, .L23+4
+ 183:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 268              		.loc 1 183 0
+ 269 0034 1C1080E5 		str	r1, [r0, #28]
+ 185:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     xConnectParams->usClientIdLength = ( uint16_t ) ( strlen( ( const char * ) shadowCLIENT_ID ) );
+ 270              		.loc 1 185 0
+ 271 0038 103080E5 		str	r3, [r0, #16]
+ 186:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** }
+ 272              		.loc 1 186 0
+ 273 003c 1730A0E3 		mov	r3, #23
+ 274 0040 B431C0E1 		strh	r3, [r0, #20]	@ movhi
+ 275 0044 1EFF2FE1 		bx	lr
+ 276              	.L24:
+ 277              		.align	2
+ 278              	.L23:
+ 279 0048 00000000 		.word	.LANCHOR1
+ 280 004c 00000000 		.word	.LC1
+ 281              		.cfi_endproc
+ 282              	.LFE8:
+ 284              		.section	.text.TEST_Full_Shadow_ClientConnectDisconnect_,"ax",%progbits
+ 285              		.align	2
+ 286              		.global	TEST_Full_Shadow_ClientConnectDisconnect_
+ 287              		.syntax unified
+ 288              		.arm
+ 289              		.fpu neon
+ 291              	TEST_Full_Shadow_ClientConnectDisconnect_:
+ 292              	.LFB12:
+ 225:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 226:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** /* Test for shadow client connect and disconnect api. */
+ 227:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** TEST( Full_Shadow, ClientConnectDisconnect )
+ 228:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** {
+ 293              		.loc 1 228 0
+ 294              		.cfi_startproc
+ 295              		@ args = 0, pretend = 0, frame = 56
+ 296              		@ frame_needed = 0, uses_anonymous_args = 0
+ 297              	.LVL26:
+ 229:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     /*Init required params and shadow library for test.*/
+ 230:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ShadowClientHandle_t xShadowClientHandle;
+ 231:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     BaseType_t xClientCreated = pdFALSE;
+ 232:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     MQTTAgentConnectParams_t xConnectParams;
+ 233:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ShadowCreateParams_t xCreateParams;
+ 234:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ShadowReturnCode_t xReturn;
+ 235:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     uint32_t i, ulMaxLoopCount = 1;
+ 236:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 237:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     if( TEST_PROTECT() )
+ 298              		.loc 1 237 0
+ 299 0000 DC009FE5 		ldr	r0, .L32
+ 228:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     /*Init required params and shadow library for test.*/
+ 300              		.loc 1 228 0
+ 301 0004 30402DE9 		push	{r4, r5, lr}
+ 302              		.cfi_def_cfa_offset 12
+ 303              		.cfi_offset 4, -12
+ 304              		.cfi_offset 5, -8
+ 305              		.cfi_offset 14, -4
+ 306 0008 44D04DE2 		sub	sp, sp, #68
+ 307              		.cfi_def_cfa_offset 80
+ 308              		.loc 1 237 0
+ 309 000c FEFFFFEB 		bl	setjmp
+ 310              	.LVL27:
+ 311 0010 004050E2 		subs	r4, r0, #0
+ 312 0014 2E00001A 		bne	.L30
+ 238:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     {
+ 239:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xCreateParams.xMQTTClientType = eDedicatedMQTTClient;
+ 313              		.loc 1 239 0
+ 314 0018 40108DE2 		add	r1, sp, #64
+ 315 001c 0130A0E3 		mov	r3, #1
+ 240:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 241:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /*create shadow client .*/
+ 242:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xReturn = SHADOW_ClientCreate( &xShadowClientHandle, &xCreateParams );
+ 243:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_ASSERT_EQUAL( eShadowSuccess, xReturn );
+ 316              		.loc 1 243 0
+ 317 0020 1450A0E3 		mov	r5, #20
+ 239:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 318              		.loc 1 239 0
+ 319 0024 343061E5 		strb	r3, [r1, #-52]!
+ 242:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_ASSERT_EQUAL( eShadowSuccess, xReturn );
+ 320              		.loc 1 242 0
+ 321 0028 08008DE2 		add	r0, sp, #8
+ 322 002c FEFFFFEB 		bl	SHADOW_ClientCreate
+ 323              	.LVL28:
+ 324              		.loc 1 243 0
+ 325 0030 F330A0E3 		mov	r3, #243
+ 326 0034 0420A0E1 		mov	r2, r4
+ 327 0038 0010A0E1 		mov	r1, r0
+ 328 003c 00508DE5 		str	r5, [sp]
+ 329 0040 0400A0E1 		mov	r0, r4
+ 330              	.LVL29:
+ 331 0044 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 332              	.LVL30:
+ 244:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xClientCreated = pdTRUE;
+ 245:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 246:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /*set MQTT params.*/
+ 247:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_SHADOW_Connect_Helper( &xConnectParams, &xShadowClientHandle );
+ 333              		.loc 1 247 0
+ 334 0048 08108DE2 		add	r1, sp, #8
+ 335 004c 05008DE0 		add	r0, sp, r5
+ 336 0050 FEFFFFEB 		bl	TEST_SHADOW_Connect_Helper
+ 337              	.LVL31:
+ 248:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 249:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         for( i = 0; i < ulMaxLoopCount; i++ )
+ 250:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         {
+ 251:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****             /*try connecting to shadow client.*/
+ 252:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****             xReturn = SHADOW_ClientConnect( xShadowClientHandle,
+ 338              		.loc 1 252 0
+ 339 0054 102702E3 		movw	r2, #10000
+ 340 0058 05108DE0 		add	r1, sp, r5
+ 341 005c 08009DE5 		ldr	r0, [sp, #8]
+ 342 0060 FEFFFFEB 		bl	SHADOW_ClientConnect
+ 343              	.LVL32:
+ 253:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                             &xConnectParams,
+ 254:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                             shadowTIMEOUT );
+ 255:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****             TEST_ASSERT_EQUAL( eShadowSuccess, xReturn );
+ 344              		.loc 1 255 0
+ 345 0064 FF30A0E3 		mov	r3, #255
+ 346 0068 0010A0E1 		mov	r1, r0
+ 347 006c 0420A0E1 		mov	r2, r4
+ 348 0070 0400A0E1 		mov	r0, r4
+ 349              	.LVL33:
+ 350 0074 00508DE5 		str	r5, [sp]
+ 351 0078 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 352              	.LVL34:
+ 256:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 257:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****             /* Pause for a short while to ensure the network is not too
+ 258:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****              * congested. */
+ 259:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****             vTaskDelay( shadowtestLOOP_DELAY );
+ 353              		.loc 1 259 0
+ 354 007c 9600A0E3 		mov	r0, #150
+ 355 0080 FEFFFFEB 		bl	vTaskDelay
+ 356              	.LVL35:
+ 260:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 261:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****             /*If connection is successful try to disconnect from shadow client.*/
+ 262:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****             xReturn = SHADOW_ClientDisconnect( xShadowClientHandle );
+ 357              		.loc 1 262 0
+ 358 0084 08009DE5 		ldr	r0, [sp, #8]
+ 359 0088 FEFFFFEB 		bl	SHADOW_ClientDisconnect
+ 360              	.LVL36:
+ 263:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****             TEST_ASSERT_EQUAL( eShadowSuccess, xReturn );
+ 361              		.loc 1 263 0
+ 362 008c 073100E3 		movw	r3, #263
+ 363 0090 0010A0E1 		mov	r1, r0
+ 364 0094 0420A0E1 		mov	r2, r4
+ 365 0098 0400A0E1 		mov	r0, r4
+ 366              	.LVL37:
+ 367 009c 00508DE5 		str	r5, [sp]
+ 368 00a0 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 369              	.LVL38:
+ 264:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 265:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****             /* Pause for a short while to ensure the network is not too
+ 266:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****              * congested. */
+ 267:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****             vTaskDelay( shadowtestLOOP_DELAY );
+ 370              		.loc 1 267 0
+ 371 00a4 9600A0E3 		mov	r0, #150
+ 372 00a8 FEFFFFEB 		bl	vTaskDelay
+ 373              	.LVL39:
+ 268:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         }
+ 269:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     }
+ 270:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     else
+ 271:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     {
+ 272:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_FAIL();
+ 273:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     }
+ 274:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 275:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     if( xClientCreated )
+ 276:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     {
+ 277:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /* delete shadow client before returning.*/
+ 278:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xReturn = SHADOW_ClientDelete( xShadowClientHandle );
+ 374              		.loc 1 278 0
+ 375 00ac 08009DE5 		ldr	r0, [sp, #8]
+ 376 00b0 FEFFFFEB 		bl	SHADOW_ClientDelete
+ 377              	.LVL40:
+ 279:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_ASSERT_EQUAL( eShadowSuccess, xReturn );
+ 378              		.loc 1 279 0
+ 379 00b4 0020A0E3 		mov	r2, #0
+ 380 00b8 0010A0E1 		mov	r1, r0
+ 381 00bc 00508DE5 		str	r5, [sp]
+ 382 00c0 173100E3 		movw	r3, #279
+ 383 00c4 0200A0E1 		mov	r0, r2
+ 384              	.LVL41:
+ 385 00c8 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 386              	.LVL42:
+ 387              	.L25:
+ 280:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     }
+ 281:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** }
+ 388              		.loc 1 281 0
+ 389 00cc 44D08DE2 		add	sp, sp, #68
+ 390              		.cfi_remember_state
+ 391              		.cfi_def_cfa_offset 12
+ 392              		@ sp needed
+ 393 00d0 3080BDE8 		pop	{r4, r5, pc}
+ 394              	.LVL43:
+ 395              	.L30:
+ 396              		.cfi_restore_state
+ 272:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     }
+ 397              		.loc 1 272 0
+ 398 00d4 111EA0E3 		mov	r1, #272
+ 399 00d8 0000A0E3 		mov	r0, #0
+ 400 00dc FEFFFFEB 		bl	UnityFail
+ 401              	.LVL44:
+ 402 00e0 F9FFFFEA 		b	.L25
+ 403              	.L33:
+ 404              		.align	2
+ 405              	.L32:
+ 406 00e4 28000000 		.word	Unity+40
+ 407              		.cfi_endproc
+ 408              	.LFE12:
+ 410              		.section	.text.TEST_Full_Shadow_CreateShadowDocument_,"ax",%progbits
+ 411              		.align	2
+ 412              		.global	TEST_Full_Shadow_CreateShadowDocument_
+ 413              		.syntax unified
+ 414              		.arm
+ 415              		.fpu neon
+ 417              	TEST_Full_Shadow_CreateShadowDocument_:
+ 418              	.LFB14:
+ 282:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 283:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** /* Test for shadow document is created/updated - SHADOW_Update api.*/
+ 284:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** TEST( Full_Shadow, CreateShadowDocument )
+ 285:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** {
+ 419              		.loc 1 285 0
+ 420              		.cfi_startproc
+ 421              		@ args = 0, pretend = 0, frame = 80
+ 422              		@ frame_needed = 0, uses_anonymous_args = 0
+ 423              	.LVL45:
+ 286:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     /*Init required params and shadow library for test.*/
+ 287:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ShadowClientHandle_t xShadowClientHandle;
+ 288:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     BaseType_t xClientCreated = pdFALSE;
+ 289:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     MQTTAgentConnectParams_t xConnectParams;
+ 290:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ShadowCreateParams_t xCreateParams;
+ 291:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ShadowReturnCode_t xReturn;
+ 292:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     uint32_t ulCompareLength;
+ 293:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ShadowOperationParams_t xOperationParams;
+ 294:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 295:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     if( TEST_PROTECT() )
+ 424              		.loc 1 295 0
+ 425 0000 DC019FE5 		ldr	r0, .L47
+ 285:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     /*Init required params and shadow library for test.*/
+ 426              		.loc 1 285 0
+ 427 0004 30402DE9 		push	{r4, r5, lr}
+ 428              		.cfi_def_cfa_offset 12
+ 429              		.cfi_offset 4, -12
+ 430              		.cfi_offset 5, -8
+ 431              		.cfi_offset 14, -4
+ 432 0008 5CD04DE2 		sub	sp, sp, #92
+ 433              		.cfi_def_cfa_offset 104
+ 434              		.loc 1 295 0
+ 435 000c FEFFFFEB 		bl	setjmp
+ 436              	.LVL46:
+ 437 0010 004050E2 		subs	r4, r0, #0
+ 438 0014 6E00001A 		bne	.L45
+ 296:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     {
+ 297:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xCreateParams.xMQTTClientType = eDedicatedMQTTClient;
+ 439              		.loc 1 297 0
+ 440 0018 58108DE2 		add	r1, sp, #88
+ 441 001c 0130A0E3 		mov	r3, #1
+ 442 0020 483061E5 		strb	r3, [r1, #-72]!
+ 298:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xReturn = SHADOW_ClientCreate( &xShadowClientHandle, &xCreateParams );
+ 299:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_ASSERT_EQUAL( eShadowSuccess, xReturn );
+ 443              		.loc 1 299 0
+ 444 0024 1450A0E3 		mov	r5, #20
+ 298:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xReturn = SHADOW_ClientCreate( &xShadowClientHandle, &xCreateParams );
+ 445              		.loc 1 298 0
+ 446 0028 0C008DE2 		add	r0, sp, #12
+ 447 002c FEFFFFEB 		bl	SHADOW_ClientCreate
+ 448              	.LVL47:
+ 449              		.loc 1 299 0
+ 450 0030 2B3100E3 		movw	r3, #299
+ 451 0034 0010A0E1 		mov	r1, r0
+ 452 0038 0420A0E1 		mov	r2, r4
+ 453 003c 0400A0E1 		mov	r0, r4
+ 454              	.LVL48:
+ 455 0040 00508DE5 		str	r5, [sp]
+ 456 0044 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 457              	.LVL49:
+ 300:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xClientCreated = pdTRUE;
+ 301:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 302:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         memset( &xConnectParams, 0x00, sizeof( xConnectParams ) );
+ 458              		.loc 1 302 0
+ 459 0048 2C20A0E3 		mov	r2, #44
+ 460 004c 0410A0E1 		mov	r1, r4
+ 461 0050 02008DE0 		add	r0, sp, r2
+ 462 0054 FEFFFFEB 		bl	memset
+ 463              	.LVL50:
+ 303:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_SHADOW_Connect_Helper( &xConnectParams, &xShadowClientHandle );
+ 464              		.loc 1 303 0
+ 465 0058 0C108DE2 		add	r1, sp, #12
+ 466 005c 2C008DE2 		add	r0, sp, #44
+ 467 0060 FEFFFFEB 		bl	TEST_SHADOW_Connect_Helper
+ 468              	.LVL51:
+ 304:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xReturn = SHADOW_ClientConnect( xShadowClientHandle,
+ 469              		.loc 1 304 0
+ 470 0064 102702E3 		movw	r2, #10000
+ 471 0068 2C108DE2 		add	r1, sp, #44
+ 472 006c 0C009DE5 		ldr	r0, [sp, #12]
+ 473 0070 FEFFFFEB 		bl	SHADOW_ClientConnect
+ 474              	.LVL52:
+ 305:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                         &xConnectParams,
+ 306:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                         shadowTIMEOUT );
+ 307:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 308:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_ASSERT_EQUAL( eShadowSuccess, xReturn );
+ 475              		.loc 1 308 0
+ 476 0074 4D3FA0E3 		mov	r3, #308
+ 477 0078 0010A0E1 		mov	r1, r0
+ 478 007c 0420A0E1 		mov	r2, r4
+ 479 0080 0400A0E1 		mov	r0, r4
+ 480              	.LVL53:
+ 481 0084 00508DE5 		str	r5, [sp]
+ 482 0088 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 483              	.LVL54:
+ 309:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 310:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xOperationParams.pcThingName = shadowTHING_NAME;
+ 484              		.loc 1 310 0
+ 485 008c 54319FE5 		ldr	r3, .L47+4
+ 311:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xOperationParams.xQoS = eMQTTQoS0;
+ 312:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xOperationParams.pcData = NULL;
+ 313:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /* subscribe to the accepted and rejected topics */
+ 314:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xOperationParams.ucKeepSubscriptions = pdFALSE;
+ 315:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xReturn = SHADOW_Delete( xShadowClientHandle,
+ 486              		.loc 1 315 0
+ 487 0090 102702E3 		movw	r2, #10000
+ 488 0094 18108DE2 		add	r1, sp, #24
+ 489 0098 0C009DE5 		ldr	r0, [sp, #12]
+ 311:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xOperationParams.xQoS = eMQTTQoS0;
+ 490              		.loc 1 311 0
+ 491 009c 2940CDE5 		strb	r4, [sp, #41]
+ 310:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xOperationParams.xQoS = eMQTTQoS0;
+ 492              		.loc 1 310 0
+ 493 00a0 18308DE5 		str	r3, [sp, #24]
+ 312:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /* subscribe to the accepted and rejected topics */
+ 494              		.loc 1 312 0
+ 495 00a4 1C408DE5 		str	r4, [sp, #28]
+ 314:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xReturn = SHADOW_Delete( xShadowClientHandle,
+ 496              		.loc 1 314 0
+ 497 00a8 2840CDE5 		strb	r4, [sp, #40]
+ 498              		.loc 1 315 0
+ 499 00ac FEFFFFEB 		bl	SHADOW_Delete
+ 500              	.LVL55:
+ 316:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                  &xOperationParams,
+ 317:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                  shadowTIMEOUT );
+ 318:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_ASSERT_TRUE( ( xReturn == eShadowSuccess ) || ( xReturn == eShadowRejectedNotFound ) )
+ 501              		.loc 1 318 0
+ 502 00b0 650F50E3 		cmp	r0, #404
+ 503 00b4 00005013 		cmpne	r0, #0
+ 504 00b8 3D00001A 		bne	.L37
+ 505              	.LVL56:
+ 506              	.L39:
+ 319:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 320:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /*init shadow operations params. */
+ 321:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xOperationParams.pcData = pcUpdateBuffer;
+ 507              		.loc 1 321 0
+ 508 00bc 28419FE5 		ldr	r4, .L47+8
+ 322:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xOperationParams.ulDataLength = ulCompareLength = prvGenerateShadowJSON();
+ 323:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 324:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /* Only compare the state data when checking correctness. */
+ 325:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         ulCompareLength -= sizeof( "\"clientToken\": \"" shadowCLIENT_TOKEN "\"" );
+ 326:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 327:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /* create the shadow document for thing.*/
+ 328:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xReturn = SHADOW_Update( xShadowClientHandle,
+ 329:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                  &xOperationParams,
+ 330:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                  shadowTIMEOUT );
+ 331:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 332:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_ASSERT_EQUAL( eShadowSuccess, xReturn );
+ 509              		.loc 1 332 0
+ 510 00c0 1450A0E3 		mov	r5, #20
+ 511              	.LBB4:
+ 512              	.LBB5:
+ 108:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                   "{"
+ 513              		.loc 1 108 0
+ 514 00c4 24119FE5 		ldr	r1, .L47+12
+ 515 00c8 0400A0E1 		mov	r0, r4
+ 516              	.LBE5:
+ 517              	.LBE4:
+ 321:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xOperationParams.ulDataLength = ulCompareLength = prvGenerateShadowJSON();
+ 518              		.loc 1 321 0
+ 519 00cc 1C408DE5 		str	r4, [sp, #28]
+ 520              	.LBB7:
+ 521              	.LBB6:
+ 108:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                   "{"
+ 522              		.loc 1 108 0
+ 523 00d0 FEFFFFEB 		bl	strcpy
+ 524              	.LVL57:
+ 525              	.LBE6:
+ 526              	.LBE7:
+ 322:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xOperationParams.ulDataLength = ulCompareLength = prvGenerateShadowJSON();
+ 527              		.loc 1 322 0
+ 528 00d4 6C30A0E3 		mov	r3, #108
+ 328:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                  &xOperationParams,
+ 529              		.loc 1 328 0
+ 530 00d8 102702E3 		movw	r2, #10000
+ 531 00dc 18108DE2 		add	r1, sp, #24
+ 532 00e0 0C009DE5 		ldr	r0, [sp, #12]
+ 322:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 533              		.loc 1 322 0
+ 534 00e4 20308DE5 		str	r3, [sp, #32]
+ 535              	.LVL58:
+ 328:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                  &xOperationParams,
+ 536              		.loc 1 328 0
+ 537 00e8 FEFFFFEB 		bl	SHADOW_Update
+ 538              	.LVL59:
+ 539              		.loc 1 332 0
+ 540 00ec 0020A0E3 		mov	r2, #0
+ 541 00f0 533FA0E3 		mov	r3, #332
+ 542 00f4 0010A0E1 		mov	r1, r0
+ 543 00f8 00508DE5 		str	r5, [sp]
+ 544 00fc 0200A0E1 		mov	r0, r2
+ 545              	.LVL60:
+ 546 0100 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 547              	.LVL61:
+ 333:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /* get the shadow document from shadow service.*/
+ 334:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xReturn = SHADOW_Get( xShadowClientHandle,
+ 548              		.loc 1 334 0
+ 549 0104 102702E3 		movw	r2, #10000
+ 550 0108 18108DE2 		add	r1, sp, #24
+ 551 010c 0C009DE5 		ldr	r0, [sp, #12]
+ 552 0110 FEFFFFEB 		bl	SHADOW_Get
+ 553              	.LVL62:
+ 335:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                               &xOperationParams,
+ 336:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                               shadowTIMEOUT );
+ 337:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_ASSERT_EQUAL( eShadowSuccess, xReturn );
+ 554              		.loc 1 337 0
+ 555 0114 0020A0E3 		mov	r2, #0
+ 556 0118 0010A0E1 		mov	r1, r0
+ 557 011c 513100E3 		movw	r3, #337
+ 558 0120 0200A0E1 		mov	r0, r2
+ 559              	.LVL63:
+ 560 0124 00508DE5 		str	r5, [sp]
+ 561 0128 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 562              	.LVL64:
+ 338:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 339:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         if( memcmp( pcUpdateBuffer,
+ 563              		.loc 1 339 0
+ 564 012c 3E20A0E3 		mov	r2, #62
+ 565 0130 1C109DE5 		ldr	r1, [sp, #28]
+ 566 0134 0400A0E1 		mov	r0, r4
+ 567 0138 FEFFFFEB 		bl	memcmp
+ 568              	.LVL65:
+ 569 013c 000050E3 		cmp	r0, #0
+ 570 0140 1F00001A 		bne	.L40
+ 571              	.L42:
+ 340:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                     xOperationParams.pcData,
+ 341:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                     ulCompareLength ) != 0 )
+ 342:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         {
+ 343:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****             TEST_FAIL();
+ 344:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         }
+ 345:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 346:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /* Free the buffer used by shadow document. */
+ 347:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xReturn = SHADOW_ReturnMQTTBuffer( xShadowClientHandle, xOperationParams.xBuffer );
+ 572              		.loc 1 347 0
+ 573 0144 24109DE5 		ldr	r1, [sp, #36]
+ 348:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_ASSERT_EQUAL( eShadowSuccess, xReturn );
+ 574              		.loc 1 348 0
+ 575 0148 1440A0E3 		mov	r4, #20
+ 347:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_ASSERT_EQUAL( eShadowSuccess, xReturn );
+ 576              		.loc 1 347 0
+ 577 014c 0C009DE5 		ldr	r0, [sp, #12]
+ 578 0150 FEFFFFEB 		bl	SHADOW_ReturnMQTTBuffer
+ 579              	.LVL66:
+ 580              		.loc 1 348 0
+ 581 0154 0020A0E3 		mov	r2, #0
+ 582 0158 0010A0E1 		mov	r1, r0
+ 583 015c 573FA0E3 		mov	r3, #348
+ 584 0160 0200A0E1 		mov	r0, r2
+ 585              	.LVL67:
+ 586 0164 00408DE5 		str	r4, [sp]
+ 587 0168 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 588              	.LVL68:
+ 349:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 350:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /* disconnect shadow client. */
+ 351:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xReturn = SHADOW_ClientDisconnect( xShadowClientHandle );
+ 589              		.loc 1 351 0
+ 590 016c 0C009DE5 		ldr	r0, [sp, #12]
+ 591 0170 FEFFFFEB 		bl	SHADOW_ClientDisconnect
+ 592              	.LVL69:
+ 352:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_ASSERT_EQUAL( eShadowSuccess, xReturn );
+ 593              		.loc 1 352 0
+ 594 0174 0020A0E3 		mov	r2, #0
+ 595 0178 0010A0E1 		mov	r1, r0
+ 596 017c 163EA0E3 		mov	r3, #352
+ 597 0180 0200A0E1 		mov	r0, r2
+ 598              	.LVL70:
+ 599 0184 00408DE5 		str	r4, [sp]
+ 600 0188 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 601              	.LVL71:
+ 353:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     }
+ 354:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     else
+ 355:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     {
+ 356:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_FAIL();
+ 357:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     }
+ 358:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 359:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     if( xClientCreated )
+ 360:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     {
+ 361:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /* delete shadow client before returning.*/
+ 362:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xReturn = SHADOW_ClientDelete( xShadowClientHandle );
+ 602              		.loc 1 362 0
+ 603 018c 0C009DE5 		ldr	r0, [sp, #12]
+ 604 0190 FEFFFFEB 		bl	SHADOW_ClientDelete
+ 605              	.LVL72:
+ 363:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_ASSERT_EQUAL( eShadowSuccess, xReturn );
+ 606              		.loc 1 363 0
+ 607 0194 0020A0E3 		mov	r2, #0
+ 608 0198 0010A0E1 		mov	r1, r0
+ 609 019c 00408DE5 		str	r4, [sp]
+ 610 01a0 6B3100E3 		movw	r3, #363
+ 611 01a4 0200A0E1 		mov	r0, r2
+ 612              	.LVL73:
+ 613 01a8 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 614              	.LVL74:
+ 615              	.L34:
+ 364:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     }
+ 365:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** }
+ 616              		.loc 1 365 0
+ 617 01ac 5CD08DE2 		add	sp, sp, #92
+ 618              		.cfi_remember_state
+ 619              		.cfi_def_cfa_offset 12
+ 620              		@ sp needed
+ 621 01b0 3080BDE8 		pop	{r4, r5, pc}
+ 622              	.LVL75:
+ 623              	.L37:
+ 624              		.cfi_restore_state
+ 318:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 625              		.loc 1 318 0 discriminator 1
+ 626 01b4 3E1100E3 		movw	r1, #318
+ 627 01b8 34009FE5 		ldr	r0, .L47+16
+ 628              	.LVL76:
+ 629 01bc FEFFFFEB 		bl	UnityFail
+ 630              	.LVL77:
+ 631 01c0 BDFFFFEA 		b	.L39
+ 632              	.LVL78:
+ 633              	.L40:
+ 343:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         }
+ 634              		.loc 1 343 0
+ 635 01c4 571100E3 		movw	r1, #343
+ 636 01c8 0000A0E3 		mov	r0, #0
+ 637 01cc FEFFFFEB 		bl	UnityFail
+ 638              	.LVL79:
+ 639 01d0 DBFFFFEA 		b	.L42
+ 640              	.LVL80:
+ 641              	.L45:
+ 356:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     }
+ 642              		.loc 1 356 0
+ 643 01d4 591FA0E3 		mov	r1, #356
+ 644 01d8 0000A0E3 		mov	r0, #0
+ 645 01dc FEFFFFEB 		bl	UnityFail
+ 646              	.LVL81:
+ 647 01e0 F1FFFFEA 		b	.L34
+ 648              	.L48:
+ 649              		.align	2
+ 650              	.L47:
+ 651 01e4 28000000 		.word	Unity+40
+ 652 01e8 00000000 		.word	.LC1
+ 653 01ec 00000000 		.word	.LANCHOR2
+ 654 01f0 00000000 		.word	.LC2
+ 655 01f4 00000000 		.word	.LC0
+ 656              		.cfi_endproc
+ 657              	.LFE14:
+ 659              		.section	.text.TEST_Full_Shadow_DeleteShadowDocument_,"ax",%progbits
+ 660              		.align	2
+ 661              		.global	TEST_Full_Shadow_DeleteShadowDocument_
+ 662              		.syntax unified
+ 663              		.arm
+ 664              		.fpu neon
+ 666              	TEST_Full_Shadow_DeleteShadowDocument_:
+ 667              	.LFB16:
+ 366:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 367:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** /* Test for shadow document delete api.*/
+ 368:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** TEST( Full_Shadow, DeleteShadowDocument )
+ 369:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** {
+ 668              		.loc 1 369 0
+ 669              		.cfi_startproc
+ 670              		@ args = 0, pretend = 0, frame = 80
+ 671              		@ frame_needed = 0, uses_anonymous_args = 0
+ 672              	.LVL82:
+ 370:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     /*Init required params and shadow library for test.*/
+ 371:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ShadowClientHandle_t xShadowClientHandle;
+ 372:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     BaseType_t xClientCreated = pdFALSE;
+ 373:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     MQTTAgentConnectParams_t xConnectParams;
+ 374:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ShadowCreateParams_t xCreateParams;
+ 375:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ShadowReturnCode_t xReturn;
+ 376:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ShadowOperationParams_t xOperationParams;
+ 377:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 378:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     if( TEST_PROTECT() )
+ 673              		.loc 1 378 0
+ 674 0000 88019FE5 		ldr	r0, .L59
+ 369:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     /*Init required params and shadow library for test.*/
+ 675              		.loc 1 369 0
+ 676 0004 30402DE9 		push	{r4, r5, lr}
+ 677              		.cfi_def_cfa_offset 12
+ 678              		.cfi_offset 4, -12
+ 679              		.cfi_offset 5, -8
+ 680              		.cfi_offset 14, -4
+ 681 0008 5CD04DE2 		sub	sp, sp, #92
+ 682              		.cfi_def_cfa_offset 104
+ 683              		.loc 1 378 0
+ 684 000c FEFFFFEB 		bl	setjmp
+ 685              	.LVL83:
+ 686 0010 004050E2 		subs	r4, r0, #0
+ 687 0014 5900001A 		bne	.L57
+ 379:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     {
+ 380:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xCreateParams.xMQTTClientType = eDedicatedMQTTClient;
+ 688              		.loc 1 380 0
+ 689 0018 58108DE2 		add	r1, sp, #88
+ 690 001c 0130A0E3 		mov	r3, #1
+ 381:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xReturn = SHADOW_ClientCreate( &xShadowClientHandle, &xCreateParams );
+ 382:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_ASSERT_EQUAL( eShadowSuccess, xReturn );
+ 691              		.loc 1 382 0
+ 692 0020 1450A0E3 		mov	r5, #20
+ 380:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xReturn = SHADOW_ClientCreate( &xShadowClientHandle, &xCreateParams );
+ 693              		.loc 1 380 0
+ 694 0024 483061E5 		strb	r3, [r1, #-72]!
+ 381:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xReturn = SHADOW_ClientCreate( &xShadowClientHandle, &xCreateParams );
+ 695              		.loc 1 381 0
+ 696 0028 0C008DE2 		add	r0, sp, #12
+ 697 002c FEFFFFEB 		bl	SHADOW_ClientCreate
+ 698              	.LVL84:
+ 699              		.loc 1 382 0
+ 700 0030 7E3100E3 		movw	r3, #382
+ 701 0034 0010A0E1 		mov	r1, r0
+ 702 0038 0420A0E1 		mov	r2, r4
+ 703 003c 0400A0E1 		mov	r0, r4
+ 704              	.LVL85:
+ 705 0040 00508DE5 		str	r5, [sp]
+ 706 0044 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 707              	.LVL86:
+ 383:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xClientCreated = pdTRUE;
+ 384:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 385:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         memset( &xConnectParams, 0x00, sizeof( xConnectParams ) );
+ 708              		.loc 1 385 0
+ 709 0048 2C20A0E3 		mov	r2, #44
+ 710 004c 0410A0E1 		mov	r1, r4
+ 711 0050 02008DE0 		add	r0, sp, r2
+ 712 0054 FEFFFFEB 		bl	memset
+ 713              	.LVL87:
+ 386:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_SHADOW_Connect_Helper( &xConnectParams, &xShadowClientHandle );
+ 714              		.loc 1 386 0
+ 715 0058 0C108DE2 		add	r1, sp, #12
+ 716 005c 2C008DE2 		add	r0, sp, #44
+ 717 0060 FEFFFFEB 		bl	TEST_SHADOW_Connect_Helper
+ 718              	.LVL88:
+ 387:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xReturn = SHADOW_ClientConnect( xShadowClientHandle,
+ 719              		.loc 1 387 0
+ 720 0064 102702E3 		movw	r2, #10000
+ 721 0068 2C108DE2 		add	r1, sp, #44
+ 722 006c 0C009DE5 		ldr	r0, [sp, #12]
+ 723 0070 FEFFFFEB 		bl	SHADOW_ClientConnect
+ 724              	.LVL89:
+ 388:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                         &xConnectParams,
+ 389:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                         shadowTIMEOUT );
+ 390:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 391:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_ASSERT_EQUAL( eShadowSuccess, xReturn );
+ 725              		.loc 1 391 0
+ 726 0074 0420A0E1 		mov	r2, r4
+ 727 0078 0010A0E1 		mov	r1, r0
+ 728 007c 873100E3 		movw	r3, #391
+ 729 0080 0400A0E1 		mov	r0, r4
+ 730              	.LVL90:
+ 731 0084 00508DE5 		str	r5, [sp]
+ 732 0088 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 733              	.LVL91:
+ 392:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 393:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xOperationParams.pcThingName = shadowTHING_NAME;
+ 734              		.loc 1 393 0
+ 735 008c 00319FE5 		ldr	r3, .L59+4
+ 394:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xOperationParams.xQoS = eMQTTQoS0;
+ 395:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xOperationParams.pcData = pcUpdateBuffer;
+ 736              		.loc 1 395 0
+ 737 0090 00019FE5 		ldr	r0, .L59+8
+ 738              	.LBB10:
+ 739              	.LBB11:
+ 108:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                   "{"
+ 740              		.loc 1 108 0
+ 741 0094 00119FE5 		ldr	r1, .L59+12
+ 742              	.LBE11:
+ 743              	.LBE10:
+ 393:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xOperationParams.xQoS = eMQTTQoS0;
+ 744              		.loc 1 393 0
+ 745 0098 18308DE5 		str	r3, [sp, #24]
+ 394:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xOperationParams.xQoS = eMQTTQoS0;
+ 746              		.loc 1 394 0
+ 747 009c 2940CDE5 		strb	r4, [sp, #41]
+ 748              		.loc 1 395 0
+ 749 00a0 1C008DE5 		str	r0, [sp, #28]
+ 396:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /* subscribe to the accepted and rejected topics */
+ 397:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xOperationParams.ucKeepSubscriptions = pdFALSE;
+ 750              		.loc 1 397 0
+ 751 00a4 2840CDE5 		strb	r4, [sp, #40]
+ 752              	.LBB13:
+ 753              	.LBB12:
+ 108:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                   "{"
+ 754              		.loc 1 108 0
+ 755 00a8 FEFFFFEB 		bl	strcpy
+ 756              	.LVL92:
+ 757              	.LBE12:
+ 758              	.LBE13:
+ 398:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 399:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /* generate a simple json document for test. */
+ 400:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xOperationParams.ulDataLength = prvGenerateShadowJSON();
+ 759              		.loc 1 400 0
+ 760 00ac 6C30A0E3 		mov	r3, #108
+ 401:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 402:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /* create the shadow document for thing.*/
+ 403:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xReturn = SHADOW_Update( xShadowClientHandle,
+ 761              		.loc 1 403 0
+ 762 00b0 102702E3 		movw	r2, #10000
+ 763 00b4 18108DE2 		add	r1, sp, #24
+ 764 00b8 0C009DE5 		ldr	r0, [sp, #12]
+ 400:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 765              		.loc 1 400 0
+ 766 00bc 20308DE5 		str	r3, [sp, #32]
+ 767              		.loc 1 403 0
+ 768 00c0 FEFFFFEB 		bl	SHADOW_Update
+ 769              	.LVL93:
+ 404:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                  &xOperationParams,
+ 405:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                  shadowTIMEOUT );
+ 406:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 407:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /*Delete the shadow document just created. */
+ 408:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_ASSERT_EQUAL( eShadowSuccess, xReturn );
+ 770              		.loc 1 408 0
+ 771 00c4 663FA0E3 		mov	r3, #408
+ 772 00c8 0010A0E1 		mov	r1, r0
+ 773 00cc 0420A0E1 		mov	r2, r4
+ 774 00d0 0400A0E1 		mov	r0, r4
+ 775              	.LVL94:
+ 776 00d4 00508DE5 		str	r5, [sp]
+ 777 00d8 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 778              	.LVL95:
+ 409:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /* delete the shadow document is same .*/
+ 410:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xReturn = SHADOW_Delete( xShadowClientHandle,
+ 779              		.loc 1 410 0
+ 780 00dc 102702E3 		movw	r2, #10000
+ 781 00e0 18108DE2 		add	r1, sp, #24
+ 782 00e4 0C009DE5 		ldr	r0, [sp, #12]
+ 783 00e8 FEFFFFEB 		bl	SHADOW_Delete
+ 784              	.LVL96:
+ 411:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                  &xOperationParams,
+ 412:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                  shadowTIMEOUT );
+ 413:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 414:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 415:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_ASSERT_EQUAL( eShadowSuccess, xReturn );
+ 785              		.loc 1 415 0
+ 786 00ec 9F3100E3 		movw	r3, #415
+ 787 00f0 0010A0E1 		mov	r1, r0
+ 788 00f4 0420A0E1 		mov	r2, r4
+ 789 00f8 0400A0E1 		mov	r0, r4
+ 790              	.LVL97:
+ 791 00fc 00508DE5 		str	r5, [sp]
+ 792 0100 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 793              	.LVL98:
+ 416:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /* try to get the deleted document .*/
+ 417:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xReturn = SHADOW_Get( xShadowClientHandle,
+ 794              		.loc 1 417 0
+ 795 0104 102702E3 		movw	r2, #10000
+ 796 0108 18108DE2 		add	r1, sp, #24
+ 797 010c 0C009DE5 		ldr	r0, [sp, #12]
+ 798 0110 FEFFFFEB 		bl	SHADOW_Get
+ 799              	.LVL99:
+ 418:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                               &xOperationParams,
+ 419:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                               shadowTIMEOUT );
+ 420:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 421:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_ASSERT_TRUE( xOperationParams.pcData == NULL )
+ 800              		.loc 1 421 0
+ 801 0114 1C309DE5 		ldr	r3, [sp, #28]
+ 802 0118 000053E3 		cmp	r3, #0
+ 803 011c 1300001A 		bne	.L52
+ 804              	.L54:
+ 422:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 423:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 424:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /*disconnect shadow client*/
+ 425:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xReturn = SHADOW_ClientDisconnect( xShadowClientHandle );
+ 805              		.loc 1 425 0
+ 806 0120 0C009DE5 		ldr	r0, [sp, #12]
+ 807 0124 FEFFFFEB 		bl	SHADOW_ClientDisconnect
+ 808              	.LVL100:
+ 426:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_ASSERT_EQUAL( eShadowSuccess, xReturn );
+ 809              		.loc 1 426 0
+ 810 0128 0020A0E3 		mov	r2, #0
+ 811 012c 1430A0E3 		mov	r3, #20
+ 812 0130 0010A0E1 		mov	r1, r0
+ 813 0134 00308DE5 		str	r3, [sp]
+ 814 0138 0200A0E1 		mov	r0, r2
+ 815              	.LVL101:
+ 816 013c AA3100E3 		movw	r3, #426
+ 817 0140 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 818              	.LVL102:
+ 427:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     }
+ 428:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     else
+ 429:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     {
+ 430:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_FAIL();
+ 431:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     }
+ 432:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 433:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     if( xClientCreated )
+ 434:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     {
+ 435:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /* delete shadow client before returning.*/
+ 436:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xReturn = SHADOW_ClientDelete( xShadowClientHandle );
+ 819              		.loc 1 436 0
+ 820 0144 0C009DE5 		ldr	r0, [sp, #12]
+ 821 0148 FEFFFFEB 		bl	SHADOW_ClientDelete
+ 822              	.LVL103:
+ 437:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_ASSERT_EQUAL( eShadowSuccess, xReturn );
+ 823              		.loc 1 437 0
+ 824 014c 1430A0E3 		mov	r3, #20
+ 825 0150 0020A0E3 		mov	r2, #0
+ 826 0154 00308DE5 		str	r3, [sp]
+ 827 0158 0010A0E1 		mov	r1, r0
+ 828 015c B53100E3 		movw	r3, #437
+ 829 0160 0200A0E1 		mov	r0, r2
+ 830              	.LVL104:
+ 831 0164 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 832              	.LVL105:
+ 833              	.L49:
+ 438:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     }
+ 439:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** }
+ 834              		.loc 1 439 0
+ 835 0168 5CD08DE2 		add	sp, sp, #92
+ 836              		.cfi_remember_state
+ 837              		.cfi_def_cfa_offset 12
+ 838              		@ sp needed
+ 839 016c 3080BDE8 		pop	{r4, r5, pc}
+ 840              	.LVL106:
+ 841              	.L52:
+ 842              		.cfi_restore_state
+ 421:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 843              		.loc 1 421 0 discriminator 1
+ 844 0170 A51100E3 		movw	r1, #421
+ 845 0174 24009FE5 		ldr	r0, .L59+16
+ 846 0178 FEFFFFEB 		bl	UnityFail
+ 847              	.LVL107:
+ 848 017c E7FFFFEA 		b	.L54
+ 849              	.LVL108:
+ 850              	.L57:
+ 430:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     }
+ 851              		.loc 1 430 0
+ 852 0180 AE1100E3 		movw	r1, #430
+ 853 0184 0000A0E3 		mov	r0, #0
+ 854 0188 FEFFFFEB 		bl	UnityFail
+ 855              	.LVL109:
+ 856 018c F5FFFFEA 		b	.L49
+ 857              	.L60:
+ 858              		.align	2
+ 859              	.L59:
+ 860 0190 28000000 		.word	Unity+40
+ 861 0194 00000000 		.word	.LC1
+ 862 0198 00000000 		.word	.LANCHOR2
+ 863 019c 00000000 		.word	.LC2
+ 864 01a0 00000000 		.word	.LC0
+ 865              		.cfi_endproc
+ 866              	.LFE16:
+ 868              		.section	.text.TEST_Full_Shadow_UpdateCallback_,"ax",%progbits
+ 869              		.align	2
+ 870              		.global	TEST_Full_Shadow_UpdateCallback_
+ 871              		.syntax unified
+ 872              		.arm
+ 873              		.fpu neon
+ 875              	TEST_Full_Shadow_UpdateCallback_:
+ 876              	.LFB18:
+ 440:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 441:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** /* Test for shadow document update callback.*/
+ 442:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** TEST( Full_Shadow, UpdateCallback )
+ 443:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** {
+ 877              		.loc 1 443 0
+ 878              		.cfi_startproc
+ 879              		@ args = 0, pretend = 0, frame = 104
+ 880              		@ frame_needed = 0, uses_anonymous_args = 0
+ 881              	.LVL110:
+ 882 0000 30402DE9 		push	{r4, r5, lr}
+ 883              		.cfi_def_cfa_offset 12
+ 884              		.cfi_offset 4, -12
+ 885              		.cfi_offset 5, -8
+ 886              		.cfi_offset 14, -4
+ 444:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     /*Init required params and shadow library for test.*/
+ 445:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ShadowClientHandle_t xShadowClientHandle;
+ 446:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     BaseType_t xClientCreated = pdFALSE;
+ 447:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     BaseType_t xSemaphoreCreated = pdFALSE;
+ 887              		.loc 1 447 0
+ 888 0004 0030A0E3 		mov	r3, #0
+ 443:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     /*Init required params and shadow library for test.*/
+ 889              		.loc 1 443 0
+ 890 0008 74D04DE2 		sub	sp, sp, #116
+ 891              		.cfi_def_cfa_offset 128
+ 448:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     MQTTAgentConnectParams_t xConnectParams;
+ 449:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ShadowCallbackParams_t xCallbackParams;
+ 450:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ShadowCreateParams_t xCreateParams;
+ 451:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     ShadowReturnCode_t xReturn;
+ 452:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 453:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     if( TEST_PROTECT() )
+ 892              		.loc 1 453 0
+ 893 000c DC019FE5 		ldr	r0, .L76
+ 447:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     MQTTAgentConnectParams_t xConnectParams;
+ 894              		.loc 1 447 0
+ 895 0010 0C308DE5 		str	r3, [sp, #12]
+ 896              		.loc 1 453 0
+ 897 0014 FEFFFFEB 		bl	setjmp
+ 898              	.LVL111:
+ 899 0018 001050E2 		subs	r1, r0, #0
+ 900 001c 6F00001A 		bne	.L74
+ 901              	.LBB17:
+ 454:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     {
+ 455:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xCreateParams.xMQTTClientType = eDedicatedMQTTClient;
+ 902              		.loc 1 455 0
+ 903 0020 0100A0E3 		mov	r0, #1
+ 456:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xShadowUpdateSemaphore = xSemaphoreCreateBinary();
+ 904              		.loc 1 456 0
+ 905 0024 0320A0E3 		mov	r2, #3
+ 455:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xShadowUpdateSemaphore = xSemaphoreCreateBinary();
+ 906              		.loc 1 455 0
+ 907 0028 1800CDE5 		strb	r0, [sp, #24]
+ 908              		.loc 1 456 0
+ 909 002c FEFFFFEB 		bl	xQueueGenericCreate
+ 910              	.LVL112:
+ 911 0030 BC319FE5 		ldr	r3, .L76+4
+ 457:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_ASSERT_TRUE( xShadowUpdateSemaphore != NULL );
+ 912              		.loc 1 457 0
+ 913 0034 000050E3 		cmp	r0, #0
+ 456:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xShadowUpdateSemaphore = xSemaphoreCreateBinary();
+ 914              		.loc 1 456 0
+ 915 0038 000083E5 		str	r0, [r3]
+ 916              		.loc 1 457 0
+ 917 003c 6000000A 		beq	.L64
+ 918              	.L66:
+ 919              	.LVL113:
+ 458:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xSemaphoreCreated = pdTRUE;
+ 459:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 460:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xReturn = SHADOW_ClientCreate( &xShadowClientHandle, &xCreateParams );
+ 920              		.loc 1 460 0
+ 921 0040 18108DE2 		add	r1, sp, #24
+ 922 0044 14008DE2 		add	r0, sp, #20
+ 923 0048 FEFFFFEB 		bl	SHADOW_ClientCreate
+ 924              	.LVL114:
+ 461:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_ASSERT_EQUAL( eShadowSuccess, xReturn );
+ 925              		.loc 1 461 0
+ 926 004c 1440A0E3 		mov	r4, #20
+ 927 0050 0020A0E3 		mov	r2, #0
+ 928 0054 CD3100E3 		movw	r3, #461
+ 929 0058 0010A0E1 		mov	r1, r0
+ 930 005c 00408DE5 		str	r4, [sp]
+ 931 0060 0200A0E1 		mov	r0, r2
+ 932              	.LVL115:
+ 933 0064 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 934              	.LVL116:
+ 462:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xClientCreated = pdTRUE;
+ 463:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 464:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         memset( &xConnectParams, 0x00, sizeof( xConnectParams ) );
+ 935              		.loc 1 464 0
+ 936 0068 2C20A0E3 		mov	r2, #44
+ 937 006c 0010A0E3 		mov	r1, #0
+ 938 0070 44008DE2 		add	r0, sp, #68
+ 465:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_SHADOW_Connect_Helper( &xConnectParams, &xShadowClientHandle );
+ 466:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xReturn = SHADOW_ClientConnect( xShadowClientHandle,
+ 467:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                         &xConnectParams,
+ 468:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                         shadowTIMEOUT );
+ 469:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 470:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_ASSERT_EQUAL( eShadowSuccess, xReturn );
+ 471:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /*Register update callback.*/
+ 472:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xCallbackParams.pcThingName = shadowTHING_NAME;
+ 939              		.loc 1 472 0
+ 940 0074 7C519FE5 		ldr	r5, .L76+8
+ 464:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_SHADOW_Connect_Helper( &xConnectParams, &xShadowClientHandle );
+ 941              		.loc 1 464 0
+ 942 0078 FEFFFFEB 		bl	memset
+ 943              	.LVL117:
+ 465:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_SHADOW_Connect_Helper( &xConnectParams, &xShadowClientHandle );
+ 944              		.loc 1 465 0
+ 945 007c 04108DE0 		add	r1, sp, r4
+ 946 0080 44008DE2 		add	r0, sp, #68
+ 947 0084 FEFFFFEB 		bl	TEST_SHADOW_Connect_Helper
+ 948              	.LVL118:
+ 466:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                         &xConnectParams,
+ 949              		.loc 1 466 0
+ 950 0088 102702E3 		movw	r2, #10000
+ 951 008c 44108DE2 		add	r1, sp, #68
+ 952 0090 14009DE5 		ldr	r0, [sp, #20]
+ 953 0094 FEFFFFEB 		bl	SHADOW_ClientConnect
+ 954              	.LVL119:
+ 470:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /*Register update callback.*/
+ 955              		.loc 1 470 0
+ 956 0098 0020A0E3 		mov	r2, #0
+ 957 009c 0010A0E1 		mov	r1, r0
+ 958 00a0 D63100E3 		movw	r3, #470
+ 959 00a4 0200A0E1 		mov	r0, r2
+ 960              	.LVL120:
+ 961 00a8 00408DE5 		str	r4, [sp]
+ 962 00ac FEFFFFEB 		bl	UnityAssertEqualNumber
+ 963              	.LVL121:
+ 473:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xCallbackParams.xShadowUpdatedCallback = prvTestUpdatedCallback;
+ 964              		.loc 1 473 0
+ 965 00b0 44319FE5 		ldr	r3, .L76+12
+ 474:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xReturn = SHADOW_RegisterCallbacks( xShadowClientHandle,
+ 966              		.loc 1 474 0
+ 967 00b4 102702E3 		movw	r2, #10000
+ 968 00b8 20108DE2 		add	r1, sp, #32
+ 969 00bc 14009DE5 		ldr	r0, [sp, #20]
+ 472:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xCallbackParams.xShadowUpdatedCallback = prvTestUpdatedCallback;
+ 970              		.loc 1 472 0
+ 971 00c0 20508DE5 		str	r5, [sp, #32]
+ 473:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xCallbackParams.xShadowUpdatedCallback = prvTestUpdatedCallback;
+ 972              		.loc 1 473 0
+ 973 00c4 24308DE5 		str	r3, [sp, #36]
+ 974              		.loc 1 474 0
+ 975 00c8 FEFFFFEB 		bl	SHADOW_RegisterCallbacks
+ 976              	.LVL122:
+ 475:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                             &xCallbackParams,
+ 476:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                             shadowTIMEOUT );
+ 477:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 478:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_ASSERT_EQUAL( eShadowSuccess, xReturn );
+ 977              		.loc 1 478 0
+ 978 00cc 0020A0E3 		mov	r2, #0
+ 979 00d0 DE3100E3 		movw	r3, #478
+ 980 00d4 0010A0E1 		mov	r1, r0
+ 981 00d8 00408DE5 		str	r4, [sp]
+ 982 00dc 0200A0E1 		mov	r0, r2
+ 983              	.LVL123:
+ 984 00e0 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 985              	.LVL124:
+ 479:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         ShadowOperationParams_t xOperationParams;
+ 480:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xOperationParams.pcThingName = shadowTHING_NAME;
+ 481:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xOperationParams.xQoS = eMQTTQoS0;
+ 482:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xOperationParams.pcData = pcUpdateBuffer;
+ 986              		.loc 1 482 0
+ 987 00e4 14019FE5 		ldr	r0, .L76+16
+ 480:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xOperationParams.xQoS = eMQTTQoS0;
+ 988              		.loc 1 480 0
+ 989 00e8 30508DE5 		str	r5, [sp, #48]
+ 481:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xOperationParams.pcData = pcUpdateBuffer;
+ 990              		.loc 1 481 0
+ 991 00ec 0050A0E3 		mov	r5, #0
+ 992              	.LBB18:
+ 993              	.LBB19:
+ 108:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                   "{"
+ 994              		.loc 1 108 0
+ 995 00f0 0C119FE5 		ldr	r1, .L76+20
+ 996              	.LBE19:
+ 997              	.LBE18:
+ 481:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xOperationParams.pcData = pcUpdateBuffer;
+ 998              		.loc 1 481 0
+ 999 00f4 4150CDE5 		strb	r5, [sp, #65]
+ 1000              		.loc 1 482 0
+ 1001 00f8 34008DE5 		str	r0, [sp, #52]
+ 483:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /* subscribe to the accepted and rejected topics */
+ 484:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xOperationParams.ucKeepSubscriptions = pdFALSE;
+ 1002              		.loc 1 484 0
+ 1003 00fc 4050CDE5 		strb	r5, [sp, #64]
+ 1004              	.LBB21:
+ 1005              	.LBB20:
+ 108:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                   "{"
+ 1006              		.loc 1 108 0
+ 1007 0100 FEFFFFEB 		bl	strcpy
+ 1008              	.LVL125:
+ 1009              	.LBE20:
+ 1010              	.LBE21:
+ 485:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 486:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /* generate a simple json document for test. */
+ 487:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xOperationParams.ulDataLength = prvGenerateShadowJSON();
+ 1011              		.loc 1 487 0
+ 1012 0104 6C30A0E3 		mov	r3, #108
+ 488:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 489:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /* create the shadow document for thing.*/
+ 490:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xReturn = SHADOW_Update( xShadowClientHandle,
+ 1013              		.loc 1 490 0
+ 1014 0108 102702E3 		movw	r2, #10000
+ 1015 010c 30108DE2 		add	r1, sp, #48
+ 1016 0110 14009DE5 		ldr	r0, [sp, #20]
+ 487:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 1017              		.loc 1 487 0
+ 1018 0114 38308DE5 		str	r3, [sp, #56]
+ 1019              		.loc 1 490 0
+ 1020 0118 FEFFFFEB 		bl	SHADOW_Update
+ 1021              	.LVL126:
+ 491:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                  &xOperationParams,
+ 492:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****                                  shadowTIMEOUT );
+ 493:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 494:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 495:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_ASSERT_EQUAL( eShadowSuccess, xReturn );
+ 1022              		.loc 1 495 0
+ 1023 011c EF3100E3 		movw	r3, #495
+ 1024 0120 0010A0E1 		mov	r1, r0
+ 1025 0124 0520A0E1 		mov	r2, r5
+ 1026 0128 0500A0E1 		mov	r0, r5
+ 1027              	.LVL127:
+ 1028 012c 00408DE5 		str	r4, [sp]
+ 1029 0130 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 1030              	.LVL128:
+ 496:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 497:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /*wait for update callback.*/
+ 498:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 499:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 500:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /* See if we can obtain the semaphore.  If the semaphore is not
+ 501:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****          * available wait 10 ticks to see if it becomes free. */
+ 502:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         vTaskDelay( ( TickType_t ) 10 );
+ 1031              		.loc 1 502 0
+ 1032 0134 0A00A0E3 		mov	r0, #10
+ 1033 0138 FEFFFFEB 		bl	vTaskDelay
+ 1034              	.LVL129:
+ 503:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 504:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         if( xSemaphoreTake( xShadowUpdateSemaphore, ( TickType_t ) 10 ) == pdFALSE )
+ 1035              		.loc 1 504 0
+ 1036 013c B0309FE5 		ldr	r3, .L76+4
+ 1037 0140 0A10A0E3 		mov	r1, #10
+ 1038 0144 000093E5 		ldr	r0, [r3]
+ 1039 0148 FEFFFFEB 		bl	xQueueSemaphoreTake
+ 1040              	.LVL130:
+ 1041 014c 050050E1 		cmp	r0, r5
+ 1042 0150 1F00000A 		beq	.L67
+ 1043              	.L69:
+ 505:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         {
+ 506:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****             /* We were not able to obtain the semaphore. */
+ 507:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****             TEST_FAIL();
+ 508:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         }
+ 509:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 510:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xReturn = SHADOW_ClientDisconnect( xShadowClientHandle );
+ 1044              		.loc 1 510 0
+ 1045 0154 14009DE5 		ldr	r0, [sp, #20]
+ 1046 0158 FEFFFFEB 		bl	SHADOW_ClientDisconnect
+ 1047              	.LVL131:
+ 511:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_ASSERT_EQUAL( eShadowSuccess, xReturn );
+ 1048              		.loc 1 511 0
+ 1049 015c 0020A0E3 		mov	r2, #0
+ 1050 0160 1430A0E3 		mov	r3, #20
+ 1051 0164 0010A0E1 		mov	r1, r0
+ 1052 0168 00308DE5 		str	r3, [sp]
+ 1053 016c 0200A0E1 		mov	r0, r2
+ 1054              	.LVL132:
+ 1055 0170 FF3100E3 		movw	r3, #511
+ 1056 0174 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 1057              	.LVL133:
+ 458:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 1058              		.loc 1 458 0
+ 1059 0178 0130A0E3 		mov	r3, #1
+ 1060              	.LBE17:
+ 512:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     }
+ 513:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     else
+ 514:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     {
+ 515:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_FAIL();
+ 516:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     }
+ 517:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 518:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     if( xClientCreated )
+ 519:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     {
+ 520:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         /* delete shadow client before returning.*/
+ 521:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xReturn = SHADOW_ClientDelete( xShadowClientHandle );
+ 1061              		.loc 1 521 0
+ 1062 017c 14009DE5 		ldr	r0, [sp, #20]
+ 1063              	.LBB22:
+ 458:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 1064              		.loc 1 458 0
+ 1065 0180 0C308DE5 		str	r3, [sp, #12]
+ 1066              	.LVL134:
+ 1067              	.LBE22:
+ 1068              		.loc 1 521 0
+ 1069 0184 FEFFFFEB 		bl	SHADOW_ClientDelete
+ 1070              	.LVL135:
+ 522:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         TEST_ASSERT_EQUAL( eShadowSuccess, xReturn );
+ 1071              		.loc 1 522 0
+ 1072 0188 1430A0E3 		mov	r3, #20
+ 1073 018c 0020A0E3 		mov	r2, #0
+ 1074 0190 00308DE5 		str	r3, [sp]
+ 1075 0194 0010A0E1 		mov	r1, r0
+ 1076 0198 0A3200E3 		movw	r3, #522
+ 1077 019c 0200A0E1 		mov	r0, r2
+ 1078              	.LVL136:
+ 1079 01a0 FEFFFFEB 		bl	UnityAssertEqualNumber
+ 1080              	.LVL137:
+ 1081              	.L71:
+ 523:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     }
+ 524:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 525:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     if( xSemaphoreCreated )
+ 1082              		.loc 1 525 0
+ 1083 01a4 0C309DE5 		ldr	r3, [sp, #12]
+ 1084 01a8 000053E3 		cmp	r3, #0
+ 1085 01ac 0200000A 		beq	.L61
+ 526:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     {
+ 527:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         vSemaphoreDelete( xShadowUpdateSemaphore );
+ 1086              		.loc 1 527 0
+ 1087 01b0 3C309FE5 		ldr	r3, .L76+4
+ 1088 01b4 000093E5 		ldr	r0, [r3]
+ 1089 01b8 FEFFFFEB 		bl	vQueueDelete
+ 1090              	.LVL138:
+ 1091              	.L61:
+ 528:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     }
+ 529:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** }
+ 1092              		.loc 1 529 0
+ 1093 01bc 74D08DE2 		add	sp, sp, #116
+ 1094              		.cfi_remember_state
+ 1095              		.cfi_def_cfa_offset 12
+ 1096              		@ sp needed
+ 1097 01c0 3080BDE8 		pop	{r4, r5, pc}
+ 1098              	.LVL139:
+ 1099              	.L64:
+ 1100              		.cfi_restore_state
+ 1101              	.LBB23:
+ 457:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         xSemaphoreCreated = pdTRUE;
+ 1102              		.loc 1 457 0 discriminator 1
+ 1103 01c4 C91100E3 		movw	r1, #457
+ 1104 01c8 38009FE5 		ldr	r0, .L76+24
+ 1105 01cc FEFFFFEB 		bl	UnityFail
+ 1106              	.LVL140:
+ 1107 01d0 9AFFFFEA 		b	.L66
+ 1108              	.LVL141:
+ 1109              	.L67:
+ 507:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****         }
+ 1110              		.loc 1 507 0
+ 1111 01d4 FB1100E3 		movw	r1, #507
+ 1112 01d8 FEFFFFEB 		bl	UnityFail
+ 1113              	.LVL142:
+ 1114 01dc DCFFFFEA 		b	.L69
+ 1115              	.LVL143:
+ 1116              	.L74:
+ 1117              	.LBE23:
+ 515:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     }
+ 1118              		.loc 1 515 0
+ 1119 01e0 031200E3 		movw	r1, #515
+ 1120 01e4 0000A0E3 		mov	r0, #0
+ 1121 01e8 FEFFFFEB 		bl	UnityFail
+ 1122              	.LVL144:
+ 1123 01ec ECFFFFEA 		b	.L71
+ 1124              	.L77:
+ 1125              		.align	2
+ 1126              	.L76:
+ 1127 01f0 28000000 		.word	Unity+40
+ 1128 01f4 00000000 		.word	.LANCHOR0
+ 1129 01f8 00000000 		.word	.LC1
+ 1130 01fc 00000000 		.word	prvTestUpdatedCallback
+ 1131 0200 00000000 		.word	.LANCHOR2
+ 1132 0204 00000000 		.word	.LC2
+ 1133 0208 00000000 		.word	.LC0
+ 1134              		.cfi_endproc
+ 1135              	.LFE18:
+ 1137              		.section	.text.TEST_Full_Shadow_ClientCreateDelete_run,"ax",%progbits
+ 1138              		.align	2
+ 1139              		.global	TEST_Full_Shadow_ClientCreateDelete_run
+ 1140              		.syntax unified
+ 1141              		.arm
+ 1142              		.fpu neon
+ 1144              	TEST_Full_Shadow_ClientCreateDelete_run:
+ 1145              	.LFB9:
+ 190:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** {
+ 1146              		.loc 1 190 0
+ 1147              		.cfi_startproc
+ 1148              		@ args = 0, pretend = 0, frame = 0
+ 1149              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1150 0000 1F402DE9 		push	{r0, r1, r2, r3, r4, lr}
+ 1151              		.cfi_def_cfa_offset 24
+ 1152              		.cfi_offset 14, -4
+ 190:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** {
+ 1153              		.loc 1 190 0
+ 1154 0004 BE30A0E3 		mov	r3, #190
+ 1155 0008 0C308DE5 		str	r3, [sp, #12]
+ 1156 000c 2C309FE5 		ldr	r3, .L80
+ 1157 0010 2C209FE5 		ldr	r2, .L80+4
+ 1158 0014 2C109FE5 		ldr	r1, .L80+8
+ 1159 0018 08308DE5 		str	r3, [sp, #8]
+ 1160 001c 28309FE5 		ldr	r3, .L80+12
+ 1161 0020 28009FE5 		ldr	r0, .L80+16
+ 1162 0024 04308DE5 		str	r3, [sp, #4]
+ 1163 0028 24309FE5 		ldr	r3, .L80+20
+ 1164 002c 00308DE5 		str	r3, [sp]
+ 1165 0030 20309FE5 		ldr	r3, .L80+24
+ 1166 0034 FEFFFFEB 		bl	UnityTestRunner
+ 1167              	.LVL145:
+ 1168 0038 14D08DE2 		add	sp, sp, #20
+ 1169              		.cfi_def_cfa_offset 4
+ 1170              		@ sp needed
+ 1171 003c 04F09DE4 		ldr	pc, [sp], #4
+ 1172              	.L81:
+ 1173              		.align	2
+ 1174              	.L80:
+ 1175 0040 26000000 		.word	.LC4
+ 1176 0044 00000000 		.word	TEST_Full_Shadow_TEAR_DOWN
+ 1177 0048 00000000 		.word	TEST_Full_Shadow_ClientCreateDelete_
+ 1178 004c 71000000 		.word	.LC5
+ 1179 0050 00000000 		.word	TEST_Full_Shadow_SETUP
+ 1180 0054 84000000 		.word	.LC6
+ 1181 0058 00000000 		.word	.LC3
+ 1182              		.cfi_endproc
+ 1183              	.LFE9:
+ 1185              		.section	.text.TEST_Full_Shadow_ClientConnectDisconnect_run,"ax",%progbits
+ 1186              		.align	2
+ 1187              		.global	TEST_Full_Shadow_ClientConnectDisconnect_run
+ 1188              		.syntax unified
+ 1189              		.arm
+ 1190              		.fpu neon
+ 1192              	TEST_Full_Shadow_ClientConnectDisconnect_run:
+ 1193              	.LFB11:
+ 227:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** {
+ 1194              		.loc 1 227 0
+ 1195              		.cfi_startproc
+ 1196              		@ args = 0, pretend = 0, frame = 0
+ 1197              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1198 0000 1F402DE9 		push	{r0, r1, r2, r3, r4, lr}
+ 1199              		.cfi_def_cfa_offset 24
+ 1200              		.cfi_offset 14, -4
+ 227:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** {
+ 1201              		.loc 1 227 0
+ 1202 0004 E330A0E3 		mov	r3, #227
+ 1203 0008 0C308DE5 		str	r3, [sp, #12]
+ 1204 000c 2C309FE5 		ldr	r3, .L84
+ 1205 0010 2C209FE5 		ldr	r2, .L84+4
+ 1206 0014 2C109FE5 		ldr	r1, .L84+8
+ 1207 0018 08308DE5 		str	r3, [sp, #8]
+ 1208 001c 28309FE5 		ldr	r3, .L84+12
+ 1209 0020 28009FE5 		ldr	r0, .L84+16
+ 1210 0024 04308DE5 		str	r3, [sp, #4]
+ 1211 0028 24309FE5 		ldr	r3, .L84+20
+ 1212 002c 00308DE5 		str	r3, [sp]
+ 1213 0030 20309FE5 		ldr	r3, .L84+24
+ 1214 0034 FEFFFFEB 		bl	UnityTestRunner
+ 1215              	.LVL146:
+ 1216 0038 14D08DE2 		add	sp, sp, #20
+ 1217              		.cfi_def_cfa_offset 4
+ 1218              		@ sp needed
+ 1219 003c 04F09DE4 		ldr	pc, [sp], #4
+ 1220              	.L85:
+ 1221              		.align	2
+ 1222              	.L84:
+ 1223 0040 26000000 		.word	.LC4
+ 1224 0044 00000000 		.word	TEST_Full_Shadow_TEAR_DOWN
+ 1225 0048 00000000 		.word	TEST_Full_Shadow_ClientConnectDisconnect_
+ 1226 004c 2B000000 		.word	.LC8
+ 1227 0050 00000000 		.word	TEST_Full_Shadow_SETUP
+ 1228 0054 84000000 		.word	.LC6
+ 1229 0058 00000000 		.word	.LC7
+ 1230              		.cfi_endproc
+ 1231              	.LFE11:
+ 1233              		.section	.text.TEST_Full_Shadow_CreateShadowDocument_run,"ax",%progbits
+ 1234              		.align	2
+ 1235              		.global	TEST_Full_Shadow_CreateShadowDocument_run
+ 1236              		.syntax unified
+ 1237              		.arm
+ 1238              		.fpu neon
+ 1240              	TEST_Full_Shadow_CreateShadowDocument_run:
+ 1241              	.LFB13:
+ 284:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** {
+ 1242              		.loc 1 284 0
+ 1243              		.cfi_startproc
+ 1244              		@ args = 0, pretend = 0, frame = 0
+ 1245              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1246 0000 1F402DE9 		push	{r0, r1, r2, r3, r4, lr}
+ 1247              		.cfi_def_cfa_offset 24
+ 1248              		.cfi_offset 14, -4
+ 284:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** {
+ 1249              		.loc 1 284 0
+ 1250 0004 473FA0E3 		mov	r3, #284
+ 1251 0008 0C308DE5 		str	r3, [sp, #12]
+ 1252 000c 2C309FE5 		ldr	r3, .L88
+ 1253 0010 2C209FE5 		ldr	r2, .L88+4
+ 1254 0014 2C109FE5 		ldr	r1, .L88+8
+ 1255 0018 08308DE5 		str	r3, [sp, #8]
+ 1256 001c 28309FE5 		ldr	r3, .L88+12
+ 1257 0020 28009FE5 		ldr	r0, .L88+16
+ 1258 0024 04308DE5 		str	r3, [sp, #4]
+ 1259 0028 24309FE5 		ldr	r3, .L88+20
+ 1260 002c 00308DE5 		str	r3, [sp]
+ 1261 0030 20309FE5 		ldr	r3, .L88+24
+ 1262 0034 FEFFFFEB 		bl	UnityTestRunner
+ 1263              	.LVL147:
+ 1264 0038 14D08DE2 		add	sp, sp, #20
+ 1265              		.cfi_def_cfa_offset 4
+ 1266              		@ sp needed
+ 1267 003c 04F09DE4 		ldr	pc, [sp], #4
+ 1268              	.L89:
+ 1269              		.align	2
+ 1270              	.L88:
+ 1271 0040 26000000 		.word	.LC4
+ 1272 0044 00000000 		.word	TEST_Full_Shadow_TEAR_DOWN
+ 1273 0048 00000000 		.word	TEST_Full_Shadow_CreateShadowDocument_
+ 1274 004c 28000000 		.word	.LC10
+ 1275 0050 00000000 		.word	TEST_Full_Shadow_SETUP
+ 1276 0054 84000000 		.word	.LC6
+ 1277 0058 00000000 		.word	.LC9
+ 1278              		.cfi_endproc
+ 1279              	.LFE13:
+ 1281              		.section	.text.TEST_Full_Shadow_DeleteShadowDocument_run,"ax",%progbits
+ 1282              		.align	2
+ 1283              		.global	TEST_Full_Shadow_DeleteShadowDocument_run
+ 1284              		.syntax unified
+ 1285              		.arm
+ 1286              		.fpu neon
+ 1288              	TEST_Full_Shadow_DeleteShadowDocument_run:
+ 1289              	.LFB15:
+ 368:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** {
+ 1290              		.loc 1 368 0
+ 1291              		.cfi_startproc
+ 1292              		@ args = 0, pretend = 0, frame = 0
+ 1293              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1294 0000 1F402DE9 		push	{r0, r1, r2, r3, r4, lr}
+ 1295              		.cfi_def_cfa_offset 24
+ 1296              		.cfi_offset 14, -4
+ 368:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** {
+ 1297              		.loc 1 368 0
+ 1298 0004 173EA0E3 		mov	r3, #368
+ 1299 0008 0C308DE5 		str	r3, [sp, #12]
+ 1300 000c 2C309FE5 		ldr	r3, .L92
+ 1301 0010 2C209FE5 		ldr	r2, .L92+4
+ 1302 0014 2C109FE5 		ldr	r1, .L92+8
+ 1303 0018 08308DE5 		str	r3, [sp, #8]
+ 1304 001c 28309FE5 		ldr	r3, .L92+12
+ 1305 0020 28009FE5 		ldr	r0, .L92+16
+ 1306 0024 04308DE5 		str	r3, [sp, #4]
+ 1307 0028 24309FE5 		ldr	r3, .L92+20
+ 1308 002c 00308DE5 		str	r3, [sp]
+ 1309 0030 20309FE5 		ldr	r3, .L92+24
+ 1310 0034 FEFFFFEB 		bl	UnityTestRunner
+ 1311              	.LVL148:
+ 1312 0038 14D08DE2 		add	sp, sp, #20
+ 1313              		.cfi_def_cfa_offset 4
+ 1314              		@ sp needed
+ 1315 003c 04F09DE4 		ldr	pc, [sp], #4
+ 1316              	.L93:
+ 1317              		.align	2
+ 1318              	.L92:
+ 1319 0040 26000000 		.word	.LC4
+ 1320 0044 00000000 		.word	TEST_Full_Shadow_TEAR_DOWN
+ 1321 0048 00000000 		.word	TEST_Full_Shadow_DeleteShadowDocument_
+ 1322 004c 28000000 		.word	.LC12
+ 1323 0050 00000000 		.word	TEST_Full_Shadow_SETUP
+ 1324 0054 84000000 		.word	.LC6
+ 1325 0058 00000000 		.word	.LC11
+ 1326              		.cfi_endproc
+ 1327              	.LFE15:
+ 1329              		.section	.text.TEST_Full_Shadow_UpdateCallback_run,"ax",%progbits
+ 1330              		.align	2
+ 1331              		.global	TEST_Full_Shadow_UpdateCallback_run
+ 1332              		.syntax unified
+ 1333              		.arm
+ 1334              		.fpu neon
+ 1336              	TEST_Full_Shadow_UpdateCallback_run:
+ 1337              	.LFB17:
+ 442:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** {
+ 1338              		.loc 1 442 0
+ 1339              		.cfi_startproc
+ 1340              		@ args = 0, pretend = 0, frame = 0
+ 1341              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1342 0000 1F402DE9 		push	{r0, r1, r2, r3, r4, lr}
+ 1343              		.cfi_def_cfa_offset 24
+ 1344              		.cfi_offset 14, -4
+ 442:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** {
+ 1345              		.loc 1 442 0
+ 1346 0004 BA3100E3 		movw	r3, #442
+ 1347 0008 0C308DE5 		str	r3, [sp, #12]
+ 1348 000c 2C309FE5 		ldr	r3, .L96
+ 1349 0010 2C209FE5 		ldr	r2, .L96+4
+ 1350 0014 2C109FE5 		ldr	r1, .L96+8
+ 1351 0018 08308DE5 		str	r3, [sp, #8]
+ 1352 001c 28309FE5 		ldr	r3, .L96+12
+ 1353 0020 28009FE5 		ldr	r0, .L96+16
+ 1354 0024 04308DE5 		str	r3, [sp, #4]
+ 1355 0028 24309FE5 		ldr	r3, .L96+20
+ 1356 002c 00308DE5 		str	r3, [sp]
+ 1357 0030 20309FE5 		ldr	r3, .L96+24
+ 1358 0034 FEFFFFEB 		bl	UnityTestRunner
+ 1359              	.LVL149:
+ 1360 0038 14D08DE2 		add	sp, sp, #20
+ 1361              		.cfi_def_cfa_offset 4
+ 1362              		@ sp needed
+ 1363 003c 04F09DE4 		ldr	pc, [sp], #4
+ 1364              	.L97:
+ 1365              		.align	2
+ 1366              	.L96:
+ 1367 0040 26000000 		.word	.LC4
+ 1368 0044 00000000 		.word	TEST_Full_Shadow_TEAR_DOWN
+ 1369 0048 00000000 		.word	TEST_Full_Shadow_UpdateCallback_
+ 1370 004c 22000000 		.word	.LC14
+ 1371 0050 00000000 		.word	TEST_Full_Shadow_SETUP
+ 1372 0054 84000000 		.word	.LC6
+ 1373 0058 00000000 		.word	.LC13
+ 1374              		.cfi_endproc
+ 1375              	.LFE17:
+ 1377              		.section	.text.TEST_Full_Shadow_GROUP_RUNNER,"ax",%progbits
+ 1378              		.align	2
+ 1379              		.global	TEST_Full_Shadow_GROUP_RUNNER
+ 1380              		.syntax unified
+ 1381              		.arm
+ 1382              		.fpu neon
+ 1384              	TEST_Full_Shadow_GROUP_RUNNER:
+ 1385              	.LFB3:
+  95:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     RUN_TEST_CASE( Full_Shadow, ClientCreateDelete );
+ 1386              		.loc 1 95 0
+ 1387              		.cfi_startproc
+ 1388              		@ args = 0, pretend = 0, frame = 0
+ 1389              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1390 0000 10402DE9 		push	{r4, lr}
+ 1391              		.cfi_def_cfa_offset 8
+ 1392              		.cfi_offset 4, -8
+ 1393              		.cfi_offset 14, -4
+ 1394              	.LBB24:
+  96:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     RUN_TEST_CASE( Full_Shadow, ClientConnectDisconnect );
+ 1395              		.loc 1 96 0
+ 1396 0004 FEFFFFEB 		bl	TEST_Full_Shadow_ClientCreateDelete_run
+ 1397              	.LVL150:
+ 1398              	.LBE24:
+ 1399              	.LBB25:
+  97:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     RUN_TEST_CASE( Full_Shadow, CreateShadowDocument );
+ 1400              		.loc 1 97 0
+ 1401 0008 FEFFFFEB 		bl	TEST_Full_Shadow_ClientConnectDisconnect_run
+ 1402              	.LVL151:
+ 1403              	.LBE25:
+ 1404              	.LBB26:
+  98:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     RUN_TEST_CASE( Full_Shadow, DeleteShadowDocument );
+ 1405              		.loc 1 98 0
+ 1406 000c FEFFFFEB 		bl	TEST_Full_Shadow_CreateShadowDocument_run
+ 1407              	.LVL152:
+ 1408              	.LBE26:
+ 1409              	.LBB27:
+  99:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c ****     RUN_TEST_CASE( Full_Shadow, UpdateCallback );
+ 1410              		.loc 1 99 0
+ 1411 0010 FEFFFFEB 		bl	TEST_Full_Shadow_DeleteShadowDocument_run
+ 1412              	.LVL153:
+ 1413              	.LBE27:
+ 101:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** 
+ 1414              		.loc 1 101 0
+ 1415 0014 1040BDE8 		pop	{r4, lr}
+ 1416              		.cfi_restore 14
+ 1417              		.cfi_restore 4
+ 1418              		.cfi_def_cfa_offset 0
+ 1419              	.LBB28:
+ 100:D:/Work/DeviceTester/amazon-freertos/tests/common/shadow\aws_test_shadow.c **** }
+ 1420              		.loc 1 100 0
+ 1421 0018 FEFFFFEA 		b	TEST_Full_Shadow_UpdateCallback_run
+ 1422              	.LVL154:
+ 1423              	.LBE28:
+ 1424              		.cfi_endproc
+ 1425              	.LFE3:
+ 1427              		.section	.bss.pcUpdateBuffer,"aw",%nobits
+ 1428              		.set	.LANCHOR2,. + 0
+ 1431              	pcUpdateBuffer:
+ 1432 0000 00000000 		.space	512
+ 1432      00000000 
+ 1432      00000000 
+ 1432      00000000 
+ 1432      00000000 
+ 1433              		.section	.bss.xShadowUpdateSemaphore,"aw",%nobits
+ 1434              		.align	2
+ 1435              		.set	.LANCHOR0,. + 0
+ 1438              	xShadowUpdateSemaphore:
+ 1439 0000 00000000 		.space	4
+ 1440              		.section	.rodata.TEST_Full_Shadow_ClientConnectDisconnect_run.str1.1,"aMS",%progbits,1
+ 1441              	.LC7:
+ 1442 0000 54455354 		.ascii	"TEST(Full_Shadow, ClientConnectDisconnect)\000"
+ 1442      2846756C 
+ 1442      6C5F5368 
+ 1442      61646F77 
+ 1442      2C20436C 
+ 1443              	.LC8:
+ 1444 002b 436C6965 		.ascii	"ClientConnectDisconnect\000"
+ 1444      6E74436F 
+ 1444      6E6E6563 
+ 1444      74446973 
+ 1444      636F6E6E 
+ 1445              		.section	.rodata.TEST_Full_Shadow_ClientCreateDelete_.str1.1,"aMS",%progbits,1
+ 1446              	.LC0:
+ 1447 0000 20457870 		.ascii	" Expected TRUE Was FALSE\000"
+ 1447      65637465 
+ 1447      64205452 
+ 1447      55452057 
+ 1447      61732046 
+ 1448              		.section	.rodata.TEST_Full_Shadow_ClientCreateDelete_run.str1.1,"aMS",%progbits,1
+ 1449              	.LC3:
+ 1450 0000 54455354 		.ascii	"TEST(Full_Shadow, ClientCreateDelete)\000"
+ 1450      2846756C 
+ 1450      6C5F5368 
+ 1450      61646F77 
+ 1450      2C20436C 
+ 1451              	.LC4:
+ 1452 0026 443A2F57 		.ascii	"D:/Work/DeviceTester/amazon-freertos/tests/common/s"
+ 1452      6F726B2F 
+ 1452      44657669 
+ 1452      63655465 
+ 1452      73746572 
+ 1453 0059 6861646F 		.ascii	"hadow/aws_test_shadow.c\000"
+ 1453      772F6177 
+ 1453      735F7465 
+ 1453      73745F73 
+ 1453      6861646F 
+ 1454              	.LC5:
+ 1455 0071 436C6965 		.ascii	"ClientCreateDelete\000"
+ 1455      6E744372 
+ 1455      65617465 
+ 1455      44656C65 
+ 1455      746500
+ 1456              	.LC6:
+ 1457 0084 46756C6C 		.ascii	"Full_Shadow\000"
+ 1457      5F536861 
+ 1457      646F7700 
+ 1458              		.section	.rodata.TEST_Full_Shadow_CreateShadowDocument_.str1.1,"aMS",%progbits,1
+ 1459              	.LC2:
+ 1460 0000 7B227374 		.ascii	"{\"state\":{\"desired\":{\"power\":\"on\"},\"report"
+ 1460      61746522 
+ 1460      3A7B2264 
+ 1460      65736972 
+ 1460      6564223A 
+ 1461 002a 6564223A 		.ascii	"ed\":{\"power\":\"on\"}},\"clientToken\": \"aws-tes"
+ 1461      7B22706F 
+ 1461      77657222 
+ 1461      3A226F6E 
+ 1461      227D7D2C 
+ 1462 0055 742D7368 		.ascii	"t-shadow-client-token\"}\000"
+ 1462      61646F77 
+ 1462      2D636C69 
+ 1462      656E742D 
+ 1462      746F6B65 
+ 1463              		.section	.rodata.TEST_Full_Shadow_CreateShadowDocument_run.str1.1,"aMS",%progbits,1
+ 1464              	.LC9:
+ 1465 0000 54455354 		.ascii	"TEST(Full_Shadow, CreateShadowDocument)\000"
+ 1465      2846756C 
+ 1465      6C5F5368 
+ 1465      61646F77 
+ 1465      2C204372 
+ 1466              	.LC10:
+ 1467 0028 43726561 		.ascii	"CreateShadowDocument\000"
+ 1467      74655368 
+ 1467      61646F77 
+ 1467      446F6375 
+ 1467      6D656E74 
+ 1468              		.section	.rodata.TEST_Full_Shadow_DeleteShadowDocument_run.str1.1,"aMS",%progbits,1
+ 1469              	.LC11:
+ 1470 0000 54455354 		.ascii	"TEST(Full_Shadow, DeleteShadowDocument)\000"
+ 1470      2846756C 
+ 1470      6C5F5368 
+ 1470      61646F77 
+ 1470      2C204465 
+ 1471              	.LC12:
+ 1472 0028 44656C65 		.ascii	"DeleteShadowDocument\000"
+ 1472      74655368 
+ 1472      61646F77 
+ 1472      446F6375 
+ 1472      6D656E74 
+ 1473              		.section	.rodata.TEST_Full_Shadow_UpdateCallback_run.str1.1,"aMS",%progbits,1
+ 1474              	.LC13:
+ 1475 0000 54455354 		.ascii	"TEST(Full_Shadow, UpdateCallback)\000"
+ 1475      2846756C 
+ 1475      6C5F5368 
+ 1475      61646F77 
+ 1475      2C205570 
+ 1476              	.LC14:
+ 1477 0022 55706461 		.ascii	"UpdateCallback\000"
+ 1477      74654361 
+ 1477      6C6C6261 
+ 1477      636B00
+ 1478              		.section	.rodata.TEST_SHADOW_Connect_Helper.str1.1,"aMS",%progbits,1
+ 1479              	.LC1:
+ 1480 0000 6964742D 		.ascii	"idt-6287306328291364584\000"
+ 1480      36323837 
+ 1480      33303633 
+ 1480      32383239 
+ 1480      31333634 
+ 1481              		.section	.rodata.clientcredentialMQTT_BROKER_ENDPOINT,"a",%progbits
+ 1482              		.set	.LANCHOR1,. + 0
+ 1485              	clientcredentialMQTT_BROKER_ENDPOINT:
+ 1486 0000 61333369 		.ascii	"a33i4lqfcxqo2.iot.ap-northeast-1.amazonaws.com\000"
+ 1486      346C7166 
+ 1486      6378716F 
+ 1486      322E696F 
+ 1486      742E6170 
+ 1487              		.text
+ 1488              	.Letext0:
+ 1489              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1490              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1491              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1492              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1493              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 1494              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1495              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1496              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1497              		.file 10 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1498              		.file 11 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\src/unity_internals.h"
+ 1499              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS\\portable\\GCC\\ARM_CA9_RZA2M/por
+ 1500              		.file 13 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/queue.h"
+ 1501              		.file 14 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/semphr.h"
+ 1502              		.file 15 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\common\\include/aws_clientcredential_key
+ 1503              		.file 16 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include\\private/aws_mqtt_buffer.h"
+ 1504              		.file 17 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/aws_mqtt_lib.h"
+ 1505              		.file 18 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/aws_mqtt_agent.h"
+ 1506              		.file 19 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/aws_shadow.h"
+ 1507              		.file 20 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\extras\\fixture\\src/u
+ 1508              		.file 21 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\common\\include/aws_clientcredential.h"
+ 1509              		.file 22 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/task.h"
+ 1510              		.file 23 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1511              		.file 24 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1512              		.file 25 "<built-in>"
+DEFINED SYMBOLS
+                            *ABS*:00000000 aws_test_shadow.c
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:17     .text.TEST_Full_Shadow_TEAR_DOWN:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:23     .text.TEST_Full_Shadow_TEAR_DOWN:00000000 TEST_Full_Shadow_TEAR_DOWN
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:36     .text.prvTestUpdatedCallback:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:42     .text.prvTestUpdatedCallback:00000000 prvTestUpdatedCallback
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:73     .text.prvTestUpdatedCallback:00000024 $d
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:78     .text.TEST_Full_Shadow_ClientCreateDelete_:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:84     .text.TEST_Full_Shadow_ClientCreateDelete_:00000000 TEST_Full_Shadow_ClientCreateDelete_
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:168    .text.TEST_Full_Shadow_ClientCreateDelete_:00000088 $d
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:174    .text.TEST_Full_Shadow_SETUP:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:180    .text.TEST_Full_Shadow_SETUP:00000000 TEST_Full_Shadow_SETUP
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:191    .text.prvTestDeltaCallback:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:197    .text.prvTestDeltaCallback:00000000 prvTestDeltaCallback
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:209    .text.prvTestDeleteCallback:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:215    .text.prvTestDeleteCallback:00000000 prvTestDeleteCallback
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:231    .text.TEST_SHADOW_Connect_Helper:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:237    .text.TEST_SHADOW_Connect_Helper:00000000 TEST_SHADOW_Connect_Helper
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:279    .text.TEST_SHADOW_Connect_Helper:00000048 $d
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:285    .text.TEST_Full_Shadow_ClientConnectDisconnect_:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:291    .text.TEST_Full_Shadow_ClientConnectDisconnect_:00000000 TEST_Full_Shadow_ClientConnectDisconnect_
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:406    .text.TEST_Full_Shadow_ClientConnectDisconnect_:000000e4 $d
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:411    .text.TEST_Full_Shadow_CreateShadowDocument_:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:417    .text.TEST_Full_Shadow_CreateShadowDocument_:00000000 TEST_Full_Shadow_CreateShadowDocument_
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:651    .text.TEST_Full_Shadow_CreateShadowDocument_:000001e4 $d
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:660    .text.TEST_Full_Shadow_DeleteShadowDocument_:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:666    .text.TEST_Full_Shadow_DeleteShadowDocument_:00000000 TEST_Full_Shadow_DeleteShadowDocument_
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:860    .text.TEST_Full_Shadow_DeleteShadowDocument_:00000190 $d
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:869    .text.TEST_Full_Shadow_UpdateCallback_:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:875    .text.TEST_Full_Shadow_UpdateCallback_:00000000 TEST_Full_Shadow_UpdateCallback_
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:1127   .text.TEST_Full_Shadow_UpdateCallback_:000001f0 $d
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:1138   .text.TEST_Full_Shadow_ClientCreateDelete_run:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:1144   .text.TEST_Full_Shadow_ClientCreateDelete_run:00000000 TEST_Full_Shadow_ClientCreateDelete_run
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:1175   .text.TEST_Full_Shadow_ClientCreateDelete_run:00000040 $d
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:1186   .text.TEST_Full_Shadow_ClientConnectDisconnect_run:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:1192   .text.TEST_Full_Shadow_ClientConnectDisconnect_run:00000000 TEST_Full_Shadow_ClientConnectDisconnect_run
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:1223   .text.TEST_Full_Shadow_ClientConnectDisconnect_run:00000040 $d
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:1234   .text.TEST_Full_Shadow_CreateShadowDocument_run:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:1240   .text.TEST_Full_Shadow_CreateShadowDocument_run:00000000 TEST_Full_Shadow_CreateShadowDocument_run
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:1271   .text.TEST_Full_Shadow_CreateShadowDocument_run:00000040 $d
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:1282   .text.TEST_Full_Shadow_DeleteShadowDocument_run:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:1288   .text.TEST_Full_Shadow_DeleteShadowDocument_run:00000000 TEST_Full_Shadow_DeleteShadowDocument_run
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:1319   .text.TEST_Full_Shadow_DeleteShadowDocument_run:00000040 $d
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:1330   .text.TEST_Full_Shadow_UpdateCallback_run:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:1336   .text.TEST_Full_Shadow_UpdateCallback_run:00000000 TEST_Full_Shadow_UpdateCallback_run
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:1367   .text.TEST_Full_Shadow_UpdateCallback_run:00000040 $d
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:1378   .text.TEST_Full_Shadow_GROUP_RUNNER:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:1384   .text.TEST_Full_Shadow_GROUP_RUNNER:00000000 TEST_Full_Shadow_GROUP_RUNNER
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:1431   .bss.pcUpdateBuffer:00000000 pcUpdateBuffer
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:1432   .bss.pcUpdateBuffer:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:1434   .bss.xShadowUpdateSemaphore:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:1438   .bss.xShadowUpdateSemaphore:00000000 xShadowUpdateSemaphore
+C:\Users\a5089698\AppData\Local\Temp\ccC0wNoz.s:1485   .rodata.clientcredentialMQTT_BROKER_ENDPOINT:00000000 clientcredentialMQTT_BROKER_ENDPOINT
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+xQueueGenericSend
+setjmp
+SHADOW_ClientCreate
+vTaskDelay
+SHADOW_ClientDelete
+UnityFail
+Unity
+UnityAssertEqualNumber
+SHADOW_ClientConnect
+SHADOW_ClientDisconnect
+memset
+SHADOW_Delete
+strcpy
+SHADOW_Update
+SHADOW_Get
+memcmp
+SHADOW_ReturnMQTTBuffer
+xQueueGenericCreate
+SHADOW_RegisterCallbacks
+xQueueSemaphoreTake
+vQueueDelete
+UnityTestRunner

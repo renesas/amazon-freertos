@@ -1,0 +1,719 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"main.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.startup.main,"ax",%progbits
+  17              		.align	2
+  18              		.global	main
+  19              		.syntax unified
+  20              		.arm
+  21              		.fpu neon
+  23              	main:
+  24              	.LFB28:
+  25              		.file 1 "D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code
+   1:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /*
+   2:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** Amazon FreeRTOS
+   3:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** Copyright (C) 2018 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+   4:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+   5:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** Permission is hereby granted, free of charge, to any person obtaining a copy of
+   6:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** this software and associated documentation files (the "Software"), to deal in
+   7:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** the Software without restriction, including without limitation the rights to
+   8:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+   9:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** the Software, and to permit persons to whom the Software is furnished to do so,
+  10:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** subject to the following conditions:
+  11:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+  12:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** The above copyright notice and this permission notice shall be included in all
+  13:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** copies or substantial portions of the Software.
+  14:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+  15:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  16:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+  17:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+  18:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+  19:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  20:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  21:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+  22:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****  http://aws.amazon.com/freertos
+  23:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****  http://www.FreeRTOS.org
+  24:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** */
+  25:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+  26:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /* FreeRTOS includes. */
+  27:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "FreeRTOS.h"
+  28:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "task.h"
+  29:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+  30:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /* Version includes. */
+  31:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "aws_application_version.h"
+  32:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+  33:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /* System init includes. */
+  34:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "aws_system_init.h"
+  35:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+  36:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /* Logging includes. */
+  37:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "aws_logging_task.h"
+  38:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+  39:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /* Key provisioning includes. */
+  40:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "aws_dev_mode_key_provisioning.h"
+  41:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+  42:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /* FreeRTOS+TCP includes. */
+  43:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "FreeRTOS_IP.h"
+  44:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+  45:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /* Demo includes */
+  46:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "aws_test_runner.h"
+  47:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "aws_clientcredential.h"
+  48:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+  49:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+  50:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** //190325 modified for RZ/A2M. It is for RZ/A2M. -->
+  51:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /*from app.c*/
+  52:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "queue.h"
+  53:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include <stdio.h>
+  54:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include <string.h>
+  55:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+  56:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "r_devlink_wrapper.h"
+  57:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "r_ether_rza2_if.h"
+  58:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "FreeRTOS_IP_Private.h"
+  59:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+  60:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /* Aws Library Includes includes. */
+  61:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "aws_system_init.h"
+  62:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "aws_logging_task.h"
+  63:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "aws_application_version.h"
+  64:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "aws_dev_mode_key_provisioning.h"
+  65:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+  66:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /*from main.c*/
+  67:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include <fcntl.h>
+  68:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include <unistd.h>
+  69:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "r_typedefs.h"
+  70:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "iodefine.h"
+  71:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "r_cpg_drv_api.h"
+  72:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "r_ostm_drv_api.h"
+  73:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "r_scifa_drv_api.h"
+  74:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "r_gpio_drv_api.h"
+  75:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "r_startup_config.h"
+  76:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "compiler_settings.h"
+  77:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "main.h"
+  78:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "r_os_abstraction_api.h"
+  79:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "r_task_priority.h"
+  80:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #include "version.h"
+  81:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+  82:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** //190325 modified for RZ/A2M. It is for RZ/A2M. <--
+  83:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+  84:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #define mainLOGGING_TASK_STACK_SIZE         ( configMINIMAL_STACK_SIZE * 6 )
+  85:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #define mainLOGGING_MESSAGE_QUEUE_LENGTH    ( 15 )
+  86:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #define mainTEST_RUNNER_TASK_STACK_SIZE    ( configMINIMAL_STACK_SIZE * 8 )
+  87:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+  88:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** // Modify 2018.08.31 -->
+  89:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #define IGMP_TEST1  0
+  90:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #define IGMP_TEST3  0
+  91:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** // Modify 2018.08.31 <--
+  92:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+  93:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #if 0     //190325 modified for RZ/A2M. It is for RX. -->
+  94:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /* Declare the firmware version structure for all to see. */
+  95:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** const AppVersion32_t xAppFirmwareVersion = {
+  96:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****    .u.x.ucMajor = APP_VERSION_MAJOR,
+  97:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****    .u.x.ucMinor = APP_VERSION_MINOR,
+  98:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****    .u.x.usBuild = APP_VERSION_BUILD,
+  99:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** };
+ 100:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #endif    //190325 modified for RZ/A2M. It is for RX.  <--
+ 101:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 102:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /* The MAC address array is not declared const as the MAC address will
+ 103:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** normally be read from an EEPROM and not hard coded (in real deployed
+ 104:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** applications).*/
+ 105:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** static uint8_t ucMACAddress[ 6 ] =
+ 106:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** {
+ 107:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     configMAC_ADDR0,
+ 108:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     configMAC_ADDR1,
+ 109:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     configMAC_ADDR2,
+ 110:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     configMAC_ADDR3,
+ 111:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     configMAC_ADDR4,
+ 112:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     configMAC_ADDR5
+ 113:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** }; //XXX
+ 114:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 115:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /* Define the network addressing.  These parameters will be used if either
+ 116:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** ipconfigUDE_DHCP is 0 or if ipconfigUSE_DHCP is 1 but DHCP auto configuration
+ 117:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** failed. */
+ 118:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** static const uint8_t ucIPAddress[ 4 ] =
+ 119:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** {
+ 120:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     configIP_ADDR0,
+ 121:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     configIP_ADDR1,
+ 122:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     configIP_ADDR2,
+ 123:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     configIP_ADDR3
+ 124:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** };
+ 125:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** static const uint8_t ucNetMask[ 4 ] =
+ 126:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** {
+ 127:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     configNET_MASK0,
+ 128:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     configNET_MASK1,
+ 129:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     configNET_MASK2,
+ 130:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     configNET_MASK3
+ 131:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** };
+ 132:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** static const uint8_t ucGatewayAddress[ 4 ] =
+ 133:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** {
+ 134:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     configGATEWAY_ADDR0,
+ 135:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     configGATEWAY_ADDR1,
+ 136:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     configGATEWAY_ADDR2,
+ 137:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     configGATEWAY_ADDR3
+ 138:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** };
+ 139:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 140:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /* The following is the address of an OpenDNS server. */
+ 141:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** static const uint8_t ucDNSServerAddress[ 4 ] =
+ 142:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** {
+ 143:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     configDNS_SERVER_ADDR0,
+ 144:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     configDNS_SERVER_ADDR1,
+ 145:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     configDNS_SERVER_ADDR2,
+ 146:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     configDNS_SERVER_ADDR3
+ 147:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** };
+ 148:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 149:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /**
+ 150:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****  * @brief Application task startup hook.
+ 151:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****  */
+ 152:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** void vApplicationDaemonTaskStartupHook( void );
+ 153:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 154:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /**
+ 155:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****  * @brief Initializes the board.
+ 156:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****  */
+ 157:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** static void prvMiscInitialization( void );
+ 158:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 159:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** void os_main_task_t( void );
+ 160:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /*-----------------------------------------------------------*/
+ 161:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 162:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** int_t main(void)
+ 163:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** {
+  26              		.loc 1 163 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30 0000 10402DE9 		push	{r4, lr}
+  31              		.cfi_def_cfa_offset 8
+  32              		.cfi_offset 4, -8
+  33              		.cfi_offset 14, -4
+ 164:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     int_t cpg_handle;
+ 165:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 166:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     /* configure any drivers that are required before the Kernel initialises */
+ 167:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 168:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     /* Initialize the devlink layer */
+ 169:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     R_DEVLINK_Init();
+  34              		.loc 1 169 0
+  35 0004 FEFFFFEB 		bl	R_DEVLINK_Init
+  36              	.LVL0:
+ 170:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 171:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     /* Initialize CPG */
+ 172:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     cpg_handle = direct_open("cpg", 0);
+  37              		.loc 1 172 0
+  38 0008 0010A0E3 		mov	r1, #0
+  39 000c 1C009FE5 		ldr	r0, .L6
+  40 0010 FEFFFFEB 		bl	direct_open
+  41              	.LVL1:
+ 173:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     if ( cpg_handle < 0 )
+  42              		.loc 1 173 0
+  43 0014 000050E3 		cmp	r0, #0
+  44 0018 000000AA 		bge	.L2
+  45              	.L4:
+  46 001c FEFFFFEA 		b	.L4
+  47              	.L2:
+ 174:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     {
+ 175:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****         /* stop execute */
+ 176:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****         while(1);
+ 177:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     }
+ 178:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 179:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     /* Can close handle if no need to change clock after here */
+ 180:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     direct_close(cpg_handle);
+  48              		.loc 1 180 0
+  49 0020 FEFFFFEB 		bl	direct_close
+  50              	.LVL2:
+ 181:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 182:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     /* Start FreeRTOS */
+ 183:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     /* R_OS_InitKernel should never return */
+ 184:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     R_OS_KernelInit();
+  51              		.loc 1 184 0
+  52 0024 FEFFFFEB 		bl	R_OS_KernelInit
+  53              	.LVL3:
+ 185:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** }
+  54              		.loc 1 185 0
+  55 0028 0000A0E3 		mov	r0, #0
+  56 002c 1080BDE8 		pop	{r4, pc}
+  57              	.L7:
+  58              		.align	2
+  59              	.L6:
+  60 0030 00000000 		.word	.LC0
+  61              		.cfi_endproc
+  62              	.LFE28:
+  64              		.section	.text.os_main_task_t,"ax",%progbits
+  65              		.align	2
+  66              		.global	os_main_task_t
+  67              		.syntax unified
+  68              		.arm
+  69              		.fpu neon
+  71              	os_main_task_t:
+  72              	.LFB29:
+ 186:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 187:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 188:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /**
+ 189:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****  * @brief The application entry point from a power on reset is PowerON_Reset_PC()
+ 190:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****  * in resetprg.c.
+ 191:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****  */
+ 192:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** void os_main_task_t( void )
+ 193:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** {
+  73              		.loc 1 193 0
+  74              		.cfi_startproc
+  75              		@ Volatile: function does not return.
+  76              		@ args = 0, pretend = 0, frame = 0
+  77              		@ frame_needed = 0, uses_anonymous_args = 0
+  78 0000 10402DE9 		push	{r4, lr}
+  79              		.cfi_def_cfa_offset 8
+  80              		.cfi_offset 4, -8
+  81              		.cfi_offset 14, -4
+  82              	.L9:
+ 194:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     while(1)
+ 195:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     {
+ 196:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****         vTaskDelay(10000);
+  83              		.loc 1 196 0 discriminator 1
+  84 0004 100702E3 		movw	r0, #10000
+  85 0008 FEFFFFEB 		bl	vTaskDelay
+  86              	.LVL4:
+  87 000c FCFFFFEA 		b	.L9
+  88              		.cfi_endproc
+  89              	.LFE29:
+  91              		.section	.text.vApplicationDaemonTaskStartupHook,"ax",%progbits
+  92              		.align	2
+  93              		.global	vApplicationDaemonTaskStartupHook
+  94              		.syntax unified
+  95              		.arm
+  96              		.fpu neon
+  98              	vApplicationDaemonTaskStartupHook:
+  99              	.LFB31:
+ 197:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     }
+ 198:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** }
+ 199:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /*-----------------------------------------------------------*/
+ 200:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 201:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** static void prvMiscInitialization( void )
+ 202:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** {
+ 203:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     /* Start logging task. */
+ 204:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     xLoggingTaskInitialize( mainLOGGING_TASK_STACK_SIZE,
+ 205:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****                             tskIDLE_PRIORITY,
+ 206:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****                             mainLOGGING_MESSAGE_QUEUE_LENGTH );
+ 207:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** }
+ 208:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /*-----------------------------------------------------------*/
+ 209:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 210:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** void vApplicationDaemonTaskStartupHook( void )
+ 211:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** {
+ 100              		.loc 1 211 0
+ 101              		.cfi_startproc
+ 102              		@ args = 0, pretend = 0, frame = 0
+ 103              		@ frame_needed = 0, uses_anonymous_args = 0
+ 104 0000 07402DE9 		push	{r0, r1, r2, lr}
+ 105              		.cfi_def_cfa_offset 16
+ 106              		.cfi_offset 14, -4
+ 107              	.LBB4:
+ 108              	.LBB5:
+ 204:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****                             tskIDLE_PRIORITY,
+ 109              		.loc 1 204 0
+ 110 0004 0F20A0E3 		mov	r2, #15
+ 111 0008 0010A0E3 		mov	r1, #0
+ 112 000c 030BA0E3 		mov	r0, #3072
+ 113 0010 FEFFFFEB 		bl	xLoggingTaskInitialize
+ 114              	.LVL5:
+ 115              	.LBE5:
+ 116              	.LBE4:
+ 212:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     prvMiscInitialization();
+ 213:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 214:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     if( SYSTEM_Init() == pdPASS )
+ 117              		.loc 1 214 0
+ 118 0014 FEFFFFEB 		bl	SYSTEM_Init
+ 119              	.LVL6:
+ 120 0018 010050E3 		cmp	r0, #1
+ 121 001c 0E00001A 		bne	.L11
+ 215:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     {
+ 216:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****         /* Initialise the RTOS's TCP/IP stack.  The tasks that use the network
+ 217:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****         are created in the vApplicationIPNetworkEventHook() hook function
+ 218:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****         below.  The hook function is called when the network connects. */
+ 219:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****         FreeRTOS_IPInit( ucIPAddress,
+ 122              		.loc 1 219 0
+ 123 0020 3C309FE5 		ldr	r3, .L14
+ 124 0024 3C209FE5 		ldr	r2, .L14+4
+ 125 0028 3C109FE5 		ldr	r1, .L14+8
+ 126 002c 00308DE5 		str	r3, [sp]
+ 127 0030 38009FE5 		ldr	r0, .L14+12
+ 128 0034 38309FE5 		ldr	r3, .L14+16
+ 129 0038 FEFFFFEB 		bl	FreeRTOS_IPInit
+ 130              	.LVL7:
+ 220:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****                          ucNetMask,
+ 221:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****                          ucGatewayAddress,
+ 222:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****                          ucDNSServerAddress,
+ 223:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****                          ucMACAddress );
+ 224:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 225:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 226:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****         /* Provision the device with AWS certificate and private key. */
+ 227:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****         vDevModeKeyProvisioning();
+ 131              		.loc 1 227 0
+ 132 003c FEFFFFEB 		bl	vDevModeKeyProvisioning
+ 133              	.LVL8:
+ 228:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 229:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****         /* Create the task to run tests. */
+ 230:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****         xTaskCreate( TEST_RUNNER_RunTests_task,
+ 134              		.loc 1 230 0
+ 135 0040 0030A0E3 		mov	r3, #0
+ 136 0044 012AA0E3 		mov	r2, #4096
+ 137 0048 04308DE5 		str	r3, [sp, #4]
+ 138 004c 00308DE5 		str	r3, [sp]
+ 139 0050 20109FE5 		ldr	r1, .L14+20
+ 140 0054 20009FE5 		ldr	r0, .L14+24
+ 141 0058 FEFFFFEB 		bl	xTaskCreate
+ 142              	.LVL9:
+ 143              	.L11:
+ 231:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****                      "RunTests_task",
+ 232:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****                      mainTEST_RUNNER_TASK_STACK_SIZE,
+ 233:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****                      NULL,
+ 234:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****                      tskIDLE_PRIORITY,
+ 235:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****                      NULL );
+ 236:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     }
+ 237:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** }
+ 144              		.loc 1 237 0
+ 145 005c 0CD08DE2 		add	sp, sp, #12
+ 146              		.cfi_def_cfa_offset 4
+ 147              		@ sp needed
+ 148 0060 04F09DE4 		ldr	pc, [sp], #4
+ 149              	.L15:
+ 150              		.align	2
+ 151              	.L14:
+ 152 0064 00000000 		.word	.LANCHOR4
+ 153 0068 00000000 		.word	.LANCHOR1
+ 154 006c 00000000 		.word	.LANCHOR2
+ 155 0070 00000000 		.word	.LANCHOR3
+ 156 0074 00000000 		.word	.LANCHOR0
+ 157 0078 00000000 		.word	.LC1
+ 158 007c 00000000 		.word	TEST_RUNNER_RunTests_task
+ 159              		.cfi_endproc
+ 160              	.LFE31:
+ 162              		.section	.text.pcApplicationHostnameHook,"ax",%progbits
+ 163              		.align	2
+ 164              		.global	pcApplicationHostnameHook
+ 165              		.syntax unified
+ 166              		.arm
+ 167              		.fpu neon
+ 169              	pcApplicationHostnameHook:
+ 170              	.LFB32:
+ 238:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** //190325 modified for RZ/A2M. It is the same setting as RX65N -->
+ 239:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /*-----------------------------------------------------------*/
+ 240:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #if ( ipconfigUSE_LLMNR != 0 ) || ( ipconfigUSE_NBNS != 0 ) || ( ipconfigDHCP_REGISTER_HOSTNAME == 
+ 241:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** const char * pcApplicationHostnameHook( void )
+ 242:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** {
+ 171              		.loc 1 242 0
+ 172              		.cfi_startproc
+ 173              		@ args = 0, pretend = 0, frame = 0
+ 174              		@ frame_needed = 0, uses_anonymous_args = 0
+ 175              		@ link register save eliminated.
+ 243:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     /* Assign the name "FreeRTOS" to this network node.  This function will
+ 244:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****      * be called during the DHCP: the machine will be registered with an IP
+ 245:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****      * address plus this name. */
+ 246:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     return clientcredentialIOT_THING_NAME;
+ 247:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** }
+ 176              		.loc 1 247 0
+ 177 0000 00009FE5 		ldr	r0, .L17
+ 178 0004 1EFF2FE1 		bx	lr
+ 179              	.L18:
+ 180              		.align	2
+ 181              	.L17:
+ 182 0008 00000000 		.word	.LC2
+ 183              		.cfi_endproc
+ 184              	.LFE32:
+ 186              		.section	.text.vApplicationGetIdleTaskMemory,"ax",%progbits
+ 187              		.align	2
+ 188              		.global	vApplicationGetIdleTaskMemory
+ 189              		.syntax unified
+ 190              		.arm
+ 191              		.fpu neon
+ 193              	vApplicationGetIdleTaskMemory:
+ 194              	.LFB33:
+ 248:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** #endif
+ 249:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /*-----------------------------------------------------------*/
+ 250:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** //modified for RZ/A2M. It is the same setting as RX65N <--
+ 251:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 252:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /* configUSE_STATIC_ALLOCATION is set to 1, so the application must provide an
+ 253:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****  * implementation of vApplicationGetIdleTaskMemory() to provide the memory that is
+ 254:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****  * used by the Idle task. */
+ 255:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** void vApplicationGetIdleTaskMemory( StaticTask_t ** ppxIdleTaskTCBBuffer,
+ 256:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****                                     StackType_t ** ppxIdleTaskStackBuffer,
+ 257:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****                                     uint32_t * pulIdleTaskStackSize )
+ 258:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** {
+ 195              		.loc 1 258 0
+ 196              		.cfi_startproc
+ 197              		@ args = 0, pretend = 0, frame = 0
+ 198              		@ frame_needed = 0, uses_anonymous_args = 0
+ 199              		@ link register save eliminated.
+ 200              	.LVL10:
+ 259:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /* If the buffers to be provided to the Idle task are declared inside this
+ 260:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****  * function then they must be declared static - otherwise they will be allocated on
+ 261:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****  * the stack and so not exists after this function exits. */
+ 262:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     static StaticTask_t xIdleTaskTCB;
+ 263:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     static StackType_t uxIdleTaskStack[ configMINIMAL_STACK_SIZE ];
+ 264:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 265:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     /* Pass out a pointer to the StaticTask_t structure in which the Idle
+ 266:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****      * task's state will be stored. */
+ 267:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     *ppxIdleTaskTCBBuffer = &xIdleTaskTCB;
+ 201              		.loc 1 267 0
+ 202 0000 14309FE5 		ldr	r3, .L20
+ 203 0004 003080E5 		str	r3, [r0]
+ 268:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 269:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     /* Pass out the array that will be used as the Idle task's stack. */
+ 270:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     *ppxIdleTaskStackBuffer = uxIdleTaskStack;
+ 204              		.loc 1 270 0
+ 205 0008 10309FE5 		ldr	r3, .L20+4
+ 206 000c 003081E5 		str	r3, [r1]
+ 271:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 272:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     /* Pass out the size of the array pointed to by *ppxIdleTaskStackBuffer.
+ 273:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****      * Note that, as the array is necessarily of type StackType_t,
+ 274:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****      * configMINIMAL_STACK_SIZE is specified in words, not bytes. */
+ 275:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
+ 207              		.loc 1 275 0
+ 208 0010 023CA0E3 		mov	r3, #512
+ 209 0014 003082E5 		str	r3, [r2]
+ 210 0018 1EFF2FE1 		bx	lr
+ 211              	.L21:
+ 212              		.align	2
+ 213              	.L20:
+ 214 001c 00000000 		.word	.LANCHOR5
+ 215 0020 00000000 		.word	.LANCHOR6
+ 216              		.cfi_endproc
+ 217              	.LFE33:
+ 219              		.section	.text.vApplicationGetTimerTaskMemory,"ax",%progbits
+ 220              		.align	2
+ 221              		.global	vApplicationGetTimerTaskMemory
+ 222              		.syntax unified
+ 223              		.arm
+ 224              		.fpu neon
+ 226              	vApplicationGetTimerTaskMemory:
+ 227              	.LFB34:
+ 276:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** }
+ 277:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /*-----------------------------------------------------------*/
+ 278:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 279:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /* configUSE_STATIC_ALLOCATION is set to 1, so the application must provide an
+ 280:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****  * implementation of vApplicationGetTimerTaskMemory() to provide the memory that is
+ 281:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****  * used by the RTOS daemon/time task. */
+ 282:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** void vApplicationGetTimerTaskMemory( StaticTask_t ** ppxTimerTaskTCBBuffer,
+ 283:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****                                      StackType_t ** ppxTimerTaskStackBuffer,
+ 284:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****                                      uint32_t * pulTimerTaskStackSize )
+ 285:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** {
+ 228              		.loc 1 285 0
+ 229              		.cfi_startproc
+ 230              		@ args = 0, pretend = 0, frame = 0
+ 231              		@ frame_needed = 0, uses_anonymous_args = 0
+ 232              		@ link register save eliminated.
+ 233              	.LVL11:
+ 286:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** /* If the buffers to be provided to the Timer task are declared inside this
+ 287:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****  * function then they must be declared static - otherwise they will be allocated on
+ 288:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****  * the stack and so not exists after this function exits. */
+ 289:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     static StaticTask_t xTimerTaskTCB;
+ 290:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     static StackType_t uxTimerTaskStack[ configMINIMAL_STACK_SIZE ];
+ 291:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 292:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     /* Pass out a pointer to the StaticTask_t structure in which the Idle
+ 293:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****      * task's state will be stored. */
+ 294:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     *ppxTimerTaskTCBBuffer = &xTimerTaskTCB;
+ 234              		.loc 1 294 0
+ 235 0000 14309FE5 		ldr	r3, .L23
+ 236 0004 003080E5 		str	r3, [r0]
+ 295:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 296:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     /* Pass out the array that will be used as the Timer task's stack. */
+ 297:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     *ppxTimerTaskStackBuffer = uxTimerTaskStack;
+ 237              		.loc 1 297 0
+ 238 0008 10309FE5 		ldr	r3, .L23+4
+ 239 000c 003081E5 		str	r3, [r1]
+ 298:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c **** 
+ 299:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     /* Pass out the size of the array pointed to by *ppxTimerTaskStackBuffer.
+ 300:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****      * Note that, as the array is necessarily of type StackType_t,
+ 301:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****      * configMINIMAL_STACK_SIZE is specified in words, not bytes. */
+ 302:D:/Work/DeviceTester/amazon-freertos/tests/renesas/rza2m-gr-mango/common/application_code\main.c ****     *pulTimerTaskStackSize = configMINIMAL_STACK_SIZE;
+ 240              		.loc 1 302 0
+ 241 0010 023CA0E3 		mov	r3, #512
+ 242 0014 003082E5 		str	r3, [r2]
+ 243 0018 1EFF2FE1 		bx	lr
+ 244              	.L24:
+ 245              		.align	2
+ 246              	.L23:
+ 247 001c 00000000 		.word	.LANCHOR7
+ 248 0020 00000000 		.word	.LANCHOR8
+ 249              		.cfi_endproc
+ 250              	.LFE34:
+ 252              		.section	.bss.uxIdleTaskStack.75063,"aw",%nobits
+ 253              		.align	2
+ 254              		.set	.LANCHOR6,. + 0
+ 257              	uxIdleTaskStack.75063:
+ 258 0000 00000000 		.space	2048
+ 258      00000000 
+ 258      00000000 
+ 258      00000000 
+ 258      00000000 
+ 259              		.section	.bss.uxTimerTaskStack.75070,"aw",%nobits
+ 260              		.align	2
+ 261              		.set	.LANCHOR8,. + 0
+ 264              	uxTimerTaskStack.75070:
+ 265 0000 00000000 		.space	2048
+ 265      00000000 
+ 265      00000000 
+ 265      00000000 
+ 265      00000000 
+ 266              		.section	.bss.xIdleTaskTCB.75062,"aw",%nobits
+ 267              		.align	2
+ 268              		.set	.LANCHOR5,. + 0
+ 271              	xIdleTaskTCB.75062:
+ 272 0000 00000000 		.space	120
+ 272      00000000 
+ 272      00000000 
+ 272      00000000 
+ 272      00000000 
+ 273              		.section	.bss.xTimerTaskTCB.75069,"aw",%nobits
+ 274              		.align	2
+ 275              		.set	.LANCHOR7,. + 0
+ 278              	xTimerTaskTCB.75069:
+ 279 0000 00000000 		.space	120
+ 279      00000000 
+ 279      00000000 
+ 279      00000000 
+ 279      00000000 
+ 280              		.section	.data.ucMACAddress,"aw",%progbits
+ 281              		.set	.LANCHOR4,. + 0
+ 284              	ucMACAddress:
+ 285 0000 74       		.byte	116
+ 286 0001 90       		.byte	-112
+ 287 0002 50       		.byte	80
+ 288 0003 C0       		.byte	-64
+ 289 0004 FE       		.byte	-2
+ 290 0005 F1       		.byte	-15
+ 291              		.section	.rodata.main.str1.1,"aMS",%progbits,1
+ 292              	.LC0:
+ 293 0000 63706700 		.ascii	"cpg\000"
+ 294              		.section	.rodata.pcApplicationHostnameHook.str1.1,"aMS",%progbits,1
+ 295              	.LC2:
+ 296 0000 6964742D 		.ascii	"idt-6287306328291364584\000"
+ 296      36323837 
+ 296      33303633 
+ 296      32383239 
+ 296      31333634 
+ 297              		.section	.rodata.ucDNSServerAddress,"a",%progbits
+ 298              		.set	.LANCHOR0,. + 0
+ 301              	ucDNSServerAddress:
+ 302 0000 C0       		.byte	-64
+ 303 0001 A8       		.byte	-88
+ 304 0002 80       		.byte	-128
+ 305 0003 C8       		.byte	-56
+ 306              		.section	.rodata.ucGatewayAddress,"a",%progbits
+ 307              		.set	.LANCHOR1,. + 0
+ 310              	ucGatewayAddress:
+ 311 0000 C0       		.byte	-64
+ 312 0001 A8       		.byte	-88
+ 313 0002 80       		.byte	-128
+ 314 0003 64       		.byte	100
+ 315              		.section	.rodata.ucIPAddress,"a",%progbits
+ 316              		.set	.LANCHOR3,. + 0
+ 319              	ucIPAddress:
+ 320 0000 C0       		.byte	-64
+ 321 0001 A8       		.byte	-88
+ 322 0002 80       		.byte	-128
+ 323 0003 02       		.byte	2
+ 324              		.section	.rodata.ucNetMask,"a",%progbits
+ 325              		.set	.LANCHOR2,. + 0
+ 328              	ucNetMask:
+ 329 0000 FF       		.byte	-1
+ 330 0001 FF       		.byte	-1
+ 331 0002 FF       		.byte	-1
+ 332 0003 00       		.byte	0
+ 333              		.section	.rodata.vApplicationDaemonTaskStartupHook.str1.1,"aMS",%progbits,1
+ 334              	.LC1:
+ 335 0000 52756E54 		.ascii	"RunTests_task\000"
+ 335      65737473 
+ 335      5F746173 
+ 335      6B00
+ 336              		.text
+ 337              	.Letext0:
+ 338              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 339              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 340              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 341              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 342              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 343              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 344              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 345              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 346              		.file 10 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\src/unity_internals.h"
+ 347              		.file 11 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 348              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS\\portable\\GCC\\ARM_CA9_RZA2M/por
+ 349              		.file 13 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/FreeRTOS.h"
+ 350              		.file 14 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include\\private/list.h"
+ 351              		.file 15 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/aws_appversion32.h"
+ 352              		.file 16 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\common\\include/aws_application_version.
+ 353              		.file 17 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 354              		.file 18 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 355              		.file 19 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 356              		.file 20 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 357              		.file 21 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 358              		.file 22 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 359              		.file 23 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 360              		.file 24 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS-Plus-TCP\\include/FreeRTOS_IP.h"
+ 361              		.file 25 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\common\\include/aws_test_runner.h"
+ 362              		.file 26 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\common\\include/aws_clientcredential_key
+ 363              		.file 27 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\common\\include/aws_clientcredential.h"
+ 364              		.file 28 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS-Plus-TCP\\include/FreeRTOS_TCP_WI
+ 365              		.file 29 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS-Plus-TCP\\include/FreeRTOS_IP_Pri
+ 366              		.file 30 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 367              		.file 31 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 368              		.file 32 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 369              		.file 33 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 370              		.file 34 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 371              		.file 35 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 372              		.file 36 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\common\\include/aws_logging_task.h"
+ 373              		.file 37 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/aws_system_init.h"
+ 374              		.file 38 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\common\\include/aws_dev_mode_key_provisi
+ 375              		.file 39 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/task.h"
+ 376              		.file 40 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 377              		.file 41 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:17     .text.startup.main:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:23     .text.startup.main:00000000 main
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:60     .text.startup.main:00000030 $d
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:65     .text.os_main_task_t:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:71     .text.os_main_task_t:00000000 os_main_task_t
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:92     .text.vApplicationDaemonTaskStartupHook:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:98     .text.vApplicationDaemonTaskStartupHook:00000000 vApplicationDaemonTaskStartupHook
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:152    .text.vApplicationDaemonTaskStartupHook:00000064 $d
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:163    .text.pcApplicationHostnameHook:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:169    .text.pcApplicationHostnameHook:00000000 pcApplicationHostnameHook
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:182    .text.pcApplicationHostnameHook:00000008 $d
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:187    .text.vApplicationGetIdleTaskMemory:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:193    .text.vApplicationGetIdleTaskMemory:00000000 vApplicationGetIdleTaskMemory
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:214    .text.vApplicationGetIdleTaskMemory:0000001c $d
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:220    .text.vApplicationGetTimerTaskMemory:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:226    .text.vApplicationGetTimerTaskMemory:00000000 vApplicationGetTimerTaskMemory
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:247    .text.vApplicationGetTimerTaskMemory:0000001c $d
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:253    .bss.uxIdleTaskStack.75063:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:257    .bss.uxIdleTaskStack.75063:00000000 uxIdleTaskStack.75063
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:260    .bss.uxTimerTaskStack.75070:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:264    .bss.uxTimerTaskStack.75070:00000000 uxTimerTaskStack.75070
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:267    .bss.xIdleTaskTCB.75062:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:271    .bss.xIdleTaskTCB.75062:00000000 xIdleTaskTCB.75062
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:274    .bss.xTimerTaskTCB.75069:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:278    .bss.xTimerTaskTCB.75069:00000000 xTimerTaskTCB.75069
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:284    .data.ucMACAddress:00000000 ucMACAddress
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:301    .rodata.ucDNSServerAddress:00000000 ucDNSServerAddress
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:310    .rodata.ucGatewayAddress:00000000 ucGatewayAddress
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:319    .rodata.ucIPAddress:00000000 ucIPAddress
+C:\Users\a5089698\AppData\Local\Temp\ccSRTJ0c.s:328    .rodata.ucNetMask:00000000 ucNetMask
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+R_DEVLINK_Init
+direct_open
+direct_close
+R_OS_KernelInit
+vTaskDelay
+xLoggingTaskInitialize
+SYSTEM_Init
+FreeRTOS_IPInit
+vDevModeKeyProvisioning
+xTaskCreate
+TEST_RUNNER_RunTests_task

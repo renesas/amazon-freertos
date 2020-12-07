@@ -1,0 +1,2239 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"aws_secure_sockets.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.prvNetworkSend,"ax",%progbits
+  17              		.align	2
+  18              		.syntax unified
+  19              		.arm
+  20              		.fpu neon
+  22              	prvNetworkSend:
+  23              	.LFB11:
+  24              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango/a
+   1:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /*
+   2:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  * Amazon FreeRTOS Secure Socket for FreeRTOS+TCP V1.1.4
+   3:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  * Copyright (C) 2018 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+   4:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  *
+   5:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  * Permission is hereby granted, free of charge, to any person obtaining a copy of
+   6:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  * this software and associated documentation files (the "Software"), to deal in
+   7:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  * the Software without restriction, including without limitation the rights to
+   8:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+   9:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  * the Software, and to permit persons to whom the Software is furnished to do so,
+  10:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  * subject to the following conditions:
+  11:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  *
+  12:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  * The above copyright notice and this permission notice shall be included in all
+  13:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  * copies or substantial portions of the Software.
+  14:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  *
+  15:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  16:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+  17:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+  18:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+  19:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  20:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  21:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  *
+  22:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  * http://aws.amazon.com/freertos
+  23:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  * http://www.FreeRTOS.org
+  24:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  */
+  25:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+  26:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /**************************************************************************************************
+  27:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** * DISCLAIMER
+  28:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** * This software is supplied by Renesas Electronics Corporation and is only intended for use with Re
+  29:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** * other uses are authorized. This software is owned by Renesas Electronics Corporation and is prote
+  30:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** * applicable laws, including copyright laws.
+  31:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+  32:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF 
+  33:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIM
+  34:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AF
+  35:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY RE
+  36:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** * SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+  37:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** * Renesas reserves the right, without notice, to make changes to this software and to discontinue t
+  38:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** * this software. By using this software, you agree to the additional terms and conditions found by 
+  39:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** * following link:
+  40:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** * http://www.renesas.com/disclaimer
+  41:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** *
+  42:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** * Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+  43:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** ***************************************************************************************************
+  44:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+  45:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /* FreeRTOS includes. */
+  46:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** #include "FreeRTOS.h"
+  47:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** #include "FreeRTOSIPConfig.h"
+  48:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** #include "list.h"
+  49:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** #include "FreeRTOS_IP.h"
+  50:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** #include "FreeRTOS_Sockets.h"
+  51:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** #include "aws_secure_sockets.h"
+  52:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** #include "aws_tls.h"
+  53:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** #include "task.h"
+  54:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** #include "aws_pkcs11.h"
+  55:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** #include "aws_crypto.h"
+  56:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+  57:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /* Internal context structure. */
+  58:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** typedef struct SSOCKETContext
+  59:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** {
+  60:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     Socket_t xSocket;
+  61:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     char * pcDestination;
+  62:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     void * pvTLSContext;
+  63:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     BaseType_t xRequireTLS;
+  64:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     BaseType_t xSendFlags;
+  65:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     BaseType_t xRecvFlags;
+  66:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     char * pcServerCertificate;
+  67:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     uint32_t ulServerCertificateLength;
+  68:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     char ** ppcAlpnProtocols;
+  69:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     uint32_t ulAlpnProtocolsCount;
+  70:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     BaseType_t xConnectAttempted;
+  71:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** } SSOCKETContext_t, * SSOCKETContextPtr_t;
+  72:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+  73:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /* Generate a randomized TCP Initial Sequence Number per RFC. */
+  74:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** uint32_t ulApplicationGetNextSequenceNumber( 
+  75:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     uint32_t ulSourceAddress,
+  76:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     uint16_t usSourcePort,
+  77:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     uint32_t ulDestinationAddress,
+  78:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     uint16_t usDestinationPort );
+  79:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+  80:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /*
+  81:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  * Helper routines.
+  82:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  */
+  83:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+  84:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /*
+  85:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  * @brief Network send callback.
+  86:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  */
+  87:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** static BaseType_t prvNetworkSend( void * pvContext,
+  88:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                   const unsigned char * pucData,
+  89:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                   size_t xDataLength )
+  90:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** {
+  25              		.loc 1 90 0
+  26              		.cfi_startproc
+  27              		@ args = 0, pretend = 0, frame = 0
+  28              		@ frame_needed = 0, uses_anonymous_args = 0
+  29              		@ link register save eliminated.
+  30              	.LVL0:
+  91:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     SSOCKETContextPtr_t pxContext = ( SSOCKETContextPtr_t ) pvContext; /*lint !e9087 cast used for 
+  92:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+  93:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     return FreeRTOS_send( pxContext->xSocket, pucData, xDataLength, pxContext->xSendFlags );
+  31              		.loc 1 93 0
+  32 0000 103090E5 		ldr	r3, [r0, #16]
+  33 0004 000090E5 		ldr	r0, [r0]
+  34              	.LVL1:
+  35 0008 FEFFFFEA 		b	FreeRTOS_send
+  36              	.LVL2:
+  37              		.cfi_endproc
+  38              	.LFE11:
+  40              		.section	.text.prvNetworkRecv,"ax",%progbits
+  41              		.align	2
+  42              		.syntax unified
+  43              		.arm
+  44              		.fpu neon
+  46              	prvNetworkRecv:
+  47              	.LFB12:
+  94:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** }
+  95:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /*-----------------------------------------------------------*/
+  96:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+  97:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /*
+  98:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  * @brief Network receive callback.
+  99:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  */
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** static BaseType_t prvNetworkRecv( void * pvContext,
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                   unsigned char * pucReceiveBuffer,
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                   size_t xReceiveLength )
+ 103:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** {
+  48              		.loc 1 103 0
+  49              		.cfi_startproc
+  50              		@ args = 0, pretend = 0, frame = 0
+  51              		@ frame_needed = 0, uses_anonymous_args = 0
+  52              		@ link register save eliminated.
+  53              	.LVL3:
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     SSOCKETContextPtr_t pxContext = ( SSOCKETContextPtr_t ) pvContext; /*lint !e9087 cast used for 
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     return FreeRTOS_recv( pxContext->xSocket, pucReceiveBuffer, xReceiveLength, pxContext->xRecvFla
+  54              		.loc 1 106 0
+  55 0000 143090E5 		ldr	r3, [r0, #20]
+  56 0004 000090E5 		ldr	r0, [r0]
+  57              	.LVL4:
+  58 0008 FEFFFFEA 		b	FreeRTOS_recv
+  59              	.LVL5:
+  60              		.cfi_endproc
+  61              	.LFE12:
+  63              		.section	.text.prvSocketsGetCryptoSession.constprop.0,"ax",%progbits
+  64              		.align	2
+  65              		.syntax unified
+  66              		.arm
+  67              		.fpu neon
+  69              	prvSocketsGetCryptoSession.constprop.0:
+  70              	.LFB25:
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** }
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /*-----------------------------------------------------------*/
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 110:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /*
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  * Interface routines.
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  */
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** int32_t SOCKETS_Close( Socket_t xSocket )
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** {
+ 116:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     SSOCKETContextPtr_t pxContext = ( SSOCKETContextPtr_t ) xSocket; /*lint !e9087 cast used for po
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     uint32_t ulProtocol;
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     int32_t lReturn;
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     if( ( xSocket != SOCKETS_INVALID_SOCKET ) && ( NULL != pxContext ) )
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         /* Clean-up destination string. */
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         if( NULL != pxContext->pcDestination )
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         {
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             vPortFree( pxContext->pcDestination );
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         /* Clean-up server certificate. */
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         if( NULL != pxContext->pcServerCertificate )
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         {
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             vPortFree( pxContext->pcServerCertificate );
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         /* Clean-up application protocol array. */
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         if( NULL != pxContext->ppcAlpnProtocols )
+ 136:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         {
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             for( ulProtocol = 0;
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                  ulProtocol < pxContext->ulAlpnProtocolsCount;
+ 139:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                  ulProtocol++ )
+ 140:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             {
+ 141:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 if( NULL != pxContext->ppcAlpnProtocols[ ulProtocol ] )
+ 142:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 143:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     vPortFree( pxContext->ppcAlpnProtocols[ ulProtocol ] );
+ 144:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 }
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             }
+ 146:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 147:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             vPortFree( pxContext->ppcAlpnProtocols );
+ 148:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 149:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         /* Clean-up TLS context. */
+ 151:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         if( pdTRUE == pxContext->xRequireTLS )
+ 152:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         {
+ 153:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             TLS_Cleanup( pxContext->pvTLSContext );
+ 154:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 156:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         /* Close the underlying socket handle. */
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         ( void ) FreeRTOS_closesocket( pxContext->xSocket );
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 159:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         /* Free the context. */
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         vPortFree( pxContext );
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         lReturn = SOCKETS_ERROR_NONE;
+ 162:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 163:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     else
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 165:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         lReturn = SOCKETS_EINVAL;
+ 166:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 167:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 168:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     return lReturn;
+ 169:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** }
+ 170:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /*-----------------------------------------------------------*/
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 172:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** int32_t SOCKETS_Connect( Socket_t xSocket,
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                          SocketsSockaddr_t * pxAddress,
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                          Socklen_t xAddressLength )
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** {
+ 176:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     int32_t lStatus = SOCKETS_ERROR_NONE;
+ 177:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     SSOCKETContextPtr_t pxContext = ( SSOCKETContextPtr_t ) xSocket; /*lint !e9087 cast used for po
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     TLSParams_t xTLSParams = { 0 };
+ 179:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     struct freertos_sockaddr xTempAddress = { 0 };
+ 180:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 181:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     if( ( pxContext != SOCKETS_INVALID_SOCKET ) && ( pxAddress != NULL ) )
+ 182:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         /* A connection was attempted. If this function fails, then the socket is invalid and the u
+ 184:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****          * must call SOCKETS_Close(), on this socket, and SOCKETS_Socket() to get a new socket. */
+ 185:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         pxContext->xConnectAttempted = pdTRUE;
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         /* Connect the wrapped socket. */
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         xTempAddress.sin_addr = pxAddress->ulAddress;
+ 189:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         xTempAddress.sin_family = pxAddress->ucSocketDomain;
+ 190:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         xTempAddress.sin_len = ( uint8_t ) sizeof( xTempAddress );
+ 191:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         xTempAddress.sin_port = pxAddress->usPort;
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         lStatus = FreeRTOS_connect( pxContext->xSocket, &xTempAddress, xAddressLength );
+ 193:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 194:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         /* Negotiate TLS if requested. */
+ 195:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         if( ( SOCKETS_ERROR_NONE == lStatus ) && ( pdTRUE == pxContext->xRequireTLS ) )
+ 196:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         {
+ 197:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             xTLSParams.ulSize = sizeof( xTLSParams );
+ 198:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             xTLSParams.pcDestination = pxContext->pcDestination;
+ 199:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             xTLSParams.pcServerCertificate = pxContext->pcServerCertificate;
+ 200:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             xTLSParams.ulServerCertificateLength = pxContext->ulServerCertificateLength;
+ 201:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             xTLSParams.ppcAlpnProtocols = ( const char ** ) pxContext->ppcAlpnProtocols;
+ 202:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             xTLSParams.ulAlpnProtocolsCount = pxContext->ulAlpnProtocolsCount;
+ 203:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             xTLSParams.pvCallerContext = pxContext;
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             xTLSParams.pxNetworkRecv = prvNetworkRecv;
+ 205:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             xTLSParams.pxNetworkSend = prvNetworkSend;
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             lStatus = TLS_Init( &pxContext->pvTLSContext, &xTLSParams );
+ 207:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             if( SOCKETS_ERROR_NONE == lStatus )
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             {
+ 210:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 lStatus = TLS_Connect( pxContext->pvTLSContext );
+ 211:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 212:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 if( lStatus < 0 )
+ 213:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 214:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     lStatus = SOCKETS_TLS_HANDSHAKE_ERROR;
+ 215:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 }
+ 216:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             }
+ 217:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 218:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 219:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     else
+ 220:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         lStatus = SOCKETS_SOCKET_ERROR;
+ 222:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 223:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 224:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     return lStatus;
+ 225:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** }
+ 226:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /*-----------------------------------------------------------*/
+ 227:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 228:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** uint32_t SOCKETS_GetHostByName( const char * pcHostName )
+ 229:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** {
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     return FreeRTOS_gethostbyname( pcHostName );
+ 231:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** }
+ 232:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /*-----------------------------------------------------------*/
+ 233:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** int32_t SOCKETS_Recv( Socket_t xSocket,
+ 235:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                       void * pvBuffer,
+ 236:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                       size_t xBufferLength,
+ 237:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                       uint32_t ulFlags )
+ 238:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** {
+ 239:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     int32_t lStatus = SOCKETS_SOCKET_ERROR;
+ 240:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     SSOCKETContextPtr_t pxContext = ( SSOCKETContextPtr_t ) xSocket; /*lint !e9087 cast used for po
+ 241:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     if( ( xSocket != SOCKETS_INVALID_SOCKET ) &&
+ 243:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         ( pvBuffer != NULL ) )
+ 244:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 245:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         pxContext->xRecvFlags = ( BaseType_t ) ulFlags;
+ 246:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 247:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         if( pdTRUE == pxContext->xRequireTLS )
+ 248:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         {
+ 249:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             /* Receive through TLS pipe, if negotiated. */
+ 250:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             lStatus = TLS_Recv( pxContext->pvTLSContext, pvBuffer, xBufferLength );
+ 251:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 252:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         else
+ 253:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         {
+ 254:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             /* Receive unencrypted. */
+ 255:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             lStatus = prvNetworkRecv( pxContext, pvBuffer, xBufferLength );
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 257:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     else
+ 259:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 260:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         lStatus = SOCKETS_EINVAL;
+ 261:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 262:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 263:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     return lStatus;
+ 264:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** }
+ 265:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /*-----------------------------------------------------------*/
+ 266:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 267:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** int32_t SOCKETS_Send( Socket_t xSocket,
+ 268:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                       const void * pvBuffer,
+ 269:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                       size_t xDataLength,
+ 270:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                       uint32_t ulFlags )
+ 271:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** {
+ 272:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     int32_t lStatus = SOCKETS_SOCKET_ERROR;
+ 273:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     SSOCKETContextPtr_t pxContext = ( SSOCKETContextPtr_t ) xSocket; /*lint !e9087 cast used for po
+ 274:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 275:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     if( ( xSocket != SOCKETS_INVALID_SOCKET ) &&
+ 276:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         ( pvBuffer != NULL ) )
+ 277:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 278:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         pxContext->xSendFlags = ( BaseType_t ) ulFlags;
+ 279:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 280:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         if( pdTRUE == pxContext->xRequireTLS )
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         {
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             /* Send through TLS pipe, if negotiated. */
+ 283:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             lStatus = TLS_Send( pxContext->pvTLSContext, pvBuffer, xDataLength );
+ 284:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 285:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         else
+ 286:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         {
+ 287:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             /* Send unencrypted. */
+ 288:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             lStatus = prvNetworkSend( pxContext, pvBuffer, xDataLength );
+ 289:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 290:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 291:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     else
+ 292:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 293:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         lStatus = SOCKETS_EINVAL;
+ 294:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 295:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 296:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     return lStatus;
+ 297:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** }
+ 298:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /*-----------------------------------------------------------*/
+ 299:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 300:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** int32_t SOCKETS_SetSockOpt( Socket_t xSocket,
+ 301:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                             int32_t lLevel,
+ 302:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                             int32_t lOptionName,
+ 303:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                             const void * pvOptionValue,
+ 304:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                             size_t xOptionLength )
+ 305:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** {
+ 306:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     int32_t lStatus = SOCKETS_ERROR_NONE;
+ 307:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     TickType_t xTimeout;
+ 308:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     SSOCKETContextPtr_t pxContext = ( SSOCKETContextPtr_t ) xSocket; /*lint !e9087 cast used for po
+ 309:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     char ** ppcAlpnIn = ( char ** ) pvOptionValue;
+ 310:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     size_t xLength = 0;
+ 311:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     uint32_t ulProtocol;
+ 312:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 313:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     if( ( xSocket != SOCKETS_INVALID_SOCKET ) && ( xSocket != NULL ) )
+ 314:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 315:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         switch( lOptionName )
+ 316:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         {
+ 317:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             case SOCKETS_SO_SERVER_NAME_INDICATION:
+ 318:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 319:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 /* Do not set the SNI options if the socket is possibly already connected. */
+ 320:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 if( pxContext->xConnectAttempted == pdTRUE )
+ 321:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 322:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     lStatus = SOCKETS_EISCONN;
+ 323:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 }
+ 324:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 325:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 /* Non-NULL destination string indicates that SNI extension should
+ 326:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                  * be used during TLS negotiation. */
+ 327:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 else if( NULL == ( pxContext->pcDestination =
+ 328:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                        ( char * ) pvPortMalloc( 1U + xOptionLength ) ) )
+ 329:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 330:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     lStatus = SOCKETS_ENOMEM;
+ 331:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 }
+ 332:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 else
+ 333:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 334:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     memcpy( pxContext->pcDestination, pvOptionValue, xOptionLength );
+ 335:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     pxContext->pcDestination[ xOptionLength ] = '\0';
+ 336:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 }
+ 337:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 338:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 break;
+ 339:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 340:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             case SOCKETS_SO_TRUSTED_SERVER_CERTIFICATE:
+ 341:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 342:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 /* Do not set the trusted server certificate if the socket is possibly already conn
+ 343:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 if( pxContext->xConnectAttempted == pdTRUE )
+ 344:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 345:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     lStatus = SOCKETS_EISCONN;
+ 346:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 }
+ 347:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 348:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 /* Non-NULL server certificate field indicates that the default trust
+ 349:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                  * list should not be used. */
+ 350:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 else if( NULL == ( pxContext->pcServerCertificate =
+ 351:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                        ( char * ) pvPortMalloc( xOptionLength ) ) )
+ 352:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 353:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     lStatus = SOCKETS_ENOMEM;
+ 354:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 }
+ 355:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 else
+ 356:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 357:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     memcpy( pxContext->pcServerCertificate, pvOptionValue, xOptionLength );
+ 358:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     pxContext->ulServerCertificateLength = xOptionLength;
+ 359:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 }
+ 360:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 361:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 break;
+ 362:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 363:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             case SOCKETS_SO_REQUIRE_TLS:
+ 364:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 365:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 /* Do not set the TLS option if the socket is possibly already connected. */
+ 366:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 if( pxContext->xConnectAttempted == pdTRUE )
+ 367:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 368:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     lStatus = SOCKETS_EISCONN;
+ 369:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 }
+ 370:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 else
+ 371:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 372:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     pxContext->xRequireTLS = pdTRUE;
+ 373:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 }
+ 374:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 375:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 break;
+ 376:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 377:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             case SOCKETS_SO_ALPN_PROTOCOLS:
+ 378:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 379:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 /* Do not set the ALPN option if the socket is already connected. */
+ 380:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 if( pxContext->xConnectAttempted == pdTRUE )
+ 381:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 382:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     lStatus = SOCKETS_EISCONN;
+ 383:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     break;
+ 384:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 }
+ 385:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 386:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 /* Allocate a sufficiently long array of pointers. */
+ 387:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 pxContext->ulAlpnProtocolsCount = 1 + xOptionLength;
+ 388:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 389:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 if( NULL == ( pxContext->ppcAlpnProtocols =
+ 390:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                   ( char ** ) pvPortMalloc( pxContext->ulAlpnProtocolsCount * sizeo
+ 391:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 392:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     lStatus = SOCKETS_ENOMEM;
+ 393:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 }
+ 394:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 else
+ 395:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 396:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     /* Zero out the pointers. */
+ 397:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     memset( pxContext->ppcAlpnProtocols,
+ 398:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                             0,
+ 399:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                             pxContext->ulAlpnProtocolsCount * sizeof( char * ) );
+ 400:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 }
+ 401:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 402:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 /* Copy each protocol string. */
+ 403:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 for( ulProtocol = 0;
+ 404:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                      ( ulProtocol < pxContext->ulAlpnProtocolsCount - 1 ) &&
+ 405:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                      ( pdFREERTOS_ERRNO_NONE == lStatus );
+ 406:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                      ulProtocol++ )
+ 407:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 408:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     xLength = strlen( ppcAlpnIn[ ulProtocol ] );
+ 409:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 410:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     if( NULL == ( pxContext->ppcAlpnProtocols[ ulProtocol ] =
+ 411:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                       ( char * ) pvPortMalloc( 1 + xLength ) ) )
+ 412:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     {
+ 413:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                         lStatus = SOCKETS_ENOMEM;
+ 414:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     }
+ 415:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     else
+ 416:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     {
+ 417:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                         memcpy( pxContext->ppcAlpnProtocols[ ulProtocol ],
+ 418:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                 ppcAlpnIn[ ulProtocol ],
+ 419:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                 xLength );
+ 420:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                         pxContext->ppcAlpnProtocols[ ulProtocol ][ xLength ] = '\0';
+ 421:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     }
+ 422:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 }
+ 423:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 424:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 break;
+ 425:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 426:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             case SOCKETS_SO_NONBLOCK:
+ 427:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 xTimeout = 0;
+ 428:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 429:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 /* Non-blocking connect is not supported.  Socket may be set to nonblocking
+ 430:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                  * only after a connection is made. */
+ 431:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 if( pdTRUE == pxContext->xConnectAttempted )
+ 432:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 433:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     lStatus = FreeRTOS_setsockopt( pxContext->xSocket,
+ 434:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                    lLevel,
+ 435:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                    SOCKETS_SO_RCVTIMEO,
+ 436:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                    &xTimeout,
+ 437:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                    sizeof( xTimeout ) );
+ 438:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 439:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     if( lStatus == SOCKETS_ERROR_NONE )
+ 440:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     {
+ 441:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                         lStatus = FreeRTOS_setsockopt( pxContext->xSocket,
+ 442:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                        lLevel,
+ 443:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                        SOCKETS_SO_SNDTIMEO,
+ 444:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                        &xTimeout,
+ 445:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                        sizeof( xTimeout ) );
+ 446:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     }
+ 447:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 }
+ 448:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 else
+ 449:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 450:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     lStatus = SOCKETS_EISCONN;
+ 451:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 }
+ 452:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 453:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 break;
+ 454:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 455:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             case SOCKETS_SO_RCVTIMEO:
+ 456:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             case SOCKETS_SO_SNDTIMEO:
+ 457:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 /* Comply with Berkeley standard - a 0 timeout is wait forever. */
+ 458:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 xTimeout = *( ( const TickType_t * ) pvOptionValue ); /*lint !e9087 pvOptionValue p
+ 459:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 460:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 if( xTimeout == 0U )
+ 461:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 462:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     xTimeout = portMAX_DELAY;
+ 463:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 }
+ 464:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 465:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 lStatus = FreeRTOS_setsockopt( pxContext->xSocket,
+ 466:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                lLevel,
+ 467:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                lOptionName,
+ 468:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                &xTimeout,
+ 469:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                xOptionLength );
+ 470:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 break;
+ 471:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 472:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             default:
+ 473:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 lStatus = FreeRTOS_setsockopt( pxContext->xSocket,
+ 474:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                lLevel,
+ 475:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                lOptionName,
+ 476:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                pvOptionValue,
+ 477:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                xOptionLength );
+ 478:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 break;
+ 479:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 480:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 481:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     else
+ 482:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 483:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         lStatus = SOCKETS_EINVAL;
+ 484:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 485:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 486:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     return lStatus;
+ 487:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** }
+ 488:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /*-----------------------------------------------------------*/
+ 489:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 490:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** int32_t SOCKETS_Shutdown( Socket_t xSocket,
+ 491:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                           uint32_t ulHow )
+ 492:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** {
+ 493:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     int32_t lReturn;
+ 494:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     SSOCKETContextPtr_t pxContext = ( SSOCKETContextPtr_t ) xSocket; /*lint !e9087 cast used for po
+ 495:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 496:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     if( ( xSocket != SOCKETS_INVALID_SOCKET ) && ( xSocket != NULL ) )
+ 497:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 498:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         lReturn = FreeRTOS_shutdown( pxContext->xSocket, ( BaseType_t ) ulHow );
+ 499:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 500:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     else
+ 501:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 502:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         lReturn = SOCKETS_EINVAL;
+ 503:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 504:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 505:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     return lReturn;
+ 506:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** }
+ 507:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /*-----------------------------------------------------------*/
+ 508:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 509:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** Socket_t SOCKETS_Socket( int32_t lDomain,
+ 510:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                          int32_t lType,
+ 511:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                          int32_t lProtocol )
+ 512:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** {
+ 513:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     SSOCKETContextPtr_t pxContext = NULL;
+ 514:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     Socket_t xSocket;
+ 515:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 516:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     /* Ensure that only supported values are supplied. */
+ 517:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     configASSERT( lDomain == SOCKETS_AF_INET );
+ 518:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     configASSERT( lType == SOCKETS_SOCK_STREAM );
+ 519:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     configASSERT( lProtocol == SOCKETS_IPPROTO_TCP );
+ 520:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 521:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     /* Create the wrapped socket. */
+ 522:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     xSocket = FreeRTOS_socket( lDomain, lType, lProtocol );
+ 523:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 524:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     if( xSocket != FREERTOS_INVALID_SOCKET )
+ 525:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 526:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         /* Allocate the internal context structure. */
+ 527:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         if( NULL == ( pxContext = pvPortMalloc( sizeof( SSOCKETContext_t ) ) ) )
+ 528:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         {
+ 529:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             /* Need to close socket. */
+ 530:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             ( void ) FreeRTOS_closesocket( xSocket );
+ 531:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             pxContext = SOCKETS_INVALID_SOCKET;
+ 532:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 533:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         else
+ 534:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         {
+ 535:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             memset( pxContext, 0, sizeof( SSOCKETContext_t ) );
+ 536:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             pxContext->xSocket = xSocket;
+ 537:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 538:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 539:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     else
+ 540:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 541:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         pxContext = SOCKETS_INVALID_SOCKET;
+ 542:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 543:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 544:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     return pxContext;
+ 545:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** }
+ 546:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /*-----------------------------------------------------------*/
+ 547:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 548:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** BaseType_t SOCKETS_Init( void )
+ 549:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** {
+ 550:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     /* Empty initialization for this port. */
+ 551:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     return pdPASS;
+ 552:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** }
+ 553:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /*-----------------------------------------------------------*/
+ 554:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 555:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** static CK_RV prvSocketsGetCryptoSession( CK_SESSION_HANDLE * pxSession,
+  71              		.loc 1 555 0
+  72              		.cfi_startproc
+  73              		@ args = 0, pretend = 0, frame = 8
+  74              		@ frame_needed = 0, uses_anonymous_args = 0
+  75              	.LVL6:
+  76 0000 F0432DE9 		push	{r4, r5, r6, r7, r8, r9, lr}
+  77              		.cfi_def_cfa_offset 28
+  78              		.cfi_offset 4, -28
+  79              		.cfi_offset 5, -24
+  80              		.cfi_offset 6, -20
+  81              		.cfi_offset 7, -16
+  82              		.cfi_offset 8, -12
+  83              		.cfi_offset 9, -8
+  84              		.cfi_offset 14, -4
+ 556:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                          CK_FUNCTION_LIST_PTR_PTR ppxFunctionList )
+ 557:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** {
+ 558:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     CK_RV xResult = 0;
+ 559:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     CK_C_GetFunctionList pxCkGetFunctionList = NULL;
+ 560:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     static CK_SESSION_HANDLE xPkcs11Session = 0;
+ 561:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     static CK_FUNCTION_LIST_PTR pxPkcs11FunctionList = NULL;
+ 562:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     CK_ULONG ulCount = 1;
+  85              		.loc 1 562 0
+  86 0004 0130A0E3 		mov	r3, #1
+ 563:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     CK_SLOT_ID xSlotId = 0;
+ 564:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 565:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     portENTER_CRITICAL();
+ 566:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 567:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     if( 0 == xPkcs11Session )
+  87              		.loc 1 567 0
+  88 0008 BC509FE5 		ldr	r5, .L11
+ 555:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                          CK_FUNCTION_LIST_PTR_PTR ppxFunctionList )
+  89              		.loc 1 555 0
+  90 000c 14D04DE2 		sub	sp, sp, #20
+  91              		.cfi_def_cfa_offset 48
+ 563:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     CK_SLOT_ID xSlotId = 0;
+  92              		.loc 1 563 0
+  93 0010 0040A0E3 		mov	r4, #0
+ 555:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                          CK_FUNCTION_LIST_PTR_PTR ppxFunctionList )
+  94              		.loc 1 555 0
+  95 0014 0070A0E1 		mov	r7, r0
+ 562:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     CK_SLOT_ID xSlotId = 0;
+  96              		.loc 1 562 0
+  97 0018 08308DE5 		str	r3, [sp, #8]
+ 555:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                          CK_FUNCTION_LIST_PTR_PTR ppxFunctionList )
+  98              		.loc 1 555 0
+  99 001c 0180A0E1 		mov	r8, r1
+ 563:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     CK_SLOT_ID xSlotId = 0;
+ 100              		.loc 1 563 0
+ 101 0020 0C408DE5 		str	r4, [sp, #12]
+ 565:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 102              		.loc 1 565 0
+ 103 0024 FEFFFFEB 		bl	vPortEnterCritical
+ 104              	.LVL7:
+ 105              		.loc 1 567 0
+ 106 0028 003095E5 		ldr	r3, [r5]
+ 107 002c 9C609FE5 		ldr	r6, .L11+4
+ 108 0030 040053E1 		cmp	r3, r4
+ 109 0034 1C00001A 		bne	.L4
+ 110              	.LVL8:
+ 568:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 569:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         /* One-time initialization. */
+ 570:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 571:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         /* Ensure that the PKCS#11 module is initialized. */
+ 572:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         if( 0 == xResult )
+ 573:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         {
+ 574:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             pxCkGetFunctionList = C_GetFunctionList;
+ 575:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             xResult = pxCkGetFunctionList( &pxPkcs11FunctionList );
+ 111              		.loc 1 575 0
+ 112 0038 0600A0E1 		mov	r0, r6
+ 113 003c FEFFFFEB 		bl	C_GetFunctionList
+ 114              	.LVL9:
+ 576:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 577:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 578:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         if( 0 == xResult )
+ 115              		.loc 1 578 0
+ 116 0040 004050E2 		subs	r4, r0, #0
+ 117 0044 0300001A 		bne	.L5
+ 579:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         {
+ 580:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             xResult = pxPkcs11FunctionList->C_Initialize( NULL );
+ 118              		.loc 1 580 0
+ 119 0048 003096E5 		ldr	r3, [r6]
+ 120 004c 043093E5 		ldr	r3, [r3, #4]
+ 121 0050 33FF2FE1 		blx	r3
+ 122              	.LVL10:
+ 123 0054 0040A0E1 		mov	r4, r0
+ 124              	.LVL11:
+ 125              	.L5:
+ 581:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 582:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 583:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         /* Get the default slot ID. */
+ 584:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         if( ( 0 == xResult ) || ( CKR_CRYPTOKI_ALREADY_INITIALIZED == xResult ) )
+ 126              		.loc 1 584 0
+ 127 0058 913100E3 		movw	r3, #401
+ 128 005c 030054E1 		cmp	r4, r3
+ 129 0060 00005413 		cmpne	r4, #0
+ 130 0064 1000001A 		bne	.L4
+ 585:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         {
+ 586:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             xResult = pxPkcs11FunctionList->C_GetSlotList( CK_TRUE,
+ 131              		.loc 1 586 0
+ 132 0068 003096E5 		ldr	r3, [r6]
+ 133 006c 08208DE2 		add	r2, sp, #8
+ 134 0070 0C108DE2 		add	r1, sp, #12
+ 135 0074 0100A0E3 		mov	r0, #1
+ 136              	.LVL12:
+ 137 0078 143093E5 		ldr	r3, [r3, #20]
+ 138 007c 33FF2FE1 		blx	r3
+ 139              	.LVL13:
+ 587:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                            &xSlotId,
+ 588:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                            &ulCount );
+ 589:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 590:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 591:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         /* Start a session with the PKCS#11 module. */
+ 592:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         if( 0 == xResult )
+ 140              		.loc 1 592 0
+ 141 0080 004050E2 		subs	r4, r0, #0
+ 142 0084 0800001A 		bne	.L4
+ 593:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         {
+ 594:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             xResult = pxPkcs11FunctionList->C_OpenSession( xSlotId,
+ 143              		.loc 1 594 0
+ 144 0088 003096E5 		ldr	r3, [r6]
+ 145 008c 0420A0E1 		mov	r2, r4
+ 146 0090 00508DE5 		str	r5, [sp]
+ 147 0094 0410A0E3 		mov	r1, #4
+ 148 0098 0C009DE5 		ldr	r0, [sp, #12]
+ 149              	.LVL14:
+ 150 009c 349093E5 		ldr	r9, [r3, #52]
+ 151 00a0 0430A0E1 		mov	r3, r4
+ 152 00a4 39FF2FE1 		blx	r9
+ 153              	.LVL15:
+ 154 00a8 0040A0E1 		mov	r4, r0
+ 155              	.LVL16:
+ 156              	.L4:
+ 595:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                            CKF_SERIAL_SESSION,
+ 596:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                            NULL,
+ 597:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                            NULL,
+ 598:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                            &xPkcs11Session );
+ 599:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 600:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 601:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 602:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     portEXIT_CRITICAL();
+ 157              		.loc 1 602 0
+ 158 00ac FEFFFFEB 		bl	vPortExitCritical
+ 159              	.LVL17:
+ 603:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 604:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     /* Output the shared function pointers and session handle. */
+ 605:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     *ppxFunctionList = pxPkcs11FunctionList;
+ 160              		.loc 1 605 0
+ 161 00b0 003096E5 		ldr	r3, [r6]
+ 606:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     *pxSession = xPkcs11Session;
+ 607:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 608:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     return xResult;
+ 609:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** }
+ 162              		.loc 1 609 0
+ 163 00b4 0400A0E1 		mov	r0, r4
+ 605:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     *pxSession = xPkcs11Session;
+ 164              		.loc 1 605 0
+ 165 00b8 003088E5 		str	r3, [r8]
+ 606:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     *pxSession = xPkcs11Session;
+ 166              		.loc 1 606 0
+ 167 00bc 003095E5 		ldr	r3, [r5]
+ 168 00c0 003087E5 		str	r3, [r7]
+ 169              		.loc 1 609 0
+ 170 00c4 14D08DE2 		add	sp, sp, #20
+ 171              		.cfi_def_cfa_offset 28
+ 172              		@ sp needed
+ 173 00c8 F083BDE8 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 174              	.LVL18:
+ 175              	.L12:
+ 176              		.align	2
+ 177              	.L11:
+ 178 00cc 00000000 		.word	.LANCHOR0
+ 179 00d0 00000000 		.word	.LANCHOR1
+ 180              		.cfi_endproc
+ 181              	.LFE25:
+ 183              		.section	.text.SOCKETS_Close,"ax",%progbits
+ 184              		.align	2
+ 185              		.global	SOCKETS_Close
+ 186              		.syntax unified
+ 187              		.arm
+ 188              		.fpu neon
+ 190              	SOCKETS_Close:
+ 191              	.LFB13:
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     SSOCKETContextPtr_t pxContext = ( SSOCKETContextPtr_t ) xSocket; /*lint !e9087 cast used for po
+ 192              		.loc 1 115 0
+ 193              		.cfi_startproc
+ 194              		@ args = 0, pretend = 0, frame = 0
+ 195              		@ frame_needed = 0, uses_anonymous_args = 0
+ 196              	.LVL19:
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 197              		.loc 1 120 0
+ 198 0000 013040E2 		sub	r3, r0, #1
+ 199 0004 030073E3 		cmn	r3, #3
+ 200 0008 2400008A 		bhi	.L22
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     SSOCKETContextPtr_t pxContext = ( SSOCKETContextPtr_t ) xSocket; /*lint !e9087 cast used for po
+ 201              		.loc 1 115 0
+ 202 000c 70402DE9 		push	{r4, r5, r6, lr}
+ 203              		.cfi_def_cfa_offset 16
+ 204              		.cfi_offset 4, -16
+ 205              		.cfi_offset 5, -12
+ 206              		.cfi_offset 6, -8
+ 207              		.cfi_offset 14, -4
+ 208 0010 0040A0E1 		mov	r4, r0
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         {
+ 209              		.loc 1 123 0
+ 210 0014 040090E5 		ldr	r0, [r0, #4]
+ 211              	.LVL20:
+ 212 0018 000050E3 		cmp	r0, #0
+ 213 001c 0000000A 		beq	.L15
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 214              		.loc 1 125 0
+ 215 0020 FEFFFFEB 		bl	vPortFree
+ 216              	.LVL21:
+ 217              	.L15:
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         {
+ 218              		.loc 1 129 0
+ 219 0024 180094E5 		ldr	r0, [r4, #24]
+ 220 0028 000050E3 		cmp	r0, #0
+ 221 002c 0000000A 		beq	.L16
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 222              		.loc 1 131 0
+ 223 0030 FEFFFFEB 		bl	vPortFree
+ 224              	.LVL22:
+ 225              	.L16:
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         {
+ 226              		.loc 1 135 0
+ 227 0034 203094E5 		ldr	r3, [r4, #32]
+ 228 0038 000053E3 		cmp	r3, #0
+ 229 003c 0050A013 		movne	r5, #0
+ 230 0040 1000001A 		bne	.L18
+ 231              	.L17:
+ 151:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         {
+ 232              		.loc 1 151 0
+ 233 0044 0C3094E5 		ldr	r3, [r4, #12]
+ 234 0048 010053E3 		cmp	r3, #1
+ 235 004c 0100001A 		bne	.L21
+ 153:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 236              		.loc 1 153 0
+ 237 0050 080094E5 		ldr	r0, [r4, #8]
+ 238 0054 FEFFFFEB 		bl	TLS_Cleanup
+ 239              	.LVL23:
+ 240              	.L21:
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 241              		.loc 1 157 0
+ 242 0058 000094E5 		ldr	r0, [r4]
+ 243 005c FEFFFFEB 		bl	FreeRTOS_closesocket
+ 244              	.LVL24:
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         lReturn = SOCKETS_ERROR_NONE;
+ 245              		.loc 1 160 0
+ 246 0060 0400A0E1 		mov	r0, r4
+ 247 0064 FEFFFFEB 		bl	vPortFree
+ 248              	.LVL25:
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 249              		.loc 1 161 0
+ 250 0068 0000A0E3 		mov	r0, #0
+ 251 006c 7080BDE8 		pop	{r4, r5, r6, pc}
+ 252              	.LVL26:
+ 253              	.L20:
+ 141:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 254              		.loc 1 141 0
+ 255 0070 203094E5 		ldr	r3, [r4, #32]
+ 256 0074 050193E7 		ldr	r0, [r3, r5, lsl #2]
+ 257 0078 000050E3 		cmp	r0, #0
+ 258 007c 0000000A 		beq	.L19
+ 143:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 }
+ 259              		.loc 1 143 0
+ 260 0080 FEFFFFEB 		bl	vPortFree
+ 261              	.LVL27:
+ 262              	.L19:
+ 139:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             {
+ 263              		.loc 1 139 0
+ 264 0084 015085E2 		add	r5, r5, #1
+ 265              	.LVL28:
+ 266              	.L18:
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                  ulProtocol < pxContext->ulAlpnProtocolsCount;
+ 267              		.loc 1 137 0 discriminator 1
+ 268 0088 243094E5 		ldr	r3, [r4, #36]
+ 269 008c 030055E1 		cmp	r5, r3
+ 270 0090 F6FFFF3A 		bcc	.L20
+ 147:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 271              		.loc 1 147 0
+ 272 0094 200094E5 		ldr	r0, [r4, #32]
+ 273 0098 FEFFFFEB 		bl	vPortFree
+ 274              	.LVL29:
+ 275 009c E8FFFFEA 		b	.L17
+ 276              	.LVL30:
+ 277              	.L22:
+ 278              		.cfi_def_cfa_offset 0
+ 279              		.cfi_restore 4
+ 280              		.cfi_restore 5
+ 281              		.cfi_restore 6
+ 282              		.cfi_restore 14
+ 165:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 283              		.loc 1 165 0
+ 284 00a0 1500E0E3 		mvn	r0, #21
+ 285              	.LVL31:
+ 168:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** }
+ 286              		.loc 1 168 0
+ 287 00a4 1EFF2FE1 		bx	lr
+ 288              		.cfi_endproc
+ 289              	.LFE13:
+ 291              		.section	.text.SOCKETS_Connect,"ax",%progbits
+ 292              		.align	2
+ 293              		.global	SOCKETS_Connect
+ 294              		.syntax unified
+ 295              		.arm
+ 296              		.fpu neon
+ 298              	SOCKETS_Connect:
+ 299              	.LFB14:
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     int32_t lStatus = SOCKETS_ERROR_NONE;
+ 300              		.loc 1 175 0
+ 301              		.cfi_startproc
+ 302              		@ args = 0, pretend = 0, frame = 48
+ 303              		@ frame_needed = 0, uses_anonymous_args = 0
+ 304              	.LVL32:
+ 305 0000 F0402DE9 		push	{r4, r5, r6, r7, lr}
+ 306              		.cfi_def_cfa_offset 20
+ 307              		.cfi_offset 4, -20
+ 308              		.cfi_offset 5, -16
+ 309              		.cfi_offset 6, -12
+ 310              		.cfi_offset 7, -8
+ 311              		.cfi_offset 14, -4
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     struct freertos_sockaddr xTempAddress = { 0 };
+ 312              		.loc 1 178 0
+ 313 0004 2460A0E3 		mov	r6, #36
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     int32_t lStatus = SOCKETS_ERROR_NONE;
+ 314              		.loc 1 175 0
+ 315 0008 34D04DE2 		sub	sp, sp, #52
+ 316              		.cfi_def_cfa_offset 72
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     int32_t lStatus = SOCKETS_ERROR_NONE;
+ 317              		.loc 1 175 0
+ 318 000c 0040A0E1 		mov	r4, r0
+ 319              	.LVL33:
+ 320 0010 0150A0E1 		mov	r5, r1
+ 321 0014 0270A0E1 		mov	r7, r2
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     struct freertos_sockaddr xTempAddress = { 0 };
+ 322              		.loc 1 178 0
+ 323 0018 0010A0E3 		mov	r1, #0
+ 324              	.LVL34:
+ 325 001c 0620A0E1 		mov	r2, r6
+ 326              	.LVL35:
+ 327 0020 0C008DE2 		add	r0, sp, #12
+ 328              	.LVL36:
+ 329 0024 FEFFFFEB 		bl	memset
+ 330              	.LVL37:
+ 181:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 331              		.loc 1 181 0
+ 332 0028 000055E3 		cmp	r5, #0
+ 333 002c 01007413 		cmnne	r4, #1
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 334              		.loc 1 221 0
+ 335 0030 0000E003 		mvneq	r0, #0
+ 181:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 336              		.loc 1 181 0
+ 337 0034 2C00000A 		beq	.L39
+ 185:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 338              		.loc 1 185 0
+ 339 0038 0130A0E3 		mov	r3, #1
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 340              		.loc 1 192 0
+ 341 003c 0720A0E1 		mov	r2, r7
+ 185:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 342              		.loc 1 185 0
+ 343 0040 283084E5 		str	r3, [r4, #40]
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 344              		.loc 1 192 0
+ 345 0044 04108DE2 		add	r1, sp, #4
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         xTempAddress.sin_family = pxAddress->ucSocketDomain;
+ 346              		.loc 1 188 0
+ 347 0048 043095E5 		ldr	r3, [r5, #4]
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 348              		.loc 1 192 0
+ 349 004c 000094E5 		ldr	r0, [r4]
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         xTempAddress.sin_family = pxAddress->ucSocketDomain;
+ 350              		.loc 1 188 0
+ 351 0050 08308DE5 		str	r3, [sp, #8]
+ 189:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         xTempAddress.sin_len = ( uint8_t ) sizeof( xTempAddress );
+ 352              		.loc 1 189 0
+ 353 0054 0130D5E5 		ldrb	r3, [r5, #1]	@ zero_extendqisi2
+ 354 0058 0530CDE5 		strb	r3, [sp, #5]
+ 190:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         xTempAddress.sin_port = pxAddress->usPort;
+ 355              		.loc 1 190 0
+ 356 005c 0830A0E3 		mov	r3, #8
+ 357 0060 0430CDE5 		strb	r3, [sp, #4]
+ 191:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         lStatus = FreeRTOS_connect( pxContext->xSocket, &xTempAddress, xAddressLength );
+ 358              		.loc 1 191 0
+ 359 0064 B230D5E1 		ldrh	r3, [r5, #2]
+ 360 0068 B630CDE1 		strh	r3, [sp, #6]	@ movhi
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 361              		.loc 1 192 0
+ 362 006c FEFFFFEB 		bl	FreeRTOS_connect
+ 363              	.LVL38:
+ 195:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         {
+ 364              		.loc 1 195 0
+ 365 0070 000050E3 		cmp	r0, #0
+ 366 0074 1C00001A 		bne	.L39
+ 195:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         {
+ 367              		.loc 1 195 0 is_stmt 0 discriminator 1
+ 368 0078 0C3094E5 		ldr	r3, [r4, #12]
+ 369 007c 010053E3 		cmp	r3, #1
+ 370 0080 1900001A 		bne	.L39
+ 198:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             xTLSParams.pcServerCertificate = pxContext->pcServerCertificate;
+ 371              		.loc 1 198 0 is_stmt 1
+ 372 0084 043094E5 		ldr	r3, [r4, #4]
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 373              		.loc 1 206 0
+ 374 0088 0C108DE2 		add	r1, sp, #12
+ 375 008c 080084E2 		add	r0, r4, #8
+ 376              	.LVL39:
+ 197:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             xTLSParams.pcDestination = pxContext->pcDestination;
+ 377              		.loc 1 197 0
+ 378 0090 0C608DE5 		str	r6, [sp, #12]
+ 203:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             xTLSParams.pxNetworkRecv = prvNetworkRecv;
+ 379              		.loc 1 203 0
+ 380 0094 2C408DE5 		str	r4, [sp, #44]
+ 198:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             xTLSParams.pcServerCertificate = pxContext->pcServerCertificate;
+ 381              		.loc 1 198 0
+ 382 0098 10308DE5 		str	r3, [sp, #16]
+ 199:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             xTLSParams.ulServerCertificateLength = pxContext->ulServerCertificateLength;
+ 383              		.loc 1 199 0
+ 384 009c 183094E5 		ldr	r3, [r4, #24]
+ 385 00a0 14308DE5 		str	r3, [sp, #20]
+ 200:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             xTLSParams.ppcAlpnProtocols = ( const char ** ) pxContext->ppcAlpnProtocols;
+ 386              		.loc 1 200 0
+ 387 00a4 1C3094E5 		ldr	r3, [r4, #28]
+ 388 00a8 18308DE5 		str	r3, [sp, #24]
+ 201:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             xTLSParams.ulAlpnProtocolsCount = pxContext->ulAlpnProtocolsCount;
+ 389              		.loc 1 201 0
+ 390 00ac 203094E5 		ldr	r3, [r4, #32]
+ 391 00b0 1C308DE5 		str	r3, [sp, #28]
+ 202:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             xTLSParams.pvCallerContext = pxContext;
+ 392              		.loc 1 202 0
+ 393 00b4 243094E5 		ldr	r3, [r4, #36]
+ 394 00b8 20308DE5 		str	r3, [sp, #32]
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             xTLSParams.pxNetworkSend = prvNetworkSend;
+ 395              		.loc 1 204 0
+ 396 00bc 30309FE5 		ldr	r3, .L43
+ 397 00c0 24308DE5 		str	r3, [sp, #36]
+ 205:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             lStatus = TLS_Init( &pxContext->pvTLSContext, &xTLSParams );
+ 398              		.loc 1 205 0
+ 399 00c4 2C309FE5 		ldr	r3, .L43+4
+ 400 00c8 28308DE5 		str	r3, [sp, #40]
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 401              		.loc 1 206 0
+ 402 00cc FEFFFFEB 		bl	TLS_Init
+ 403              	.LVL40:
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             {
+ 404              		.loc 1 208 0
+ 405 00d0 000050E3 		cmp	r0, #0
+ 406 00d4 0400001A 		bne	.L39
+ 210:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 407              		.loc 1 210 0
+ 408 00d8 080094E5 		ldr	r0, [r4, #8]
+ 409              	.LVL41:
+ 410 00dc FEFFFFEB 		bl	TLS_Connect
+ 411              	.LVL42:
+ 214:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 }
+ 412              		.loc 1 214 0
+ 413 00e0 14309FE5 		ldr	r3, .L43+8
+ 414 00e4 000050E3 		cmp	r0, #0
+ 415 00e8 0300A0B1 		movlt	r0, r3
+ 416              	.LVL43:
+ 417              	.L39:
+ 225:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /*-----------------------------------------------------------*/
+ 418              		.loc 1 225 0
+ 419 00ec 34D08DE2 		add	sp, sp, #52
+ 420              		.cfi_def_cfa_offset 20
+ 421              		@ sp needed
+ 422 00f0 F080BDE8 		pop	{r4, r5, r6, r7, pc}
+ 423              	.LVL44:
+ 424              	.L44:
+ 425              		.align	2
+ 426              	.L43:
+ 427 00f4 00000000 		.word	prvNetworkRecv
+ 428 00f8 00000000 		.word	prvNetworkSend
+ 429 00fc 16FCFFFF 		.word	-1002
+ 430              		.cfi_endproc
+ 431              	.LFE14:
+ 433              		.section	.text.SOCKETS_GetHostByName,"ax",%progbits
+ 434              		.align	2
+ 435              		.global	SOCKETS_GetHostByName
+ 436              		.syntax unified
+ 437              		.arm
+ 438              		.fpu neon
+ 440              	SOCKETS_GetHostByName:
+ 441              	.LFB15:
+ 229:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     return FreeRTOS_gethostbyname( pcHostName );
+ 442              		.loc 1 229 0
+ 443              		.cfi_startproc
+ 444              		@ args = 0, pretend = 0, frame = 0
+ 445              		@ frame_needed = 0, uses_anonymous_args = 0
+ 446              		@ link register save eliminated.
+ 447              	.LVL45:
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** }
+ 448              		.loc 1 230 0
+ 449 0000 FEFFFFEA 		b	FreeRTOS_gethostbyname
+ 450              	.LVL46:
+ 451              		.cfi_endproc
+ 452              	.LFE15:
+ 454              		.section	.text.SOCKETS_Recv,"ax",%progbits
+ 455              		.align	2
+ 456              		.global	SOCKETS_Recv
+ 457              		.syntax unified
+ 458              		.arm
+ 459              		.fpu neon
+ 461              	SOCKETS_Recv:
+ 462              	.LFB16:
+ 238:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     int32_t lStatus = SOCKETS_SOCKET_ERROR;
+ 463              		.loc 1 238 0
+ 464              		.cfi_startproc
+ 465              		@ args = 0, pretend = 0, frame = 0
+ 466              		@ frame_needed = 0, uses_anonymous_args = 0
+ 467              		@ link register save eliminated.
+ 468              	.LVL47:
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         ( pvBuffer != NULL ) )
+ 469              		.loc 1 242 0
+ 470 0000 000051E3 		cmp	r1, #0
+ 471 0004 01007013 		cmnne	r0, #1
+ 472 0008 0600000A 		beq	.L47
+ 245:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 473              		.loc 1 245 0
+ 474 000c 143080E5 		str	r3, [r0, #20]
+ 247:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         {
+ 475              		.loc 1 247 0
+ 476 0010 0C3090E5 		ldr	r3, [r0, #12]
+ 477              	.LVL48:
+ 478 0014 010053E3 		cmp	r3, #1
+ 479 0018 0100001A 		bne	.L48
+ 250:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 480              		.loc 1 250 0
+ 481 001c 080090E5 		ldr	r0, [r0, #8]
+ 482              	.LVL49:
+ 483 0020 FEFFFFEA 		b	TLS_Recv
+ 484              	.LVL50:
+ 485              	.L48:
+ 255:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 486              		.loc 1 255 0
+ 487 0024 FEFFFFEA 		b	prvNetworkRecv
+ 488              	.LVL51:
+ 489              	.L47:
+ 264:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /*-----------------------------------------------------------*/
+ 490              		.loc 1 264 0
+ 491 0028 1500E0E3 		mvn	r0, #21
+ 492              	.LVL52:
+ 493 002c 1EFF2FE1 		bx	lr
+ 494              		.cfi_endproc
+ 495              	.LFE16:
+ 497              		.section	.text.SOCKETS_Send,"ax",%progbits
+ 498              		.align	2
+ 499              		.global	SOCKETS_Send
+ 500              		.syntax unified
+ 501              		.arm
+ 502              		.fpu neon
+ 504              	SOCKETS_Send:
+ 505              	.LFB17:
+ 271:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     int32_t lStatus = SOCKETS_SOCKET_ERROR;
+ 506              		.loc 1 271 0
+ 507              		.cfi_startproc
+ 508              		@ args = 0, pretend = 0, frame = 0
+ 509              		@ frame_needed = 0, uses_anonymous_args = 0
+ 510              		@ link register save eliminated.
+ 511              	.LVL53:
+ 275:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         ( pvBuffer != NULL ) )
+ 512              		.loc 1 275 0
+ 513 0000 000051E3 		cmp	r1, #0
+ 514 0004 01007013 		cmnne	r0, #1
+ 515 0008 0600000A 		beq	.L50
+ 278:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 516              		.loc 1 278 0
+ 517 000c 103080E5 		str	r3, [r0, #16]
+ 280:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         {
+ 518              		.loc 1 280 0
+ 519 0010 0C3090E5 		ldr	r3, [r0, #12]
+ 520              	.LVL54:
+ 521 0014 010053E3 		cmp	r3, #1
+ 522 0018 0100001A 		bne	.L51
+ 283:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 523              		.loc 1 283 0
+ 524 001c 080090E5 		ldr	r0, [r0, #8]
+ 525              	.LVL55:
+ 526 0020 FEFFFFEA 		b	TLS_Send
+ 527              	.LVL56:
+ 528              	.L51:
+ 288:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 529              		.loc 1 288 0
+ 530 0024 FEFFFFEA 		b	prvNetworkSend
+ 531              	.LVL57:
+ 532              	.L50:
+ 297:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /*-----------------------------------------------------------*/
+ 533              		.loc 1 297 0
+ 534 0028 1500E0E3 		mvn	r0, #21
+ 535              	.LVL58:
+ 536 002c 1EFF2FE1 		bx	lr
+ 537              		.cfi_endproc
+ 538              	.LFE17:
+ 540              		.section	.text.SOCKETS_SetSockOpt,"ax",%progbits
+ 541              		.align	2
+ 542              		.global	SOCKETS_SetSockOpt
+ 543              		.syntax unified
+ 544              		.arm
+ 545              		.fpu neon
+ 547              	SOCKETS_SetSockOpt:
+ 548              	.LFB18:
+ 305:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     int32_t lStatus = SOCKETS_ERROR_NONE;
+ 549              		.loc 1 305 0
+ 550              		.cfi_startproc
+ 551              		@ args = 4, pretend = 0, frame = 8
+ 552              		@ frame_needed = 0, uses_anonymous_args = 0
+ 553              	.LVL59:
+ 313:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 554              		.loc 1 313 0
+ 555 0000 01C040E2 		sub	ip, r0, #1
+ 305:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     int32_t lStatus = SOCKETS_ERROR_NONE;
+ 556              		.loc 1 305 0
+ 557 0004 F0432DE9 		push	{r4, r5, r6, r7, r8, r9, lr}
+ 558              		.cfi_def_cfa_offset 28
+ 559              		.cfi_offset 4, -28
+ 560              		.cfi_offset 5, -24
+ 561              		.cfi_offset 6, -20
+ 562              		.cfi_offset 7, -16
+ 563              		.cfi_offset 8, -12
+ 564              		.cfi_offset 9, -8
+ 565              		.cfi_offset 14, -4
+ 313:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 566              		.loc 1 313 0
+ 567 0008 03007CE3 		cmn	ip, #3
+ 305:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     int32_t lStatus = SOCKETS_ERROR_NONE;
+ 568              		.loc 1 305 0
+ 569 000c 14D04DE2 		sub	sp, sp, #20
+ 570              		.cfi_def_cfa_offset 48
+ 483:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 571              		.loc 1 483 0
+ 572 0010 1500E083 		mvnhi	r0, #21
+ 573              	.LVL60:
+ 305:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     int32_t lStatus = SOCKETS_ERROR_NONE;
+ 574              		.loc 1 305 0
+ 575 0014 30509DE5 		ldr	r5, [sp, #48]
+ 313:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 576              		.loc 1 313 0
+ 577 0018 1400008A 		bhi	.L52
+ 578 001c 0360A0E1 		mov	r6, r3
+ 579 0020 0170A0E1 		mov	r7, r1
+ 580 0024 0040A0E1 		mov	r4, r0
+ 315:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         {
+ 581              		.loc 1 315 0
+ 582 0028 0A0052E3 		cmp	r2, #10
+ 583 002c 02F19F97 		ldrls	pc, [pc, r2, asl #2]
+ 584 0030 7B0000EA 		b	.L54
+ 585              	.L56:
+ 586 0034 08020000 		.word	.L55
+ 587 0038 08020000 		.word	.L55
+ 588 003c 24020000 		.word	.L54
+ 589 0040 24020000 		.word	.L54
+ 590 0044 24020000 		.word	.L54
+ 591 0048 24020000 		.word	.L54
+ 592 004c 60000000 		.word	.L57
+ 593 0050 B0000000 		.word	.L58
+ 594 0054 E8000000 		.word	.L59
+ 595 0058 BC010000 		.word	.L60
+ 596 005c 00010000 		.word	.L61
+ 597              	.L57:
+ 320:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 598              		.loc 1 320 0
+ 599 0060 283090E5 		ldr	r3, [r0, #40]
+ 600              	.LVL61:
+ 601 0064 010053E3 		cmp	r3, #1
+ 602 0068 0200001A 		bne	.L62
+ 603              	.LVL62:
+ 604              	.L64:
+ 322:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 }
+ 605              		.loc 1 322 0
+ 606 006c 7E00E0E3 		mvn	r0, #126
+ 607              	.LVL63:
+ 608              	.L52:
+ 487:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /*-----------------------------------------------------------*/
+ 609              		.loc 1 487 0
+ 610 0070 14D08DE2 		add	sp, sp, #20
+ 611              		.cfi_remember_state
+ 612              		.cfi_def_cfa_offset 28
+ 613              		@ sp needed
+ 614 0074 F083BDE8 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 615              	.LVL64:
+ 616              	.L62:
+ 617              		.cfi_restore_state
+ 328:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 618              		.loc 1 328 0
+ 619 0078 010085E2 		add	r0, r5, #1
+ 620 007c FEFFFFEB 		bl	pvPortMalloc
+ 621              	.LVL65:
+ 327:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                        ( char * ) pvPortMalloc( 1U + xOptionLength ) ) )
+ 622              		.loc 1 327 0
+ 623 0080 000050E3 		cmp	r0, #0
+ 624 0084 040084E5 		str	r0, [r4, #4]
+ 625 0088 0100001A 		bne	.L63
+ 626              	.L65:
+ 330:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 }
+ 627              		.loc 1 330 0
+ 628 008c 0B00E0E3 		mvn	r0, #11
+ 629 0090 F6FFFFEA 		b	.L52
+ 630              	.L63:
+ 334:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     pxContext->pcDestination[ xOptionLength ] = '\0';
+ 631              		.loc 1 334 0
+ 632 0094 0520A0E1 		mov	r2, r5
+ 633 0098 0610A0E1 		mov	r1, r6
+ 634 009c FEFFFFEB 		bl	memcpy
+ 635              	.LVL66:
+ 335:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 }
+ 636              		.loc 1 335 0
+ 637 00a0 043094E5 		ldr	r3, [r4, #4]
+ 638 00a4 0000A0E3 		mov	r0, #0
+ 639 00a8 0500C3E7 		strb	r0, [r3, r5]
+ 640 00ac EFFFFFEA 		b	.L52
+ 641              	.LVL67:
+ 642              	.L58:
+ 343:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 643              		.loc 1 343 0
+ 644 00b0 283090E5 		ldr	r3, [r0, #40]
+ 645              	.LVL68:
+ 646 00b4 010053E3 		cmp	r3, #1
+ 647 00b8 EBFFFF0A 		beq	.L64
+ 351:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 648              		.loc 1 351 0
+ 649 00bc 0500A0E1 		mov	r0, r5
+ 650 00c0 FEFFFFEB 		bl	pvPortMalloc
+ 651              	.LVL69:
+ 350:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                        ( char * ) pvPortMalloc( xOptionLength ) ) )
+ 652              		.loc 1 350 0
+ 653 00c4 000050E3 		cmp	r0, #0
+ 654 00c8 180084E5 		str	r0, [r4, #24]
+ 655 00cc EEFFFF0A 		beq	.L65
+ 357:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     pxContext->ulServerCertificateLength = xOptionLength;
+ 656              		.loc 1 357 0
+ 657 00d0 0520A0E1 		mov	r2, r5
+ 658 00d4 0610A0E1 		mov	r1, r6
+ 659 00d8 FEFFFFEB 		bl	memcpy
+ 660              	.LVL70:
+ 358:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 }
+ 661              		.loc 1 358 0
+ 662 00dc 1C5084E5 		str	r5, [r4, #28]
+ 663              	.L91:
+ 306:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     TickType_t xTimeout;
+ 664              		.loc 1 306 0
+ 665 00e0 0000A0E3 		mov	r0, #0
+ 666 00e4 E1FFFFEA 		b	.L52
+ 667              	.LVL71:
+ 668              	.L59:
+ 366:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 669              		.loc 1 366 0
+ 670 00e8 283090E5 		ldr	r3, [r0, #40]
+ 671              	.LVL72:
+ 672 00ec 010053E3 		cmp	r3, #1
+ 673 00f0 DDFFFF0A 		beq	.L64
+ 372:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 }
+ 674              		.loc 1 372 0
+ 675 00f4 0130A0E3 		mov	r3, #1
+ 676 00f8 0C3080E5 		str	r3, [r0, #12]
+ 677 00fc F7FFFFEA 		b	.L91
+ 678              	.LVL73:
+ 679              	.L61:
+ 380:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 680              		.loc 1 380 0
+ 681 0100 283090E5 		ldr	r3, [r0, #40]
+ 682              	.LVL74:
+ 683 0104 010053E3 		cmp	r3, #1
+ 684 0108 D7FFFF0A 		beq	.L64
+ 387:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 685              		.loc 1 387 0
+ 686 010c 010085E2 		add	r0, r5, #1
+ 687 0110 240084E5 		str	r0, [r4, #36]
+ 390:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 688              		.loc 1 390 0
+ 689 0114 0001A0E1 		lsl	r0, r0, #2
+ 690 0118 FEFFFFEB 		bl	pvPortMalloc
+ 691              	.LVL75:
+ 389:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                   ( char ** ) pvPortMalloc( pxContext->ulAlpnProtocolsCount * sizeo
+ 692              		.loc 1 389 0
+ 693 011c 000050E3 		cmp	r0, #0
+ 694 0120 200084E5 		str	r0, [r4, #32]
+ 695 0124 D8FFFF0A 		beq	.L65
+ 399:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 }
+ 696              		.loc 1 399 0
+ 697 0128 242094E5 		ldr	r2, [r4, #36]
+ 397:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                             0,
+ 698              		.loc 1 397 0
+ 699 012c 0050A0E3 		mov	r5, #0
+ 700 0130 0010A0E3 		mov	r1, #0
+ 420:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     }
+ 701              		.loc 1 420 0
+ 702 0134 0570A0E1 		mov	r7, r5
+ 703              	.LVL76:
+ 397:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                             0,
+ 704              		.loc 1 397 0
+ 705 0138 0221A0E1 		lsl	r2, r2, #2
+ 706 013c FEFFFFEB 		bl	memset
+ 707              	.LVL77:
+ 306:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     TickType_t xTimeout;
+ 708              		.loc 1 306 0
+ 709 0140 0500A0E1 		mov	r0, r5
+ 710              	.LVL78:
+ 711              	.L66:
+ 404:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                      ( pdFREERTOS_ERRNO_NONE == lStatus );
+ 712              		.loc 1 404 0 discriminator 1
+ 713 0144 243094E5 		ldr	r3, [r4, #36]
+ 714 0148 013043E2 		sub	r3, r3, #1
+ 715 014c 030055E1 		cmp	r5, r3
+ 716 0150 0030A023 		movcs	r3, #0
+ 717 0154 0130A033 		movcc	r3, #1
+ 718 0158 000050E3 		cmp	r0, #0
+ 719 015c 0030A013 		movne	r3, #0
+ 720 0160 000053E3 		cmp	r3, #0
+ 721 0164 C1FFFF0A 		beq	.L52
+ 408:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 722              		.loc 1 408 0
+ 723 0168 050196E7 		ldr	r0, [r6, r5, lsl #2]
+ 724              	.LVL79:
+ 725 016c FEFFFFEB 		bl	strlen
+ 726              	.LVL80:
+ 410:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                       ( char * ) pvPortMalloc( 1 + xLength ) ) )
+ 727              		.loc 1 410 0
+ 728 0170 209094E5 		ldr	r9, [r4, #32]
+ 408:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 729              		.loc 1 408 0
+ 730 0174 0080A0E1 		mov	r8, r0
+ 731              	.LVL81:
+ 411:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     {
+ 732              		.loc 1 411 0
+ 733 0178 010080E2 		add	r0, r0, #1
+ 734              	.LVL82:
+ 735 017c FEFFFFEB 		bl	pvPortMalloc
+ 736              	.LVL83:
+ 410:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                       ( char * ) pvPortMalloc( 1 + xLength ) ) )
+ 737              		.loc 1 410 0
+ 738 0180 000050E3 		cmp	r0, #0
+ 739 0184 050189E7 		str	r0, [r9, r5, lsl #2]
+ 413:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     }
+ 740              		.loc 1 413 0
+ 741 0188 0B00E003 		mvneq	r0, #11
+ 410:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                       ( char * ) pvPortMalloc( 1 + xLength ) ) )
+ 742              		.loc 1 410 0
+ 743 018c 0800000A 		beq	.L67
+ 417:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                 ppcAlpnIn[ ulProtocol ],
+ 744              		.loc 1 417 0
+ 745 0190 203094E5 		ldr	r3, [r4, #32]
+ 746 0194 0820A0E1 		mov	r2, r8
+ 747 0198 051196E7 		ldr	r1, [r6, r5, lsl #2]
+ 748 019c 050193E7 		ldr	r0, [r3, r5, lsl #2]
+ 749 01a0 FEFFFFEB 		bl	memcpy
+ 750              	.LVL84:
+ 420:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     }
+ 751              		.loc 1 420 0
+ 752 01a4 203094E5 		ldr	r3, [r4, #32]
+ 753 01a8 0000A0E3 		mov	r0, #0
+ 754 01ac 053193E7 		ldr	r3, [r3, r5, lsl #2]
+ 755 01b0 0870C3E7 		strb	r7, [r3, r8]
+ 756              	.L67:
+ 757              	.LVL85:
+ 406:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 758              		.loc 1 406 0
+ 759 01b4 015085E2 		add	r5, r5, #1
+ 760              	.LVL86:
+ 761 01b8 E1FFFFEA 		b	.L66
+ 762              	.LVL87:
+ 763              	.L60:
+ 431:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 764              		.loc 1 431 0
+ 765 01bc 285090E5 		ldr	r5, [r0, #40]
+ 427:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 766              		.loc 1 427 0
+ 767 01c0 0020A0E3 		mov	r2, #0
+ 768              	.LVL88:
+ 769 01c4 0C208DE5 		str	r2, [sp, #12]
+ 431:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 770              		.loc 1 431 0
+ 771 01c8 010055E3 		cmp	r5, #1
+ 772 01cc A6FFFF1A 		bne	.L64
+ 433:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                    lLevel,
+ 773              		.loc 1 433 0
+ 774 01d0 0460A0E3 		mov	r6, #4
+ 775 01d4 0C308DE2 		add	r3, sp, #12
+ 776              	.LVL89:
+ 777 01d8 00608DE5 		str	r6, [sp]
+ 778 01dc 000090E5 		ldr	r0, [r0]
+ 779 01e0 FEFFFFEB 		bl	FreeRTOS_setsockopt
+ 780              	.LVL90:
+ 439:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     {
+ 781              		.loc 1 439 0
+ 782 01e4 000050E3 		cmp	r0, #0
+ 441:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                        lLevel,
+ 783              		.loc 1 441 0
+ 784 01e8 00608D05 		streq	r6, [sp]
+ 785 01ec 0C308D02 		addeq	r3, sp, #12
+ 786 01f0 0520A001 		moveq	r2, r5
+ 439:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                     {
+ 787              		.loc 1 439 0
+ 788 01f4 9DFFFF1A 		bne	.L52
+ 789              	.LVL91:
+ 790              	.L90:
+ 473:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                lLevel,
+ 791              		.loc 1 473 0
+ 792 01f8 0710A0E1 		mov	r1, r7
+ 793 01fc 000094E5 		ldr	r0, [r4]
+ 794 0200 FEFFFFEB 		bl	FreeRTOS_setsockopt
+ 795              	.LVL92:
+ 478:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 796              		.loc 1 478 0
+ 797 0204 99FFFFEA 		b	.L52
+ 798              	.LVL93:
+ 799              	.L55:
+ 458:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 800              		.loc 1 458 0
+ 801 0208 003093E5 		ldr	r3, [r3]
+ 802              	.LVL94:
+ 465:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                lLevel,
+ 803              		.loc 1 465 0
+ 804 020c 00508DE5 		str	r5, [sp]
+ 460:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 {
+ 805              		.loc 1 460 0
+ 806 0210 000053E3 		cmp	r3, #0
+ 462:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 }
+ 807              		.loc 1 462 0
+ 808 0214 0030E003 		mvneq	r3, #0
+ 809 0218 0C308DE5 		str	r3, [sp, #12]
+ 465:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                lLevel,
+ 810              		.loc 1 465 0
+ 811 021c 0C308DE2 		add	r3, sp, #12
+ 812 0220 F4FFFFEA 		b	.L90
+ 813              	.LVL95:
+ 814              	.L54:
+ 473:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                lLevel,
+ 815              		.loc 1 473 0
+ 816 0224 00508DE5 		str	r5, [sp]
+ 817 0228 F2FFFFEA 		b	.L90
+ 818              		.cfi_endproc
+ 819              	.LFE18:
+ 821              		.section	.text.SOCKETS_Shutdown,"ax",%progbits
+ 822              		.align	2
+ 823              		.global	SOCKETS_Shutdown
+ 824              		.syntax unified
+ 825              		.arm
+ 826              		.fpu neon
+ 828              	SOCKETS_Shutdown:
+ 829              	.LFB19:
+ 492:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     int32_t lReturn;
+ 830              		.loc 1 492 0
+ 831              		.cfi_startproc
+ 832              		@ args = 0, pretend = 0, frame = 0
+ 833              		@ frame_needed = 0, uses_anonymous_args = 0
+ 834              		@ link register save eliminated.
+ 835              	.LVL96:
+ 496:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 836              		.loc 1 496 0
+ 837 0000 013040E2 		sub	r3, r0, #1
+ 838 0004 030073E3 		cmn	r3, #3
+ 839 0008 0100008A 		bhi	.L93
+ 498:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 840              		.loc 1 498 0
+ 841 000c 000090E5 		ldr	r0, [r0]
+ 842              	.LVL97:
+ 843 0010 FEFFFFEA 		b	FreeRTOS_shutdown
+ 844              	.LVL98:
+ 845              	.L93:
+ 506:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /*-----------------------------------------------------------*/
+ 846              		.loc 1 506 0
+ 847 0014 1500E0E3 		mvn	r0, #21
+ 848              	.LVL99:
+ 849 0018 1EFF2FE1 		bx	lr
+ 850              		.cfi_endproc
+ 851              	.LFE19:
+ 853              		.section	.text.SOCKETS_Socket,"ax",%progbits
+ 854              		.align	2
+ 855              		.global	SOCKETS_Socket
+ 856              		.syntax unified
+ 857              		.arm
+ 858              		.fpu neon
+ 860              	SOCKETS_Socket:
+ 861              	.LFB20:
+ 512:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     SSOCKETContextPtr_t pxContext = NULL;
+ 862              		.loc 1 512 0
+ 863              		.cfi_startproc
+ 864              		@ args = 0, pretend = 0, frame = 0
+ 865              		@ frame_needed = 0, uses_anonymous_args = 0
+ 866              	.LVL100:
+ 517:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     configASSERT( lType == SOCKETS_SOCK_STREAM );
+ 867              		.loc 1 517 0
+ 868 0000 020050E3 		cmp	r0, #2
+ 512:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     SSOCKETContextPtr_t pxContext = NULL;
+ 869              		.loc 1 512 0
+ 870 0004 70402DE9 		push	{r4, r5, r6, lr}
+ 871              		.cfi_def_cfa_offset 16
+ 872              		.cfi_offset 4, -16
+ 873              		.cfi_offset 5, -12
+ 874              		.cfi_offset 6, -8
+ 875              		.cfi_offset 14, -4
+ 517:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     configASSERT( lType == SOCKETS_SOCK_STREAM );
+ 876              		.loc 1 517 0
+ 877 0008 0200000A 		beq	.L95
+ 878              	.L96:
+ 517:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     configASSERT( lType == SOCKETS_SOCK_STREAM );
+ 879              		.loc 1 517 0 is_stmt 0 discriminator 1
+ 880 000c 0110A0E3 		mov	r1, #1
+ 881              	.LVL101:
+ 882 0010 5C009FE5 		ldr	r0, .L101
+ 883              	.LVL102:
+ 884 0014 FEFFFFEB 		bl	longjmp
+ 885              	.LVL103:
+ 886              	.L95:
+ 518:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     configASSERT( lProtocol == SOCKETS_IPPROTO_TCP );
+ 887              		.loc 1 518 0 is_stmt 1
+ 888 0018 010051E3 		cmp	r1, #1
+ 889 001c FAFFFF1A 		bne	.L96
+ 519:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 890              		.loc 1 519 0
+ 891 0020 060052E3 		cmp	r2, #6
+ 892 0024 F8FFFF1A 		bne	.L96
+ 522:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 893              		.loc 1 522 0
+ 894 0028 FEFFFFEB 		bl	FreeRTOS_socket
+ 895              	.LVL104:
+ 524:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 896              		.loc 1 524 0
+ 897 002c 010070E3 		cmn	r0, #1
+ 522:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 898              		.loc 1 522 0
+ 899 0030 0050A0E1 		mov	r5, r0
+ 900              	.LVL105:
+ 541:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 901              		.loc 1 541 0
+ 902 0034 0040A001 		moveq	r4, r0
+ 524:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 903              		.loc 1 524 0
+ 904 0038 0600000A 		beq	.L97
+ 527:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         {
+ 905              		.loc 1 527 0
+ 906 003c 2C00A0E3 		mov	r0, #44
+ 907              	.LVL106:
+ 908 0040 FEFFFFEB 		bl	pvPortMalloc
+ 909              	.LVL107:
+ 910 0044 004050E2 		subs	r4, r0, #0
+ 911 0048 0400001A 		bne	.L98
+ 531:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 912              		.loc 1 531 0
+ 913 004c 0040E0E3 		mvn	r4, #0
+ 530:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             pxContext = SOCKETS_INVALID_SOCKET;
+ 914              		.loc 1 530 0
+ 915 0050 0500A0E1 		mov	r0, r5
+ 916              	.LVL108:
+ 917 0054 FEFFFFEB 		bl	FreeRTOS_closesocket
+ 918              	.LVL109:
+ 919              	.L97:
+ 545:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /*-----------------------------------------------------------*/
+ 920              		.loc 1 545 0
+ 921 0058 0400A0E1 		mov	r0, r4
+ 922 005c 7080BDE8 		pop	{r4, r5, r6, pc}
+ 923              	.LVL110:
+ 924              	.L98:
+ 535:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             pxContext->xSocket = xSocket;
+ 925              		.loc 1 535 0
+ 926 0060 2C20A0E3 		mov	r2, #44
+ 927 0064 0010A0E3 		mov	r1, #0
+ 928 0068 FEFFFFEB 		bl	memset
+ 929              	.LVL111:
+ 536:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 930              		.loc 1 536 0
+ 931 006c 005084E5 		str	r5, [r4]
+ 932 0070 F8FFFFEA 		b	.L97
+ 933              	.L102:
+ 934              		.align	2
+ 935              	.L101:
+ 936 0074 28000000 		.word	Unity+40
+ 937              		.cfi_endproc
+ 938              	.LFE20:
+ 940              		.section	.text.SOCKETS_Init,"ax",%progbits
+ 941              		.align	2
+ 942              		.global	SOCKETS_Init
+ 943              		.syntax unified
+ 944              		.arm
+ 945              		.fpu neon
+ 947              	SOCKETS_Init:
+ 948              	.LFB21:
+ 549:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     /* Empty initialization for this port. */
+ 949              		.loc 1 549 0
+ 950              		.cfi_startproc
+ 951              		@ args = 0, pretend = 0, frame = 0
+ 952              		@ frame_needed = 0, uses_anonymous_args = 0
+ 953              		@ link register save eliminated.
+ 552:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /*-----------------------------------------------------------*/
+ 954              		.loc 1 552 0
+ 955 0000 0100A0E3 		mov	r0, #1
+ 956 0004 1EFF2FE1 		bx	lr
+ 957              		.cfi_endproc
+ 958              	.LFE21:
+ 960              		.section	.text.ulRand,"ax",%progbits
+ 961              		.align	2
+ 962              		.global	ulRand
+ 963              		.syntax unified
+ 964              		.arm
+ 965              		.fpu neon
+ 967              	ulRand:
+ 968              	.LFB23:
+ 610:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /*-----------------------------------------------------------*/
+ 611:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 612:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** #if 1
+ 613:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** uint32_t ulRand( void )
+ 614:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** {
+ 969              		.loc 1 614 0
+ 970              		.cfi_startproc
+ 971              		@ args = 0, pretend = 0, frame = 16
+ 972              		@ frame_needed = 0, uses_anonymous_args = 0
+ 973              	.LVL112:
+ 974 0000 1F402DE9 		push	{r0, r1, r2, r3, r4, lr}
+ 975              		.cfi_def_cfa_offset 24
+ 976              		.cfi_offset 14, -4
+ 615:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     CK_RV xResult = 0;
+ 616:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     CK_SESSION_HANDLE xPkcs11Session = 0;
+ 977              		.loc 1 616 0
+ 978 0004 0030A0E3 		mov	r3, #0
+ 617:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     CK_FUNCTION_LIST_PTR pxPkcs11FunctionList = NULL;
+ 618:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     uint32_t ulRandomValue = 0;
+ 619:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 620:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     xResult = prvSocketsGetCryptoSession( &xPkcs11Session,
+ 979              		.loc 1 620 0
+ 980 0008 08108DE2 		add	r1, sp, #8
+ 981 000c 04008DE2 		add	r0, sp, #4
+ 616:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     CK_FUNCTION_LIST_PTR pxPkcs11FunctionList = NULL;
+ 982              		.loc 1 616 0
+ 983 0010 04308DE5 		str	r3, [sp, #4]
+ 617:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     CK_FUNCTION_LIST_PTR pxPkcs11FunctionList = NULL;
+ 984              		.loc 1 617 0
+ 985 0014 08308DE5 		str	r3, [sp, #8]
+ 618:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 986              		.loc 1 618 0
+ 987 0018 0C308DE5 		str	r3, [sp, #12]
+ 988              		.loc 1 620 0
+ 989 001c FEFFFFEB 		bl	prvSocketsGetCryptoSession.constprop.0
+ 990              	.LVL113:
+ 621:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                           &pxPkcs11FunctionList );
+ 622:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 623:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     if( 0 == xResult )
+ 991              		.loc 1 623 0
+ 992 0020 000050E3 		cmp	r0, #0
+ 993 0024 0400000A 		beq	.L105
+ 994              	.L107:
+ 995              	.LVL114:
+ 624:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 625:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         /* Request a sequence of cryptographically random byte values using
+ 626:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****          * PKCS#11. */
+ 627:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         xResult = pxPkcs11FunctionList->C_GenerateRandom( xPkcs11Session,
+ 628:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                           ( CK_BYTE_PTR ) &ulRandomValue,
+ 629:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                           sizeof( ulRandomValue ) );
+ 630:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 631:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 632:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     /* Check if any of the API calls failed. */
+ 633:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     if( 0 != xResult )
+ 634:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 635:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         ulRandomValue = 0;
+ 996              		.loc 1 635 0
+ 997 0028 0030A0E3 		mov	r3, #0
+ 998 002c 0C308DE5 		str	r3, [sp, #12]
+ 999              	.L106:
+ 636:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 637:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 638:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     return ulRandomValue;
+ 639:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** }
+ 1000              		.loc 1 639 0
+ 1001 0030 0C009DE5 		ldr	r0, [sp, #12]
+ 1002 0034 14D08DE2 		add	sp, sp, #20
+ 1003              		.cfi_remember_state
+ 1004              		.cfi_def_cfa_offset 4
+ 1005              		@ sp needed
+ 1006 0038 04F09DE4 		ldr	pc, [sp], #4
+ 1007              	.LVL115:
+ 1008              	.L105:
+ 1009              		.cfi_restore_state
+ 627:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                           ( CK_BYTE_PTR ) &ulRandomValue,
+ 1010              		.loc 1 627 0
+ 1011 003c 08309DE5 		ldr	r3, [sp, #8]
+ 1012 0040 0420A0E3 		mov	r2, #4
+ 1013 0044 0C108DE2 		add	r1, sp, #12
+ 1014 0048 04009DE5 		ldr	r0, [sp, #4]
+ 1015              	.LVL116:
+ 1016 004c 043193E5 		ldr	r3, [r3, #260]
+ 1017 0050 33FF2FE1 		blx	r3
+ 1018              	.LVL117:
+ 633:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 1019              		.loc 1 633 0
+ 1020 0054 000050E3 		cmp	r0, #0
+ 1021 0058 F4FFFF0A 		beq	.L106
+ 1022 005c F1FFFFEA 		b	.L107
+ 1023              		.cfi_endproc
+ 1024              	.LFE23:
+ 1026              		.section	.text.ulApplicationGetNextSequenceNumber,"ax",%progbits
+ 1027              		.align	2
+ 1028              		.global	ulApplicationGetNextSequenceNumber
+ 1029              		.syntax unified
+ 1030              		.arm
+ 1031              		.fpu neon
+ 1033              	ulApplicationGetNextSequenceNumber:
+ 1034              	.LFB24:
+ 640:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** #endif
+ 641:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /*-----------------------------------------------------------*/
+ 642:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 643:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** /**
+ 644:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  * @brief Generate a TCP Initial Sequence Number that is reasonably difficult
+ 645:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  * to predict, per https://tools.ietf.org/html/rfc6528.
+ 646:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****  */
+ 647:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** uint32_t ulApplicationGetNextSequenceNumber( uint32_t ulSourceAddress,
+ 648:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                              uint16_t usSourcePort,
+ 649:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                              uint32_t ulDestinationAddress,
+ 650:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                              uint16_t usDestinationPort )
+ 651:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** {
+ 1035              		.loc 1 651 0
+ 1036              		.cfi_startproc
+ 1037              		@ args = 0, pretend = 0, frame = 72
+ 1038              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1039              	.LVL118:
+ 1040 0000 10402DE9 		push	{r4, lr}
+ 1041              		.cfi_def_cfa_offset 8
+ 1042              		.cfi_offset 4, -8
+ 1043              		.cfi_offset 14, -4
+ 1044 0004 48D04DE2 		sub	sp, sp, #72
+ 1045              		.cfi_def_cfa_offset 80
+ 1046              		.loc 1 651 0
+ 1047 0008 B830CDE1 		strh	r3, [sp, #8]	@ movhi
+ 652:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     CK_RV xResult = 0;
+ 653:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     CK_SESSION_HANDLE xPkcs11Session = 0;
+ 1048              		.loc 1 653 0
+ 1049 000c 0030A0E3 		mov	r3, #0
+ 1050              	.LVL119:
+ 651:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     CK_RV xResult = 0;
+ 1051              		.loc 1 651 0
+ 1052 0010 0C008DE5 		str	r0, [sp, #12]
+ 654:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     CK_FUNCTION_LIST_PTR pxPkcs11FunctionList = NULL;
+ 655:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     CK_MECHANISM xMechSha256 = { 0 };
+ 656:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     uint8_t ucSha256Result[ cryptoSHA256_DIGEST_BYTES ];
+ 657:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     CK_ULONG ulLength = sizeof( ucSha256Result );
+ 658:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     uint32_t ulNextSequenceNumber = 0;
+ 659:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     static uint64_t ullKey = 0;
+ 660:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 661:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     /* Acquire a crypto session handle. */
+ 662:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     xResult = prvSocketsGetCryptoSession( &xPkcs11Session,
+ 1053              		.loc 1 662 0
+ 1054 0014 10008DE2 		add	r0, sp, #16
+ 1055              	.LVL120:
+ 651:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     CK_RV xResult = 0;
+ 1056              		.loc 1 651 0
+ 1057 0018 BA10CDE1 		strh	r1, [sp, #10]	@ movhi
+ 1058              		.loc 1 662 0
+ 1059 001c 14108DE2 		add	r1, sp, #20
+ 1060              	.LVL121:
+ 653:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     CK_FUNCTION_LIST_PTR pxPkcs11FunctionList = NULL;
+ 1061              		.loc 1 653 0
+ 1062 0020 10308DE5 		str	r3, [sp, #16]
+ 654:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     CK_FUNCTION_LIST_PTR pxPkcs11FunctionList = NULL;
+ 1063              		.loc 1 654 0
+ 1064 0024 14308DE5 		str	r3, [sp, #20]
+ 655:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     uint8_t ucSha256Result[ cryptoSHA256_DIGEST_BYTES ];
+ 1065              		.loc 1 655 0
+ 1066 0028 1C308DE5 		str	r3, [sp, #28]
+ 1067 002c 20308DE5 		str	r3, [sp, #32]
+ 1068 0030 24308DE5 		str	r3, [sp, #36]
+ 657:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     uint32_t ulNextSequenceNumber = 0;
+ 1069              		.loc 1 657 0
+ 1070 0034 2030A0E3 		mov	r3, #32
+ 651:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     CK_RV xResult = 0;
+ 1071              		.loc 1 651 0
+ 1072 0038 04208DE5 		str	r2, [sp, #4]
+ 657:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     uint32_t ulNextSequenceNumber = 0;
+ 1073              		.loc 1 657 0
+ 1074 003c 18308DE5 		str	r3, [sp, #24]
+ 1075              	.LVL122:
+ 1076              		.loc 1 662 0
+ 1077 0040 FEFFFFEB 		bl	prvSocketsGetCryptoSession.constprop.0
+ 1078              	.LVL123:
+ 663:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                           &pxPkcs11FunctionList );
+ 664:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 665:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     if( 0 == xResult )
+ 1079              		.loc 1 665 0
+ 1080 0044 004050E2 		subs	r4, r0, #0
+ 1081 0048 0900001A 		bne	.L110
+ 666:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 667:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         if( 0 == ullKey )
+ 1082              		.loc 1 667 0
+ 1083 004c 30119FE5 		ldr	r1, .L115
+ 1084 0050 D020C1E1 		ldrd	r2, [r1]
+ 1085 0054 033092E1 		orrs	r3, r2, r3
+ 1086 0058 0500001A 		bne	.L110
+ 668:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         {
+ 669:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             /* One-time initialization, per boot, of the random seed. */
+ 670:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****             xResult = pxPkcs11FunctionList->C_GenerateRandom( xPkcs11Session,
+ 1087              		.loc 1 670 0
+ 1088 005c 14309DE5 		ldr	r3, [sp, #20]
+ 1089 0060 0820A0E3 		mov	r2, #8
+ 1090 0064 10009DE5 		ldr	r0, [sp, #16]
+ 1091              	.LVL124:
+ 1092 0068 043193E5 		ldr	r3, [r3, #260]
+ 1093 006c 33FF2FE1 		blx	r3
+ 1094              	.LVL125:
+ 1095 0070 0040A0E1 		mov	r4, r0
+ 1096              	.LVL126:
+ 1097              	.L110:
+ 671:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                               ( CK_BYTE_PTR ) &ullKey,
+ 672:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                               sizeof( ullKey ) );
+ 673:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         }
+ 674:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 675:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 676:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     /* Lock the shared crypto session. */
+ 677:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     portENTER_CRITICAL();
+ 1098              		.loc 1 677 0
+ 1099 0074 FEFFFFEB 		bl	vPortEnterCritical
+ 1100              	.LVL127:
+ 678:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 679:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     /* Start a hash. */
+ 680:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     if( 0 == xResult )
+ 1101              		.loc 1 680 0
+ 1102 0078 000054E3 		cmp	r4, #0
+ 1103 007c 3700001A 		bne	.L111
+ 1104              	.LVL128:
+ 681:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 682:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         xMechSha256.mechanism = CKM_SHA256;
+ 1105              		.loc 1 682 0
+ 1106 0080 253EA0E3 		mov	r3, #592
+ 683:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         xResult = pxPkcs11FunctionList->C_DigestInit( xPkcs11Session, &xMechSha256 );
+ 1107              		.loc 1 683 0
+ 1108 0084 1C108DE2 		add	r1, sp, #28
+ 682:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         xResult = pxPkcs11FunctionList->C_DigestInit( xPkcs11Session, &xMechSha256 );
+ 1109              		.loc 1 682 0
+ 1110 0088 1C308DE5 		str	r3, [sp, #28]
+ 1111              		.loc 1 683 0
+ 1112 008c 14309DE5 		ldr	r3, [sp, #20]
+ 1113 0090 10009DE5 		ldr	r0, [sp, #16]
+ 1114 0094 983093E5 		ldr	r3, [r3, #152]
+ 1115 0098 33FF2FE1 		blx	r3
+ 1116              	.LVL129:
+ 684:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 685:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 686:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     /* Hash the seed. */
+ 687:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     if( 0 == xResult )
+ 1117              		.loc 1 687 0
+ 1118 009c 004050E2 		subs	r4, r0, #0
+ 1119 00a0 2E00001A 		bne	.L111
+ 688:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 689:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         xResult = pxPkcs11FunctionList->C_DigestUpdate( xPkcs11Session,
+ 1120              		.loc 1 689 0
+ 1121 00a4 14309DE5 		ldr	r3, [sp, #20]
+ 1122 00a8 0820A0E3 		mov	r2, #8
+ 1123 00ac D0109FE5 		ldr	r1, .L115
+ 1124 00b0 10009DE5 		ldr	r0, [sp, #16]
+ 1125              	.LVL130:
+ 1126 00b4 A03093E5 		ldr	r3, [r3, #160]
+ 1127 00b8 33FF2FE1 		blx	r3
+ 1128              	.LVL131:
+ 690:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                         ( CK_BYTE_PTR ) &ullKey,
+ 691:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                         sizeof( ullKey ) );
+ 692:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 693:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 694:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     /* Hash the source address. */
+ 695:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     if( 0 == xResult )
+ 1129              		.loc 1 695 0
+ 1130 00bc 004050E2 		subs	r4, r0, #0
+ 1131 00c0 2600001A 		bne	.L111
+ 696:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 697:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         xResult = pxPkcs11FunctionList->C_DigestUpdate( xPkcs11Session,
+ 1132              		.loc 1 697 0
+ 1133 00c4 14309DE5 		ldr	r3, [sp, #20]
+ 1134 00c8 0420A0E3 		mov	r2, #4
+ 1135 00cc 0C108DE2 		add	r1, sp, #12
+ 1136 00d0 10009DE5 		ldr	r0, [sp, #16]
+ 1137              	.LVL132:
+ 1138 00d4 A03093E5 		ldr	r3, [r3, #160]
+ 1139 00d8 33FF2FE1 		blx	r3
+ 1140              	.LVL133:
+ 698:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                         ( CK_BYTE_PTR ) &ulSourceAddress,
+ 699:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                         sizeof( ulSourceAddress ) );
+ 700:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 701:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 702:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     /* Hash the source port. */
+ 703:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     if( 0 == xResult )
+ 1141              		.loc 1 703 0
+ 1142 00dc 004050E2 		subs	r4, r0, #0
+ 1143 00e0 1E00001A 		bne	.L111
+ 704:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 705:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         xResult = pxPkcs11FunctionList->C_DigestUpdate( xPkcs11Session,
+ 1144              		.loc 1 705 0
+ 1145 00e4 14309DE5 		ldr	r3, [sp, #20]
+ 1146 00e8 0220A0E3 		mov	r2, #2
+ 1147 00ec 0A108DE2 		add	r1, sp, #10
+ 1148 00f0 10009DE5 		ldr	r0, [sp, #16]
+ 1149              	.LVL134:
+ 1150 00f4 A03093E5 		ldr	r3, [r3, #160]
+ 1151 00f8 33FF2FE1 		blx	r3
+ 1152              	.LVL135:
+ 706:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                         ( CK_BYTE_PTR ) &usSourcePort,
+ 707:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                         sizeof( usSourcePort ) );
+ 708:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 709:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 710:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     /* Hash the destination address. */
+ 711:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     if( 0 == xResult )
+ 1153              		.loc 1 711 0
+ 1154 00fc 004050E2 		subs	r4, r0, #0
+ 1155 0100 1600001A 		bne	.L111
+ 712:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 713:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         xResult = pxPkcs11FunctionList->C_DigestUpdate( xPkcs11Session,
+ 1156              		.loc 1 713 0
+ 1157 0104 14309DE5 		ldr	r3, [sp, #20]
+ 1158 0108 0420A0E3 		mov	r2, #4
+ 1159 010c 02108DE0 		add	r1, sp, r2
+ 1160 0110 10009DE5 		ldr	r0, [sp, #16]
+ 1161              	.LVL136:
+ 1162 0114 A03093E5 		ldr	r3, [r3, #160]
+ 1163 0118 33FF2FE1 		blx	r3
+ 1164              	.LVL137:
+ 714:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                         ( CK_BYTE_PTR ) &ulDestinationAddress,
+ 715:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                         sizeof( ulDestinationAddress ) );
+ 716:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 717:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 718:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     /* Hash the destination port. */
+ 719:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     if( 0 == xResult )
+ 1165              		.loc 1 719 0
+ 1166 011c 004050E2 		subs	r4, r0, #0
+ 1167 0120 0E00001A 		bne	.L111
+ 720:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 721:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         xResult = pxPkcs11FunctionList->C_DigestUpdate( xPkcs11Session,
+ 1168              		.loc 1 721 0
+ 1169 0124 14309DE5 		ldr	r3, [sp, #20]
+ 1170 0128 0220A0E3 		mov	r2, #2
+ 1171 012c 08108DE2 		add	r1, sp, #8
+ 1172 0130 10009DE5 		ldr	r0, [sp, #16]
+ 1173              	.LVL138:
+ 1174 0134 A03093E5 		ldr	r3, [r3, #160]
+ 1175 0138 33FF2FE1 		blx	r3
+ 1176              	.LVL139:
+ 722:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                         ( CK_BYTE_PTR ) &usDestinationPort,
+ 723:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                         sizeof( usDestinationPort ) );
+ 724:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 725:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 726:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     /* Get the hash. */
+ 727:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     if( 0 == xResult )
+ 1177              		.loc 1 727 0
+ 1178 013c 004050E2 		subs	r4, r0, #0
+ 1179 0140 0600001A 		bne	.L111
+ 728:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 729:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         xResult = pxPkcs11FunctionList->C_DigestFinal( xPkcs11Session,
+ 1180              		.loc 1 729 0
+ 1181 0144 14309DE5 		ldr	r3, [sp, #20]
+ 1182 0148 18208DE2 		add	r2, sp, #24
+ 1183 014c 28108DE2 		add	r1, sp, #40
+ 1184 0150 10009DE5 		ldr	r0, [sp, #16]
+ 1185              	.LVL140:
+ 1186 0154 A83093E5 		ldr	r3, [r3, #168]
+ 1187 0158 33FF2FE1 		blx	r3
+ 1188              	.LVL141:
+ 1189 015c 0040A0E1 		mov	r4, r0
+ 1190              	.LVL142:
+ 1191              	.L111:
+ 730:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                        ucSha256Result,
+ 731:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                                                        &ulLength );
+ 732:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 733:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 734:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     portEXIT_CRITICAL();
+ 1192              		.loc 1 734 0
+ 1193 0160 FEFFFFEB 		bl	vPortExitCritical
+ 1194              	.LVL143:
+ 735:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 736:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     /* Use the first four bytes of the hash result as the starting point for
+ 737:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****      * all initial sequence numbers for connections based on the input 4-tuple. */
+ 738:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     if( 0 == xResult )
+ 1195              		.loc 1 738 0
+ 1196 0164 000054E3 		cmp	r4, #0
+ 658:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     static uint64_t ullKey = 0;
+ 1197              		.loc 1 658 0
+ 1198 0168 0000A013 		movne	r0, #0
+ 1199              		.loc 1 738 0
+ 1200 016c 0200001A 		bne	.L109
+ 1201 0170 28409DE5 		ldr	r4, [sp, #40]
+ 1202              	.LVL144:
+ 739:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     {
+ 740:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         memcpy( &ulNextSequenceNumber,
+ 741:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 ucSha256Result,
+ 742:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****                 sizeof( ulNextSequenceNumber ) );
+ 743:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 744:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         /* Add the tick count of four-tick intervals. In theory, per the RFC
+ 745:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****          * (see above), this approach still allows server equipment to optimize
+ 746:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****          * handling of connections from the same device that haven't fully timed out. */
+ 747:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****         ulNextSequenceNumber += xTaskGetTickCount() / 4;
+ 1203              		.loc 1 747 0
+ 1204 0174 FEFFFFEB 		bl	xTaskGetTickCount
+ 1205              	.LVL145:
+ 1206 0178 200184E0 		add	r0, r4, r0, lsr #2
+ 1207              	.LVL146:
+ 1208              	.L109:
+ 748:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     }
+ 749:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** 
+ 750:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c ****     return ulNextSequenceNumber;
+ 751:D:/Work/DeviceTester/amazon-freertos/lib/secure_sockets/portable/renesas/rza2m-gr-mango\aws_secure_sockets.c **** }
+ 1209              		.loc 1 751 0
+ 1210 017c 48D08DE2 		add	sp, sp, #72
+ 1211              		.cfi_def_cfa_offset 8
+ 1212              		@ sp needed
+ 1213 0180 1080BDE8 		pop	{r4, pc}
+ 1214              	.L116:
+ 1215              		.align	2
+ 1216              	.L115:
+ 1217 0184 00000000 		.word	.LANCHOR2
+ 1218              		.cfi_endproc
+ 1219              	.LFE24:
+ 1221              		.section	.bss.pxPkcs11FunctionList.73094,"aw",%nobits
+ 1222              		.align	2
+ 1223              		.set	.LANCHOR1,. + 0
+ 1226              	pxPkcs11FunctionList.73094:
+ 1227 0000 00000000 		.space	4
+ 1228              		.section	.bss.ullKey.73117,"aw",%nobits
+ 1229              		.align	3
+ 1230              		.set	.LANCHOR2,. + 0
+ 1233              	ullKey.73117:
+ 1234 0000 00000000 		.space	8
+ 1234      00000000 
+ 1235              		.section	.bss.xPkcs11Session.73093,"aw",%nobits
+ 1236              		.align	2
+ 1237              		.set	.LANCHOR0,. + 0
+ 1240              	xPkcs11Session.73093:
+ 1241 0000 00000000 		.space	4
+ 1242              		.text
+ 1243              	.Letext0:
+ 1244              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 1245              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1246              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1247              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1248              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1249              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1250              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1251              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1252              		.file 10 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\src/unity_internals.h"
+ 1253              		.file 11 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 1254              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS\\portable\\GCC\\ARM_CA9_RZA2M/por
+ 1255              		.file 13 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1256              		.file 14 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1257              		.file 15 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 1258              		.file 16 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 1259              		.file 17 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 1260              		.file 18 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 1261              		.file 19 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 1262              		.file 20 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS-Plus-TCP\\include/FreeRTOS_Socket
+ 1263              		.file 21 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/aws_secure_sockets.h"
+ 1264              		.file 22 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/aws_tls.h"
+ 1265              		.file 23 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\pkcs11/pkcs11t.h"
+ 1266              		.file 24 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\pkcs11/pkcs11.h"
+ 1267              		.file 25 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\pkcs11/pkcs11f.h"
+ 1268              		.file 26 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/task.h"
+ 1269              		.file 27 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1270              		.file 28 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include\\private/portable.h"
+ 1271              		.file 29 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+DEFINED SYMBOLS
+                            *ABS*:00000000 aws_secure_sockets.c
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:17     .text.prvNetworkSend:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:22     .text.prvNetworkSend:00000000 prvNetworkSend
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:41     .text.prvNetworkRecv:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:46     .text.prvNetworkRecv:00000000 prvNetworkRecv
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:64     .text.prvSocketsGetCryptoSession.constprop.0:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:69     .text.prvSocketsGetCryptoSession.constprop.0:00000000 prvSocketsGetCryptoSession.constprop.0
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:178    .text.prvSocketsGetCryptoSession.constprop.0:000000cc $d
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:184    .text.SOCKETS_Close:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:190    .text.SOCKETS_Close:00000000 SOCKETS_Close
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:292    .text.SOCKETS_Connect:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:298    .text.SOCKETS_Connect:00000000 SOCKETS_Connect
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:427    .text.SOCKETS_Connect:000000f4 $d
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:434    .text.SOCKETS_GetHostByName:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:440    .text.SOCKETS_GetHostByName:00000000 SOCKETS_GetHostByName
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:455    .text.SOCKETS_Recv:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:461    .text.SOCKETS_Recv:00000000 SOCKETS_Recv
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:498    .text.SOCKETS_Send:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:504    .text.SOCKETS_Send:00000000 SOCKETS_Send
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:541    .text.SOCKETS_SetSockOpt:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:547    .text.SOCKETS_SetSockOpt:00000000 SOCKETS_SetSockOpt
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:586    .text.SOCKETS_SetSockOpt:00000034 $d
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:599    .text.SOCKETS_SetSockOpt:00000060 $a
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:822    .text.SOCKETS_Shutdown:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:828    .text.SOCKETS_Shutdown:00000000 SOCKETS_Shutdown
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:854    .text.SOCKETS_Socket:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:860    .text.SOCKETS_Socket:00000000 SOCKETS_Socket
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:936    .text.SOCKETS_Socket:00000074 $d
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:941    .text.SOCKETS_Init:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:947    .text.SOCKETS_Init:00000000 SOCKETS_Init
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:961    .text.ulRand:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:967    .text.ulRand:00000000 ulRand
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:1027   .text.ulApplicationGetNextSequenceNumber:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:1033   .text.ulApplicationGetNextSequenceNumber:00000000 ulApplicationGetNextSequenceNumber
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:1217   .text.ulApplicationGetNextSequenceNumber:00000184 $d
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:1222   .bss.pxPkcs11FunctionList.73094:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:1226   .bss.pxPkcs11FunctionList.73094:00000000 pxPkcs11FunctionList.73094
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:1229   .bss.ullKey.73117:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:1233   .bss.ullKey.73117:00000000 ullKey.73117
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:1236   .bss.xPkcs11Session.73093:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\cckeBT3w.s:1240   .bss.xPkcs11Session.73093:00000000 xPkcs11Session.73093
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+FreeRTOS_send
+FreeRTOS_recv
+vPortEnterCritical
+C_GetFunctionList
+vPortExitCritical
+vPortFree
+TLS_Cleanup
+FreeRTOS_closesocket
+memset
+FreeRTOS_connect
+TLS_Init
+TLS_Connect
+FreeRTOS_gethostbyname
+TLS_Recv
+TLS_Send
+pvPortMalloc
+memcpy
+strlen
+FreeRTOS_setsockopt
+FreeRTOS_shutdown
+longjmp
+FreeRTOS_socket
+Unity
+xTaskGetTickCount

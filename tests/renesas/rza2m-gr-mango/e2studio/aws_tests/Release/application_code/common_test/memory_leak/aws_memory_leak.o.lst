@@ -1,0 +1,323 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"aws_memory_leak.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.TEST_Full_MemoryLeak_TEAR_DOWN,"ax",%progbits
+  17              		.align	2
+  18              		.global	TEST_Full_MemoryLeak_TEAR_DOWN
+  19              		.syntax unified
+  20              		.arm
+  21              		.fpu neon
+  23              	TEST_Full_MemoryLeak_TEAR_DOWN:
+  24              	.LFB2:
+  25              		.file 1 "D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak/aws_memory_leak.c"
+   1:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** /*
+   2:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****  * Amazon FreeRTOS Memory Leak Test V1.1.4
+   3:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****  * Copyright (C) 2017 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+   4:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****  *
+   5:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****  * Permission is hereby granted, free of charge, to any person obtaining a copy of
+   6:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****  * this software and associated documentation files (the "Software"), to deal in
+   7:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****  * the Software without restriction, including without limitation the rights to
+   8:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+   9:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****  * the Software, and to permit persons to whom the Software is furnished to do so,
+  10:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****  * subject to the following conditions:
+  11:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****  *
+  12:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****  * The above copyright notice and this permission notice shall be included in all
+  13:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****  * copies or substantial portions of the Software.
+  14:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****  *
+  15:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  16:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+  17:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+  18:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+  19:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  20:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  21:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****  *
+  22:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****  * http://aws.amazon.com/freertos
+  23:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****  * http://www.FreeRTOS.org
+  24:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****  */
+  25:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** 
+  26:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** #include <stdint.h>
+  27:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** #include <stdio.h>
+  28:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** #include <stdlib.h>
+  29:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** #include <string.h>
+  30:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** 
+  31:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** /* FreeRTOS includes. */
+  32:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** #include "FreeRTOS.h"
+  33:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** #include "task.h"
+  34:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** #include "queue.h"
+  35:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** 
+  36:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** /* TCP/IP abstraction includes. */
+  37:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** #include "unity.h"
+  38:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** #include "unity_fixture.h"
+  39:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** #include "aws_test_runner.h"
+  40:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** 
+  41:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** #define memoryleakPRINTF( x )    vLoggingPrintf x
+  42:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** 
+  43:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** TEST_GROUP( Full_MemoryLeak );
+  44:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** TEST_SETUP( Full_MemoryLeak )
+  45:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** {
+  46:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** }
+  47:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** 
+  48:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** TEST_TEAR_DOWN( Full_MemoryLeak )
+  49:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** {
+  26              		.loc 1 49 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              		@ link register save eliminated.
+  31 0000 1EFF2FE1 		bx	lr
+  32              		.cfi_endproc
+  33              	.LFE2:
+  35              		.section	.text.TEST_Full_MemoryLeak_CheckHeap_,"ax",%progbits
+  36              		.align	2
+  37              		.global	TEST_Full_MemoryLeak_CheckHeap_
+  38              		.syntax unified
+  39              		.arm
+  40              		.fpu neon
+  42              	TEST_Full_MemoryLeak_CheckHeap_:
+  43              	.LFB5:
+  50:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** }
+  51:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** 
+  52:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** TEST_GROUP_RUNNER( Full_MemoryLeak )
+  53:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** {
+  54:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****     RUN_TEST_CASE( Full_MemoryLeak, CheckHeap );
+  55:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** }
+  56:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** 
+  57:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** 
+  58:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** TEST( Full_MemoryLeak, CheckHeap )
+  59:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** {
+  44              		.loc 1 59 0
+  45              		.cfi_startproc
+  46              		@ args = 0, pretend = 0, frame = 0
+  47              		@ frame_needed = 0, uses_anonymous_args = 0
+  60:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****     size_t xHeapChange;
+  61:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** 
+  62:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****     xHeapChange = xHeapBefore - xHeapAfter;
+  48              		.loc 1 62 0
+  49 0000 40309FE5 		ldr	r3, .L4
+  59:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****     size_t xHeapChange;
+  50              		.loc 1 59 0
+  51 0004 13402DE9 		push	{r0, r1, r4, lr}
+  52              		.cfi_def_cfa_offset 16
+  53              		.cfi_offset 4, -8
+  54              		.cfi_offset 14, -4
+  63:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** 
+  64:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****     memoryleakPRINTF( ( "Heap Before: %d, Heap After: %d, Diff: %d \r\n",
+  55              		.loc 1 64 0
+  56 0008 3C009FE5 		ldr	r0, .L4+4
+  62:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** 
+  57              		.loc 1 62 0
+  58 000c 001093E5 		ldr	r1, [r3]
+  59 0010 38309FE5 		ldr	r3, .L4+8
+  60 0014 002093E5 		ldr	r2, [r3]
+  61 0018 024041E0 		sub	r4, r1, r2
+  62              	.LVL0:
+  63              		.loc 1 64 0
+  64 001c 0430A0E1 		mov	r3, r4
+  65 0020 FEFFFFEB 		bl	vLoggingPrintf
+  66              	.LVL1:
+  65:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****                         xHeapBefore,
+  66:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****                         xHeapAfter,
+  67:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****                         xHeapChange ) );
+  68:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** 
+  69:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****     TEST_ASSERT_EQUAL_INT32_MESSAGE( 0,
+  67              		.loc 1 69 0
+  68 0024 1430A0E3 		mov	r3, #20
+  69 0028 24209FE5 		ldr	r2, .L4+12
+  70 002c 00308DE5 		str	r3, [sp]
+  71 0030 0410A0E1 		mov	r1, r4
+  72 0034 4730A0E3 		mov	r3, #71
+  73 0038 0000A0E3 		mov	r0, #0
+  74 003c FEFFFFEB 		bl	UnityAssertEqualNumber
+  75              	.LVL2:
+  70:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****                                      xHeapChange,
+  71:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****                                      "Free heap before and after tests was not the same." );
+  72:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** }
+  76              		.loc 1 72 0
+  77 0040 08D08DE2 		add	sp, sp, #8
+  78              		.cfi_def_cfa_offset 8
+  79              		@ sp needed
+  80 0044 1080BDE8 		pop	{r4, pc}
+  81              	.LVL3:
+  82              	.L5:
+  83              		.align	2
+  84              	.L4:
+  85 0048 00000000 		.word	xHeapBefore
+  86 004c 00000000 		.word	.LC0
+  87 0050 00000000 		.word	xHeapAfter
+  88 0054 2D000000 		.word	.LC1
+  89              		.cfi_endproc
+  90              	.LFE5:
+  92              		.section	.text.TEST_Full_MemoryLeak_SETUP,"ax",%progbits
+  93              		.align	2
+  94              		.global	TEST_Full_MemoryLeak_SETUP
+  95              		.syntax unified
+  96              		.arm
+  97              		.fpu neon
+  99              	TEST_Full_MemoryLeak_SETUP:
+ 100              	.LFB7:
+ 101              		.cfi_startproc
+ 102              		@ args = 0, pretend = 0, frame = 0
+ 103              		@ frame_needed = 0, uses_anonymous_args = 0
+ 104              		@ link register save eliminated.
+ 105 0000 1EFF2FE1 		bx	lr
+ 106              		.cfi_endproc
+ 107              	.LFE7:
+ 109              		.section	.text.TEST_Full_MemoryLeak_CheckHeap_run,"ax",%progbits
+ 110              		.align	2
+ 111              		.global	TEST_Full_MemoryLeak_CheckHeap_run
+ 112              		.syntax unified
+ 113              		.arm
+ 114              		.fpu neon
+ 116              	TEST_Full_MemoryLeak_CheckHeap_run:
+ 117              	.LFB4:
+  58:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** {
+ 118              		.loc 1 58 0
+ 119              		.cfi_startproc
+ 120              		@ args = 0, pretend = 0, frame = 0
+ 121              		@ frame_needed = 0, uses_anonymous_args = 0
+  58:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** {
+ 122              		.loc 1 58 0
+ 123 0000 1F402DE9 		push	{r0, r1, r2, r3, r4, lr}
+ 124              		.cfi_def_cfa_offset 24
+ 125              		.cfi_offset 14, -4
+  58:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** {
+ 126              		.loc 1 58 0
+ 127 0004 3A30A0E3 		mov	r3, #58
+ 128 0008 0C308DE5 		str	r3, [sp, #12]
+ 129 000c 2C309FE5 		ldr	r3, .L9
+ 130 0010 2C209FE5 		ldr	r2, .L9+4
+ 131 0014 2C109FE5 		ldr	r1, .L9+8
+ 132 0018 08308DE5 		str	r3, [sp, #8]
+ 133 001c 28309FE5 		ldr	r3, .L9+12
+ 134 0020 28009FE5 		ldr	r0, .L9+16
+ 135 0024 04308DE5 		str	r3, [sp, #4]
+ 136 0028 24309FE5 		ldr	r3, .L9+20
+ 137 002c 00308DE5 		str	r3, [sp]
+ 138 0030 20309FE5 		ldr	r3, .L9+24
+ 139 0034 FEFFFFEB 		bl	UnityTestRunner
+ 140              	.LVL4:
+ 141 0038 14D08DE2 		add	sp, sp, #20
+ 142              		.cfi_def_cfa_offset 4
+ 143              		@ sp needed
+ 144 003c 04F09DE4 		ldr	pc, [sp], #4
+ 145              	.L10:
+ 146              		.align	2
+ 147              	.L9:
+ 148 0040 21000000 		.word	.LC3
+ 149 0044 00000000 		.word	TEST_Full_MemoryLeak_TEAR_DOWN
+ 150 0048 00000000 		.word	TEST_Full_MemoryLeak_CheckHeap_
+ 151 004c 71000000 		.word	.LC4
+ 152 0050 00000000 		.word	TEST_Full_MemoryLeak_SETUP
+ 153 0054 7B000000 		.word	.LC5
+ 154 0058 00000000 		.word	.LC2
+ 155              		.cfi_endproc
+ 156              	.LFE4:
+ 158              		.section	.text.TEST_Full_MemoryLeak_GROUP_RUNNER,"ax",%progbits
+ 159              		.align	2
+ 160              		.global	TEST_Full_MemoryLeak_GROUP_RUNNER
+ 161              		.syntax unified
+ 162              		.arm
+ 163              		.fpu neon
+ 165              	TEST_Full_MemoryLeak_GROUP_RUNNER:
+ 166              	.LFB3:
+  53:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c ****     RUN_TEST_CASE( Full_MemoryLeak, CheckHeap );
+ 167              		.loc 1 53 0
+ 168              		.cfi_startproc
+ 169              		@ args = 0, pretend = 0, frame = 0
+ 170              		@ frame_needed = 0, uses_anonymous_args = 0
+ 171              		@ link register save eliminated.
+ 172              	.LBB2:
+  54:D:/Work/DeviceTester/amazon-freertos/tests/common/memory_leak\aws_memory_leak.c **** }
+ 173              		.loc 1 54 0
+ 174 0000 FEFFFFEA 		b	TEST_Full_MemoryLeak_CheckHeap_run
+ 175              	.LVL5:
+ 176              	.LBE2:
+ 177              		.cfi_endproc
+ 178              	.LFE3:
+ 180              		.section	.rodata.TEST_Full_MemoryLeak_CheckHeap_.str1.1,"aMS",%progbits,1
+ 181              	.LC0:
+ 182 0000 48656170 		.ascii	"Heap Before: %d, Heap After: %d, Diff: %d \015\012\000"
+ 182      20426566 
+ 182      6F72653A 
+ 182      2025642C 
+ 182      20486561 
+ 183              	.LC1:
+ 184 002d 46726565 		.ascii	"Free heap before and after tests was not the same.\000"
+ 184      20686561 
+ 184      70206265 
+ 184      666F7265 
+ 184      20616E64 
+ 185              		.section	.rodata.TEST_Full_MemoryLeak_CheckHeap_run.str1.1,"aMS",%progbits,1
+ 186              	.LC2:
+ 187 0000 54455354 		.ascii	"TEST(Full_MemoryLeak, CheckHeap)\000"
+ 187      2846756C 
+ 187      6C5F4D65 
+ 187      6D6F7279 
+ 187      4C65616B 
+ 188              	.LC3:
+ 189 0021 443A2F57 		.ascii	"D:/Work/DeviceTester/amazon-freertos/tests/common/m"
+ 189      6F726B2F 
+ 189      44657669 
+ 189      63655465 
+ 189      73746572 
+ 190 0054 656D6F72 		.ascii	"emory_leak/aws_memory_leak.c\000"
+ 190      795F6C65 
+ 190      616B2F61 
+ 190      77735F6D 
+ 190      656D6F72 
+ 191              	.LC4:
+ 192 0071 43686563 		.ascii	"CheckHeap\000"
+ 192      6B486561 
+ 192      7000
+ 193              	.LC5:
+ 194 007b 46756C6C 		.ascii	"Full_MemoryLeak\000"
+ 194      5F4D656D 
+ 194      6F72794C 
+ 194      65616B00 
+ 195              		.text
+ 196              	.Letext0:
+ 197              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 198              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 199              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 200              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 201              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 202              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 203              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 204              		.file 9 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\src/unity_internals.h"
+ 205              		.file 10 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\extras\\fixture\\src/u
+ 206              		.file 11 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\common\\include/aws_test_runner.h"
+ 207              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\renesas\\rza2m-gr-mango\\common\\config_
+DEFINED SYMBOLS
+                            *ABS*:00000000 aws_memory_leak.c
+C:\Users\a5089698\AppData\Local\Temp\ccu15nJI.s:17     .text.TEST_Full_MemoryLeak_TEAR_DOWN:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccu15nJI.s:23     .text.TEST_Full_MemoryLeak_TEAR_DOWN:00000000 TEST_Full_MemoryLeak_TEAR_DOWN
+C:\Users\a5089698\AppData\Local\Temp\ccu15nJI.s:36     .text.TEST_Full_MemoryLeak_CheckHeap_:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccu15nJI.s:42     .text.TEST_Full_MemoryLeak_CheckHeap_:00000000 TEST_Full_MemoryLeak_CheckHeap_
+C:\Users\a5089698\AppData\Local\Temp\ccu15nJI.s:85     .text.TEST_Full_MemoryLeak_CheckHeap_:00000048 $d
+C:\Users\a5089698\AppData\Local\Temp\ccu15nJI.s:93     .text.TEST_Full_MemoryLeak_SETUP:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccu15nJI.s:99     .text.TEST_Full_MemoryLeak_SETUP:00000000 TEST_Full_MemoryLeak_SETUP
+C:\Users\a5089698\AppData\Local\Temp\ccu15nJI.s:110    .text.TEST_Full_MemoryLeak_CheckHeap_run:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccu15nJI.s:116    .text.TEST_Full_MemoryLeak_CheckHeap_run:00000000 TEST_Full_MemoryLeak_CheckHeap_run
+C:\Users\a5089698\AppData\Local\Temp\ccu15nJI.s:148    .text.TEST_Full_MemoryLeak_CheckHeap_run:00000040 $d
+C:\Users\a5089698\AppData\Local\Temp\ccu15nJI.s:159    .text.TEST_Full_MemoryLeak_GROUP_RUNNER:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccu15nJI.s:165    .text.TEST_Full_MemoryLeak_GROUP_RUNNER:00000000 TEST_Full_MemoryLeak_GROUP_RUNNER
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+vLoggingPrintf
+UnityAssertEqualNumber
+xHeapBefore
+xHeapAfter
+UnityTestRunner

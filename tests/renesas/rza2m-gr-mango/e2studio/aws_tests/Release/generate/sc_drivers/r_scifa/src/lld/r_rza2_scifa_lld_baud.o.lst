@@ -1,0 +1,1194 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"r_rza2_scifa_lld_baud.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.global	__aeabi_uidiv
+  17              		.section	.text.R_SCIFA_SetBaud,"ax",%progbits
+  18              		.align	2
+  19              		.global	R_SCIFA_SetBaud
+  20              		.syntax unified
+  21              		.arm
+  22              		.fpu neon
+  24              	R_SCIFA_SetBaud:
+  25              	.LFB5:
+  26              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/cor
+   1:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /**************************************************************************************************
+   2:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * DISCLAIMER
+   3:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * This software is supplied by Renesas Electronics Corporation and is only
+   4:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * intended for use with Renesas products. No other uses are authorized. This
+   5:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * software is owned by Renesas Electronics Corporation and is protected under
+   6:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * all applicable laws, including copyright laws.
+   7:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   8:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT
+   9:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+  10:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED.
+  11:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * TO THE MAXIMUM EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS
+  12:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES SHALL BE LIABLE
+  13:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR
+  14:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * ANY REASON RELATED TO THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE
+  15:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+  16:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * Renesas reserves the right, without notice, to make changes to this software
+  17:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * and to discontinue the availability of this software. By using this software,
+  18:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * you agree to the additional terms and conditions found by accessing the
+  19:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * following link:
+  20:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * http://www.renesas.com/disclaimer
+  21:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  *
+  22:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+  23:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  **************************************************************************************************
+  24:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /**************************************************************************************************
+  25:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * File Name    : r_rza2_scifa_lld_baud.c
+  26:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * Description  : SCIFA Low Layer Driver baud rate setting
+  27:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  **************************************************************************************************
+  28:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /**************************************************************************************************
+  29:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * History      : DD.MM.YYYY Version Description
+  30:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  *              : 15.05.2018 1.00    Release
+  31:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  *              : 10.05.2019 1.01    Fixed issue with channel 0 Baud rate setting
+  32:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  *              : 23.05.2019 1.02    Restructuring to ensure that other LLDs are only accessed from
+  33:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  **************************************************************************************************
+  34:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+  35:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /**************************************************************************************************
+  36:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  Includes   <System Includes> , "Project Includes"
+  37:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  **************************************************************************************************
+  38:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+  39:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /* System Includes */
+  40:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** #include "r_typedefs.h"
+  41:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** #include "iodefine.h"
+  42:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** #include "iobitmask.h"
+  43:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** #include "rza_io_regrw.h"              /* Low level register read/write header */
+  44:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+  45:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /* Driver Includes */
+  46:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** #include "driver.h"                    /* Device driver header */
+  47:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** #include "r_rza2_scifa_lld.h"          /* Low Layer Driver header */
+  48:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** #include "r_rza2_scifa_lld_cfg.h"      /* Low Layer Driver configuration header */
+  49:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+  50:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /**************************************************************************************************
+  51:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  Private global variables and functions
+  52:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  **************************************************************************************************
+  53:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+  54:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /**************************************************************************************************
+  55:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  Macro definitions
+  56:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  **************************************************************************************************
+  57:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** #define R_PRV_NUM_DIVISORS_ASYNC    (9)
+  58:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** #define R_PRV_NUM_DIVISORS_SYNC     (4)
+  59:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+  60:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /**************************************************************************************************
+  61:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  Typedefs
+  62:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  **************************************************************************************************
+  63:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+  64:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /**
+  65:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * @typedef st_baud_divisorb_t baud rate divisor struct
+  66:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  */
+  67:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** typedef struct
+  68:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** {
+  69:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     int16_t     divisor;    /*!< clock divisor */
+  70:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     uint8_t     abcs;       /*!< ABCS value to get divisor */
+  71:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     uint8_t     bgdm;       /*!< BGDM value to get divisor */
+  72:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     uint8_t     cks;        /*!< CKS  value to get divisor (CKS = n) */
+  73:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** } st_baud_divisorb_t;
+  74:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+  75:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /**************************************************************************************************
+  76:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  Private global variables and functions
+  77:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  **************************************************************************************************
+  78:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** static volatile struct st_scifa *sp_scifa[SCIFA_CFG_LLD_NUM_CHANNELS] =
+  79:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** {
+  80:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /* SCIFA Channels */
+  81:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     &SCIFA0, &SCIFA1, &SCIFA2, &SCIFA3, &SCIFA4
+  82:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** };
+  83:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+  84:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** static uint32_t gs_divisor_index;
+  85:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** static uint32_t gs_num_divisors;
+  86:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** static uint32_t gs_ratio;
+  87:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** static uint32_t gs_brr;
+  88:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** static uint32_t gs_divisor;
+  89:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** static uint32_t gs_int_mddr;
+  90:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** static st_baud_divisorb_t const *gsp_baud_info;
+  91:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** static float gs_float_mddr;
+  92:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** static float gs_error;
+  93:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** static float gs_abs_error;
+  94:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** static float gs_actual_baud_rate;
+  95:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+  96:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /* Baud divisor info */
+  97:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+  98:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /**@section
+  99:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****    BRR = (PCLK / (divisor x baud)) - 1
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****    when ABCS = 1, divisor = 32 x 2^(2n - 1)
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****    when ABCS = 0, divisor = 64 x 2^(2n - 1) */
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 103:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /**@section
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****    when ABCS = 0 & BGDM = 0, divisor = 64 x 2^(2n - 1)
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****    when ABCS = 1 & BGDM = 0 OR ABCS = 0 & BGDM = 1, divisor = 32 x 2^(2n - 1)
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****    when ABCS = 1 & BGDM = 1, divisor = 16 x 2^(2n - 1) */
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** static const st_baud_divisorb_t gs_scifa_async_baud[R_PRV_NUM_DIVISORS_ASYNC] =
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** {
+ 110:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {8,    1, 1, 0},    // divisor result, ABCS, BGDM, n
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {16,   0, 1, 0},
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {32,   0, 0, 0},
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {64,   0, 1, 1},
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {128,  0, 0, 1},
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {256,  0, 1, 2},
+ 116:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {512,  0, 0, 2},
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {1024, 0, 1, 3},
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {2048, 0, 0, 3}
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** };
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** static const st_baud_divisorb_t gs_scifa_sync_baud[R_PRV_NUM_DIVISORS_SYNC] =
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** {
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {4,    0, 0, 0},    // divisor result, ABCS, BGDM, n
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {16,   0, 0, 1},
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {64,   0, 0, 2},
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {256,  0, 0, 3},
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** };
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /**************************************************************************************************
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  Prototypes
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  **************************************************************************************************
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** static void write_baud_rate(r_channel_t channel);
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** static void write_mddr(r_channel_t channel);
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** static void calc_brr_only_actual_baud_rate(uint32_t desired_baud_rate, uint32_t clock_freq);
+ 136:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** static void calculate_baud_rate_with_mddr(uint32_t clock_freq);
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** static void find_divisor_value(r_channel_t channel, uint32_t desired_baud_rate, uint32_t clock_freq
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 139:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /**************************************************************************************************
+ 140:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  Private function definitions
+ 141:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  **************************************************************************************************
+ 142:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 143:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /**
+ 144:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * @brief write_baud_rate writes the Baud rate 
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * Baud rate written to the BRR, ABCS, BGDM, 
+ 146:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * and CKS registers / fields
+ 147:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  *
+ 148:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * @param[in] channel  The SCIFA channel to update
+ 149:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  *
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * @return None
+ 151:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  */
+ 152:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** static void write_baud_rate(r_channel_t channel)
+ 153:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** {
+ 154:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /* set BRR */
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     RZA_IO_RegWrite_8((volatile uint8_t *) &sp_scifa[channel]->BRR_MDDR.BRR.BYTE, (uint8_t) gs_brr,
+ 156:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /* set SEMR.ABCS0 bit */
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     RZA_IO_RegWrite_8((volatile uint8_t *) &sp_scifa[channel]->SEMR.BYTE, gsp_baud_info[gs_divisor_
+ 159:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /* set SEMR.BGDM bit */
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     RZA_IO_RegWrite_8((volatile uint8_t *) &sp_scifa[channel]->SEMR.BYTE, gsp_baud_info[gs_divisor_
+ 162:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 163:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /* set SMR.CKS[1:0] bits */
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     RZA_IO_RegWrite_16((volatile uint16_t *) &sp_scifa[channel]->SMR.WORD, gsp_baud_info[gs_divisor
+ 165:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** }
+ 166:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /**************************************************************************************************
+ 167:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * End of Function write_baud_rate
+ 168:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  **************************************************************************************************
+ 169:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 170:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /**
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * @brief write_mddr Writes to the MDDR register and enable MDDR
+ 172:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * 
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * @param[in] channel The SCIFA channel to update.
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  *
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * @return None
+ 176:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  */
+ 177:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** static void write_mddr(r_channel_t channel)
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** {
+ 179:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /* enable MDDR access */
+ 180:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     RZA_IO_RegWrite_8((volatile uint8_t *) &sp_scifa[channel]->SEMR.BYTE, (uint16_t) 1, SCIFA_SEMR_
+ 181:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 182:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /* write MDDR */
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     RZA_IO_RegWrite_8((volatile uint8_t *) &sp_scifa[channel]->BRR_MDDR.MDDR.BYTE, (uint8_t) gs_int
+ 184:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 185:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /* enable MDDR */
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     RZA_IO_RegWrite_8((volatile uint8_t *) &sp_scifa[channel]->SEMR.BYTE, (uint16_t) 1, SCIFA_SEMR_
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** }
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /**************************************************************************************************
+ 189:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * End of Function write_mddr
+ 190:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  **************************************************************************************************
+ 191:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /**
+ 193:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * @brief Calculate the actual Baud rate and error when only the BRR is being used
+ 194:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  *
+ 195:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * @param[in] desired_baud_rate  The desired Baud rate
+ 196:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  *
+ 197:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * @param[in] clock_freq  The peripheral clock frequency
+ 198:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  *
+ 199:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * @return None
+ 200:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  */
+ 201:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** static void calc_brr_only_actual_baud_rate(uint32_t desired_baud_rate, uint32_t clock_freq)
+ 202:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** {
+ 203:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /*                    Clock in Hz
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****        Baud rate =   _____________________
+ 205:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****                      prescalar x (BRR + 1)    */
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 207:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_actual_baud_rate = (float) clock_freq;
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_actual_baud_rate = gs_actual_baud_rate / (float) (gs_brr + 1);
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_actual_baud_rate = gs_actual_baud_rate / (float) gs_divisor;
+ 210:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 211:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /* calculate the bit rate error rate */
+ 212:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_error = (((float) clock_freq / ((float) desired_baud_rate * (float) gs_divisor * (float) (gs
+ 213:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_abs_error = (gs_error < 0) ? (-gs_error) : gs_error;
+ 214:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** }
+ 215:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /**************************************************************************************************
+ 216:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * End of Function calc_brr_only_actual_baud_rate
+ 217:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  **************************************************************************************************
+ 218:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 219:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /**
+ 220:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * @brief Calculate the actual Baud rate and error when the MDDR is being used
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  *
+ 222:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * @param[in] clock_freq  The peripheral clock frequency
+ 223:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  *
+ 224:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * @return None
+ 225:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  */
+ 226:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** static void calculate_baud_rate_with_mddr(uint32_t clock_freq)
+ 227:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** {
+ 228:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /*                           Clock in Hz
+ 229:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****        Baud rate =   ____________________________________
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****                      prescalar x (256 / MDDR) x (BRR + 1)    */
+ 231:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 232:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_actual_baud_rate = (float) clock_freq;
+ 233:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_actual_baud_rate = gs_actual_baud_rate / (float) (gs_brr + 1);
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_actual_baud_rate = gs_actual_baud_rate / (float) gs_divisor;
+ 235:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_actual_baud_rate = gs_actual_baud_rate / (float) (256.0 / gs_int_mddr);
+ 236:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** }
+ 237:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /**************************************************************************************************
+ 238:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * End of Function calculate_baud_rate_with_mddr
+ 239:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  **************************************************************************************************
+ 240:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 241:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /**
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * @brief Determine the value of the prescalars needed to achieve the desired
+ 243:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  *        Baud rate
+ 244:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  *
+ 245:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * @param[in] desired_baud_rate  The desired Baud rate
+ 246:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  *
+ 247:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * @param[in] clock_freq  The peripheral clock frequency
+ 248:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  *
+ 249:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * @param[in] mode  asynchronous or synchronous
+ 250:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  *
+ 251:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * @return None
+ 252:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  */
+ 253:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** static void find_divisor_value(r_channel_t channel, uint32_t desired_baud_rate, uint32_t clock_freq
+ 254:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** {
+ 255:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /* select divisor table depending on the selected mode */
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     if (SCIFA_MODE_ASYNC == mode)
+ 257:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         gsp_baud_info = gs_scifa_async_baud;
+ 259:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         gs_num_divisors = R_PRV_NUM_DIVISORS_ASYNC;
+ 260:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     }
+ 261:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     else
+ 262:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {
+ 263:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         gsp_baud_info = gs_scifa_sync_baud;
+ 264:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         gs_num_divisors = R_PRV_NUM_DIVISORS_SYNC;
+ 265:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     }
+ 266:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 267:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /* find the divisor; table has associated ABCS, BGDM and CKS values */
+ 268:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /* BRR must be 255 or less */
+ 269:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /* the "- 1" is ignored in some steps for approximations */
+ 270:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /* BRR = (PCLK / (divisor * desired_baud)) - 1 */
+ 271:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /* BRR = (ratio / divisor) - 1 */
+ 272:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 273:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_ratio = clock_freq / desired_baud_rate;
+ 274:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_divisor_index = 0;
+ 275:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 276:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     if (0 == channel)
+ 277:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {
+ 278:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         /* The hardware manual states that for channel 0, P1f/16 input is not provided */
+ 279:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         /* so the setting CKS [1:0] 1 0 cannot be used */
+ 280:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         /* this restriction may be lifted in future releases */
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         while ((gs_divisor_index < gs_num_divisors) &&
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****             ((gs_ratio >= (uint32_t) (gsp_baud_info[gs_divisor_index].divisor * 256)) || (2 == gsp_
+ 283:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         {
+ 284:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****             gs_divisor_index++;
+ 285:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         }
+ 286:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     }
+ 287:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     else
+ 288:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {
+ 289:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         /* cast to uint32_t for comparison with ratio */
+ 290:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         while ((gs_divisor_index < gs_num_divisors) && (gs_ratio >= (uint32_t) (gsp_baud_info[gs_di
+ 291:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         {
+ 292:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****             gs_divisor_index++;
+ 293:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         }
+ 294:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     }
+ 295:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** }
+ 296:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /**************************************************************************************************
+ 297:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * End of Function find_divisor_value
+ 298:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  **************************************************************************************************
+ 299:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 300:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /**************************************************************************************************
+ 301:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  Public function definitions
+ 302:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  **************************************************************************************************
+ 303:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 304:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** /**
+ 305:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * @brief Sets the device baud rate within 1% of value desired.
+ 306:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  *
+ 307:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * This function determines the best possible settings for the
+ 308:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * baud rate registers for the specified peripheral clock speed
+ 309:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * and baud rate. Note that this does not guarantee a low bit
+ 310:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * error rate, just the best possible one. The bit rate error is
+ 311:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * returned in .1% increments. If the hardware cannot support
+ 312:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * the specified combination, DEV_ERROR is returned.
+ 313:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  *
+ 314:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * NOTE: The transmitter and receiver (TE and RE bits in SCR) must be disabled
+ 315:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  *       prior to calling this function.
+ 316:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  *
+ 317:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  *       The application must pause for 1 bit time after the BRR register
+ 318:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  *       is loaded before transmitting/receiving to allow time for the clock
+ 319:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  *       to settle.
+ 320:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * @param[in]  channel: Channel number of SCIFA(0-4)
+ 321:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * @param[in]  desired_baud_rate: Baud rate; 19200, 57600, 115200, etc.
+ 322:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * @param[in]  clock_freq: Peripheral clock speed; e.g. 24000000 for 24MHz
+ 323:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * @param[in]  mode: asynchronous or synchronous
+ 324:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * @param[out] p_achieved_baud_rate - Pointer to achieved Baud rate
+ 325:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  *
+ 326:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * @retval  0 DRV_SUCCESS - If a Baud rate within 1% of the desired value was
+ 327:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  *                          achieved.
+ 328:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  * @retval -1 DRV_ERROR 
+ 329:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****  */
+ 330:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** int_t R_SCIFA_SetBaud (r_channel_t channel, uint32_t desired_baud_rate, uint32_t clock_freq, scifa_
+ 331:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** {
+  27              		.loc 1 331 0
+  28              		.cfi_startproc
+  29              		@ args = 4, pretend = 0, frame = 8
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              	.LVL0:
+ 332:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /* check arguments */
+ 333:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     if ((channel >= R_PRV_CFG_SCIF_LAST_CHANNEL) || (channel < 0))
+  32              		.loc 1 333 0
+  33 0000 70C0EFE6 		uxtb	ip, r0
+ 331:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /* check arguments */
+  34              		.loc 1 331 0
+  35 0004 F74F2DE9 		push	{r0, r1, r2, r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  36              		.cfi_def_cfa_offset 48
+  37              		.cfi_offset 4, -36
+  38              		.cfi_offset 5, -32
+  39              		.cfi_offset 6, -28
+  40              		.cfi_offset 7, -24
+  41              		.cfi_offset 8, -20
+  42              		.cfi_offset 9, -16
+  43              		.cfi_offset 10, -12
+  44              		.cfi_offset 11, -8
+  45              		.cfi_offset 14, -4
+ 331:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /* check arguments */
+  46              		.loc 1 331 0
+  47 0008 30509DE5 		ldr	r5, [sp, #48]
+  48              		.loc 1 333 0
+  49 000c 04005CE3 		cmp	ip, #4
+  50 0010 0200009A 		bls	.L2
+  51              	.LVL1:
+  52              	.L11:
+ 334:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {
+ 335:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         return (DRV_ERROR);
+  53              		.loc 1 335 0
+  54 0014 0000E0E3 		mvn	r0, #0
+  55              	.L1:
+ 336:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     }
+ 337:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 338:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     find_divisor_value(channel, desired_baud_rate, clock_freq, mode);
+ 339:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 340:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /* return if BRR will be > 255 or < 0 */
+ 341:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     if (gs_divisor_index >= gs_num_divisors)
+ 342:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {
+ 343:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         return (DRV_ERROR);                /* impossible desired_baud_rate requested; return error 
+ 344:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     }
+ 345:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 346:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /* cast to uint32_t for divisor */
+ 347:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_divisor = (uint32_t) gsp_baud_info[gs_divisor_index].divisor;
+ 348:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_brr = gs_ratio / gs_divisor;
+ 349:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 350:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     if (0 == gs_brr)
+ 351:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {
+ 352:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         return (DRV_ERROR);                /* illegal value; return error */
+ 353:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     }
+ 354:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 355:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /* enable BRR access */
+ 356:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     RZA_IO_RegWrite_8((volatile uint8_t *) &sp_scifa[channel]->SEMR.BYTE, (uint16_t) 0, SCIFA_SEMR_
+ 357:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_brr = gs_ratio / (gs_divisor / 2);                                // divide by half the divi
+ 358:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 359:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /* if odd, "round up" by ignoring -1; divide by 2 again for rest of divisor */
+ 360:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_brr = ((gs_brr & 0x01) ? (gs_brr / 2) : ((gs_brr / 2) - 1));
+ 361:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 362:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     write_baud_rate(channel);            /* write BRR, ABCS0, BGDM and CKS */
+ 363:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 364:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     calc_brr_only_actual_baud_rate(desired_baud_rate, clock_freq);    /* calculate achieved Baud ra
+ 365:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 366:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /* if error is less than 1.0 then use BRR without MDDR */
+ 367:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     if ((gs_abs_error <= 1.0) || (1 == gs_brr))
+ 368:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {
+ 369:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         /* disable MDDR access */
+ 370:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         RZA_IO_RegWrite_8((volatile uint8_t *) &sp_scifa[channel]->SEMR.BYTE, (uint16_t) 0, SCIFA_S
+ 371:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 372:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         /* set the achieved Baud rate */
+ 373:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         *p_achieved_baud_rate = (uint32_t) gs_actual_baud_rate;
+ 374:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         return (DRV_SUCCESS);
+ 375:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     }
+ 376:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 377:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /* The MDDR can only reduce the Baud rate, so if the current BRR setting results in a Baud rate
+ 378:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****        then we need to reduce the BRR by one in order to increase the Baud rate so that it is great
+ 379:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     if (gs_actual_baud_rate < desired_baud_rate)
+ 380:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {
+ 381:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         /* if BRR is already 1, then it can't go any lower */
+ 382:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         if (1 == gs_brr)
+ 383:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         {
+ 384:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****             /* disable MDDR */
+ 385:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****             RZA_IO_RegWrite_8((volatile uint8_t *) &sp_scifa[channel]->SEMR.BYTE, (uint16_t) 0, SCI
+ 386:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****             return (DRV_ERROR);
+ 387:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         }
+ 388:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 389:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         /* reduce the BRR value by one */
+ 390:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         gs_brr--;
+ 391:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         sp_scifa[channel]->BRR_MDDR.BRR.BYTE = (uint8_t) gs_brr;
+ 392:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     }
+ 393:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 394:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /* calculate MDDR value */
+ 395:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_float_mddr = ((float) desired_baud_rate * (float) gs_divisor * 256.0f * (float) (gs_brr + 1)
+ 396:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_float_mddr *= 2;
+ 397:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 398:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /* cast float to uint32_t */
+ 399:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_int_mddr = (uint32_t) gs_float_mddr;
+ 400:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_int_mddr = (gs_int_mddr & 0x01) ? ((gs_int_mddr / 2) + 1) : (gs_int_mddr / 2);
+ 401:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 402:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     calculate_baud_rate_with_mddr(clock_freq);
+ 403:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 404:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     write_mddr(channel);
+ 405:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 406:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     /* set the achieved Baud rate */
+ 407:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     *p_achieved_baud_rate = (uint32_t) gs_actual_baud_rate;
+ 408:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 409:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     return (DRV_SUCCESS);
+ 410:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** }
+  56              		.loc 1 410 0
+  57 0018 0CD08DE2 		add	sp, sp, #12
+  58              		.cfi_remember_state
+  59              		.cfi_def_cfa_offset 36
+  60              		@ sp needed
+  61 001c F08FBDE8 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+  62              	.LVL2:
+  63              	.L2:
+  64              		.cfi_restore_state
+  65              	.LBB12:
+  66              	.LBB13:
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {
+  67              		.loc 1 256 0
+  68 0020 000053E3 		cmp	r3, #0
+  69 0024 5C639FE5 		ldr	r6, .L54+16
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         gs_num_divisors = R_PRV_NUM_DIVISORS_ASYNC;
+  70              		.loc 1 258 0
+  71 0028 5C339F05 		ldreq	r3, .L54+20
+  72              	.LVL3:
+  73 002c 0070A0E1 		mov	r7, r0
+ 263:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         gs_num_divisors = R_PRV_NUM_DIVISORS_SYNC;
+  74              		.loc 1 263 0
+  75 0030 58339F15 		ldrne	r3, .L54+24
+ 273:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_divisor_index = 0;
+  76              		.loc 1 273 0
+  77 0034 0200A0E1 		mov	r0, r2
+  78              	.LVL4:
+  79 0038 54939FE5 		ldr	r9, .L54+28
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         gs_num_divisors = R_PRV_NUM_DIVISORS_ASYNC;
+  80              		.loc 1 258 0
+  81 003c 00308605 		streq	r3, [r6]
+ 259:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     }
+  82              		.loc 1 259 0
+  83 0040 0930A003 		moveq	r3, #9
+ 263:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         gs_num_divisors = R_PRV_NUM_DIVISORS_SYNC;
+  84              		.loc 1 263 0
+  85 0044 00308615 		strne	r3, [r6]
+ 264:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     }
+  86              		.loc 1 264 0
+  87 0048 0430A013 		movne	r3, #4
+  88 004c 003089E5 		str	r3, [r9]
+  89 0050 06008DE8 		stm	sp, {r1, r2}
+ 273:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_divisor_index = 0;
+  90              		.loc 1 273 0
+  91 0054 3C839FE5 		ldr	r8, .L54+32
+  92 0058 FEFFFFEB 		bl	__aeabi_uidiv
+  93              	.LVL5:
+ 274:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+  94              		.loc 1 274 0
+  95 005c 38439FE5 		ldr	r4, .L54+36
+  96 0060 0030A0E3 		mov	r3, #0
+ 276:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {
+  97              		.loc 1 276 0
+  98 0064 030057E1 		cmp	r7, r3
+ 273:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_divisor_index = 0;
+  99              		.loc 1 273 0
+ 100 0068 000088E5 		str	r0, [r8]
+ 274:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 101              		.loc 1 274 0
+ 102 006c 003084E5 		str	r3, [r4]
+ 276:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {
+ 103              		.loc 1 276 0
+ 104 0070 0700000A 		beq	.L6
+ 290:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         {
+ 105              		.loc 1 290 0
+ 106 0074 00A099E5 		ldr	r10, [r9]
+ 107 0078 0320A0E1 		mov	r2, r3
+ 108 007c 00C096E5 		ldr	ip, [r6]
+ 109 0080 06E0A0E3 		mov	lr, #6
+ 110              	.L7:
+ 111 0084 03005AE1 		cmp	r10, r3
+ 112 0088 8400008A 		bhi	.L14
+ 113 008c 000052E3 		cmp	r2, #0
+ 114 0090 060000EA 		b	.L49
+ 115              	.L6:
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****             ((gs_ratio >= (uint32_t) (gsp_baud_info[gs_divisor_index].divisor * 256)) || (2 == gsp_
+ 116              		.loc 1 281 0
+ 117 0094 00E099E5 		ldr	lr, [r9]
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         {
+ 118              		.loc 1 282 0
+ 119 0098 0730A0E1 		mov	r3, r7
+ 120 009c 002096E5 		ldr	r2, [r6]
+ 121 00a0 0710A0E1 		mov	r1, r7
+ 122              	.L8:
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****             ((gs_ratio >= (uint32_t) (gsp_baud_info[gs_divisor_index].divisor * 256)) || (2 == gsp_
+ 123              		.loc 1 281 0
+ 124 00a4 03005EE1 		cmp	lr, r3
+ 125 00a8 6F00008A 		bhi	.L9
+ 126 00ac 000051E3 		cmp	r1, #0
+ 127              	.L49:
+ 128 00b0 00308415 		strne	r3, [r4]
+ 129 00b4 D6FFFF1A 		bne	.L11
+ 130              	.L10:
+ 131              	.LVL6:
+ 132              	.LBE13:
+ 133              	.LBE12:
+ 341:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {
+ 134              		.loc 1 341 0
+ 135 00b8 003094E5 		ldr	r3, [r4]
+ 136 00bc 002099E5 		ldr	r2, [r9]
+ 137 00c0 020053E1 		cmp	r3, r2
+ 138 00c4 D2FFFF2A 		bcs	.L11
+ 139              	.L12:
+ 347:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_brr = gs_ratio / gs_divisor;
+ 140              		.loc 1 347 0
+ 141 00c8 0620A0E3 		mov	r2, #6
+ 142 00cc 001096E5 		ldr	r1, [r6]
+ 143 00d0 920303E0 		mul	r3, r2, r3
+ 144 00d4 C4B29FE5 		ldr	fp, .L54+40
+ 348:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 145              		.loc 1 348 0
+ 146 00d8 000098E5 		ldr	r0, [r8]
+ 147 00dc C0929FE5 		ldr	r9, .L54+44
+ 347:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_brr = gs_ratio / gs_divisor;
+ 148              		.loc 1 347 0
+ 149 00e0 F31091E1 		ldrsh	r1, [r1, r3]
+ 150 00e4 00108BE5 		str	r1, [fp]
+ 348:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 151              		.loc 1 348 0
+ 152 00e8 FEFFFFEB 		bl	__aeabi_uidiv
+ 153              	.LVL7:
+ 350:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {
+ 154              		.loc 1 350 0
+ 155 00ec 000050E3 		cmp	r0, #0
+ 348:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 156              		.loc 1 348 0
+ 157 00f0 000089E5 		str	r0, [r9]
+ 350:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {
+ 158              		.loc 1 350 0
+ 159 00f4 C6FFFF0A 		beq	.L11
+ 356:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_brr = gs_ratio / (gs_divisor / 2);                                // divide by half the divi
+ 160              		.loc 1 356 0
+ 161 00f8 A8329FE5 		ldr	r3, .L54+48
+ 162 00fc 0420A0E3 		mov	r2, #4
+ 163 0100 0010A0E3 		mov	r1, #0
+ 164 0104 07A193E7 		ldr	r10, [r3, r7, lsl #2]
+ 165 0108 1030A0E3 		mov	r3, #16
+ 166 010c 14708AE2 		add	r7, r10, #20
+ 167 0110 0700A0E1 		mov	r0, r7
+ 168 0114 FEFFFFEB 		bl	RZA_IO_RegWrite_8
+ 169              	.LVL8:
+ 357:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 170              		.loc 1 357 0
+ 171 0118 00109BE5 		ldr	r1, [fp]
+ 172              	.LBB15:
+ 173              	.LBB16:
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 174              		.loc 1 158 0
+ 175 011c 06B0A0E3 		mov	fp, #6
+ 176              	.LBE16:
+ 177              	.LBE15:
+ 357:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 178              		.loc 1 357 0
+ 179 0120 000098E5 		ldr	r0, [r8]
+ 180              	.LBB22:
+ 181              	.LBB17:
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 182              		.loc 1 155 0
+ 183 0124 02808AE2 		add	r8, r10, #2
+ 184              	.LBE17:
+ 185              	.LBE22:
+ 357:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 186              		.loc 1 357 0
+ 187 0128 A110A0E1 		lsr	r1, r1, #1
+ 188 012c FEFFFFEB 		bl	__aeabi_uidiv
+ 189              	.LVL9:
+ 190 0130 A010A0E1 		lsr	r1, r0, #1
+ 360:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 191              		.loc 1 360 0
+ 192 0134 010010E3 		tst	r0, #1
+ 193              	.LBB23:
+ 194              	.LBB18:
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 195              		.loc 1 155 0
+ 196 0138 0030E0E3 		mvn	r3, #0
+ 197              	.LBE18:
+ 198              	.LBE23:
+ 360:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 199              		.loc 1 360 0
+ 200 013c 01104102 		subeq	r1, r1, #1
+ 201              	.LBB24:
+ 202              	.LBB19:
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 203              		.loc 1 155 0
+ 204 0140 0020A0E3 		mov	r2, #0
+ 205              	.LBE19:
+ 206              	.LBE24:
+ 360:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 207              		.loc 1 360 0
+ 208 0144 001089E5 		str	r1, [r9]
+ 209              	.LVL10:
+ 210              	.LBB25:
+ 211              	.LBB20:
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 212              		.loc 1 155 0
+ 213 0148 0800A0E1 		mov	r0, r8
+ 214 014c 7110EFE6 		uxtb	r1, r1
+ 215 0150 FEFFFFEB 		bl	RZA_IO_RegWrite_8
+ 216              	.LVL11:
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 217              		.loc 1 158 0
+ 218 0154 001094E5 		ldr	r1, [r4]
+ 219 0158 0020A0E3 		mov	r2, #0
+ 220 015c 003096E5 		ldr	r3, [r6]
+ 221 0160 0700A0E1 		mov	r0, r7
+ 222 0164 9B3121E0 		mla	r1, fp, r1, r3
+ 223 0168 0130A0E3 		mov	r3, #1
+ 224 016c 0210D1E5 		ldrb	r1, [r1, #2]	@ zero_extendqisi2
+ 225 0170 FEFFFFEB 		bl	RZA_IO_RegWrite_8
+ 226              	.LVL12:
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 227              		.loc 1 161 0
+ 228 0174 001094E5 		ldr	r1, [r4]
+ 229 0178 0720A0E3 		mov	r2, #7
+ 230 017c 003096E5 		ldr	r3, [r6]
+ 231 0180 0700A0E1 		mov	r0, r7
+ 232 0184 9B3121E0 		mla	r1, fp, r1, r3
+ 233 0188 8030A0E3 		mov	r3, #128
+ 234 018c 0310D1E5 		ldrb	r1, [r1, #3]	@ zero_extendqisi2
+ 235 0190 FEFFFFEB 		bl	RZA_IO_RegWrite_8
+ 236              	.LVL13:
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** }
+ 237              		.loc 1 164 0
+ 238 0194 001094E5 		ldr	r1, [r4]
+ 239 0198 0020A0E3 		mov	r2, #0
+ 240 019c 003096E5 		ldr	r3, [r6]
+ 241 01a0 0A00A0E1 		mov	r0, r10
+ 242              	.LBE20:
+ 243              	.LBE25:
+ 244              	.LBB26:
+ 245              	.LBB27:
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 246              		.loc 1 209 0
+ 247 01a4 00429FE5 		ldr	r4, .L54+52
+ 248              	.LBE27:
+ 249              	.LBE26:
+ 250              	.LBB30:
+ 251              	.LBB21:
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** }
+ 252              		.loc 1 164 0
+ 253 01a8 9B3121E0 		mla	r1, fp, r1, r3
+ 254 01ac 0330A0E3 		mov	r3, #3
+ 255 01b0 0410D1E5 		ldrb	r1, [r1, #4]	@ zero_extendqisi2
+ 256 01b4 FEFFFFEB 		bl	RZA_IO_RegWrite_16
+ 257              	.LVL14:
+ 258              	.LBE21:
+ 259              	.LBE30:
+ 260              	.LBB31:
+ 261              	.LBB28:
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_actual_baud_rate = gs_actual_baud_rate / (float) gs_divisor;
+ 262              		.loc 1 208 0
+ 263 01b8 003099E5 		ldr	r3, [r9]
+ 207:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_actual_baud_rate = gs_actual_baud_rate / (float) (gs_brr + 1);
+ 264              		.loc 1 207 0
+ 265 01bc 017ADDED 		vldr.32	s15, [sp, #4]	@ int
+ 212:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_abs_error = (gs_error < 0) ? (-gs_error) : gs_error;
+ 266              		.loc 1 212 0
+ 267 01c0 6E4A9FED 		vldr.32	s8, .L54+8
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_actual_baud_rate = gs_actual_baud_rate / (float) gs_divisor;
+ 268              		.loc 1 208 0
+ 269 01c4 012083E2 		add	r2, r3, #1
+ 207:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_actual_baud_rate = gs_actual_baud_rate / (float) (gs_brr + 1);
+ 270              		.loc 1 207 0
+ 271 01c8 677AB8EE 		vcvt.f32.u32	s14, s15
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_actual_baud_rate = gs_actual_baud_rate / (float) gs_divisor;
+ 272              		.loc 1 208 0
+ 273 01cc 902A07EE 		vmov	s15, r2	@ int
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 274              		.loc 1 209 0
+ 275 01d0 C8219FE5 		ldr	r2, .L54+40
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_actual_baud_rate = gs_actual_baud_rate / (float) gs_divisor;
+ 276              		.loc 1 208 0
+ 277 01d4 677AF8EE 		vcvt.f32.u32	s15, s15
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 278              		.loc 1 209 0
+ 279 01d8 005AD2ED 		vldr.32	s11, [r2]	@ int
+ 213:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** }
+ 280              		.loc 1 213 0
+ 281 01dc CC219FE5 		ldr	r2, .L54+56
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_actual_baud_rate = gs_actual_baud_rate / (float) gs_divisor;
+ 282              		.loc 1 208 0
+ 283 01e0 276AC7EE 		vdiv.f32	s13, s14, s15
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 284              		.loc 1 209 0
+ 285 01e4 655AF8EE 		vcvt.f32.u32	s11, s11
+ 286 01e8 A54AC6EE 		vdiv.f32	s9, s13, s11
+ 212:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_abs_error = (gs_error < 0) ? (-gs_error) : gs_error;
+ 287              		.loc 1 212 0
+ 288 01ec 006ADDED 		vldr.32	s13, [sp]	@ int
+ 289 01f0 665AB8EE 		vcvt.f32.u32	s10, s13
+ 290 01f4 856A25EE 		vmul.f32	s12, s11, s10
+ 291 01f8 866A67EE 		vmul.f32	s13, s15, s12
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 292              		.loc 1 209 0
+ 293 01fc 004AC4ED 		vstr.32	s9, [r4]
+ 212:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_abs_error = (gs_error < 0) ? (-gs_error) : gs_error;
+ 294              		.loc 1 212 0
+ 295 0200 267AC7EE 		vdiv.f32	s15, s14, s13
+ 296 0204 006AF7EE 		vmov.f32	s13, #1.0e+0
+ 297 0208 E67A77EE 		vsub.f32	s15, s15, s13
+ 298 020c 847A67EE 		vmul.f32	s15, s15, s8
+ 213:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** }
+ 299              		.loc 1 213 0
+ 300 0210 C07AF5EE 		vcmpe.f32	s15, #0
+ 301 0214 10FAF1EE 		vmrs	APSR_nzcv, FPSCR
+ 302 0218 677AF14E 		vnegmi.f32	s15, s15
+ 303              	.LBE28:
+ 304              	.LBE31:
+ 367:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {
+ 305              		.loc 1 367 0
+ 306 021c E67AF4EE 		vcmpe.f32	s15, s13
+ 307 0220 10FAF1EE 		vmrs	APSR_nzcv, FPSCR
+ 308              	.LBB32:
+ 309              	.LBB29:
+ 213:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** }
+ 310              		.loc 1 213 0
+ 311 0224 007AC2ED 		vstr.32	s15, [r2]
+ 312              	.LVL15:
+ 313              	.LBE29:
+ 314              	.LBE32:
+ 367:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {
+ 315              		.loc 1 367 0
+ 316 0228 0100009A 		bls	.L19
+ 367:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {
+ 317              		.loc 1 367 0 is_stmt 0 discriminator 1
+ 318 022c 010053E3 		cmp	r3, #1
+ 319 0230 2100001A 		bne	.L20
+ 320              	.L19:
+ 370:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 321              		.loc 1 370 0 is_stmt 1
+ 322 0234 2030A0E3 		mov	r3, #32
+ 323 0238 0520A0E3 		mov	r2, #5
+ 324 023c 0010A0E3 		mov	r1, #0
+ 325              	.L51:
+ 326              	.LBB33:
+ 327              	.LBB34:
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** }
+ 328              		.loc 1 186 0 discriminator 4
+ 329 0240 0700A0E1 		mov	r0, r7
+ 330 0244 FEFFFFEB 		bl	RZA_IO_RegWrite_8
+ 331              	.LVL16:
+ 332              	.LBE34:
+ 333              	.LBE33:
+ 407:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 334              		.loc 1 407 0 discriminator 4
+ 335 0248 007AD4ED 		vldr.32	s15, [r4]
+ 409:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** }
+ 336              		.loc 1 409 0 discriminator 4
+ 337 024c 0000A0E3 		mov	r0, #0
+ 407:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 338              		.loc 1 407 0 discriminator 4
+ 339 0250 E77AFCEE 		vcvt.u32.f32	s15, s15
+ 340 0254 007AC5ED 		vstr.32	s15, [r5]	@ int
+ 409:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** }
+ 341              		.loc 1 409 0 discriminator 4
+ 342 0258 6EFFFFEA 		b	.L1
+ 343              	.LVL17:
+ 344              	.L13:
+ 345 025c 013083E2 		add	r3, r3, #1
+ 346 0260 062082E2 		add	r2, r2, #6
+ 347 0264 0110A0E3 		mov	r1, #1
+ 348 0268 8DFFFFEA 		b	.L8
+ 349              	.L9:
+ 350              	.LBB39:
+ 351              	.LBB14:
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         {
+ 352              		.loc 1 282 0
+ 353 026c F0C0D2E1 		ldrsh	ip, [r2]
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****             ((gs_ratio >= (uint32_t) (gsp_baud_info[gs_divisor_index].divisor * 256)) || (2 == gsp_
+ 354              		.loc 1 281 0
+ 355 0270 0C0450E1 		cmp	r0, ip, lsl #8
+ 356 0274 F8FFFF2A 		bcs	.L13
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         {
+ 357              		.loc 1 282 0
+ 358 0278 04C0D2E5 		ldrb	ip, [r2, #4]	@ zero_extendqisi2
+ 359 027c 02005CE3 		cmp	ip, #2
+ 360 0280 F5FFFF0A 		beq	.L13
+ 361 0284 000051E3 		cmp	r1, #0
+ 362              	.L53:
+ 363 0288 8AFFFF0A 		beq	.L10
+ 364 028c 003084E5 		str	r3, [r4]
+ 365              	.LVL18:
+ 366 0290 8CFFFFEA 		b	.L12
+ 367              	.LVL19:
+ 368              	.L25:
+ 290:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         {
+ 369              		.loc 1 290 0
+ 370 0294 0B30A0E1 		mov	r3, fp
+ 371 0298 0120A0E3 		mov	r2, #1
+ 372 029c 78FFFFEA 		b	.L7
+ 373              	.L14:
+ 374 02a0 9E0301E0 		mul	r1, lr, r3
+ 375 02a4 01B083E2 		add	fp, r3, #1
+ 376 02a8 F1109CE1 		ldrsh	r1, [ip, r1]
+ 377 02ac 010450E1 		cmp	r0, r1, lsl #8
+ 378 02b0 F7FFFF2A 		bcs	.L25
+ 379 02b4 000052E3 		cmp	r2, #0
+ 380 02b8 F2FFFFEA 		b	.L53
+ 381              	.LVL20:
+ 382              	.L20:
+ 383              	.LBE14:
+ 384              	.LBE39:
+ 379:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {
+ 385              		.loc 1 379 0
+ 386 02bc C54AF4EE 		vcmpe.f32	s9, s10
+ 387              	.LBB40:
+ 388              	.LBB35:
+ 180:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 389              		.loc 1 180 0
+ 390 02c0 0110A0E3 		mov	r1, #1
+ 391 02c4 D8209FE5 		ldr	r2, .L54+44
+ 392 02c8 0700A0E1 		mov	r0, r7
+ 393              	.LBE35:
+ 394              	.LBE40:
+ 379:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     {
+ 395              		.loc 1 379 0
+ 396 02cc 10FAF1EE 		vmrs	APSR_nzcv, FPSCR
+ 390:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         sp_scifa[channel]->BRR_MDDR.BRR.BYTE = (uint8_t) gs_brr;
+ 397              		.loc 1 390 0
+ 398 02d0 01304342 		submi	r3, r3, #1
+ 399              	.LBB41:
+ 400              	.LBB42:
+ 235:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** }
+ 401              		.loc 1 235 0
+ 402 02d4 272BDFED 		vldr.64	d18, .L54
+ 403              	.LBE42:
+ 404              	.LBE41:
+ 390:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****         sp_scifa[channel]->BRR_MDDR.BRR.BYTE = (uint8_t) gs_brr;
+ 405              		.loc 1 390 0
+ 406 02d8 00308245 		strmi	r3, [r2]
+ 391:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     }
+ 407              		.loc 1 391 0
+ 408 02dc 7330EF46 		uxtbmi	r3, r3
+ 400:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 409              		.loc 1 400 0
+ 410 02e0 CC609FE5 		ldr	r6, .L54+60
+ 391:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     }
+ 411              		.loc 1 391 0
+ 412 02e4 0230CA45 		strbmi	r3, [r10, #2]
+ 395:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_float_mddr *= 2;
+ 413              		.loc 1 395 0
+ 414 02e8 003092E5 		ldr	r3, [r2]
+ 415              	.LBB46:
+ 416              	.LBB36:
+ 180:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 417              		.loc 1 180 0
+ 418 02ec 0420A0E3 		mov	r2, #4
+ 419              	.LBE36:
+ 420              	.LBE46:
+ 395:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_float_mddr *= 2;
+ 421              		.loc 1 395 0
+ 422 02f0 013083E2 		add	r3, r3, #1
+ 423 02f4 903A07EE 		vmov	s15, r3	@ int
+ 424 02f8 676AF8EE 		vcvt.f32.u32	s13, s15
+ 425 02fc 207ADFED 		vldr.32	s15, .L54+12
+ 426 0300 276A26EE 		vmul.f32	s12, s12, s15
+ 427 0304 266A26EE 		vmul.f32	s12, s12, s13
+ 428 0308 077AC6EE 		vdiv.f32	s15, s12, s14
+ 396:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 429              		.loc 1 396 0
+ 430 030c A77A77EE 		vadd.f32	s15, s15, s15
+ 399:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_int_mddr = (gs_int_mddr & 0x01) ? ((gs_int_mddr / 2) + 1) : (gs_int_mddr / 2);
+ 431              		.loc 1 399 0
+ 432 0310 E77AFCEE 		vcvt.u32.f32	s15, s15
+ 433 0314 903A17EE 		vmov	r3, s15	@ int
+ 434              	.LBB47:
+ 435              	.LBB43:
+ 233:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_actual_baud_rate = gs_actual_baud_rate / (float) gs_divisor;
+ 436              		.loc 1 233 0
+ 437 0318 267AC7EE 		vdiv.f32	s15, s14, s13
+ 438              	.LBE43:
+ 439              	.LBE47:
+ 400:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 440              		.loc 1 400 0
+ 441 031c 010013E3 		tst	r3, #1
+ 442 0320 A330A0E1 		lsr	r3, r3, #1
+ 443 0324 01308312 		addne	r3, r3, #1
+ 444 0328 003086E5 		str	r3, [r6]
+ 445              	.LVL21:
+ 446              	.LBB48:
+ 447              	.LBB44:
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c ****     gs_actual_baud_rate = gs_actual_baud_rate / (float) (256.0 / gs_int_mddr);
+ 448              		.loc 1 234 0
+ 449 032c A56AC7EE 		vdiv.f32	s13, s15, s11
+ 235:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** }
+ 450              		.loc 1 235 0
+ 451 0330 903A07EE 		vmov	s15, r3	@ int
+ 452              	.LBE44:
+ 453              	.LBE48:
+ 454              	.LBB49:
+ 455              	.LBB37:
+ 180:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 456              		.loc 1 180 0
+ 457 0334 1030A0E3 		mov	r3, #16
+ 458              	.LBE37:
+ 459              	.LBE49:
+ 460              	.LBB50:
+ 461              	.LBB45:
+ 235:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** }
+ 462              		.loc 1 235 0
+ 463 0338 670BF8EE 		vcvt.f64.u32	d16, s15
+ 464 033c A01BC2EE 		vdiv.f64	d17, d18, d16
+ 465 0340 E17BF7EE 		vcvt.f32.f64	s15, d17
+ 466 0344 A77A86EE 		vdiv.f32	s14, s13, s15
+ 467 0348 007A84ED 		vstr.32	s14, [r4]
+ 468              	.LVL22:
+ 469              	.LBE45:
+ 470              	.LBE50:
+ 471              	.LBB51:
+ 472              	.LBB38:
+ 180:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 473              		.loc 1 180 0
+ 474 034c FEFFFFEB 		bl	RZA_IO_RegWrite_8
+ 475              	.LVL23:
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** 
+ 476              		.loc 1 183 0
+ 477 0350 0030E0E3 		mvn	r3, #0
+ 478 0354 0020A0E3 		mov	r2, #0
+ 479 0358 0010D6E5 		ldrb	r1, [r6]	@ zero_extendqisi2
+ 480 035c 0800A0E1 		mov	r0, r8
+ 481 0360 FEFFFFEB 		bl	RZA_IO_RegWrite_8
+ 482              	.LVL24:
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/sc_drivers/r_scifa/src/lld\r_rza2_scifa_lld_baud.c **** }
+ 483              		.loc 1 186 0
+ 484 0364 2030A0E3 		mov	r3, #32
+ 485 0368 0520A0E3 		mov	r2, #5
+ 486 036c 0110A0E3 		mov	r1, #1
+ 487 0370 B2FFFFEA 		b	.L51
+ 488              	.L55:
+ 489 0374 00F020E3 		.align	3
+ 490              	.L54:
+ 491 0378 00000000 		.word	0
+ 492 037c 00007040 		.word	1081081856
+ 493 0380 0000C842 		.word	1120403456
+ 494 0384 00008043 		.word	1132462080
+ 495 0388 00000000 		.word	.LANCHOR0
+ 496 038c 00000000 		.word	.LANCHOR1
+ 497 0390 00000000 		.word	.LANCHOR3
+ 498 0394 00000000 		.word	.LANCHOR2
+ 499 0398 00000000 		.word	.LANCHOR4
+ 500 039c 00000000 		.word	.LANCHOR5
+ 501 03a0 00000000 		.word	.LANCHOR6
+ 502 03a4 00000000 		.word	.LANCHOR7
+ 503 03a8 00000000 		.word	.LANCHOR8
+ 504 03ac 00000000 		.word	.LANCHOR9
+ 505 03b0 00000000 		.word	.LANCHOR10
+ 506 03b4 00000000 		.word	.LANCHOR11
+ 507              	.LBE38:
+ 508              	.LBE51:
+ 509              		.cfi_endproc
+ 510              	.LFE5:
+ 512              		.section	.bss.gs_abs_error,"aw",%nobits
+ 513              		.align	2
+ 514              		.set	.LANCHOR10,. + 0
+ 517              	gs_abs_error:
+ 518 0000 00000000 		.space	4
+ 519              		.section	.bss.gs_actual_baud_rate,"aw",%nobits
+ 520              		.align	2
+ 521              		.set	.LANCHOR9,. + 0
+ 524              	gs_actual_baud_rate:
+ 525 0000 00000000 		.space	4
+ 526              		.section	.bss.gs_brr,"aw",%nobits
+ 527              		.align	2
+ 528              		.set	.LANCHOR7,. + 0
+ 531              	gs_brr:
+ 532 0000 00000000 		.space	4
+ 533              		.section	.bss.gs_divisor,"aw",%nobits
+ 534              		.align	2
+ 535              		.set	.LANCHOR6,. + 0
+ 538              	gs_divisor:
+ 539 0000 00000000 		.space	4
+ 540              		.section	.bss.gs_divisor_index,"aw",%nobits
+ 541              		.align	2
+ 542              		.set	.LANCHOR5,. + 0
+ 545              	gs_divisor_index:
+ 546 0000 00000000 		.space	4
+ 547              		.section	.bss.gs_int_mddr,"aw",%nobits
+ 548              		.align	2
+ 549              		.set	.LANCHOR11,. + 0
+ 552              	gs_int_mddr:
+ 553 0000 00000000 		.space	4
+ 554              		.section	.bss.gs_num_divisors,"aw",%nobits
+ 555              		.align	2
+ 556              		.set	.LANCHOR2,. + 0
+ 559              	gs_num_divisors:
+ 560 0000 00000000 		.space	4
+ 561              		.section	.bss.gs_ratio,"aw",%nobits
+ 562              		.align	2
+ 563              		.set	.LANCHOR4,. + 0
+ 566              	gs_ratio:
+ 567 0000 00000000 		.space	4
+ 568              		.section	.bss.gsp_baud_info,"aw",%nobits
+ 569              		.align	2
+ 570              		.set	.LANCHOR0,. + 0
+ 573              	gsp_baud_info:
+ 574 0000 00000000 		.space	4
+ 575              		.section	.rodata.gs_scifa_async_baud,"a",%progbits
+ 576              		.align	1
+ 577              		.set	.LANCHOR1,. + 0
+ 580              	gs_scifa_async_baud:
+ 581 0000 0800     		.short	8
+ 582 0002 01       		.byte	1
+ 583 0003 01       		.byte	1
+ 584 0004 00       		.byte	0
+ 585 0005 00       		.space	1
+ 586 0006 1000     		.short	16
+ 587 0008 00       		.byte	0
+ 588 0009 01       		.byte	1
+ 589 000a 00       		.byte	0
+ 590 000b 00       		.space	1
+ 591 000c 2000     		.short	32
+ 592 000e 00       		.byte	0
+ 593 000f 00       		.byte	0
+ 594 0010 00       		.byte	0
+ 595 0011 00       		.space	1
+ 596 0012 4000     		.short	64
+ 597 0014 00       		.byte	0
+ 598 0015 01       		.byte	1
+ 599 0016 01       		.byte	1
+ 600 0017 00       		.space	1
+ 601 0018 8000     		.short	128
+ 602 001a 00       		.byte	0
+ 603 001b 00       		.byte	0
+ 604 001c 01       		.byte	1
+ 605 001d 00       		.space	1
+ 606 001e 0001     		.short	256
+ 607 0020 00       		.byte	0
+ 608 0021 01       		.byte	1
+ 609 0022 02       		.byte	2
+ 610 0023 00       		.space	1
+ 611 0024 0002     		.short	512
+ 612 0026 00       		.byte	0
+ 613 0027 00       		.byte	0
+ 614 0028 02       		.byte	2
+ 615 0029 00       		.space	1
+ 616 002a 0004     		.short	1024
+ 617 002c 00       		.byte	0
+ 618 002d 01       		.byte	1
+ 619 002e 03       		.byte	3
+ 620 002f 00       		.space	1
+ 621 0030 0008     		.short	2048
+ 622 0032 00       		.byte	0
+ 623 0033 00       		.byte	0
+ 624 0034 03       		.byte	3
+ 625 0035 00       		.space	1
+ 626              		.section	.rodata.gs_scifa_sync_baud,"a",%progbits
+ 627              		.align	1
+ 628              		.set	.LANCHOR3,. + 0
+ 631              	gs_scifa_sync_baud:
+ 632 0000 0400     		.short	4
+ 633 0002 00       		.byte	0
+ 634 0003 00       		.byte	0
+ 635 0004 00       		.byte	0
+ 636 0005 00       		.space	1
+ 637 0006 1000     		.short	16
+ 638 0008 00       		.byte	0
+ 639 0009 00       		.byte	0
+ 640 000a 01       		.byte	1
+ 641 000b 00       		.space	1
+ 642 000c 4000     		.short	64
+ 643 000e 00       		.byte	0
+ 644 000f 00       		.byte	0
+ 645 0010 02       		.byte	2
+ 646 0011 00       		.space	1
+ 647 0012 0001     		.short	256
+ 648 0014 00       		.byte	0
+ 649 0015 00       		.byte	0
+ 650 0016 03       		.byte	3
+ 651 0017 00       		.space	1
+ 652              		.section	.rodata.sp_scifa,"a",%progbits
+ 653              		.align	2
+ 654              		.set	.LANCHOR8,. + 0
+ 657              	sp_scifa:
+ 658 0000 007000E8 		.word	-402624512
+ 659 0004 007800E8 		.word	-402622464
+ 660 0008 008000E8 		.word	-402620416
+ 661 000c 008800E8 		.word	-402618368
+ 662 0010 009000E8 		.word	-402616320
+ 663              		.text
+ 664              	.Letext0:
+ 665              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 666              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 667              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 668              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 669              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 670              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 671              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 672              		.file 9 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_bo
+ 673              		.file 10 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 674              		.file 11 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 675              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 676              		.file 13 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 677              		.file 14 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+DEFINED SYMBOLS
+                            *ABS*:00000000 r_rza2_scifa_lld_baud.c
+C:\Users\a5089698\AppData\Local\Temp\ccokT0o5.s:18     .text.R_SCIFA_SetBaud:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccokT0o5.s:24     .text.R_SCIFA_SetBaud:00000000 R_SCIFA_SetBaud
+C:\Users\a5089698\AppData\Local\Temp\ccokT0o5.s:491    .text.R_SCIFA_SetBaud:00000378 $d
+C:\Users\a5089698\AppData\Local\Temp\ccokT0o5.s:513    .bss.gs_abs_error:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccokT0o5.s:517    .bss.gs_abs_error:00000000 gs_abs_error
+C:\Users\a5089698\AppData\Local\Temp\ccokT0o5.s:520    .bss.gs_actual_baud_rate:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccokT0o5.s:524    .bss.gs_actual_baud_rate:00000000 gs_actual_baud_rate
+C:\Users\a5089698\AppData\Local\Temp\ccokT0o5.s:527    .bss.gs_brr:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccokT0o5.s:531    .bss.gs_brr:00000000 gs_brr
+C:\Users\a5089698\AppData\Local\Temp\ccokT0o5.s:534    .bss.gs_divisor:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccokT0o5.s:538    .bss.gs_divisor:00000000 gs_divisor
+C:\Users\a5089698\AppData\Local\Temp\ccokT0o5.s:541    .bss.gs_divisor_index:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccokT0o5.s:545    .bss.gs_divisor_index:00000000 gs_divisor_index
+C:\Users\a5089698\AppData\Local\Temp\ccokT0o5.s:548    .bss.gs_int_mddr:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccokT0o5.s:552    .bss.gs_int_mddr:00000000 gs_int_mddr
+C:\Users\a5089698\AppData\Local\Temp\ccokT0o5.s:555    .bss.gs_num_divisors:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccokT0o5.s:559    .bss.gs_num_divisors:00000000 gs_num_divisors
+C:\Users\a5089698\AppData\Local\Temp\ccokT0o5.s:562    .bss.gs_ratio:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccokT0o5.s:566    .bss.gs_ratio:00000000 gs_ratio
+C:\Users\a5089698\AppData\Local\Temp\ccokT0o5.s:569    .bss.gsp_baud_info:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccokT0o5.s:573    .bss.gsp_baud_info:00000000 gsp_baud_info
+C:\Users\a5089698\AppData\Local\Temp\ccokT0o5.s:576    .rodata.gs_scifa_async_baud:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccokT0o5.s:580    .rodata.gs_scifa_async_baud:00000000 gs_scifa_async_baud
+C:\Users\a5089698\AppData\Local\Temp\ccokT0o5.s:627    .rodata.gs_scifa_sync_baud:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccokT0o5.s:631    .rodata.gs_scifa_sync_baud:00000000 gs_scifa_sync_baud
+C:\Users\a5089698\AppData\Local\Temp\ccokT0o5.s:653    .rodata.sp_scifa:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccokT0o5.s:657    .rodata.sp_scifa:00000000 sp_scifa
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+__aeabi_uidiv
+RZA_IO_RegWrite_8
+RZA_IO_RegWrite_16

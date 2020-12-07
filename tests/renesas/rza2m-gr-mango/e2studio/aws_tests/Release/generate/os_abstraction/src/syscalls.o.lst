@@ -1,0 +1,1834 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"syscalls.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.wrap,"ax",%progbits
+  17              		.align	2
+  18              		.syntax unified
+  19              		.arm
+  20              		.fpu neon
+  22              	wrap:
+  23              	.LFB22:
+  24              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/cor
+   1:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** /*******************************************************************************
+   2:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** * DISCLAIMER
+   3:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** * This software is supplied by Renesas Electronics Corporation and is only
+   4:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** * intended for use with Renesas products. No other uses are authorized. This
+   5:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** * software is owned by Renesas Electronics Corporation and is protected under
+   6:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** * all applicable laws, including copyright laws.
+   7:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   8:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT
+   9:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** * LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+  10:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** * AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED.
+  11:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** * TO THE MAXIMUM EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS
+  12:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** * ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES SHALL BE LIABLE
+  13:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** * FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR
+  14:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** * ANY REASON RELATED TO THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE
+  15:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** * BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+  16:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** * Renesas reserves the right, without notice, to make changes to this software
+  17:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** * and to discontinue the availability of this software. By using this software,
+  18:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** * you agree to the additional terms and conditions found by accessing the
+  19:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** * following link:
+  20:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** * http://www.renesas.com/disclaimer
+  21:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** * Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+  22:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** *******************************************************************************/
+  23:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** /*******************************************************************************
+  24:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** * File Name : syscalls.c
+  25:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** * Description :
+  26:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** ******************************************************************************/
+  27:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** /* Support files for GNU libc.  Files in the system namespace go here.
+  28:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****    Files in the C namespace (ie those that do not start with an
+  29:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****    underscore) go in .c.  */
+  30:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+  31:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #include <_ansi.h>
+  32:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #include <sys/types.h>
+  33:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #include <sys/stat.h>
+  34:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #include <sys/fcntl.h>
+  35:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #include <stdio.h>
+  36:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #include <time.h>
+  37:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #include <sys/time.h>
+  38:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #include <sys/times.h>
+  39:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #include <errno.h>
+  40:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #include <reent.h>
+  41:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #include <signal.h>
+  42:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #include <unistd.h>
+  43:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #include <sys/wait.h>
+  44:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #include "swi.h"
+  45:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+  46:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #include "r_typedefs.h"
+  47:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #include "r_devlink_wrapper.h"
+  48:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #include "r_os_abstraction_config.h"
+  49:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+  50:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** /* Forward prototypes.  */
+  51:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int     _system     _PARAMS ((const char *));
+  52:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int     _rename     _PARAMS ((const char *, const char *));
+  53:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int     _isatty		_PARAMS ((int));
+  54:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** clock_t _times		_PARAMS ((struct tms *));
+  55:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int     _gettimeofday	_PARAMS ((struct timeval *, void *));
+  56:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** void    _raise 		_PARAMS ((void));
+  57:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int     _unlink		_PARAMS ((const char *));
+  58:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int     _link 		_PARAMS ((void));
+  59:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int     _stat 		_PARAMS ((const char *, struct stat *));
+  60:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int     _fstat 		_PARAMS ((int, struct stat *));
+  61:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** caddr_t _sbrk		_PARAMS ((int));
+  62:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int     _getpid		_PARAMS ((int));
+  63:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int     _kill		_PARAMS ((int, int));
+  64:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** void    _exit		_PARAMS ((int));
+  65:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int     _close		_PARAMS ((int));
+  66:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int     _swiclose	_PARAMS ((int));
+  67:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int     _open		_PARAMS ((const char *, int, ...));
+  68:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int     _swiopen	_PARAMS ((const char *, int));
+  69:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int     _write 		_PARAMS ((int, char *, int));
+  70:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int     _swiwrite	_PARAMS ((int, char *, int));
+  71:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int     _lseek		_PARAMS ((int, int, int));
+  72:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int     _swilseek	_PARAMS ((int, int, int));
+  73:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int     _read		_PARAMS ((int, char *, int));
+  74:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int     _swiread	_PARAMS ((int, char *, int));
+  75:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** void    initialise_monitor_handles _PARAMS ((void));
+  76:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+  77:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** static int	wrap		_PARAMS ((int));
+  78:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** static int	error		_PARAMS ((int));
+  79:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** static int	get_errno	_PARAMS ((void));
+  80:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** static int	remap_handle	_PARAMS ((int));
+  81:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** static int 	findslot	_PARAMS ((int));
+  82:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+  83:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** /* Register name faking - works in collusion with the linker.  */
+  84:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** register char * stack_ptr asm ("sp");
+  85:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+  86:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+  87:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** /* following is copied from libc/stdio/local.h to check std streams */
+  88:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** extern void   _EXFUN(__sinit,(struct _reent *));
+  89:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #define CHECK_INIT(ptr) \
+  90:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   do						\
+  91:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     {						\
+  92:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       if ((ptr) && !(ptr)->__sdidinit)		\
+  93:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 	__sinit (ptr);				\
+  94:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     }						\
+  95:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   while (0)
+  96:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+  97:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** /* Adjust our internal handles to stay away from std* handles.  */
+  98:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #define FILE_HANDLE_OFFSET (0x00)
+  99:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** static int monitor_stdin;
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** static int monitor_stdout;
+ 103:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** static int monitor_stderr;
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** /* Struct used to keep track of the file position, just so we
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****    can implement fseek(fh,x,SEEK_CUR).  */
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** typedef struct
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int handle;
+ 110:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int pos;
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** poslog;
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #define MAX_OPEN_FILES 20
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** static poslog openfiles [MAX_OPEN_FILES];
+ 116:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** static int
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** findslot (int fh)
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int i;
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   for (i = 0; i < MAX_OPEN_FILES; i ++)
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     if (openfiles[i].handle == fh)
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       break;
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return i;
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** /* Function to convert std(in|out|err) handles to internal versions.  */
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** static int
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** remap_handle (int fh)
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   CHECK_INIT(_REENT);
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   if (fh == STDIN_FILENO)
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     return monitor_stdin;
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   if (fh == STDOUT_FILENO)
+ 136:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     return monitor_stdout;
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   if (fh == STDERR_FILENO)
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     return monitor_stderr;
+ 139:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 140:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return fh - FILE_HANDLE_OFFSET;
+ 141:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 142:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 143:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** void
+ 144:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** initialise_monitor_handles (void)
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 146:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int i;
+ 147:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int fh;
+ 148:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   char * name;
+ 149:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 151:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int volatile block[3];
+ 152:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 153:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   name = "\\\\.\\stdin";
+ 154:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   fh = low_open(name, O_RDWR);    /* Reserve file handle for devlink */  
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   block[0] = (int) ":tt";
+ 156:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   block[2] = 3;     /* length of filename */
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   block[1] = 0;     /* mode "r" */
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   monitor_stdin = do_AngelSWI (AngelSWI_Reason_Open, (void *) block);
+ 159:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   block[0] = (int) ":tt";
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   block[2] = 3;     /* length of filename */
+ 162:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   block[1] = 4;     /* mode "w" */
+ 163:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   monitor_stdout = monitor_stderr = do_AngelSWI (AngelSWI_Reason_Open, (void *) block);
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 165:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   name = "\\\\.\\stdin";
+ 166:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   fh = low_open(name, O_RDWR);    /* Reserve file handle for devlink */
+ 167:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   name = "\\\\.\\stdout";
+ 168:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   fh = low_open(name, O_WRONLY);  /* Reserve file handle for devlink */
+ 169:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   name = "\\\\.\\stderr";
+ 170:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   fh = low_open(name, O_WRONLY);  /* Reserve file handle for devlink */
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #else
+ 172:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   name = "\\\\.\\stdin";
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   fh = low_open(name, O_RDWR);
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   monitor_stdin = fh;
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   name = "\\\\.\\stdout";
+ 176:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   fh = low_open(name, O_WRONLY);
+ 177:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   monitor_stdout = fh;
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   name = "\\\\.\\stderr";
+ 179:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   fh = low_open(name, O_WRONLY);
+ 180:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #endif
+ 181:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 182:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   for (i = 0; i < MAX_OPEN_FILES; i ++)
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     openfiles[i].handle = -1;
+ 184:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 185:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   openfiles[0].handle = monitor_stdin;
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   openfiles[0].pos = 0;
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   openfiles[1].handle = monitor_stdout;
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   openfiles[1].pos = 0;
+ 189:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   openfiles[2].handle = monitor_stdout;
+ 190:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   openfiles[2].pos = 0;
+ 191:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 193:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** static int
+ 194:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** get_errno (void)
+ 195:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 196:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 197:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return do_AngelSWI (AngelSWI_Reason_Errno, NULL);
+ 198:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #endif
+ 199:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 200:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 201:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** static int
+ 202:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** error (int result)
+ 203:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   errno = get_errno ();
+ 205:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return result;
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 207:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** static int
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** wrap (int result)
+ 210:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+  25              		.loc 1 210 0
+  26              		.cfi_startproc
+  27              		@ args = 0, pretend = 0, frame = 0
+  28              		@ frame_needed = 0, uses_anonymous_args = 0
+  29              	.LVL0:
+ 211:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   if (result == -1)
+  30              		.loc 1 211 0
+  31 0000 010070E3 		cmn	r0, #1
+ 210:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   if (result == -1)
+  32              		.loc 1 210 0
+  33 0004 10402DE9 		push	{r4, lr}
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 4, -8
+  36              		.cfi_offset 14, -4
+ 210:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   if (result == -1)
+  37              		.loc 1 210 0
+  38 0008 0040A0E1 		mov	r4, r0
+  39              		.loc 1 211 0
+  40 000c 0200001A 		bne	.L2
+  41              	.LVL1:
+  42              	.LBB10:
+  43              	.LBB11:
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return result;
+  44              		.loc 1 204 0
+  45 0010 FEFFFFEB 		bl	__errno
+  46              	.LVL2:
+  47 0014 0030A0E3 		mov	r3, #0
+  48 0018 003080E5 		str	r3, [r0]
+  49              	.LVL3:
+  50              	.L2:
+  51              	.LBE11:
+  52              	.LBE10:
+ 212:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     return error (-1);
+ 213:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return result;
+ 214:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+  53              		.loc 1 214 0
+  54 001c 0400A0E1 		mov	r0, r4
+  55 0020 1080BDE8 		pop	{r4, pc}
+  56              		.cfi_endproc
+  57              	.LFE22:
+  59              		.section	.text.initialise_monitor_handles,"ax",%progbits
+  60              		.align	2
+  61              		.global	initialise_monitor_handles
+  62              		.syntax unified
+  63              		.arm
+  64              		.fpu neon
+  66              	initialise_monitor_handles:
+  67              	.LFB19:
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int i;
+  68              		.loc 1 145 0
+  69              		.cfi_startproc
+  70              		@ args = 0, pretend = 0, frame = 0
+  71              		@ frame_needed = 0, uses_anonymous_args = 0
+  72              	.LVL4:
+  73 0000 70402DE9 		push	{r4, r5, r6, lr}
+  74              		.cfi_def_cfa_offset 16
+  75              		.cfi_offset 4, -16
+  76              		.cfi_offset 5, -12
+  77              		.cfi_offset 6, -8
+  78              		.cfi_offset 14, -4
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   monitor_stdin = fh;
+  79              		.loc 1 173 0
+  80 0004 0210A0E3 		mov	r1, #2
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   name = "\\\\.\\stdout";
+  81              		.loc 1 174 0
+  82 0008 6C509FE5 		ldr	r5, .L8
+ 177:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   name = "\\\\.\\stderr";
+  83              		.loc 1 177 0
+  84 000c 6C409FE5 		ldr	r4, .L8+4
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   monitor_stdin = fh;
+  85              		.loc 1 173 0
+  86 0010 6C009FE5 		ldr	r0, .L8+8
+  87 0014 FEFFFFEB 		bl	low_open
+  88              	.LVL5:
+ 176:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   monitor_stdout = fh;
+  89              		.loc 1 176 0
+  90 0018 0110A0E3 		mov	r1, #1
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   name = "\\\\.\\stdout";
+  91              		.loc 1 174 0
+  92 001c 000085E5 		str	r0, [r5]
+  93              	.LVL6:
+ 176:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   monitor_stdout = fh;
+  94              		.loc 1 176 0
+  95 0020 60009FE5 		ldr	r0, .L8+12
+  96              	.LVL7:
+  97 0024 FEFFFFEB 		bl	low_open
+  98              	.LVL8:
+ 179:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #endif
+  99              		.loc 1 179 0
+ 100 0028 0110A0E3 		mov	r1, #1
+ 177:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   name = "\\\\.\\stderr";
+ 101              		.loc 1 177 0
+ 102 002c 000084E5 		str	r0, [r4]
+ 103              	.LVL9:
+ 179:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #endif
+ 104              		.loc 1 179 0
+ 105 0030 54009FE5 		ldr	r0, .L8+16
+ 106              	.LVL10:
+ 107 0034 FEFFFFEB 		bl	low_open
+ 108              	.LVL11:
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 109              		.loc 1 183 0
+ 110 0038 50309FE5 		ldr	r3, .L8+20
+ 182:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     openfiles[i].handle = -1;
+ 111              		.loc 1 182 0
+ 112 003c 0020A0E3 		mov	r2, #0
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 113              		.loc 1 183 0
+ 114 0040 0010E0E3 		mvn	r1, #0
+ 115              	.LVL12:
+ 116              	.L5:
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 117              		.loc 1 183 0 is_stmt 0 discriminator 3
+ 118 0044 821183E7 		str	r1, [r3, r2, lsl #3]
+ 182:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     openfiles[i].handle = -1;
+ 119              		.loc 1 182 0 is_stmt 1 discriminator 3
+ 120 0048 012082E2 		add	r2, r2, #1
+ 121              	.LVL13:
+ 122 004c 140052E3 		cmp	r2, #20
+ 123 0050 FBFFFF1A 		bne	.L5
+ 185:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   openfiles[0].pos = 0;
+ 124              		.loc 1 185 0
+ 125 0054 002095E5 		ldr	r2, [r5]
+ 126              	.LVL14:
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   openfiles[1].pos = 0;
+ 127              		.loc 1 187 0
+ 128 0058 001094E5 		ldr	r1, [r4]
+ 185:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   openfiles[0].pos = 0;
+ 129              		.loc 1 185 0
+ 130 005c 002083E5 		str	r2, [r3]
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   openfiles[1].handle = monitor_stdout;
+ 131              		.loc 1 186 0
+ 132 0060 0020A0E3 		mov	r2, #0
+ 133 0064 042083E5 		str	r2, [r3, #4]
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   openfiles[1].pos = 0;
+ 134              		.loc 1 187 0
+ 135 0068 081083E5 		str	r1, [r3, #8]
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   openfiles[2].handle = monitor_stdout;
+ 136              		.loc 1 188 0
+ 137 006c 0C2083E5 		str	r2, [r3, #12]
+ 189:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   openfiles[2].pos = 0;
+ 138              		.loc 1 189 0
+ 139 0070 101083E5 		str	r1, [r3, #16]
+ 190:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 140              		.loc 1 190 0
+ 141 0074 142083E5 		str	r2, [r3, #20]
+ 142 0078 7080BDE8 		pop	{r4, r5, r6, pc}
+ 143              	.L9:
+ 144              		.align	2
+ 145              	.L8:
+ 146 007c 00000000 		.word	.LANCHOR0
+ 147 0080 00000000 		.word	.LANCHOR1
+ 148 0084 00000000 		.word	.LC0
+ 149 0088 0A000000 		.word	.LC1
+ 150 008c 15000000 		.word	.LC2
+ 151 0090 00000000 		.word	.LANCHOR2
+ 152              		.cfi_endproc
+ 153              	.LFE19:
+ 155              		.section	.text._swiread,"ax",%progbits
+ 156              		.align	2
+ 157              		.global	_swiread
+ 158              		.syntax unified
+ 159              		.arm
+ 160              		.fpu neon
+ 162              	_swiread:
+ 163              	.LFB50:
+ 164              		.cfi_startproc
+ 165              		@ args = 0, pretend = 0, frame = 0
+ 166              		@ frame_needed = 0, uses_anonymous_args = 0
+ 167              		@ link register save eliminated.
+ 168 0000 0000A0E3 		mov	r0, #0
+ 169 0004 1EFF2FE1 		bx	lr
+ 170              		.cfi_endproc
+ 171              	.LFE50:
+ 173              		.section	.text._read,"ax",%progbits
+ 174              		.align	2
+ 175              		.weak	_read
+ 176              		.syntax unified
+ 177              		.arm
+ 178              		.fpu neon
+ 180              	_read:
+ 181              	.LFB24:
+ 215:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 216:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** /* Returns # chars not! written.  */
+ 217:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int
+ 218:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** _swiread (int file,
+ 219:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 	  char * ptr,
+ 220:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 	  int len)
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 222:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 223:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int fh = remap_handle (file);
+ 224:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int block[3];
+ 225:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   
+ 226:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   block[0] = fh;
+ 227:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   block[1] = (int) ptr;
+ 228:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   block[2] = len;
+ 229:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return do_AngelSWI (AngelSWI_Reason_Read, block);
+ 231:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #endif
+ 232:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 233:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int __attribute__((weak))
+ 235:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** _read (int file,
+ 236:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****        char * ptr,
+ 237:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****        int len)
+ 238:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 182              		.loc 1 238 0
+ 183              		.cfi_startproc
+ 184              		@ args = 0, pretend = 0, frame = 0
+ 185              		@ frame_needed = 0, uses_anonymous_args = 0
+ 186              	.LVL15:
+ 187              		.loc 1 238 0
+ 188 0000 10402DE9 		push	{r4, lr}
+ 189              		.cfi_def_cfa_offset 8
+ 190              		.cfi_offset 4, -8
+ 191              		.cfi_offset 14, -4
+ 239:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 240:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   if ((file == STDIN_FILENO) || (file == STDOUT_FILENO) || (file == STDERR_FILENO))
+ 241:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   {
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     int slot = findslot (remap_handle (file));
+ 243:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     int x = _swiread (file, ptr, len);
+ 244:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 245:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     if (x < 0)
+ 246:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       return error (-1);
+ 247:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 248:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     if (slot != MAX_OPEN_FILES)
+ 249:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       openfiles [slot].pos += len - x;
+ 250:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 251:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     /* x == len is not an error, at least if we want feof() to work.  */
+ 252:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     return len - x;
+ 253:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   }
+ 254:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   else
+ 255:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   {
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     int_t   i = low_read(file, (uint8_t*)ptr, (uint32_t)len);
+ 257:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     return wrap(i);
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   }
+ 259:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #else
+ 260:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int_t   i = low_read(file, (uint8_t*)ptr, (uint32_t)len);
+ 192              		.loc 1 260 0
+ 193 0004 FEFFFFEB 		bl	low_read
+ 194              	.LVL16:
+ 261:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return wrap(i);
+ 262:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #endif
+ 263:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 195              		.loc 1 263 0
+ 196 0008 1040BDE8 		pop	{r4, lr}
+ 197              		.cfi_restore 14
+ 198              		.cfi_restore 4
+ 199              		.cfi_def_cfa_offset 0
+ 261:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return wrap(i);
+ 200              		.loc 1 261 0
+ 201 000c FEFFFFEA 		b	wrap
+ 202              	.LVL17:
+ 203              		.cfi_endproc
+ 204              	.LFE24:
+ 206              		.section	.text._swilseek,"ax",%progbits
+ 207              		.align	2
+ 208              		.global	_swilseek
+ 209              		.syntax unified
+ 210              		.arm
+ 211              		.fpu neon
+ 213              	_swilseek:
+ 214              	.LFB25:
+ 264:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 265:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int
+ 266:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** _swilseek (int file,
+ 267:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 	   int ptr,
+ 268:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 	   int dir)
+ 269:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 215              		.loc 1 269 0
+ 216              		.cfi_startproc
+ 217              		@ args = 0, pretend = 0, frame = 0
+ 218              		@ frame_needed = 0, uses_anonymous_args = 0
+ 219              	.LVL18:
+ 220              	.LBB16:
+ 221              	.LBB17:
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 222              		.loc 1 131 0
+ 223 0000 A4309FE5 		ldr	r3, .L32
+ 224              	.LBE17:
+ 225              	.LBE16:
+ 226              		.loc 1 269 0
+ 227 0004 70402DE9 		push	{r4, r5, r6, lr}
+ 228              		.cfi_def_cfa_offset 16
+ 229              		.cfi_offset 4, -16
+ 230              		.cfi_offset 5, -12
+ 231              		.cfi_offset 6, -8
+ 232              		.cfi_offset 14, -4
+ 233              		.loc 1 269 0
+ 234 0008 0040A0E1 		mov	r4, r0
+ 235              	.LVL19:
+ 236 000c 0150A0E1 		mov	r5, r1
+ 237 0010 0260A0E1 		mov	r6, r2
+ 238              	.LBB20:
+ 239              	.LBB18:
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 240              		.loc 1 131 0
+ 241 0014 000093E5 		ldr	r0, [r3]
+ 242              	.LVL20:
+ 243 0018 000050E3 		cmp	r0, #0
+ 244 001c 0300000A 		beq	.L14
+ 245 0020 383090E5 		ldr	r3, [r0, #56]
+ 246 0024 000053E3 		cmp	r3, #0
+ 247 0028 0000001A 		bne	.L14
+ 248 002c FEFFFFEB 		bl	__sinit
+ 249              	.LVL21:
+ 250              	.L14:
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     return monitor_stdin;
+ 251              		.loc 1 133 0
+ 252 0030 000054E3 		cmp	r4, #0
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   if (fh == STDOUT_FILENO)
+ 253              		.loc 1 134 0
+ 254 0034 74309F05 		ldreq	r3, .L32+4
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     return monitor_stdin;
+ 255              		.loc 1 133 0
+ 256 0038 0200000A 		beq	.L31
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     return monitor_stdout;
+ 257              		.loc 1 135 0
+ 258 003c 010054E3 		cmp	r4, #1
+ 259 0040 0E00001A 		bne	.L17
+ 136:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   if (fh == STDERR_FILENO)
+ 260              		.loc 1 136 0
+ 261 0044 68309FE5 		ldr	r3, .L32+8
+ 262              	.L31:
+ 263 0048 004093E5 		ldr	r4, [r3]
+ 264              	.LVL22:
+ 265              	.L16:
+ 266              	.LBE18:
+ 267              	.LBE20:
+ 268              	.LBB21:
+ 269              	.LBB22:
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       break;
+ 270              		.loc 1 122 0
+ 271 004c 64309FE5 		ldr	r3, .L32+12
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     if (openfiles[i].handle == fh)
+ 272              		.loc 1 121 0
+ 273 0050 0010A0E3 		mov	r1, #0
+ 274 0054 0300A0E1 		mov	r0, r3
+ 275              	.LVL23:
+ 276              	.L19:
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       break;
+ 277              		.loc 1 122 0
+ 278 0058 81C193E7 		ldr	ip, [r3, r1, lsl #3]
+ 279 005c 8121A0E1 		lsl	r2, r1, #3
+ 280 0060 04005CE1 		cmp	ip, r4
+ 281 0064 0800000A 		beq	.L18
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     if (openfiles[i].handle == fh)
+ 282              		.loc 1 121 0
+ 283 0068 011081E2 		add	r1, r1, #1
+ 284              	.LVL24:
+ 285 006c 140051E3 		cmp	r1, #20
+ 286 0070 F8FFFF1A 		bne	.L19
+ 287              	.LVL25:
+ 288              	.LBE22:
+ 289              	.LBE21:
+ 270:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int res = 0;
+ 271:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int fh = remap_handle (file);
+ 272:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int slot = findslot (fh);
+ 273:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 274:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int block[2];
+ 275:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #endif
+ 276:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 277:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   if (dir == SEEK_CUR)
+ 278:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     {
+ 279:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       if (slot == MAX_OPEN_FILES)
+ 280:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 	return -1;
+ 290              		.loc 1 280 0
+ 291 0074 010056E3 		cmp	r6, #1
+ 292 0078 0050E003 		mvneq	r5, #0
+ 293              	.LVL26:
+ 294 007c 080000EA 		b	.L25
+ 295              	.LVL27:
+ 296              	.L17:
+ 297              	.LBB23:
+ 298              	.LBB19:
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 299              		.loc 1 138 0
+ 300 0080 020054E3 		cmp	r4, #2
+ 301 0084 0040A003 		moveq	r4, #0
+ 302              	.LVL28:
+ 303 0088 EFFFFFEA 		b	.L16
+ 304              	.LVL29:
+ 305              	.L18:
+ 306              	.LBE19:
+ 307              	.LBE23:
+ 277:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     {
+ 308              		.loc 1 277 0
+ 309 008c 010056E3 		cmp	r6, #1
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       ptr = openfiles[slot].pos + ptr;
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       dir = SEEK_SET;
+ 283:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     }
+ 284:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   
+ 285:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 286:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   if (dir == SEEK_END)
+ 287:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     {
+ 288:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       block[0] = fh;
+ 289:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       ptr += do_AngelSWI (AngelSWI_Reason_FLen, block);
+ 290:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     }
+ 291:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   
+ 292:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   /* This code only does absolute seeks.  */
+ 293:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   block[0] = remap_handle (file);
+ 294:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   block[1] = ptr;
+ 295:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   res = do_AngelSWI (AngelSWI_Reason_Seek, block);
+ 296:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #endif
+ 297:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 298:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   if (slot != MAX_OPEN_FILES && res == 0)
+ 299:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     openfiles[slot].pos = ptr;
+ 310              		.loc 1 299 0
+ 311 0090 020080E0 		add	r0, r0, r2
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       ptr = openfiles[slot].pos + ptr;
+ 312              		.loc 1 281 0
+ 313 0094 02308300 		addeq	r3, r3, r2
+ 314 0098 04309305 		ldreq	r3, [r3, #4]
+ 315 009c 03508500 		addeq	r5, r5, r3
+ 316              	.LVL30:
+ 317              		.loc 1 299 0
+ 318 00a0 045080E5 		str	r5, [r0, #4]
+ 319              	.LVL31:
+ 320              	.L25:
+ 300:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 301:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   /* This is expected to return the position in the file.  */
+ 302:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return res == 0 ? ptr : -1;
+ 303:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 321              		.loc 1 303 0
+ 322 00a4 0500A0E1 		mov	r0, r5
+ 323 00a8 7080BDE8 		pop	{r4, r5, r6, pc}
+ 324              	.L33:
+ 325              		.align	2
+ 326              	.L32:
+ 327 00ac 00000000 		.word	_impure_ptr
+ 328 00b0 00000000 		.word	.LANCHOR0
+ 329 00b4 00000000 		.word	.LANCHOR1
+ 330 00b8 00000000 		.word	.LANCHOR2
+ 331              		.cfi_endproc
+ 332              	.LFE25:
+ 334              		.section	.text._lseek,"ax",%progbits
+ 335              		.align	2
+ 336              		.global	_lseek
+ 337              		.syntax unified
+ 338              		.arm
+ 339              		.fpu neon
+ 341              	_lseek:
+ 342              	.LFB26:
+ 304:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 305:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int
+ 306:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** _lseek (int file,
+ 307:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 	int ptr,
+ 308:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 	int dir)
+ 309:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 343              		.loc 1 309 0
+ 344              		.cfi_startproc
+ 345              		@ args = 0, pretend = 0, frame = 0
+ 346              		@ frame_needed = 0, uses_anonymous_args = 0
+ 347              	.LVL32:
+ 348 0000 10402DE9 		push	{r4, lr}
+ 349              		.cfi_def_cfa_offset 8
+ 350              		.cfi_offset 4, -8
+ 351              		.cfi_offset 14, -4
+ 310:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return wrap (_swilseek (file, ptr, dir));
+ 352              		.loc 1 310 0
+ 353 0004 FEFFFFEB 		bl	_swilseek
+ 354              	.LVL33:
+ 311:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 355              		.loc 1 311 0
+ 356 0008 1040BDE8 		pop	{r4, lr}
+ 357              		.cfi_restore 14
+ 358              		.cfi_restore 4
+ 359              		.cfi_def_cfa_offset 0
+ 310:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return wrap (_swilseek (file, ptr, dir));
+ 360              		.loc 1 310 0
+ 361 000c FEFFFFEA 		b	wrap
+ 362              	.LVL34:
+ 363              		.cfi_endproc
+ 364              	.LFE26:
+ 366              		.section	.text._swiwrite,"ax",%progbits
+ 367              		.align	2
+ 368              		.global	_swiwrite
+ 369              		.syntax unified
+ 370              		.arm
+ 371              		.fpu neon
+ 373              	_swiwrite:
+ 374              	.LFB27:
+ 312:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 313:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** /* Returns #chars not! written.  */
+ 314:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int
+ 315:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** _swiwrite (
+ 316:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 	   int    file,
+ 317:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 	   char * ptr,
+ 318:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 	   int    len)
+ 319:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 375              		.loc 1 319 0
+ 376              		.cfi_startproc
+ 377              		@ args = 0, pretend = 0, frame = 0
+ 378              		@ frame_needed = 0, uses_anonymous_args = 0
+ 379              		@ link register save eliminated.
+ 380              	.LVL35:
+ 381              	.LVL36:
+ 320:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 321:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int fh = remap_handle (file);
+ 322:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 323:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int block[3];
+ 324:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   
+ 325:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   block[0] = fh;
+ 326:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   block[1] = (int) ptr;
+ 327:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   block[2] = len;
+ 328:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   
+ 329:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return do_AngelSWI (AngelSWI_Reason_Write, block);
+ 330:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 331:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 332:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 333:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #endif
+ 334:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 382              		.loc 1 334 0
+ 383 0000 1EFF2FE1 		bx	lr
+ 384              		.cfi_endproc
+ 385              	.LFE27:
+ 387              		.section	.text._write,"ax",%progbits
+ 388              		.align	2
+ 389              		.weak	_write
+ 390              		.syntax unified
+ 391              		.arm
+ 392              		.fpu neon
+ 394              	_write:
+ 395              	.LFB28:
+ 335:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 336:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int __attribute__((weak))
+ 337:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** _write (int    file,
+ 338:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 	char * ptr,
+ 339:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 	int    len)
+ 340:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 396              		.loc 1 340 0
+ 397              		.cfi_startproc
+ 398              		@ args = 0, pretend = 0, frame = 0
+ 399              		@ frame_needed = 0, uses_anonymous_args = 0
+ 400              	.LVL37:
+ 401 0000 10402DE9 		push	{r4, lr}
+ 402              		.cfi_def_cfa_offset 8
+ 403              		.cfi_offset 4, -8
+ 404              		.cfi_offset 14, -4
+ 341:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 342:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   if ((file == STDIN_FILENO) || (file == STDOUT_FILENO) || (file == STDERR_FILENO))
+ 343:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   {
+ 344:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     int slot = findslot (remap_handle (file));
+ 345:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     int x = _swiwrite (file, ptr,len);
+ 346:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 347:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     if (x == -1 || x == len)
+ 348:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       return error (-1);
+ 349:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     
+ 350:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     if (slot != MAX_OPEN_FILES)
+ 351:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       openfiles[slot].pos += len - x;
+ 352:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     
+ 353:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     return len - x;
+ 354:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   }
+ 355:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   else
+ 356:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   {
+ 357:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     int_t i;
+ 358:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 359:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     i = low_write(file, (uint8_t*)ptr, (uint32_t)len);
+ 360:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 361:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     return wrap(i);
+ 362:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   }
+ 363:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #else
+ 364:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int_t i;
+ 365:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 366:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   i = low_write(file, (uint8_t*)ptr, (uint32_t)len);
+ 405              		.loc 1 366 0
+ 406 0004 FEFFFFEB 		bl	low_write
+ 407              	.LVL38:
+ 367:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 368:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return wrap(i);
+ 369:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #endif
+ 370:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 408              		.loc 1 370 0
+ 409 0008 1040BDE8 		pop	{r4, lr}
+ 410              		.cfi_restore 14
+ 411              		.cfi_restore 4
+ 412              		.cfi_def_cfa_offset 0
+ 368:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #endif
+ 413              		.loc 1 368 0
+ 414 000c FEFFFFEA 		b	wrap
+ 415              	.LVL39:
+ 416              		.cfi_endproc
+ 417              	.LFE28:
+ 419              		.section	.text._swiopen,"ax",%progbits
+ 420              		.align	2
+ 421              		.global	_swiopen
+ 422              		.syntax unified
+ 423              		.arm
+ 424              		.fpu neon
+ 426              	_swiopen:
+ 427              	.LFB29:
+ 371:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 372:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** extern int strlen (const char *);
+ 373:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 374:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int
+ 375:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** _swiopen (const char * path,
+ 376:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 	  int          flags)
+ 377:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 428              		.loc 1 377 0
+ 429              		.cfi_startproc
+ 430              		@ args = 0, pretend = 0, frame = 0
+ 431              		@ frame_needed = 0, uses_anonymous_args = 0
+ 432              	.LVL40:
+ 433 0000 F0412DE9 		push	{r4, r5, r6, r7, r8, lr}
+ 434              		.cfi_def_cfa_offset 24
+ 435              		.cfi_offset 4, -24
+ 436              		.cfi_offset 5, -20
+ 437              		.cfi_offset 6, -16
+ 438              		.cfi_offset 7, -12
+ 439              		.cfi_offset 8, -8
+ 440              		.cfi_offset 14, -4
+ 441              	.LBB28:
+ 442              	.LBB29:
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     if (openfiles[i].handle == fh)
+ 443              		.loc 1 121 0
+ 444 0004 0040A0E3 		mov	r4, #0
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       break;
+ 445              		.loc 1 122 0
+ 446 0008 54509FE5 		ldr	r5, .L46
+ 447              	.LVL41:
+ 448              	.L41:
+ 449 000c 8471A0E1 		lsl	r7, r4, #3
+ 450 0010 843195E7 		ldr	r3, [r5, r4, lsl #3]
+ 451 0014 010073E3 		cmn	r3, #1
+ 452 0018 0A00000A 		beq	.L40
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     if (openfiles[i].handle == fh)
+ 453              		.loc 1 121 0
+ 454 001c 014084E2 		add	r4, r4, #1
+ 455              	.LVL42:
+ 456 0020 140054E3 		cmp	r4, #20
+ 457 0024 F8FFFF1A 		bne	.L41
+ 458              	.LBE29:
+ 459              	.LBE28:
+ 378:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int fh;
+ 379:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 380:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int i = findslot (-1);
+ 381:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   
+ 382:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   if (i == MAX_OPEN_FILES)
+ 383:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     return -1;
+ 460              		.loc 1 383 0
+ 461 0028 0060E0E3 		mvn	r6, #0
+ 462              	.LVL43:
+ 463              	.L39:
+ 384:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 385:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 386:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   fh = low_open((char *)path, flags);
+ 387:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 388:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   if (fh >= 0)
+ 389:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     {
+ 390:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       openfiles[i].handle = fh;
+ 391:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       openfiles[i].pos = 0;
+ 392:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     }
+ 393:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 394:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return fh >= 0 ? fh + FILE_HANDLE_OFFSET : error (fh);
+ 395:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 464              		.loc 1 395 0
+ 465 002c 0600A0E1 		mov	r0, r6
+ 466 0030 F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 467              	.LVL44:
+ 468              	.L43:
+ 390:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       openfiles[i].pos = 0;
+ 469              		.loc 1 390 0
+ 470 0034 846185E7 		str	r6, [r5, r4, lsl #3]
+ 391:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     }
+ 471              		.loc 1 391 0
+ 472 0038 0030A0E3 		mov	r3, #0
+ 473 003c 075085E0 		add	r5, r5, r7
+ 474 0040 043085E5 		str	r3, [r5, #4]
+ 475 0044 F8FFFFEA 		b	.L39
+ 476              	.LVL45:
+ 477              	.L40:
+ 386:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 478              		.loc 1 386 0
+ 479 0048 FEFFFFEB 		bl	low_open
+ 480              	.LVL46:
+ 388:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     {
+ 481              		.loc 1 388 0
+ 482 004c 006050E2 		subs	r6, r0, #0
+ 483 0050 F7FFFFAA 		bge	.L43
+ 484              	.LVL47:
+ 485              	.LBB30:
+ 486              	.LBB31:
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return result;
+ 487              		.loc 1 204 0
+ 488 0054 FEFFFFEB 		bl	__errno
+ 489              	.LVL48:
+ 490 0058 0030A0E3 		mov	r3, #0
+ 491 005c 003080E5 		str	r3, [r0]
+ 492              	.LVL49:
+ 493              	.LBE31:
+ 494              	.LBE30:
+ 495 0060 F1FFFFEA 		b	.L39
+ 496              	.L47:
+ 497              		.align	2
+ 498              	.L46:
+ 499 0064 00000000 		.word	.LANCHOR2
+ 500              		.cfi_endproc
+ 501              	.LFE29:
+ 503              		.section	.text._open,"ax",%progbits
+ 504              		.align	2
+ 505              		.global	_open
+ 506              		.syntax unified
+ 507              		.arm
+ 508              		.fpu neon
+ 510              	_open:
+ 511              	.LFB30:
+ 396:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 397:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int
+ 398:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** _open (const char * path,
+ 399:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****        int          flags,
+ 400:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****        ...)
+ 401:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 512              		.loc 1 401 0
+ 513              		.cfi_startproc
+ 514              		@ args = 4, pretend = 12, frame = 0
+ 515              		@ frame_needed = 0, uses_anonymous_args = 1
+ 516              	.LVL50:
+ 517 0000 0E002DE9 		push	{r1, r2, r3}
+ 518              		.cfi_def_cfa_offset 12
+ 519              		.cfi_offset 1, -12
+ 520              		.cfi_offset 2, -8
+ 521              		.cfi_offset 3, -4
+ 522 0004 04E02DE5 		str	lr, [sp, #-4]!
+ 523              		.cfi_def_cfa_offset 16
+ 524              		.cfi_offset 14, -16
+ 402:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return wrap (_swiopen (path, flags));
+ 525              		.loc 1 402 0
+ 526 0008 04109DE5 		ldr	r1, [sp, #4]
+ 527 000c FEFFFFEB 		bl	_swiopen
+ 528              	.LVL51:
+ 529 0010 FEFFFFEB 		bl	wrap
+ 530              	.LVL52:
+ 403:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 531              		.loc 1 403 0
+ 532 0014 04E09DE4 		ldr	lr, [sp], #4
+ 533              		.cfi_restore 14
+ 534              		.cfi_def_cfa_offset 12
+ 535 0018 0CD08DE2 		add	sp, sp, #12
+ 536              		.cfi_restore 3
+ 537              		.cfi_restore 2
+ 538              		.cfi_restore 1
+ 539              		.cfi_def_cfa_offset 0
+ 540 001c 1EFF2FE1 		bx	lr
+ 541              		.cfi_endproc
+ 542              	.LFE30:
+ 544              		.section	.text._swiclose,"ax",%progbits
+ 545              		.align	2
+ 546              		.global	_swiclose
+ 547              		.syntax unified
+ 548              		.arm
+ 549              		.fpu neon
+ 551              	_swiclose:
+ 552              	.LFB31:
+ 404:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 405:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int
+ 406:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** _swiclose (int file)
+ 407:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 553              		.loc 1 407 0
+ 554              		.cfi_startproc
+ 555              		@ args = 0, pretend = 0, frame = 0
+ 556              		@ frame_needed = 0, uses_anonymous_args = 0
+ 557              		@ link register save eliminated.
+ 558              	.LVL53:
+ 559              	.LBB34:
+ 560              	.LBB35:
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       break;
+ 561              		.loc 1 122 0
+ 562 0000 28209FE5 		ldr	r2, .L55
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     if (openfiles[i].handle == fh)
+ 563              		.loc 1 121 0
+ 564 0004 0030A0E3 		mov	r3, #0
+ 565              	.LVL54:
+ 566              	.L52:
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       break;
+ 567              		.loc 1 122 0
+ 568 0008 831192E7 		ldr	r1, [r2, r3, lsl #3]
+ 569 000c 010050E1 		cmp	r0, r1
+ 570 0010 0300000A 		beq	.L51
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     if (openfiles[i].handle == fh)
+ 571              		.loc 1 121 0
+ 572 0014 013083E2 		add	r3, r3, #1
+ 573              	.LVL55:
+ 574 0018 140053E3 		cmp	r3, #20
+ 575 001c F9FFFF1A 		bne	.L52
+ 576              	.LVL56:
+ 577              	.L53:
+ 578              	.LBE35:
+ 579              	.LBE34:
+ 408:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int res;
+ 409:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 410:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int myhan = remap_handle (file);
+ 411:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int slot = findslot (myhan);
+ 412:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 413:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   
+ 414:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   if (slot != MAX_OPEN_FILES)
+ 415:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     openfiles[slot].handle = -1;
+ 416:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 417:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   res = low_close(myhan);
+ 418:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #else
+ 419:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int slot = findslot (file);
+ 420:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 421:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   if (slot != MAX_OPEN_FILES)
+ 422:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     openfiles[slot].handle = -1;
+ 423:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 424:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   res = low_close(file);
+ 580              		.loc 1 424 0
+ 581 0020 FEFFFFEA 		b	low_close
+ 582              	.LVL57:
+ 583              	.L51:
+ 422:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 584              		.loc 1 422 0
+ 585 0024 0010E0E3 		mvn	r1, #0
+ 586 0028 831182E7 		str	r1, [r2, r3, lsl #3]
+ 587 002c FBFFFFEA 		b	.L53
+ 588              	.L56:
+ 589              		.align	2
+ 590              	.L55:
+ 591 0030 00000000 		.word	.LANCHOR2
+ 592              		.cfi_endproc
+ 593              	.LFE31:
+ 595              		.section	.text._close,"ax",%progbits
+ 596              		.align	2
+ 597              		.global	_close
+ 598              		.syntax unified
+ 599              		.arm
+ 600              		.fpu neon
+ 602              	_close:
+ 603              	.LFB32:
+ 425:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #endif
+ 426:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return res;
+ 427:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 428:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 429:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int
+ 430:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** _close (int file)
+ 431:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 604              		.loc 1 431 0
+ 605              		.cfi_startproc
+ 606              		@ args = 0, pretend = 0, frame = 0
+ 607              		@ frame_needed = 0, uses_anonymous_args = 0
+ 608              	.LVL58:
+ 609 0000 10402DE9 		push	{r4, lr}
+ 610              		.cfi_def_cfa_offset 8
+ 611              		.cfi_offset 4, -8
+ 612              		.cfi_offset 14, -4
+ 432:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return wrap (_swiclose (file));
+ 613              		.loc 1 432 0
+ 614 0004 FEFFFFEB 		bl	_swiclose
+ 615              	.LVL59:
+ 433:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 616              		.loc 1 433 0
+ 617 0008 1040BDE8 		pop	{r4, lr}
+ 618              		.cfi_restore 14
+ 619              		.cfi_restore 4
+ 620              		.cfi_def_cfa_offset 0
+ 432:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return wrap (_swiclose (file));
+ 621              		.loc 1 432 0
+ 622 000c FEFFFFEA 		b	wrap
+ 623              	.LVL60:
+ 624              		.cfi_endproc
+ 625              	.LFE32:
+ 627              		.section	.text._kill,"ax",%progbits
+ 628              		.align	2
+ 629              		.global	_kill
+ 630              		.syntax unified
+ 631              		.arm
+ 632              		.fpu neon
+ 634              	_kill:
+ 635              	.LFB33:
+ 434:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 435:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int
+ 436:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** _kill (int pid, int sig)
+ 437:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 636              		.loc 1 437 0
+ 637              		.cfi_startproc
+ 638              		@ args = 0, pretend = 0, frame = 0
+ 639              		@ frame_needed = 0, uses_anonymous_args = 0
+ 640              		@ link register save eliminated.
+ 641              	.LVL61:
+ 642              	.LVL62:
+ 438:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   (void)pid; (void)sig;
+ 439:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 440:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   /* Note: The pid argument is thrown away.  */
+ 441:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   switch (sig) {
+ 442:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 	  case SIGABRT:
+ 443:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 		  return do_AngelSWI (AngelSWI_Reason_ReportException,
+ 444:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 				  (void *) ADP_Stopped_RunTimeError);
+ 445:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 	  default:
+ 446:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 		  return do_AngelSWI (AngelSWI_Reason_ReportException,
+ 447:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 				  (void *) ADP_Stopped_ApplicationExit);
+ 448:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   }
+ 449:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #endif
+ 450:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 643              		.loc 1 450 0
+ 644 0000 1EFF2FE1 		bx	lr
+ 645              		.cfi_endproc
+ 646              	.LFE33:
+ 648              		.section	.text._exit,"ax",%progbits
+ 649              		.align	2
+ 650              		.global	_exit
+ 651              		.syntax unified
+ 652              		.arm
+ 653              		.fpu neon
+ 655              	_exit:
+ 656              	.LFB34:
+ 451:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 452:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** void
+ 453:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** _exit (int status)
+ 454:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 657              		.loc 1 454 0
+ 658              		.cfi_startproc
+ 659              		@ Volatile: function does not return.
+ 660              		@ args = 0, pretend = 0, frame = 0
+ 661              		@ frame_needed = 0, uses_anonymous_args = 0
+ 662              		@ link register save eliminated.
+ 663              	.LVL63:
+ 455:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   /* There is only one SWI for both _exit and _kill. For _exit, call
+ 456:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****      the SWI with the second argument set to -1, an invalid value for
+ 457:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****      signum, so that the SWI handler can distinguish the two calls.
+ 458:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****      Note: The RDI implementation of _kill throws away both its
+ 459:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****      arguments.  */
+ 460:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   _kill(status, -1);
+ 461:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 664              		.loc 1 461 0
+ 665 0000 1EFF2FE1 		bx	lr
+ 666              		.cfi_endproc
+ 667              	.LFE34:
+ 669              		.section	.text._getpid,"ax",%progbits
+ 670              		.align	2
+ 671              		.global	_getpid
+ 672              		.syntax unified
+ 673              		.arm
+ 674              		.fpu neon
+ 676              	_getpid:
+ 677              	.LFB35:
+ 462:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 463:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int
+ 464:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** _getpid (int n)
+ 465:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 678              		.loc 1 465 0
+ 679              		.cfi_startproc
+ 680              		@ args = 0, pretend = 0, frame = 0
+ 681              		@ frame_needed = 0, uses_anonymous_args = 0
+ 682              		@ link register save eliminated.
+ 683              	.LVL64:
+ 466:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return 1;
+ 467:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   n = n;
+ 468:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 684              		.loc 1 468 0
+ 685 0000 0100A0E3 		mov	r0, #1
+ 686              	.LVL65:
+ 687 0004 1EFF2FE1 		bx	lr
+ 688              		.cfi_endproc
+ 689              	.LFE35:
+ 691              		.section	.text._sbrk,"ax",%progbits
+ 692              		.align	2
+ 693              		.weak	_sbrk
+ 694              		.syntax unified
+ 695              		.arm
+ 696              		.fpu neon
+ 698              	_sbrk:
+ 699              	.LFB36:
+ 469:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 470:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** caddr_t __attribute__((weak))
+ 471:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** _sbrk (int incr)
+ 472:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 700              		.loc 1 472 0
+ 701              		.cfi_startproc
+ 702              		@ args = 0, pretend = 0, frame = 0
+ 703              		@ frame_needed = 0, uses_anonymous_args = 0
+ 704              		@ link register save eliminated.
+ 705              	.LVL66:
+ 473:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   extern char   end asm ("__heap_start");           /* Defined by the linker.  */
+ 474:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   extern char   heap_limit __asm ("__heap_end");    /* Defined by the linker.  */
+ 475:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   static char * heap_end = NULL;
+ 476:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   char *        prev_heap_end;
+ 477:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 478:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   if (heap_end == NULL)
+ 706              		.loc 1 478 0
+ 707 0000 20309FE5 		ldr	r3, .L64
+ 472:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   extern char   end asm ("__heap_start");           /* Defined by the linker.  */
+ 708              		.loc 1 472 0
+ 709 0004 0020A0E1 		mov	r2, r0
+ 710              		.loc 1 478 0
+ 711 0008 001093E5 		ldr	r1, [r3]
+ 712 000c 000051E3 		cmp	r1, #0
+ 479:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     heap_end = & end;
+ 713              		.loc 1 479 0
+ 714 0010 14109F05 		ldreq	r1, .L64+4
+ 715 0014 00108305 		streq	r1, [r3]
+ 480:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   
+ 481:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   prev_heap_end = heap_end;
+ 716              		.loc 1 481 0
+ 717 0018 000093E5 		ldr	r0, [r3]
+ 718              	.LVL67:
+ 482:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   
+ 483:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   if (heap_end + incr > &heap_limit)
+ 719              		.loc 1 483 0
+ 720 001c 022080E0 		add	r2, r0, r2
+ 721              	.LVL68:
+ 484:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     {
+ 485:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       /* Some of the libstdc++-v3 tests rely upon detecting
+ 486:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 	 out of memory errors, so do not abort here.  */
+ 487:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #if 0
+ 488:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       extern void abort (void);
+ 489:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 490:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       _write (1, "_sbrk: Heap and stack collision\n", 32);
+ 491:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       
+ 492:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       abort ();
+ 493:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #endif
+ 494:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     }
+ 495:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   
+ 496:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   heap_end += incr;
+ 722              		.loc 1 496 0
+ 723 0020 002083E5 		str	r2, [r3]
+ 497:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 498:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return (caddr_t) prev_heap_end;
+ 499:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 724              		.loc 1 499 0
+ 725 0024 1EFF2FE1 		bx	lr
+ 726              	.L65:
+ 727              		.align	2
+ 728              	.L64:
+ 729 0028 00000000 		.word	.LANCHOR3
+ 730 002c 00000000 		.word	__heap_start
+ 731              		.cfi_endproc
+ 732              	.LFE36:
+ 734              		.section	.text._fstat,"ax",%progbits
+ 735              		.align	2
+ 736              		.global	_fstat
+ 737              		.syntax unified
+ 738              		.arm
+ 739              		.fpu neon
+ 741              	_fstat:
+ 742              	.LFB37:
+ 500:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 501:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** extern void memset (struct stat *, int, unsigned int);
+ 502:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 503:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int
+ 504:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** _fstat (int file, struct stat * st)
+ 505:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 743              		.loc 1 505 0
+ 744              		.cfi_startproc
+ 745              		@ args = 0, pretend = 0, frame = 0
+ 746              		@ frame_needed = 0, uses_anonymous_args = 0
+ 747              	.LVL69:
+ 748 0000 10402DE9 		push	{r4, lr}
+ 749              		.cfi_def_cfa_offset 8
+ 750              		.cfi_offset 4, -8
+ 751              		.cfi_offset 14, -4
+ 752              		.loc 1 505 0
+ 753 0004 0140A0E1 		mov	r4, r1
+ 506:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   memset (st, 0, sizeof (* st));
+ 754              		.loc 1 506 0
+ 755 0008 0400A0E1 		mov	r0, r4
+ 756              	.LVL70:
+ 757 000c 3C20A0E3 		mov	r2, #60
+ 758 0010 0010A0E3 		mov	r1, #0
+ 759              	.LVL71:
+ 760 0014 FEFFFFEB 		bl	memset
+ 761              	.LVL72:
+ 507:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   st->st_mode = S_IFCHR;
+ 762              		.loc 1 507 0
+ 763 0018 023AA0E3 		mov	r3, #8192
+ 508:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   st->st_blksize = 1024;
+ 509:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return 0;
+ 510:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   file = file;
+ 511:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 764              		.loc 1 511 0
+ 765 001c 0000A0E3 		mov	r0, #0
+ 507:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   st->st_mode = S_IFCHR;
+ 766              		.loc 1 507 0
+ 767 0020 043084E5 		str	r3, [r4, #4]
+ 508:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   st->st_blksize = 1024;
+ 768              		.loc 1 508 0
+ 769 0024 013BA0E3 		mov	r3, #1024
+ 770 0028 2C3084E5 		str	r3, [r4, #44]
+ 771              		.loc 1 511 0
+ 772 002c 1080BDE8 		pop	{r4, pc}
+ 773              		.cfi_endproc
+ 774              	.LFE37:
+ 776              		.section	.text._stat,"ax",%progbits
+ 777              		.align	2
+ 778              		.global	_stat
+ 779              		.syntax unified
+ 780              		.arm
+ 781              		.fpu neon
+ 783              	_stat:
+ 784              	.LFB38:
+ 512:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 513:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int _stat (const char *fname, struct stat *st)
+ 514:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 785              		.loc 1 514 0
+ 786              		.cfi_startproc
+ 787              		@ args = 0, pretend = 0, frame = 0
+ 788              		@ frame_needed = 0, uses_anonymous_args = 0
+ 789              	.LVL73:
+ 790 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 791              		.cfi_def_cfa_offset 16
+ 792              		.cfi_offset 4, -16
+ 793              		.cfi_offset 5, -12
+ 794              		.cfi_offset 6, -8
+ 795              		.cfi_offset 14, -4
+ 796              		.loc 1 514 0
+ 797 0004 0140A0E1 		mov	r4, r1
+ 515:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int file;
+ 516:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 517:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   /* The best we can do is try to open the file readonly.  If it exists,
+ 518:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****      then we can guess a few things about it.  */
+ 519:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   if ((file = _open (fname, O_RDONLY)) < 0)
+ 798              		.loc 1 519 0
+ 799 0008 0010A0E3 		mov	r1, #0
+ 800              	.LVL74:
+ 801 000c FEFFFFEB 		bl	_open
+ 802              	.LVL75:
+ 803 0010 005050E2 		subs	r5, r0, #0
+ 804 0014 0B0000BA 		blt	.L70
+ 520:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     return -1;
+ 521:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 522:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   memset (st, 0, sizeof (* st));
+ 805              		.loc 1 522 0
+ 806 0018 3C20A0E3 		mov	r2, #60
+ 807 001c 0010A0E3 		mov	r1, #0
+ 808 0020 0400A0E1 		mov	r0, r4
+ 809              	.LVL76:
+ 810 0024 FEFFFFEB 		bl	memset
+ 811              	.LVL77:
+ 523:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   st->st_mode = S_IFREG | S_IREAD;
+ 812              		.loc 1 523 0
+ 813 0028 813CA0E3 		mov	r3, #33024
+ 524:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   st->st_blksize = 1024;
+ 525:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   _swiclose (file); /* Not interested in the error.  */
+ 814              		.loc 1 525 0
+ 815 002c 0500A0E1 		mov	r0, r5
+ 523:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   st->st_mode = S_IFREG | S_IREAD;
+ 816              		.loc 1 523 0
+ 817 0030 043084E5 		str	r3, [r4, #4]
+ 524:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   st->st_blksize = 1024;
+ 818              		.loc 1 524 0
+ 819 0034 013BA0E3 		mov	r3, #1024
+ 820 0038 2C3084E5 		str	r3, [r4, #44]
+ 821              		.loc 1 525 0
+ 822 003c FEFFFFEB 		bl	_swiclose
+ 823              	.LVL78:
+ 526:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return 0;
+ 824              		.loc 1 526 0
+ 825 0040 0000A0E3 		mov	r0, #0
+ 826 0044 7080BDE8 		pop	{r4, r5, r6, pc}
+ 827              	.LVL79:
+ 828              	.L70:
+ 520:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 829              		.loc 1 520 0
+ 830 0048 0000E0E3 		mvn	r0, #0
+ 831              	.LVL80:
+ 527:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 832              		.loc 1 527 0
+ 833 004c 7080BDE8 		pop	{r4, r5, r6, pc}
+ 834              		.cfi_endproc
+ 835              	.LFE38:
+ 837              		.section	.text._link,"ax",%progbits
+ 838              		.align	2
+ 839              		.global	_link
+ 840              		.syntax unified
+ 841              		.arm
+ 842              		.fpu neon
+ 844              	_link:
+ 845              	.LFB39:
+ 528:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 529:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int
+ 530:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** _link (void)
+ 531:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 846              		.loc 1 531 0
+ 847              		.cfi_startproc
+ 848              		@ args = 0, pretend = 0, frame = 0
+ 849              		@ frame_needed = 0, uses_anonymous_args = 0
+ 850              		@ link register save eliminated.
+ 532:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return -1;
+ 533:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 851              		.loc 1 533 0
+ 852 0000 0000E0E3 		mvn	r0, #0
+ 853 0004 1EFF2FE1 		bx	lr
+ 854              		.cfi_endproc
+ 855              	.LFE39:
+ 857              		.section	.text._unlink,"ax",%progbits
+ 858              		.align	2
+ 859              		.global	_unlink
+ 860              		.syntax unified
+ 861              		.arm
+ 862              		.fpu neon
+ 864              	_unlink:
+ 865              	.LFB48:
+ 866              		.cfi_startproc
+ 867              		@ args = 0, pretend = 0, frame = 0
+ 868              		@ frame_needed = 0, uses_anonymous_args = 0
+ 869              		@ link register save eliminated.
+ 870 0000 0000A0E3 		mov	r0, #0
+ 871 0004 1EFF2FE1 		bx	lr
+ 872              		.cfi_endproc
+ 873              	.LFE48:
+ 875              		.section	.text._raise,"ax",%progbits
+ 876              		.align	2
+ 877              		.global	_raise
+ 878              		.syntax unified
+ 879              		.arm
+ 880              		.fpu neon
+ 882              	_raise:
+ 883              	.LFB41:
+ 534:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 535:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int
+ 536:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** _unlink (const char *path)
+ 537:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 538:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 539:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int block[2];
+ 540:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   block[0] = path;
+ 541:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   block[1] = strlen(path);
+ 542:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return wrap (do_AngelSWI (AngelSWI_Reason_Remove, block)) ? -1 : 0;
+ 543:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #endif
+ 544:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 545:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 546:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** void
+ 547:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** _raise (void)
+ 548:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 884              		.loc 1 548 0
+ 885              		.cfi_startproc
+ 886              		@ args = 0, pretend = 0, frame = 0
+ 887              		@ frame_needed = 0, uses_anonymous_args = 0
+ 888              		@ link register save eliminated.
+ 889 0000 1EFF2FE1 		bx	lr
+ 890              		.cfi_endproc
+ 891              	.LFE41:
+ 893              		.section	.text._gettimeofday,"ax",%progbits
+ 894              		.align	2
+ 895              		.global	_gettimeofday
+ 896              		.syntax unified
+ 897              		.arm
+ 898              		.fpu neon
+ 900              	_gettimeofday:
+ 901              	.LFB42:
+ 549:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return;
+ 550:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 551:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 552:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int
+ 553:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** _gettimeofday (struct timeval * tp, void * tzvp)
+ 554:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 902              		.loc 1 554 0
+ 903              		.cfi_startproc
+ 904              		@ args = 0, pretend = 0, frame = 0
+ 905              		@ frame_needed = 0, uses_anonymous_args = 0
+ 906              		@ link register save eliminated.
+ 907              	.LVL81:
+ 555:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   struct timezone *tzp = tzvp;
+ 556:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   if (tp)
+ 908              		.loc 1 556 0
+ 909 0000 000050E3 		cmp	r0, #0
+ 557:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     {
+ 558:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     /* Ask the host for the seconds since the Unix epoch.  */
+ 559:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 560:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       tp->tv_sec = do_AngelSWI (AngelSWI_Reason_Time,NULL);
+ 561:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #endif
+ 562:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       tp->tv_usec = 0;
+ 910              		.loc 1 562 0
+ 911 0004 0030A013 		movne	r3, #0
+ 912 0008 04308015 		strne	r3, [r0, #4]
+ 563:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     }
+ 564:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 565:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   /* Return fixed data for the timezone.  */
+ 566:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   if (tzp)
+ 913              		.loc 1 566 0
+ 914 000c 000051E3 		cmp	r1, #0
+ 567:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     {
+ 568:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       tzp->tz_minuteswest = 0;
+ 915              		.loc 1 568 0
+ 916 0010 0030A013 		movne	r3, #0
+ 569:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       tzp->tz_dsttime = 0;
+ 570:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     }
+ 571:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 572:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return 0;
+ 573:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 917              		.loc 1 573 0
+ 918 0014 0000A0E3 		mov	r0, #0
+ 919              	.LVL82:
+ 568:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       tzp->tz_dsttime = 0;
+ 920              		.loc 1 568 0
+ 921 0018 00308115 		strne	r3, [r1]
+ 569:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       tzp->tz_dsttime = 0;
+ 922              		.loc 1 569 0
+ 923 001c 04308115 		strne	r3, [r1, #4]
+ 924              		.loc 1 573 0
+ 925 0020 1EFF2FE1 		bx	lr
+ 926              		.cfi_endproc
+ 927              	.LFE42:
+ 929              		.section	.text._times,"ax",%progbits
+ 930              		.align	2
+ 931              		.global	_times
+ 932              		.syntax unified
+ 933              		.arm
+ 934              		.fpu neon
+ 936              	_times:
+ 937              	.LFB43:
+ 574:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 575:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** /* Return a clock that ticks at 100Hz.  */
+ 576:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** clock_t 
+ 577:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** _times (struct tms * tp)
+ 578:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 938              		.loc 1 578 0
+ 939              		.cfi_startproc
+ 940              		@ args = 0, pretend = 0, frame = 0
+ 941              		@ frame_needed = 0, uses_anonymous_args = 0
+ 942              		@ link register save eliminated.
+ 943              	.LVL83:
+ 579:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   clock_t timeval = 0;
+ 580:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 581:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 582:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   timeval = do_AngelSWI (AngelSWI_Reason_Clock,NULL);
+ 583:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #endif
+ 584:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 585:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   if (tp)
+ 944              		.loc 1 585 0
+ 945 0000 000050E3 		cmp	r0, #0
+ 586:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     {
+ 587:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       tp->tms_utime  = timeval;	/* user time */
+ 946              		.loc 1 587 0
+ 947 0004 0030A013 		movne	r3, #0
+ 948 0008 00308015 		strne	r3, [r0]
+ 588:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       tp->tms_stime  = 0;	/* system time */
+ 949              		.loc 1 588 0
+ 950 000c 04308015 		strne	r3, [r0, #4]
+ 589:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       tp->tms_cutime = 0;	/* user time, children */
+ 951              		.loc 1 589 0
+ 952 0010 08308015 		strne	r3, [r0, #8]
+ 590:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       tp->tms_cstime = 0;	/* system time, children */
+ 953              		.loc 1 590 0
+ 954 0014 0C308015 		strne	r3, [r0, #12]
+ 591:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     }
+ 592:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   
+ 593:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return timeval;
+ 594:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** };
+ 955              		.loc 1 594 0
+ 956 0018 0000A0E3 		mov	r0, #0
+ 957              	.LVL84:
+ 958 001c 1EFF2FE1 		bx	lr
+ 959              		.cfi_endproc
+ 960              	.LFE43:
+ 962              		.section	.text._isatty,"ax",%progbits
+ 963              		.align	2
+ 964              		.global	_isatty
+ 965              		.syntax unified
+ 966              		.arm
+ 967              		.fpu neon
+ 969              	_isatty:
+ 970              	.LFB44:
+ 595:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 596:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 597:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int
+ 598:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** _isatty (int fd)
+ 599:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 971              		.loc 1 599 0
+ 972              		.cfi_startproc
+ 973              		@ args = 0, pretend = 0, frame = 0
+ 974              		@ frame_needed = 0, uses_anonymous_args = 0
+ 975              		@ link register save eliminated.
+ 976              	.LVL85:
+ 600:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 601:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int fh = remap_handle (fd);
+ 602:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return wrap (do_AngelSWI (AngelSWI_Reason_IsTTY, &fh));
+ 603:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #else
+ 604:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   if ((fd == STDIN_FILENO) || (fd == STDOUT_FILENO))
+ 605:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   {
+ 606:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     return 1;
+ 607:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   }
+ 608:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   else
+ 609:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   {
+ 610:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     return 0;
+ 611:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   }
+ 612:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #endif
+ 613:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 977              		.loc 1 613 0
+ 978 0000 010050E3 		cmp	r0, #1
+ 979 0004 0000A083 		movhi	r0, #0
+ 980              	.LVL86:
+ 981 0008 0100A093 		movls	r0, #1
+ 982 000c 1EFF2FE1 		bx	lr
+ 983              		.cfi_endproc
+ 984              	.LFE44:
+ 986              		.section	.text._system,"ax",%progbits
+ 987              		.align	2
+ 988              		.global	_system
+ 989              		.syntax unified
+ 990              		.arm
+ 991              		.fpu neon
+ 993              	_system:
+ 994              	.LFB45:
+ 614:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 615:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int
+ 616:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** _system (const char *s)
+ 617:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 995              		.loc 1 617 0
+ 996              		.cfi_startproc
+ 997              		@ args = 0, pretend = 0, frame = 0
+ 998              		@ frame_needed = 0, uses_anonymous_args = 0
+ 999              		@ link register save eliminated.
+ 1000              	.LVL87:
+ 1001              	.LVL88:
+ 618:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 619:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int block[2];
+ 620:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int e;
+ 621:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 622:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   /* Hmmm.  The ARM debug interface specification doesn't say whether
+ 623:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****      SYS_SYSTEM does the right thing with a null argument, or assign any
+ 624:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****      meaning to its return value.  Try to do something reasonable....  */
+ 625:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   if (!s)
+ 626:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     return 1;  /* maybe there is a shell available? we can hope. :-P */
+ 627:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   block[0] = s;
+ 628:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   block[1] = strlen (s);
+ 629:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   e = wrap (do_AngelSWI (AngelSWI_Reason_System, block));
+ 630:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   if ((e >= 0) && (e < 256))
+ 631:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     {
+ 632:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       /* We have to convert e, an exit status to the encoded status of
+ 633:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****          the command.  To avoid hard coding the exit status, we simply
+ 634:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 	 loop until we find the right position.  */
+ 635:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       int exit_code;
+ 636:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 637:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****       for (exit_code = e; e && WEXITSTATUS (e) != exit_code; e <<= 1)
+ 638:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 	continue;
+ 639:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****     }
+ 640:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return e;
+ 641:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #endif
+ 642:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 1002              		.loc 1 642 0
+ 1003 0000 1EFF2FE1 		bx	lr
+ 1004              		.cfi_endproc
+ 1005              	.LFE45:
+ 1007              		.section	.text._rename,"ax",%progbits
+ 1008              		.align	2
+ 1009              		.global	_rename
+ 1010              		.syntax unified
+ 1011              		.arm
+ 1012              		.fpu neon
+ 1014              	_rename:
+ 1015              	.LFB46:
+ 643:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** 
+ 644:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** int
+ 645:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** _rename (const char * oldpath, const char * newpath)
+ 646:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** {
+ 1016              		.loc 1 646 0
+ 1017              		.cfi_startproc
+ 1018              		@ args = 0, pretend = 0, frame = 0
+ 1019              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1020              		@ link register save eliminated.
+ 1021              	.LVL89:
+ 1022              	.LVL90:
+ 647:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #if R_OS_ENABLE_VIRTUAL_CONSOLE
+ 648:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   int block[4];
+ 649:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   block[0] = oldpath;
+ 650:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   block[1] = strlen(oldpath);
+ 651:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   block[2] = newpath;
+ 652:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   block[3] = strlen(newpath);
+ 653:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c ****   return wrap (do_AngelSWI (AngelSWI_Reason_Rename, block)) ? -1 : 0;
+ 654:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** #endif
+ 655:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/os_abstraction/src\syscalls.c **** }
+ 1023              		.loc 1 655 0
+ 1024 0000 1EFF2FE1 		bx	lr
+ 1025              		.cfi_endproc
+ 1026              	.LFE46:
+ 1028              		.section	.bss.heap_end.8341,"aw",%nobits
+ 1029              		.align	2
+ 1030              		.set	.LANCHOR3,. + 0
+ 1033              	heap_end.8341:
+ 1034 0000 00000000 		.space	4
+ 1035              		.section	.bss.monitor_stdin,"aw",%nobits
+ 1036              		.align	2
+ 1037              		.set	.LANCHOR0,. + 0
+ 1040              	monitor_stdin:
+ 1041 0000 00000000 		.space	4
+ 1042              		.section	.bss.monitor_stdout,"aw",%nobits
+ 1043              		.align	2
+ 1044              		.set	.LANCHOR1,. + 0
+ 1047              	monitor_stdout:
+ 1048 0000 00000000 		.space	4
+ 1049              		.section	.bss.openfiles,"aw",%nobits
+ 1050              		.align	2
+ 1051              		.set	.LANCHOR2,. + 0
+ 1054              	openfiles:
+ 1055 0000 00000000 		.space	160
+ 1055      00000000 
+ 1055      00000000 
+ 1055      00000000 
+ 1055      00000000 
+ 1056              		.section	.rodata.initialise_monitor_handles.str1.1,"aMS",%progbits,1
+ 1057              	.LC0:
+ 1058 0000 5C5C2E5C 		.ascii	"\\\\.\\stdin\000"
+ 1058      73746469 
+ 1058      6E00
+ 1059              	.LC1:
+ 1060 000a 5C5C2E5C 		.ascii	"\\\\.\\stdout\000"
+ 1060      7374646F 
+ 1060      757400
+ 1061              	.LC2:
+ 1062 0015 5C5C2E5C 		.ascii	"\\\\.\\stderr\000"
+ 1062      73746465 
+ 1062      727200
+ 1063              		.text
+ 1064              	.Letext0:
+ 1065              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1066              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1067              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1068              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 1069              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1070              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1071              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1072              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1073              		.file 10 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1074              		.file 11 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1075              		.file 12 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1076              		.file 13 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1077              		.file 14 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1078              		.file 15 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1079              		.file 16 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1080              		.file 17 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 1081              		.file 18 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 1082              		.file 19 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 1083              		.file 20 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1084              		.file 21 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+DEFINED SYMBOLS
+                            *ABS*:00000000 syscalls.c
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:17     .text.wrap:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:22     .text.wrap:00000000 wrap
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:60     .text.initialise_monitor_handles:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:66     .text.initialise_monitor_handles:00000000 initialise_monitor_handles
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:146    .text.initialise_monitor_handles:0000007c $d
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:156    .text._swiread:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:162    .text._swiread:00000000 _swiread
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:174    .text._read:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:180    .text._read:00000000 _read
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:207    .text._swilseek:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:213    .text._swilseek:00000000 _swilseek
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:327    .text._swilseek:000000ac $d
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:335    .text._lseek:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:341    .text._lseek:00000000 _lseek
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:367    .text._swiwrite:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:373    .text._swiwrite:00000000 _swiwrite
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:388    .text._write:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:394    .text._write:00000000 _write
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:420    .text._swiopen:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:426    .text._swiopen:00000000 _swiopen
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:499    .text._swiopen:00000064 $d
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:504    .text._open:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:510    .text._open:00000000 _open
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:545    .text._swiclose:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:551    .text._swiclose:00000000 _swiclose
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:591    .text._swiclose:00000030 $d
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:596    .text._close:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:602    .text._close:00000000 _close
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:628    .text._kill:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:634    .text._kill:00000000 _kill
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:649    .text._exit:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:655    .text._exit:00000000 _exit
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:670    .text._getpid:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:676    .text._getpid:00000000 _getpid
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:692    .text._sbrk:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:698    .text._sbrk:00000000 _sbrk
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:729    .text._sbrk:00000028 $d
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:735    .text._fstat:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:741    .text._fstat:00000000 _fstat
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:777    .text._stat:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:783    .text._stat:00000000 _stat
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:838    .text._link:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:844    .text._link:00000000 _link
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:858    .text._unlink:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:864    .text._unlink:00000000 _unlink
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:876    .text._raise:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:882    .text._raise:00000000 _raise
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:894    .text._gettimeofday:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:900    .text._gettimeofday:00000000 _gettimeofday
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:930    .text._times:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:936    .text._times:00000000 _times
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:963    .text._isatty:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:969    .text._isatty:00000000 _isatty
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:987    .text._system:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:993    .text._system:00000000 _system
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:1008   .text._rename:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:1014   .text._rename:00000000 _rename
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:1029   .bss.heap_end.8341:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:1033   .bss.heap_end.8341:00000000 heap_end.8341
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:1036   .bss.monitor_stdin:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:1040   .bss.monitor_stdin:00000000 monitor_stdin
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:1043   .bss.monitor_stdout:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:1047   .bss.monitor_stdout:00000000 monitor_stdout
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:1050   .bss.openfiles:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccJ3jnjk.s:1054   .bss.openfiles:00000000 openfiles
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+__errno
+low_open
+low_read
+__sinit
+_impure_ptr
+low_write
+low_close
+__heap_start
+memset

@@ -1,0 +1,1040 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"FreeRTOS_Stream_Buffer.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.uxStreamBufferAdd,"ax",%progbits
+  17              		.align	2
+  18              		.global	uxStreamBufferAdd
+  19              		.syntax unified
+  20              		.arm
+  21              		.fpu neon
+  23              	uxStreamBufferAdd:
+  24              	.LFB25:
+  25              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/FreeRTOS_Stream_Buffer.
+   1:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** /*
+   2:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * FreeRTOS+TCP V2.0.10
+   3:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * Copyright (C) 2017 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+   4:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  *
+   5:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * Permission is hereby granted, free of charge, to any person obtaining a copy of
+   6:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * this software and associated documentation files (the "Software"), to deal in
+   7:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * the Software without restriction, including without limitation the rights to
+   8:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+   9:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * the Software, and to permit persons to whom the Software is furnished to do so,
+  10:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * subject to the following conditions:
+  11:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  *
+  12:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * The above copyright notice and this permission notice shall be included in all
+  13:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * copies or substantial portions of the Software.
+  14:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  *
+  15:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  16:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+  17:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+  18:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+  19:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  20:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  21:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  *
+  22:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * http://aws.amazon.com/freertos
+  23:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * http://www.FreeRTOS.org
+  24:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  */
+  25:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+  26:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** /* Standard includes. */
+  27:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** #include <stdint.h>
+  28:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+  29:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** /* FreeRTOS includes. */
+  30:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** #include "FreeRTOS.h"
+  31:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** #include "task.h"
+  32:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** #include "semphr.h"
+  33:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+  34:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** /* FreeRTOS+TCP includes. */
+  35:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** #include "FreeRTOS_UDP_IP.h"
+  36:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** #include "FreeRTOS_IP.h"
+  37:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** #include "FreeRTOS_Sockets.h"
+  38:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** #include "FreeRTOS_IP_Private.h"
+  39:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+  40:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** /*
+  41:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * uxStreamBufferAdd( )
+  42:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * Adds data to a stream buffer.  If uxOffset > 0, data will be written at
+  43:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * an offset from uxHead while uxHead will not be moved yet.  This possibility
+  44:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * will be used when TCP data is received while earlier data is still missing.
+  45:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * If 'pucData' equals NULL, the function is called to advance 'uxHead' only.
+  46:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  */
+  47:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** size_t uxStreamBufferAdd( StreamBuffer_t *pxBuffer, size_t uxOffset, const uint8_t *pucData, size_t
+  48:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** {
+  26              		.loc 1 48 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              	.LVL0:
+  31              	.LBB20:
+  32              	.LBB21:
+  33              	.LBB22:
+  34              	.LBB23:
+  35              		.file 2 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS-Plus-TCP\\include/FreeRTOS_Stream_
+   1:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** /*
+   2:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  * FreeRTOS+TCP V2.0.10
+   3:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  * Copyright (C) 2017 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+   4:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  *
+   5:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  * Permission is hereby granted, free of charge, to any person obtaining a copy of
+   6:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  * this software and associated documentation files (the "Software"), to deal in
+   7:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  * the Software without restriction, including without limitation the rights to
+   8:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+   9:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  * the Software, and to permit persons to whom the Software is furnished to do so,
+  10:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  * subject to the following conditions:
+  11:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  *
+  12:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  * The above copyright notice and this permission notice shall be included in all
+  13:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  * copies or substantial portions of the Software.
+  14:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  *
+  15:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  16:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+  17:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+  18:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+  19:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  20:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  21:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  *
+  22:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  * http://aws.amazon.com/freertos
+  23:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  * http://www.FreeRTOS.org
+  24:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  */
+  25:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 
+  26:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** /*
+  27:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  *	FreeRTOS_Stream_Buffer.h
+  28:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  *
+  29:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  *	A cicular character buffer
+  30:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  *	An implementation of a circular buffer without a length field
+  31:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  *	If LENGTH defines the size of the buffer, a maximum of (LENGT-1) bytes can be stored
+  32:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  *	In order to add or read data from the buffer, memcpy() will be called at most 2 times
+  33:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h ****  */
+  34:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 
+  35:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** #ifndef FREERTOS_STREAM_BUFFER_H
+  36:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** #define	FREERTOS_STREAM_BUFFER_H
+  37:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 
+  38:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** #ifdef __cplusplus
+  39:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** extern "C" {
+  40:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** #endif
+  41:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 
+  42:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** typedef struct xSTREAM_BUFFER {
+  43:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	volatile size_t uxTail;		/* next item to read */
+  44:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	volatile size_t uxMid;		/* iterator within the valid items */
+  45:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	volatile size_t uxHead;		/* next position store a new item */
+  46:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	volatile size_t uxFront;	/* iterator within the free space */
+  47:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	size_t LENGTH;				/* const value: number of reserved elements */
+  48:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	uint8_t ucArray[ sizeof( size_t ) ];
+  49:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** } StreamBuffer_t;
+  50:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 
+  51:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** static portINLINE void vStreamBufferClear( StreamBuffer_t *pxBuffer );
+  52:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** static portINLINE void vStreamBufferClear( StreamBuffer_t *pxBuffer )
+  53:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** {
+  54:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	/* Make the circular buffer empty */
+  55:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	pxBuffer->uxHead = 0u;
+  56:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	pxBuffer->uxTail = 0u;
+  57:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	pxBuffer->uxFront = 0u;
+  58:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	pxBuffer->uxMid = 0u;
+  59:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** }
+  60:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** /*-----------------------------------------------------------*/
+  61:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 
+  62:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** static portINLINE size_t uxStreamBufferSpace( const StreamBuffer_t *pxBuffer, const size_t uxLower,
+  63:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** static portINLINE size_t uxStreamBufferSpace( const StreamBuffer_t *pxBuffer, const size_t uxLower,
+  64:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** {
+  65:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** /* Returns the space between uxLower and uxUpper, which equals to the distance minus 1 */
+  66:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** size_t uxCount;
+  67:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 
+  68:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	uxCount = pxBuffer->LENGTH + uxUpper - uxLower - 1u;
+  36              		.loc 2 68 0
+  37 0000 10C090E5 		ldr	ip, [r0, #16]
+  38              	.LBE23:
+  39              	.LBE22:
+  40              	.LBE21:
+  41              	.LBE20:
+  42              		.loc 1 48 0
+  43 0004 F0472DE9 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+  44              		.cfi_def_cfa_offset 32
+  45              		.cfi_offset 4, -32
+  46              		.cfi_offset 5, -28
+  47              		.cfi_offset 6, -24
+  48              		.cfi_offset 7, -20
+  49              		.cfi_offset 8, -16
+  50              		.cfi_offset 9, -12
+  51              		.cfi_offset 10, -8
+  52              		.cfi_offset 14, -4
+  53              	.LBB27:
+  54              	.LBB26:
+  69:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	if( uxCount >= pxBuffer->LENGTH )
+  70:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	{
+  71:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 		uxCount -= pxBuffer->LENGTH;
+  72:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	}
+  73:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 
+  74:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	return uxCount;
+  75:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** }
+  76:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** /*-----------------------------------------------------------*/
+  77:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 
+  78:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** static portINLINE size_t uxStreamBufferDistance( const StreamBuffer_t *pxBuffer, const size_t uxLow
+  79:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** static portINLINE size_t uxStreamBufferDistance( const StreamBuffer_t *pxBuffer, const size_t uxLow
+  80:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** {
+  81:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** /* Returns the distance between uxLower and uxUpper */
+  82:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** size_t uxCount;
+  83:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 
+  84:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	uxCount = pxBuffer->LENGTH + uxUpper - uxLower;
+  85:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	if ( uxCount >= pxBuffer->LENGTH )
+  86:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	{
+  87:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 		uxCount -= pxBuffer->LENGTH;
+  88:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	}
+  89:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 
+  90:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	return uxCount;
+  91:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** }
+  92:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** /*-----------------------------------------------------------*/
+  93:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 
+  94:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** static portINLINE size_t uxStreamBufferGetSpace( const StreamBuffer_t *pxBuffer );
+  95:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** static portINLINE size_t uxStreamBufferGetSpace( const StreamBuffer_t *pxBuffer )
+  96:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** {
+  97:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** /* Returns the number of items which can still be added to uxHead
+  98:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** before hitting on uxTail */
+  99:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** size_t uxHead = pxBuffer->uxHead;
+  55              		.loc 2 99 0
+  56 0008 08E090E5 		ldr	lr, [r0, #8]
+  57              	.LVL1:
+ 100:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** size_t uxTail = pxBuffer->uxTail;
+  58              		.loc 2 100 0
+  59 000c 004090E5 		ldr	r4, [r0]
+  60              	.LVL2:
+  61              	.LBB25:
+  62              	.LBB24:
+  68:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	if( uxCount >= pxBuffer->LENGTH )
+  63              		.loc 2 68 0
+  64 0010 0C4084E0 		add	r4, r4, ip
+  65              	.LVL3:
+  66 0014 014044E2 		sub	r4, r4, #1
+  67 0018 0E4044E0 		sub	r4, r4, lr
+  68              	.LVL4:
+  69:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	if( uxCount >= pxBuffer->LENGTH )
+  69              		.loc 2 69 0
+  70 001c 04005CE1 		cmp	ip, r4
+  71:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	}
+  71              		.loc 2 71 0
+  72 0020 0C404490 		subls	r4, r4, ip
+  73              	.LVL5:
+  74              	.LBE24:
+  75              	.LBE25:
+  76              	.LBE26:
+  77              	.LBE27:
+  49:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** size_t uxSpace, uxNextHead, uxFirst;
+  50:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+  51:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	uxSpace = uxStreamBufferGetSpace( pxBuffer );
+  52:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+  53:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	/* If uxOffset > 0, items can be placed in front of uxHead */
+  54:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	if( uxSpace > uxOffset )
+  78              		.loc 1 54 0
+  79 0024 040051E1 		cmp	r1, r4
+  55:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	{
+  56:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		uxSpace -= uxOffset;
+  57:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	}
+  58:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	else
+  59:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	{
+  60:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		uxSpace = 0u;
+  80              		.loc 1 60 0
+  81 0028 0040A023 		movcs	r4, #0
+  56:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	}
+  82              		.loc 1 56 0
+  83 002c 01404430 		subcc	r4, r4, r1
+  84              	.LVL6:
+  85              	.LBB28:
+  86              	.LBB29:
+  87              		.file 3 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS-Plus-TCP\\include/FreeRTOS_IP.h"
+   1:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** /*
+   2:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h ****  * FreeRTOS+TCP V2.0.10
+   3:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h ****  * Copyright (C) 2017 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+   4:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h ****  *
+   5:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h ****  * Permission is hereby granted, free of charge, to any person obtaining a copy of
+   6:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h ****  * this software and associated documentation files (the "Software"), to deal in
+   7:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h ****  * the Software without restriction, including without limitation the rights to
+   8:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h ****  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+   9:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h ****  * the Software, and to permit persons to whom the Software is furnished to do so,
+  10:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h ****  * subject to the following conditions:
+  11:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h ****  *
+  12:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h ****  * The above copyright notice and this permission notice shall be included in all
+  13:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h ****  * copies or substantial portions of the Software.
+  14:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h ****  *
+  15:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h ****  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  16:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h ****  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+  17:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h ****  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+  18:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h ****  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+  19:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h ****  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  20:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h ****  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  21:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h ****  *
+  22:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h ****  * http://aws.amazon.com/freertos
+  23:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h ****  * http://www.FreeRTOS.org
+  24:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h ****  */
+  25:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 
+  26:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #ifndef FREERTOS_IP_H
+  27:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #define FREERTOS_IP_H
+  28:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 
+  29:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #ifdef __cplusplus
+  30:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** extern "C" {
+  31:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #endif
+  32:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 
+  33:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** /* Application level configuration options. */
+  34:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #include "FreeRTOSIPConfig.h"
+  35:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #include "FreeRTOSIPConfigDefaults.h"
+  36:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #include "IPTraceMacroDefaults.h"
+  37:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 
+  38:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** /* Some constants defining the sizes of several parts of a packet */
+  39:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #define ipSIZE_OF_ETH_HEADER			14u
+  40:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #define ipSIZE_OF_IPv4_HEADER			20u
+  41:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #define ipSIZE_OF_IGMP_HEADER			8u
+  42:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #define ipSIZE_OF_ICMP_HEADER			8u
+  43:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #define ipSIZE_OF_UDP_HEADER			8u
+  44:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #define ipSIZE_OF_TCP_HEADER			20u
+  45:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 
+  46:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 
+  47:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** /* The number of octets in the MAC and IP addresses respectively. */
+  48:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #define ipMAC_ADDRESS_LENGTH_BYTES ( 6 )
+  49:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #define ipIP_ADDRESS_LENGTH_BYTES ( 4 )
+  50:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 
+  51:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** /* IP protocol definitions. */
+  52:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #define ipPROTOCOL_ICMP			( 1 )
+  53:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #define ipPROTOCOL_IGMP         ( 2 )
+  54:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #define ipPROTOCOL_TCP			( 6 )
+  55:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #define ipPROTOCOL_UDP			( 17 )
+  56:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 
+  57:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** /* Dimensions the buffers that are filled by received Ethernet frames. */
+  58:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #define ipSIZE_OF_ETH_CRC_BYTES					( 4UL )
+  59:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #define ipSIZE_OF_ETH_OPTIONAL_802_1Q_TAG_BYTES	( 4UL )
+  60:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #define ipTOTAL_ETHERNET_FRAME_SIZE				( ( ( uint32_t ) ipconfigNETWORK_MTU ) + ( ( uint32_t ) ipSI
+  61:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 
+  62:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** /*_RB_ Comment may need updating. */
+  63:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** /* Space left at the beginning of a network buffer storage area to store a
+  64:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** pointer back to the network buffer.  Should be a multiple of 8 to ensure 8 byte
+  65:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** alignment is maintained on architectures that require it.
+  66:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 
+  67:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** In order to get a 32-bit alignment of network packets, an offset of 2 bytes
+  68:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** would be desirable, as defined by ipconfigPACKET_FILLER_SIZE.  So the malloc'd
+  69:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** buffer will have the following contents:
+  70:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	uint32_t pointer;	// word-aligned
+  71:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	uchar_8 filler[6];
+  72:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	<< ETH-header >>	// half-word-aligned
+  73:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	uchar_8 dest[6];    // start of pucEthernetBuffer
+  74:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	uchar_8 dest[6];
+  75:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	uchar16_t type;
+  76:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	<< IP-header >>		// word-aligned
+  77:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	uint8_t ucVersionHeaderLength;
+  78:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	etc
+  79:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h ****  */
+  80:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #if( ipconfigBUFFER_PADDING != 0 )
+  81:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h ****     #define ipBUFFER_PADDING    ipconfigBUFFER_PADDING
+  82:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #else
+  83:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h ****     #define ipBUFFER_PADDING    ( 8u + ipconfigPACKET_FILLER_SIZE )
+  84:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #endif
+  85:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 
+  86:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** /* The structure used to store buffers and pass them around the network stack.
+  87:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** Buffers can be in use by the stack, in use by the network interface hardware
+  88:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** driver, or free (not in use). */
+  89:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** typedef struct xNETWORK_BUFFER
+  90:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** {
+  91:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	ListItem_t xBufferListItem; 	/* Used to reference the buffer form the free buffer list or a socket
+  92:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	uint32_t ulIPAddress;			/* Source or destination IP address, depending on usage scenario. */
+  93:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	uint8_t *pucEthernetBuffer; 	/* Pointer to the start of the Ethernet frame. */
+  94:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	size_t xDataLength; 			/* Starts by holding the total Ethernet frame length, then the UDP/TCP payl
+  95:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	uint16_t usPort;				/* Source or destination port, depending on usage scenario. */
+  96:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	uint16_t usBoundPort;			/* The port to which a transmitting socket is bound. */
+  97:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	#if( ipconfigUSE_LINKED_RX_MESSAGES != 0 )
+  98:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 		struct xNETWORK_BUFFER *pxNextBuffer; /* Possible optimisation for expert users - requires networ
+  99:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	#endif
+ 100:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** } NetworkBufferDescriptor_t;
+ 101:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 
+ 102:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #include "pack_struct_start.h"
+ 103:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** struct xMAC_ADDRESS
+ 104:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** {
+ 105:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	uint8_t ucBytes[ ipMAC_ADDRESS_LENGTH_BYTES ];
+ 106:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** }
+ 107:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #include "pack_struct_end.h"
+ 108:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 
+ 109:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** typedef struct xMAC_ADDRESS MACAddress_t;
+ 110:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 
+ 111:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** typedef enum eNETWORK_EVENTS
+ 112:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** {
+ 113:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	eNetworkUp,		/* The network is configured. */
+ 114:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	eNetworkDown	/* The network connection has been lost. */
+ 115:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** } eIPCallbackEvent_t;
+ 116:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 
+ 117:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** typedef enum ePING_REPLY_STATUS
+ 118:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** {
+ 119:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	eSuccess = 0,		/* A correct reply has been received for an outgoing ping. */
+ 120:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	eInvalidChecksum,	/* A reply was received for an outgoing ping but the checksum of the reply was i
+ 121:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	eInvalidData		/* A reply was received to an outgoing ping but the payload of the reply was not cor
+ 122:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** } ePingReplyStatus_t;
+ 123:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 
+ 124:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** typedef enum eNETWORK_ADDRESS_TYPE 
+ 125:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** {
+ 126:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	eNetWorkAddressTypeIPV4,
+ 127:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	eNetWorkAddressTypeIPV6,
+ 128:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	eNetWorkAddressTypeHostName
+ 129:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** } eNetWorkAddressType_t;
+ 130:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 
+ 131:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** /* Endian related definitions. */
+ 132:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #if( ipconfigBYTE_ORDER == pdFREERTOS_LITTLE_ENDIAN )
+ 133:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 
+ 134:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	/* FreeRTOS_htons / FreeRTOS_htonl: some platforms might have built-in versions
+ 135:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	using a single instruction so allow these versions to be overridden. */
+ 136:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	#ifndef FreeRTOS_htons
+ 137:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 		#define FreeRTOS_htons( usIn ) ( (uint16_t) ( ( ( usIn ) << 8U ) | ( ( usIn ) >> 8U ) ) )
+ 138:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	#endif
+ 139:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 
+ 140:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	#ifndef	FreeRTOS_htonl
+ 141:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 		#define FreeRTOS_htonl( ulIn ) 											\
+ 142:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 			(																	\
+ 143:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 				( uint32_t ) 													\
+ 144:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 				( 																\
+ 145:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 					( ( ( ( uint32_t ) ( ulIn ) )                ) << 24  ) | 	\
+ 146:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 					( ( ( ( uint32_t ) ( ulIn ) ) & 0x0000ff00UL ) <<  8  ) | 	\
+ 147:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 					( ( ( ( uint32_t ) ( ulIn ) ) & 0x00ff0000UL ) >>  8  ) | 	\
+ 148:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 					( ( ( ( uint32_t ) ( ulIn ) )                ) >> 24  )  	\
+ 149:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 				) 																\
+ 150:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 			)
+ 151:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	#endif
+ 152:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 
+ 153:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #else /* ipconfigBYTE_ORDER */
+ 154:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 
+ 155:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	#define FreeRTOS_htons( x ) ( ( uint16_t ) ( x ) )
+ 156:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	#define FreeRTOS_htonl( x ) ( ( uint32_t ) ( x ) )
+ 157:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 
+ 158:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #endif /* ipconfigBYTE_ORDER == pdFREERTOS_LITTLE_ENDIAN */
+ 159:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 
+ 160:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #define FreeRTOS_ntohs( x ) FreeRTOS_htons( x )
+ 161:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #define FreeRTOS_ntohl( x ) FreeRTOS_htonl( x )
+ 162:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 
+ 163:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** #if( ipconfigHAS_INLINE_FUNCTIONS == 1 )
+ 164:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 
+ 165:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	static portINLINE int32_t  FreeRTOS_max_int32  (int32_t  a, int32_t  b);
+ 166:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	static portINLINE uint32_t FreeRTOS_max_uint32 (uint32_t a, uint32_t b);
+ 167:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	static portINLINE int32_t  FreeRTOS_min_int32  (int32_t  a, int32_t  b);
+ 168:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	static portINLINE uint32_t FreeRTOS_min_uint32 (uint32_t a, uint32_t b);
+ 169:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	static portINLINE uint32_t FreeRTOS_round_up   (uint32_t a, uint32_t d);
+ 170:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	static portINLINE uint32_t FreeRTOS_round_down (uint32_t a, uint32_t d);
+ 171:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	static portINLINE BaseType_t  FreeRTOS_min_BaseType  (BaseType_t  a, BaseType_t  b);
+ 172:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	static portINLINE BaseType_t  FreeRTOS_max_BaseType  (BaseType_t  a, BaseType_t  b);
+ 173:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	static portINLINE UBaseType_t FreeRTOS_max_UBaseType (UBaseType_t a, UBaseType_t b);
+ 174:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	static portINLINE UBaseType_t  	FreeRTOS_min_UBaseType (UBaseType_t  a, UBaseType_t  b);
+ 175:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 
+ 176:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 
+ 177:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	static portINLINE int32_t  FreeRTOS_max_int32  (int32_t  a, int32_t  b) { return a >= b ? a : b; }
+ 178:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	static portINLINE uint32_t FreeRTOS_max_uint32 (uint32_t a, uint32_t b) { return a >= b ? a : b; }
+ 179:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	static portINLINE int32_t  FreeRTOS_min_int32  (int32_t  a, int32_t  b) { return a <= b ? a : b; }
+ 180:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_IP.h **** 	static portINLINE uint32_t FreeRTOS_min_uint32 (uint32_t a, uint32_t b) { return a <= b ? a : b; }
+  88              		.loc 3 180 0
+  89 0030 030054E1 		cmp	r4, r3
+  90 0034 0340A021 		movcs	r4, r3
+  91              	.LVL7:
+  92              	.LBE29:
+  93              	.LBE28:
+  61:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	}
+  62:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+  63:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	/* The number of bytes that can be written is the minimum of the number of
+  64:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	bytes requested and the number available. */
+  65:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	uxCount = FreeRTOS_min_uint32( uxSpace, uxCount );
+  66:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+  67:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	if( uxCount != 0u )
+  94              		.loc 1 67 0
+  95 0038 000054E3 		cmp	r4, #0
+  96 003c 2C00000A 		beq	.L17
+  68:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	{
+  69:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		uxNextHead = pxBuffer->uxHead;
+  70:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+  71:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		if( uxOffset != 0u )
+  97              		.loc 1 71 0
+  98 0040 000051E3 		cmp	r1, #0
+  99 0044 0290A0E1 		mov	r9, r2
+ 100 0048 0180A0E1 		mov	r8, r1
+ 101 004c 0070A0E1 		mov	r7, r0
+  69:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+ 102              		.loc 1 69 0
+ 103 0050 085090E5 		ldr	r5, [r0, #8]
+ 104              	.LVL8:
+ 105              		.loc 1 71 0
+ 106 0054 2C00000A 		beq	.L6
+  72:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		{
+  73:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			/* ( uxOffset > 0 ) means: write in front if the uxHead marker */
+  74:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			uxNextHead += uxOffset;
+ 107              		.loc 1 74 0
+ 108 0058 015085E0 		add	r5, r5, r1
+ 109              	.LVL9:
+  75:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			if( uxNextHead >= pxBuffer->LENGTH )
+ 110              		.loc 1 75 0
+ 111 005c 0C0055E1 		cmp	r5, ip
+  76:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			{
+  77:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 				uxNextHead -= pxBuffer->LENGTH;
+ 112              		.loc 1 77 0
+ 113 0060 0C504520 		subcs	r5, r5, ip
+ 114              	.LVL10:
+  78:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			}
+  79:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		}
+  80:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+  81:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		if( pucData != NULL )
+ 115              		.loc 1 81 0
+ 116 0064 000052E3 		cmp	r2, #0
+ 117 0068 1500000A 		beq	.L9
+ 118              	.L14:
+ 119              	.LVL11:
+  82:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		{
+  83:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			/* Calculate the number of bytes that can be added in the first
+  84:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			write - which may be less than the total number of bytes that need
+  85:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			to be added if the buffer will wrap back to the beginning. */
+  86:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			uxFirst = FreeRTOS_min_uint32( pxBuffer->LENGTH - uxNextHead, uxCount );
+ 120              		.loc 1 86 0
+ 121 006c 05C04CE0 		sub	ip, ip, r5
+ 122              	.LVL12:
+  87:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+  88:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			/* Write as many bytes as can be written in the first write. */
+  89:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			memcpy( ( void* ) ( pxBuffer->ucArray + uxNextHead ), pucData, uxFirst );
+ 123              		.loc 1 89 0
+ 124 0070 14A087E2 		add	r10, r7, #20
+ 125              	.LBB30:
+ 126              	.LBB31:
+ 127              		.loc 3 180 0
+ 128 0074 04005CE1 		cmp	ip, r4
+ 129              	.LBE31:
+ 130              	.LBE30:
+ 131              		.loc 1 89 0
+ 132 0078 0910A0E1 		mov	r1, r9
+ 133              	.LVL13:
+ 134              	.LBB33:
+ 135              	.LBB32:
+ 136              		.loc 3 180 0
+ 137 007c 0C60A031 		movcc	r6, ip
+ 138 0080 0460A021 		movcs	r6, r4
+ 139              	.LVL14:
+ 140              	.LBE32:
+ 141              	.LBE33:
+ 142              		.loc 1 89 0
+ 143 0084 0620A0E1 		mov	r2, r6
+ 144              	.LVL15:
+ 145 0088 05008AE0 		add	r0, r10, r5
+ 146              	.LVL16:
+ 147 008c FEFFFFEB 		bl	memcpy
+ 148              	.LVL17:
+  90:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+  91:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			/* If the number of bytes written was less than the number that
+  92:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			could be written in the first write... */
+  93:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			if( uxCount > uxFirst )
+ 149              		.loc 1 93 0
+ 150 0090 040056E1 		cmp	r6, r4
+ 151 0094 0300002A 		bcs	.L8
+  94:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			{
+  95:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 				/* ...then write the remaining bytes to the start of the
+  96:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 				buffer. */
+  97:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 				memcpy( ( void * )pxBuffer->ucArray, pucData + uxFirst, uxCount - uxFirst );
+ 152              		.loc 1 97 0
+ 153 0098 062044E0 		sub	r2, r4, r6
+ 154 009c 061089E0 		add	r1, r9, r6
+ 155 00a0 0A00A0E1 		mov	r0, r10
+ 156 00a4 FEFFFFEB 		bl	memcpy
+ 157              	.LVL18:
+ 158              	.L8:
+  98:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			}
+  99:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		}
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		if( uxOffset == 0u )
+ 159              		.loc 1 101 0
+ 160 00a8 000058E3 		cmp	r8, #0
+ 161 00ac 0400001A 		bne	.L9
+ 162              	.L15:
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		{
+ 103:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			/* ( uxOffset == 0 ) means: write at uxHead position */
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			uxNextHead += uxCount;
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			if( uxNextHead >= pxBuffer->LENGTH )
+ 163              		.loc 1 105 0
+ 164 00b0 103097E5 		ldr	r3, [r7, #16]
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			if( uxNextHead >= pxBuffer->LENGTH )
+ 165              		.loc 1 104 0
+ 166 00b4 045085E0 		add	r5, r5, r4
+ 167              	.LVL19:
+ 168              		.loc 1 105 0
+ 169 00b8 030055E1 		cmp	r5, r3
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			{
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 				uxNextHead -= pxBuffer->LENGTH;
+ 170              		.loc 1 107 0
+ 171 00bc 03504520 		subcs	r5, r5, r3
+ 172              	.LVL20:
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			}
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			pxBuffer->uxHead = uxNextHead;
+ 173              		.loc 1 109 0
+ 174 00c0 085087E5 		str	r5, [r7, #8]
+ 175              	.L9:
+ 110:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		}
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		if( xStreamBufferLessThenEqual( pxBuffer, pxBuffer->uxFront, uxNextHead ) != pdFALSE )
+ 176              		.loc 1 112 0
+ 177 00c4 0C2097E5 		ldr	r2, [r7, #12]
+ 178              	.LVL21:
+ 179              	.LBB34:
+ 180              	.LBB35:
+ 101:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 
+ 102:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	return uxStreamBufferSpace( pxBuffer, uxHead, uxTail );
+ 103:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** }
+ 104:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** /*-----------------------------------------------------------*/
+ 105:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 
+ 106:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** static portINLINE size_t uxStreamBufferFrontSpace( const StreamBuffer_t *pxBuffer );
+ 107:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** static portINLINE size_t uxStreamBufferFrontSpace( const StreamBuffer_t *pxBuffer )
+ 108:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** {
+ 109:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** /* Distance between uxFront and uxTail
+ 110:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** or the number of items which can still be added to uxFront,
+ 111:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** before hitting on uxTail */
+ 112:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 
+ 113:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** size_t uxFront = pxBuffer->uxFront;
+ 114:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** size_t uxTail = pxBuffer->uxTail;
+ 115:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 
+ 116:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	return uxStreamBufferSpace( pxBuffer, uxFront, uxTail );
+ 117:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** }
+ 118:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** /*-----------------------------------------------------------*/
+ 119:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 
+ 120:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** static portINLINE size_t uxStreamBufferGetSize( const StreamBuffer_t *pxBuffer );
+ 121:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** static portINLINE size_t uxStreamBufferGetSize( const StreamBuffer_t *pxBuffer )
+ 122:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** {
+ 123:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** /* Returns the number of items which can be read from uxTail
+ 124:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** before reaching uxHead */
+ 125:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** size_t uxHead = pxBuffer->uxHead;
+ 126:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** size_t uxTail = pxBuffer->uxTail;
+ 127:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 
+ 128:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	return uxStreamBufferDistance( pxBuffer, uxTail, uxHead );
+ 129:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** }
+ 130:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** /*-----------------------------------------------------------*/
+ 131:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 
+ 132:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** static portINLINE size_t uxStreamBufferMidSpace( const StreamBuffer_t *pxBuffer );
+ 133:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** static portINLINE size_t uxStreamBufferMidSpace( const StreamBuffer_t *pxBuffer )
+ 134:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** {
+ 135:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** /* Returns the distance between uxHead and uxMid */
+ 136:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** size_t uxHead = pxBuffer->uxHead;
+ 137:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** size_t uxMid = pxBuffer->uxMid;
+ 138:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 
+ 139:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	return uxStreamBufferDistance( pxBuffer, uxMid, uxHead );
+ 140:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** }
+ 141:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** /*-----------------------------------------------------------*/
+ 142:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 
+ 143:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** static portINLINE void vStreamBufferMoveMid( StreamBuffer_t *pxBuffer, size_t uxCount );
+ 144:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** static portINLINE void vStreamBufferMoveMid( StreamBuffer_t *pxBuffer, size_t uxCount )
+ 145:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** {
+ 146:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** /* Increment uxMid, but no further than uxHead */
+ 147:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** size_t uxSize = uxStreamBufferMidSpace( pxBuffer );
+ 148:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 
+ 149:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	if( uxCount > uxSize )
+ 150:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	{
+ 151:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 		uxCount = uxSize;
+ 152:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	}
+ 153:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	pxBuffer->uxMid += uxCount;
+ 154:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	if( pxBuffer->uxMid >= pxBuffer->LENGTH )
+ 155:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	{
+ 156:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 		pxBuffer->uxMid -= pxBuffer->LENGTH;
+ 157:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	}
+ 158:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** }
+ 159:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** /*-----------------------------------------------------------*/
+ 160:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** static portINLINE BaseType_t xStreamBufferIsEmpty( const StreamBuffer_t *pxBuffer );
+ 161:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** static portINLINE BaseType_t xStreamBufferIsEmpty( const StreamBuffer_t *pxBuffer )
+ 162:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** {
+ 163:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** BaseType_t xReturn;
+ 164:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 
+ 165:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	/* True if no item is available */
+ 166:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	if( pxBuffer->uxHead == pxBuffer->uxTail )
+ 167:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	{
+ 168:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 		xReturn = pdTRUE;
+ 169:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	}
+ 170:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	else
+ 171:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	{
+ 172:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 		xReturn = pdFALSE;
+ 173:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	}
+ 174:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	return xReturn;
+ 175:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** }
+ 176:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** /*-----------------------------------------------------------*/
+ 177:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 
+ 178:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** static portINLINE BaseType_t xStreamBufferIsFull( const StreamBuffer_t *pxBuffer );
+ 179:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** static portINLINE BaseType_t xStreamBufferIsFull( const StreamBuffer_t *pxBuffer )
+ 180:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** {
+ 181:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	/* True if the available space equals zero. */
+ 182:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	return ( BaseType_t ) ( uxStreamBufferGetSpace( pxBuffer ) == 0u );
+ 183:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** }
+ 184:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** /*-----------------------------------------------------------*/
+ 185:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 
+ 186:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** static portINLINE BaseType_t xStreamBufferLessThenEqual( const StreamBuffer_t *pxBuffer, const size
+ 187:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** static portINLINE BaseType_t xStreamBufferLessThenEqual( const StreamBuffer_t *pxBuffer, const size
+ 188:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** {
+ 189:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** BaseType_t xReturn;
+ 190:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** size_t uxTail = pxBuffer->uxTail;
+ 181              		.loc 2 190 0
+ 182 00c8 003097E5 		ldr	r3, [r7]
+ 183              	.LVL22:
+ 191:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 
+ 192:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	/* Returns true if ( uxLeft < uxRight ) */
+ 193:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	if( ( uxLeft < uxTail ) ^ ( uxRight < uxTail ) )
+ 184              		.loc 2 193 0
+ 185 00cc 030052E1 		cmp	r2, r3
+ 186 00d0 0000A023 		movcs	r0, #0
+ 187 00d4 0100A033 		movcc	r0, #1
+ 188 00d8 030055E1 		cmp	r5, r3
+ 189 00dc 0010A023 		movcs	r1, #0
+ 190 00e0 0110A033 		movcc	r1, #1
+ 191 00e4 010050E1 		cmp	r0, r1
+ 192 00e8 0300000A 		beq	.L11
+ 194:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	{
+ 195:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 		if( uxRight < uxTail )
+ 193              		.loc 2 195 0
+ 194 00ec 030055E1 		cmp	r5, r3
+ 195 00f0 0300003A 		bcc	.L12
+ 196              	.LVL23:
+ 197              	.L17:
+ 198              	.LBE35:
+ 199              	.LBE34:
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		{
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			/* Advance the front pointer */
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			pxBuffer->uxFront = uxNextHead;
+ 116:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		}
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	}
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	return uxCount;
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** }
+ 200              		.loc 1 120 0
+ 201 00f4 0400A0E1 		mov	r0, r4
+ 202 00f8 F087BDE8 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 203              	.LVL24:
+ 204              	.L11:
+ 205              	.LBB37:
+ 206              	.LBB36:
+ 196:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 		{
+ 197:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 			xReturn = pdTRUE;
+ 198:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 		}
+ 199:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 		else
+ 200:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 		{
+ 201:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 			xReturn = pdFALSE;
+ 202:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 		}
+ 203:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	}
+ 204:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	else
+ 205:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	{
+ 206:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 		if( uxLeft <= uxRight )
+ 207              		.loc 2 206 0
+ 208 00fc 020055E1 		cmp	r5, r2
+ 209 0100 FBFFFF3A 		bcc	.L17
+ 210              	.L12:
+ 211              	.LVL25:
+ 212              	.LBE36:
+ 213              	.LBE37:
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		}
+ 214              		.loc 1 115 0
+ 215 0104 0C5087E5 		str	r5, [r7, #12]
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** }
+ 216              		.loc 1 119 0
+ 217 0108 F9FFFFEA 		b	.L17
+ 218              	.LVL26:
+ 219              	.L6:
+  81:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		{
+ 220              		.loc 1 81 0
+ 221 010c 000052E3 		cmp	r2, #0
+ 222 0110 D5FFFF1A 		bne	.L14
+ 223 0114 E5FFFFEA 		b	.L15
+ 224              		.cfi_endproc
+ 225              	.LFE25:
+ 227              		.section	.text.uxStreamBufferGet,"ax",%progbits
+ 228              		.align	2
+ 229              		.global	uxStreamBufferGet
+ 230              		.syntax unified
+ 231              		.arm
+ 232              		.fpu neon
+ 234              	uxStreamBufferGet:
+ 235              	.LFB26:
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** /*-----------------------------------------------------------*/
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** /*
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * uxStreamBufferGet( )
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * 'uxOffset' can be used to read data located at a certain offset from 'lTail'.
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * If 'pucData' equals NULL, the function is called to advance 'lTail' only.
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * if 'xPeek' is pdTRUE, or if 'uxOffset' is non-zero, the 'lTail' pointer will
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  * not be advanced.
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c ****  */
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** size_t uxStreamBufferGet( StreamBuffer_t *pxBuffer, size_t uxOffset, uint8_t *pucData, size_t uxMax
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** {
+ 236              		.loc 1 131 0
+ 237              		.cfi_startproc
+ 238              		@ args = 4, pretend = 0, frame = 0
+ 239              		@ frame_needed = 0, uses_anonymous_args = 0
+ 240              	.LVL27:
+ 241              	.LBB46:
+ 242              	.LBB47:
+ 243              	.LBB48:
+ 244              	.LBB49:
+  84:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	if ( uxCount >= pxBuffer->LENGTH )
+ 245              		.loc 2 84 0
+ 246 0000 10C090E5 		ldr	ip, [r0, #16]
+ 247              	.LBE49:
+ 248              	.LBE48:
+ 249              	.LBE47:
+ 250              	.LBE46:
+ 251              		.loc 1 131 0
+ 252 0004 F0472DE9 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 253              		.cfi_def_cfa_offset 32
+ 254              		.cfi_offset 4, -32
+ 255              		.cfi_offset 5, -28
+ 256              		.cfi_offset 6, -24
+ 257              		.cfi_offset 7, -20
+ 258              		.cfi_offset 8, -16
+ 259              		.cfi_offset 9, -12
+ 260              		.cfi_offset 10, -8
+ 261              		.cfi_offset 14, -4
+ 262              	.LBB53:
+ 263              	.LBB52:
+ 125:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** size_t uxTail = pxBuffer->uxTail;
+ 264              		.loc 2 125 0
+ 265 0008 084090E5 		ldr	r4, [r0, #8]
+ 266              	.LVL28:
+ 126:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 
+ 267              		.loc 2 126 0
+ 268 000c 00E090E5 		ldr	lr, [r0]
+ 269              	.LVL29:
+ 270              	.LBB51:
+ 271              	.LBB50:
+  84:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	if ( uxCount >= pxBuffer->LENGTH )
+ 272              		.loc 2 84 0
+ 273 0010 0C4084E0 		add	r4, r4, ip
+ 274              	.LVL30:
+ 275 0014 0E4044E0 		sub	r4, r4, lr
+ 276              	.LVL31:
+  85:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	{
+ 277              		.loc 2 85 0
+ 278 0018 04005CE1 		cmp	ip, r4
+  87:D:\Work\DeviceTester\amazon-freertos\lib\FreeRTOS-Plus-TCP\include\FreeRTOS_Stream_Buffer.h **** 	}
+ 279              		.loc 2 87 0
+ 280 001c 0C404490 		subls	r4, r4, ip
+ 281              	.LVL32:
+ 282              	.LBE50:
+ 283              	.LBE51:
+ 284              	.LBE52:
+ 285              	.LBE53:
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** size_t uxSize, uxCount, uxFirst, uxNextTail;
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	/* How much data is available? */
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	uxSize = uxStreamBufferGetSize( pxBuffer );
+ 136:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	if( uxSize > uxOffset )
+ 286              		.loc 1 137 0
+ 287 0020 040051E1 		cmp	r1, r4
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	{
+ 139:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		uxSize -= uxOffset;
+ 140:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	}
+ 141:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	else
+ 142:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	{
+ 143:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		uxSize = 0u;
+ 288              		.loc 1 143 0
+ 289 0024 0040A023 		movcs	r4, #0
+ 139:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	}
+ 290              		.loc 1 139 0
+ 291 0028 01404430 		subcc	r4, r4, r1
+ 292              	.LVL33:
+ 293              	.LBB54:
+ 294              	.LBB55:
+ 295              		.loc 3 180 0
+ 296 002c 030054E1 		cmp	r4, r3
+ 297 0030 0340A021 		movcs	r4, r3
+ 298              	.LVL34:
+ 299              	.LBE55:
+ 300              	.LBE54:
+ 144:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	}
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+ 146:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	/* Use the minimum of the wanted bytes and the available bytes. */
+ 147:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	uxCount = FreeRTOS_min_uint32( uxSize, uxMaxCount );
+ 148:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+ 149:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	if( uxCount > 0u )
+ 301              		.loc 1 149 0
+ 302 0034 000054E3 		cmp	r4, #0
+ 303 0038 0A00000A 		beq	.L33
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	{
+ 151:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		uxNextTail = pxBuffer->uxTail;
+ 152:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+ 153:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		if( uxOffset != 0u )
+ 304              		.loc 1 153 0
+ 305 003c 000051E3 		cmp	r1, #0
+ 306 0040 0230A0E1 		mov	r3, r2
+ 307              	.LVL35:
+ 308 0044 0180A0E1 		mov	r8, r1
+ 309 0048 0070A0E1 		mov	r7, r0
+ 151:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+ 310              		.loc 1 151 0
+ 311 004c 006090E5 		ldr	r6, [r0]
+ 312              	.LVL36:
+ 313              		.loc 1 153 0
+ 314 0050 0600000A 		beq	.L24
+ 154:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		{
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			uxNextTail += uxOffset;
+ 315              		.loc 1 155 0
+ 316 0054 016086E0 		add	r6, r6, r1
+ 317              	.LVL37:
+ 156:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			if( uxNextTail >= pxBuffer->LENGTH )
+ 318              		.loc 1 156 0
+ 319 0058 0C0056E1 		cmp	r6, ip
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			{
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 				uxNextTail -= pxBuffer->LENGTH;
+ 320              		.loc 1 158 0
+ 321 005c 0C604620 		subcs	r6, r6, ip
+ 322              	.LVL38:
+ 159:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			}
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		}
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+ 162:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		if( pucData != NULL )
+ 323              		.loc 1 162 0
+ 324 0060 000052E3 		cmp	r2, #0
+ 325 0064 0300001A 		bne	.L29
+ 326              	.LVL39:
+ 327              	.L33:
+ 163:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		{
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			/* Calculate the number of bytes that can be read - which may be
+ 165:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			less than the number wanted if the data wraps around to the start of
+ 166:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			the buffer. */
+ 167:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			uxFirst = FreeRTOS_min_uint32( pxBuffer->LENGTH - uxNextTail, uxCount );
+ 168:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+ 169:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			/* Obtain the number of bytes it is possible to obtain in the first
+ 170:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			read. */
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			memcpy( pucData, pxBuffer->ucArray + uxNextTail, uxFirst );
+ 172:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			/* If the total number of wanted bytes is greater than the number
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			that could be read in the first read... */
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			if( uxCount > uxFirst )
+ 176:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			{
+ 177:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 				/*...then read the remaining bytes from the start of the buffer. */
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 				memcpy( pucData + uxFirst, pxBuffer->ucArray, uxCount - uxFirst );
+ 179:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			}
+ 180:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		}
+ 181:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+ 182:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		if( ( xPeek == pdFALSE ) && ( uxOffset == 0UL ) )
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		{
+ 184:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			/* Move the tail pointer to effecively remove the data read from
+ 185:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			the buffer. */
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			uxNextTail += uxCount;
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			if( uxNextTail >= pxBuffer->LENGTH )
+ 189:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			{
+ 190:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 				uxNextTail -= pxBuffer->LENGTH;
+ 191:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			}
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+ 193:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			pxBuffer->uxTail = uxNextTail;
+ 194:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		}
+ 195:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	}
+ 196:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+ 197:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 	return uxCount;
+ 198:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** }
+ 328              		.loc 1 198 0
+ 329 0068 0400A0E1 		mov	r0, r4
+ 330 006c F087BDE8 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 331              	.LVL40:
+ 332              	.L24:
+ 162:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		{
+ 333              		.loc 1 162 0
+ 334 0070 000052E3 		cmp	r2, #0
+ 335 0074 0E00000A 		beq	.L26
+ 336              	.L29:
+ 337              	.LVL41:
+ 167:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+ 338              		.loc 1 167 0
+ 339 0078 06C04CE0 		sub	ip, ip, r6
+ 340              	.LVL42:
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+ 341              		.loc 1 171 0
+ 342 007c 149087E2 		add	r9, r7, #20
+ 343              	.LBB56:
+ 344              	.LBB57:
+ 345              		.loc 3 180 0
+ 346 0080 04005CE1 		cmp	ip, r4
+ 347              	.LBE57:
+ 348              	.LBE56:
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+ 349              		.loc 1 171 0
+ 350 0084 061089E0 		add	r1, r9, r6
+ 351              	.LVL43:
+ 352              	.LBB59:
+ 353              	.LBB58:
+ 354              		.loc 3 180 0
+ 355 0088 0C50A031 		movcc	r5, ip
+ 356 008c 0450A021 		movcs	r5, r4
+ 357              	.LVL44:
+ 358              	.LBE58:
+ 359              	.LBE59:
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+ 360              		.loc 1 171 0
+ 361 0090 0520A0E1 		mov	r2, r5
+ 362              	.LVL45:
+ 363 0094 0300A0E1 		mov	r0, r3
+ 364              	.LVL46:
+ 365 0098 FEFFFFEB 		bl	memcpy
+ 366              	.LVL47:
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			{
+ 367              		.loc 1 175 0
+ 368 009c 040055E1 		cmp	r5, r4
+ 369 00a0 0300002A 		bcs	.L26
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			}
+ 370              		.loc 1 178 0
+ 371 00a4 052044E0 		sub	r2, r4, r5
+ 372 00a8 0910A0E1 		mov	r1, r9
+ 373 00ac 050080E0 		add	r0, r0, r5
+ 374 00b0 FEFFFFEB 		bl	memcpy
+ 375              	.LVL48:
+ 376              	.L26:
+ 182:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		{
+ 377              		.loc 1 182 0
+ 378 00b4 20309DE5 		ldr	r3, [sp, #32]
+ 379 00b8 000053E3 		cmp	r3, #0
+ 380 00bc 00005803 		cmpeq	r8, #0
+ 381 00c0 E8FFFF1A 		bne	.L33
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			{
+ 382              		.loc 1 188 0
+ 383 00c4 103097E5 		ldr	r3, [r7, #16]
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 
+ 384              		.loc 1 186 0
+ 385 00c8 066084E0 		add	r6, r4, r6
+ 386              	.LVL49:
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			{
+ 387              		.loc 1 188 0
+ 388 00cc 030056E1 		cmp	r6, r3
+ 190:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 			}
+ 389              		.loc 1 190 0
+ 390 00d0 03604620 		subcs	r6, r6, r3
+ 391              	.LVL50:
+ 193:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source\FreeRTOS_Stream_Buffer.c **** 		}
+ 392              		.loc 1 193 0
+ 393 00d4 006087E5 		str	r6, [r7]
+ 394 00d8 E2FFFFEA 		b	.L33
+ 395              		.cfi_endproc
+ 396              	.LFE26:
+ 398              		.text
+ 399              	.Letext0:
+ 400              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 401              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 402              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 403              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 404              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 405              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 406              		.file 10 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 407              		.file 11 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 408              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\src/unity_internals.h"
+ 409              		.file 13 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 410              		.file 14 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS\\portable\\GCC\\ARM_CA9_RZA2M/por
+ 411              		.file 15 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include\\private/list.h"
+ 412              		.file 16 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 413              		.file 17 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 414              		.file 18 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 415              		.file 19 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 416              		.file 20 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 417              		.file 21 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 418              		.file 22 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 419              		.file 23 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS-Plus-TCP\\include/FreeRTOS_TCP_WI
+ 420              		.file 24 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS-Plus-TCP\\include/FreeRTOS_IP_Pri
+DEFINED SYMBOLS
+                            *ABS*:00000000 FreeRTOS_Stream_Buffer.c
+C:\Users\a5089698\AppData\Local\Temp\ccdKM9ri.s:17     .text.uxStreamBufferAdd:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccdKM9ri.s:23     .text.uxStreamBufferAdd:00000000 uxStreamBufferAdd
+C:\Users\a5089698\AppData\Local\Temp\ccdKM9ri.s:228    .text.uxStreamBufferGet:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccdKM9ri.s:234    .text.uxStreamBufferGet:00000000 uxStreamBufferGet
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+memcpy

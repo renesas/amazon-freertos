@@ -1,0 +1,146 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"platform_util.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.mbedtls_platform_zeroize,"ax",%progbits
+  17              		.align	2
+  18              		.global	mbedtls_platform_zeroize
+  19              		.syntax unified
+  20              		.arm
+  21              		.fpu neon
+  23              	mbedtls_platform_zeroize:
+  24              	.LFB0:
+  25              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library/platform_util.c"
+   1:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c **** /*
+   2:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  * Common and shared functions used by multiple modules in the Mbed TLS
+   3:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  * library.
+   4:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  *
+   5:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  *  Copyright (C) 2018, Arm Limited, All Rights Reserved
+   6:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  *  SPDX-License-Identifier: Apache-2.0
+   7:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  *
+   8:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+   9:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  *  not use this file except in compliance with the License.
+  10:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  *  You may obtain a copy of the License at
+  11:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  *
+  12:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  *  http://www.apache.org/licenses/LICENSE-2.0
+  13:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  *
+  14:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  *  Unless required by applicable law or agreed to in writing, software
+  15:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  16:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  17:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  *  See the License for the specific language governing permissions and
+  18:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  *  limitations under the License.
+  19:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  *
+  20:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  *  This file is part of Mbed TLS (https://tls.mbed.org)
+  21:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  */
+  22:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c **** 
+  23:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c **** /*
+  24:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  * Ensure gmtime_r is available even with -std=c99; must be defined before
+  25:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  * config.h, which pulls in glibc's features.h. Harmless on other platforms.
+  26:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  */
+  27:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c **** #if !defined(_POSIX_C_SOURCE)
+  28:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c **** #define _POSIX_C_SOURCE 200112L
+  29:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c **** #endif
+  30:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c **** 
+  31:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c **** #if !defined(MBEDTLS_CONFIG_FILE)
+  32:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c **** #include "mbedtls/config.h"
+  33:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c **** #else
+  34:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c **** #include MBEDTLS_CONFIG_FILE
+  35:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c **** #endif
+  36:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c **** 
+  37:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c **** #include "mbedtls/platform_util.h"
+  38:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c **** #include "mbedtls/threading.h"
+  39:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c **** 
+  40:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c **** #include <stddef.h>
+  41:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c **** #include <string.h>
+  42:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c **** 
+  43:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c **** #if !defined(MBEDTLS_PLATFORM_ZEROIZE_ALT)
+  44:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c **** /*
+  45:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  * This implementation should never be optimized out by the compiler
+  46:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  *
+  47:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  * This implementation for mbedtls_platform_zeroize() was inspired from Colin
+  48:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  * Percival's blog article at:
+  49:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  *
+  50:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  * http://www.daemonology.net/blog/2014-09-04-how-to-zero-a-buffer.html
+  51:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  *
+  52:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  * It uses a volatile function pointer to the standard memset(). Because the
+  53:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  * pointer is volatile the compiler expects it to change at
+  54:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  * any time and will not optimize out the call that could potentially perform
+  55:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  * other operations on the input buffer instead of just setting it to 0.
+  56:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  * Nevertheless, as pointed out by davidtgoldblatt on Hacker News
+  57:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  * (refer to http://www.daemonology.net/blog/2014-09-05-erratum.html for
+  58:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  * details), optimizations of the following form are still possible:
+  59:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  *
+  60:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  * if( memset_func != memset )
+  61:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  *     memset_func( buf, 0, len );
+  62:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  *
+  63:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  * Note that it is extremely difficult to guarantee that
+  64:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  * mbedtls_platform_zeroize() will not be optimized out by aggressive compilers
+  65:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  * in a portable way. For this reason, Mbed TLS also provides the configuration
+  66:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  * option MBEDTLS_PLATFORM_ZEROIZE_ALT, which allows users to configure
+  67:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  * mbedtls_platform_zeroize() to use a suitable implementation for their
+  68:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  * platform and needs.
+  69:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****  */
+  70:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c **** static void * (* const volatile memset_func)( void *, int, size_t ) = memset;
+  71:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c **** 
+  72:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c **** void mbedtls_platform_zeroize( void *buf, size_t len )
+  73:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c **** {
+  26              		.loc 1 73 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              		@ link register save eliminated.
+  31              	.LVL0:
+  74:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\platform_util.c ****     memset_func( buf, 0, len );
+  32              		.loc 1 74 0
+  33 0000 0C309FE5 		ldr	r3, .L2
+  34 0004 0120A0E1 		mov	r2, r1
+  35 0008 0010A0E3 		mov	r1, #0
+  36              	.LVL1:
+  37 000c 003093E5 		ldr	r3, [r3]
+  38 0010 13FF2FE1 		bx	r3
+  39              	.LVL2:
+  40              	.L3:
+  41              		.align	2
+  42              	.L2:
+  43 0014 00000000 		.word	.LANCHOR0
+  44              		.cfi_endproc
+  45              	.LFE0:
+  47              		.section	.data.memset_func,"aw",%progbits
+  48              		.align	2
+  49              		.set	.LANCHOR0,. + 0
+  52              	memset_func:
+  53 0000 00000000 		.word	memset
+  54              		.text
+  55              	.Letext0:
+  56              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+  57              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+  58              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+  59              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+  60              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+  61              		.file 7 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\src/unity_internals.h"
+  62              		.file 8 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/queue.h"
+  63              		.file 9 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/semphr.h"
+  64              		.file 10 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include\\private/threading_alt.h"
+  65              		.file 11 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/thre
+DEFINED SYMBOLS
+                            *ABS*:00000000 platform_util.c
+C:\Users\a5089698\AppData\Local\Temp\cceJONY0.s:17     .text.mbedtls_platform_zeroize:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cceJONY0.s:23     .text.mbedtls_platform_zeroize:00000000 mbedtls_platform_zeroize
+C:\Users\a5089698\AppData\Local\Temp\cceJONY0.s:43     .text.mbedtls_platform_zeroize:00000014 $d
+C:\Users\a5089698\AppData\Local\Temp\cceJONY0.s:48     .data.memset_func:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\cceJONY0.s:52     .data.memset_func:00000000 memset_func
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+memset

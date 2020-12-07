@@ -1,0 +1,143 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"r_memclk_setup.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.r_memclk_setup,"ax",%progbits
+  17              		.align	2
+  18              		.global	r_memclk_setup
+  19              		.syntax unified
+  20              		.arm
+  21              		.fpu neon
+  23              	r_memclk_setup:
+  24              	.LFB3:
+  25              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/cor
+   1:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c **** /**************************************************************************************************
+   2:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  * DISCLAIMER
+   3:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  * This software is supplied by Renesas Electronics Corporation and is only intended for use with R
+   4:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  * other uses are authorized. This software is owned by Renesas Electronics Corporation and is prot
+   5:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  * applicable laws, including copyright laws.
+   6:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   7:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF
+   8:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAI
+   9:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS A
+  10:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY R
+  11:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  * THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DA
+  12:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  * Renesas reserves the right, without notice, to make changes to this software and to discontinue 
+  13:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  * this software. By using this software, you agree to the additional terms and conditions found by
+  14:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  * following link:
+  15:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  * http://www.renesas.com/disclaimer
+  16:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  *
+  17:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+  18:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  **************************************************************************************************
+  19:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c **** /**************************************************************************************************
+  20:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  * File Name    : r_memclk_setup.c
+  21:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  * Device(s)    : RZ/A2M
+  22:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  * Description  : setting memory clock before starting R_SC_HardwareSetup
+  23:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  **************************************************************************************************
+  24:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c **** 
+  25:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c **** /**************************************************************************************************
+  26:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  Includes   <System Includes> , "Project Includes"
+  27:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  **************************************************************************************************
+  28:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c **** #include "r_typedefs.h"
+  29:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c **** #include "r_memclk_setup.h"
+  30:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c **** 
+  31:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c **** /**************************************************************************************************
+  32:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  * Function Name: r_memclk_setup
+  33:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  * Description  : setting memory clock before starting R_SC_HardwareSetup function
+  34:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  * Arguments    : none
+  35:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  * Return Value : none
+  36:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****  **************************************************************************************************
+  37:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c **** void r_memclk_setup(void)
+  38:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c **** {
+  26              		.loc 1 38 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  39:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****     /* Call SPIBSC clock setup if defined */
+  40:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****     if (NULL != r_spibsc_memclk_setup)
+  30              		.loc 1 40 0
+  31 0000 30309FE5 		ldr	r3, .L15
+  38:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****     /* Call SPIBSC clock setup if defined */
+  32              		.loc 1 38 0
+  33 0004 10402DE9 		push	{r4, lr}
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 4, -8
+  36              		.cfi_offset 14, -4
+  37              		.loc 1 40 0
+  38 0008 000053E3 		cmp	r3, #0
+  39 000c 0000000A 		beq	.L2
+  41:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****     {
+  42:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****         r_spibsc_memclk_setup();
+  40              		.loc 1 42 0
+  41 0010 FEFFFFEB 		bl	r_spibsc_memclk_setup
+  42              	.LVL0:
+  43              	.L2:
+  43:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****     }
+  44:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c **** 
+  45:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****     /* Call HYPERBUS clock setup if defined */
+  46:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****     if (NULL != r_hyperbus_memclk_setup)
+  44              		.loc 1 46 0
+  45 0014 20309FE5 		ldr	r3, .L15+4
+  46 0018 000053E3 		cmp	r3, #0
+  47 001c 0000000A 		beq	.L3
+  47:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****     {
+  48:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****         r_hyperbus_memclk_setup();
+  48              		.loc 1 48 0
+  49 0020 FEFFFFEB 		bl	r_hyperbus_memclk_setup
+  50              	.LVL1:
+  51              	.L3:
+  49:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****     }
+  50:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c **** 
+  51:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****     /* Call OCTABUS clock setup if defined */
+  52:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****     if (NULL != r_octabus_memclk_setup)
+  52              		.loc 1 52 0
+  53 0024 14309FE5 		ldr	r3, .L15+8
+  54 0028 000053E3 		cmp	r3, #0
+  55 002c 1080BD08 		popeq	{r4, pc}
+  53:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****     {
+  54:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/core_package/generate/system\r_memclk_setup.c ****         r_octabus_memclk_setup();
+  56              		.loc 1 54 0
+  57 0030 FEFFFFEB 		bl	r_octabus_memclk_setup
+  58              	.LVL2:
+  59 0034 1080BDE8 		pop	{r4, pc}
+  60              	.L16:
+  61              		.align	2
+  62              	.L15:
+  63 0038 00000000 		.word	r_spibsc_memclk_setup
+  64 003c 00000000 		.word	r_hyperbus_memclk_setup
+  65 0040 00000000 		.word	r_octabus_memclk_setup
+  66              		.cfi_endproc
+  67              	.LFE3:
+  69              		.weak	r_octabus_memclk_setup
+  70              		.weak	r_hyperbus_memclk_setup
+  71              		.weak	r_spibsc_memclk_setup
+  72              		.text
+  73              	.Letext0:
+  74              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+  75              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+  76              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+  77              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+  78              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+  79              		.file 7 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_bo
+DEFINED SYMBOLS
+                            *ABS*:00000000 r_memclk_setup.c
+C:\Users\a5089698\AppData\Local\Temp\ccuLzvAv.s:17     .text.r_memclk_setup:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccuLzvAv.s:23     .text.r_memclk_setup:00000000 r_memclk_setup
+C:\Users\a5089698\AppData\Local\Temp\ccuLzvAv.s:63     .text.r_memclk_setup:00000038 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+r_spibsc_memclk_setup
+r_hyperbus_memclk_setup
+r_octabus_memclk_setup

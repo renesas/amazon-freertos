@@ -1,0 +1,165 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"version.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.mbedtls_version_get_number,"ax",%progbits
+  17              		.align	2
+  18              		.global	mbedtls_version_get_number
+  19              		.syntax unified
+  20              		.arm
+  21              		.fpu neon
+  23              	mbedtls_version_get_number:
+  24              	.LFB0:
+  25              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library/version.c"
+   1:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c **** /*
+   2:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c ****  *  Version information
+   3:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c ****  *
+   4:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c ****  *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
+   5:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c ****  *  SPDX-License-Identifier: Apache-2.0
+   6:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c ****  *
+   7:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c ****  *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+   8:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c ****  *  not use this file except in compliance with the License.
+   9:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c ****  *  You may obtain a copy of the License at
+  10:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c ****  *
+  11:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c ****  *  http://www.apache.org/licenses/LICENSE-2.0
+  12:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c ****  *
+  13:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c ****  *  Unless required by applicable law or agreed to in writing, software
+  14:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c ****  *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  15:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c ****  *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  16:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c ****  *  See the License for the specific language governing permissions and
+  17:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c ****  *  limitations under the License.
+  18:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c ****  *
+  19:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c ****  *  This file is part of mbed TLS (https://tls.mbed.org)
+  20:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c ****  */
+  21:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c **** 
+  22:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c **** #if !defined(MBEDTLS_CONFIG_FILE)
+  23:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c **** #include "mbedtls/config.h"
+  24:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c **** #else
+  25:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c **** #include MBEDTLS_CONFIG_FILE
+  26:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c **** #endif
+  27:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c **** 
+  28:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c **** #if defined(MBEDTLS_VERSION_C)
+  29:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c **** 
+  30:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c **** #include "mbedtls/version.h"
+  31:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c **** #include <string.h>
+  32:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c **** 
+  33:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c **** unsigned int mbedtls_version_get_number( void )
+  34:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c **** {
+  26              		.loc 1 34 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              		@ link register save eliminated.
+  35:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c ****     return( MBEDTLS_VERSION_NUMBER );
+  36:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c **** }
+  31              		.loc 1 36 0
+  32 0000 00009FE5 		ldr	r0, .L2
+  33 0004 1EFF2FE1 		bx	lr
+  34              	.L3:
+  35              		.align	2
+  36              	.L2:
+  37 0008 00010D02 		.word	34406656
+  38              		.cfi_endproc
+  39              	.LFE0:
+  41              		.section	.text.mbedtls_version_get_string,"ax",%progbits
+  42              		.align	2
+  43              		.global	mbedtls_version_get_string
+  44              		.syntax unified
+  45              		.arm
+  46              		.fpu neon
+  48              	mbedtls_version_get_string:
+  49              	.LFB1:
+  37:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c **** 
+  38:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c **** void mbedtls_version_get_string( char *string )
+  39:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c **** {
+  50              		.loc 1 39 0
+  51              		.cfi_startproc
+  52              		@ args = 0, pretend = 0, frame = 0
+  53              		@ frame_needed = 0, uses_anonymous_args = 0
+  54              		@ link register save eliminated.
+  55              	.LVL0:
+  40:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c ****     memcpy( string, MBEDTLS_VERSION_STRING,
+  56              		.loc 1 40 0
+  57 0000 0720A0E3 		mov	r2, #7
+  58 0004 00109FE5 		ldr	r1, .L5
+  59 0008 FEFFFFEA 		b	memcpy
+  60              	.LVL1:
+  61              	.L6:
+  62              		.align	2
+  63              	.L5:
+  64 000c 00000000 		.word	.LC0
+  65              		.cfi_endproc
+  66              	.LFE1:
+  68              		.section	.text.mbedtls_version_get_string_full,"ax",%progbits
+  69              		.align	2
+  70              		.global	mbedtls_version_get_string_full
+  71              		.syntax unified
+  72              		.arm
+  73              		.fpu neon
+  75              	mbedtls_version_get_string_full:
+  76              	.LFB2:
+  41:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c ****             sizeof( MBEDTLS_VERSION_STRING ) );
+  42:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c **** }
+  43:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c **** 
+  44:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c **** void mbedtls_version_get_string_full( char *string )
+  45:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c **** {
+  77              		.loc 1 45 0
+  78              		.cfi_startproc
+  79              		@ args = 0, pretend = 0, frame = 0
+  80              		@ frame_needed = 0, uses_anonymous_args = 0
+  81              		@ link register save eliminated.
+  82              	.LVL2:
+  46:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\version.c ****     memcpy( string, MBEDTLS_VERSION_STRING_FULL,
+  83              		.loc 1 46 0
+  84 0000 1020A0E3 		mov	r2, #16
+  85 0004 00109FE5 		ldr	r1, .L8
+  86 0008 FEFFFFEA 		b	memcpy
+  87              	.LVL3:
+  88              	.L9:
+  89              		.align	2
+  90              	.L8:
+  91 000c 00000000 		.word	.LC1
+  92              		.cfi_endproc
+  93              	.LFE2:
+  95              		.section	.rodata.mbedtls_version_get_string.str1.1,"aMS",%progbits,1
+  96              	.LC0:
+  97 0000 322E3133 		.ascii	"2.13.1\000"
+  97      2E3100
+  98              		.section	.rodata.mbedtls_version_get_string_full.str1.1,"aMS",%progbits,1
+  99              	.LC1:
+ 100 0000 6D626564 		.ascii	"mbed TLS 2.13.1\000"
+ 100      20544C53 
+ 100      20322E31 
+ 100      332E3100 
+ 101              		.text
+ 102              	.Letext0:
+ 103              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 104              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 105              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 106              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+DEFINED SYMBOLS
+                            *ABS*:00000000 version.c
+C:\Users\a5089698\AppData\Local\Temp\cc7dbvBS.s:17     .text.mbedtls_version_get_number:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc7dbvBS.s:23     .text.mbedtls_version_get_number:00000000 mbedtls_version_get_number
+C:\Users\a5089698\AppData\Local\Temp\cc7dbvBS.s:37     .text.mbedtls_version_get_number:00000008 $d
+C:\Users\a5089698\AppData\Local\Temp\cc7dbvBS.s:42     .text.mbedtls_version_get_string:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc7dbvBS.s:48     .text.mbedtls_version_get_string:00000000 mbedtls_version_get_string
+C:\Users\a5089698\AppData\Local\Temp\cc7dbvBS.s:64     .text.mbedtls_version_get_string:0000000c $d
+C:\Users\a5089698\AppData\Local\Temp\cc7dbvBS.s:69     .text.mbedtls_version_get_string_full:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cc7dbvBS.s:75     .text.mbedtls_version_get_string_full:00000000 mbedtls_version_get_string_full
+C:\Users\a5089698\AppData\Local\Temp\cc7dbvBS.s:91     .text.mbedtls_version_get_string_full:0000000c $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+memcpy

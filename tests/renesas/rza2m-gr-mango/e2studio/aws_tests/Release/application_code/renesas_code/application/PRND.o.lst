@@ -1,0 +1,989 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"PRND.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.R_Prnd_Init_Genrand,"ax",%progbits
+  17              		.align	2
+  18              		.global	R_Prnd_Init_Genrand
+  19              		.syntax unified
+  20              		.arm
+  21              		.fpu neon
+  23              	R_Prnd_Init_Genrand:
+  24              	.LFB0:
+  25              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/ama
+   1:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** /*
+   2:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****    Copyright (C) 1997 - 2002, Makoto Matsumoto and Takuji Nishimura,
+   3:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****    All rights reserved.
+   4:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+   5:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****    Redistribution and use in source and binary forms, with or without
+   6:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****    modification, are permitted provided that the following conditions
+   7:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****    are met:
+   8:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+   9:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****      1. Redistributions of source code must retain the above copyright
+  10:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         notice, this list of conditions and the following disclaimer.
+  11:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+  12:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****      2. Redistributions in binary form must reproduce the above copyright
+  13:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         notice, this list of conditions and the following disclaimer in the
+  14:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         documentation and/or other materials provided with the distribution.
+  15:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+  16:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****      3. The names of its contributors may not be used to endorse or promote
+  17:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         products derived from this software without specific prior written
+  18:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         permission.
+  19:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+  20:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  21:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****    "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  22:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****    LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  23:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****    A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+  24:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****    CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+  25:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****    EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+  26:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****    PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+  27:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****    PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+  28:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****    LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+  29:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  30:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  31:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+  32:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+  33:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****    Any feedback is very welcome.
+  34:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****    http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html
+  35:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****    email: m-mat @ math.sci.hiroshima-u.ac.jp (remove space)
+  36:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****  */
+  37:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** /******************************************************************************
+  38:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** Includes   <System Includes> , "Project Includes"
+  39:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** ******************************************************************************/
+  40:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #include "r_typedefs.h"
+  41:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+  42:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** /******************************************************************************
+  43:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** Typedef definitions
+  44:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** ******************************************************************************/
+  45:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+  46:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** /******************************************************************************
+  47:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** Macro definitions
+  48:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** ******************************************************************************/
+  49:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define PRND_N 624
+  50:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define PRND_M 397
+  51:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define MATRIX_A 0x9908b0dfU   /* constant vector a */
+  52:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define UPPER_MASK 0x80000000U /* most significant w-r bits */
+  53:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define LOWER_MASK 0x7fffffffU /* least significant r bits */
+  54:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+  55:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define BITWIDTH			32u
+  56:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+  57:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define ALL1_MASK 0xffffffffU
+  58:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define INIT_MASK 1812433253U
+  59:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define ZERO 0
+  60:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define ONE 1
+  61:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define TWO 2
+  62:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define THREE 3
+  63:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define FOUR 4
+  64:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define FIVE 5
+  65:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define SEVEN 7
+  66:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define EIGHT 8
+  67:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define NINE 9
+  68:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define ELEVEN 11
+  69:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define FORTEEN 14
+  70:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define FIFTEEN 15
+  71:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define SIXTEEN 16
+  72:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define EIGHTEEN 18
+  73:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define TWENTY 20
+  74:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define THIRTY 30
+  75:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define FORTY 40
+  76:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define SIXTY 60
+  77:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+  78:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define MAX_BUF 80
+  79:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+  80:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define INIT_VALUE 5489U
+  81:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+  82:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define TEMPERING_MASK1 0x9d2c5680U
+  83:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define TEMPERING_MASK2 0xefc60000U
+  84:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+  85:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define SHA1_K_1 0x5a827999u
+  86:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define	SHA1_K_2 0x6ed9eba1u
+  87:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define	SHA1_K_3 0x8f1bbcdcu
+  88:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define	SHA1_K_4 0xca62c1d6u
+  89:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+  90:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define SHA1_INIT_1 0x67452301u
+  91:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define SHA1_INIT_2 0xEFCDAB89u
+  92:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define SHA1_INIT_3 0x98BADCFEu
+  93:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define SHA1_INIT_4 0x10325476u
+  94:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define SHA1_INIT_5 0xC3D2E1F0u
+  95:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+  96:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define VALID_BIT 256
+  97:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+  98:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** #define TOP_BIT 0x80000000u
+  99:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** /******************************************************************************
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** Imported global variables and functions (from other files)
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** ******************************************************************************/
+ 103:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** /******************************************************************************
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** Exported global variables and functions (to be accessed by other files)
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** ******************************************************************************/
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** /******************************************************************************
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** Private global variables and functions
+ 110:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** ******************************************************************************/
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** static uint32_t mt[PRND_N]; /* the array for the state vector  */
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** static int_t mti=PRND_N+1;  /* mti==N+1 means mt[N] is not initialized */
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** static uint32_t genrand_int32(void);
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** static uint32_t Sha1_int32(uint32_t w[]);
+ 116:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** static uint32_t Ch(const uint32_t x, const uint32_t y, const uint32_t z);
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** static uint32_t Maj(const uint32_t x, const uint32_t y, const uint32_t z);
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** static uint32_t Parity(const uint32_t x, const uint32_t y, const uint32_t z);
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** static uint32_t Rotl(const uint32_t bits, const uint32_t word);
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** /******************************************************************************
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Function Name: R_PRND_Init_Genrand
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Description  : Initializes the random number
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Arguments    : const uint32_t seed; I : The seed value for generating a random number
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Return Value : none
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** ******************************************************************************/
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** /* initializes mt[N] with a seed */
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** void R_Prnd_Init_Genrand(const uint32_t seed)
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** {
+  26              		.loc 1 129 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              		@ link register save eliminated.
+  31              	.LVL0:
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	mt[0]= seed & ALL1_MASK;
+  32              		.loc 1 130 0
+  33 0000 30309FE5 		ldr	r3, .L4
+  34 0004 0110A0E3 		mov	r1, #1
+  35 0008 000083E5 		str	r0, [r3]
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	for ( mti=1 ; mti<PRND_N ; mti++ )
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	{
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		mt[mti] = ((INIT_MASK * (mt[mti-1] ^ (mt[mti-1] >> THIRTY))) + (uint32_t)mti);
+  36              		.loc 1 133 0
+  37 000c 28009FE5 		ldr	r0, .L4+4
+  38              	.LVL1:
+  39              	.L2:
+  40              		.loc 1 133 0 is_stmt 0 discriminator 3
+  41 0010 002093E5 		ldr	r2, [r3]
+  42 0014 222F22E0 		eor	r2, r2, r2, lsr #30
+  43 0018 901222E0 		mla	r2, r0, r2, r1
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	for ( mti=1 ; mti<PRND_N ; mti++ )
+  44              		.loc 1 131 0 is_stmt 1 discriminator 3
+  45 001c 011081E2 		add	r1, r1, #1
+  46 0020 270E51E3 		cmp	r1, #624
+  47              		.loc 1 133 0 discriminator 3
+  48 0024 0420A3E5 		str	r2, [r3, #4]!
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	for ( mti=1 ; mti<PRND_N ; mti++ )
+  49              		.loc 1 131 0 discriminator 3
+  50 0028 F8FFFF1A 		bne	.L2
+  51 002c 0C309FE5 		ldr	r3, .L4+8
+  52 0030 001083E5 		str	r1, [r3]
+  53 0034 1EFF2FE1 		bx	lr
+  54              	.L5:
+  55              		.align	2
+  56              	.L4:
+  57 0038 00000000 		.word	.LANCHOR0
+  58 003c 6589076C 		.word	1812433253
+  59 0040 00000000 		.word	.LANCHOR1
+  60              		.cfi_endproc
+  61              	.LFE0:
+  63              		.section	.text.R_Prnd_Genrand_int32,"ax",%progbits
+  64              		.align	2
+  65              		.global	R_Prnd_Genrand_int32
+  66              		.syntax unified
+  67              		.arm
+  68              		.fpu neon
+  70              	R_Prnd_Genrand_int32:
+  71              	.LFB7:
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		/* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		/* In the previous versions, MSBs of the seed affect   */
+ 136:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		/* only MSBs of the array mt[].                        */
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		/* 2002/01/09 modified by Makoto Matsumoto             */
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		mt[mti] &= ALL1_MASK;
+ 139:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		/* for >32 bit machines */
+ 140:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	}
+ 141:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 142:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****     return;
+ 143:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** }
+ 144:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** /******************************************************************************
+ 146:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Function Name: genrand_int32
+ 147:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Description  : generates a random number on [0,0xffffffff]-interval
+ 148:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Arguments    : none
+ 149:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Return Value : random number
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** ******************************************************************************/
+ 151:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** static uint32_t genrand_int32(void)
+ 152:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** {
+ 153:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****     uint32_t y;
+ 154:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****     static uint32_t mag01[TWO]={0x0U, MATRIX_A};
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****     /* mag01[x] = x * MATRIX_A  for x=0,1 */
+ 156:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****     if ( mti >= PRND_N )  /* generate N words at one time */
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****     {
+ 159:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         int_t kk;
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         if (mti == (PRND_N+1))   /* if init_genrand() has not been called, */
+ 162:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         {
+ 163:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****             R_Prnd_Init_Genrand(INIT_VALUE); /* a default initial seed is used */
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         }
+ 165:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 166:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         for ( kk=0 ; kk<(PRND_N-PRND_M) ; kk++ )
+ 167:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         {
+ 168:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****             y = (mt[kk]&UPPER_MASK)|(mt[kk+1]&LOWER_MASK);
+ 169:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****             mt[kk] = mt[kk+PRND_M] ^ (y >> 1) ^ mag01[y & 0x1U];
+ 170:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         }
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         for ( ; kk<(PRND_N-1) ; kk++ )
+ 172:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         {
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****             y = (mt[kk]&UPPER_MASK)|(mt[kk+1]&LOWER_MASK);
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****             mt[kk] = mt[kk+(PRND_M-PRND_N)] ^ (y >> 1) ^ mag01[y & 0x1U];
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         }
+ 176:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         y = (mt[PRND_N-1]&UPPER_MASK)|(mt[0]&LOWER_MASK);
+ 177:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         mt[PRND_N-1] = mt[PRND_M-1] ^ (y >> 1) ^ mag01[y & 0x1U];
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 179:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         mti = 0;
+ 180:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****     }
+ 181:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 182:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****     y = mt[mti];
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****     mti++;
+ 184:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 185:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****     /* Tempering */
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****     y ^= (y >> ELEVEN);
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****     y ^= (y << SEVEN)   & TEMPERING_MASK1;
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****     y ^= (y << FIFTEEN) & TEMPERING_MASK2;
+ 189:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****     y ^= (y >> EIGHTEEN);
+ 190:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 191:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****     return y;
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** }
+ 193:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 194:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** /******************************************************************************
+ 195:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Function Name: Ch
+ 196:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Description  : 1 processing to constitute a random number generation function
+ 197:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Arguments    : const uint32_t x; I :
+ 198:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** *              : const uint32_t y; I :
+ 199:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** *              : const uint32_t z; I :
+ 200:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Return Value : result
+ 201:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** ******************************************************************************/
+ 202:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** static uint32_t Ch(const uint32_t x, const uint32_t y, const uint32_t z)
+ 203:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** {
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	return ((x & y) ^ (~x & z));
+ 205:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** }
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 207:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** /******************************************************************************
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Function Name: Maj
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Description  : 1 processing to constitute a random number generation function
+ 210:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Arguments    : const uint32_t x; I :
+ 211:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** *              : const uint32_t y; I :
+ 212:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** *              : const uint32_t z; I :
+ 213:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Return Value : result
+ 214:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** ******************************************************************************/
+ 215:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** static uint32_t Maj(const uint32_t x, const uint32_t y, const uint32_t z)
+ 216:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** {
+ 217:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	return ((x & y) ^ (x & z) ^ (y & z));
+ 218:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** }
+ 219:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 220:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** /******************************************************************************
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Function Name: Parity
+ 222:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Description  : 1 processing to constitute a random number generation function
+ 223:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Arguments    : const uint32_t x; I :
+ 224:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** *              : const uint32_t y; I :
+ 225:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** *              : const uint32_t z; I :
+ 226:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Return Value : result
+ 227:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** ******************************************************************************/
+ 228:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** static uint32_t Parity(const uint32_t x, const uint32_t y, const uint32_t z)
+ 229:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** {
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	return (x ^ y ^ z);
+ 231:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** }
+ 232:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 233:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** /******************************************************************************
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Function Name: Rotl
+ 235:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Description  : 1 processing to constitute a random number generation function (left rotation)
+ 236:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Arguments    : const uint32_t bits; I : Bit length of a shift
+ 237:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** *              : const uint32_t word; I : Data shifted
+ 238:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Return Value : result
+ 239:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** ******************************************************************************/
+ 240:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** static uint32_t Rotl(const uint32_t bits, const uint32_t word)
+ 241:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** {
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	return ((word << bits) | (word >> (BITWIDTH-bits)));
+ 243:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** }
+ 244:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 245:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** /******************************************************************************
+ 246:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Function Name: Sha1_int32
+ 247:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Description  : The value of 32 bits is extracted from the hash value calculated by SHA-1.
+ 248:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Arguments    : uint32_t w[]; I : Input data
+ 249:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Return Value : result
+ 250:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** ******************************************************************************/
+ 251:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** static uint32_t Sha1_int32(uint32_t w[])
+ 252:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** {
+ 253:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	const uint32_t sha1_K[FOUR] = {
+ 254:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 			SHA1_K_1,
+ 255:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 			SHA1_K_2,
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 			SHA1_K_3,
+ 257:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 			SHA1_K_4
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	};
+ 259:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	uint32_t atmp, btmp, ctmp, dtmp, etmp;
+ 260:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	uint32_t H[FIVE];
+ 261:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	uint32_t T;
+ 262:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	int_t i;
+ 263:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 264:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	H[ZERO]  = SHA1_INIT_1;
+ 265:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	H[ONE]   = SHA1_INIT_2;
+ 266:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	H[TWO]   = SHA1_INIT_3;
+ 267:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	H[THREE] = SHA1_INIT_4;
+ 268:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	H[FOUR]  = SHA1_INIT_5;
+ 269:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 270:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	for( i=SIXTEEN ; i<MAX_BUF ; i++ )
+ 271:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	{
+ 272:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		w[i] = Rotl(ONE, w[i-THREE]^w[i-EIGHT]^w[i-FORTEEN]^w[i-SIXTEEN]);
+ 273:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	}
+ 274:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 275:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	atmp = H[ZERO];
+ 276:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	btmp = H[ONE];
+ 277:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	ctmp = H[TWO];
+ 278:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	dtmp = H[THREE];
+ 279:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	etmp = H[FOUR];
+ 280:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	for( i=0 ; i<TWENTY ; i++ )
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	{
+ 283:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		T = Rotl(FIVE, atmp) + Ch(btmp, ctmp, dtmp) + etmp + sha1_K[0] + w[i];
+ 284:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		etmp = dtmp;
+ 285:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		dtmp = ctmp;
+ 286:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		ctmp = Rotl(THIRTY, btmp);
+ 287:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		btmp = atmp;
+ 288:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		atmp = T;
+ 289:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	}
+ 290:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 291:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	for( i=TWENTY ; i<FORTY ; i++ )
+ 292:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	{
+ 293:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		T = Rotl(FIVE, atmp) + Parity(btmp, ctmp, dtmp) + etmp + sha1_K[ONE] + w[i];
+ 294:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		etmp = dtmp;
+ 295:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		dtmp = ctmp;
+ 296:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		ctmp = Rotl(THIRTY, btmp);
+ 297:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		btmp = atmp;
+ 298:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		atmp = T;
+ 299:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	}
+ 300:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 301:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	for( i=FORTY ; i<SIXTY ; i++ )
+ 302:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	{
+ 303:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		T = Rotl(FIVE, atmp) + Maj(btmp, ctmp, dtmp) + etmp + sha1_K[TWO] + w[i];
+ 304:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		etmp = dtmp;
+ 305:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		dtmp = ctmp;
+ 306:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		ctmp = Rotl(THIRTY, btmp);
+ 307:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		btmp = atmp;
+ 308:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		atmp = T;
+ 309:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	}
+ 310:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 311:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	for( i=SIXTY ; i<MAX_BUF ; i++ )
+ 312:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	{
+ 313:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		T = Rotl(FIVE, atmp) + Parity(btmp, ctmp, dtmp) + etmp + sha1_K[THREE] + w[i];
+ 314:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		etmp = dtmp;
+ 315:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		dtmp = ctmp;
+ 316:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		ctmp = Rotl(THIRTY, btmp);
+ 317:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		btmp = atmp;
+ 318:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		atmp = T;
+ 319:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	}
+ 320:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 321:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** /*	H[0] += a;
+ 322:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	H[1] += b;  */
+ 323:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	H[TWO] += ctmp;
+ 324:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** /*	H[3] += d;
+ 325:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	H[4] += e;  */
+ 326:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 327:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	return H[TWO];
+ 328:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** }
+ 329:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 330:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** /******************************************************************************
+ 331:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Function Name: R_PRND_Genrand_int32
+ 332:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Description  : A 32-bit encryption pseudo random number is generated.
+ 333:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** *              : SHA-1 is applied to eight random numbers generated by the Mersenne Twister method,
+ 334:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** *              : it is with a hash value of 160 bits and does a value from the 64th bit of those
+ 335:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** *              : to the 95th bit with a return value.
+ 336:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Arguments    : none
+ 337:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** * Return Value : random number
+ 338:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** ******************************************************************************/
+ 339:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** uint32_t R_Prnd_Genrand_int32(void)
+ 340:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** {
+  72              		.loc 1 340 0
+  73              		.cfi_startproc
+  74              		@ args = 0, pretend = 0, frame = 320
+  75              		@ frame_needed = 0, uses_anonymous_args = 0
+  76              	.LVL2:
+  77 0000 F0412DE9 		push	{r4, r5, r6, r7, r8, lr}
+  78              		.cfi_def_cfa_offset 24
+  79              		.cfi_offset 4, -24
+  80              		.cfi_offset 5, -20
+  81              		.cfi_offset 6, -16
+  82              		.cfi_offset 7, -12
+  83              		.cfi_offset 8, -8
+  84              		.cfi_offset 14, -4
+ 341:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	/* input data */
+ 342:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	uint32_t w[MAX_BUF];
+ 343:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	int_t i;
+ 344:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 345:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	/* Input data generated */
+ 346:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	for( i=0 ; i<EIGHT ; i++ )
+  85              		.loc 1 346 0
+  86 0004 0040A0E3 		mov	r4, #0
+  87              	.LBB59:
+  88              	.LBB60:
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****     {
+  89              		.loc 1 157 0
+  90 0008 D4629FE5 		ldr	r6, .L26
+  91              	.LBE60:
+  92              	.LBE59:
+ 340:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	/* input data */
+  93              		.loc 1 340 0
+  94 000c 05DD4DE2 		sub	sp, sp, #320
+  95              		.cfi_def_cfa_offset 344
+  96              	.LBB63:
+  97              	.LBB62:
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****     y ^= (y << FIFTEEN) & TEMPERING_MASK2;
+  98              		.loc 1 187 0
+  99 0010 D0729FE5 		ldr	r7, .L26+4
+ 100 0014 0650A0E1 		mov	r5, r6
+ 101              	.LVL3:
+ 102              	.L11:
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****     {
+ 103              		.loc 1 157 0
+ 104 0018 003096E5 		ldr	r3, [r6]
+ 105 001c C8829FE5 		ldr	r8, .L26+8
+ 106 0020 270E53E3 		cmp	r3, #624
+ 107 0024 310000BA 		blt	.L7
+ 108              	.LBB61:
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         {
+ 109              		.loc 1 161 0
+ 110 0028 712200E3 		movw	r2, #625
+ 111 002c 020053E1 		cmp	r3, r2
+ 112 0030 0100001A 		bne	.L8
+ 163:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         }
+ 113              		.loc 1 163 0
+ 114 0034 710501E3 		movw	r0, #5489
+ 115 0038 FEFFFFEB 		bl	R_Prnd_Init_Genrand
+ 116              	.LVL4:
+ 117              	.L8:
+ 118 003c A8029FE5 		ldr	r0, .L26+8
+ 169:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         }
+ 119              		.loc 1 169 0
+ 120 0040 A8229FE5 		ldr	r2, .L26+12
+ 121 0044 E3CF80E2 		add	ip, r0, #908
+ 122 0048 0210A0E1 		mov	r1, r2
+ 123              	.L9:
+ 168:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****             mt[kk] = mt[kk+PRND_M] ^ (y >> 1) ^ mag01[y & 0x1U];
+ 124              		.loc 1 168 0
+ 125 004c 003090E5 		ldr	r3, [r0]
+ 126 0050 04E090E5 		ldr	lr, [r0, #4]
+ 127 0054 023103E2 		and	r3, r3, #-2147483648
+ 128 0058 02E1CEE3 		bic	lr, lr, #-2147483648
+ 129 005c 0E3083E1 		orr	r3, r3, lr
+ 130              	.LVL5:
+ 169:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         }
+ 131              		.loc 1 169 0
+ 132 0060 34E690E5 		ldr	lr, [r0, #1588]
+ 133 0064 A3E02EE0 		eor	lr, lr, r3, lsr #1
+ 134 0068 013003E2 		and	r3, r3, #1
+ 135              	.LVL6:
+ 136 006c 033192E7 		ldr	r3, [r2, r3, lsl #2]
+ 137 0070 0E3023E0 		eor	r3, r3, lr
+ 138 0074 043080E4 		str	r3, [r0], #4
+ 139              	.LVL7:
+ 166:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         {
+ 140              		.loc 1 166 0
+ 141 0078 00005CE1 		cmp	ip, r0
+ 142 007c F2FFFF1A 		bne	.L9
+ 143 0080 6C029FE5 		ldr	r0, .L26+16
+ 144 0084 63CE80E2 		add	ip, r0, #1584
+ 145              	.L10:
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****             mt[kk] = mt[kk+(PRND_M-PRND_N)] ^ (y >> 1) ^ mag01[y & 0x1U];
+ 146              		.loc 1 173 0
+ 147 0088 903390E5 		ldr	r3, [r0, #912]
+ 148 008c 94E390E5 		ldr	lr, [r0, #916]
+ 149 0090 023103E2 		and	r3, r3, #-2147483648
+ 150 0094 02E1CEE3 		bic	lr, lr, #-2147483648
+ 151 0098 0E3083E1 		orr	r3, r3, lr
+ 152              	.LVL8:
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         }
+ 153              		.loc 1 174 0
+ 154 009c 04E0B0E5 		ldr	lr, [r0, #4]!
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         {
+ 155              		.loc 1 171 0
+ 156 00a0 00005CE1 		cmp	ip, r0
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         }
+ 157              		.loc 1 174 0
+ 158 00a4 A3E02EE0 		eor	lr, lr, r3, lsr #1
+ 159 00a8 013003E2 		and	r3, r3, #1
+ 160              	.LVL9:
+ 161 00ac 033191E7 		ldr	r3, [r1, r3, lsl #2]
+ 162 00b0 0E3023E0 		eor	r3, r3, lr
+ 163 00b4 8C3380E5 		str	r3, [r0, #908]
+ 164              	.LVL10:
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         {
+ 165              		.loc 1 171 0
+ 166 00b8 F2FFFF1A 		bne	.L10
+ 176:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****         mt[PRND_N-1] = mt[PRND_M-1] ^ (y >> 1) ^ mag01[y & 0x1U];
+ 167              		.loc 1 176 0
+ 168 00bc BC3998E5 		ldr	r3, [r8, #2492]
+ 169 00c0 001098E5 		ldr	r1, [r8]
+ 170 00c4 023103E2 		and	r3, r3, #-2147483648
+ 171 00c8 0211C1E3 		bic	r1, r1, #-2147483648
+ 172 00cc 013083E1 		orr	r3, r3, r1
+ 173              	.LVL11:
+ 177:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 174              		.loc 1 177 0
+ 175 00d0 301698E5 		ldr	r1, [r8, #1584]
+ 176 00d4 A31021E0 		eor	r1, r1, r3, lsr #1
+ 177 00d8 013003E2 		and	r3, r3, #1
+ 178              	.LVL12:
+ 179 00dc 033192E7 		ldr	r3, [r2, r3, lsl #2]
+ 180 00e0 013023E0 		eor	r3, r3, r1
+ 181 00e4 BC3988E5 		str	r3, [r8, #2492]
+ 182              	.LVL13:
+ 179:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****     }
+ 183              		.loc 1 179 0
+ 184 00e8 0030A0E3 		mov	r3, #0
+ 185 00ec 003085E5 		str	r3, [r5]
+ 186              	.L7:
+ 187              	.LBE61:
+ 182:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****     mti++;
+ 188              		.loc 1 182 0
+ 189 00f0 002095E5 		ldr	r2, [r5]
+ 190 00f4 023198E7 		ldr	r3, [r8, r2, lsl #2]
+ 191              	.LVL14:
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 192              		.loc 1 183 0
+ 193 00f8 012082E2 		add	r2, r2, #1
+ 194 00fc 002085E5 		str	r2, [r5]
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****     y ^= (y << SEVEN)   & TEMPERING_MASK1;
+ 195              		.loc 1 186 0
+ 196 0100 A33523E0 		eor	r3, r3, r3, lsr #11
+ 197              	.LVL15:
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****     y ^= (y << FIFTEEN) & TEMPERING_MASK2;
+ 198              		.loc 1 187 0
+ 199 0104 832307E0 		and	r2, r7, r3, lsl #7
+ 200 0108 023023E0 		eor	r3, r3, r2
+ 201              	.LVL16:
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c ****     y ^= (y >> EIGHTEEN);
+ 202              		.loc 1 188 0
+ 203 010c E4219FE5 		ldr	r2, .L26+20
+ 204 0110 832702E0 		and	r2, r2, r3, lsl #15
+ 205 0114 023023E0 		eor	r3, r3, r2
+ 189:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 206              		.loc 1 189 0
+ 207 0118 233923E0 		eor	r3, r3, r3, lsr #18
+ 208              	.LBE62:
+ 209              	.LBE63:
+ 347:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	{
+ 348:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		w[i] = genrand_int32();  /* Mersenne Twister */
+ 210              		.loc 1 348 0
+ 211 011c 04318DE7 		str	r3, [sp, r4, lsl #2]
+ 346:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	{
+ 212              		.loc 1 346 0
+ 213 0120 014084E2 		add	r4, r4, #1
+ 214              	.LVL17:
+ 215 0124 080054E3 		cmp	r4, #8
+ 216 0128 BAFFFF1A 		bne	.L11
+ 349:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	}
+ 350:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	w[i] = TOP_BIT;
+ 217              		.loc 1 350 0
+ 218 012c 0231A0E3 		mov	r3, #-2147483648
+ 219 0130 04204DE2 		sub	r2, sp, #4
+ 220 0134 20308DE5 		str	r3, [sp, #32]
+ 221              	.LVL18:
+ 222 0138 FC008DE2 		add	r0, sp, #252
+ 351:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	for( i=NINE ; i<FIFTEEN ; i++ )
+ 352:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	{
+ 353:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		w[i] = 0;
+ 223              		.loc 1 353 0
+ 224 013c 0030A0E3 		mov	r3, #0
+ 225 0140 24308DE5 		str	r3, [sp, #36]
+ 226              	.LVL19:
+ 227 0144 28308DE5 		str	r3, [sp, #40]
+ 228              	.LVL20:
+ 229 0148 2C308DE5 		str	r3, [sp, #44]
+ 230              	.LVL21:
+ 231 014c 30308DE5 		str	r3, [sp, #48]
+ 232              	.LVL22:
+ 233 0150 34308DE5 		str	r3, [sp, #52]
+ 234              	.LVL23:
+ 235 0154 38308DE5 		str	r3, [sp, #56]
+ 236              	.LVL24:
+ 354:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	}
+ 355:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	w[i] = VALID_BIT;
+ 237              		.loc 1 355 0
+ 238 0158 013CA0E3 		mov	r3, #256
+ 239 015c 3C308DE5 		str	r3, [sp, #60]
+ 240              	.LVL25:
+ 241              	.L12:
+ 242              	.LBB64:
+ 243              	.LBB65:
+ 272:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	}
+ 244              		.loc 1 272 0
+ 245 0160 383092E5 		ldr	r3, [r2, #56]
+ 246 0164 24C092E5 		ldr	ip, [r2, #36]
+ 247 0168 0C1092E5 		ldr	r1, [r2, #12]
+ 248 016c 0C3023E0 		eor	r3, r3, ip
+ 249 0170 013023E0 		eor	r3, r3, r1
+ 250 0174 0410B2E5 		ldr	r1, [r2, #4]!
+ 251 0178 013023E0 		eor	r3, r3, r1
+ 270:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	{
+ 252              		.loc 1 270 0
+ 253 017c 020050E1 		cmp	r0, r2
+ 254              	.LBB66:
+ 255              	.LBB67:
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** }
+ 256              		.loc 1 242 0
+ 257 0180 E33FA0E1 		ror	r3, r3, #31
+ 258              	.LBE67:
+ 259              	.LBE66:
+ 272:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	}
+ 260              		.loc 1 272 0
+ 261 0184 403082E5 		str	r3, [r2, #64]
+ 270:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	{
+ 262              		.loc 1 270 0
+ 263 0188 F4FFFF1A 		bne	.L12
+ 264 018c 68C19FE5 		ldr	ip, .L26+24
+ 265 0190 0030A0E3 		mov	r3, #0
+ 266 0194 64519FE5 		ldr	r5, .L26+28
+ 267 0198 64619FE5 		ldr	r6, .L26+32
+ 268 019c 64419FE5 		ldr	r4, .L26+36
+ 269 01a0 0C00A0E1 		mov	r0, ip
+ 270 01a4 60119FE5 		ldr	r1, .L26+40
+ 283:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		etmp = dtmp;
+ 271              		.loc 1 283 0
+ 272 01a8 60719FE5 		ldr	r7, .L26+44
+ 273              	.L13:
+ 274              	.LVL26:
+ 275 01ac 03E19DE7 		ldr	lr, [sp, r3, lsl #2]
+ 276 01b0 E12D87E0 		add	r2, r7, r1, ror #27
+ 277              	.LBB68:
+ 278              	.LBB69:
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** }
+ 279              		.loc 1 204 0
+ 280 01b4 0C8004E0 		and	r8, r4, ip
+ 281              	.LBE69:
+ 282              	.LBE68:
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	{
+ 283              		.loc 1 281 0
+ 284 01b8 013083E2 		add	r3, r3, #1
+ 285              	.LVL27:
+ 283:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		etmp = dtmp;
+ 286              		.loc 1 283 0
+ 287 01bc 0E2082E0 		add	r2, r2, lr
+ 288              	.LBB71:
+ 289              	.LBB70:
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** }
+ 290              		.loc 1 204 0
+ 291 01c0 04E0C6E1 		bic	lr, r6, r4
+ 292 01c4 08E02EE0 		eor	lr, lr, r8
+ 293              	.LBE70:
+ 294              	.LBE71:
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	{
+ 295              		.loc 1 281 0
+ 296 01c8 140053E3 		cmp	r3, #20
+ 283:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		etmp = dtmp;
+ 297              		.loc 1 283 0
+ 298 01cc 0E2082E0 		add	r2, r2, lr
+ 299              	.LBB72:
+ 300              	.LBB73:
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** }
+ 301              		.loc 1 242 0
+ 302 01d0 64E1A0E1 		ror	lr, r4, #2
+ 303              	.LBE73:
+ 304              	.LBE72:
+ 283:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		etmp = dtmp;
+ 305              		.loc 1 283 0
+ 306 01d4 052082E0 		add	r2, r2, r5
+ 307              	.LVL28:
+ 308 01d8 0140A0E1 		mov	r4, r1
+ 309 01dc 0650A0E1 		mov	r5, r6
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	{
+ 310              		.loc 1 281 0
+ 311 01e0 2F00001A 		bne	.L17
+ 293:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		etmp = dtmp;
+ 312              		.loc 1 293 0
+ 313 01e4 28819FE5 		ldr	r8, .L26+48
+ 314 01e8 4C408DE2 		add	r4, sp, #76
+ 315 01ec 9C708DE2 		add	r7, sp, #156
+ 316              	.LVL29:
+ 317              	.L14:
+ 318 01f0 0430B4E5 		ldr	r3, [r4, #4]!
+ 319              	.LBB75:
+ 320              	.LBB76:
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** }
+ 321              		.loc 1 230 0
+ 322 01f4 0E5021E0 		eor	r5, r1, lr
+ 323 01f8 0C5025E0 		eor	r5, r5, ip
+ 324              	.LBE76:
+ 325              	.LBE75:
+ 293:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		etmp = dtmp;
+ 326              		.loc 1 293 0
+ 327 01fc 083083E0 		add	r3, r3, r8
+ 291:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	{
+ 328              		.loc 1 291 0
+ 329 0200 040057E1 		cmp	r7, r4
+ 293:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		etmp = dtmp;
+ 330              		.loc 1 293 0
+ 331 0204 E23D83E0 		add	r3, r3, r2, ror #27
+ 332 0208 053083E0 		add	r3, r3, r5
+ 333              	.LBB77:
+ 334              	.LBB78:
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** }
+ 335              		.loc 1 242 0
+ 336 020c 6151A0E1 		ror	r5, r1, #2
+ 337              	.LBE78:
+ 338              	.LBE77:
+ 293:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		etmp = dtmp;
+ 339              		.loc 1 293 0
+ 340 0210 063083E0 		add	r3, r3, r6
+ 341              	.LVL30:
+ 342 0214 0210A0E1 		mov	r1, r2
+ 343 0218 0C60A0E1 		mov	r6, ip
+ 291:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	{
+ 344              		.loc 1 291 0
+ 345 021c 2400001A 		bne	.L18
+ 346              	.LVL31:
+ 303:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		etmp = dtmp;
+ 347              		.loc 1 303 0
+ 348 0220 F0809FE5 		ldr	r8, .L26+52
+ 349 0224 EC708DE2 		add	r7, sp, #236
+ 350              	.LVL32:
+ 351              	.L15:
+ 352              	.LBB80:
+ 353              	.LBB81:
+ 217:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** }
+ 354              		.loc 1 217 0
+ 355 0228 05102EE0 		eor	r1, lr, r5
+ 356 022c 0E6005E0 		and	r6, r5, lr
+ 357 0230 021001E0 		and	r1, r1, r2
+ 358 0234 061021E0 		eor	r1, r1, r6
+ 359              	.LBE81:
+ 360              	.LBE80:
+ 303:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		etmp = dtmp;
+ 361              		.loc 1 303 0
+ 362 0238 0460B4E5 		ldr	r6, [r4, #4]!
+ 363 023c 086086E0 		add	r6, r6, r8
+ 301:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	{
+ 364              		.loc 1 301 0
+ 365 0240 070054E1 		cmp	r4, r7
+ 303:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		etmp = dtmp;
+ 366              		.loc 1 303 0
+ 367 0244 E36D86E0 		add	r6, r6, r3, ror #27
+ 368 0248 061081E0 		add	r1, r1, r6
+ 369              	.LBB82:
+ 370              	.LBB83:
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** }
+ 371              		.loc 1 242 0
+ 372 024c 6261A0E1 		ror	r6, r2, #2
+ 373              	.LBE83:
+ 374              	.LBE82:
+ 303:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		etmp = dtmp;
+ 375              		.loc 1 303 0
+ 376 0250 0C1081E0 		add	r1, r1, ip
+ 377              	.LVL33:
+ 378 0254 0320A0E1 		mov	r2, r3
+ 379 0258 0EC0A0E1 		mov	ip, lr
+ 301:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	{
+ 380              		.loc 1 301 0
+ 381 025c 1800001A 		bne	.L19
+ 382              	.LVL34:
+ 313:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		etmp = dtmp;
+ 383              		.loc 1 313 0
+ 384 0260 B4709FE5 		ldr	r7, .L26+56
+ 385 0264 4FCF8DE2 		add	ip, sp, #316
+ 386              	.LVL35:
+ 387              	.L16:
+ 388 0268 0420B4E5 		ldr	r2, [r4, #4]!
+ 389              	.LBB85:
+ 390              	.LBB86:
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** }
+ 391              		.loc 1 230 0
+ 392 026c 068023E0 		eor	r8, r3, r6
+ 393 0270 058028E0 		eor	r8, r8, r5
+ 394              	.LBE86:
+ 395              	.LBE85:
+ 313:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		etmp = dtmp;
+ 396              		.loc 1 313 0
+ 397 0274 072082E0 		add	r2, r2, r7
+ 311:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	{
+ 398              		.loc 1 311 0
+ 399 0278 0C0054E1 		cmp	r4, ip
+ 313:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		etmp = dtmp;
+ 400              		.loc 1 313 0
+ 401 027c E12D82E0 		add	r2, r2, r1, ror #27
+ 402 0280 082082E0 		add	r2, r2, r8
+ 403              	.LBB87:
+ 404              	.LBB88:
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** }
+ 405              		.loc 1 242 0
+ 406 0284 6381A0E1 		ror	r8, r3, #2
+ 407              	.LBE88:
+ 408              	.LBE87:
+ 313:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		etmp = dtmp;
+ 409              		.loc 1 313 0
+ 410 0288 0E2082E0 		add	r2, r2, lr
+ 411              	.LVL36:
+ 412 028c 0130A0E1 		mov	r3, r1
+ 413 0290 05E0A0E1 		mov	lr, r5
+ 311:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	{
+ 414              		.loc 1 311 0
+ 415 0294 0E00001A 		bne	.L20
+ 416              	.LVL37:
+ 417              	.LBE65:
+ 418              	.LBE64:
+ 356:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 
+ 357:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	return Sha1_int32(w);
+ 358:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** }
+ 419              		.loc 1 358 0
+ 420 0298 000088E0 		add	r0, r8, r0
+ 421 029c 05DD8DE2 		add	sp, sp, #320
+ 422              		.cfi_remember_state
+ 423              		.cfi_def_cfa_offset 24
+ 424              		@ sp needed
+ 425 02a0 F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 426              	.LVL38:
+ 427              	.L17:
+ 428              		.cfi_restore_state
+ 429              	.LBB95:
+ 430              	.LBB94:
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	{
+ 431              		.loc 1 281 0
+ 432 02a4 0C60A0E1 		mov	r6, ip
+ 283:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		etmp = dtmp;
+ 433              		.loc 1 283 0
+ 434 02a8 0210A0E1 		mov	r1, r2
+ 435              	.LVL39:
+ 436              	.LBB90:
+ 437              	.LBB74:
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** }
+ 438              		.loc 1 242 0
+ 439 02ac 0EC0A0E1 		mov	ip, lr
+ 440              	.LVL40:
+ 441 02b0 BDFFFFEA 		b	.L13
+ 442              	.LVL41:
+ 443              	.L18:
+ 444              	.LBE74:
+ 445              	.LBE90:
+ 291:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	{
+ 446              		.loc 1 291 0
+ 447 02b4 0EC0A0E1 		mov	ip, lr
+ 293:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		etmp = dtmp;
+ 448              		.loc 1 293 0
+ 449 02b8 0320A0E1 		mov	r2, r3
+ 450              	.LBB91:
+ 451              	.LBB79:
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** }
+ 452              		.loc 1 242 0
+ 453 02bc 05E0A0E1 		mov	lr, r5
+ 454              	.LVL42:
+ 455 02c0 CAFFFFEA 		b	.L14
+ 456              	.LVL43:
+ 457              	.L19:
+ 458              	.LBE79:
+ 459              	.LBE91:
+ 301:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	{
+ 460              		.loc 1 301 0
+ 461 02c4 05E0A0E1 		mov	lr, r5
+ 303:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 		etmp = dtmp;
+ 462              		.loc 1 303 0
+ 463 02c8 0130A0E1 		mov	r3, r1
+ 464              	.LBB92:
+ 465              	.LBB84:
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** }
+ 466              		.loc 1 242 0
+ 467 02cc 0650A0E1 		mov	r5, r6
+ 468              	.LVL44:
+ 469 02d0 D4FFFFEA 		b	.L15
+ 470              	.LVL45:
+ 471              	.L20:
+ 472              	.LBE84:
+ 473              	.LBE92:
+ 311:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	{
+ 474              		.loc 1 311 0
+ 475 02d4 0650A0E1 		mov	r5, r6
+ 476              	.LVL46:
+ 318:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** 	}
+ 477              		.loc 1 318 0
+ 478 02d8 0210A0E1 		mov	r1, r2
+ 479              	.LVL47:
+ 480              	.LBB93:
+ 481              	.LBB89:
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/amazon_freertos_common\PRND.c **** }
+ 482              		.loc 1 242 0
+ 483 02dc 0860A0E1 		mov	r6, r8
+ 484              	.LVL48:
+ 485 02e0 E0FFFFEA 		b	.L16
+ 486              	.L27:
+ 487              		.align	2
+ 488              	.L26:
+ 489 02e4 00000000 		.word	.LANCHOR1
+ 490 02e8 80562C9D 		.word	-1658038656
+ 491 02ec 00000000 		.word	.LANCHOR0
+ 492 02f0 00000000 		.word	.LANCHOR2
+ 493 02f4 FCFFFFFF 		.word	.LANCHOR0-4
+ 494 02f8 0000C6EF 		.word	-272236544
+ 495 02fc FEDCBA98 		.word	-1732584194
+ 496 0300 F0E1D2C3 		.word	-1009589776
+ 497 0304 76543210 		.word	271733878
+ 498 0308 89ABCDEF 		.word	-271733879
+ 499 030c 01234567 		.word	1732584193
+ 500 0310 9979825A 		.word	1518500249
+ 501 0314 A1EBD96E 		.word	1859775393
+ 502 0318 DCBC1B8F 		.word	-1894007588
+ 503 031c D6C162CA 		.word	-899497514
+ 504              	.LBE89:
+ 505              	.LBE93:
+ 506              	.LBE94:
+ 507              	.LBE95:
+ 508              		.cfi_endproc
+ 509              	.LFE7:
+ 511              		.section	.bss.mt,"aw",%nobits
+ 512              		.align	2
+ 513              		.set	.LANCHOR0,. + 0
+ 516              	mt:
+ 517 0000 00000000 		.space	2496
+ 517      00000000 
+ 517      00000000 
+ 517      00000000 
+ 517      00000000 
+ 518              		.section	.data.mti,"aw",%progbits
+ 519              		.align	2
+ 520              		.set	.LANCHOR1,. + 0
+ 523              	mti:
+ 524 0000 71020000 		.word	625
+ 525              		.section	.rodata.mag01.6032,"a",%progbits
+ 526              		.align	2
+ 527              		.set	.LANCHOR2,. + 0
+ 530              	mag01.6032:
+ 531 0000 00000000 		.word	0
+ 532 0004 DFB00899 		.word	-1727483681
+ 533              		.text
+ 534              	.Letext0:
+ 535              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 536              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 537              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 538              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 539              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 540              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 541              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 542              		.file 9 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_bo
+DEFINED SYMBOLS
+                            *ABS*:00000000 PRND.c
+C:\Users\a5089698\AppData\Local\Temp\ccAIXl1c.s:17     .text.R_Prnd_Init_Genrand:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccAIXl1c.s:23     .text.R_Prnd_Init_Genrand:00000000 R_Prnd_Init_Genrand
+C:\Users\a5089698\AppData\Local\Temp\ccAIXl1c.s:57     .text.R_Prnd_Init_Genrand:00000038 $d
+C:\Users\a5089698\AppData\Local\Temp\ccAIXl1c.s:64     .text.R_Prnd_Genrand_int32:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccAIXl1c.s:70     .text.R_Prnd_Genrand_int32:00000000 R_Prnd_Genrand_int32
+C:\Users\a5089698\AppData\Local\Temp\ccAIXl1c.s:489    .text.R_Prnd_Genrand_int32:000002e4 $d
+C:\Users\a5089698\AppData\Local\Temp\ccAIXl1c.s:512    .bss.mt:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccAIXl1c.s:516    .bss.mt:00000000 mt
+C:\Users\a5089698\AppData\Local\Temp\ccAIXl1c.s:519    .data.mti:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccAIXl1c.s:523    .data.mti:00000000 mti
+C:\Users\a5089698\AppData\Local\Temp\ccAIXl1c.s:526    .rodata.mag01.6032:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccAIXl1c.s:530    .rodata.mag01.6032:00000000 mag01.6032
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

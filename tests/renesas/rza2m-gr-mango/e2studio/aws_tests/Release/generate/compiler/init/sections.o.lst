@@ -1,0 +1,142 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"sections.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.global	BTBL_F2
+  17              		.global	DTBL_F2
+  18              		.global	BTBL_F
+  19              		.global	DTBL_F
+  20              		.global	BTBL
+  21              		.global	DTBL
+  22              		.section	.rodata.BTBL,"a",%progbits
+  23              		.align	2
+  26              	BTBL:
+  27 0000 00000000 		.word	__bss_start
+  28 0004 00000000 		.word	__bss_end
+  29 0008 00000000 		.word	__bss2_start
+  30 000c 00000000 		.word	__bss2_end
+  31 0010 00000000 		.word	__uncached_RAM_start
+  32 0014 00000000 		.word	__uncached_RAM_end
+  33 0018 00000000 		.word	0
+  34 001c 00000000 		.word	0
+  35              		.section	.rodata.BTBL_F,"a",%progbits
+  36              		.align	2
+  39              	BTBL_F:
+  40 0000 00000000 		.word	__module3_exec_start
+  41 0004 00000000 		.word	__module3_exec_end
+  42 0008 00000000 		.word	0
+  43 000c 00000000 		.word	0
+  44              		.section	.rodata.BTBL_F2,"a",%progbits
+  45              		.align	2
+  48              	BTBL_F2:
+  49 0000 00000000 		.word	__bss_memclk_setup_start
+  50 0004 00000000 		.word	__bss_memclk_setup_end
+  51 0008 00000000 		.word	0
+  52 000c 00000000 		.word	0
+  53              		.section	.rodata.DTBL,"a",%progbits
+  54              		.align	2
+  57              	DTBL:
+  58 0000 00000000 		.word	__vect_load_start
+  59 0004 00000000 		.word	__vect_load_end
+  60 0008 00000000 		.word	__vect_exec_start
+  61 000c 00000000 		.word	__fastcode_load_start
+  62 0010 00000000 		.word	__fastcode_load_end
+  63 0014 00000000 		.word	__fastcode_exec_start
+  64 0018 00000000 		.word	__data_load_start
+  65 001c 00000000 		.word	__data_load_end
+  66 0020 00000000 		.word	__data_exec_start
+  67 0024 00000000 		.word	__data2_load_start
+  68 0028 00000000 		.word	__data2_load_end
+  69 002c 00000000 		.word	__data2_exec_start
+  70 0030 00000000 		.word	__uncached_RAM2_load_start
+  71 0034 00000000 		.word	__uncached_RAM2_load_end
+  72 0038 00000000 		.word	__uncached_RAM2_exec_start
+  73 003c 00000000 		.word	0
+  74 0040 00000000 		.word	0
+  75 0044 00000000 		.word	0
+  76              		.section	.rodata.DTBL_F,"a",%progbits
+  77              		.align	2
+  80              	DTBL_F:
+  81 0000 00000000 		.word	__module2_load_start
+  82 0004 00000000 		.word	__module2_load_end
+  83 0008 00000000 		.word	__module2_exec_start
+  84 000c 00000000 		.word	0
+  85 0010 00000000 		.word	0
+  86 0014 00000000 		.word	0
+  87              		.section	.rodata.DTBL_F2,"a",%progbits
+  88              		.align	2
+  91              	DTBL_F2:
+  92 0000 00000000 		.word	__data_memclk_setup_load_start
+  93 0004 00000000 		.word	__data_memclk_setup_load_end
+  94 0008 00000000 		.word	__data_memclk_setup_exec_start
+  95 000c 00000000 		.word	0
+  96 0010 00000000 		.word	0
+  97 0014 00000000 		.word	0
+  98              		.text
+  99              	.Letext0:
+ 100              		.file 1 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 101              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 102              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 103              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 104              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 105              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 106              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 107              		.file 8 "D:/Work/DeviceTester/amazon-freertos/lib/third_party/mcu_vendor/renesas/rz_mcu_boards/cor
+DEFINED SYMBOLS
+                            *ABS*:00000000 sections.c
+C:\Users\a5089698\AppData\Local\Temp\ccsutDra.s:48     .rodata.BTBL_F2:00000000 BTBL_F2
+C:\Users\a5089698\AppData\Local\Temp\ccsutDra.s:91     .rodata.DTBL_F2:00000000 DTBL_F2
+C:\Users\a5089698\AppData\Local\Temp\ccsutDra.s:39     .rodata.BTBL_F:00000000 BTBL_F
+C:\Users\a5089698\AppData\Local\Temp\ccsutDra.s:80     .rodata.DTBL_F:00000000 DTBL_F
+C:\Users\a5089698\AppData\Local\Temp\ccsutDra.s:26     .rodata.BTBL:00000000 BTBL
+C:\Users\a5089698\AppData\Local\Temp\ccsutDra.s:57     .rodata.DTBL:00000000 DTBL
+C:\Users\a5089698\AppData\Local\Temp\ccsutDra.s:23     .rodata.BTBL:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccsutDra.s:36     .rodata.BTBL_F:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccsutDra.s:45     .rodata.BTBL_F2:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccsutDra.s:54     .rodata.DTBL:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccsutDra.s:77     .rodata.DTBL_F:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccsutDra.s:88     .rodata.DTBL_F2:00000000 $d
+
+UNDEFINED SYMBOLS
+__bss_start
+__bss_end
+__bss2_start
+__bss2_end
+__uncached_RAM_start
+__uncached_RAM_end
+__module3_exec_start
+__module3_exec_end
+__bss_memclk_setup_start
+__bss_memclk_setup_end
+__vect_load_start
+__vect_load_end
+__vect_exec_start
+__fastcode_load_start
+__fastcode_load_end
+__fastcode_exec_start
+__data_load_start
+__data_load_end
+__data_exec_start
+__data2_load_start
+__data2_load_end
+__data2_exec_start
+__uncached_RAM2_load_start
+__uncached_RAM2_load_end
+__uncached_RAM2_exec_start
+__module2_load_start
+__module2_load_end
+__module2_exec_start
+__data_memclk_setup_load_start
+__data_memclk_setup_load_end
+__data_memclk_setup_exec_start

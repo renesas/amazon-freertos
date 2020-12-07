@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<refinfo>
+
+    <!-- multiple versions permitted -->
+    <toolchain>
+      <brand>GNU</brand>
+      <product>GNUARM</product>
+      <version>6.03.01</version>
+    </toolchain>
+
+    <!-- only one target entry allowed; multiple sub tags permitted -->
+    <target>
+      <family>RZ</family>
+      <series>RZA</series>
+      <group>RZA2M</group>
+    </target>
+
+    <!-- only one package entry allowed -->
+    <!-- multiple dependencies, applications, functions, and incdirs permitted -->
+    <package>
+      <type>RSCD</type>
+      <name>r_sdhi_simplified</name>
+      <version>1.50</version>
+      <zipsource>r_sdhi_simplified_ebk_rza2_v1.50.zip</zipsource>
+      <application>Common</application>
+      <dependency>
+        <module>fatfs</module>
+        <version>0.133</version>
+      </dependency>
+      <details>SDHI Driver
+SD Host/Ancillary Product License Agreement (SD HALA) is required to develop SD host-related products. Refer https://www.sdcard.org/developers/licensing/ for detail:
+[Updates:1.20]
+- Implement the configurations of "SD card detection callback function setting".
+- Implement the configurations of "SD card detection callback function".
+- Update the default value of "SD write protection signal detection option" from SD_WP_ENABLED to SD_WP_DISABLED.
+[Update:1.50]
+- Support SDIO</details>
+      <function>Drivers.storage</function>
+      <incdir>inc</incdir>
+      <incdir>fatfs_if</incdir>
+      <incdir>userdef</incdir>
+      <incdir>src\sd\inc</incdir>
+      <incdir>src\sd\inc\access</incdir>
+    </package>
+
+</refinfo>

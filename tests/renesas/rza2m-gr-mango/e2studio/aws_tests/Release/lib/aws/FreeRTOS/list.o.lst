@@ -1,0 +1,447 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"list.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.vListInitialise,"ax",%progbits
+  17              		.align	2
+  18              		.global	vListInitialise
+  19              		.syntax unified
+  20              		.arm
+  21              		.fpu neon
+  23              	vListInitialise:
+  24              	.LFB0:
+  25              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/list.c"
+   1:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** /*
+   2:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c ****  * FreeRTOS Kernel V10.1.1
+   3:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c ****  * Copyright (C) 2018 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+   4:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c ****  *
+   5:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c ****  * Permission is hereby granted, free of charge, to any person obtaining a copy of
+   6:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c ****  * this software and associated documentation files (the "Software"), to deal in
+   7:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c ****  * the Software without restriction, including without limitation the rights to
+   8:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c ****  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+   9:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c ****  * the Software, and to permit persons to whom the Software is furnished to do so,
+  10:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c ****  * subject to the following conditions:
+  11:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c ****  *
+  12:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c ****  * The above copyright notice and this permission notice shall be included in all
+  13:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c ****  * copies or substantial portions of the Software.
+  14:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c ****  *
+  15:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c ****  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  16:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c ****  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+  17:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c ****  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+  18:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c ****  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+  19:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c ****  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  20:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c ****  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  21:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c ****  *
+  22:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c ****  * http://www.FreeRTOS.org
+  23:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c ****  * http://aws.amazon.com/freertos
+  24:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c ****  *
+  25:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c ****  * 1 tab == 4 spaces!
+  26:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c ****  */
+  27:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+  28:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+  29:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** #include <stdlib.h>
+  30:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** #include "FreeRTOS.h"
+  31:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** #include "list.h"
+  32:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+  33:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** /*-----------------------------------------------------------
+  34:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c ****  * PUBLIC LIST API documented in list.h
+  35:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c ****  *----------------------------------------------------------*/
+  36:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+  37:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** void vListInitialise( List_t * const pxList )
+  38:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** {
+  26              		.loc 1 38 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              		@ link register save eliminated.
+  31              	.LVL0:
+  39:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	/* The list structure contains a list item which is used to mark the
+  40:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	end of the list.  To initialise the list the list end is inserted
+  41:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	as the only list entry. */
+  42:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	pxList->pxIndex = ( ListItem_t * ) &( pxList->xListEnd );			/*lint !e826 !e740 !e9087 The mini lis
+  32              		.loc 1 42 0
+  33 0000 083080E2 		add	r3, r0, #8
+  43:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+  44:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	/* The list end value is the highest possible value in the list to
+  45:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	ensure it remains at the end of the list. */
+  46:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	pxList->xListEnd.xItemValue = portMAX_DELAY;
+  34              		.loc 1 46 0
+  35 0004 0020E0E3 		mvn	r2, #0
+  42:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+  36              		.loc 1 42 0
+  37 0008 043080E5 		str	r3, [r0, #4]
+  47:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+  48:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	/* The list end next and previous pointers point to itself so we know
+  49:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	when the list is empty. */
+  50:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	pxList->xListEnd.pxNext = ( ListItem_t * ) &( pxList->xListEnd );	/*lint !e826 !e740 !e9087 The mi
+  38              		.loc 1 50 0
+  39 000c 0C3080E5 		str	r3, [r0, #12]
+  51:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	pxList->xListEnd.pxPrevious = ( ListItem_t * ) &( pxList->xListEnd );/*lint !e826 !e740 !e9087 The
+  40              		.loc 1 51 0
+  41 0010 103080E5 		str	r3, [r0, #16]
+  52:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+  53:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	pxList->uxNumberOfItems = ( UBaseType_t ) 0U;
+  42              		.loc 1 53 0
+  43 0014 0030A0E3 		mov	r3, #0
+  46:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+  44              		.loc 1 46 0
+  45 0018 082080E5 		str	r2, [r0, #8]
+  46              		.loc 1 53 0
+  47 001c 003080E5 		str	r3, [r0]
+  48 0020 1EFF2FE1 		bx	lr
+  49              		.cfi_endproc
+  50              	.LFE0:
+  52              		.section	.text.vListInitialiseItem,"ax",%progbits
+  53              		.align	2
+  54              		.global	vListInitialiseItem
+  55              		.syntax unified
+  56              		.arm
+  57              		.fpu neon
+  59              	vListInitialiseItem:
+  60              	.LFB1:
+  54:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+  55:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	/* Write known values into the list if
+  56:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	configUSE_LIST_DATA_INTEGRITY_CHECK_BYTES is set to 1. */
+  57:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	listSET_LIST_INTEGRITY_CHECK_1_VALUE( pxList );
+  58:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	listSET_LIST_INTEGRITY_CHECK_2_VALUE( pxList );
+  59:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** }
+  60:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** /*-----------------------------------------------------------*/
+  61:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+  62:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** void vListInitialiseItem( ListItem_t * const pxItem )
+  63:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** {
+  61              		.loc 1 63 0
+  62              		.cfi_startproc
+  63              		@ args = 0, pretend = 0, frame = 0
+  64              		@ frame_needed = 0, uses_anonymous_args = 0
+  65              		@ link register save eliminated.
+  66              	.LVL1:
+  64:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	/* Make sure the list item is not recorded as being on a list. */
+  65:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	pxItem->pxContainer = NULL;
+  67              		.loc 1 65 0
+  68 0000 0030A0E3 		mov	r3, #0
+  69 0004 103080E5 		str	r3, [r0, #16]
+  70 0008 1EFF2FE1 		bx	lr
+  71              		.cfi_endproc
+  72              	.LFE1:
+  74              		.section	.text.vListInsertEnd,"ax",%progbits
+  75              		.align	2
+  76              		.global	vListInsertEnd
+  77              		.syntax unified
+  78              		.arm
+  79              		.fpu neon
+  81              	vListInsertEnd:
+  82              	.LFB2:
+  66:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+  67:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	/* Write known values into the list item if
+  68:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	configUSE_LIST_DATA_INTEGRITY_CHECK_BYTES is set to 1. */
+  69:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	listSET_FIRST_LIST_ITEM_INTEGRITY_CHECK_VALUE( pxItem );
+  70:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	listSET_SECOND_LIST_ITEM_INTEGRITY_CHECK_VALUE( pxItem );
+  71:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** }
+  72:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** /*-----------------------------------------------------------*/
+  73:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+  74:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** void vListInsertEnd( List_t * const pxList, ListItem_t * const pxNewListItem )
+  75:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** {
+  83              		.loc 1 75 0
+  84              		.cfi_startproc
+  85              		@ args = 0, pretend = 0, frame = 0
+  86              		@ frame_needed = 0, uses_anonymous_args = 0
+  87              		@ link register save eliminated.
+  88              	.LVL2:
+  76:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** ListItem_t * const pxIndex = pxList->pxIndex;
+  89              		.loc 1 76 0
+  90 0000 043090E5 		ldr	r3, [r0, #4]
+  91              	.LVL3:
+  77:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+  78:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	/* Only effective when configASSERT() is also defined, these tests may catch
+  79:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	the list data structures being overwritten in memory.  They will not catch
+  80:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	data errors caused by incorrect configuration or use of FreeRTOS. */
+  81:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	listTEST_LIST_INTEGRITY( pxList );
+  82:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	listTEST_LIST_ITEM_INTEGRITY( pxNewListItem );
+  83:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+  84:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	/* Insert a new list item into pxList, but rather than sort the list,
+  85:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	makes the new list item the last item to be removed by a call to
+  86:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	listGET_OWNER_OF_NEXT_ENTRY(). */
+  87:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	pxNewListItem->pxNext = pxIndex;
+  88:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	pxNewListItem->pxPrevious = pxIndex->pxPrevious;
+  92              		.loc 1 88 0
+  93 0004 082093E5 		ldr	r2, [r3, #8]
+  87:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	pxNewListItem->pxPrevious = pxIndex->pxPrevious;
+  94              		.loc 1 87 0
+  95 0008 043081E5 		str	r3, [r1, #4]
+  96              		.loc 1 88 0
+  97 000c 082081E5 		str	r2, [r1, #8]
+  89:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+  90:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	/* Only used during decision coverage testing. */
+  91:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	mtCOVERAGE_TEST_DELAY();
+  92:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+  93:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	pxIndex->pxPrevious->pxNext = pxNewListItem;
+  98              		.loc 1 93 0
+  99 0010 082093E5 		ldr	r2, [r3, #8]
+ 100 0014 041082E5 		str	r1, [r2, #4]
+  94:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	pxIndex->pxPrevious = pxNewListItem;
+ 101              		.loc 1 94 0
+ 102 0018 081083E5 		str	r1, [r3, #8]
+  95:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+  96:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	/* Remember which list the item is in. */
+  97:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	pxNewListItem->pxContainer = pxList;
+  98:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+  99:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	( pxList->uxNumberOfItems )++;
+ 103              		.loc 1 99 0
+ 104 001c 003090E5 		ldr	r3, [r0]
+ 105              	.LVL4:
+  97:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+ 106              		.loc 1 97 0
+ 107 0020 100081E5 		str	r0, [r1, #16]
+ 108              		.loc 1 99 0
+ 109 0024 013083E2 		add	r3, r3, #1
+ 110 0028 003080E5 		str	r3, [r0]
+ 111 002c 1EFF2FE1 		bx	lr
+ 112              		.cfi_endproc
+ 113              	.LFE2:
+ 115              		.section	.text.vListInsert,"ax",%progbits
+ 116              		.align	2
+ 117              		.global	vListInsert
+ 118              		.syntax unified
+ 119              		.arm
+ 120              		.fpu neon
+ 122              	vListInsert:
+ 123              	.LFB3:
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** }
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** /*-----------------------------------------------------------*/
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+ 103:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** void vListInsert( List_t * const pxList, ListItem_t * const pxNewListItem )
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** {
+ 124              		.loc 1 104 0
+ 125              		.cfi_startproc
+ 126              		@ args = 0, pretend = 0, frame = 0
+ 127              		@ frame_needed = 0, uses_anonymous_args = 0
+ 128              	.LVL5:
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** ListItem_t *pxIterator;
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** const TickType_t xValueOfInsertion = pxNewListItem->xItemValue;
+ 129              		.loc 1 106 0
+ 130 0000 002091E5 		ldr	r2, [r1]
+ 131              	.LVL6:
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** ListItem_t *pxIterator;
+ 132              		.loc 1 104 0
+ 133 0004 04E02DE5 		str	lr, [sp, #-4]!
+ 134              		.cfi_def_cfa_offset 4
+ 135              		.cfi_offset 14, -4
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	/* Only effective when configASSERT() is also defined, these tests may catch
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	the list data structures being overwritten in memory.  They will not catch
+ 110:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	data errors caused by incorrect configuration or use of FreeRTOS. */
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	listTEST_LIST_INTEGRITY( pxList );
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	listTEST_LIST_ITEM_INTEGRITY( pxNewListItem );
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	/* Insert the new list item into the list, sorted in xItemValue order.
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+ 116:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	If the list already contains a list item with the same item value then the
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	new list item should be placed after it.  This ensures that TCBs which are
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	stored in ready lists (all of which have the same xItemValue value) get a
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	share of the CPU.  However, if the xItemValue is the same as the back marker
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	the iteration loop below will not end.  Therefore the value is checked
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	first, and the algorithm slightly modified if necessary. */
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	if( xValueOfInsertion == portMAX_DELAY )
+ 136              		.loc 1 122 0
+ 137 0008 010072E3 		cmn	r2, #1
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	{
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 		pxIterator = pxList->xListEnd.pxPrevious;
+ 138              		.loc 1 124 0
+ 139 000c 10309005 		ldreq	r3, [r0, #16]
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	}
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	else
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	{
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 		/* *** NOTE ***********************************************************
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 		If you find your application is crashing here then likely causes are
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 		listed below.  In addition see https://www.freertos.org/FAQHelp.html for
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 		more tips, and ensure configASSERT() is defined!
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 		https://www.freertos.org/a00110.html#configASSERT
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 			1) Stack overflow -
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 			   see https://www.freertos.org/Stacks-and-stack-overflow-checking.html
+ 136:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 			2) Incorrect interrupt priority assignment, especially on Cortex-M
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 			   parts where numerically high priority values denote low actual
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 			   interrupt priorities, which can seem counter intuitive.  See
+ 139:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 			   https://www.freertos.org/RTOS-Cortex-M3-M4.html and the definition
+ 140:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 			   of configMAX_SYSCALL_INTERRUPT_PRIORITY on
+ 141:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 			   https://www.freertos.org/a00110.html
+ 142:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 			3) Calling an API function from within a critical section or when
+ 143:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 			   the scheduler is suspended, or calling an API function that does
+ 144:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 			   not end in "FromISR" from an interrupt.
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 			4) Using a queue or semaphore before it has been initialised or
+ 146:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 			   before the scheduler has been started (are interrupts firing
+ 147:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 			   before vTaskStartScheduler() has been called?).
+ 148:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 		**********************************************************************/
+ 149:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 		for( pxIterator = ( ListItem_t * ) &( pxList->xListEnd ); pxIterator->pxNext->xItemValue <= xValu
+ 140              		.loc 1 150 0
+ 141 0010 08308012 		addne	r3, r0, #8
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	{
+ 142              		.loc 1 122 0
+ 143 0014 0A00001A 		bne	.L7
+ 144              	.L6:
+ 145              	.LVL7:
+ 151:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 		{
+ 152:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 			/* There is nothing to do here, just iterating to the wanted
+ 153:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 			insertion position. */
+ 154:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 		}
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	}
+ 156:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	pxNewListItem->pxNext = pxIterator->pxNext;
+ 146              		.loc 1 157 0
+ 147 0018 042093E5 		ldr	r2, [r3, #4]
+ 148              	.LVL8:
+ 149 001c 042081E5 		str	r2, [r1, #4]
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	pxNewListItem->pxNext->pxPrevious = pxNewListItem;
+ 150              		.loc 1 158 0
+ 151 0020 081082E5 		str	r1, [r2, #8]
+ 159:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	pxNewListItem->pxPrevious = pxIterator;
+ 152              		.loc 1 159 0
+ 153 0024 083081E5 		str	r3, [r1, #8]
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	pxIterator->pxNext = pxNewListItem;
+ 154              		.loc 1 160 0
+ 155 0028 041083E5 		str	r1, [r3, #4]
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+ 162:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	/* Remember which list the item is in.  This allows fast removal of the
+ 163:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	item later. */
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	pxNewListItem->pxContainer = pxList;
+ 165:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+ 166:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	( pxList->uxNumberOfItems )++;
+ 156              		.loc 1 166 0
+ 157 002c 003090E5 		ldr	r3, [r0]
+ 158              	.LVL9:
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+ 159              		.loc 1 164 0
+ 160 0030 100081E5 		str	r0, [r1, #16]
+ 161              		.loc 1 166 0
+ 162 0034 013083E2 		add	r3, r3, #1
+ 163 0038 003080E5 		str	r3, [r0]
+ 164 003c 04F09DE4 		ldr	pc, [sp], #4
+ 165              	.LVL10:
+ 166              	.L8:
+ 167 0040 0C30A0E1 		mov	r3, ip
+ 168              	.LVL11:
+ 169              	.L7:
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 		{
+ 170              		.loc 1 150 0 discriminator 1
+ 171 0044 04C093E5 		ldr	ip, [r3, #4]
+ 172 0048 00E09CE5 		ldr	lr, [ip]
+ 173 004c 0E0052E1 		cmp	r2, lr
+ 174 0050 FAFFFF2A 		bcs	.L8
+ 175 0054 EFFFFFEA 		b	.L6
+ 176              		.cfi_endproc
+ 177              	.LFE3:
+ 179              		.section	.text.uxListRemove,"ax",%progbits
+ 180              		.align	2
+ 181              		.global	uxListRemove
+ 182              		.syntax unified
+ 183              		.arm
+ 184              		.fpu neon
+ 186              	uxListRemove:
+ 187              	.LFB4:
+ 167:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** }
+ 168:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** /*-----------------------------------------------------------*/
+ 169:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+ 170:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** UBaseType_t uxListRemove( ListItem_t * const pxItemToRemove )
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** {
+ 188              		.loc 1 171 0
+ 189              		.cfi_startproc
+ 190              		@ args = 0, pretend = 0, frame = 0
+ 191              		@ frame_needed = 0, uses_anonymous_args = 0
+ 192              		@ link register save eliminated.
+ 193              	.LVL12:
+ 172:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** /* The list item knows which list it is in.  Obtain the list from the list
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** item. */
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** List_t * const pxList = pxItemToRemove->pxContainer;
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+ 176:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	pxItemToRemove->pxNext->pxPrevious = pxItemToRemove->pxPrevious;
+ 194              		.loc 1 176 0
+ 195 0000 060090E9 		ldmib	r0, {r1, r2}
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+ 196              		.loc 1 174 0
+ 197 0004 103090E5 		ldr	r3, [r0, #16]
+ 198              	.LVL13:
+ 199              		.loc 1 176 0
+ 200 0008 082081E5 		str	r2, [r1, #8]
+ 177:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	pxItemToRemove->pxPrevious->pxNext = pxItemToRemove->pxNext;
+ 201              		.loc 1 177 0
+ 202 000c 082090E5 		ldr	r2, [r0, #8]
+ 203 0010 041082E5 		str	r1, [r2, #4]
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+ 179:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	/* Only used during decision coverage testing. */
+ 180:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	mtCOVERAGE_TEST_DELAY();
+ 181:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+ 182:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	/* Make sure the index is left pointing to a valid item. */
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	if( pxList->pxIndex == pxItemToRemove )
+ 204              		.loc 1 183 0
+ 205 0014 041093E5 		ldr	r1, [r3, #4]
+ 206 0018 010050E1 		cmp	r0, r1
+ 184:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	{
+ 185:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 		pxList->pxIndex = pxItemToRemove->pxPrevious;
+ 207              		.loc 1 185 0
+ 208 001c 04208305 		streq	r2, [r3, #4]
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	}
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	else
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	{
+ 189:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 		mtCOVERAGE_TEST_MARKER();
+ 190:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	}
+ 191:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	pxItemToRemove->pxContainer = NULL;
+ 209              		.loc 1 192 0
+ 210 0020 0020A0E3 		mov	r2, #0
+ 211 0024 102080E5 		str	r2, [r0, #16]
+ 193:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	( pxList->uxNumberOfItems )--;
+ 212              		.loc 1 193 0
+ 213 0028 002093E5 		ldr	r2, [r3]
+ 214 002c 012042E2 		sub	r2, r2, #1
+ 215 0030 002083E5 		str	r2, [r3]
+ 194:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 
+ 195:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** 	return pxList->uxNumberOfItems;
+ 216              		.loc 1 195 0
+ 217 0034 000093E5 		ldr	r0, [r3]
+ 218              	.LVL14:
+ 196:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS\list.c **** }
+ 219              		.loc 1 196 0
+ 220 0038 1EFF2FE1 		bx	lr
+ 221              		.cfi_endproc
+ 222              	.LFE4:
+ 224              		.text
+ 225              	.Letext0:
+ 226              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 227              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 228              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 229              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 230              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 231              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 232              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 233              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 234              		.file 10 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 235              		.file 11 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\src/unity_internals.h"
+ 236              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS\\portable\\GCC\\ARM_CA9_RZA2M/por
+ 237              		.file 13 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include\\private/list.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 list.c
+C:\Users\a5089698\AppData\Local\Temp\cchmbTEb.s:17     .text.vListInitialise:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cchmbTEb.s:23     .text.vListInitialise:00000000 vListInitialise
+C:\Users\a5089698\AppData\Local\Temp\cchmbTEb.s:53     .text.vListInitialiseItem:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cchmbTEb.s:59     .text.vListInitialiseItem:00000000 vListInitialiseItem
+C:\Users\a5089698\AppData\Local\Temp\cchmbTEb.s:75     .text.vListInsertEnd:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cchmbTEb.s:81     .text.vListInsertEnd:00000000 vListInsertEnd
+C:\Users\a5089698\AppData\Local\Temp\cchmbTEb.s:116    .text.vListInsert:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cchmbTEb.s:122    .text.vListInsert:00000000 vListInsert
+C:\Users\a5089698\AppData\Local\Temp\cchmbTEb.s:180    .text.uxListRemove:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\cchmbTEb.s:186    .text.uxListRemove:00000000 uxListRemove
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

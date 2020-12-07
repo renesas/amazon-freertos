@@ -1,0 +1,1242 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"cipher_wrap.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.gcm_ctx_free,"ax",%progbits
+  17              		.align	2
+  18              		.syntax unified
+  19              		.arm
+  20              		.fpu neon
+  22              	gcm_ctx_free:
+  23              	.LFB9:
+  24              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library/cipher_wrap.c"
+   1:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** /**
+   2:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****  * \file cipher_wrap.c
+   3:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****  *
+   4:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****  * \brief Generic cipher wrapper for mbed TLS
+   5:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****  *
+   6:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****  * \author Adriaan de Jong <dejong@fox-it.com>
+   7:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****  *
+   8:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****  *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
+   9:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****  *  SPDX-License-Identifier: Apache-2.0
+  10:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****  *
+  11:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****  *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+  12:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****  *  not use this file except in compliance with the License.
+  13:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****  *  You may obtain a copy of the License at
+  14:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****  *
+  15:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****  *  http://www.apache.org/licenses/LICENSE-2.0
+  16:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****  *
+  17:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****  *  Unless required by applicable law or agreed to in writing, software
+  18:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****  *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  19:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****  *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  20:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****  *  See the License for the specific language governing permissions and
+  21:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****  *  limitations under the License.
+  22:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****  *
+  23:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****  *  This file is part of mbed TLS (https://tls.mbed.org)
+  24:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****  */
+  25:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+  26:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if !defined(MBEDTLS_CONFIG_FILE)
+  27:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #include "mbedtls/config.h"
+  28:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #else
+  29:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #include MBEDTLS_CONFIG_FILE
+  30:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif
+  31:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+  32:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CIPHER_C)
+  33:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+  34:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #include "mbedtls/cipher_internal.h"
+  35:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+  36:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CHACHAPOLY_C)
+  37:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #include "mbedtls/chachapoly.h"
+  38:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif
+  39:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+  40:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_AES_C)
+  41:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #include "mbedtls/aes.h"
+  42:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif
+  43:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+  44:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_ARC4_C)
+  45:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #include "mbedtls/arc4.h"
+  46:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif
+  47:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+  48:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CAMELLIA_C)
+  49:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #include "mbedtls/camellia.h"
+  50:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif
+  51:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+  52:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_ARIA_C)
+  53:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #include "mbedtls/aria.h"
+  54:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif
+  55:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+  56:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_DES_C)
+  57:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #include "mbedtls/des.h"
+  58:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif
+  59:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+  60:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_BLOWFISH_C)
+  61:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #include "mbedtls/blowfish.h"
+  62:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif
+  63:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+  64:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CHACHA20_C)
+  65:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #include "mbedtls/chacha20.h"
+  66:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif
+  67:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+  68:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_GCM_C)
+  69:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #include "mbedtls/gcm.h"
+  70:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif
+  71:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+  72:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CCM_C)
+  73:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #include "mbedtls/ccm.h"
+  74:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif
+  75:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+  76:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CIPHER_NULL_CIPHER)
+  77:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #include <string.h>
+  78:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif
+  79:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+  80:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_PLATFORM_C)
+  81:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #include "mbedtls/platform.h"
+  82:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #else
+  83:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #include <stdlib.h>
+  84:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #define mbedtls_calloc    calloc
+  85:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #define mbedtls_free       free
+  86:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif
+  87:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+  88:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_GCM_C)
+  89:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** /* shared by all GCM ciphers */
+  90:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static void *gcm_ctx_alloc( void )
+  91:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** {
+  92:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     void *ctx = mbedtls_calloc( 1, sizeof( mbedtls_gcm_context ) );
+  93:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+  94:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     if( ctx != NULL )
+  95:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****         mbedtls_gcm_init( (mbedtls_gcm_context *) ctx );
+  96:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+  97:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     return( ctx );
+  98:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** }
+  99:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static void gcm_ctx_free( void *ctx )
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** {
+  25              		.loc 1 101 0
+  26              		.cfi_startproc
+  27              		@ args = 0, pretend = 0, frame = 0
+  28              		@ frame_needed = 0, uses_anonymous_args = 0
+  29              	.LVL0:
+  30 0000 10402DE9 		push	{r4, lr}
+  31              		.cfi_def_cfa_offset 8
+  32              		.cfi_offset 4, -8
+  33              		.cfi_offset 14, -4
+  34              		.loc 1 101 0
+  35 0004 0040A0E1 		mov	r4, r0
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     mbedtls_gcm_free( ctx );
+  36              		.loc 1 102 0
+  37 0008 FEFFFFEB 		bl	mbedtls_gcm_free
+  38              	.LVL1:
+ 103:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     mbedtls_free( ctx );
+  39              		.loc 1 103 0
+  40 000c 0400A0E1 		mov	r0, r4
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** }
+  41              		.loc 1 104 0
+  42 0010 1040BDE8 		pop	{r4, lr}
+  43              		.cfi_restore 14
+  44              		.cfi_restore 4
+  45              		.cfi_def_cfa_offset 0
+  46              	.LVL2:
+ 103:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     mbedtls_free( ctx );
+  47              		.loc 1 103 0
+  48 0014 FEFFFFEA 		b	mbedtls_free
+  49              	.LVL3:
+  50              		.cfi_endproc
+  51              	.LFE9:
+  53              		.section	.text.gcm_ctx_alloc,"ax",%progbits
+  54              		.align	2
+  55              		.syntax unified
+  56              		.arm
+  57              		.fpu neon
+  59              	gcm_ctx_alloc:
+  60              	.LFB8:
+  91:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     void *ctx = mbedtls_calloc( 1, sizeof( mbedtls_gcm_context ) );
+  61              		.loc 1 91 0
+  62              		.cfi_startproc
+  63              		@ args = 0, pretend = 0, frame = 0
+  64              		@ frame_needed = 0, uses_anonymous_args = 0
+  65 0000 10402DE9 		push	{r4, lr}
+  66              		.cfi_def_cfa_offset 8
+  67              		.cfi_offset 4, -8
+  68              		.cfi_offset 14, -4
+  92:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+  69              		.loc 1 92 0
+  70 0004 621FA0E3 		mov	r1, #392
+  71 0008 0100A0E3 		mov	r0, #1
+  72 000c FEFFFFEB 		bl	mbedtls_calloc
+  73              	.LVL4:
+  94:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****         mbedtls_gcm_init( (mbedtls_gcm_context *) ctx );
+  74              		.loc 1 94 0
+  75 0010 004050E2 		subs	r4, r0, #0
+  76 0014 0000000A 		beq	.L3
+  95:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+  77              		.loc 1 95 0
+  78 0018 FEFFFFEB 		bl	mbedtls_gcm_init
+  79              	.LVL5:
+  80              	.L3:
+  98:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+  81              		.loc 1 98 0
+  82 001c 0400A0E1 		mov	r0, r4
+  83 0020 1080BDE8 		pop	{r4, pc}
+  84              		.cfi_endproc
+  85              	.LFE8:
+  87              		.section	.text.gcm_aes_setkey_wrap,"ax",%progbits
+  88              		.align	2
+  89              		.syntax unified
+  90              		.arm
+  91              		.fpu neon
+  93              	gcm_aes_setkey_wrap:
+  94              	.LFB18:
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif /* MBEDTLS_GCM_C */
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CCM_C)
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** /* shared by all CCM ciphers */
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static void *ccm_ctx_alloc( void )
+ 110:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** {
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     void *ctx = mbedtls_calloc( 1, sizeof( mbedtls_ccm_context ) );
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     if( ctx != NULL )
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****         mbedtls_ccm_init( (mbedtls_ccm_context *) ctx );
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 116:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     return( ctx );
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** }
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static void ccm_ctx_free( void *ctx )
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** {
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     mbedtls_ccm_free( ctx );
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     mbedtls_free( ctx );
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** }
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif /* MBEDTLS_CCM_C */
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_AES_C)
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static int aes_crypt_ecb_wrap( void *ctx, mbedtls_operation_t operation,
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****         const unsigned char *input, unsigned char *output )
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** {
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     return mbedtls_aes_crypt_ecb( (mbedtls_aes_context *) ctx, operation, input, output );
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** }
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CIPHER_MODE_CBC)
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static int aes_crypt_cbc_wrap( void *ctx, mbedtls_operation_t operation, size_t length,
+ 136:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****         unsigned char *iv, const unsigned char *input, unsigned char *output )
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** {
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     return mbedtls_aes_crypt_cbc( (mbedtls_aes_context *) ctx, operation, length, iv, input,
+ 139:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****                           output );
+ 140:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** }
+ 141:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif /* MBEDTLS_CIPHER_MODE_CBC */
+ 142:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 143:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CIPHER_MODE_CFB)
+ 144:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static int aes_crypt_cfb128_wrap( void *ctx, mbedtls_operation_t operation,
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****         size_t length, size_t *iv_off, unsigned char *iv,
+ 146:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****         const unsigned char *input, unsigned char *output )
+ 147:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** {
+ 148:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     return mbedtls_aes_crypt_cfb128( (mbedtls_aes_context *) ctx, operation, length, iv_off, iv,
+ 149:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****                              input, output );
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** }
+ 151:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif /* MBEDTLS_CIPHER_MODE_CFB */
+ 152:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 153:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CIPHER_MODE_OFB)
+ 154:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static int aes_crypt_ofb_wrap( void *ctx, size_t length, size_t *iv_off,
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****         unsigned char *iv, const unsigned char *input, unsigned char *output )
+ 156:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** {
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     return mbedtls_aes_crypt_ofb( (mbedtls_aes_context *) ctx, length, iv_off,
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****                                     iv, input, output );
+ 159:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** }
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif /* MBEDTLS_CIPHER_MODE_OFB */
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 162:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CIPHER_MODE_CTR)
+ 163:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static int aes_crypt_ctr_wrap( void *ctx, size_t length, size_t *nc_off,
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****         unsigned char *nonce_counter, unsigned char *stream_block,
+ 165:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****         const unsigned char *input, unsigned char *output )
+ 166:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** {
+ 167:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     return mbedtls_aes_crypt_ctr( (mbedtls_aes_context *) ctx, length, nc_off, nonce_counter,
+ 168:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****                           stream_block, input, output );
+ 169:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** }
+ 170:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif /* MBEDTLS_CIPHER_MODE_CTR */
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 172:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CIPHER_MODE_XTS)
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static int aes_crypt_xts_wrap( void *ctx, mbedtls_operation_t operation,
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****                                size_t length,
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****                                const unsigned char data_unit[16],
+ 176:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****                                const unsigned char *input,
+ 177:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****                                unsigned char *output )
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** {
+ 179:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     mbedtls_aes_xts_context *xts_ctx = ctx;
+ 180:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     int mode;
+ 181:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 182:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     switch( operation )
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     {
+ 184:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****         case MBEDTLS_ENCRYPT:
+ 185:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****             mode = MBEDTLS_AES_ENCRYPT;
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****             break;
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****         case MBEDTLS_DECRYPT:
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****             mode = MBEDTLS_AES_DECRYPT;
+ 189:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****             break;
+ 190:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****         default:
+ 191:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****             return MBEDTLS_ERR_CIPHER_BAD_INPUT_DATA;
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     }
+ 193:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 194:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     return mbedtls_aes_crypt_xts( xts_ctx, mode, length,
+ 195:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****                                   data_unit, input, output );
+ 196:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** }
+ 197:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif /* MBEDTLS_CIPHER_MODE_XTS */
+ 198:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 199:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static int aes_setkey_dec_wrap( void *ctx, const unsigned char *key,
+ 200:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****                                 unsigned int key_bitlen )
+ 201:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** {
+ 202:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     return mbedtls_aes_setkey_dec( (mbedtls_aes_context *) ctx, key, key_bitlen );
+ 203:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** }
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 205:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static int aes_setkey_enc_wrap( void *ctx, const unsigned char *key,
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****                                 unsigned int key_bitlen )
+ 207:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** {
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     return mbedtls_aes_setkey_enc( (mbedtls_aes_context *) ctx, key, key_bitlen );
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** }
+ 210:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 211:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static void * aes_ctx_alloc( void )
+ 212:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** {
+ 213:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     mbedtls_aes_context *aes = mbedtls_calloc( 1, sizeof( mbedtls_aes_context ) );
+ 214:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 215:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     if( aes == NULL )
+ 216:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****         return( NULL );
+ 217:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 218:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     mbedtls_aes_init( aes );
+ 219:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 220:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     return( aes );
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** }
+ 222:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 223:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static void aes_ctx_free( void *ctx )
+ 224:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** {
+ 225:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     mbedtls_aes_free( (mbedtls_aes_context *) ctx );
+ 226:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     mbedtls_free( ctx );
+ 227:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** }
+ 228:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 229:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static const mbedtls_cipher_base_t aes_info = {
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_CIPHER_ID_AES,
+ 231:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     aes_crypt_ecb_wrap,
+ 232:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CIPHER_MODE_CBC)
+ 233:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     aes_crypt_cbc_wrap,
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif
+ 235:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CIPHER_MODE_CFB)
+ 236:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     aes_crypt_cfb128_wrap,
+ 237:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif
+ 238:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CIPHER_MODE_OFB)
+ 239:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     aes_crypt_ofb_wrap,
+ 240:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif
+ 241:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CIPHER_MODE_CTR)
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     aes_crypt_ctr_wrap,
+ 243:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif
+ 244:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CIPHER_MODE_XTS)
+ 245:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     NULL,
+ 246:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif
+ 247:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CIPHER_MODE_STREAM)
+ 248:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     NULL,
+ 249:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif
+ 250:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     aes_setkey_enc_wrap,
+ 251:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     aes_setkey_dec_wrap,
+ 252:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     aes_ctx_alloc,
+ 253:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     aes_ctx_free
+ 254:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** };
+ 255:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static const mbedtls_cipher_info_t aes_128_ecb_info = {
+ 257:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_CIPHER_AES_128_ECB,
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_MODE_ECB,
+ 259:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     128,
+ 260:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     "AES-128-ECB",
+ 261:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 262:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     0,
+ 263:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 264:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     &aes_info
+ 265:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** };
+ 266:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 267:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static const mbedtls_cipher_info_t aes_192_ecb_info = {
+ 268:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_CIPHER_AES_192_ECB,
+ 269:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_MODE_ECB,
+ 270:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     192,
+ 271:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     "AES-192-ECB",
+ 272:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 273:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     0,
+ 274:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 275:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     &aes_info
+ 276:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** };
+ 277:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 278:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static const mbedtls_cipher_info_t aes_256_ecb_info = {
+ 279:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_CIPHER_AES_256_ECB,
+ 280:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_MODE_ECB,
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     256,
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     "AES-256-ECB",
+ 283:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 284:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     0,
+ 285:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 286:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     &aes_info
+ 287:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** };
+ 288:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 289:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CIPHER_MODE_CBC)
+ 290:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static const mbedtls_cipher_info_t aes_128_cbc_info = {
+ 291:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_CIPHER_AES_128_CBC,
+ 292:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_MODE_CBC,
+ 293:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     128,
+ 294:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     "AES-128-CBC",
+ 295:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 296:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     0,
+ 297:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 298:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     &aes_info
+ 299:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** };
+ 300:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 301:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static const mbedtls_cipher_info_t aes_192_cbc_info = {
+ 302:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_CIPHER_AES_192_CBC,
+ 303:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_MODE_CBC,
+ 304:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     192,
+ 305:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     "AES-192-CBC",
+ 306:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 307:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     0,
+ 308:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 309:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     &aes_info
+ 310:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** };
+ 311:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 312:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static const mbedtls_cipher_info_t aes_256_cbc_info = {
+ 313:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_CIPHER_AES_256_CBC,
+ 314:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_MODE_CBC,
+ 315:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     256,
+ 316:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     "AES-256-CBC",
+ 317:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 318:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     0,
+ 319:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 320:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     &aes_info
+ 321:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** };
+ 322:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif /* MBEDTLS_CIPHER_MODE_CBC */
+ 323:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 324:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CIPHER_MODE_CFB)
+ 325:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static const mbedtls_cipher_info_t aes_128_cfb128_info = {
+ 326:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_CIPHER_AES_128_CFB128,
+ 327:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_MODE_CFB,
+ 328:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     128,
+ 329:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     "AES-128-CFB128",
+ 330:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 331:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     0,
+ 332:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 333:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     &aes_info
+ 334:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** };
+ 335:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 336:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static const mbedtls_cipher_info_t aes_192_cfb128_info = {
+ 337:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_CIPHER_AES_192_CFB128,
+ 338:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_MODE_CFB,
+ 339:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     192,
+ 340:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     "AES-192-CFB128",
+ 341:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 342:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     0,
+ 343:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 344:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     &aes_info
+ 345:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** };
+ 346:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 347:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static const mbedtls_cipher_info_t aes_256_cfb128_info = {
+ 348:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_CIPHER_AES_256_CFB128,
+ 349:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_MODE_CFB,
+ 350:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     256,
+ 351:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     "AES-256-CFB128",
+ 352:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 353:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     0,
+ 354:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 355:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     &aes_info
+ 356:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** };
+ 357:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif /* MBEDTLS_CIPHER_MODE_CFB */
+ 358:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 359:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CIPHER_MODE_OFB)
+ 360:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static const mbedtls_cipher_info_t aes_128_ofb_info = {
+ 361:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_CIPHER_AES_128_OFB,
+ 362:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_MODE_OFB,
+ 363:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     128,
+ 364:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     "AES-128-OFB",
+ 365:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 366:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     0,
+ 367:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 368:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     &aes_info
+ 369:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** };
+ 370:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 371:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static const mbedtls_cipher_info_t aes_192_ofb_info = {
+ 372:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_CIPHER_AES_192_OFB,
+ 373:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_MODE_OFB,
+ 374:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     192,
+ 375:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     "AES-192-OFB",
+ 376:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 377:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     0,
+ 378:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 379:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     &aes_info
+ 380:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** };
+ 381:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 382:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static const mbedtls_cipher_info_t aes_256_ofb_info = {
+ 383:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_CIPHER_AES_256_OFB,
+ 384:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_MODE_OFB,
+ 385:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     256,
+ 386:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     "AES-256-OFB",
+ 387:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 388:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     0,
+ 389:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 390:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     &aes_info
+ 391:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** };
+ 392:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif /* MBEDTLS_CIPHER_MODE_OFB */
+ 393:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 394:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CIPHER_MODE_CTR)
+ 395:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static const mbedtls_cipher_info_t aes_128_ctr_info = {
+ 396:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_CIPHER_AES_128_CTR,
+ 397:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_MODE_CTR,
+ 398:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     128,
+ 399:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     "AES-128-CTR",
+ 400:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 401:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     0,
+ 402:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 403:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     &aes_info
+ 404:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** };
+ 405:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 406:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static const mbedtls_cipher_info_t aes_192_ctr_info = {
+ 407:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_CIPHER_AES_192_CTR,
+ 408:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_MODE_CTR,
+ 409:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     192,
+ 410:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     "AES-192-CTR",
+ 411:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 412:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     0,
+ 413:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 414:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     &aes_info
+ 415:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** };
+ 416:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 417:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static const mbedtls_cipher_info_t aes_256_ctr_info = {
+ 418:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_CIPHER_AES_256_CTR,
+ 419:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_MODE_CTR,
+ 420:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     256,
+ 421:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     "AES-256-CTR",
+ 422:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 423:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     0,
+ 424:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 425:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     &aes_info
+ 426:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** };
+ 427:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif /* MBEDTLS_CIPHER_MODE_CTR */
+ 428:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 429:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CIPHER_MODE_XTS)
+ 430:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static int xts_aes_setkey_enc_wrap( void *ctx, const unsigned char *key,
+ 431:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****                                     unsigned int key_bitlen )
+ 432:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** {
+ 433:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     mbedtls_aes_xts_context *xts_ctx = ctx;
+ 434:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     return( mbedtls_aes_xts_setkey_enc( xts_ctx, key, key_bitlen ) );
+ 435:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** }
+ 436:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 437:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static int xts_aes_setkey_dec_wrap( void *ctx, const unsigned char *key,
+ 438:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****                                     unsigned int key_bitlen )
+ 439:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** {
+ 440:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     mbedtls_aes_xts_context *xts_ctx = ctx;
+ 441:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     return( mbedtls_aes_xts_setkey_dec( xts_ctx, key, key_bitlen ) );
+ 442:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** }
+ 443:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 444:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static void *xts_aes_ctx_alloc( void )
+ 445:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** {
+ 446:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     mbedtls_aes_xts_context *xts_ctx = mbedtls_calloc( 1, sizeof( *xts_ctx ) );
+ 447:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 448:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     if( xts_ctx != NULL )
+ 449:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****         mbedtls_aes_xts_init( xts_ctx );
+ 450:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 451:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     return( xts_ctx );
+ 452:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** }
+ 453:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 454:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static void xts_aes_ctx_free( void *ctx )
+ 455:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** {
+ 456:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     mbedtls_aes_xts_context *xts_ctx = ctx;
+ 457:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 458:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     if( xts_ctx == NULL )
+ 459:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****         return;
+ 460:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 461:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     mbedtls_aes_xts_free( xts_ctx );
+ 462:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     mbedtls_free( xts_ctx );
+ 463:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** }
+ 464:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 465:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static const mbedtls_cipher_base_t xts_aes_info = {
+ 466:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_CIPHER_ID_AES,
+ 467:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     NULL,
+ 468:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CIPHER_MODE_CBC)
+ 469:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     NULL,
+ 470:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif
+ 471:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CIPHER_MODE_CFB)
+ 472:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     NULL,
+ 473:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif
+ 474:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CIPHER_MODE_OFB)
+ 475:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     NULL,
+ 476:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif
+ 477:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CIPHER_MODE_CTR)
+ 478:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     NULL,
+ 479:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif
+ 480:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CIPHER_MODE_XTS)
+ 481:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     aes_crypt_xts_wrap,
+ 482:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif
+ 483:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_CIPHER_MODE_STREAM)
+ 484:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     NULL,
+ 485:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif
+ 486:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     xts_aes_setkey_enc_wrap,
+ 487:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     xts_aes_setkey_dec_wrap,
+ 488:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     xts_aes_ctx_alloc,
+ 489:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     xts_aes_ctx_free
+ 490:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** };
+ 491:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 492:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static const mbedtls_cipher_info_t aes_128_xts_info = {
+ 493:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_CIPHER_AES_128_XTS,
+ 494:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_MODE_XTS,
+ 495:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     256,
+ 496:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     "AES-128-XTS",
+ 497:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 498:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     0,
+ 499:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 500:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     &xts_aes_info
+ 501:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** };
+ 502:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 503:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static const mbedtls_cipher_info_t aes_256_xts_info = {
+ 504:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_CIPHER_AES_256_XTS,
+ 505:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     MBEDTLS_MODE_XTS,
+ 506:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     512,
+ 507:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     "AES-256-XTS",
+ 508:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 509:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     0,
+ 510:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     16,
+ 511:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     &xts_aes_info
+ 512:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** };
+ 513:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #endif /* MBEDTLS_CIPHER_MODE_XTS */
+ 514:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 515:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** #if defined(MBEDTLS_GCM_C)
+ 516:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** static int gcm_aes_setkey_wrap( void *ctx, const unsigned char *key,
+ 517:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****                                 unsigned int key_bitlen )
+ 518:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** {
+  95              		.loc 1 518 0
+  96              		.cfi_startproc
+  97              		@ args = 0, pretend = 0, frame = 0
+  98              		@ frame_needed = 0, uses_anonymous_args = 0
+  99              		@ link register save eliminated.
+ 100              	.LVL6:
+ 519:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     return mbedtls_gcm_setkey( (mbedtls_gcm_context *) ctx, MBEDTLS_CIPHER_ID_AES,
+ 101              		.loc 1 519 0
+ 102 0000 0230A0E1 		mov	r3, r2
+ 103 0004 0120A0E1 		mov	r2, r1
+ 104              	.LVL7:
+ 105 0008 0210A0E3 		mov	r1, #2
+ 106              	.LVL8:
+ 107 000c FEFFFFEA 		b	mbedtls_gcm_setkey
+ 108              	.LVL9:
+ 109              		.cfi_endproc
+ 110              	.LFE18:
+ 112              		.section	.text.aes_ctx_free,"ax",%progbits
+ 113              		.align	2
+ 114              		.syntax unified
+ 115              		.arm
+ 116              		.fpu neon
+ 118              	aes_ctx_free:
+ 119              	.LFB17:
+ 224:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     mbedtls_aes_free( (mbedtls_aes_context *) ctx );
+ 120              		.loc 1 224 0
+ 121              		.cfi_startproc
+ 122              		@ args = 0, pretend = 0, frame = 0
+ 123              		@ frame_needed = 0, uses_anonymous_args = 0
+ 124              	.LVL10:
+ 125 0000 10402DE9 		push	{r4, lr}
+ 126              		.cfi_def_cfa_offset 8
+ 127              		.cfi_offset 4, -8
+ 128              		.cfi_offset 14, -4
+ 224:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     mbedtls_aes_free( (mbedtls_aes_context *) ctx );
+ 129              		.loc 1 224 0
+ 130 0004 0040A0E1 		mov	r4, r0
+ 225:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     mbedtls_free( ctx );
+ 131              		.loc 1 225 0
+ 132 0008 FEFFFFEB 		bl	mbedtls_aes_free
+ 133              	.LVL11:
+ 226:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** }
+ 134              		.loc 1 226 0
+ 135 000c 0400A0E1 		mov	r0, r4
+ 227:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 136              		.loc 1 227 0
+ 137 0010 1040BDE8 		pop	{r4, lr}
+ 138              		.cfi_restore 14
+ 139              		.cfi_restore 4
+ 140              		.cfi_def_cfa_offset 0
+ 141              	.LVL12:
+ 226:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** }
+ 142              		.loc 1 226 0
+ 143 0014 FEFFFFEA 		b	mbedtls_free
+ 144              	.LVL13:
+ 145              		.cfi_endproc
+ 146              	.LFE17:
+ 148              		.section	.text.aes_ctx_alloc,"ax",%progbits
+ 149              		.align	2
+ 150              		.syntax unified
+ 151              		.arm
+ 152              		.fpu neon
+ 154              	aes_ctx_alloc:
+ 155              	.LFB16:
+ 212:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     mbedtls_aes_context *aes = mbedtls_calloc( 1, sizeof( mbedtls_aes_context ) );
+ 156              		.loc 1 212 0
+ 157              		.cfi_startproc
+ 158              		@ args = 0, pretend = 0, frame = 0
+ 159              		@ frame_needed = 0, uses_anonymous_args = 0
+ 160 0000 10402DE9 		push	{r4, lr}
+ 161              		.cfi_def_cfa_offset 8
+ 162              		.cfi_offset 4, -8
+ 163              		.cfi_offset 14, -4
+ 213:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 164              		.loc 1 213 0
+ 165 0004 461FA0E3 		mov	r1, #280
+ 166 0008 0100A0E3 		mov	r0, #1
+ 167 000c FEFFFFEB 		bl	mbedtls_calloc
+ 168              	.LVL14:
+ 215:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****         return( NULL );
+ 169              		.loc 1 215 0
+ 170 0010 004050E2 		subs	r4, r0, #0
+ 171 0014 0000000A 		beq	.L13
+ 218:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 172              		.loc 1 218 0
+ 173 0018 FEFFFFEB 		bl	mbedtls_aes_init
+ 174              	.LVL15:
+ 175              	.L13:
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** 
+ 176              		.loc 1 221 0
+ 177 001c 0400A0E1 		mov	r0, r4
+ 178 0020 1080BDE8 		pop	{r4, pc}
+ 179              		.cfi_endproc
+ 180              	.LFE16:
+ 182              		.section	.text.aes_setkey_dec_wrap,"ax",%progbits
+ 183              		.align	2
+ 184              		.syntax unified
+ 185              		.arm
+ 186              		.fpu neon
+ 188              	aes_setkey_dec_wrap:
+ 189              	.LFB14:
+ 201:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     return mbedtls_aes_setkey_dec( (mbedtls_aes_context *) ctx, key, key_bitlen );
+ 190              		.loc 1 201 0
+ 191              		.cfi_startproc
+ 192              		@ args = 0, pretend = 0, frame = 0
+ 193              		@ frame_needed = 0, uses_anonymous_args = 0
+ 194              		@ link register save eliminated.
+ 195              	.LVL16:
+ 202:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** }
+ 196              		.loc 1 202 0
+ 197 0000 FEFFFFEA 		b	mbedtls_aes_setkey_dec
+ 198              	.LVL17:
+ 199              		.cfi_endproc
+ 200              	.LFE14:
+ 202              		.section	.text.aes_setkey_enc_wrap,"ax",%progbits
+ 203              		.align	2
+ 204              		.syntax unified
+ 205              		.arm
+ 206              		.fpu neon
+ 208              	aes_setkey_enc_wrap:
+ 209              	.LFB15:
+ 207:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     return mbedtls_aes_setkey_enc( (mbedtls_aes_context *) ctx, key, key_bitlen );
+ 210              		.loc 1 207 0
+ 211              		.cfi_startproc
+ 212              		@ args = 0, pretend = 0, frame = 0
+ 213              		@ frame_needed = 0, uses_anonymous_args = 0
+ 214              		@ link register save eliminated.
+ 215              	.LVL18:
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** }
+ 216              		.loc 1 208 0
+ 217 0000 FEFFFFEA 		b	mbedtls_aes_setkey_enc
+ 218              	.LVL19:
+ 219              		.cfi_endproc
+ 220              	.LFE15:
+ 222              		.section	.text.aes_crypt_ctr_wrap,"ax",%progbits
+ 223              		.align	2
+ 224              		.syntax unified
+ 225              		.arm
+ 226              		.fpu neon
+ 228              	aes_crypt_ctr_wrap:
+ 229              	.LFB13:
+ 166:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     return mbedtls_aes_crypt_ctr( (mbedtls_aes_context *) ctx, length, nc_off, nonce_counter,
+ 230              		.loc 1 166 0
+ 231              		.cfi_startproc
+ 232              		@ args = 12, pretend = 0, frame = 0
+ 233              		@ frame_needed = 0, uses_anonymous_args = 0
+ 234              		@ link register save eliminated.
+ 235              	.LVL20:
+ 167:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****                           stream_block, input, output );
+ 236              		.loc 1 167 0
+ 237 0000 FEFFFFEA 		b	mbedtls_aes_crypt_ctr
+ 238              	.LVL21:
+ 239              		.cfi_endproc
+ 240              	.LFE13:
+ 242              		.section	.text.aes_crypt_cfb128_wrap,"ax",%progbits
+ 243              		.align	2
+ 244              		.syntax unified
+ 245              		.arm
+ 246              		.fpu neon
+ 248              	aes_crypt_cfb128_wrap:
+ 249              	.LFB12:
+ 147:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     return mbedtls_aes_crypt_cfb128( (mbedtls_aes_context *) ctx, operation, length, iv_off, iv,
+ 250              		.loc 1 147 0
+ 251              		.cfi_startproc
+ 252              		@ args = 12, pretend = 0, frame = 0
+ 253              		@ frame_needed = 0, uses_anonymous_args = 0
+ 254              		@ link register save eliminated.
+ 255              	.LVL22:
+ 148:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****                              input, output );
+ 256              		.loc 1 148 0
+ 257 0000 FEFFFFEA 		b	mbedtls_aes_crypt_cfb128
+ 258              	.LVL23:
+ 259              		.cfi_endproc
+ 260              	.LFE12:
+ 262              		.section	.text.aes_crypt_cbc_wrap,"ax",%progbits
+ 263              		.align	2
+ 264              		.syntax unified
+ 265              		.arm
+ 266              		.fpu neon
+ 268              	aes_crypt_cbc_wrap:
+ 269              	.LFB11:
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     return mbedtls_aes_crypt_cbc( (mbedtls_aes_context *) ctx, operation, length, iv, input,
+ 270              		.loc 1 137 0
+ 271              		.cfi_startproc
+ 272              		@ args = 8, pretend = 0, frame = 0
+ 273              		@ frame_needed = 0, uses_anonymous_args = 0
+ 274              		@ link register save eliminated.
+ 275              	.LVL24:
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****                           output );
+ 276              		.loc 1 138 0
+ 277 0000 FEFFFFEA 		b	mbedtls_aes_crypt_cbc
+ 278              	.LVL25:
+ 279              		.cfi_endproc
+ 280              	.LFE11:
+ 282              		.section	.text.aes_crypt_ecb_wrap,"ax",%progbits
+ 283              		.align	2
+ 284              		.syntax unified
+ 285              		.arm
+ 286              		.fpu neon
+ 288              	aes_crypt_ecb_wrap:
+ 289              	.LFB10:
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c ****     return mbedtls_aes_crypt_ecb( (mbedtls_aes_context *) ctx, operation, input, output );
+ 290              		.loc 1 130 0
+ 291              		.cfi_startproc
+ 292              		@ args = 0, pretend = 0, frame = 0
+ 293              		@ frame_needed = 0, uses_anonymous_args = 0
+ 294              		@ link register save eliminated.
+ 295              	.LVL26:
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\cipher_wrap.c **** }
+ 296              		.loc 1 131 0
+ 297 0000 FEFFFFEA 		b	mbedtls_aes_crypt_ecb
+ 298              	.LVL27:
+ 299              		.cfi_endproc
+ 300              	.LFE10:
+ 302              		.comm	mbedtls_cipher_supported,64,4
+ 303              		.global	mbedtls_cipher_definitions
+ 304              		.section	.rodata.aes_128_cbc_info,"a",%progbits
+ 305              		.align	2
+ 308              	aes_128_cbc_info:
+ 309 0000 05       		.byte	5
+ 310 0001 02       		.byte	2
+ 311 0002 0000     		.space	2
+ 312 0004 80000000 		.word	128
+ 313 0008 8D000000 		.word	.LC11
+ 314 000c 10000000 		.word	16
+ 315 0010 00000000 		.word	0
+ 316 0014 10000000 		.word	16
+ 317 0018 00000000 		.word	aes_info
+ 318              		.section	.rodata.aes_128_cfb128_info,"a",%progbits
+ 319              		.align	2
+ 322              	aes_128_cfb128_info:
+ 323 0000 08       		.byte	8
+ 324 0001 03       		.byte	3
+ 325 0002 0000     		.space	2
+ 326 0004 80000000 		.word	128
+ 327 0008 66000000 		.word	.LC8
+ 328 000c 10000000 		.word	16
+ 329 0010 00000000 		.word	0
+ 330 0014 10000000 		.word	16
+ 331 0018 00000000 		.word	aes_info
+ 332              		.section	.rodata.aes_128_ctr_info,"a",%progbits
+ 333              		.align	2
+ 336              	aes_128_ctr_info:
+ 337 0000 0B       		.byte	11
+ 338 0001 05       		.byte	5
+ 339 0002 0000     		.space	2
+ 340 0004 80000000 		.word	128
+ 341 0008 3C000000 		.word	.LC5
+ 342 000c 10000000 		.word	16
+ 343 0010 00000000 		.word	0
+ 344 0014 10000000 		.word	16
+ 345 0018 00000000 		.word	aes_info
+ 346              		.section	.rodata.aes_128_ecb_info,"a",%progbits
+ 347              		.align	2
+ 350              	aes_128_ecb_info:
+ 351 0000 02       		.byte	2
+ 352 0001 01       		.byte	1
+ 353 0002 0000     		.space	2
+ 354 0004 80000000 		.word	128
+ 355 0008 B1000000 		.word	.LC14
+ 356 000c 10000000 		.word	16
+ 357 0010 00000000 		.word	0
+ 358 0014 10000000 		.word	16
+ 359 0018 00000000 		.word	aes_info
+ 360              		.section	.rodata.aes_128_gcm_info,"a",%progbits
+ 361              		.align	2
+ 364              	aes_128_gcm_info:
+ 365 0000 0E       		.byte	14
+ 366 0001 06       		.byte	6
+ 367 0002 0000     		.space	2
+ 368 0004 80000000 		.word	128
+ 369 0008 18000000 		.word	.LC2
+ 370 000c 0C000000 		.word	12
+ 371 0010 01000000 		.word	1
+ 372 0014 10000000 		.word	16
+ 373 0018 00000000 		.word	gcm_aes_info
+ 374              		.section	.rodata.aes_192_cbc_info,"a",%progbits
+ 375              		.align	2
+ 378              	aes_192_cbc_info:
+ 379 0000 06       		.byte	6
+ 380 0001 02       		.byte	2
+ 381 0002 0000     		.space	2
+ 382 0004 C0000000 		.word	192
+ 383 0008 81000000 		.word	.LC10
+ 384 000c 10000000 		.word	16
+ 385 0010 00000000 		.word	0
+ 386 0014 10000000 		.word	16
+ 387 0018 00000000 		.word	aes_info
+ 388              		.section	.rodata.aes_192_cfb128_info,"a",%progbits
+ 389              		.align	2
+ 392              	aes_192_cfb128_info:
+ 393 0000 09       		.byte	9
+ 394 0001 03       		.byte	3
+ 395 0002 0000     		.space	2
+ 396 0004 C0000000 		.word	192
+ 397 0008 57000000 		.word	.LC7
+ 398 000c 10000000 		.word	16
+ 399 0010 00000000 		.word	0
+ 400 0014 10000000 		.word	16
+ 401 0018 00000000 		.word	aes_info
+ 402              		.section	.rodata.aes_192_ctr_info,"a",%progbits
+ 403              		.align	2
+ 406              	aes_192_ctr_info:
+ 407 0000 0C       		.byte	12
+ 408 0001 05       		.byte	5
+ 409 0002 0000     		.space	2
+ 410 0004 C0000000 		.word	192
+ 411 0008 30000000 		.word	.LC4
+ 412 000c 10000000 		.word	16
+ 413 0010 00000000 		.word	0
+ 414 0014 10000000 		.word	16
+ 415 0018 00000000 		.word	aes_info
+ 416              		.section	.rodata.aes_192_ecb_info,"a",%progbits
+ 417              		.align	2
+ 420              	aes_192_ecb_info:
+ 421 0000 03       		.byte	3
+ 422 0001 01       		.byte	1
+ 423 0002 0000     		.space	2
+ 424 0004 C0000000 		.word	192
+ 425 0008 A5000000 		.word	.LC13
+ 426 000c 10000000 		.word	16
+ 427 0010 00000000 		.word	0
+ 428 0014 10000000 		.word	16
+ 429 0018 00000000 		.word	aes_info
+ 430              		.section	.rodata.aes_192_gcm_info,"a",%progbits
+ 431              		.align	2
+ 434              	aes_192_gcm_info:
+ 435 0000 0F       		.byte	15
+ 436 0001 06       		.byte	6
+ 437 0002 0000     		.space	2
+ 438 0004 C0000000 		.word	192
+ 439 0008 0C000000 		.word	.LC1
+ 440 000c 0C000000 		.word	12
+ 441 0010 01000000 		.word	1
+ 442 0014 10000000 		.word	16
+ 443 0018 00000000 		.word	gcm_aes_info
+ 444              		.section	.rodata.aes_256_cbc_info,"a",%progbits
+ 445              		.align	2
+ 448              	aes_256_cbc_info:
+ 449 0000 07       		.byte	7
+ 450 0001 02       		.byte	2
+ 451 0002 0000     		.space	2
+ 452 0004 00010000 		.word	256
+ 453 0008 75000000 		.word	.LC9
+ 454 000c 10000000 		.word	16
+ 455 0010 00000000 		.word	0
+ 456 0014 10000000 		.word	16
+ 457 0018 00000000 		.word	aes_info
+ 458              		.section	.rodata.aes_256_cfb128_info,"a",%progbits
+ 459              		.align	2
+ 462              	aes_256_cfb128_info:
+ 463 0000 0A       		.byte	10
+ 464 0001 03       		.byte	3
+ 465 0002 0000     		.space	2
+ 466 0004 00010000 		.word	256
+ 467 0008 48000000 		.word	.LC6
+ 468 000c 10000000 		.word	16
+ 469 0010 00000000 		.word	0
+ 470 0014 10000000 		.word	16
+ 471 0018 00000000 		.word	aes_info
+ 472              		.section	.rodata.aes_256_ctr_info,"a",%progbits
+ 473              		.align	2
+ 476              	aes_256_ctr_info:
+ 477 0000 0D       		.byte	13
+ 478 0001 05       		.byte	5
+ 479 0002 0000     		.space	2
+ 480 0004 00010000 		.word	256
+ 481 0008 24000000 		.word	.LC3
+ 482 000c 10000000 		.word	16
+ 483 0010 00000000 		.word	0
+ 484 0014 10000000 		.word	16
+ 485 0018 00000000 		.word	aes_info
+ 486              		.section	.rodata.aes_256_ecb_info,"a",%progbits
+ 487              		.align	2
+ 490              	aes_256_ecb_info:
+ 491 0000 04       		.byte	4
+ 492 0001 01       		.byte	1
+ 493 0002 0000     		.space	2
+ 494 0004 00010000 		.word	256
+ 495 0008 99000000 		.word	.LC12
+ 496 000c 10000000 		.word	16
+ 497 0010 00000000 		.word	0
+ 498 0014 10000000 		.word	16
+ 499 0018 00000000 		.word	aes_info
+ 500              		.section	.rodata.aes_256_gcm_info,"a",%progbits
+ 501              		.align	2
+ 504              	aes_256_gcm_info:
+ 505 0000 10       		.byte	16
+ 506 0001 06       		.byte	6
+ 507 0002 0000     		.space	2
+ 508 0004 00010000 		.word	256
+ 509 0008 00000000 		.word	.LC0
+ 510 000c 0C000000 		.word	12
+ 511 0010 01000000 		.word	1
+ 512 0014 10000000 		.word	16
+ 513 0018 00000000 		.word	gcm_aes_info
+ 514              		.section	.rodata.aes_info,"a",%progbits
+ 515              		.align	2
+ 518              	aes_info:
+ 519 0000 02       		.byte	2
+ 520 0001 000000   		.space	3
+ 521 0004 00000000 		.word	aes_crypt_ecb_wrap
+ 522 0008 00000000 		.word	aes_crypt_cbc_wrap
+ 523 000c 00000000 		.word	aes_crypt_cfb128_wrap
+ 524 0010 00000000 		.word	aes_crypt_ctr_wrap
+ 525 0014 00000000 		.word	aes_setkey_enc_wrap
+ 526 0018 00000000 		.word	aes_setkey_dec_wrap
+ 527 001c 00000000 		.word	aes_ctx_alloc
+ 528 0020 00000000 		.word	aes_ctx_free
+ 529              		.section	.rodata.gcm_aes_info,"a",%progbits
+ 530              		.align	2
+ 533              	gcm_aes_info:
+ 534 0000 02       		.byte	2
+ 535 0001 000000   		.space	3
+ 536 0004 00000000 		.word	0
+ 537 0008 00000000 		.word	0
+ 538 000c 00000000 		.word	0
+ 539 0010 00000000 		.word	0
+ 540 0014 00000000 		.word	gcm_aes_setkey_wrap
+ 541 0018 00000000 		.word	gcm_aes_setkey_wrap
+ 542 001c 00000000 		.word	gcm_ctx_alloc
+ 543 0020 00000000 		.word	gcm_ctx_free
+ 544              		.section	.rodata.mbedtls_cipher_definitions,"a",%progbits
+ 545              		.align	2
+ 548              	mbedtls_cipher_definitions:
+ 549 0000 02       		.byte	2
+ 550 0001 000000   		.space	3
+ 551 0004 00000000 		.word	aes_128_ecb_info
+ 552 0008 03       		.byte	3
+ 553 0009 000000   		.space	3
+ 554 000c 00000000 		.word	aes_192_ecb_info
+ 555 0010 04       		.byte	4
+ 556 0011 000000   		.space	3
+ 557 0014 00000000 		.word	aes_256_ecb_info
+ 558 0018 05       		.byte	5
+ 559 0019 000000   		.space	3
+ 560 001c 00000000 		.word	aes_128_cbc_info
+ 561 0020 06       		.byte	6
+ 562 0021 000000   		.space	3
+ 563 0024 00000000 		.word	aes_192_cbc_info
+ 564 0028 07       		.byte	7
+ 565 0029 000000   		.space	3
+ 566 002c 00000000 		.word	aes_256_cbc_info
+ 567 0030 08       		.byte	8
+ 568 0031 000000   		.space	3
+ 569 0034 00000000 		.word	aes_128_cfb128_info
+ 570 0038 09       		.byte	9
+ 571 0039 000000   		.space	3
+ 572 003c 00000000 		.word	aes_192_cfb128_info
+ 573 0040 0A       		.byte	10
+ 574 0041 000000   		.space	3
+ 575 0044 00000000 		.word	aes_256_cfb128_info
+ 576 0048 0B       		.byte	11
+ 577 0049 000000   		.space	3
+ 578 004c 00000000 		.word	aes_128_ctr_info
+ 579 0050 0C       		.byte	12
+ 580 0051 000000   		.space	3
+ 581 0054 00000000 		.word	aes_192_ctr_info
+ 582 0058 0D       		.byte	13
+ 583 0059 000000   		.space	3
+ 584 005c 00000000 		.word	aes_256_ctr_info
+ 585 0060 0E       		.byte	14
+ 586 0061 000000   		.space	3
+ 587 0064 00000000 		.word	aes_128_gcm_info
+ 588 0068 0F       		.byte	15
+ 589 0069 000000   		.space	3
+ 590 006c 00000000 		.word	aes_192_gcm_info
+ 591 0070 10       		.byte	16
+ 592 0071 000000   		.space	3
+ 593 0074 00000000 		.word	aes_256_gcm_info
+ 594 0078 00       		.byte	0
+ 595 0079 000000   		.space	3
+ 596 007c 00000000 		.word	0
+ 597              		.section	.rodata.str1.1,"aMS",%progbits,1
+ 598              	.LC0:
+ 599 0000 4145532D 		.ascii	"AES-256-GCM\000"
+ 599      3235362D 
+ 599      47434D00 
+ 600              	.LC1:
+ 601 000c 4145532D 		.ascii	"AES-192-GCM\000"
+ 601      3139322D 
+ 601      47434D00 
+ 602              	.LC2:
+ 603 0018 4145532D 		.ascii	"AES-128-GCM\000"
+ 603      3132382D 
+ 603      47434D00 
+ 604              	.LC3:
+ 605 0024 4145532D 		.ascii	"AES-256-CTR\000"
+ 605      3235362D 
+ 605      43545200 
+ 606              	.LC4:
+ 607 0030 4145532D 		.ascii	"AES-192-CTR\000"
+ 607      3139322D 
+ 607      43545200 
+ 608              	.LC5:
+ 609 003c 4145532D 		.ascii	"AES-128-CTR\000"
+ 609      3132382D 
+ 609      43545200 
+ 610              	.LC6:
+ 611 0048 4145532D 		.ascii	"AES-256-CFB128\000"
+ 611      3235362D 
+ 611      43464231 
+ 611      323800
+ 612              	.LC7:
+ 613 0057 4145532D 		.ascii	"AES-192-CFB128\000"
+ 613      3139322D 
+ 613      43464231 
+ 613      323800
+ 614              	.LC8:
+ 615 0066 4145532D 		.ascii	"AES-128-CFB128\000"
+ 615      3132382D 
+ 615      43464231 
+ 615      323800
+ 616              	.LC9:
+ 617 0075 4145532D 		.ascii	"AES-256-CBC\000"
+ 617      3235362D 
+ 617      43424300 
+ 618              	.LC10:
+ 619 0081 4145532D 		.ascii	"AES-192-CBC\000"
+ 619      3139322D 
+ 619      43424300 
+ 620              	.LC11:
+ 621 008d 4145532D 		.ascii	"AES-128-CBC\000"
+ 621      3132382D 
+ 621      43424300 
+ 622              	.LC12:
+ 623 0099 4145532D 		.ascii	"AES-256-ECB\000"
+ 623      3235362D 
+ 623      45434200 
+ 624              	.LC13:
+ 625 00a5 4145532D 		.ascii	"AES-192-ECB\000"
+ 625      3139322D 
+ 625      45434200 
+ 626              	.LC14:
+ 627 00b1 4145532D 		.ascii	"AES-128-ECB\000"
+ 627      3132382D 
+ 627      45434200 
+ 628              		.text
+ 629              	.Letext0:
+ 630              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 631              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 632              		.file 4 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/ciphe
+ 633              		.file 5 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/ciphe
+ 634              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 635              		.file 7 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/aes.h
+ 636              		.file 8 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/gcm.h
+ 637              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 638              		.file 10 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 639              		.file 11 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 640              		.file 12 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 641              		.file 13 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 642              		.file 14 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/plat
+DEFINED SYMBOLS
+                            *ABS*:00000000 cipher_wrap.c
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:17     .text.gcm_ctx_free:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:22     .text.gcm_ctx_free:00000000 gcm_ctx_free
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:54     .text.gcm_ctx_alloc:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:59     .text.gcm_ctx_alloc:00000000 gcm_ctx_alloc
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:88     .text.gcm_aes_setkey_wrap:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:93     .text.gcm_aes_setkey_wrap:00000000 gcm_aes_setkey_wrap
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:113    .text.aes_ctx_free:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:118    .text.aes_ctx_free:00000000 aes_ctx_free
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:149    .text.aes_ctx_alloc:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:154    .text.aes_ctx_alloc:00000000 aes_ctx_alloc
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:183    .text.aes_setkey_dec_wrap:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:188    .text.aes_setkey_dec_wrap:00000000 aes_setkey_dec_wrap
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:203    .text.aes_setkey_enc_wrap:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:208    .text.aes_setkey_enc_wrap:00000000 aes_setkey_enc_wrap
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:223    .text.aes_crypt_ctr_wrap:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:228    .text.aes_crypt_ctr_wrap:00000000 aes_crypt_ctr_wrap
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:243    .text.aes_crypt_cfb128_wrap:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:248    .text.aes_crypt_cfb128_wrap:00000000 aes_crypt_cfb128_wrap
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:263    .text.aes_crypt_cbc_wrap:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:268    .text.aes_crypt_cbc_wrap:00000000 aes_crypt_cbc_wrap
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:283    .text.aes_crypt_ecb_wrap:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:288    .text.aes_crypt_ecb_wrap:00000000 aes_crypt_ecb_wrap
+                            *COM*:00000040 mbedtls_cipher_supported
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:548    .rodata.mbedtls_cipher_definitions:00000000 mbedtls_cipher_definitions
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:305    .rodata.aes_128_cbc_info:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:308    .rodata.aes_128_cbc_info:00000000 aes_128_cbc_info
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:518    .rodata.aes_info:00000000 aes_info
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:319    .rodata.aes_128_cfb128_info:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:322    .rodata.aes_128_cfb128_info:00000000 aes_128_cfb128_info
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:333    .rodata.aes_128_ctr_info:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:336    .rodata.aes_128_ctr_info:00000000 aes_128_ctr_info
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:347    .rodata.aes_128_ecb_info:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:350    .rodata.aes_128_ecb_info:00000000 aes_128_ecb_info
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:361    .rodata.aes_128_gcm_info:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:364    .rodata.aes_128_gcm_info:00000000 aes_128_gcm_info
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:533    .rodata.gcm_aes_info:00000000 gcm_aes_info
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:375    .rodata.aes_192_cbc_info:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:378    .rodata.aes_192_cbc_info:00000000 aes_192_cbc_info
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:389    .rodata.aes_192_cfb128_info:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:392    .rodata.aes_192_cfb128_info:00000000 aes_192_cfb128_info
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:403    .rodata.aes_192_ctr_info:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:406    .rodata.aes_192_ctr_info:00000000 aes_192_ctr_info
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:417    .rodata.aes_192_ecb_info:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:420    .rodata.aes_192_ecb_info:00000000 aes_192_ecb_info
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:431    .rodata.aes_192_gcm_info:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:434    .rodata.aes_192_gcm_info:00000000 aes_192_gcm_info
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:445    .rodata.aes_256_cbc_info:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:448    .rodata.aes_256_cbc_info:00000000 aes_256_cbc_info
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:459    .rodata.aes_256_cfb128_info:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:462    .rodata.aes_256_cfb128_info:00000000 aes_256_cfb128_info
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:473    .rodata.aes_256_ctr_info:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:476    .rodata.aes_256_ctr_info:00000000 aes_256_ctr_info
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:487    .rodata.aes_256_ecb_info:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:490    .rodata.aes_256_ecb_info:00000000 aes_256_ecb_info
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:501    .rodata.aes_256_gcm_info:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:504    .rodata.aes_256_gcm_info:00000000 aes_256_gcm_info
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:515    .rodata.aes_info:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:530    .rodata.gcm_aes_info:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccXmBDob.s:545    .rodata.mbedtls_cipher_definitions:00000000 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+mbedtls_gcm_free
+mbedtls_free
+mbedtls_calloc
+mbedtls_gcm_init
+mbedtls_gcm_setkey
+mbedtls_aes_free
+mbedtls_aes_init
+mbedtls_aes_setkey_dec
+mbedtls_aes_setkey_enc
+mbedtls_aes_crypt_ctr
+mbedtls_aes_crypt_cfb128
+mbedtls_aes_crypt_cbc
+mbedtls_aes_crypt_ecb

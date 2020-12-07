@@ -1,0 +1,3007 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"oid.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.oid_sig_alg_from_asn1,"ax",%progbits
+  17              		.align	2
+  18              		.syntax unified
+  19              		.arm
+  20              		.fpu neon
+  22              	oid_sig_alg_from_asn1:
+  23              	.LFB17:
+  24              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library/oid.c"
+   1:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** /**
+   2:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  * \file oid.c
+   3:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  *
+   4:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  * \brief Object Identifier (OID) database
+   5:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  *
+   6:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
+   7:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  *  SPDX-License-Identifier: Apache-2.0
+   8:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  *
+   9:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+  10:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  *  not use this file except in compliance with the License.
+  11:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  *  You may obtain a copy of the License at
+  12:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  *
+  13:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  *  http://www.apache.org/licenses/LICENSE-2.0
+  14:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  *
+  15:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  *  Unless required by applicable law or agreed to in writing, software
+  16:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  17:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  18:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  *  See the License for the specific language governing permissions and
+  19:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  *  limitations under the License.
+  20:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  *
+  21:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  *  This file is part of mbed TLS (https://tls.mbed.org)
+  22:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  */
+  23:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+  24:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if !defined(MBEDTLS_CONFIG_FILE)
+  25:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #include "mbedtls/config.h"
+  26:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #else
+  27:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #include MBEDTLS_CONFIG_FILE
+  28:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif
+  29:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+  30:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_OID_C)
+  31:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+  32:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #include "mbedtls/oid.h"
+  33:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #include "mbedtls/rsa.h"
+  34:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+  35:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #include <stdio.h>
+  36:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #include <string.h>
+  37:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+  38:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_PLATFORM_C)
+  39:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #include "mbedtls/platform.h"
+  40:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #else
+  41:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #define mbedtls_snprintf snprintf
+  42:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif
+  43:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+  44:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_X509_USE_C) || defined(MBEDTLS_X509_CREATE_C)
+  45:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #include "mbedtls/x509.h"
+  46:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif
+  47:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+  48:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** /*
+  49:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  * Macro to automatically add the size of #define'd OIDs
+  50:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  */
+  51:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #define ADD_LEN(s)      s, MBEDTLS_OID_SIZE(s)
+  52:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+  53:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** /*
+  54:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  * Macro to generate an internal function for oid_XXX_from_asn1() (used by
+  55:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  * the other functions)
+  56:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  */
+  57:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #define FN_OID_TYPED_FROM_ASN1( TYPE_T, NAME, LIST )                        \
+  58:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** static const TYPE_T * oid_ ## NAME ## _from_asn1( const mbedtls_asn1_buf *oid )     \
+  59:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** {                                                                           \
+  60:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     const TYPE_T *p = LIST;                                                 \
+  61:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     const mbedtls_oid_descriptor_t *cur = (const mbedtls_oid_descriptor_t *) p;             \
+  62:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     if( p == NULL || oid == NULL ) return( NULL );                          \
+  63:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     while( cur->asn1 != NULL ) {                                            \
+  64:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         if( cur->asn1_len == oid->len &&                                    \
+  65:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****             memcmp( cur->asn1, oid->p, oid->len ) == 0 ) {                  \
+  66:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****             return( p );                                                    \
+  67:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         }                                                                   \
+  68:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         p++;                                                                \
+  69:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         cur = (const mbedtls_oid_descriptor_t *) p;                                 \
+  70:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     }                                                                       \
+  71:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     return( NULL );                                                         \
+  72:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** }
+  73:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+  74:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** /*
+  75:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  * Macro to generate a function for retrieving a single attribute from the
+  76:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  * descriptor of an mbedtls_oid_descriptor_t wrapper.
+  77:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  */
+  78:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #define FN_OID_GET_DESCRIPTOR_ATTR1(FN_NAME, TYPE_T, TYPE_NAME, ATTR1_TYPE, ATTR1) \
+  79:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** int FN_NAME( const mbedtls_asn1_buf *oid, ATTR1_TYPE * ATTR1 )                  \
+  80:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** {                                                                       \
+  81:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     const TYPE_T *data = oid_ ## TYPE_NAME ## _from_asn1( oid );        \
+  82:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     if( data == NULL ) return( MBEDTLS_ERR_OID_NOT_FOUND );            \
+  83:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     *ATTR1 = data->descriptor.ATTR1;                                    \
+  84:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     return( 0 );                                                        \
+  85:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** }
+  86:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+  87:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** /*
+  88:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  * Macro to generate a function for retrieving a single attribute from an
+  89:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  * mbedtls_oid_descriptor_t wrapper.
+  90:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  */
+  91:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #define FN_OID_GET_ATTR1(FN_NAME, TYPE_T, TYPE_NAME, ATTR1_TYPE, ATTR1) \
+  92:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** int FN_NAME( const mbedtls_asn1_buf *oid, ATTR1_TYPE * ATTR1 )                  \
+  93:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** {                                                                       \
+  94:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     const TYPE_T *data = oid_ ## TYPE_NAME ## _from_asn1( oid );        \
+  95:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     if( data == NULL ) return( MBEDTLS_ERR_OID_NOT_FOUND );            \
+  96:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     *ATTR1 = data->ATTR1;                                               \
+  97:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     return( 0 );                                                        \
+  98:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** }
+  99:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** /*
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  * Macro to generate a function for retrieving two attributes from an
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  * mbedtls_oid_descriptor_t wrapper.
+ 103:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  */
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #define FN_OID_GET_ATTR2(FN_NAME, TYPE_T, TYPE_NAME, ATTR1_TYPE, ATTR1,     \
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****                          ATTR2_TYPE, ATTR2)                                 \
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** int FN_NAME( const mbedtls_asn1_buf *oid, ATTR1_TYPE * ATTR1, ATTR2_TYPE * ATTR2 )  \
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** {                                                                           \
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     const TYPE_T *data = oid_ ## TYPE_NAME ## _from_asn1( oid );            \
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     if( data == NULL ) return( MBEDTLS_ERR_OID_NOT_FOUND );                \
+ 110:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     *ATTR1 = data->ATTR1;                                                   \
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     *ATTR2 = data->ATTR2;                                                   \
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     return( 0 );                                                            \
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** }
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** /*
+ 116:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  * Macro to generate a function for retrieving the OID based on a single
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  * attribute from a mbedtls_oid_descriptor_t wrapper.
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  */
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #define FN_OID_GET_OID_BY_ATTR1(FN_NAME, TYPE_T, LIST, ATTR1_TYPE, ATTR1)   \
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** int FN_NAME( ATTR1_TYPE ATTR1, const char **oid, size_t *olen )             \
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** {                                                                           \
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     const TYPE_T *cur = LIST;                                               \
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     while( cur->descriptor.asn1 != NULL ) {                                 \
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         if( cur->ATTR1 == ATTR1 ) {                                         \
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****             *oid = cur->descriptor.asn1;                                    \
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****             *olen = cur->descriptor.asn1_len;                               \
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****             return( 0 );                                                    \
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         }                                                                   \
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         cur++;                                                              \
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     }                                                                       \
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     return( MBEDTLS_ERR_OID_NOT_FOUND );                                   \
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** }
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** /*
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  * Macro to generate a function for retrieving the OID based on two
+ 136:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  * attributes from a mbedtls_oid_descriptor_t wrapper.
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  */
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #define FN_OID_GET_OID_BY_ATTR2(FN_NAME, TYPE_T, LIST, ATTR1_TYPE, ATTR1,   \
+ 139:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****                                 ATTR2_TYPE, ATTR2)                          \
+ 140:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** int FN_NAME( ATTR1_TYPE ATTR1, ATTR2_TYPE ATTR2, const char **oid ,         \
+ 141:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****              size_t *olen )                                                 \
+ 142:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** {                                                                           \
+ 143:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     const TYPE_T *cur = LIST;                                               \
+ 144:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     while( cur->descriptor.asn1 != NULL ) {                                 \
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         if( cur->ATTR1 == ATTR1 && cur->ATTR2 == ATTR2 ) {                  \
+ 146:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****             *oid = cur->descriptor.asn1;                                    \
+ 147:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****             *olen = cur->descriptor.asn1_len;                               \
+ 148:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****             return( 0 );                                                    \
+ 149:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         }                                                                   \
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         cur++;                                                              \
+ 151:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     }                                                                       \
+ 152:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     return( MBEDTLS_ERR_OID_NOT_FOUND );                                   \
+ 153:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** }
+ 154:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_X509_USE_C) || defined(MBEDTLS_X509_CREATE_C)
+ 156:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** /*
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  * For X520 attribute types
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  */
+ 159:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** typedef struct {
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     mbedtls_oid_descriptor_t    descriptor;
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     const char          *short_name;
+ 162:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** } oid_x520_attr_t;
+ 163:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** static const oid_x520_attr_t oid_x520_attr_type[] =
+ 165:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** {
+ 166:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 167:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_AT_CN ),          "id-at-commonName",               "Common Name" },
+ 168:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         "CN",
+ 169:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 170:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_AT_COUNTRY ),     "id-at-countryName",              "Country" },
+ 172:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         "C",
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_AT_LOCALITY ),    "id-at-locality",                 "Locality" },
+ 176:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         "L",
+ 177:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 179:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_AT_STATE ),       "id-at-state",                    "State" },
+ 180:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         "ST",
+ 181:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 182:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_AT_ORGANIZATION ),"id-at-organizationName",         "Organization" }
+ 184:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         "O",
+ 185:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_AT_ORG_UNIT ),    "id-at-organizationalUnitName",   "Org Unit" },
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         "OU",
+ 189:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 190:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 191:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_PKCS9_EMAIL ),    "emailAddress",                   "E-mail address"
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         "emailAddress",
+ 193:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 194:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 195:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_AT_SERIAL_NUMBER ),"id-at-serialNumber",            "Serial number" 
+ 196:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         "serialNumber",
+ 197:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 198:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 199:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_AT_POSTAL_ADDRESS ),"id-at-postalAddress",          "Postal address"
+ 200:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         "postalAddress",
+ 201:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 202:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 203:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_AT_POSTAL_CODE ), "id-at-postalCode",               "Postal code" },
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         "postalCode",
+ 205:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 207:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_AT_SUR_NAME ),    "id-at-surName",                  "Surname" },
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         "SN",
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 210:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 211:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_AT_GIVEN_NAME ),  "id-at-givenName",                "Given name" },
+ 212:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         "GN",
+ 213:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 214:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 215:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_AT_INITIALS ),    "id-at-initials",                 "Initials" },
+ 216:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         "initials",
+ 217:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 218:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 219:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_AT_GENERATION_QUALIFIER ), "id-at-generationQualifier", "Generation 
+ 220:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         "generationQualifier",
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 222:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 223:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_AT_TITLE ),       "id-at-title",                    "Title" },
+ 224:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         "title",
+ 225:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 226:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 227:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_AT_DN_QUALIFIER ),"id-at-dnQualifier",              "Distinguished N
+ 228:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         "dnQualifier",
+ 229:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 231:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_AT_PSEUDONYM ),   "id-at-pseudonym",                "Pseudonym" },
+ 232:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         "pseudonym",
+ 233:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 235:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_DOMAIN_COMPONENT ), "id-domainComponent",           "Domain componen
+ 236:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         "DC",
+ 237:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 238:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 239:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_AT_UNIQUE_IDENTIFIER ), "id-at-uniqueIdentifier",    "Unique Identif
+ 240:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         "uniqueIdentifier",
+ 241:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 243:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { NULL, 0, NULL, NULL },
+ 244:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         NULL,
+ 245:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     }
+ 246:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** };
+ 247:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 248:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_TYPED_FROM_ASN1(oid_x520_attr_t, x520_attr, oid_x520_attr_type)
+ 249:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_ATTR1(mbedtls_oid_get_attr_short_name, oid_x520_attr_t, x520_attr, const char *, short_n
+ 250:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 251:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** /*
+ 252:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  * For X509 extensions
+ 253:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  */
+ 254:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** typedef struct {
+ 255:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     mbedtls_oid_descriptor_t    descriptor;
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     int                 ext_type;
+ 257:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** } oid_x509_ext_t;
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 259:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** static const oid_x509_ext_t oid_x509_ext[] =
+ 260:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** {
+ 261:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 262:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_BASIC_CONSTRAINTS ),    "id-ce-basicConstraints",   "Basic Constrain
+ 263:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_X509_EXT_BASIC_CONSTRAINTS,
+ 264:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 265:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 266:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_KEY_USAGE ),            "id-ce-keyUsage",           "Key Usage" },
+ 267:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_X509_EXT_KEY_USAGE,
+ 268:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 269:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 270:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_EXTENDED_KEY_USAGE ),   "id-ce-extKeyUsage",        "Extended Key Us
+ 271:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_X509_EXT_EXTENDED_KEY_USAGE,
+ 272:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 273:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 274:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_SUBJECT_ALT_NAME ),     "id-ce-subjectAltName",     "Subject Alt Nam
+ 275:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_X509_EXT_SUBJECT_ALT_NAME,
+ 276:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 277:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 278:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_NS_CERT_TYPE ),         "id-netscape-certtype",     "Netscape Certif
+ 279:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_X509_EXT_NS_CERT_TYPE,
+ 280:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { NULL, 0, NULL, NULL },
+ 283:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         0,
+ 284:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 285:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** };
+ 286:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 287:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_TYPED_FROM_ASN1(oid_x509_ext_t, x509_ext, oid_x509_ext)
+ 288:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_ATTR1(mbedtls_oid_get_x509_ext_type, oid_x509_ext_t, x509_ext, int, ext_type)
+ 289:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 290:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** static const mbedtls_oid_descriptor_t oid_ext_key_usage[] =
+ 291:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** {
+ 292:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     { ADD_LEN( MBEDTLS_OID_SERVER_AUTH ),      "id-kp-serverAuth",      "TLS Web Server Authenticat
+ 293:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     { ADD_LEN( MBEDTLS_OID_CLIENT_AUTH ),      "id-kp-clientAuth",      "TLS Web Client Authenticat
+ 294:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     { ADD_LEN( MBEDTLS_OID_CODE_SIGNING ),     "id-kp-codeSigning",     "Code Signing" },
+ 295:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     { ADD_LEN( MBEDTLS_OID_EMAIL_PROTECTION ), "id-kp-emailProtection", "E-mail Protection" },
+ 296:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     { ADD_LEN( MBEDTLS_OID_TIME_STAMPING ),    "id-kp-timeStamping",    "Time Stamping" },
+ 297:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     { ADD_LEN( MBEDTLS_OID_OCSP_SIGNING ),     "id-kp-OCSPSigning",     "OCSP Signing" },
+ 298:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     { NULL, 0, NULL, NULL },
+ 299:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** };
+ 300:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 301:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_TYPED_FROM_ASN1(mbedtls_oid_descriptor_t, ext_key_usage, oid_ext_key_usage)
+ 302:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_ATTR1(mbedtls_oid_get_extended_key_usage, mbedtls_oid_descriptor_t, ext_key_usage, const
+ 303:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_X509_USE_C || MBEDTLS_X509_CREATE_C */
+ 304:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 305:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_MD_C)
+ 306:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** /*
+ 307:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  * For SignatureAlgorithmIdentifier
+ 308:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  */
+ 309:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** typedef struct {
+ 310:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     mbedtls_oid_descriptor_t    descriptor;
+ 311:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     mbedtls_md_type_t           md_alg;
+ 312:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     mbedtls_pk_type_t           pk_alg;
+ 313:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** } oid_sig_alg_t;
+ 314:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 315:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** static const oid_sig_alg_t oid_sig_alg[] =
+ 316:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** {
+ 317:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_RSA_C)
+ 318:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_MD2_C)
+ 319:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 320:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_PKCS1_MD2 ),        "md2WithRSAEncryption",     "RSA with MD2" },
+ 321:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_MD2,      MBEDTLS_PK_RSA,
+ 322:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 323:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_MD2_C */
+ 324:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_MD4_C)
+ 325:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 326:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_PKCS1_MD4 ),        "md4WithRSAEncryption",     "RSA with MD4" },
+ 327:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_MD4,      MBEDTLS_PK_RSA,
+ 328:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 329:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_MD4_C */
+ 330:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_MD5_C)
+ 331:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 332:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_PKCS1_MD5 ),        "md5WithRSAEncryption",     "RSA with MD5" },
+ 333:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_MD5,      MBEDTLS_PK_RSA,
+ 334:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 335:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_MD5_C */
+ 336:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_SHA1_C)
+ 337:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 338:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_PKCS1_SHA1 ),       "sha-1WithRSAEncryption",   "RSA with SHA1" },
+ 339:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_SHA1,     MBEDTLS_PK_RSA,
+ 340:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 341:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_SHA1_C */
+ 342:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_SHA256_C)
+ 343:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 344:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_PKCS1_SHA224 ),     "sha224WithRSAEncryption",  "RSA with SHA-224" }
+ 345:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_SHA224,   MBEDTLS_PK_RSA,
+ 346:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 347:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 348:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_PKCS1_SHA256 ),     "sha256WithRSAEncryption",  "RSA with SHA-256" }
+ 349:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_SHA256,   MBEDTLS_PK_RSA,
+ 350:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 351:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_SHA256_C */
+ 352:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_SHA512_C)
+ 353:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 354:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_PKCS1_SHA384 ),     "sha384WithRSAEncryption",  "RSA with SHA-384" }
+ 355:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_SHA384,   MBEDTLS_PK_RSA,
+ 356:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 357:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 358:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_PKCS1_SHA512 ),     "sha512WithRSAEncryption",  "RSA with SHA-512" }
+ 359:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_SHA512,   MBEDTLS_PK_RSA,
+ 360:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 361:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_SHA512_C */
+ 362:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_SHA1_C)
+ 363:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 364:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_RSA_SHA_OBS ),      "sha-1WithRSAEncryption",   "RSA with SHA1" },
+ 365:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_SHA1,     MBEDTLS_PK_RSA,
+ 366:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 367:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_SHA1_C */
+ 368:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_RSA_C */
+ 369:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_ECDSA_C)
+ 370:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_SHA1_C)
+ 371:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 372:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_ECDSA_SHA1 ),       "ecdsa-with-SHA1",      "ECDSA with SHA1" },
+ 373:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_SHA1,     MBEDTLS_PK_ECDSA,
+ 374:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 375:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_SHA1_C */
+ 376:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_SHA256_C)
+ 377:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 378:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_ECDSA_SHA224 ),     "ecdsa-with-SHA224",    "ECDSA with SHA224" },
+ 379:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_SHA224,   MBEDTLS_PK_ECDSA,
+ 380:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 381:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 382:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_ECDSA_SHA256 ),     "ecdsa-with-SHA256",    "ECDSA with SHA256" },
+ 383:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_SHA256,   MBEDTLS_PK_ECDSA,
+ 384:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 385:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_SHA256_C */
+ 386:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_SHA512_C)
+ 387:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 388:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_ECDSA_SHA384 ),     "ecdsa-with-SHA384",    "ECDSA with SHA384" },
+ 389:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_SHA384,   MBEDTLS_PK_ECDSA,
+ 390:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 391:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 392:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_ECDSA_SHA512 ),     "ecdsa-with-SHA512",    "ECDSA with SHA512" },
+ 393:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_SHA512,   MBEDTLS_PK_ECDSA,
+ 394:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 395:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_SHA512_C */
+ 396:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_ECDSA_C */
+ 397:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_RSA_C)
+ 398:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 399:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_RSASSA_PSS ),        "RSASSA-PSS",           "RSASSA-PSS" },
+ 400:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_NONE,     MBEDTLS_PK_RSASSA_PSS,
+ 401:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 402:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_RSA_C */
+ 403:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 404:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { NULL, 0, NULL, NULL },
+ 405:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_NONE, MBEDTLS_PK_NONE,
+ 406:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 407:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** };
+ 408:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 409:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_TYPED_FROM_ASN1(oid_sig_alg_t, sig_alg, oid_sig_alg)
+  25              		.loc 1 409 0
+  26              		.cfi_startproc
+  27              		@ args = 0, pretend = 0, frame = 0
+  28              		@ frame_needed = 0, uses_anonymous_args = 0
+  29              	.LVL0:
+  30 0000 70402DE9 		push	{r4, r5, r6, lr}
+  31              		.cfi_def_cfa_offset 16
+  32              		.cfi_offset 4, -16
+  33              		.cfi_offset 5, -12
+  34              		.cfi_offset 6, -8
+  35              		.cfi_offset 14, -4
+  36              		.loc 1 409 0
+  37 0004 004050E2 		subs	r4, r0, #0
+  38 0008 0450A011 		movne	r5, r4
+  39 000c 40409F15 		ldrne	r4, .L11
+  40 0010 0A00001A 		bne	.L3
+  41              	.LVL1:
+  42              	.L1:
+  43 0014 0400A0E1 		mov	r0, r4
+  44 0018 7080BDE8 		pop	{r4, r5, r6, pc}
+  45              	.LVL2:
+  46              	.L5:
+  47              		.loc 1 409 0 is_stmt 0 discriminator 7
+  48 001c 042094E5 		ldr	r2, [r4, #4]
+  49 0020 043095E5 		ldr	r3, [r5, #4]
+  50 0024 030052E1 		cmp	r2, r3
+  51 0028 0300001A 		bne	.L4
+  52              		.loc 1 409 0 discriminator 2
+  53 002c 081095E5 		ldr	r1, [r5, #8]
+  54 0030 FEFFFFEB 		bl	memcmp
+  55              	.LVL3:
+  56 0034 000050E3 		cmp	r0, #0
+  57 0038 F5FFFF0A 		beq	.L1
+  58              	.L4:
+  59              		.loc 1 409 0 discriminator 5
+  60 003c 144084E2 		add	r4, r4, #20
+  61              	.LVL4:
+  62              	.L3:
+  63              		.loc 1 409 0 discriminator 6
+  64 0040 000094E5 		ldr	r0, [r4]
+  65 0044 000050E3 		cmp	r0, #0
+  66 0048 F3FFFF1A 		bne	.L5
+  67              		.loc 1 409 0
+  68 004c 0040A0E1 		mov	r4, r0
+  69              	.LVL5:
+  70 0050 EFFFFFEA 		b	.L1
+  71              	.L12:
+  72              		.align	2
+  73              	.L11:
+  74 0054 00000000 		.word	.LANCHOR0
+  75              		.cfi_endproc
+  76              	.LFE17:
+  78              		.section	.text.mbedtls_oid_get_attr_short_name,"ax",%progbits
+  79              		.align	2
+  80              		.global	mbedtls_oid_get_attr_short_name
+  81              		.syntax unified
+  82              		.arm
+  83              		.fpu neon
+  85              	mbedtls_oid_get_attr_short_name:
+  86              	.LFB12:
+ 249:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+  87              		.loc 1 249 0 is_stmt 1
+  88              		.cfi_startproc
+  89              		@ args = 0, pretend = 0, frame = 0
+  90              		@ frame_needed = 0, uses_anonymous_args = 0
+  91              	.LVL6:
+  92 0000 70402DE9 		push	{r4, r5, r6, lr}
+  93              		.cfi_def_cfa_offset 16
+  94              		.cfi_offset 4, -16
+  95              		.cfi_offset 5, -12
+  96              		.cfi_offset 6, -8
+  97              		.cfi_offset 14, -4
+  98              	.LBB4:
+  99              	.LBB5:
+ 248:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_ATTR1(mbedtls_oid_get_attr_short_name, oid_x520_attr_t, x520_attr, const char *, short_n
+ 100              		.loc 1 248 0
+ 101 0004 005050E2 		subs	r5, r0, #0
+ 102 0008 0160A011 		movne	r6, r1
+ 103 000c 48409F15 		ldrne	r4, .L21
+ 104 0010 0A00001A 		bne	.L15
+ 105              	.LVL7:
+ 106              	.L19:
+ 107              	.LBE5:
+ 108              	.LBE4:
+ 249:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 109              		.loc 1 249 0
+ 110 0014 2D00E0E3 		mvn	r0, #45
+ 111 0018 7080BDE8 		pop	{r4, r5, r6, pc}
+ 112              	.LVL8:
+ 113              	.L18:
+ 114              	.LBB7:
+ 115              	.LBB6:
+ 248:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_ATTR1(mbedtls_oid_get_attr_short_name, oid_x520_attr_t, x520_attr, const char *, short_n
+ 116              		.loc 1 248 0
+ 117 001c 042094E5 		ldr	r2, [r4, #4]
+ 118 0020 043095E5 		ldr	r3, [r5, #4]
+ 119 0024 030052E1 		cmp	r2, r3
+ 120 0028 0300001A 		bne	.L16
+ 121 002c 081095E5 		ldr	r1, [r5, #8]
+ 122 0030 FEFFFFEB 		bl	memcmp
+ 123              	.LVL9:
+ 124 0034 000050E3 		cmp	r0, #0
+ 125 0038 0400000A 		beq	.L17
+ 126              	.L16:
+ 127 003c 144084E2 		add	r4, r4, #20
+ 128              	.LVL10:
+ 129              	.L15:
+ 130 0040 000094E5 		ldr	r0, [r4]
+ 131 0044 000050E3 		cmp	r0, #0
+ 132 0048 F3FFFF1A 		bne	.L18
+ 133 004c F0FFFFEA 		b	.L19
+ 134              	.L17:
+ 135              	.LVL11:
+ 136              	.LBE6:
+ 137              	.LBE7:
+ 249:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 138              		.loc 1 249 0
+ 139 0050 103094E5 		ldr	r3, [r4, #16]
+ 140 0054 003086E5 		str	r3, [r6]
+ 141 0058 7080BDE8 		pop	{r4, r5, r6, pc}
+ 142              	.L22:
+ 143              		.align	2
+ 144              	.L21:
+ 145 005c 00000000 		.word	.LANCHOR1
+ 146              		.cfi_endproc
+ 147              	.LFE12:
+ 149              		.section	.text.mbedtls_oid_get_x509_ext_type,"ax",%progbits
+ 150              		.align	2
+ 151              		.global	mbedtls_oid_get_x509_ext_type
+ 152              		.syntax unified
+ 153              		.arm
+ 154              		.fpu neon
+ 156              	mbedtls_oid_get_x509_ext_type:
+ 157              	.LFB14:
+ 288:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 158              		.loc 1 288 0
+ 159              		.cfi_startproc
+ 160              		@ args = 0, pretend = 0, frame = 0
+ 161              		@ frame_needed = 0, uses_anonymous_args = 0
+ 162              	.LVL12:
+ 163 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 164              		.cfi_def_cfa_offset 16
+ 165              		.cfi_offset 4, -16
+ 166              		.cfi_offset 5, -12
+ 167              		.cfi_offset 6, -8
+ 168              		.cfi_offset 14, -4
+ 169              	.LBB10:
+ 170              	.LBB11:
+ 287:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_ATTR1(mbedtls_oid_get_x509_ext_type, oid_x509_ext_t, x509_ext, int, ext_type)
+ 171              		.loc 1 287 0
+ 172 0004 005050E2 		subs	r5, r0, #0
+ 173 0008 0160A011 		movne	r6, r1
+ 174 000c 48409F15 		ldrne	r4, .L31
+ 175 0010 0A00001A 		bne	.L25
+ 176              	.LVL13:
+ 177              	.L29:
+ 178              	.LBE11:
+ 179              	.LBE10:
+ 288:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 180              		.loc 1 288 0
+ 181 0014 2D00E0E3 		mvn	r0, #45
+ 182 0018 7080BDE8 		pop	{r4, r5, r6, pc}
+ 183              	.LVL14:
+ 184              	.L28:
+ 185              	.LBB13:
+ 186              	.LBB12:
+ 287:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_ATTR1(mbedtls_oid_get_x509_ext_type, oid_x509_ext_t, x509_ext, int, ext_type)
+ 187              		.loc 1 287 0
+ 188 001c 042094E5 		ldr	r2, [r4, #4]
+ 189 0020 043095E5 		ldr	r3, [r5, #4]
+ 190 0024 030052E1 		cmp	r2, r3
+ 191 0028 0300001A 		bne	.L26
+ 192 002c 081095E5 		ldr	r1, [r5, #8]
+ 193 0030 FEFFFFEB 		bl	memcmp
+ 194              	.LVL15:
+ 195 0034 000050E3 		cmp	r0, #0
+ 196 0038 0400000A 		beq	.L27
+ 197              	.L26:
+ 198 003c 144084E2 		add	r4, r4, #20
+ 199              	.LVL16:
+ 200              	.L25:
+ 201 0040 000094E5 		ldr	r0, [r4]
+ 202 0044 000050E3 		cmp	r0, #0
+ 203 0048 F3FFFF1A 		bne	.L28
+ 204 004c F0FFFFEA 		b	.L29
+ 205              	.L27:
+ 206              	.LVL17:
+ 207              	.LBE12:
+ 208              	.LBE13:
+ 288:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 209              		.loc 1 288 0
+ 210 0050 103094E5 		ldr	r3, [r4, #16]
+ 211 0054 003086E5 		str	r3, [r6]
+ 212 0058 7080BDE8 		pop	{r4, r5, r6, pc}
+ 213              	.L32:
+ 214              		.align	2
+ 215              	.L31:
+ 216 005c 00000000 		.word	.LANCHOR2
+ 217              		.cfi_endproc
+ 218              	.LFE14:
+ 220              		.section	.text.mbedtls_oid_get_extended_key_usage,"ax",%progbits
+ 221              		.align	2
+ 222              		.global	mbedtls_oid_get_extended_key_usage
+ 223              		.syntax unified
+ 224              		.arm
+ 225              		.fpu neon
+ 227              	mbedtls_oid_get_extended_key_usage:
+ 228              	.LFB16:
+ 302:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_X509_USE_C || MBEDTLS_X509_CREATE_C */
+ 229              		.loc 1 302 0
+ 230              		.cfi_startproc
+ 231              		@ args = 0, pretend = 0, frame = 0
+ 232              		@ frame_needed = 0, uses_anonymous_args = 0
+ 233              	.LVL18:
+ 234 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 235              		.cfi_def_cfa_offset 16
+ 236              		.cfi_offset 4, -16
+ 237              		.cfi_offset 5, -12
+ 238              		.cfi_offset 6, -8
+ 239              		.cfi_offset 14, -4
+ 240              	.LBB16:
+ 241              	.LBB17:
+ 301:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_ATTR1(mbedtls_oid_get_extended_key_usage, mbedtls_oid_descriptor_t, ext_key_usage, const
+ 242              		.loc 1 301 0
+ 243 0004 005050E2 		subs	r5, r0, #0
+ 244 0008 0160A011 		movne	r6, r1
+ 245 000c 48409F15 		ldrne	r4, .L41
+ 246 0010 0A00001A 		bne	.L35
+ 247              	.LVL19:
+ 248              	.L39:
+ 249              	.LBE17:
+ 250              	.LBE16:
+ 302:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_X509_USE_C || MBEDTLS_X509_CREATE_C */
+ 251              		.loc 1 302 0
+ 252 0014 2D00E0E3 		mvn	r0, #45
+ 253 0018 7080BDE8 		pop	{r4, r5, r6, pc}
+ 254              	.LVL20:
+ 255              	.L38:
+ 256              	.LBB19:
+ 257              	.LBB18:
+ 301:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_ATTR1(mbedtls_oid_get_extended_key_usage, mbedtls_oid_descriptor_t, ext_key_usage, const
+ 258              		.loc 1 301 0
+ 259 001c 042094E5 		ldr	r2, [r4, #4]
+ 260 0020 043095E5 		ldr	r3, [r5, #4]
+ 261 0024 030052E1 		cmp	r2, r3
+ 262 0028 0300001A 		bne	.L36
+ 263 002c 081095E5 		ldr	r1, [r5, #8]
+ 264 0030 FEFFFFEB 		bl	memcmp
+ 265              	.LVL21:
+ 266 0034 000050E3 		cmp	r0, #0
+ 267 0038 0400000A 		beq	.L37
+ 268              	.L36:
+ 269 003c 104084E2 		add	r4, r4, #16
+ 270              	.LVL22:
+ 271              	.L35:
+ 272 0040 000094E5 		ldr	r0, [r4]
+ 273 0044 000050E3 		cmp	r0, #0
+ 274 0048 F3FFFF1A 		bne	.L38
+ 275 004c F0FFFFEA 		b	.L39
+ 276              	.L37:
+ 277              	.LVL23:
+ 278              	.LBE18:
+ 279              	.LBE19:
+ 302:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_X509_USE_C || MBEDTLS_X509_CREATE_C */
+ 280              		.loc 1 302 0
+ 281 0050 0C3094E5 		ldr	r3, [r4, #12]
+ 282 0054 003086E5 		str	r3, [r6]
+ 283 0058 7080BDE8 		pop	{r4, r5, r6, pc}
+ 284              	.L42:
+ 285              		.align	2
+ 286              	.L41:
+ 287 005c 00000000 		.word	.LANCHOR3
+ 288              		.cfi_endproc
+ 289              	.LFE16:
+ 291              		.section	.text.mbedtls_oid_get_sig_alg_desc,"ax",%progbits
+ 292              		.align	2
+ 293              		.global	mbedtls_oid_get_sig_alg_desc
+ 294              		.syntax unified
+ 295              		.arm
+ 296              		.fpu neon
+ 298              	mbedtls_oid_get_sig_alg_desc:
+ 299              	.LFB18:
+ 410:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_DESCRIPTOR_ATTR1(mbedtls_oid_get_sig_alg_desc, oid_sig_alg_t, sig_alg, const char *, des
+ 300              		.loc 1 410 0
+ 301              		.cfi_startproc
+ 302              		@ args = 0, pretend = 0, frame = 0
+ 303              		@ frame_needed = 0, uses_anonymous_args = 0
+ 304              	.LVL24:
+ 305 0000 10402DE9 		push	{r4, lr}
+ 306              		.cfi_def_cfa_offset 8
+ 307              		.cfi_offset 4, -8
+ 308              		.cfi_offset 14, -4
+ 309              		.loc 1 410 0
+ 310 0004 0140A0E1 		mov	r4, r1
+ 311 0008 FEFFFFEB 		bl	oid_sig_alg_from_asn1
+ 312              	.LVL25:
+ 313 000c 000050E3 		cmp	r0, #0
+ 314 0010 0C309015 		ldrne	r3, [r0, #12]
+ 315 0014 0000A013 		movne	r0, #0
+ 316              	.LVL26:
+ 317 0018 2D00E003 		mvneq	r0, #45
+ 318 001c 00308415 		strne	r3, [r4]
+ 319 0020 1080BDE8 		pop	{r4, pc}
+ 320              		.cfi_endproc
+ 321              	.LFE18:
+ 323              		.section	.text.mbedtls_oid_get_sig_alg,"ax",%progbits
+ 324              		.align	2
+ 325              		.global	mbedtls_oid_get_sig_alg
+ 326              		.syntax unified
+ 327              		.arm
+ 328              		.fpu neon
+ 330              	mbedtls_oid_get_sig_alg:
+ 331              	.LFB19:
+ 411:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_ATTR2(mbedtls_oid_get_sig_alg, oid_sig_alg_t, sig_alg, mbedtls_md_type_t, md_alg, mbedtl
+ 332              		.loc 1 411 0
+ 333              		.cfi_startproc
+ 334              		@ args = 0, pretend = 0, frame = 0
+ 335              		@ frame_needed = 0, uses_anonymous_args = 0
+ 336              	.LVL27:
+ 337 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 338              		.cfi_def_cfa_offset 16
+ 339              		.cfi_offset 4, -16
+ 340              		.cfi_offset 5, -12
+ 341              		.cfi_offset 6, -8
+ 342              		.cfi_offset 14, -4
+ 343              		.loc 1 411 0
+ 344 0004 0150A0E1 		mov	r5, r1
+ 345 0008 0240A0E1 		mov	r4, r2
+ 346 000c FEFFFFEB 		bl	oid_sig_alg_from_asn1
+ 347              	.LVL28:
+ 348 0010 000050E3 		cmp	r0, #0
+ 349 0014 1030D015 		ldrbne	r3, [r0, #16]	@ zero_extendqisi2
+ 350 0018 0030C515 		strbne	r3, [r5]
+ 351 001c 1130D015 		ldrbne	r3, [r0, #17]	@ zero_extendqisi2
+ 352 0020 0000A013 		movne	r0, #0
+ 353              	.LVL29:
+ 354 0024 2D00E003 		mvneq	r0, #45
+ 355 0028 0030C415 		strbne	r3, [r4]
+ 356 002c 7080BDE8 		pop	{r4, r5, r6, pc}
+ 357              		.cfi_endproc
+ 358              	.LFE19:
+ 360              		.section	.text.mbedtls_oid_get_oid_by_sig_alg,"ax",%progbits
+ 361              		.align	2
+ 362              		.global	mbedtls_oid_get_oid_by_sig_alg
+ 363              		.syntax unified
+ 364              		.arm
+ 365              		.fpu neon
+ 367              	mbedtls_oid_get_oid_by_sig_alg:
+ 368              	.LFB20:
+ 412:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_OID_BY_ATTR2(mbedtls_oid_get_oid_by_sig_alg, oid_sig_alg_t, oid_sig_alg, mbedtls_pk_type
+ 369              		.loc 1 412 0
+ 370              		.cfi_startproc
+ 371              		@ args = 0, pretend = 0, frame = 0
+ 372              		@ frame_needed = 0, uses_anonymous_args = 0
+ 373              	.LVL30:
+ 374 0000 48C09FE5 		ldr	ip, .L57
+ 375 0004 10402DE9 		push	{r4, lr}
+ 376              		.cfi_def_cfa_offset 8
+ 377              		.cfi_offset 4, -8
+ 378              		.cfi_offset 14, -4
+ 379              	.LVL31:
+ 380              	.L52:
+ 381              		.loc 1 412 0 discriminator 6
+ 382 0008 00E09CE5 		ldr	lr, [ip]
+ 383 000c 00005EE3 		cmp	lr, #0
+ 384 0010 0100001A 		bne	.L55
+ 385              		.loc 1 412 0 is_stmt 0
+ 386 0014 2D00E0E3 		mvn	r0, #45
+ 387              	.LVL32:
+ 388 0018 1080BDE8 		pop	{r4, pc}
+ 389              	.LVL33:
+ 390              	.L55:
+ 391              		.loc 1 412 0 discriminator 7
+ 392 001c 1140DCE5 		ldrb	r4, [ip, #17]	@ zero_extendqisi2
+ 393 0020 000054E1 		cmp	r4, r0
+ 394 0024 0700001A 		bne	.L53
+ 395              		.loc 1 412 0 discriminator 2
+ 396 0028 1040DCE5 		ldrb	r4, [ip, #16]	@ zero_extendqisi2
+ 397 002c 010054E1 		cmp	r4, r1
+ 398 0030 0400001A 		bne	.L53
+ 399              		.loc 1 412 0 discriminator 4
+ 400 0034 00E082E5 		str	lr, [r2]
+ 401 0038 0000A0E3 		mov	r0, #0
+ 402              	.LVL34:
+ 403 003c 04209CE5 		ldr	r2, [ip, #4]
+ 404              	.LVL35:
+ 405 0040 002083E5 		str	r2, [r3]
+ 406 0044 1080BDE8 		pop	{r4, pc}
+ 407              	.LVL36:
+ 408              	.L53:
+ 409              		.loc 1 412 0 discriminator 5
+ 410 0048 14C08CE2 		add	ip, ip, #20
+ 411              	.LVL37:
+ 412 004c EDFFFFEA 		b	.L52
+ 413              	.L58:
+ 414              		.align	2
+ 415              	.L57:
+ 416 0050 00000000 		.word	.LANCHOR0
+ 417              		.cfi_endproc
+ 418              	.LFE20:
+ 420              		.section	.text.mbedtls_oid_get_pk_alg,"ax",%progbits
+ 421              		.align	2
+ 422              		.global	mbedtls_oid_get_pk_alg
+ 423              		.syntax unified
+ 424              		.arm
+ 425              		.fpu neon
+ 427              	mbedtls_oid_get_pk_alg:
+ 428              	.LFB22:
+ 413:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_MD_C */
+ 414:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 415:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** /*
+ 416:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  * For PublicKeyInfo (PKCS1, RFC 5480)
+ 417:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  */
+ 418:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** typedef struct {
+ 419:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     mbedtls_oid_descriptor_t    descriptor;
+ 420:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     mbedtls_pk_type_t           pk_alg;
+ 421:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** } oid_pk_alg_t;
+ 422:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 423:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** static const oid_pk_alg_t oid_pk_alg[] =
+ 424:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** {
+ 425:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 426:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_PKCS1_RSA ),      "rsaEncryption",   "RSA" },
+ 427:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_PK_RSA,
+ 428:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 429:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 430:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_EC_ALG_UNRESTRICTED ),  "id-ecPublicKey",   "Generic EC key" },
+ 431:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_PK_ECKEY,
+ 432:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 433:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 434:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_EC_ALG_ECDH ),          "id-ecDH",          "EC key for ECDH" },
+ 435:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_PK_ECKEY_DH,
+ 436:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 437:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 438:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { NULL, 0, NULL, NULL },
+ 439:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_PK_NONE,
+ 440:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 441:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** };
+ 442:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 443:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_TYPED_FROM_ASN1(oid_pk_alg_t, pk_alg, oid_pk_alg)
+ 444:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_ATTR1(mbedtls_oid_get_pk_alg, oid_pk_alg_t, pk_alg, mbedtls_pk_type_t, pk_alg)
+ 429              		.loc 1 444 0 is_stmt 1
+ 430              		.cfi_startproc
+ 431              		@ args = 0, pretend = 0, frame = 0
+ 432              		@ frame_needed = 0, uses_anonymous_args = 0
+ 433              	.LVL38:
+ 434 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 435              		.cfi_def_cfa_offset 16
+ 436              		.cfi_offset 4, -16
+ 437              		.cfi_offset 5, -12
+ 438              		.cfi_offset 6, -8
+ 439              		.cfi_offset 14, -4
+ 440              	.LBB22:
+ 441              	.LBB23:
+ 443:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_ATTR1(mbedtls_oid_get_pk_alg, oid_pk_alg_t, pk_alg, mbedtls_pk_type_t, pk_alg)
+ 442              		.loc 1 443 0
+ 443 0004 005050E2 		subs	r5, r0, #0
+ 444 0008 0160A011 		movne	r6, r1
+ 445 000c 48409F15 		ldrne	r4, .L67
+ 446 0010 0A00001A 		bne	.L61
+ 447              	.LVL39:
+ 448              	.L65:
+ 449              	.LBE23:
+ 450              	.LBE22:
+ 451              		.loc 1 444 0
+ 452 0014 2D00E0E3 		mvn	r0, #45
+ 453 0018 7080BDE8 		pop	{r4, r5, r6, pc}
+ 454              	.LVL40:
+ 455              	.L64:
+ 456              	.LBB25:
+ 457              	.LBB24:
+ 443:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_ATTR1(mbedtls_oid_get_pk_alg, oid_pk_alg_t, pk_alg, mbedtls_pk_type_t, pk_alg)
+ 458              		.loc 1 443 0
+ 459 001c 042094E5 		ldr	r2, [r4, #4]
+ 460 0020 043095E5 		ldr	r3, [r5, #4]
+ 461 0024 030052E1 		cmp	r2, r3
+ 462 0028 0300001A 		bne	.L62
+ 463 002c 081095E5 		ldr	r1, [r5, #8]
+ 464 0030 FEFFFFEB 		bl	memcmp
+ 465              	.LVL41:
+ 466 0034 000050E3 		cmp	r0, #0
+ 467 0038 0400000A 		beq	.L63
+ 468              	.L62:
+ 469 003c 144084E2 		add	r4, r4, #20
+ 470              	.LVL42:
+ 471              	.L61:
+ 472 0040 000094E5 		ldr	r0, [r4]
+ 473 0044 000050E3 		cmp	r0, #0
+ 474 0048 F3FFFF1A 		bne	.L64
+ 475 004c F0FFFFEA 		b	.L65
+ 476              	.L63:
+ 477              	.LVL43:
+ 478              	.LBE24:
+ 479              	.LBE25:
+ 480              		.loc 1 444 0
+ 481 0050 1030D4E5 		ldrb	r3, [r4, #16]	@ zero_extendqisi2
+ 482 0054 0030C6E5 		strb	r3, [r6]
+ 483 0058 7080BDE8 		pop	{r4, r5, r6, pc}
+ 484              	.L68:
+ 485              		.align	2
+ 486              	.L67:
+ 487 005c 00000000 		.word	.LANCHOR4
+ 488              		.cfi_endproc
+ 489              	.LFE22:
+ 491              		.section	.text.mbedtls_oid_get_oid_by_pk_alg,"ax",%progbits
+ 492              		.align	2
+ 493              		.global	mbedtls_oid_get_oid_by_pk_alg
+ 494              		.syntax unified
+ 495              		.arm
+ 496              		.fpu neon
+ 498              	mbedtls_oid_get_oid_by_pk_alg:
+ 499              	.LFB23:
+ 445:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_OID_BY_ATTR1(mbedtls_oid_get_oid_by_pk_alg, oid_pk_alg_t, oid_pk_alg, mbedtls_pk_type_t,
+ 500              		.loc 1 445 0
+ 501              		.cfi_startproc
+ 502              		@ args = 0, pretend = 0, frame = 0
+ 503              		@ frame_needed = 0, uses_anonymous_args = 0
+ 504              	.LVL44:
+ 505 0000 4C309FE5 		ldr	r3, .L79
+ 506              	.LVL45:
+ 507 0004 00C093E5 		ldr	ip, [r3]
+ 508 0008 00005CE3 		cmp	ip, #0
+ 509 000c 0700001A 		bne	.L78
+ 510 0010 2D00E0E3 		mvn	r0, #45
+ 511              	.LVL46:
+ 512 0014 1EFF2FE1 		bx	lr
+ 513              	.LVL47:
+ 514              	.L71:
+ 515              		.cfi_def_cfa_offset 4
+ 516              		.cfi_offset 14, -4
+ 517              		.loc 1 445 0 is_stmt 0 discriminator 3
+ 518 0018 143083E2 		add	r3, r3, #20
+ 519              	.LVL48:
+ 520 001c 00C093E5 		ldr	ip, [r3]
+ 521 0020 00005CE3 		cmp	ip, #0
+ 522 0024 0200001A 		bne	.L73
+ 523              		.loc 1 445 0
+ 524 0028 2D00E0E3 		mvn	r0, #45
+ 525              	.LVL49:
+ 526 002c 04F09DE4 		ldr	pc, [sp], #4
+ 527              	.LVL50:
+ 528              	.L78:
+ 529              		.cfi_def_cfa_offset 0
+ 530              		.cfi_restore 14
+ 531 0030 04E02DE5 		str	lr, [sp, #-4]!
+ 532              		.cfi_def_cfa_offset 4
+ 533              		.cfi_offset 14, -4
+ 534              	.L73:
+ 535              		.loc 1 445 0 is_stmt 1 discriminator 5
+ 536 0034 10E0D3E5 		ldrb	lr, [r3, #16]	@ zero_extendqisi2
+ 537 0038 00005EE1 		cmp	lr, r0
+ 538 003c F5FFFF1A 		bne	.L71
+ 539              		.loc 1 445 0 is_stmt 0 discriminator 2
+ 540 0040 043093E5 		ldr	r3, [r3, #4]
+ 541              	.LVL51:
+ 542 0044 0000A0E3 		mov	r0, #0
+ 543              	.LVL52:
+ 544 0048 00C081E5 		str	ip, [r1]
+ 545 004c 003082E5 		str	r3, [r2]
+ 546 0050 04F09DE4 		ldr	pc, [sp], #4
+ 547              	.L80:
+ 548              		.align	2
+ 549              	.L79:
+ 550 0054 00000000 		.word	.LANCHOR4
+ 551              		.cfi_endproc
+ 552              	.LFE23:
+ 554              		.section	.text.mbedtls_oid_get_ec_grp,"ax",%progbits
+ 555              		.align	2
+ 556              		.global	mbedtls_oid_get_ec_grp
+ 557              		.syntax unified
+ 558              		.arm
+ 559              		.fpu neon
+ 561              	mbedtls_oid_get_ec_grp:
+ 562              	.LFB25:
+ 446:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 447:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_ECP_C)
+ 448:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** /*
+ 449:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  * For namedCurve (RFC 5480)
+ 450:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  */
+ 451:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** typedef struct {
+ 452:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     mbedtls_oid_descriptor_t    descriptor;
+ 453:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     mbedtls_ecp_group_id        grp_id;
+ 454:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** } oid_ecp_grp_t;
+ 455:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 456:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** static const oid_ecp_grp_t oid_ecp_grp[] =
+ 457:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** {
+ 458:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_ECP_DP_SECP192R1_ENABLED)
+ 459:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 460:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_EC_GRP_SECP192R1 ), "secp192r1",    "secp192r1" },
+ 461:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_ECP_DP_SECP192R1,
+ 462:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 463:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_ECP_DP_SECP192R1_ENABLED */
+ 464:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_ECP_DP_SECP224R1_ENABLED)
+ 465:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 466:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_EC_GRP_SECP224R1 ), "secp224r1",    "secp224r1" },
+ 467:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_ECP_DP_SECP224R1,
+ 468:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 469:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_ECP_DP_SECP224R1_ENABLED */
+ 470:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_ECP_DP_SECP256R1_ENABLED)
+ 471:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 472:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_EC_GRP_SECP256R1 ), "secp256r1",    "secp256r1" },
+ 473:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_ECP_DP_SECP256R1,
+ 474:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 475:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_ECP_DP_SECP256R1_ENABLED */
+ 476:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_ECP_DP_SECP384R1_ENABLED)
+ 477:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 478:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_EC_GRP_SECP384R1 ), "secp384r1",    "secp384r1" },
+ 479:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_ECP_DP_SECP384R1,
+ 480:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 481:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_ECP_DP_SECP384R1_ENABLED */
+ 482:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_ECP_DP_SECP521R1_ENABLED)
+ 483:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 484:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_EC_GRP_SECP521R1 ), "secp521r1",    "secp521r1" },
+ 485:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_ECP_DP_SECP521R1,
+ 486:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 487:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_ECP_DP_SECP521R1_ENABLED */
+ 488:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_ECP_DP_SECP192K1_ENABLED)
+ 489:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 490:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_EC_GRP_SECP192K1 ), "secp192k1",    "secp192k1" },
+ 491:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_ECP_DP_SECP192K1,
+ 492:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 493:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_ECP_DP_SECP192K1_ENABLED */
+ 494:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_ECP_DP_SECP224K1_ENABLED)
+ 495:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 496:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_EC_GRP_SECP224K1 ), "secp224k1",    "secp224k1" },
+ 497:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_ECP_DP_SECP224K1,
+ 498:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 499:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_ECP_DP_SECP224K1_ENABLED */
+ 500:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_ECP_DP_SECP256K1_ENABLED)
+ 501:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 502:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_EC_GRP_SECP256K1 ), "secp256k1",    "secp256k1" },
+ 503:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_ECP_DP_SECP256K1,
+ 504:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 505:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_ECP_DP_SECP256K1_ENABLED */
+ 506:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_ECP_DP_BP256R1_ENABLED)
+ 507:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 508:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_EC_GRP_BP256R1 ),   "brainpoolP256r1","brainpool256r1" },
+ 509:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_ECP_DP_BP256R1,
+ 510:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 511:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_ECP_DP_BP256R1_ENABLED */
+ 512:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_ECP_DP_BP384R1_ENABLED)
+ 513:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 514:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_EC_GRP_BP384R1 ),   "brainpoolP384r1","brainpool384r1" },
+ 515:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_ECP_DP_BP384R1,
+ 516:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 517:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_ECP_DP_BP384R1_ENABLED */
+ 518:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_ECP_DP_BP512R1_ENABLED)
+ 519:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 520:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_EC_GRP_BP512R1 ),   "brainpoolP512r1","brainpool512r1" },
+ 521:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_ECP_DP_BP512R1,
+ 522:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 523:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_ECP_DP_BP512R1_ENABLED */
+ 524:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 525:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { NULL, 0, NULL, NULL },
+ 526:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_ECP_DP_NONE,
+ 527:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 528:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** };
+ 529:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 530:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_TYPED_FROM_ASN1(oid_ecp_grp_t, grp_id, oid_ecp_grp)
+ 531:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_ATTR1(mbedtls_oid_get_ec_grp, oid_ecp_grp_t, grp_id, mbedtls_ecp_group_id, grp_id)
+ 563              		.loc 1 531 0 is_stmt 1
+ 564              		.cfi_startproc
+ 565              		@ args = 0, pretend = 0, frame = 0
+ 566              		@ frame_needed = 0, uses_anonymous_args = 0
+ 567              	.LVL53:
+ 568 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 569              		.cfi_def_cfa_offset 16
+ 570              		.cfi_offset 4, -16
+ 571              		.cfi_offset 5, -12
+ 572              		.cfi_offset 6, -8
+ 573              		.cfi_offset 14, -4
+ 574              	.LBB28:
+ 575              	.LBB29:
+ 530:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_ATTR1(mbedtls_oid_get_ec_grp, oid_ecp_grp_t, grp_id, mbedtls_ecp_group_id, grp_id)
+ 576              		.loc 1 530 0
+ 577 0004 005050E2 		subs	r5, r0, #0
+ 578 0008 0160A011 		movne	r6, r1
+ 579 000c 48409F15 		ldrne	r4, .L89
+ 580 0010 0A00001A 		bne	.L83
+ 581              	.LVL54:
+ 582              	.L87:
+ 583              	.LBE29:
+ 584              	.LBE28:
+ 585              		.loc 1 531 0
+ 586 0014 2D00E0E3 		mvn	r0, #45
+ 587 0018 7080BDE8 		pop	{r4, r5, r6, pc}
+ 588              	.LVL55:
+ 589              	.L86:
+ 590              	.LBB31:
+ 591              	.LBB30:
+ 530:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_ATTR1(mbedtls_oid_get_ec_grp, oid_ecp_grp_t, grp_id, mbedtls_ecp_group_id, grp_id)
+ 592              		.loc 1 530 0
+ 593 001c 042094E5 		ldr	r2, [r4, #4]
+ 594 0020 043095E5 		ldr	r3, [r5, #4]
+ 595 0024 030052E1 		cmp	r2, r3
+ 596 0028 0300001A 		bne	.L84
+ 597 002c 081095E5 		ldr	r1, [r5, #8]
+ 598 0030 FEFFFFEB 		bl	memcmp
+ 599              	.LVL56:
+ 600 0034 000050E3 		cmp	r0, #0
+ 601 0038 0400000A 		beq	.L85
+ 602              	.L84:
+ 603 003c 144084E2 		add	r4, r4, #20
+ 604              	.LVL57:
+ 605              	.L83:
+ 606 0040 000094E5 		ldr	r0, [r4]
+ 607 0044 000050E3 		cmp	r0, #0
+ 608 0048 F3FFFF1A 		bne	.L86
+ 609 004c F0FFFFEA 		b	.L87
+ 610              	.L85:
+ 611              	.LVL58:
+ 612              	.LBE30:
+ 613              	.LBE31:
+ 614              		.loc 1 531 0
+ 615 0050 1030D4E5 		ldrb	r3, [r4, #16]	@ zero_extendqisi2
+ 616 0054 0030C6E5 		strb	r3, [r6]
+ 617 0058 7080BDE8 		pop	{r4, r5, r6, pc}
+ 618              	.L90:
+ 619              		.align	2
+ 620              	.L89:
+ 621 005c 00000000 		.word	.LANCHOR5
+ 622              		.cfi_endproc
+ 623              	.LFE25:
+ 625              		.section	.text.mbedtls_oid_get_oid_by_ec_grp,"ax",%progbits
+ 626              		.align	2
+ 627              		.global	mbedtls_oid_get_oid_by_ec_grp
+ 628              		.syntax unified
+ 629              		.arm
+ 630              		.fpu neon
+ 632              	mbedtls_oid_get_oid_by_ec_grp:
+ 633              	.LFB26:
+ 532:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_OID_BY_ATTR1(mbedtls_oid_get_oid_by_ec_grp, oid_ecp_grp_t, oid_ecp_grp, mbedtls_ecp_grou
+ 634              		.loc 1 532 0
+ 635              		.cfi_startproc
+ 636              		@ args = 0, pretend = 0, frame = 0
+ 637              		@ frame_needed = 0, uses_anonymous_args = 0
+ 638              	.LVL59:
+ 639 0000 4C309FE5 		ldr	r3, .L101
+ 640              	.LVL60:
+ 641 0004 00C093E5 		ldr	ip, [r3]
+ 642 0008 00005CE3 		cmp	ip, #0
+ 643 000c 0700001A 		bne	.L100
+ 644 0010 2D00E0E3 		mvn	r0, #45
+ 645              	.LVL61:
+ 646 0014 1EFF2FE1 		bx	lr
+ 647              	.LVL62:
+ 648              	.L93:
+ 649              		.cfi_def_cfa_offset 4
+ 650              		.cfi_offset 14, -4
+ 651              		.loc 1 532 0 is_stmt 0 discriminator 3
+ 652 0018 143083E2 		add	r3, r3, #20
+ 653              	.LVL63:
+ 654 001c 00C093E5 		ldr	ip, [r3]
+ 655 0020 00005CE3 		cmp	ip, #0
+ 656 0024 0200001A 		bne	.L95
+ 657              		.loc 1 532 0
+ 658 0028 2D00E0E3 		mvn	r0, #45
+ 659              	.LVL64:
+ 660 002c 04F09DE4 		ldr	pc, [sp], #4
+ 661              	.LVL65:
+ 662              	.L100:
+ 663              		.cfi_def_cfa_offset 0
+ 664              		.cfi_restore 14
+ 665 0030 04E02DE5 		str	lr, [sp, #-4]!
+ 666              		.cfi_def_cfa_offset 4
+ 667              		.cfi_offset 14, -4
+ 668              	.L95:
+ 669              		.loc 1 532 0 is_stmt 1 discriminator 5
+ 670 0034 10E0D3E5 		ldrb	lr, [r3, #16]	@ zero_extendqisi2
+ 671 0038 00005EE1 		cmp	lr, r0
+ 672 003c F5FFFF1A 		bne	.L93
+ 673              		.loc 1 532 0 is_stmt 0 discriminator 2
+ 674 0040 043093E5 		ldr	r3, [r3, #4]
+ 675              	.LVL66:
+ 676 0044 0000A0E3 		mov	r0, #0
+ 677              	.LVL67:
+ 678 0048 00C081E5 		str	ip, [r1]
+ 679 004c 003082E5 		str	r3, [r2]
+ 680 0050 04F09DE4 		ldr	pc, [sp], #4
+ 681              	.L102:
+ 682              		.align	2
+ 683              	.L101:
+ 684 0054 00000000 		.word	.LANCHOR5
+ 685              		.cfi_endproc
+ 686              	.LFE26:
+ 688              		.section	.text.mbedtls_oid_get_cipher_alg,"ax",%progbits
+ 689              		.align	2
+ 690              		.global	mbedtls_oid_get_cipher_alg
+ 691              		.syntax unified
+ 692              		.arm
+ 693              		.fpu neon
+ 695              	mbedtls_oid_get_cipher_alg:
+ 696              	.LFB28:
+ 533:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_ECP_C */
+ 534:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 535:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_CIPHER_C)
+ 536:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** /*
+ 537:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  * For PKCS#5 PBES2 encryption algorithm
+ 538:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  */
+ 539:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** typedef struct {
+ 540:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     mbedtls_oid_descriptor_t    descriptor;
+ 541:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     mbedtls_cipher_type_t       cipher_alg;
+ 542:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** } oid_cipher_alg_t;
+ 543:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 544:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** static const oid_cipher_alg_t oid_cipher_alg[] =
+ 545:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** {
+ 546:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 547:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_DES_CBC ),              "desCBC",       "DES-CBC" },
+ 548:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_CIPHER_DES_CBC,
+ 549:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 550:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 551:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_DES_EDE3_CBC ),         "des-ede3-cbc", "DES-EDE3-CBC" },
+ 552:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_CIPHER_DES_EDE3_CBC,
+ 553:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 554:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 555:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { NULL, 0, NULL, NULL },
+ 556:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_CIPHER_NONE,
+ 557:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 558:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** };
+ 559:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 560:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_TYPED_FROM_ASN1(oid_cipher_alg_t, cipher_alg, oid_cipher_alg)
+ 561:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_ATTR1(mbedtls_oid_get_cipher_alg, oid_cipher_alg_t, cipher_alg, mbedtls_cipher_type_t, c
+ 697              		.loc 1 561 0 is_stmt 1
+ 698              		.cfi_startproc
+ 699              		@ args = 0, pretend = 0, frame = 0
+ 700              		@ frame_needed = 0, uses_anonymous_args = 0
+ 701              	.LVL68:
+ 702 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 703              		.cfi_def_cfa_offset 16
+ 704              		.cfi_offset 4, -16
+ 705              		.cfi_offset 5, -12
+ 706              		.cfi_offset 6, -8
+ 707              		.cfi_offset 14, -4
+ 708              	.LBB34:
+ 709              	.LBB35:
+ 560:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_ATTR1(mbedtls_oid_get_cipher_alg, oid_cipher_alg_t, cipher_alg, mbedtls_cipher_type_t, c
+ 710              		.loc 1 560 0
+ 711 0004 005050E2 		subs	r5, r0, #0
+ 712 0008 0160A011 		movne	r6, r1
+ 713 000c 48409F15 		ldrne	r4, .L111
+ 714 0010 0A00001A 		bne	.L105
+ 715              	.LVL69:
+ 716              	.L109:
+ 717              	.LBE35:
+ 718              	.LBE34:
+ 719              		.loc 1 561 0
+ 720 0014 2D00E0E3 		mvn	r0, #45
+ 721 0018 7080BDE8 		pop	{r4, r5, r6, pc}
+ 722              	.LVL70:
+ 723              	.L108:
+ 724              	.LBB37:
+ 725              	.LBB36:
+ 560:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_ATTR1(mbedtls_oid_get_cipher_alg, oid_cipher_alg_t, cipher_alg, mbedtls_cipher_type_t, c
+ 726              		.loc 1 560 0
+ 727 001c 042094E5 		ldr	r2, [r4, #4]
+ 728 0020 043095E5 		ldr	r3, [r5, #4]
+ 729 0024 030052E1 		cmp	r2, r3
+ 730 0028 0300001A 		bne	.L106
+ 731 002c 081095E5 		ldr	r1, [r5, #8]
+ 732 0030 FEFFFFEB 		bl	memcmp
+ 733              	.LVL71:
+ 734 0034 000050E3 		cmp	r0, #0
+ 735 0038 0400000A 		beq	.L107
+ 736              	.L106:
+ 737 003c 144084E2 		add	r4, r4, #20
+ 738              	.LVL72:
+ 739              	.L105:
+ 740 0040 000094E5 		ldr	r0, [r4]
+ 741 0044 000050E3 		cmp	r0, #0
+ 742 0048 F3FFFF1A 		bne	.L108
+ 743 004c F0FFFFEA 		b	.L109
+ 744              	.L107:
+ 745              	.LVL73:
+ 746              	.LBE36:
+ 747              	.LBE37:
+ 748              		.loc 1 561 0
+ 749 0050 1030D4E5 		ldrb	r3, [r4, #16]	@ zero_extendqisi2
+ 750 0054 0030C6E5 		strb	r3, [r6]
+ 751 0058 7080BDE8 		pop	{r4, r5, r6, pc}
+ 752              	.L112:
+ 753              		.align	2
+ 754              	.L111:
+ 755 005c 00000000 		.word	.LANCHOR6
+ 756              		.cfi_endproc
+ 757              	.LFE28:
+ 759              		.section	.text.mbedtls_oid_get_md_alg,"ax",%progbits
+ 760              		.align	2
+ 761              		.global	mbedtls_oid_get_md_alg
+ 762              		.syntax unified
+ 763              		.arm
+ 764              		.fpu neon
+ 766              	mbedtls_oid_get_md_alg:
+ 767              	.LFB30:
+ 562:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_CIPHER_C */
+ 563:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 564:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_MD_C)
+ 565:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** /*
+ 566:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  * For digestAlgorithm
+ 567:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  */
+ 568:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** typedef struct {
+ 569:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     mbedtls_oid_descriptor_t    descriptor;
+ 570:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     mbedtls_md_type_t           md_alg;
+ 571:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** } oid_md_alg_t;
+ 572:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 573:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** static const oid_md_alg_t oid_md_alg[] =
+ 574:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** {
+ 575:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_MD2_C)
+ 576:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 577:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_DIGEST_ALG_MD2 ),       "id-md2",       "MD2" },
+ 578:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_MD2,
+ 579:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 580:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_MD2_C */
+ 581:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_MD4_C)
+ 582:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 583:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_DIGEST_ALG_MD4 ),       "id-md4",       "MD4" },
+ 584:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_MD4,
+ 585:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 586:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_MD4_C */
+ 587:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_MD5_C)
+ 588:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 589:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_DIGEST_ALG_MD5 ),       "id-md5",       "MD5" },
+ 590:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_MD5,
+ 591:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 592:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_MD5_C */
+ 593:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_SHA1_C)
+ 594:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 595:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_DIGEST_ALG_SHA1 ),      "id-sha1",      "SHA-1" },
+ 596:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_SHA1,
+ 597:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 598:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_SHA1_C */
+ 599:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_SHA256_C)
+ 600:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 601:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_DIGEST_ALG_SHA224 ),    "id-sha224",    "SHA-224" },
+ 602:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_SHA224,
+ 603:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 604:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 605:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_DIGEST_ALG_SHA256 ),    "id-sha256",    "SHA-256" },
+ 606:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_SHA256,
+ 607:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 608:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_SHA256_C */
+ 609:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_SHA512_C)
+ 610:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 611:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_DIGEST_ALG_SHA384 ),    "id-sha384",    "SHA-384" },
+ 612:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_SHA384,
+ 613:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 614:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 615:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_DIGEST_ALG_SHA512 ),    "id-sha512",    "SHA-512" },
+ 616:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_SHA512,
+ 617:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 618:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_SHA512_C */
+ 619:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 620:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { NULL, 0, NULL, NULL },
+ 621:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_NONE,
+ 622:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 623:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** };
+ 624:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 625:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_TYPED_FROM_ASN1(oid_md_alg_t, md_alg, oid_md_alg)
+ 626:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_ATTR1(mbedtls_oid_get_md_alg, oid_md_alg_t, md_alg, mbedtls_md_type_t, md_alg)
+ 768              		.loc 1 626 0
+ 769              		.cfi_startproc
+ 770              		@ args = 0, pretend = 0, frame = 0
+ 771              		@ frame_needed = 0, uses_anonymous_args = 0
+ 772              	.LVL74:
+ 773 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 774              		.cfi_def_cfa_offset 16
+ 775              		.cfi_offset 4, -16
+ 776              		.cfi_offset 5, -12
+ 777              		.cfi_offset 6, -8
+ 778              		.cfi_offset 14, -4
+ 779              	.LBB40:
+ 780              	.LBB41:
+ 625:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_ATTR1(mbedtls_oid_get_md_alg, oid_md_alg_t, md_alg, mbedtls_md_type_t, md_alg)
+ 781              		.loc 1 625 0
+ 782 0004 005050E2 		subs	r5, r0, #0
+ 783 0008 0160A011 		movne	r6, r1
+ 784 000c 48409F15 		ldrne	r4, .L121
+ 785 0010 0A00001A 		bne	.L115
+ 786              	.LVL75:
+ 787              	.L119:
+ 788              	.LBE41:
+ 789              	.LBE40:
+ 790              		.loc 1 626 0
+ 791 0014 2D00E0E3 		mvn	r0, #45
+ 792 0018 7080BDE8 		pop	{r4, r5, r6, pc}
+ 793              	.LVL76:
+ 794              	.L118:
+ 795              	.LBB43:
+ 796              	.LBB42:
+ 625:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_ATTR1(mbedtls_oid_get_md_alg, oid_md_alg_t, md_alg, mbedtls_md_type_t, md_alg)
+ 797              		.loc 1 625 0
+ 798 001c 042094E5 		ldr	r2, [r4, #4]
+ 799 0020 043095E5 		ldr	r3, [r5, #4]
+ 800 0024 030052E1 		cmp	r2, r3
+ 801 0028 0300001A 		bne	.L116
+ 802 002c 081095E5 		ldr	r1, [r5, #8]
+ 803 0030 FEFFFFEB 		bl	memcmp
+ 804              	.LVL77:
+ 805 0034 000050E3 		cmp	r0, #0
+ 806 0038 0400000A 		beq	.L117
+ 807              	.L116:
+ 808 003c 144084E2 		add	r4, r4, #20
+ 809              	.LVL78:
+ 810              	.L115:
+ 811 0040 000094E5 		ldr	r0, [r4]
+ 812 0044 000050E3 		cmp	r0, #0
+ 813 0048 F3FFFF1A 		bne	.L118
+ 814 004c F0FFFFEA 		b	.L119
+ 815              	.L117:
+ 816              	.LVL79:
+ 817              	.LBE42:
+ 818              	.LBE43:
+ 819              		.loc 1 626 0
+ 820 0050 1030D4E5 		ldrb	r3, [r4, #16]	@ zero_extendqisi2
+ 821 0054 0030C6E5 		strb	r3, [r6]
+ 822 0058 7080BDE8 		pop	{r4, r5, r6, pc}
+ 823              	.L122:
+ 824              		.align	2
+ 825              	.L121:
+ 826 005c 00000000 		.word	.LANCHOR7
+ 827              		.cfi_endproc
+ 828              	.LFE30:
+ 830              		.section	.text.mbedtls_oid_get_oid_by_md,"ax",%progbits
+ 831              		.align	2
+ 832              		.global	mbedtls_oid_get_oid_by_md
+ 833              		.syntax unified
+ 834              		.arm
+ 835              		.fpu neon
+ 837              	mbedtls_oid_get_oid_by_md:
+ 838              	.LFB31:
+ 627:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_OID_BY_ATTR1(mbedtls_oid_get_oid_by_md, oid_md_alg_t, oid_md_alg, mbedtls_md_type_t, md_
+ 839              		.loc 1 627 0
+ 840              		.cfi_startproc
+ 841              		@ args = 0, pretend = 0, frame = 0
+ 842              		@ frame_needed = 0, uses_anonymous_args = 0
+ 843              	.LVL80:
+ 844 0000 4C309FE5 		ldr	r3, .L133
+ 845              	.LVL81:
+ 846 0004 00C093E5 		ldr	ip, [r3]
+ 847 0008 00005CE3 		cmp	ip, #0
+ 848 000c 0700001A 		bne	.L132
+ 849 0010 2D00E0E3 		mvn	r0, #45
+ 850              	.LVL82:
+ 851 0014 1EFF2FE1 		bx	lr
+ 852              	.LVL83:
+ 853              	.L125:
+ 854              		.cfi_def_cfa_offset 4
+ 855              		.cfi_offset 14, -4
+ 856              		.loc 1 627 0 is_stmt 0 discriminator 3
+ 857 0018 143083E2 		add	r3, r3, #20
+ 858              	.LVL84:
+ 859 001c 00C093E5 		ldr	ip, [r3]
+ 860 0020 00005CE3 		cmp	ip, #0
+ 861 0024 0200001A 		bne	.L127
+ 862              		.loc 1 627 0
+ 863 0028 2D00E0E3 		mvn	r0, #45
+ 864              	.LVL85:
+ 865 002c 04F09DE4 		ldr	pc, [sp], #4
+ 866              	.LVL86:
+ 867              	.L132:
+ 868              		.cfi_def_cfa_offset 0
+ 869              		.cfi_restore 14
+ 870 0030 04E02DE5 		str	lr, [sp, #-4]!
+ 871              		.cfi_def_cfa_offset 4
+ 872              		.cfi_offset 14, -4
+ 873              	.L127:
+ 874              		.loc 1 627 0 is_stmt 1 discriminator 5
+ 875 0034 10E0D3E5 		ldrb	lr, [r3, #16]	@ zero_extendqisi2
+ 876 0038 00005EE1 		cmp	lr, r0
+ 877 003c F5FFFF1A 		bne	.L125
+ 878              		.loc 1 627 0 is_stmt 0 discriminator 2
+ 879 0040 043093E5 		ldr	r3, [r3, #4]
+ 880              	.LVL87:
+ 881 0044 0000A0E3 		mov	r0, #0
+ 882              	.LVL88:
+ 883 0048 00C081E5 		str	ip, [r1]
+ 884 004c 003082E5 		str	r3, [r2]
+ 885 0050 04F09DE4 		ldr	pc, [sp], #4
+ 886              	.L134:
+ 887              		.align	2
+ 888              	.L133:
+ 889 0054 00000000 		.word	.LANCHOR7
+ 890              		.cfi_endproc
+ 891              	.LFE31:
+ 893              		.section	.text.mbedtls_oid_get_md_hmac,"ax",%progbits
+ 894              		.align	2
+ 895              		.global	mbedtls_oid_get_md_hmac
+ 896              		.syntax unified
+ 897              		.arm
+ 898              		.fpu neon
+ 900              	mbedtls_oid_get_md_hmac:
+ 901              	.LFB33:
+ 628:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 629:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** /*
+ 630:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  * For HMAC digestAlgorithm
+ 631:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  */
+ 632:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** typedef struct {
+ 633:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     mbedtls_oid_descriptor_t    descriptor;
+ 634:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     mbedtls_md_type_t           md_hmac;
+ 635:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** } oid_md_hmac_t;
+ 636:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 637:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** static const oid_md_hmac_t oid_md_hmac[] =
+ 638:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** {
+ 639:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_SHA1_C)
+ 640:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 641:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_HMAC_SHA1 ),      "hmacSHA1",      "HMAC-SHA-1" },
+ 642:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_SHA1,
+ 643:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 644:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_SHA1_C */
+ 645:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_SHA256_C)
+ 646:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 647:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_HMAC_SHA224 ),    "hmacSHA224",    "HMAC-SHA-224" },
+ 648:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_SHA224,
+ 649:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 650:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 651:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_HMAC_SHA256 ),    "hmacSHA256",    "HMAC-SHA-256" },
+ 652:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_SHA256,
+ 653:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 654:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_SHA256_C */
+ 655:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_SHA512_C)
+ 656:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 657:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_HMAC_SHA384 ),    "hmacSHA384",    "HMAC-SHA-384" },
+ 658:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_SHA384,
+ 659:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 660:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 661:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_HMAC_SHA512 ),    "hmacSHA512",    "HMAC-SHA-512" },
+ 662:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_SHA512,
+ 663:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 664:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_SHA512_C */
+ 665:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 666:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { NULL, 0, NULL, NULL },
+ 667:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_NONE,
+ 668:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 669:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** };
+ 670:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 671:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_TYPED_FROM_ASN1(oid_md_hmac_t, md_hmac, oid_md_hmac)
+ 672:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_ATTR1(mbedtls_oid_get_md_hmac, oid_md_hmac_t, md_hmac, mbedtls_md_type_t, md_hmac)
+ 902              		.loc 1 672 0 is_stmt 1
+ 903              		.cfi_startproc
+ 904              		@ args = 0, pretend = 0, frame = 0
+ 905              		@ frame_needed = 0, uses_anonymous_args = 0
+ 906              	.LVL89:
+ 907 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 908              		.cfi_def_cfa_offset 16
+ 909              		.cfi_offset 4, -16
+ 910              		.cfi_offset 5, -12
+ 911              		.cfi_offset 6, -8
+ 912              		.cfi_offset 14, -4
+ 913              	.LBB46:
+ 914              	.LBB47:
+ 671:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_ATTR1(mbedtls_oid_get_md_hmac, oid_md_hmac_t, md_hmac, mbedtls_md_type_t, md_hmac)
+ 915              		.loc 1 671 0
+ 916 0004 005050E2 		subs	r5, r0, #0
+ 917 0008 0160A011 		movne	r6, r1
+ 918 000c 48409F15 		ldrne	r4, .L143
+ 919 0010 0A00001A 		bne	.L137
+ 920              	.LVL90:
+ 921              	.L141:
+ 922              	.LBE47:
+ 923              	.LBE46:
+ 924              		.loc 1 672 0
+ 925 0014 2D00E0E3 		mvn	r0, #45
+ 926 0018 7080BDE8 		pop	{r4, r5, r6, pc}
+ 927              	.LVL91:
+ 928              	.L140:
+ 929              	.LBB49:
+ 930              	.LBB48:
+ 671:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_ATTR1(mbedtls_oid_get_md_hmac, oid_md_hmac_t, md_hmac, mbedtls_md_type_t, md_hmac)
+ 931              		.loc 1 671 0
+ 932 001c 042094E5 		ldr	r2, [r4, #4]
+ 933 0020 043095E5 		ldr	r3, [r5, #4]
+ 934 0024 030052E1 		cmp	r2, r3
+ 935 0028 0300001A 		bne	.L138
+ 936 002c 081095E5 		ldr	r1, [r5, #8]
+ 937 0030 FEFFFFEB 		bl	memcmp
+ 938              	.LVL92:
+ 939 0034 000050E3 		cmp	r0, #0
+ 940 0038 0400000A 		beq	.L139
+ 941              	.L138:
+ 942 003c 144084E2 		add	r4, r4, #20
+ 943              	.LVL93:
+ 944              	.L137:
+ 945 0040 000094E5 		ldr	r0, [r4]
+ 946 0044 000050E3 		cmp	r0, #0
+ 947 0048 F3FFFF1A 		bne	.L140
+ 948 004c F0FFFFEA 		b	.L141
+ 949              	.L139:
+ 950              	.LVL94:
+ 951              	.LBE48:
+ 952              	.LBE49:
+ 953              		.loc 1 672 0
+ 954 0050 1030D4E5 		ldrb	r3, [r4, #16]	@ zero_extendqisi2
+ 955 0054 0030C6E5 		strb	r3, [r6]
+ 956 0058 7080BDE8 		pop	{r4, r5, r6, pc}
+ 957              	.L144:
+ 958              		.align	2
+ 959              	.L143:
+ 960 005c 00000000 		.word	.LANCHOR8
+ 961              		.cfi_endproc
+ 962              	.LFE33:
+ 964              		.section	.text.mbedtls_oid_get_numeric_string,"ax",%progbits
+ 965              		.align	2
+ 966              		.global	mbedtls_oid_get_numeric_string
+ 967              		.syntax unified
+ 968              		.arm
+ 969              		.fpu neon
+ 971              	mbedtls_oid_get_numeric_string:
+ 972              	.LFB34:
+ 673:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_MD_C */
+ 674:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 675:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #if defined(MBEDTLS_PKCS12_C)
+ 676:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** /*
+ 677:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  * For PKCS#12 PBEs
+ 678:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****  */
+ 679:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** typedef struct {
+ 680:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     mbedtls_oid_descriptor_t    descriptor;
+ 681:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     mbedtls_md_type_t           md_alg;
+ 682:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     mbedtls_cipher_type_t       cipher_alg;
+ 683:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** } oid_pkcs12_pbe_alg_t;
+ 684:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 685:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** static const oid_pkcs12_pbe_alg_t oid_pkcs12_pbe_alg[] =
+ 686:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** {
+ 687:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 688:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_PKCS12_PBE_SHA1_DES3_EDE_CBC ), "pbeWithSHAAnd3-KeyTripleDES-CBC", "
+ 689:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_SHA1,      MBEDTLS_CIPHER_DES_EDE3_CBC,
+ 690:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 691:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 692:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { ADD_LEN( MBEDTLS_OID_PKCS12_PBE_SHA1_DES2_EDE_CBC ), "pbeWithSHAAnd2-KeyTripleDES-CBC", "
+ 693:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_SHA1,      MBEDTLS_CIPHER_DES_EDE_CBC,
+ 694:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 695:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 696:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         { NULL, 0, NULL, NULL },
+ 697:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         MBEDTLS_MD_NONE, MBEDTLS_CIPHER_NONE,
+ 698:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     },
+ 699:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** };
+ 700:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 701:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_TYPED_FROM_ASN1(oid_pkcs12_pbe_alg_t, pkcs12_pbe_alg, oid_pkcs12_pbe_alg)
+ 702:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** FN_OID_GET_ATTR2(mbedtls_oid_get_pkcs12_pbe_alg, oid_pkcs12_pbe_alg_t, pkcs12_pbe_alg, mbedtls_md_t
+ 703:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #endif /* MBEDTLS_PKCS12_C */
+ 704:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 705:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** #define OID_SAFE_SNPRINTF                               \
+ 706:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     do {                                                \
+ 707:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         if( ret < 0 || (size_t) ret >= n )              \
+ 708:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****             return( MBEDTLS_ERR_OID_BUF_TOO_SMALL );    \
+ 709:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****                                                         \
+ 710:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         n -= (size_t) ret;                              \
+ 711:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         p += (size_t) ret;                              \
+ 712:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     } while( 0 )
+ 713:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 714:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** /* Return the x.y.z.... style numeric string for the given OID */
+ 715:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** int mbedtls_oid_get_numeric_string( char *buf, size_t size,
+ 716:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****                             const mbedtls_asn1_buf *oid )
+ 717:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** {
+ 973              		.loc 1 717 0
+ 974              		.cfi_startproc
+ 975              		@ args = 0, pretend = 0, frame = 0
+ 976              		@ frame_needed = 0, uses_anonymous_args = 0
+ 977              	.LVL95:
+ 718:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     int ret;
+ 719:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     size_t i, n;
+ 720:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     unsigned int value;
+ 721:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     char *p;
+ 722:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 723:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     p = buf;
+ 724:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     n = size;
+ 725:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 726:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     /* First byte contains first two dots */
+ 727:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     if( oid->len > 0 )
+ 978              		.loc 1 727 0
+ 979 0000 043092E5 		ldr	r3, [r2, #4]
+ 717:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     int ret;
+ 980              		.loc 1 717 0
+ 981 0004 F74F2DE9 		push	{r0, r1, r2, r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 982              		.cfi_def_cfa_offset 48
+ 983              		.cfi_offset 4, -36
+ 984              		.cfi_offset 5, -32
+ 985              		.cfi_offset 6, -28
+ 986              		.cfi_offset 7, -24
+ 987              		.cfi_offset 8, -20
+ 988              		.cfi_offset 9, -16
+ 989              		.cfi_offset 10, -12
+ 990              		.cfi_offset 11, -8
+ 991              		.cfi_offset 14, -4
+ 717:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     int ret;
+ 992              		.loc 1 717 0
+ 993 0008 0060A0E1 		mov	r6, r0
+ 994 000c 0140A0E1 		mov	r4, r1
+ 995 0010 0280A0E1 		mov	r8, r2
+ 996              		.loc 1 727 0
+ 997 0014 000053E3 		cmp	r3, #0
+ 998 0018 0150A001 		moveq	r5, r1
+ 999 001c 1500000A 		beq	.L146
+ 728:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 729:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         ret = mbedtls_snprintf( p, n, "%d.%d", oid->p[0] / 40, oid->p[0] % 40 );
+ 1000              		.loc 1 729 0
+ 1001 0020 083092E5 		ldr	r3, [r2, #8]
+ 1002 0024 2820A0E3 		mov	r2, #40
+ 1003              	.LVL96:
+ 1004 0028 B8A09FE5 		ldr	r10, .L155
+ 1005 002c 00C0D3E5 		ldrb	ip, [r3]	@ zero_extendqisi2
+ 1006 0030 9CAA8BE0 		umull	r10, fp, ip, r10
+ 1007 0034 AB32A0E1 		lsr	r3, fp, #5
+ 1008 0038 92C362E0 		mls	r2, r2, r3, ip
+ 1009 003c 7330EFE6 		uxtb	r3, r3
+ 1010 0040 7220EFE6 		uxtb	r2, r2
+ 1011 0044 00208DE5 		str	r2, [sp]
+ 1012 0048 9C209FE5 		ldr	r2, .L155+4
+ 1013 004c FEFFFFEB 		bl	snprintf
+ 1014              	.LVL97:
+ 730:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         OID_SAFE_SNPRINTF;
+ 1015              		.loc 1 730 0
+ 1016 0050 000054E1 		cmp	r4, r0
+ 1017 0054 0030A083 		movhi	r3, #0
+ 1018 0058 0130A093 		movls	r3, #1
+ 1019 005c A03F93E1 		orrs	r3, r3, r0, lsr #31
+ 1020 0060 00504400 		subeq	r5, r4, r0
+ 1021              	.LVL98:
+ 1022 0064 00608600 		addeq	r6, r6, r0
+ 1023              	.LVL99:
+ 1024 0068 0200000A 		beq	.L146
+ 1025              	.LVL100:
+ 1026              	.L150:
+ 1027 006c 0A00E0E3 		mvn	r0, #10
+ 1028              	.L145:
+ 731:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     }
+ 732:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 733:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     value = 0;
+ 734:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     for( i = 1; i < oid->len; i++ )
+ 735:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 736:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         /* Prevent overflow in value. */
+ 737:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         if( ( ( value << 7 ) >> 7 ) != value )
+ 738:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****             return( MBEDTLS_ERR_OID_BUF_TOO_SMALL );
+ 739:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 740:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         value <<= 7;
+ 741:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         value += oid->p[i] & 0x7F;
+ 742:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 743:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         if( !( oid->p[i] & 0x80 ) )
+ 744:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         {
+ 745:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****             /* Last byte */
+ 746:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****             ret = mbedtls_snprintf( p, n, ".%d", value );
+ 747:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****             OID_SAFE_SNPRINTF;
+ 748:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****             value = 0;
+ 749:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         }
+ 750:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     }
+ 751:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 752:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     return( (int) ( size - n ) );
+ 753:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** }
+ 1029              		.loc 1 753 0
+ 1030 0070 0CD08DE2 		add	sp, sp, #12
+ 1031              		.cfi_remember_state
+ 1032              		.cfi_def_cfa_offset 36
+ 1033              		@ sp needed
+ 1034 0074 F08FBDE8 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 1035              	.LVL101:
+ 1036              	.L146:
+ 1037              		.cfi_restore_state
+ 746:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****             OID_SAFE_SNPRINTF;
+ 1038              		.loc 1 746 0 discriminator 1
+ 1039 0078 70909FE5 		ldr	r9, .L155+8
+ 748:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         }
+ 1040              		.loc 1 748 0 discriminator 1
+ 1041 007c 0030A0E3 		mov	r3, #0
+ 1042 0080 0170A0E3 		mov	r7, #1
+ 1043              	.L149:
+ 1044              	.LVL102:
+ 734:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 1045              		.loc 1 734 0 discriminator 1
+ 1046 0084 042098E5 		ldr	r2, [r8, #4]
+ 1047 0088 020057E1 		cmp	r7, r2
+ 752:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** }
+ 1048              		.loc 1 752 0
+ 1049 008c 05004420 		subcs	r0, r4, r5
+ 1050 0090 F6FFFF2A 		bcs	.L145
+ 1051              	.L152:
+ 737:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****             return( MBEDTLS_ERR_OID_BUF_TOO_SMALL );
+ 1052              		.loc 1 737 0
+ 1053 0094 FE0413E3 		tst	r3, #-33554432
+ 1054 0098 F3FFFF1A 		bne	.L150
+ 1055              	.LVL103:
+ 741:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 1056              		.loc 1 741 0
+ 1057 009c 082098E5 		ldr	r2, [r8, #8]
+ 1058 00a0 0720D2E7 		ldrb	r2, [r2, r7]	@ zero_extendqisi2
+ 743:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         {
+ 1059              		.loc 1 743 0
+ 1060 00a4 800012E3 		tst	r2, #128
+ 741:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c **** 
+ 1061              		.loc 1 741 0
+ 1062 00a8 7F1002E2 		and	r1, r2, #127
+ 1063 00ac 833381E0 		add	r3, r1, r3, lsl #7
+ 1064              	.LVL104:
+ 743:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****         {
+ 1065              		.loc 1 743 0
+ 1066 00b0 0A00001A 		bne	.L151
+ 746:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****             OID_SAFE_SNPRINTF;
+ 1067              		.loc 1 746 0
+ 1068 00b4 0920A0E1 		mov	r2, r9
+ 1069 00b8 0510A0E1 		mov	r1, r5
+ 1070 00bc 0600A0E1 		mov	r0, r6
+ 1071 00c0 FEFFFFEB 		bl	snprintf
+ 1072              	.LVL105:
+ 747:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****             value = 0;
+ 1073              		.loc 1 747 0
+ 1074 00c4 000055E1 		cmp	r5, r0
+ 1075 00c8 0030A083 		movhi	r3, #0
+ 1076 00cc 0130A093 		movls	r3, #1
+ 1077 00d0 A03F93E1 		orrs	r3, r3, r0, lsr #31
+ 1078 00d4 E4FFFF1A 		bne	.L150
+ 747:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****             value = 0;
+ 1079              		.loc 1 747 0 is_stmt 0 discriminator 2
+ 1080 00d8 005045E0 		sub	r5, r5, r0
+ 1081              	.LVL106:
+ 1082 00dc 006086E0 		add	r6, r6, r0
+ 1083              	.LVL107:
+ 1084              	.L151:
+ 734:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\oid.c ****     {
+ 1085              		.loc 1 734 0 is_stmt 1 discriminator 2
+ 1086 00e0 017087E2 		add	r7, r7, #1
+ 1087              	.LVL108:
+ 1088 00e4 E6FFFFEA 		b	.L149
+ 1089              	.L156:
+ 1090              		.align	2
+ 1091              	.L155:
+ 1092 00e8 CDCCCCCC 		.word	-858993459
+ 1093 00ec 00000000 		.word	.LC0
+ 1094 00f0 06000000 		.word	.LC1
+ 1095              		.cfi_endproc
+ 1096              	.LFE34:
+ 1098              		.section	.rodata.mbedtls_oid_get_numeric_string.str1.1,"aMS",%progbits,1
+ 1099              	.LC0:
+ 1100 0000 25642E25 		.ascii	"%d.%d\000"
+ 1100      6400
+ 1101              	.LC1:
+ 1102 0006 2E256400 		.ascii	".%d\000"
+ 1103              		.section	.rodata.oid_cipher_alg,"a",%progbits
+ 1104              		.align	2
+ 1105              		.set	.LANCHOR6,. + 0
+ 1108              	oid_cipher_alg:
+ 1109 0000 AB000000 		.word	.LC20
+ 1110 0004 05000000 		.word	5
+ 1111 0008 B1000000 		.word	.LC21
+ 1112 000c B8000000 		.word	.LC22
+ 1113 0010 21       		.byte	33
+ 1114 0011 000000   		.space	3
+ 1115 0014 C0000000 		.word	.LC23
+ 1116 0018 08000000 		.word	8
+ 1117 001c C9000000 		.word	.LC24
+ 1118 0020 D6000000 		.word	.LC25
+ 1119 0024 25       		.byte	37
+ 1120 0025 000000   		.space	3
+ 1121 0028 00000000 		.word	0
+ 1122 002c 00000000 		.word	0
+ 1123 0030 00000000 		.word	0
+ 1124 0034 00000000 		.word	0
+ 1125 0038 00       		.byte	0
+ 1126 0039 000000   		.space	3
+ 1127              		.section	.rodata.oid_ecp_grp,"a",%progbits
+ 1128              		.align	2
+ 1129              		.set	.LANCHOR5,. + 0
+ 1132              	oid_ecp_grp:
+ 1133 0000 E3000000 		.word	.LC26
+ 1134 0004 08000000 		.word	8
+ 1135 0008 EC000000 		.word	.LC27
+ 1136 000c EC000000 		.word	.LC27
+ 1137 0010 03       		.byte	3
+ 1138 0011 000000   		.space	3
+ 1139 0014 00000000 		.word	0
+ 1140 0018 00000000 		.word	0
+ 1141 001c 00000000 		.word	0
+ 1142 0020 00000000 		.word	0
+ 1143 0024 00       		.byte	0
+ 1144 0025 000000   		.space	3
+ 1145              		.section	.rodata.oid_ext_key_usage,"a",%progbits
+ 1146              		.align	2
+ 1147              		.set	.LANCHOR3,. + 0
+ 1150              	oid_ext_key_usage:
+ 1151 0000 88020000 		.word	.LC58
+ 1152 0004 08000000 		.word	8
+ 1153 0008 91020000 		.word	.LC59
+ 1154 000c A2020000 		.word	.LC60
+ 1155 0010 C0020000 		.word	.LC61
+ 1156 0014 08000000 		.word	8
+ 1157 0018 C9020000 		.word	.LC62
+ 1158 001c DA020000 		.word	.LC63
+ 1159 0020 F8020000 		.word	.LC64
+ 1160 0024 08000000 		.word	8
+ 1161 0028 01030000 		.word	.LC65
+ 1162 002c 13030000 		.word	.LC66
+ 1163 0030 20030000 		.word	.LC67
+ 1164 0034 08000000 		.word	8
+ 1165 0038 29030000 		.word	.LC68
+ 1166 003c 3F030000 		.word	.LC69
+ 1167 0040 51030000 		.word	.LC70
+ 1168 0044 08000000 		.word	8
+ 1169 0048 5A030000 		.word	.LC71
+ 1170 004c 6D030000 		.word	.LC72
+ 1171 0050 7B030000 		.word	.LC73
+ 1172 0054 08000000 		.word	8
+ 1173 0058 84030000 		.word	.LC74
+ 1174 005c 96030000 		.word	.LC75
+ 1175 0060 00000000 		.word	0
+ 1176 0064 00000000 		.word	0
+ 1177 0068 00000000 		.word	0
+ 1178 006c 00000000 		.word	0
+ 1179              		.section	.rodata.oid_md_alg,"a",%progbits
+ 1180              		.align	2
+ 1181              		.set	.LANCHOR7,. + 0
+ 1184              	oid_md_alg:
+ 1185 0000 5F000000 		.word	.LC11
+ 1186 0004 05000000 		.word	5
+ 1187 0008 65000000 		.word	.LC12
+ 1188 000c 6D000000 		.word	.LC13
+ 1189 0010 04       		.byte	4
+ 1190 0011 000000   		.space	3
+ 1191 0014 73000000 		.word	.LC14
+ 1192 0018 09000000 		.word	9
+ 1193 001c 7D000000 		.word	.LC15
+ 1194 0020 87000000 		.word	.LC16
+ 1195 0024 05       		.byte	5
+ 1196 0025 000000   		.space	3
+ 1197 0028 8F000000 		.word	.LC17
+ 1198 002c 09000000 		.word	9
+ 1199 0030 99000000 		.word	.LC18
+ 1200 0034 A3000000 		.word	.LC19
+ 1201 0038 06       		.byte	6
+ 1202 0039 000000   		.space	3
+ 1203 003c 00000000 		.word	0
+ 1204 0040 00000000 		.word	0
+ 1205 0044 00000000 		.word	0
+ 1206 0048 00000000 		.word	0
+ 1207 004c 00       		.byte	0
+ 1208 004d 000000   		.space	3
+ 1209              		.section	.rodata.oid_md_hmac,"a",%progbits
+ 1210              		.align	2
+ 1211              		.set	.LANCHOR8,. + 0
+ 1214              	oid_md_hmac:
+ 1215 0000 00000000 		.word	.LC2
+ 1216 0004 08000000 		.word	8
+ 1217 0008 09000000 		.word	.LC3
+ 1218 000c 12000000 		.word	.LC4
+ 1219 0010 04       		.byte	4
+ 1220 0011 000000   		.space	3
+ 1221 0014 1D000000 		.word	.LC5
+ 1222 0018 08000000 		.word	8
+ 1223 001c 26000000 		.word	.LC6
+ 1224 0020 31000000 		.word	.LC7
+ 1225 0024 05       		.byte	5
+ 1226 0025 000000   		.space	3
+ 1227 0028 3E000000 		.word	.LC8
+ 1228 002c 08000000 		.word	8
+ 1229 0030 47000000 		.word	.LC9
+ 1230 0034 52000000 		.word	.LC10
+ 1231 0038 06       		.byte	6
+ 1232 0039 000000   		.space	3
+ 1233 003c 00000000 		.word	0
+ 1234 0040 00000000 		.word	0
+ 1235 0044 00000000 		.word	0
+ 1236 0048 00000000 		.word	0
+ 1237 004c 00       		.byte	0
+ 1238 004d 000000   		.space	3
+ 1239              		.section	.rodata.oid_pk_alg,"a",%progbits
+ 1240              		.align	2
+ 1241              		.set	.LANCHOR4,. + 0
+ 1244              	oid_pk_alg:
+ 1245 0000 F6000000 		.word	.LC28
+ 1246 0004 09000000 		.word	9
+ 1247 0008 00010000 		.word	.LC29
+ 1248 000c 0E010000 		.word	.LC30
+ 1249 0010 01       		.byte	1
+ 1250 0011 000000   		.space	3
+ 1251 0014 12010000 		.word	.LC31
+ 1252 0018 07000000 		.word	7
+ 1253 001c 1A010000 		.word	.LC32
+ 1254 0020 29010000 		.word	.LC33
+ 1255 0024 02       		.byte	2
+ 1256 0025 000000   		.space	3
+ 1257 0028 38010000 		.word	.LC34
+ 1258 002c 05000000 		.word	5
+ 1259 0030 3E010000 		.word	.LC35
+ 1260 0034 46010000 		.word	.LC36
+ 1261 0038 03       		.byte	3
+ 1262 0039 000000   		.space	3
+ 1263 003c 00000000 		.word	0
+ 1264 0040 00000000 		.word	0
+ 1265 0044 00000000 		.word	0
+ 1266 0048 00000000 		.word	0
+ 1267 004c 00       		.byte	0
+ 1268 004d 000000   		.space	3
+ 1269              		.section	.rodata.oid_sig_alg,"a",%progbits
+ 1270              		.align	2
+ 1271              		.set	.LANCHOR0,. + 0
+ 1274              	oid_sig_alg:
+ 1275 0000 56010000 		.word	.LC37
+ 1276 0004 09000000 		.word	9
+ 1277 0008 60010000 		.word	.LC38
+ 1278 000c 77010000 		.word	.LC39
+ 1279 0010 04       		.byte	4
+ 1280 0011 01       		.byte	1
+ 1281 0012 0000     		.space	2
+ 1282 0014 85010000 		.word	.LC40
+ 1283 0018 09000000 		.word	9
+ 1284 001c 8F010000 		.word	.LC41
+ 1285 0020 A7010000 		.word	.LC42
+ 1286 0024 05       		.byte	5
+ 1287 0025 01       		.byte	1
+ 1288 0026 0000     		.space	2
+ 1289 0028 B8010000 		.word	.LC43
+ 1290 002c 09000000 		.word	9
+ 1291 0030 C2010000 		.word	.LC44
+ 1292 0034 DA010000 		.word	.LC45
+ 1293 0038 06       		.byte	6
+ 1294 0039 01       		.byte	1
+ 1295 003a 0000     		.space	2
+ 1296 003c EB010000 		.word	.LC46
+ 1297 0040 05000000 		.word	5
+ 1298 0044 60010000 		.word	.LC38
+ 1299 0048 77010000 		.word	.LC39
+ 1300 004c 04       		.byte	4
+ 1301 004d 01       		.byte	1
+ 1302 004e 0000     		.space	2
+ 1303 0050 F1010000 		.word	.LC47
+ 1304 0054 07000000 		.word	7
+ 1305 0058 F9010000 		.word	.LC48
+ 1306 005c 09020000 		.word	.LC49
+ 1307 0060 04       		.byte	4
+ 1308 0061 04       		.byte	4
+ 1309 0062 0000     		.space	2
+ 1310 0064 19020000 		.word	.LC50
+ 1311 0068 08000000 		.word	8
+ 1312 006c 22020000 		.word	.LC51
+ 1313 0070 34020000 		.word	.LC52
+ 1314 0074 05       		.byte	5
+ 1315 0075 04       		.byte	4
+ 1316 0076 0000     		.space	2
+ 1317 0078 46020000 		.word	.LC53
+ 1318 007c 08000000 		.word	8
+ 1319 0080 4F020000 		.word	.LC54
+ 1320 0084 61020000 		.word	.LC55
+ 1321 0088 06       		.byte	6
+ 1322 0089 04       		.byte	4
+ 1323 008a 0000     		.space	2
+ 1324 008c 73020000 		.word	.LC56
+ 1325 0090 09000000 		.word	9
+ 1326 0094 7D020000 		.word	.LC57
+ 1327 0098 7D020000 		.word	.LC57
+ 1328 009c 00       		.byte	0
+ 1329 009d 06       		.byte	6
+ 1330 009e 0000     		.space	2
+ 1331 00a0 00000000 		.word	0
+ 1332 00a4 00000000 		.word	0
+ 1333 00a8 00000000 		.word	0
+ 1334 00ac 00000000 		.word	0
+ 1335 00b0 00       		.byte	0
+ 1336 00b1 00       		.byte	0
+ 1337 00b2 0000     		.space	2
+ 1338              		.section	.rodata.oid_x509_ext,"a",%progbits
+ 1339              		.align	2
+ 1340              		.set	.LANCHOR2,. + 0
+ 1343              	oid_x509_ext:
+ 1344 0000 A3030000 		.word	.LC76
+ 1345 0004 03000000 		.word	3
+ 1346 0008 A7030000 		.word	.LC77
+ 1347 000c BE030000 		.word	.LC78
+ 1348 0010 00010000 		.word	256
+ 1349 0014 D0030000 		.word	.LC79
+ 1350 0018 03000000 		.word	3
+ 1351 001c D4030000 		.word	.LC80
+ 1352 0020 E3030000 		.word	.LC81
+ 1353 0024 04000000 		.word	4
+ 1354 0028 ED030000 		.word	.LC82
+ 1355 002c 03000000 		.word	3
+ 1356 0030 F1030000 		.word	.LC83
+ 1357 0034 03040000 		.word	.LC84
+ 1358 0038 00080000 		.word	2048
+ 1359 003c 16040000 		.word	.LC85
+ 1360 0040 03000000 		.word	3
+ 1361 0044 1A040000 		.word	.LC86
+ 1362 0048 2F040000 		.word	.LC87
+ 1363 004c 20000000 		.word	32
+ 1364 0050 40040000 		.word	.LC88
+ 1365 0054 09000000 		.word	9
+ 1366 0058 4A040000 		.word	.LC89
+ 1367 005c 5F040000 		.word	.LC90
+ 1368 0060 00000100 		.word	65536
+ 1369 0064 00000000 		.word	0
+ 1370 0068 00000000 		.word	0
+ 1371 006c 00000000 		.word	0
+ 1372 0070 00000000 		.word	0
+ 1373 0074 00000000 		.word	0
+ 1374              		.section	.rodata.oid_x520_attr_type,"a",%progbits
+ 1375              		.align	2
+ 1376              		.set	.LANCHOR1,. + 0
+ 1379              	oid_x520_attr_type:
+ 1380 0000 79040000 		.word	.LC91
+ 1381 0004 03000000 		.word	3
+ 1382 0008 7D040000 		.word	.LC92
+ 1383 000c 8E040000 		.word	.LC93
+ 1384 0010 9A040000 		.word	.LC94
+ 1385 0014 9D040000 		.word	.LC95
+ 1386 0018 03000000 		.word	3
+ 1387 001c A1040000 		.word	.LC96
+ 1388 0020 B3040000 		.word	.LC97
+ 1389 0024 BB040000 		.word	.LC98
+ 1390 0028 BD040000 		.word	.LC99
+ 1391 002c 03000000 		.word	3
+ 1392 0030 C1040000 		.word	.LC100
+ 1393 0034 D0040000 		.word	.LC101
+ 1394 0038 D9040000 		.word	.LC102
+ 1395 003c DB040000 		.word	.LC103
+ 1396 0040 03000000 		.word	3
+ 1397 0044 DF040000 		.word	.LC104
+ 1398 0048 EB040000 		.word	.LC105
+ 1399 004c F1040000 		.word	.LC106
+ 1400 0050 F4040000 		.word	.LC107
+ 1401 0054 03000000 		.word	3
+ 1402 0058 F8040000 		.word	.LC108
+ 1403 005c 0F050000 		.word	.LC109
+ 1404 0060 1C050000 		.word	.LC110
+ 1405 0064 1E050000 		.word	.LC111
+ 1406 0068 03000000 		.word	3
+ 1407 006c 22050000 		.word	.LC112
+ 1408 0070 3F050000 		.word	.LC113
+ 1409 0074 48050000 		.word	.LC114
+ 1410 0078 4B050000 		.word	.LC115
+ 1411 007c 09000000 		.word	9
+ 1412 0080 55050000 		.word	.LC116
+ 1413 0084 62050000 		.word	.LC117
+ 1414 0088 55050000 		.word	.LC116
+ 1415 008c 71050000 		.word	.LC118
+ 1416 0090 03000000 		.word	3
+ 1417 0094 75050000 		.word	.LC119
+ 1418 0098 88050000 		.word	.LC120
+ 1419 009c 96050000 		.word	.LC121
+ 1420 00a0 A3050000 		.word	.LC122
+ 1421 00a4 03000000 		.word	3
+ 1422 00a8 A7050000 		.word	.LC123
+ 1423 00ac BB050000 		.word	.LC124
+ 1424 00b0 CA050000 		.word	.LC125
+ 1425 00b4 D8050000 		.word	.LC126
+ 1426 00b8 03000000 		.word	3
+ 1427 00bc DC050000 		.word	.LC127
+ 1428 00c0 ED050000 		.word	.LC128
+ 1429 00c4 F9050000 		.word	.LC129
+ 1430 00c8 04060000 		.word	.LC130
+ 1431 00cc 03000000 		.word	3
+ 1432 00d0 08060000 		.word	.LC131
+ 1433 00d4 16060000 		.word	.LC132
+ 1434 00d8 1E060000 		.word	.LC133
+ 1435 00dc 21060000 		.word	.LC134
+ 1436 00e0 03000000 		.word	3
+ 1437 00e4 25060000 		.word	.LC135
+ 1438 00e8 35060000 		.word	.LC136
+ 1439 00ec 40060000 		.word	.LC137
+ 1440 00f0 43060000 		.word	.LC138
+ 1441 00f4 03000000 		.word	3
+ 1442 00f8 47060000 		.word	.LC139
+ 1443 00fc 56060000 		.word	.LC140
+ 1444 0100 5F060000 		.word	.LC141
+ 1445 0104 68060000 		.word	.LC142
+ 1446 0108 03000000 		.word	3
+ 1447 010c 6C060000 		.word	.LC143
+ 1448 0110 86060000 		.word	.LC144
+ 1449 0114 9B060000 		.word	.LC145
+ 1450 0118 AF060000 		.word	.LC146
+ 1451 011c 03000000 		.word	3
+ 1452 0120 B3060000 		.word	.LC147
+ 1453 0124 BF060000 		.word	.LC148
+ 1454 0128 C5060000 		.word	.LC149
+ 1455 012c CB060000 		.word	.LC150
+ 1456 0130 03000000 		.word	3
+ 1457 0134 CF060000 		.word	.LC151
+ 1458 0138 E1060000 		.word	.LC152
+ 1459 013c FE060000 		.word	.LC153
+ 1460 0140 0A070000 		.word	.LC154
+ 1461 0144 03000000 		.word	3
+ 1462 0148 0E070000 		.word	.LC155
+ 1463 014c 1E070000 		.word	.LC156
+ 1464 0150 28070000 		.word	.LC157
+ 1465 0154 32070000 		.word	.LC158
+ 1466 0158 0A000000 		.word	10
+ 1467 015c 3D070000 		.word	.LC159
+ 1468 0160 50070000 		.word	.LC160
+ 1469 0164 61070000 		.word	.LC161
+ 1470 0168 64070000 		.word	.LC162
+ 1471 016c 03000000 		.word	3
+ 1472 0170 68070000 		.word	.LC163
+ 1473 0174 7F070000 		.word	.LC164
+ 1474 0178 91070000 		.word	.LC165
+ 1475 017c 00000000 		.word	0
+ 1476 0180 00000000 		.word	0
+ 1477 0184 00000000 		.word	0
+ 1478 0188 00000000 		.word	0
+ 1479 018c 00000000 		.word	0
+ 1480              		.section	.rodata.str1.1,"aMS",%progbits,1
+ 1481              	.LC2:
+ 1482 0000 2A864886 		.ascii	"*\206H\206\367\015\002\007\000"
+ 1482      F70D0207 
+ 1482      00
+ 1483              	.LC3:
+ 1484 0009 686D6163 		.ascii	"hmacSHA1\000"
+ 1484      53484131 
+ 1484      00
+ 1485              	.LC4:
+ 1486 0012 484D4143 		.ascii	"HMAC-SHA-1\000"
+ 1486      2D534841 
+ 1486      2D3100
+ 1487              	.LC5:
+ 1488 001d 2A864886 		.ascii	"*\206H\206\367\015\002\010\000"
+ 1488      F70D0208 
+ 1488      00
+ 1489              	.LC6:
+ 1490 0026 686D6163 		.ascii	"hmacSHA224\000"
+ 1490      53484132 
+ 1490      323400
+ 1491              	.LC7:
+ 1492 0031 484D4143 		.ascii	"HMAC-SHA-224\000"
+ 1492      2D534841 
+ 1492      2D323234 
+ 1492      00
+ 1493              	.LC8:
+ 1494 003e 2A864886 		.ascii	"*\206H\206\367\015\002\011\000"
+ 1494      F70D0209 
+ 1494      00
+ 1495              	.LC9:
+ 1496 0047 686D6163 		.ascii	"hmacSHA256\000"
+ 1496      53484132 
+ 1496      353600
+ 1497              	.LC10:
+ 1498 0052 484D4143 		.ascii	"HMAC-SHA-256\000"
+ 1498      2D534841 
+ 1498      2D323536 
+ 1498      00
+ 1499              	.LC11:
+ 1500 005f 2B0E0302 		.ascii	"+\016\003\002\032\000"
+ 1500      1A00
+ 1501              	.LC12:
+ 1502 0065 69642D73 		.ascii	"id-sha1\000"
+ 1502      68613100 
+ 1503              	.LC13:
+ 1504 006d 5348412D 		.ascii	"SHA-1\000"
+ 1504      3100
+ 1505              	.LC14:
+ 1506 0073 60864801 		.ascii	"`\206H\001e\003\004\002\004\000"
+ 1506      65030402 
+ 1506      0400
+ 1507              	.LC15:
+ 1508 007d 69642D73 		.ascii	"id-sha224\000"
+ 1508      68613232 
+ 1508      3400
+ 1509              	.LC16:
+ 1510 0087 5348412D 		.ascii	"SHA-224\000"
+ 1510      32323400 
+ 1511              	.LC17:
+ 1512 008f 60864801 		.ascii	"`\206H\001e\003\004\002\001\000"
+ 1512      65030402 
+ 1512      0100
+ 1513              	.LC18:
+ 1514 0099 69642D73 		.ascii	"id-sha256\000"
+ 1514      68613235 
+ 1514      3600
+ 1515              	.LC19:
+ 1516 00a3 5348412D 		.ascii	"SHA-256\000"
+ 1516      32353600 
+ 1517              	.LC20:
+ 1518 00ab 2B0E0302 		.ascii	"+\016\003\002\007\000"
+ 1518      0700
+ 1519              	.LC21:
+ 1520 00b1 64657343 		.ascii	"desCBC\000"
+ 1520      424300
+ 1521              	.LC22:
+ 1522 00b8 4445532D 		.ascii	"DES-CBC\000"
+ 1522      43424300 
+ 1523              	.LC23:
+ 1524 00c0 2A864886 		.ascii	"*\206H\206\367\015\003\007\000"
+ 1524      F70D0307 
+ 1524      00
+ 1525              	.LC24:
+ 1526 00c9 6465732D 		.ascii	"des-ede3-cbc\000"
+ 1526      65646533 
+ 1526      2D636263 
+ 1526      00
+ 1527              	.LC25:
+ 1528 00d6 4445532D 		.ascii	"DES-EDE3-CBC\000"
+ 1528      45444533 
+ 1528      2D434243 
+ 1528      00
+ 1529              	.LC26:
+ 1530 00e3 2A8648CE 		.ascii	"*\206H\316=\003\001\007\000"
+ 1530      3D030107 
+ 1530      00
+ 1531              	.LC27:
+ 1532 00ec 73656370 		.ascii	"secp256r1\000"
+ 1532      32353672 
+ 1532      3100
+ 1533              	.LC28:
+ 1534 00f6 2A864886 		.ascii	"*\206H\206\367\015\001\001\001\000"
+ 1534      F70D0101 
+ 1534      0100
+ 1535              	.LC29:
+ 1536 0100 72736145 		.ascii	"rsaEncryption\000"
+ 1536      6E637279 
+ 1536      7074696F 
+ 1536      6E00
+ 1537              	.LC30:
+ 1538 010e 52534100 		.ascii	"RSA\000"
+ 1539              	.LC31:
+ 1540 0112 2A8648CE 		.ascii	"*\206H\316=\002\001\000"
+ 1540      3D020100 
+ 1541              	.LC32:
+ 1542 011a 69642D65 		.ascii	"id-ecPublicKey\000"
+ 1542      63507562 
+ 1542      6C69634B 
+ 1542      657900
+ 1543              	.LC33:
+ 1544 0129 47656E65 		.ascii	"Generic EC key\000"
+ 1544      72696320 
+ 1544      4543206B 
+ 1544      657900
+ 1545              	.LC34:
+ 1546 0138 2B810401 		.ascii	"+\201\004\001\014\000"
+ 1546      0C00
+ 1547              	.LC35:
+ 1548 013e 69642D65 		.ascii	"id-ecDH\000"
+ 1548      63444800 
+ 1549              	.LC36:
+ 1550 0146 4543206B 		.ascii	"EC key for ECDH\000"
+ 1550      65792066 
+ 1550      6F722045 
+ 1550      43444800 
+ 1551              	.LC37:
+ 1552 0156 2A864886 		.ascii	"*\206H\206\367\015\001\001\005\000"
+ 1552      F70D0101 
+ 1552      0500
+ 1553              	.LC38:
+ 1554 0160 7368612D 		.ascii	"sha-1WithRSAEncryption\000"
+ 1554      31576974 
+ 1554      68525341 
+ 1554      456E6372 
+ 1554      79707469 
+ 1555              	.LC39:
+ 1556 0177 52534120 		.ascii	"RSA with SHA1\000"
+ 1556      77697468 
+ 1556      20534841 
+ 1556      3100
+ 1557              	.LC40:
+ 1558 0185 2A864886 		.ascii	"*\206H\206\367\015\001\001\016\000"
+ 1558      F70D0101 
+ 1558      0E00
+ 1559              	.LC41:
+ 1560 018f 73686132 		.ascii	"sha224WithRSAEncryption\000"
+ 1560      32345769 
+ 1560      74685253 
+ 1560      41456E63 
+ 1560      72797074 
+ 1561              	.LC42:
+ 1562 01a7 52534120 		.ascii	"RSA with SHA-224\000"
+ 1562      77697468 
+ 1562      20534841 
+ 1562      2D323234 
+ 1562      00
+ 1563              	.LC43:
+ 1564 01b8 2A864886 		.ascii	"*\206H\206\367\015\001\001\013\000"
+ 1564      F70D0101 
+ 1564      0B00
+ 1565              	.LC44:
+ 1566 01c2 73686132 		.ascii	"sha256WithRSAEncryption\000"
+ 1566      35365769 
+ 1566      74685253 
+ 1566      41456E63 
+ 1566      72797074 
+ 1567              	.LC45:
+ 1568 01da 52534120 		.ascii	"RSA with SHA-256\000"
+ 1568      77697468 
+ 1568      20534841 
+ 1568      2D323536 
+ 1568      00
+ 1569              	.LC46:
+ 1570 01eb 2B0E0302 		.ascii	"+\016\003\002\035\000"
+ 1570      1D00
+ 1571              	.LC47:
+ 1572 01f1 2A8648CE 		.ascii	"*\206H\316=\004\001\000"
+ 1572      3D040100 
+ 1573              	.LC48:
+ 1574 01f9 65636473 		.ascii	"ecdsa-with-SHA1\000"
+ 1574      612D7769 
+ 1574      74682D53 
+ 1574      48413100 
+ 1575              	.LC49:
+ 1576 0209 45434453 		.ascii	"ECDSA with SHA1\000"
+ 1576      41207769 
+ 1576      74682053 
+ 1576      48413100 
+ 1577              	.LC50:
+ 1578 0219 2A8648CE 		.ascii	"*\206H\316=\004\003\001\000"
+ 1578      3D040301 
+ 1578      00
+ 1579              	.LC51:
+ 1580 0222 65636473 		.ascii	"ecdsa-with-SHA224\000"
+ 1580      612D7769 
+ 1580      74682D53 
+ 1580      48413232 
+ 1580      3400
+ 1581              	.LC52:
+ 1582 0234 45434453 		.ascii	"ECDSA with SHA224\000"
+ 1582      41207769 
+ 1582      74682053 
+ 1582      48413232 
+ 1582      3400
+ 1583              	.LC53:
+ 1584 0246 2A8648CE 		.ascii	"*\206H\316=\004\003\002\000"
+ 1584      3D040302 
+ 1584      00
+ 1585              	.LC54:
+ 1586 024f 65636473 		.ascii	"ecdsa-with-SHA256\000"
+ 1586      612D7769 
+ 1586      74682D53 
+ 1586      48413235 
+ 1586      3600
+ 1587              	.LC55:
+ 1588 0261 45434453 		.ascii	"ECDSA with SHA256\000"
+ 1588      41207769 
+ 1588      74682053 
+ 1588      48413235 
+ 1588      3600
+ 1589              	.LC56:
+ 1590 0273 2A864886 		.ascii	"*\206H\206\367\015\001\001\012\000"
+ 1590      F70D0101 
+ 1590      0A00
+ 1591              	.LC57:
+ 1592 027d 52534153 		.ascii	"RSASSA-PSS\000"
+ 1592      53412D50 
+ 1592      535300
+ 1593              	.LC58:
+ 1594 0288 2B060105 		.ascii	"+\006\001\005\005\007\003\001\000"
+ 1594      05070301 
+ 1594      00
+ 1595              	.LC59:
+ 1596 0291 69642D6B 		.ascii	"id-kp-serverAuth\000"
+ 1596      702D7365 
+ 1596      72766572 
+ 1596      41757468 
+ 1596      00
+ 1597              	.LC60:
+ 1598 02a2 544C5320 		.ascii	"TLS Web Server Authentication\000"
+ 1598      57656220 
+ 1598      53657276 
+ 1598      65722041 
+ 1598      75746865 
+ 1599              	.LC61:
+ 1600 02c0 2B060105 		.ascii	"+\006\001\005\005\007\003\002\000"
+ 1600      05070302 
+ 1600      00
+ 1601              	.LC62:
+ 1602 02c9 69642D6B 		.ascii	"id-kp-clientAuth\000"
+ 1602      702D636C 
+ 1602      69656E74 
+ 1602      41757468 
+ 1602      00
+ 1603              	.LC63:
+ 1604 02da 544C5320 		.ascii	"TLS Web Client Authentication\000"
+ 1604      57656220 
+ 1604      436C6965 
+ 1604      6E742041 
+ 1604      75746865 
+ 1605              	.LC64:
+ 1606 02f8 2B060105 		.ascii	"+\006\001\005\005\007\003\003\000"
+ 1606      05070303 
+ 1606      00
+ 1607              	.LC65:
+ 1608 0301 69642D6B 		.ascii	"id-kp-codeSigning\000"
+ 1608      702D636F 
+ 1608      64655369 
+ 1608      676E696E 
+ 1608      6700
+ 1609              	.LC66:
+ 1610 0313 436F6465 		.ascii	"Code Signing\000"
+ 1610      20536967 
+ 1610      6E696E67 
+ 1610      00
+ 1611              	.LC67:
+ 1612 0320 2B060105 		.ascii	"+\006\001\005\005\007\003\004\000"
+ 1612      05070304 
+ 1612      00
+ 1613              	.LC68:
+ 1614 0329 69642D6B 		.ascii	"id-kp-emailProtection\000"
+ 1614      702D656D 
+ 1614      61696C50 
+ 1614      726F7465 
+ 1614      6374696F 
+ 1615              	.LC69:
+ 1616 033f 452D6D61 		.ascii	"E-mail Protection\000"
+ 1616      696C2050 
+ 1616      726F7465 
+ 1616      6374696F 
+ 1616      6E00
+ 1617              	.LC70:
+ 1618 0351 2B060105 		.ascii	"+\006\001\005\005\007\003\010\000"
+ 1618      05070308 
+ 1618      00
+ 1619              	.LC71:
+ 1620 035a 69642D6B 		.ascii	"id-kp-timeStamping\000"
+ 1620      702D7469 
+ 1620      6D655374 
+ 1620      616D7069 
+ 1620      6E6700
+ 1621              	.LC72:
+ 1622 036d 54696D65 		.ascii	"Time Stamping\000"
+ 1622      20537461 
+ 1622      6D70696E 
+ 1622      6700
+ 1623              	.LC73:
+ 1624 037b 2B060105 		.ascii	"+\006\001\005\005\007\003\011\000"
+ 1624      05070309 
+ 1624      00
+ 1625              	.LC74:
+ 1626 0384 69642D6B 		.ascii	"id-kp-OCSPSigning\000"
+ 1626      702D4F43 
+ 1626      53505369 
+ 1626      676E696E 
+ 1626      6700
+ 1627              	.LC75:
+ 1628 0396 4F435350 		.ascii	"OCSP Signing\000"
+ 1628      20536967 
+ 1628      6E696E67 
+ 1628      00
+ 1629              	.LC76:
+ 1630 03a3 551D1300 		.ascii	"U\035\023\000"
+ 1631              	.LC77:
+ 1632 03a7 69642D63 		.ascii	"id-ce-basicConstraints\000"
+ 1632      652D6261 
+ 1632      73696343 
+ 1632      6F6E7374 
+ 1632      7261696E 
+ 1633              	.LC78:
+ 1634 03be 42617369 		.ascii	"Basic Constraints\000"
+ 1634      6320436F 
+ 1634      6E737472 
+ 1634      61696E74 
+ 1634      7300
+ 1635              	.LC79:
+ 1636 03d0 551D0F00 		.ascii	"U\035\017\000"
+ 1637              	.LC80:
+ 1638 03d4 69642D63 		.ascii	"id-ce-keyUsage\000"
+ 1638      652D6B65 
+ 1638      79557361 
+ 1638      676500
+ 1639              	.LC81:
+ 1640 03e3 4B657920 		.ascii	"Key Usage\000"
+ 1640      55736167 
+ 1640      6500
+ 1641              	.LC82:
+ 1642 03ed 551D2500 		.ascii	"U\035%\000"
+ 1643              	.LC83:
+ 1644 03f1 69642D63 		.ascii	"id-ce-extKeyUsage\000"
+ 1644      652D6578 
+ 1644      744B6579 
+ 1644      55736167 
+ 1644      6500
+ 1645              	.LC84:
+ 1646 0403 45787465 		.ascii	"Extended Key Usage\000"
+ 1646      6E646564 
+ 1646      204B6579 
+ 1646      20557361 
+ 1646      676500
+ 1647              	.LC85:
+ 1648 0416 551D1100 		.ascii	"U\035\021\000"
+ 1649              	.LC86:
+ 1650 041a 69642D63 		.ascii	"id-ce-subjectAltName\000"
+ 1650      652D7375 
+ 1650      626A6563 
+ 1650      74416C74 
+ 1650      4E616D65 
+ 1651              	.LC87:
+ 1652 042f 5375626A 		.ascii	"Subject Alt Name\000"
+ 1652      65637420 
+ 1652      416C7420 
+ 1652      4E616D65 
+ 1652      00
+ 1653              	.LC88:
+ 1654 0440 60864801 		.ascii	"`\206H\001\206\370B\001\001\000"
+ 1654      86F84201 
+ 1654      0100
+ 1655              	.LC89:
+ 1656 044a 69642D6E 		.ascii	"id-netscape-certtype\000"
+ 1656      65747363 
+ 1656      6170652D 
+ 1656      63657274 
+ 1656      74797065 
+ 1657              	.LC90:
+ 1658 045f 4E657473 		.ascii	"Netscape Certificate Type\000"
+ 1658      63617065 
+ 1658      20436572 
+ 1658      74696669 
+ 1658      63617465 
+ 1659              	.LC91:
+ 1660 0479 55040300 		.ascii	"U\004\003\000"
+ 1661              	.LC92:
+ 1662 047d 69642D61 		.ascii	"id-at-commonName\000"
+ 1662      742D636F 
+ 1662      6D6D6F6E 
+ 1662      4E616D65 
+ 1662      00
+ 1663              	.LC93:
+ 1664 048e 436F6D6D 		.ascii	"Common Name\000"
+ 1664      6F6E204E 
+ 1664      616D6500 
+ 1665              	.LC94:
+ 1666 049a 434E00   		.ascii	"CN\000"
+ 1667              	.LC95:
+ 1668 049d 55040600 		.ascii	"U\004\006\000"
+ 1669              	.LC96:
+ 1670 04a1 69642D61 		.ascii	"id-at-countryName\000"
+ 1670      742D636F 
+ 1670      756E7472 
+ 1670      794E616D 
+ 1670      6500
+ 1671              	.LC97:
+ 1672 04b3 436F756E 		.ascii	"Country\000"
+ 1672      74727900 
+ 1673              	.LC98:
+ 1674 04bb 4300     		.ascii	"C\000"
+ 1675              	.LC99:
+ 1676 04bd 55040700 		.ascii	"U\004\007\000"
+ 1677              	.LC100:
+ 1678 04c1 69642D61 		.ascii	"id-at-locality\000"
+ 1678      742D6C6F 
+ 1678      63616C69 
+ 1678      747900
+ 1679              	.LC101:
+ 1680 04d0 4C6F6361 		.ascii	"Locality\000"
+ 1680      6C697479 
+ 1680      00
+ 1681              	.LC102:
+ 1682 04d9 4C00     		.ascii	"L\000"
+ 1683              	.LC103:
+ 1684 04db 55040800 		.ascii	"U\004\010\000"
+ 1685              	.LC104:
+ 1686 04df 69642D61 		.ascii	"id-at-state\000"
+ 1686      742D7374 
+ 1686      61746500 
+ 1687              	.LC105:
+ 1688 04eb 53746174 		.ascii	"State\000"
+ 1688      6500
+ 1689              	.LC106:
+ 1690 04f1 535400   		.ascii	"ST\000"
+ 1691              	.LC107:
+ 1692 04f4 55040A00 		.ascii	"U\004\012\000"
+ 1693              	.LC108:
+ 1694 04f8 69642D61 		.ascii	"id-at-organizationName\000"
+ 1694      742D6F72 
+ 1694      67616E69 
+ 1694      7A617469 
+ 1694      6F6E4E61 
+ 1695              	.LC109:
+ 1696 050f 4F726761 		.ascii	"Organization\000"
+ 1696      6E697A61 
+ 1696      74696F6E 
+ 1696      00
+ 1697              	.LC110:
+ 1698 051c 4F00     		.ascii	"O\000"
+ 1699              	.LC111:
+ 1700 051e 55040B00 		.ascii	"U\004\013\000"
+ 1701              	.LC112:
+ 1702 0522 69642D61 		.ascii	"id-at-organizationalUnitName\000"
+ 1702      742D6F72 
+ 1702      67616E69 
+ 1702      7A617469 
+ 1702      6F6E616C 
+ 1703              	.LC113:
+ 1704 053f 4F726720 		.ascii	"Org Unit\000"
+ 1704      556E6974 
+ 1704      00
+ 1705              	.LC114:
+ 1706 0548 4F5500   		.ascii	"OU\000"
+ 1707              	.LC115:
+ 1708 054b 2A864886 		.ascii	"*\206H\206\367\015\001\011\001\000"
+ 1708      F70D0109 
+ 1708      0100
+ 1709              	.LC116:
+ 1710 0555 656D6169 		.ascii	"emailAddress\000"
+ 1710      6C416464 
+ 1710      72657373 
+ 1710      00
+ 1711              	.LC117:
+ 1712 0562 452D6D61 		.ascii	"E-mail address\000"
+ 1712      696C2061 
+ 1712      64647265 
+ 1712      737300
+ 1713              	.LC118:
+ 1714 0571 55040500 		.ascii	"U\004\005\000"
+ 1715              	.LC119:
+ 1716 0575 69642D61 		.ascii	"id-at-serialNumber\000"
+ 1716      742D7365 
+ 1716      7269616C 
+ 1716      4E756D62 
+ 1716      657200
+ 1717              	.LC120:
+ 1718 0588 53657269 		.ascii	"Serial number\000"
+ 1718      616C206E 
+ 1718      756D6265 
+ 1718      7200
+ 1719              	.LC121:
+ 1720 0596 73657269 		.ascii	"serialNumber\000"
+ 1720      616C4E75 
+ 1720      6D626572 
+ 1720      00
+ 1721              	.LC122:
+ 1722 05a3 55041000 		.ascii	"U\004\020\000"
+ 1723              	.LC123:
+ 1724 05a7 69642D61 		.ascii	"id-at-postalAddress\000"
+ 1724      742D706F 
+ 1724      7374616C 
+ 1724      41646472 
+ 1724      65737300 
+ 1725              	.LC124:
+ 1726 05bb 506F7374 		.ascii	"Postal address\000"
+ 1726      616C2061 
+ 1726      64647265 
+ 1726      737300
+ 1727              	.LC125:
+ 1728 05ca 706F7374 		.ascii	"postalAddress\000"
+ 1728      616C4164 
+ 1728      64726573 
+ 1728      7300
+ 1729              	.LC126:
+ 1730 05d8 55041100 		.ascii	"U\004\021\000"
+ 1731              	.LC127:
+ 1732 05dc 69642D61 		.ascii	"id-at-postalCode\000"
+ 1732      742D706F 
+ 1732      7374616C 
+ 1732      436F6465 
+ 1732      00
+ 1733              	.LC128:
+ 1734 05ed 506F7374 		.ascii	"Postal code\000"
+ 1734      616C2063 
+ 1734      6F646500 
+ 1735              	.LC129:
+ 1736 05f9 706F7374 		.ascii	"postalCode\000"
+ 1736      616C436F 
+ 1736      646500
+ 1737              	.LC130:
+ 1738 0604 55040400 		.ascii	"U\004\004\000"
+ 1739              	.LC131:
+ 1740 0608 69642D61 		.ascii	"id-at-surName\000"
+ 1740      742D7375 
+ 1740      724E616D 
+ 1740      6500
+ 1741              	.LC132:
+ 1742 0616 5375726E 		.ascii	"Surname\000"
+ 1742      616D6500 
+ 1743              	.LC133:
+ 1744 061e 534E00   		.ascii	"SN\000"
+ 1745              	.LC134:
+ 1746 0621 55042A00 		.ascii	"U\004*\000"
+ 1747              	.LC135:
+ 1748 0625 69642D61 		.ascii	"id-at-givenName\000"
+ 1748      742D6769 
+ 1748      76656E4E 
+ 1748      616D6500 
+ 1749              	.LC136:
+ 1750 0635 47697665 		.ascii	"Given name\000"
+ 1750      6E206E61 
+ 1750      6D6500
+ 1751              	.LC137:
+ 1752 0640 474E00   		.ascii	"GN\000"
+ 1753              	.LC138:
+ 1754 0643 55042B00 		.ascii	"U\004+\000"
+ 1755              	.LC139:
+ 1756 0647 69642D61 		.ascii	"id-at-initials\000"
+ 1756      742D696E 
+ 1756      69746961 
+ 1756      6C7300
+ 1757              	.LC140:
+ 1758 0656 496E6974 		.ascii	"Initials\000"
+ 1758      69616C73 
+ 1758      00
+ 1759              	.LC141:
+ 1760 065f 696E6974 		.ascii	"initials\000"
+ 1760      69616C73 
+ 1760      00
+ 1761              	.LC142:
+ 1762 0668 55042C00 		.ascii	"U\004,\000"
+ 1763              	.LC143:
+ 1764 066c 69642D61 		.ascii	"id-at-generationQualifier\000"
+ 1764      742D6765 
+ 1764      6E657261 
+ 1764      74696F6E 
+ 1764      5175616C 
+ 1765              	.LC144:
+ 1766 0686 47656E65 		.ascii	"Generation qualifier\000"
+ 1766      72617469 
+ 1766      6F6E2071 
+ 1766      75616C69 
+ 1766      66696572 
+ 1767              	.LC145:
+ 1768 069b 67656E65 		.ascii	"generationQualifier\000"
+ 1768      72617469 
+ 1768      6F6E5175 
+ 1768      616C6966 
+ 1768      69657200 
+ 1769              	.LC146:
+ 1770 06af 55040C00 		.ascii	"U\004\014\000"
+ 1771              	.LC147:
+ 1772 06b3 69642D61 		.ascii	"id-at-title\000"
+ 1772      742D7469 
+ 1772      746C6500 
+ 1773              	.LC148:
+ 1774 06bf 5469746C 		.ascii	"Title\000"
+ 1774      6500
+ 1775              	.LC149:
+ 1776 06c5 7469746C 		.ascii	"title\000"
+ 1776      6500
+ 1777              	.LC150:
+ 1778 06cb 55042E00 		.ascii	"U\004.\000"
+ 1779              	.LC151:
+ 1780 06cf 69642D61 		.ascii	"id-at-dnQualifier\000"
+ 1780      742D646E 
+ 1780      5175616C 
+ 1780      69666965 
+ 1780      7200
+ 1781              	.LC152:
+ 1782 06e1 44697374 		.ascii	"Distinguished Name qualifier\000"
+ 1782      696E6775 
+ 1782      69736865 
+ 1782      64204E61 
+ 1782      6D652071 
+ 1783              	.LC153:
+ 1784 06fe 646E5175 		.ascii	"dnQualifier\000"
+ 1784      616C6966 
+ 1784      69657200 
+ 1785              	.LC154:
+ 1786 070a 55044100 		.ascii	"U\004A\000"
+ 1787              	.LC155:
+ 1788 070e 69642D61 		.ascii	"id-at-pseudonym\000"
+ 1788      742D7073 
+ 1788      6575646F 
+ 1788      6E796D00 
+ 1789              	.LC156:
+ 1790 071e 50736575 		.ascii	"Pseudonym\000"
+ 1790      646F6E79 
+ 1790      6D00
+ 1791              	.LC157:
+ 1792 0728 70736575 		.ascii	"pseudonym\000"
+ 1792      646F6E79 
+ 1792      6D00
+ 1793              	.LC158:
+ 1794 0732 09922689 		.ascii	"\011\222&\211\223\362,d\001\031\000"
+ 1794      93F22C64 
+ 1794      011900
+ 1795              	.LC159:
+ 1796 073d 69642D64 		.ascii	"id-domainComponent\000"
+ 1796      6F6D6169 
+ 1796      6E436F6D 
+ 1796      706F6E65 
+ 1796      6E7400
+ 1797              	.LC160:
+ 1798 0750 446F6D61 		.ascii	"Domain component\000"
+ 1798      696E2063 
+ 1798      6F6D706F 
+ 1798      6E656E74 
+ 1798      00
+ 1799              	.LC161:
+ 1800 0761 444300   		.ascii	"DC\000"
+ 1801              	.LC162:
+ 1802 0764 55042D00 		.ascii	"U\004-\000"
+ 1803              	.LC163:
+ 1804 0768 69642D61 		.ascii	"id-at-uniqueIdentifier\000"
+ 1804      742D756E 
+ 1804      69717565 
+ 1804      4964656E 
+ 1804      74696669 
+ 1805              	.LC164:
+ 1806 077f 556E6971 		.ascii	"Unique Identifier\000"
+ 1806      75652049 
+ 1806      64656E74 
+ 1806      69666965 
+ 1806      7200
+ 1807              	.LC165:
+ 1808 0791 756E6971 		.ascii	"uniqueIdentifier\000"
+ 1808      75654964 
+ 1808      656E7469 
+ 1808      66696572 
+ 1808      00
+ 1809              		.text
+ 1810              	.Letext0:
+ 1811              		.file 2 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/asn1.
+ 1812              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 1813              		.file 4 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/md.h"
+ 1814              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1815              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1816              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1817              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1818              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 1819              		.file 10 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1820              		.file 11 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\src/unity_internals.h"
+ 1821              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/queue.h"
+ 1822              		.file 13 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/semphr.h"
+ 1823              		.file 14 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include\\private/threading_alt.h"
+ 1824              		.file 15 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/thre
+ 1825              		.file 16 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/ecp.
+ 1826              		.file 17 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/pk.h
+ 1827              		.file 18 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/ciph
+ 1828              		.file 19 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/oid.
+ 1829              		.file 20 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1830              		.file 21 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 1831              		.file 22 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+DEFINED SYMBOLS
+                            *ABS*:00000000 oid.c
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:17     .text.oid_sig_alg_from_asn1:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:22     .text.oid_sig_alg_from_asn1:00000000 oid_sig_alg_from_asn1
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:74     .text.oid_sig_alg_from_asn1:00000054 $d
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:79     .text.mbedtls_oid_get_attr_short_name:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:85     .text.mbedtls_oid_get_attr_short_name:00000000 mbedtls_oid_get_attr_short_name
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:145    .text.mbedtls_oid_get_attr_short_name:0000005c $d
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:150    .text.mbedtls_oid_get_x509_ext_type:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:156    .text.mbedtls_oid_get_x509_ext_type:00000000 mbedtls_oid_get_x509_ext_type
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:216    .text.mbedtls_oid_get_x509_ext_type:0000005c $d
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:221    .text.mbedtls_oid_get_extended_key_usage:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:227    .text.mbedtls_oid_get_extended_key_usage:00000000 mbedtls_oid_get_extended_key_usage
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:287    .text.mbedtls_oid_get_extended_key_usage:0000005c $d
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:292    .text.mbedtls_oid_get_sig_alg_desc:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:298    .text.mbedtls_oid_get_sig_alg_desc:00000000 mbedtls_oid_get_sig_alg_desc
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:324    .text.mbedtls_oid_get_sig_alg:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:330    .text.mbedtls_oid_get_sig_alg:00000000 mbedtls_oid_get_sig_alg
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:361    .text.mbedtls_oid_get_oid_by_sig_alg:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:367    .text.mbedtls_oid_get_oid_by_sig_alg:00000000 mbedtls_oid_get_oid_by_sig_alg
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:416    .text.mbedtls_oid_get_oid_by_sig_alg:00000050 $d
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:421    .text.mbedtls_oid_get_pk_alg:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:427    .text.mbedtls_oid_get_pk_alg:00000000 mbedtls_oid_get_pk_alg
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:487    .text.mbedtls_oid_get_pk_alg:0000005c $d
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:492    .text.mbedtls_oid_get_oid_by_pk_alg:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:498    .text.mbedtls_oid_get_oid_by_pk_alg:00000000 mbedtls_oid_get_oid_by_pk_alg
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:550    .text.mbedtls_oid_get_oid_by_pk_alg:00000054 $d
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:555    .text.mbedtls_oid_get_ec_grp:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:561    .text.mbedtls_oid_get_ec_grp:00000000 mbedtls_oid_get_ec_grp
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:621    .text.mbedtls_oid_get_ec_grp:0000005c $d
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:626    .text.mbedtls_oid_get_oid_by_ec_grp:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:632    .text.mbedtls_oid_get_oid_by_ec_grp:00000000 mbedtls_oid_get_oid_by_ec_grp
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:684    .text.mbedtls_oid_get_oid_by_ec_grp:00000054 $d
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:689    .text.mbedtls_oid_get_cipher_alg:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:695    .text.mbedtls_oid_get_cipher_alg:00000000 mbedtls_oid_get_cipher_alg
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:755    .text.mbedtls_oid_get_cipher_alg:0000005c $d
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:760    .text.mbedtls_oid_get_md_alg:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:766    .text.mbedtls_oid_get_md_alg:00000000 mbedtls_oid_get_md_alg
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:826    .text.mbedtls_oid_get_md_alg:0000005c $d
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:831    .text.mbedtls_oid_get_oid_by_md:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:837    .text.mbedtls_oid_get_oid_by_md:00000000 mbedtls_oid_get_oid_by_md
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:889    .text.mbedtls_oid_get_oid_by_md:00000054 $d
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:894    .text.mbedtls_oid_get_md_hmac:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:900    .text.mbedtls_oid_get_md_hmac:00000000 mbedtls_oid_get_md_hmac
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:960    .text.mbedtls_oid_get_md_hmac:0000005c $d
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:965    .text.mbedtls_oid_get_numeric_string:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:971    .text.mbedtls_oid_get_numeric_string:00000000 mbedtls_oid_get_numeric_string
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:1092   .text.mbedtls_oid_get_numeric_string:000000e8 $d
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:1104   .rodata.oid_cipher_alg:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:1108   .rodata.oid_cipher_alg:00000000 oid_cipher_alg
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:1128   .rodata.oid_ecp_grp:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:1132   .rodata.oid_ecp_grp:00000000 oid_ecp_grp
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:1146   .rodata.oid_ext_key_usage:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:1150   .rodata.oid_ext_key_usage:00000000 oid_ext_key_usage
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:1180   .rodata.oid_md_alg:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:1184   .rodata.oid_md_alg:00000000 oid_md_alg
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:1210   .rodata.oid_md_hmac:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:1214   .rodata.oid_md_hmac:00000000 oid_md_hmac
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:1240   .rodata.oid_pk_alg:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:1244   .rodata.oid_pk_alg:00000000 oid_pk_alg
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:1270   .rodata.oid_sig_alg:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:1274   .rodata.oid_sig_alg:00000000 oid_sig_alg
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:1339   .rodata.oid_x509_ext:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:1343   .rodata.oid_x509_ext:00000000 oid_x509_ext
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:1375   .rodata.oid_x520_attr_type:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccNladPT.s:1379   .rodata.oid_x520_attr_type:00000000 oid_x520_attr_type
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+memcmp
+snprintf

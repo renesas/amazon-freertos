@@ -1,0 +1,1598 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"port.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.pxPortInitialiseStack,"ax",%progbits
+  17              		.align	2
+  18              		.global	pxPortInitialiseStack
+  19              		.syntax unified
+  20              		.arm
+  21              		.fpu neon
+  23              	pxPortInitialiseStack:
+  24              	.LFB3:
+  25              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c"
+   1:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /*
+   2:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * FreeRTOS Kernel V10.0.0
+   3:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * Copyright (C) 2017 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+   4:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  *
+   5:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * Permission is hereby granted, free of charge, to any person obtaining a copy of
+   6:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * this software and associated documentation files (the "Software"), to deal in
+   7:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * the Software without restriction, including without limitation the rights to
+   8:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+   9:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * the Software, and to permit persons to whom the Software is furnished to do so,
+  10:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * subject to the following conditions:
+  11:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  *
+  12:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * The above copyright notice and this permission notice shall be included in all
+  13:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * copies or substantial portions of the Software. If you wish to use our Amazon
+  14:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * FreeRTOS name, please do so in a fair use way that does not cause confusion.
+  15:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  *
+  16:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  17:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+  18:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+  19:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+  20:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  21:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  22:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  *
+  23:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * http://www.FreeRTOS.org
+  24:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * http://aws.amazon.com/freertos
+  25:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  *
+  26:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * 1 tab == 4 spaces!
+  27:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  */
+  28:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+  29:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /* Standard includes. */
+  30:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #include <stdlib.h>
+  31:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+  32:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /* Scheduler includes. */
+  33:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #include "FreeRTOS.h"
+  34:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #include "task.h"
+  35:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #include "compiler_settings.h"
+  36:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #include "r_intc_lld_rza2m.h"
+  37:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+  38:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #ifndef configINTERRUPT_CONTROLLER_BASE_ADDRESS
+  39:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	#error configINTERRUPT_CONTROLLER_BASE_ADDRESS must be defined.  See http://www.freertos.org/Using
+  40:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #endif
+  41:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+  42:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #ifndef configINTERRUPT_CONTROLLER_CPU_INTERFACE_OFFSET
+  43:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	#error configINTERRUPT_CONTROLLER_CPU_INTERFACE_OFFSET must be defined.  See http://www.freertos.o
+  44:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #endif
+  45:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+  46:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #ifndef configUNIQUE_INTERRUPT_PRIORITIES
+  47:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	#error configUNIQUE_INTERRUPT_PRIORITIES must be defined.  See http://www.freertos.org/Using-FreeR
+  48:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #endif
+  49:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+  50:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #ifndef configSETUP_TICK_INTERRUPT
+  51:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	#error configSETUP_TICK_INTERRUPT() must be defined.  See http://www.freertos.org/Using-FreeRTOS-o
+  52:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #endif /* configSETUP_TICK_INTERRUPT */
+  53:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+  54:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #ifndef configMAX_API_CALL_INTERRUPT_PRIORITY
+  55:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	#error configMAX_API_CALL_INTERRUPT_PRIORITY must be defined.  See http://www.freertos.org/Using-F
+  56:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #endif
+  57:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+  58:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #if configMAX_API_CALL_INTERRUPT_PRIORITY == 0
+  59:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	#error configMAX_API_CALL_INTERRUPT_PRIORITY must not be set to 0
+  60:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #endif
+  61:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+  62:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #if configMAX_API_CALL_INTERRUPT_PRIORITY > configUNIQUE_INTERRUPT_PRIORITIES
+  63:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	#error configMAX_API_CALL_INTERRUPT_PRIORITY must be less than or equal to configUNIQUE_INTERRUPT_
+  64:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #endif
+  65:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+  66:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+  67:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	/* Check the configuration. */
+  68:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	#if( configMAX_PRIORITIES > 32 )
+  69:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		#error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is 
+  70:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	#endif
+  71:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+  72:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+  73:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /* In case security extensions are implemented. */
+  74:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #if configMAX_API_CALL_INTERRUPT_PRIORITY <= ( configUNIQUE_INTERRUPT_PRIORITIES / 2 )
+  75:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	#error configMAX_API_CALL_INTERRUPT_PRIORITY must be greater than ( configUNIQUE_INTERRUPT_PRIORIT
+  76:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #endif
+  77:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+  78:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /* Some vendor specific files default configCLEAR_TICK_INTERRUPT() in
+  79:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** portmacro.h. */
+  80:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #ifndef configCLEAR_TICK_INTERRUPT
+  81:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	#define configCLEAR_TICK_INTERRUPT()
+  82:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #endif
+  83:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+  84:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /* A critical section is exited when the critical section nesting count reaches
+  85:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** this value. */
+  86:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #define portNO_CRITICAL_NESTING			( ( uint32_t ) 0 )
+  87:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+  88:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /* In all GICs 255 can be written to the priority mask register to unmask all
+  89:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** (but the lowest) interrupt priority. */
+  90:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #define portUNMASK_VALUE				( 0xFFUL )
+  91:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+  92:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /* Tasks are not created with a floating point context, but can be given a
+  93:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** floating point context after they have been created.  A variable is stored as
+  94:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** part of the tasks context that holds portNO_FLOATING_POINT_CONTEXT if the task
+  95:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** does not have an FPU context, or any other value if the task does have an FPU
+  96:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** context. */
+  97:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #define portNO_FLOATING_POINT_CONTEXT	( ( StackType_t ) 0 )
+  98:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+  99:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /* Constants required to setup the initial task context. */
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #define portINITIAL_SPSR				( ( StackType_t ) 0x1f ) /* System mode, ARM mode, IRQ enabled FIQ enab
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #define portTHUMB_MODE_BIT				( ( StackType_t ) 0x20 )
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #define portINTERRUPT_ENABLE_BIT		( 0x80UL )
+ 103:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #define portTHUMB_MODE_ADDRESS			( 0x01UL )
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /* Used by portASSERT_IF_INTERRUPT_PRIORITY_INVALID() when ensuring the binary
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** point is zero. */
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #define portBINARY_POINT_BITS			( ( uint8_t ) 0x03 )
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /* Masks all bits in the APSR other than the mode bits. */
+ 110:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #define portAPSR_MODE_BITS_MASK			( 0x1F )
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /* The value of the mode bits in the APSR when the CPU is executing in user
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** mode. */
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #define portAPSR_USER_MODE				( 0x10 )
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 116:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /* The critical section macros only mask interrupts up to an application
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** determined priority level.  Sometimes it is necessary to turn interrupt off in
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** the CPU itself before modifying certain hardware registers. */
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #define portCPU_IRQ_DISABLE()										\
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	__asm volatile ( "CPSID i" ::: "memory" );						\
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	__asm volatile ( "DSB" );										\
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	__asm volatile ( "ISB" );
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #define portCPU_IRQ_ENABLE()										\
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	__asm volatile ( "CPSIE i" ::: "memory" );						\
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	__asm volatile ( "DSB" );										\
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	__asm volatile ( "ISB" );
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /* Macro to unmask all interrupt priorities. */
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #define portCLEAR_INTERRUPT_MASK()									\
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** {																	\
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	portCPU_IRQ_DISABLE();											\
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	portICCPMR_PRIORITY_MASK_REGISTER = portUNMASK_VALUE;			\
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	__asm volatile (	"DSB		\n"								\
+ 136:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 						"ISB		\n" );							\
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	portCPU_IRQ_ENABLE();											\
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** }
+ 139:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 140:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #define portINTERRUPT_PRIORITY_REGISTER_OFFSET		0x400UL
+ 141:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #define portMAX_8_BIT_VALUE							( ( uint8_t ) 0xff )
+ 142:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #define portBIT_0_SET								( ( uint8_t ) 0x01 )
+ 143:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 144:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /* Let the user override the pre-loading of the initial LR with the address of
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** prvTaskExitError() in case it messes up unwinding of the stack in the
+ 146:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** debugger. */
+ 147:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #ifdef configTASK_RETURN_ADDRESS
+ 148:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	#define portTASK_RETURN_ADDRESS	configTASK_RETURN_ADDRESS
+ 149:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #else
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	#define portTASK_RETURN_ADDRESS	prvTaskExitError
+ 151:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #endif
+ 152:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 153:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /* The space on the stack required to hold the FPU registers.  This is 32 64-bit
+ 154:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** registers, plus a 32-bit status register. */
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #define portFPU_REGISTER_WORDS	( ( 32 * 2 ) + 1 )
+ 156:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /* Needed to overcome GCC inline ASM variable limitation */
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** extern void set_fpscr(unsigned long);
+ 159:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** extern unsigned long get_apsr(void);
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /*-----------------------------------------------------------*/
+ 162:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 163:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /*
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * Starts the first task executing.  This function is necessarily written in
+ 165:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * assembly code so is implemented in portASM.s.
+ 166:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  */
+ 167:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** extern void vPortRestoreTaskContext( void );
+ 168:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 169:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /*
+ 170:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * Used to catch tasks that attempt to return from their implementing function.
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  */
+ 172:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** static void prvTaskExitError( void );
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /*
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * If the application provides an implementation of vApplicationIRQHandler(),
+ 176:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * then it will get called directly without saving the FPU registers on
+ 177:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * interrupt entry, and this weak implementation of
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * vApplicationFPUSafeIRQHandler() is just provided to remove linkage errors -
+ 179:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * it should never actually get called so its implementation contains a
+ 180:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * call to configASSERT() that will always fail.
+ 181:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  *
+ 182:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * If the application provides its own implementation of
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * vApplicationFPUSafeIRQHandler() then the implementation of
+ 184:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * vApplicationIRQHandler() provided in portASM.S will save the FPU registers
+ 185:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * before calling it.
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  *
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * Therefore, if the application writer wants FPU registers to be saved on
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * interrupt entry their IRQ handler must be called
+ 189:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * vApplicationFPUSafeIRQHandler(), and if the application writer does not want
+ 190:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * FPU registers to be saved on interrupt entry their IRQ handler must be
+ 191:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * called vApplicationIRQHandler().
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  */
+ 193:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** void vApplicationFPUSafeIRQHandler( uint32_t ulICCIAR ) __attribute__((weak) );
+ 194:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 195:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /*-----------------------------------------------------------*/
+ 196:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 197:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /* A variable is used to keep track of the critical section nesting.  This
+ 198:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** variable has to be stored as part of the task context and must be initialised to
+ 199:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** a non zero value to ensure interrupts don't inadvertently become unmasked before
+ 200:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** the scheduler starts.  As it is stored as part of the task context it will
+ 201:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** automatically be set to 0 when the first task is started. */
+ 202:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** volatile uint32_t ulCriticalNesting = 9999UL;
+ 203:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /* Saved as part of the task context.  If ulPortTaskHasFPUContext is non-zero then
+ 205:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** a floating point context must be saved and restored for the task. */
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** volatile uint32_t ulPortTaskHasFPUContext = pdFALSE;
+ 207:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /* Set to 1 to pend a context switch from an ISR. */
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** volatile uint32_t ulPortYieldRequired = pdFALSE;
+ 210:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 211:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /* Counts the interrupt nesting depth.  A context switch is only performed if
+ 212:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** if the nesting depth is 0. */
+ 213:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** volatile uint32_t ulPortInterruptNesting = 0UL;
+ 214:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 215:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /* Used in the asm file. */
+ 216:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** __attribute__(( used )) const uint32_t ulICCIAR = portICCIAR_INTERRUPT_ACKNOWLEDGE_REGISTER_ADDRESS
+ 217:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** __attribute__(( used )) const uint32_t ulICCEOIR = portICCEOIR_END_OF_INTERRUPT_REGISTER_ADDRESS;
+ 218:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** __attribute__(( used )) const uint32_t ulICCPMR	= portICCPMR_PRIORITY_MASK_REGISTER_ADDRESS;
+ 219:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** __attribute__(( used )) const uint32_t ulMaxAPIPriorityMask = ( configMAX_API_CALL_INTERRUPT_PRIORI
+ 220:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /*-----------------------------------------------------------*/
+ 222:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 223:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /*
+ 224:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  * See header file for description.
+ 225:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****  */
+ 226:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParam
+ 227:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** {
+  26              		.loc 1 227 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              		@ link register save eliminated.
+  31              	.LVL0:
+ 228:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	/* Setup the initial stack of the task.  The stack is set exactly as
+ 229:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	expected by the portRESTORE_CONTEXT() macro.
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 231:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	The fist real value on the stack is the status register, which is set for
+ 232:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	system mode, with interrupts enabled.  A few NULLs are added first to ensure
+ 233:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	GDB does not try decoding a non-existent return address. */
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	*pxTopOfStack = ( StackType_t ) NULL;
+ 235:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+ 236:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	*pxTopOfStack = ( StackType_t ) NULL;
+ 237:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+ 238:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	*pxTopOfStack = ( StackType_t ) NULL;
+ 239:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+ 240:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	*pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
+ 241:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	if( ( ( uint32_t ) pxCode & portTHUMB_MODE_ADDRESS ) != 0x00UL )
+  32              		.loc 1 242 0
+  33 0000 010011E3 		tst	r1, #1
+ 243:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	{
+ 244:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		/* The task will start in THUMB mode. */
+ 245:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		*pxTopOfStack |= portTHUMB_MODE_BIT;
+ 246:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	}
+ 247:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 248:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+ 249:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 250:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	/* Next the return address, which in this case is the start of the task. */
+ 251:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	*pxTopOfStack = ( StackType_t ) pxCode;
+  34              		.loc 1 251 0
+  35 0004 101000E5 		str	r1, [r0, #-16]
+ 252:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+ 253:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 254:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	/* Next all the registers other than the stack pointer. */
+ 255:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	*pxTopOfStack = ( StackType_t ) portTASK_RETURN_ADDRESS;	/* R14 */
+  36              		.loc 1 255 0
+  37 0008 8C109FE5 		ldr	r1, .L4
+  38              	.LVL1:
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+  39              		.loc 1 234 0
+  40 000c 0030A0E3 		mov	r3, #0
+ 245:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	}
+  41              		.loc 1 245 0
+  42 0010 1FC0A003 		moveq	ip, #31
+  43 0014 3FC0A013 		movne	ip, #63
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+  44              		.loc 1 234 0
+  45 0018 003080E5 		str	r3, [r0]
+  46              	.LVL2:
+  47              		.loc 1 255 0
+  48 001c 141000E5 		str	r1, [r0, #-20]
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+ 257:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	*pxTopOfStack = ( StackType_t ) 0x12121212;	/* R12 */
+  49              		.loc 1 257 0
+  50 0020 78109FE5 		ldr	r1, .L4+4
+ 236:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+  51              		.loc 1 236 0
+  52 0024 043000E5 		str	r3, [r0, #-4]
+  53              	.LVL3:
+ 238:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+  54              		.loc 1 238 0
+  55 0028 083000E5 		str	r3, [r0, #-8]
+  56              	.LVL4:
+  57              		.loc 1 257 0
+  58 002c 181000E5 		str	r1, [r0, #-24]
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+ 259:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	*pxTopOfStack = ( StackType_t ) 0x11111111;	/* R11 */
+  59              		.loc 1 259 0
+  60 0030 6C109FE5 		ldr	r1, .L4+8
+  61 0034 0CC000E5 		str	ip, [r0, #-12]
+  62              	.LVL5:
+ 260:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+ 261:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	*pxTopOfStack = ( StackType_t ) 0x10101010;	/* R10 */
+ 262:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+ 263:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	*pxTopOfStack = ( StackType_t ) 0x09090909;	/* R9 */
+ 264:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+ 265:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	*pxTopOfStack = ( StackType_t ) 0x08080808;	/* R8 */
+ 266:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+ 267:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	*pxTopOfStack = ( StackType_t ) 0x07070707;	/* R7 */
+ 268:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+ 269:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	*pxTopOfStack = ( StackType_t ) 0x06060606;	/* R6 */
+ 270:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+ 271:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	*pxTopOfStack = ( StackType_t ) 0x05050505;	/* R5 */
+ 272:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+ 273:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	*pxTopOfStack = ( StackType_t ) 0x04040404;	/* R4 */
+ 274:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+ 275:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	*pxTopOfStack = ( StackType_t ) 0x03030303;	/* R3 */
+ 276:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+ 277:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	*pxTopOfStack = ( StackType_t ) 0x02020202;	/* R2 */
+ 278:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+ 279:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	*pxTopOfStack = ( StackType_t ) 0x01010101;	/* R1 */
+ 280:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	*pxTopOfStack = ( StackType_t ) pvParameters; /* R0 */
+  63              		.loc 1 281 0
+  64 0038 482000E5 		str	r2, [r0, #-72]
+ 259:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+  65              		.loc 1 259 0
+  66 003c 1C1000E5 		str	r1, [r0, #-28]
+  67              	.LVL6:
+ 261:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+  68              		.loc 1 261 0
+  69 0040 60109FE5 		ldr	r1, .L4+12
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+ 283:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 284:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	/* The task will start with a critical nesting count of 0 as interrupts are
+ 285:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	enabled. */
+ 286:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	*pxTopOfStack = portNO_CRITICAL_NESTING;
+  70              		.loc 1 286 0
+  71 0044 4C3000E5 		str	r3, [r0, #-76]
+ 261:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+  72              		.loc 1 261 0
+  73 0048 201000E5 		str	r1, [r0, #-32]
+  74              	.LVL7:
+ 263:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+  75              		.loc 1 263 0
+  76 004c 58109FE5 		ldr	r1, .L4+16
+  77 0050 241000E5 		str	r1, [r0, #-36]
+  78              	.LVL8:
+ 265:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+  79              		.loc 1 265 0
+  80 0054 54109FE5 		ldr	r1, .L4+20
+  81 0058 281000E5 		str	r1, [r0, #-40]
+  82              	.LVL9:
+ 267:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+  83              		.loc 1 267 0
+  84 005c 50109FE5 		ldr	r1, .L4+24
+  85 0060 2C1000E5 		str	r1, [r0, #-44]
+  86              	.LVL10:
+ 269:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+  87              		.loc 1 269 0
+  88 0064 4C109FE5 		ldr	r1, .L4+28
+  89 0068 301000E5 		str	r1, [r0, #-48]
+  90              	.LVL11:
+ 271:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+  91              		.loc 1 271 0
+  92 006c 48109FE5 		ldr	r1, .L4+32
+  93 0070 341000E5 		str	r1, [r0, #-52]
+  94              	.LVL12:
+ 273:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+  95              		.loc 1 273 0
+  96 0074 44109FE5 		ldr	r1, .L4+36
+  97 0078 381000E5 		str	r1, [r0, #-56]
+  98              	.LVL13:
+ 275:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+  99              		.loc 1 275 0
+ 100 007c 40109FE5 		ldr	r1, .L4+40
+ 101 0080 3C1000E5 		str	r1, [r0, #-60]
+ 102              	.LVL14:
+ 277:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+ 103              		.loc 1 277 0
+ 104 0084 3C109FE5 		ldr	r1, .L4+44
+ 105 0088 401000E5 		str	r1, [r0, #-64]
+ 106              	.LVL15:
+ 279:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	pxTopOfStack--;
+ 107              		.loc 1 279 0
+ 108 008c 38109FE5 		ldr	r1, .L4+48
+ 109 0090 441000E5 		str	r1, [r0, #-68]
+ 110              	.LVL16:
+ 287:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 288:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	#if( configUSE_TASK_FPU_SUPPORT == 1 )
+ 289:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	{
+ 290:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		/* The task will start without a floating point context.  A task that
+ 291:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		uses the floating point hardware must call vPortTaskUsesFPU() before
+ 292:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		executing any floating point instructions. */
+ 293:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		pxTopOfStack--;
+ 294:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		*pxTopOfStack = portNO_FLOATING_POINT_CONTEXT;
+ 111              		.loc 1 294 0
+ 112 0094 503020E5 		str	r3, [r0, #-80]!
+ 113              	.LVL17:
+ 295:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	}
+ 296:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	#elif( configUSE_TASK_FPU_SUPPORT == 2 )
+ 297:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	{
+ 298:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		/* The task will start with a floating point context.  Leave enough
+ 299:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		space for the registers - and ensure they are initialised to 0. */
+ 300:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		pxTopOfStack -= portFPU_REGISTER_WORDS;
+ 301:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		memset( pxTopOfStack, 0x00, portFPU_REGISTER_WORDS * sizeof( StackType_t ) );
+ 302:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 303:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		pxTopOfStack--;
+ 304:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		*pxTopOfStack = pdTRUE;
+ 305:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		ulPortTaskHasFPUContext = pdTRUE;
+ 306:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	}
+ 307:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	#else
+ 308:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	{
+ 309:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		#error Invalid configUSE_TASK_FPU_SUPPORT setting - configUSE_TASK_FPU_SUPPORT must be set to 1, 
+ 310:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	}
+ 311:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	#endif
+ 312:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 313:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	return pxTopOfStack;
+ 314:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** }
+ 114              		.loc 1 314 0
+ 115 0098 1EFF2FE1 		bx	lr
+ 116              	.L5:
+ 117              		.align	2
+ 118              	.L4:
+ 119 009c 00000000 		.word	prvTaskExitError
+ 120 00a0 12121212 		.word	303174162
+ 121 00a4 11111111 		.word	286331153
+ 122 00a8 10101010 		.word	269488144
+ 123 00ac 09090909 		.word	151587081
+ 124 00b0 08080808 		.word	134744072
+ 125 00b4 07070707 		.word	117901063
+ 126 00b8 06060606 		.word	101058054
+ 127 00bc 05050505 		.word	84215045
+ 128 00c0 04040404 		.word	67372036
+ 129 00c4 03030303 		.word	50529027
+ 130 00c8 02020202 		.word	33686018
+ 131 00cc 01010101 		.word	16843009
+ 132              		.cfi_endproc
+ 133              	.LFE3:
+ 135              		.section	.text.xPortStartScheduler,"ax",%progbits
+ 136              		.align	2
+ 137              		.global	xPortStartScheduler
+ 138              		.syntax unified
+ 139              		.arm
+ 140              		.fpu neon
+ 142              	xPortStartScheduler:
+ 143              	.LFB5:
+ 315:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /*-----------------------------------------------------------*/
+ 316:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 317:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** static void prvTaskExitError( void )
+ 318:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** {
+ 319:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	/* A function that implements a task must not exit or attempt to return to
+ 320:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	its caller as there is nothing to return to.  If a task wants to exit it
+ 321:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	should instead call vTaskDelete( NULL ).
+ 322:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 323:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	Artificially force an assert() to be triggered if configASSERT() is
+ 324:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	defined, then stop here so application writers can catch the error. */
+ 325:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	configASSERT( ulPortInterruptNesting == ~0UL );
+ 326:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	portDISABLE_INTERRUPTS();
+ 327:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	for( ;; );
+ 328:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** }
+ 329:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /*-----------------------------------------------------------*/
+ 330:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 331:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** BaseType_t xPortStartScheduler( void )
+ 332:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** {
+ 144              		.loc 1 332 0
+ 145              		.cfi_startproc
+ 146              		@ args = 0, pretend = 0, frame = 8
+ 147              		@ frame_needed = 0, uses_anonymous_args = 0
+ 148              	.LVL18:
+ 149              	.LBB2:
+ 333:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** uint32_t ulAPSR;
+ 334:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 335:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	#if( configASSERT_DEFINED == 1 )
+ 336:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	{
+ 337:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		volatile uint32_t ulOriginalPriority;
+ 338:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		volatile uint8_t * const pucFirstUserPriorityRegister = ( volatile uint8_t * const ) ( configINTE
+ 339:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		volatile uint8_t ucMaxPriorityValue;
+ 340:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 341:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		/* Determine how many priority bits are implemented in the GIC.
+ 342:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 343:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		Save the interrupt priority value that is about to be clobbered. */
+ 344:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		ulOriginalPriority = *pucFirstUserPriorityRegister;
+ 150              		.loc 1 344 0
+ 151 0000 AC309FE5 		ldr	r3, .L23
+ 152              	.LBE2:
+ 332:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** uint32_t ulAPSR;
+ 153              		.loc 1 332 0
+ 154 0004 07402DE9 		push	{r0, r1, r2, lr}
+ 155              		.cfi_def_cfa_offset 16
+ 156              		.cfi_offset 14, -4
+ 157              	.LBB3:
+ 158              		.loc 1 344 0
+ 159 0008 0020D3E5 		ldrb	r2, [r3]	@ zero_extendqisi2
+ 160 000c 7220EFE6 		uxtb	r2, r2
+ 161 0010 04208DE5 		str	r2, [sp, #4]
+ 345:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 346:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		/* Determine the number of priority bits available.  First write to
+ 347:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		all possible bits. */
+ 348:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		*pucFirstUserPriorityRegister = portMAX_8_BIT_VALUE;
+ 162              		.loc 1 348 0
+ 163 0014 0020E0E3 		mvn	r2, #0
+ 164 0018 0020C3E5 		strb	r2, [r3]
+ 349:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 350:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		/* Read the value back to see how many bits stuck. */
+ 351:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		ucMaxPriorityValue = *pucFirstUserPriorityRegister;
+ 165              		.loc 1 351 0
+ 166 001c 0020D3E5 		ldrb	r2, [r3]	@ zero_extendqisi2
+ 167 0020 7220EFE6 		uxtb	r2, r2
+ 168              	.L22:
+ 352:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 353:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		/* Shift to the least significant bits. */
+ 354:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		while( ( ucMaxPriorityValue & portBIT_0_SET ) != portBIT_0_SET )
+ 355:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		{
+ 356:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 			ucMaxPriorityValue >>= ( uint8_t ) 0x01;
+ 169              		.loc 1 356 0
+ 170 0024 0320CDE5 		strb	r2, [sp, #3]
+ 354:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		{
+ 171              		.loc 1 354 0
+ 172 0028 0320DDE5 		ldrb	r2, [sp, #3]	@ zero_extendqisi2
+ 173 002c 010012E3 		tst	r2, #1
+ 174              		.loc 1 356 0
+ 175 0030 0320DDE5 		ldrb	r2, [sp, #3]	@ zero_extendqisi2
+ 354:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		{
+ 176              		.loc 1 354 0
+ 177 0034 0400000A 		beq	.L8
+ 357:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		}
+ 358:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 359:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		/* Sanity check configUNIQUE_INTERRUPT_PRIORITIES matches the read
+ 360:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		value. */
+ 361:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		configASSERT( ucMaxPriorityValue == portLOWEST_INTERRUPT_PRIORITY );
+ 178              		.loc 1 361 0
+ 179 0038 1F0052E3 		cmp	r2, #31
+ 180 003c 0400000A 		beq	.L9
+ 181              	.L10:
+ 182              		.loc 1 361 0 is_stmt 0 discriminator 1
+ 183 0040 0110A0E3 		mov	r1, #1
+ 184 0044 6C009FE5 		ldr	r0, .L23+4
+ 185 0048 FEFFFFEB 		bl	longjmp
+ 186              	.LVL19:
+ 187              	.L8:
+ 356:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		}
+ 188              		.loc 1 356 0 is_stmt 1
+ 189 004c A220A0E1 		lsr	r2, r2, #1
+ 190 0050 F3FFFFEA 		b	.L22
+ 191              	.L9:
+ 362:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 363:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		/* Restore the clobbered interrupt priority register to its original
+ 364:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		value. */
+ 365:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		*pucFirstUserPriorityRegister = ulOriginalPriority;
+ 192              		.loc 1 365 0
+ 193 0054 04209DE5 		ldr	r2, [sp, #4]
+ 194 0058 7220EFE6 		uxtb	r2, r2
+ 195 005c 0020C3E5 		strb	r2, [r3]
+ 196              	.LBE3:
+ 366:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	}
+ 367:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	#endif /* conifgASSERT_DEFINED */
+ 368:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 369:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 370:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	/* Only continue if the CPU is not in User mode.  The CPU must be in a
+ 371:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	Privileged mode for the scheduler to start. */
+ 372:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #if 0
+ 373:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	__asm volatile ( "MRS %0, APSR" : "=r" ( ulAPSR ) );
+ 374:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #else
+ 375:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	ulAPSR = get_apsr();
+ 197              		.loc 1 375 0
+ 198 0060 FEFFFFEB 		bl	get_apsr
+ 199              	.LVL20:
+ 376:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #endif
+ 377:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 378:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	ulAPSR &= portAPSR_MODE_BITS_MASK;
+ 200              		.loc 1 378 0
+ 201 0064 1F0000E2 		and	r0, r0, #31
+ 202              	.LVL21:
+ 379:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	configASSERT( ulAPSR != portAPSR_USER_MODE );
+ 203              		.loc 1 379 0
+ 204 0068 100050E3 		cmp	r0, #16
+ 205 006c F3FFFF0A 		beq	.L10
+ 380:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 381:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	if( ulAPSR != portAPSR_USER_MODE )
+ 382:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	{
+ 383:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		/* Only continue if the binary point value is set to its lowest possible
+ 384:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		setting.  See the comments in vPortValidateInterruptPriority() below for
+ 385:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		more information. */
+ 386:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		configASSERT( ( portICCBPR_BINARY_POINT_REGISTER & portBINARY_POINT_BITS ) <= portMAX_BINARY_POIN
+ 206              		.loc 1 386 0
+ 207 0070 44209FE5 		ldr	r2, .L23+8
+ 208 0074 083092E5 		ldr	r3, [r2, #8]
+ 209 0078 033003E2 		and	r3, r3, #3
+ 210 007c 030053E3 		cmp	r3, #3
+ 211 0080 EEFFFF0A 		beq	.L10
+ 387:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 388:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		if( ( portICCBPR_BINARY_POINT_REGISTER & portBINARY_POINT_BITS ) <= portMAX_BINARY_POINT_VALUE )
+ 212              		.loc 1 388 0
+ 213 0084 083092E5 		ldr	r3, [r2, #8]
+ 214 0088 033003E2 		and	r3, r3, #3
+ 215 008c 030053E3 		cmp	r3, #3
+ 216 0090 0400000A 		beq	.L11
+ 389:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		{
+ 390:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 			/* Interrupts are turned off in the CPU itself to ensure tick does
+ 391:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 			not execute	while the scheduler is being started.  Interrupts are
+ 392:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 			automatically turned back on in the CPU when the first task starts
+ 393:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 			executing. */
+ 394:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 			portCPU_IRQ_DISABLE();
+ 217              		.loc 1 394 0
+ 218              		.syntax divided
+ 219              	@ 394 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 220 0094 80000CF1 		CPSID i
+ 221              	@ 0 "" 2
+ 222              	@ 394 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 223 0098 4FF07FF5 		DSB
+ 224              	@ 0 "" 2
+ 225              	@ 394 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 226 009c 6FF07FF5 		ISB
+ 227              	@ 0 "" 2
+ 395:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 396:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 			/* Start the timer that generates the tick ISR. */
+ 397:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 			configSETUP_TICK_INTERRUPT();
+ 228              		.loc 1 397 0
+ 229              		.arm
+ 230              		.syntax unified
+ 231 00a0 FEFFFFEB 		bl	vConfigureTickInterrupt
+ 232              	.LVL22:
+ 398:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 399:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 			/* Start the first task executing. */
+ 400:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 			vPortRestoreTaskContext();
+ 233              		.loc 1 400 0
+ 234 00a4 FEFFFFEB 		bl	vPortRestoreTaskContext
+ 235              	.LVL23:
+ 236              	.L11:
+ 401:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		}
+ 402:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	}
+ 403:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 404:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	/* Will only get here if vTaskStartScheduler() was called with the CPU in
+ 405:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	a non-privileged mode or the binary point register was not set to its lowest
+ 406:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	possible value.  prvTaskExitError() is referenced to prevent a compiler
+ 407:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	warning about it being defined but not referenced in the case that the user
+ 408:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	defines their own exit address. */
+ 409:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	( void ) prvTaskExitError;
+ 410:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	return 0;
+ 411:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** }
+ 237              		.loc 1 411 0
+ 238 00a8 0000A0E3 		mov	r0, #0
+ 239 00ac 0CD08DE2 		add	sp, sp, #12
+ 240              		.cfi_def_cfa_offset 4
+ 241              		@ sp needed
+ 242 00b0 04F09DE4 		ldr	pc, [sp], #4
+ 243              	.L24:
+ 244              		.align	2
+ 245              	.L23:
+ 246 00b4 001422E8 		.word	-400419840
+ 247 00b8 28000000 		.word	Unity+40
+ 248 00bc 002022E8 		.word	-400416768
+ 249              		.cfi_endproc
+ 250              	.LFE5:
+ 252              		.section	.text.vPortEndScheduler,"ax",%progbits
+ 253              		.align	2
+ 254              		.global	vPortEndScheduler
+ 255              		.syntax unified
+ 256              		.arm
+ 257              		.fpu neon
+ 259              	vPortEndScheduler:
+ 260              	.LFB6:
+ 412:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /*-----------------------------------------------------------*/
+ 413:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 414:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** void vPortEndScheduler( void )
+ 415:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** {
+ 261              		.loc 1 415 0
+ 262              		.cfi_startproc
+ 263              		@ args = 0, pretend = 0, frame = 0
+ 264              		@ frame_needed = 0, uses_anonymous_args = 0
+ 416:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	/* Not implemented in ports where there is nothing to return to.
+ 417:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	Artificially force an assert. */
+ 418:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	configASSERT( ulCriticalNesting == 1000UL );
+ 265              		.loc 1 418 0
+ 266 0000 1C309FE5 		ldr	r3, .L30
+ 267 0004 003093E5 		ldr	r3, [r3]
+ 268 0008 FA0F53E3 		cmp	r3, #1000
+ 269 000c 0300000A 		beq	.L25
+ 415:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	/* Not implemented in ports where there is nothing to return to.
+ 270              		.loc 1 415 0 discriminator 1
+ 271 0010 10402DE9 		push	{r4, lr}
+ 272              		.cfi_def_cfa_offset 8
+ 273              		.cfi_offset 4, -8
+ 274              		.cfi_offset 14, -4
+ 275              		.loc 1 418 0 discriminator 1
+ 276 0014 0110A0E3 		mov	r1, #1
+ 277 0018 08009FE5 		ldr	r0, .L30+4
+ 278 001c FEFFFFEB 		bl	longjmp
+ 279              	.LVL24:
+ 280              	.L25:
+ 281              		.cfi_def_cfa_offset 0
+ 282              		.cfi_restore 4
+ 283              		.cfi_restore 14
+ 284 0020 1EFF2FE1 		bx	lr
+ 285              	.L31:
+ 286              		.align	2
+ 287              	.L30:
+ 288 0024 00000000 		.word	.LANCHOR0
+ 289 0028 28000000 		.word	Unity+40
+ 290              		.cfi_endproc
+ 291              	.LFE6:
+ 293              		.section	.text.vPortExitCritical,"ax",%progbits
+ 294              		.align	2
+ 295              		.global	vPortExitCritical
+ 296              		.syntax unified
+ 297              		.arm
+ 298              		.fpu neon
+ 300              	vPortExitCritical:
+ 301              	.LFB8:
+ 419:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** }
+ 420:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /*-----------------------------------------------------------*/
+ 421:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 422:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** void vPortEnterCritical( void )
+ 423:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** {
+ 424:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	/* Mask interrupts up to the max syscall interrupt priority. */
+ 425:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	ulPortSetInterruptMask();
+ 426:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 427:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	/* Now interrupts are disabled ulCriticalNesting can be accessed
+ 428:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	directly.  Increment ulCriticalNesting to keep a count of how many times
+ 429:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	portENTER_CRITICAL() has been called. */
+ 430:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	ulCriticalNesting++;
+ 431:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 432:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	/* This is not the interrupt safe version of the enter critical function so
+ 433:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	assert() if it is being called from an interrupt context.  Only API
+ 434:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	functions that end in "FromISR" can be used in an interrupt.  Only assert if
+ 435:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	the critical nesting count is 1 to protect against recursive calls if the
+ 436:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	assert function also uses a critical section. */
+ 437:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	if( ulCriticalNesting == 1 )
+ 438:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	{
+ 439:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		configASSERT( ulPortInterruptNesting == 0 );
+ 440:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	}
+ 441:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** }
+ 442:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /*-----------------------------------------------------------*/
+ 443:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 444:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** void vPortExitCritical( void )
+ 445:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** {
+ 302              		.loc 1 445 0
+ 303              		.cfi_startproc
+ 304              		@ args = 0, pretend = 0, frame = 0
+ 305              		@ frame_needed = 0, uses_anonymous_args = 0
+ 306              		@ link register save eliminated.
+ 446:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+ 307              		.loc 1 446 0
+ 308 0000 50309FE5 		ldr	r3, .L36
+ 309 0004 002093E5 		ldr	r2, [r3]
+ 310 0008 000052E3 		cmp	r2, #0
+ 311 000c 1EFF2F01 		bxeq	lr
+ 447:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	{
+ 448:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		/* Decrement the nesting count as the critical section is being
+ 449:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		exited. */
+ 450:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		ulCriticalNesting--;
+ 312              		.loc 1 450 0
+ 313 0010 002093E5 		ldr	r2, [r3]
+ 314 0014 012042E2 		sub	r2, r2, #1
+ 315 0018 002083E5 		str	r2, [r3]
+ 451:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 452:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		/* If the nesting level has reached zero then all interrupt
+ 453:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		priorities must be re-enabled. */
+ 454:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+ 316              		.loc 1 454 0
+ 317 001c 003093E5 		ldr	r3, [r3]
+ 318 0020 000053E3 		cmp	r3, #0
+ 319 0024 1EFF2F11 		bxne	lr
+ 455:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		{
+ 456:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 			/* Critical nesting has reached zero so all interrupt priorities
+ 457:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 			should be unmasked. */
+ 458:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 			portCLEAR_INTERRUPT_MASK();
+ 320              		.loc 1 458 0
+ 321              		.syntax divided
+ 322              	@ 458 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 323 0028 80000CF1 		CPSID i
+ 324              	@ 0 "" 2
+ 325              	@ 458 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 326 002c 4FF07FF5 		DSB
+ 327              	@ 0 "" 2
+ 328              	@ 458 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 329 0030 6FF07FF5 		ISB
+ 330              	@ 0 "" 2
+ 331              		.arm
+ 332              		.syntax unified
+ 333 0034 20309FE5 		ldr	r3, .L36+4
+ 334 0038 FF20A0E3 		mov	r2, #255
+ 335 003c 042083E5 		str	r2, [r3, #4]
+ 336              		.syntax divided
+ 337              	@ 458 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 338 0040 4FF07FF5 		DSB		
+ 339 0044 6FF07FF5 	ISB		
+ 340              	
+ 341              	@ 0 "" 2
+ 342              	@ 458 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 343 0048 800008F1 		CPSIE i
+ 344              	@ 0 "" 2
+ 345              	@ 458 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 346 004c 4FF07FF5 		DSB
+ 347              	@ 0 "" 2
+ 348              	@ 458 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 349 0050 6FF07FF5 		ISB
+ 350              	@ 0 "" 2
+ 351              		.arm
+ 352              		.syntax unified
+ 353 0054 1EFF2FE1 		bx	lr
+ 354              	.L37:
+ 355              		.align	2
+ 356              	.L36:
+ 357 0058 00000000 		.word	.LANCHOR0
+ 358 005c 002022E8 		.word	-400416768
+ 359              		.cfi_endproc
+ 360              	.LFE8:
+ 362              		.section	.text.FreeRTOS_Tick_Handler,"ax",%progbits
+ 363              		.align	2
+ 364              		.global	FreeRTOS_Tick_Handler
+ 365              		.syntax unified
+ 366              		.arm
+ 367              		.fpu neon
+ 369              	FreeRTOS_Tick_Handler:
+ 370              	.LFB9:
+ 459:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		}
+ 460:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	}
+ 461:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** }
+ 462:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /*-----------------------------------------------------------*/
+ 463:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 464:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** void FreeRTOS_Tick_Handler( void )
+ 465:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** {
+ 371              		.loc 1 465 0
+ 372              		.cfi_startproc
+ 373              		@ args = 0, pretend = 0, frame = 0
+ 374              		@ frame_needed = 0, uses_anonymous_args = 0
+ 375 0000 10402DE9 		push	{r4, lr}
+ 376              		.cfi_def_cfa_offset 8
+ 377              		.cfi_offset 4, -8
+ 378              		.cfi_offset 14, -4
+ 466:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	/* Set interrupt mask before altering scheduler structures.   The tick
+ 467:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	handler runs at the lowest priority, so interrupts cannot already be masked,
+ 468:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	so there is no need to save and restore the current mask value.  It is
+ 469:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	necessary to turn off interrupts in the CPU itself while the ICCPMR is being
+ 470:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	updated. */
+ 471:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	portCPU_IRQ_DISABLE();
+ 379              		.loc 1 471 0
+ 380              		.syntax divided
+ 381              	@ 471 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 382 0004 80000CF1 		CPSID i
+ 383              	@ 0 "" 2
+ 384              	@ 471 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 385 0008 4FF07FF5 		DSB
+ 386              	@ 0 "" 2
+ 387              	@ 471 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 388 000c 6FF07FF5 		ISB
+ 389              	@ 0 "" 2
+ 472:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	portICCPMR_PRIORITY_MASK_REGISTER = ( uint32_t ) ( configMAX_API_CALL_INTERRUPT_PRIORITY << portPR
+ 390              		.loc 1 472 0
+ 391              		.arm
+ 392              		.syntax unified
+ 393 0010 58409FE5 		ldr	r4, .L44
+ 394 0014 C830A0E3 		mov	r3, #200
+ 395 0018 043084E5 		str	r3, [r4, #4]
+ 473:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	__asm volatile (	"dsb		\n"
+ 396              		.loc 1 473 0
+ 397              		.syntax divided
+ 398              	@ 473 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 399 001c 4FF07FF5 		dsb		
+ 400 0020 6FF07FF5 	isb		
+ 401              	
+ 402              	@ 0 "" 2
+ 474:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 						"isb		\n" ::: "memory" );
+ 475:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	portCPU_IRQ_ENABLE();
+ 403              		.loc 1 475 0
+ 404              	@ 475 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 405 0024 800008F1 		CPSIE i
+ 406              	@ 0 "" 2
+ 407              	@ 475 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 408 0028 4FF07FF5 		DSB
+ 409              	@ 0 "" 2
+ 410              	@ 475 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 411 002c 6FF07FF5 		ISB
+ 412              	@ 0 "" 2
+ 476:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 477:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	/* Increment the RTOS tick. */
+ 478:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	if( xTaskIncrementTick() != pdFALSE )
+ 413              		.loc 1 478 0
+ 414              		.arm
+ 415              		.syntax unified
+ 416 0030 FEFFFFEB 		bl	xTaskIncrementTick
+ 417              	.LVL25:
+ 418 0034 000050E3 		cmp	r0, #0
+ 479:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	{
+ 480:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		ulPortYieldRequired = pdTRUE;
+ 419              		.loc 1 480 0
+ 420 0038 34309F15 		ldrne	r3, .L44+4
+ 421 003c 0120A013 		movne	r2, #1
+ 422 0040 00208315 		strne	r2, [r3]
+ 481:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	}
+ 482:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 483:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	/* Ensure all interrupt priorities are active again. */
+ 484:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	portCLEAR_INTERRUPT_MASK();
+ 423              		.loc 1 484 0
+ 424              		.syntax divided
+ 425              	@ 484 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 426 0044 80000CF1 		CPSID i
+ 427              	@ 0 "" 2
+ 428              	@ 484 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 429 0048 4FF07FF5 		DSB
+ 430              	@ 0 "" 2
+ 431              	@ 484 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 432 004c 6FF07FF5 		ISB
+ 433              	@ 0 "" 2
+ 434              		.arm
+ 435              		.syntax unified
+ 436 0050 FF30A0E3 		mov	r3, #255
+ 437 0054 043084E5 		str	r3, [r4, #4]
+ 438              		.syntax divided
+ 439              	@ 484 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 440 0058 4FF07FF5 		DSB		
+ 441 005c 6FF07FF5 	ISB		
+ 442              	
+ 443              	@ 0 "" 2
+ 444              	@ 484 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 445 0060 800008F1 		CPSIE i
+ 446              	@ 0 "" 2
+ 447              	@ 484 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 448 0064 4FF07FF5 		DSB
+ 449              	@ 0 "" 2
+ 450              	@ 484 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 451 0068 6FF07FF5 		ISB
+ 452              	@ 0 "" 2
+ 453              		.arm
+ 454              		.syntax unified
+ 455 006c 1080BDE8 		pop	{r4, pc}
+ 456              	.L45:
+ 457              		.align	2
+ 458              	.L44:
+ 459 0070 002022E8 		.word	-400416768
+ 460 0074 00000000 		.word	.LANCHOR1
+ 461              		.cfi_endproc
+ 462              	.LFE9:
+ 464              		.section	.text.vPortTaskUsesFPU,"ax",%progbits
+ 465              		.align	2
+ 466              		.global	vPortTaskUsesFPU
+ 467              		.syntax unified
+ 468              		.arm
+ 469              		.fpu neon
+ 471              	vPortTaskUsesFPU:
+ 472              	.LFB10:
+ 485:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	configCLEAR_TICK_INTERRUPT();
+ 486:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** }
+ 487:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /*-----------------------------------------------------------*/
+ 488:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 489:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #if( configUSE_TASK_FPU_SUPPORT != 2 )
+ 490:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 491:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	void vPortTaskUsesFPU( void )
+ 492:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	{
+ 473              		.loc 1 492 0
+ 474              		.cfi_startproc
+ 475              		@ args = 0, pretend = 0, frame = 0
+ 476              		@ frame_needed = 0, uses_anonymous_args = 0
+ 477              		@ link register save eliminated.
+ 478              	.LVL26:
+ 493:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	uint32_t ulInitialFPSCR = 0;
+ 494:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 495:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		/* A task is registering the fact that it needs an FPU context.  Set the
+ 496:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		FPU flag (which is saved as part of the task context). */
+ 497:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		ulPortTaskHasFPUContext = pdTRUE;
+ 479              		.loc 1 497 0
+ 480 0000 0C309FE5 		ldr	r3, .L47
+ 481 0004 0120A0E3 		mov	r2, #1
+ 498:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 499:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		/* Initialise the floating point status register. */
+ 500:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		#if 0
+ 501:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 			__asm volatile ( "FMXR 	FPSCR, %0" :: "r" (ulInitialFPSCR) );
+ 502:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		#else
+ 503:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 			set_fpscr(ulInitialFPSCR);
+ 482              		.loc 1 503 0
+ 483 0008 0000A0E3 		mov	r0, #0
+ 497:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 484              		.loc 1 497 0
+ 485 000c 002083E5 		str	r2, [r3]
+ 486              		.loc 1 503 0
+ 487 0010 FEFFFFEA 		b	set_fpscr
+ 488              	.LVL27:
+ 489              	.L48:
+ 490              		.align	2
+ 491              	.L47:
+ 492 0014 00000000 		.word	.LANCHOR2
+ 493              		.cfi_endproc
+ 494              	.LFE10:
+ 496              		.section	.text.vPortClearInterruptMask,"ax",%progbits
+ 497              		.align	2
+ 498              		.global	vPortClearInterruptMask
+ 499              		.syntax unified
+ 500              		.arm
+ 501              		.fpu neon
+ 503              	vPortClearInterruptMask:
+ 504              	.LFB11:
+ 504:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		#endif
+ 505:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 506:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	}
+ 507:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 508:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #endif /* configUSE_TASK_FPU_SUPPORT */
+ 509:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /*-----------------------------------------------------------*/
+ 510:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 511:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** void vPortClearInterruptMask( uint32_t ulNewMaskValue )
+ 512:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** {
+ 505              		.loc 1 512 0
+ 506              		.cfi_startproc
+ 507              		@ args = 0, pretend = 0, frame = 0
+ 508              		@ frame_needed = 0, uses_anonymous_args = 0
+ 509              		@ link register save eliminated.
+ 510              	.LVL28:
+ 513:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	if( ulNewMaskValue == pdFALSE )
+ 511              		.loc 1 513 0
+ 512 0000 000050E3 		cmp	r0, #0
+ 513 0004 1EFF2F11 		bxne	lr
+ 514:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	{
+ 515:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		portCLEAR_INTERRUPT_MASK();
+ 514              		.loc 1 515 0
+ 515              		.syntax divided
+ 516              	@ 515 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 517 0008 80000CF1 		CPSID i
+ 518              	@ 0 "" 2
+ 519              	@ 515 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 520 000c 4FF07FF5 		DSB
+ 521              	@ 0 "" 2
+ 522              	@ 515 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 523 0010 6FF07FF5 		ISB
+ 524              	@ 0 "" 2
+ 525              		.arm
+ 526              		.syntax unified
+ 527 0014 1C309FE5 		ldr	r3, .L51
+ 528 0018 FF20A0E3 		mov	r2, #255
+ 529 001c 042083E5 		str	r2, [r3, #4]
+ 530              		.syntax divided
+ 531              	@ 515 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 532 0020 4FF07FF5 		DSB		
+ 533 0024 6FF07FF5 	ISB		
+ 534              	
+ 535              	@ 0 "" 2
+ 536              	@ 515 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 537 0028 800008F1 		CPSIE i
+ 538              	@ 0 "" 2
+ 539              	@ 515 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 540 002c 4FF07FF5 		DSB
+ 541              	@ 0 "" 2
+ 542              	@ 515 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 543 0030 6FF07FF5 		ISB
+ 544              	@ 0 "" 2
+ 545              		.arm
+ 546              		.syntax unified
+ 547 0034 1EFF2FE1 		bx	lr
+ 548              	.L52:
+ 549              		.align	2
+ 550              	.L51:
+ 551 0038 002022E8 		.word	-400416768
+ 552              		.cfi_endproc
+ 553              	.LFE11:
+ 555              		.section	.text.ulPortSetInterruptMask,"ax",%progbits
+ 556              		.align	2
+ 557              		.global	ulPortSetInterruptMask
+ 558              		.syntax unified
+ 559              		.arm
+ 560              		.fpu neon
+ 562              	ulPortSetInterruptMask:
+ 563              	.LFB12:
+ 516:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	}
+ 517:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** }
+ 518:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /*-----------------------------------------------------------*/
+ 519:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 520:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** uint32_t ulPortSetInterruptMask( void )
+ 521:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** {
+ 564              		.loc 1 521 0
+ 565              		.cfi_startproc
+ 566              		@ args = 0, pretend = 0, frame = 0
+ 567              		@ frame_needed = 0, uses_anonymous_args = 0
+ 568              		@ link register save eliminated.
+ 522:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** uint32_t ulReturn;
+ 523:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 524:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	/* Interrupt in the CPU must be turned off while the ICCPMR is being
+ 525:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	updated. */
+ 526:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	portCPU_IRQ_DISABLE();
+ 569              		.loc 1 526 0
+ 570              		.syntax divided
+ 571              	@ 526 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 572 0000 80000CF1 		CPSID i
+ 573              	@ 0 "" 2
+ 574              	@ 526 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 575 0004 4FF07FF5 		DSB
+ 576              	@ 0 "" 2
+ 577              	@ 526 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 578 0008 6FF07FF5 		ISB
+ 579              	@ 0 "" 2
+ 527:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	if( portICCPMR_PRIORITY_MASK_REGISTER == ( uint32_t ) ( configMAX_API_CALL_INTERRUPT_PRIORITY << p
+ 580              		.loc 1 527 0
+ 581              		.arm
+ 582              		.syntax unified
+ 583 000c 30309FE5 		ldr	r3, .L56
+ 584 0010 042093E5 		ldr	r2, [r3, #4]
+ 585 0014 C80052E3 		cmp	r2, #200
+ 528:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	{
+ 529:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		/* Interrupts were already masked. */
+ 530:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		ulReturn = pdTRUE;
+ 586              		.loc 1 530 0
+ 587 0018 0100A003 		moveq	r0, #1
+ 527:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	if( portICCPMR_PRIORITY_MASK_REGISTER == ( uint32_t ) ( configMAX_API_CALL_INTERRUPT_PRIORITY << p
+ 588              		.loc 1 527 0
+ 589 001c 0400000A 		beq	.L54
+ 590              	.LVL29:
+ 531:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	}
+ 532:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	else
+ 533:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	{
+ 534:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		ulReturn = pdFALSE;
+ 535:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		portICCPMR_PRIORITY_MASK_REGISTER = ( uint32_t ) ( configMAX_API_CALL_INTERRUPT_PRIORITY << portP
+ 591              		.loc 1 535 0
+ 592 0020 C820A0E3 		mov	r2, #200
+ 593 0024 042083E5 		str	r2, [r3, #4]
+ 536:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		__asm volatile (	"dsb		\n"
+ 594              		.loc 1 536 0
+ 595              		.syntax divided
+ 596              	@ 536 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 597 0028 4FF07FF5 		dsb		
+ 598 002c 6FF07FF5 	isb		
+ 599              	
+ 600              	@ 0 "" 2
+ 534:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		portICCPMR_PRIORITY_MASK_REGISTER = ( uint32_t ) ( configMAX_API_CALL_INTERRUPT_PRIORITY << portP
+ 601              		.loc 1 534 0
+ 602              		.arm
+ 603              		.syntax unified
+ 604 0030 0000A0E3 		mov	r0, #0
+ 605              	.LVL30:
+ 606              	.L54:
+ 537:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 							"isb		\n" ::: "memory" );
+ 538:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	}
+ 539:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	portCPU_IRQ_ENABLE();
+ 607              		.loc 1 539 0
+ 608              		.syntax divided
+ 609              	@ 539 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 610 0034 800008F1 		CPSIE i
+ 611              	@ 0 "" 2
+ 612              	@ 539 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 613 0038 4FF07FF5 		DSB
+ 614              	@ 0 "" 2
+ 615              	@ 539 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M/port.c" 1
+ 616 003c 6FF07FF5 		ISB
+ 617              	@ 0 "" 2
+ 540:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 541:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	return ulReturn;
+ 542:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** }
+ 618              		.loc 1 542 0
+ 619              		.arm
+ 620              		.syntax unified
+ 621 0040 1EFF2FE1 		bx	lr
+ 622              	.L57:
+ 623              		.align	2
+ 624              	.L56:
+ 625 0044 002022E8 		.word	-400416768
+ 626              		.cfi_endproc
+ 627              	.LFE12:
+ 629              		.section	.text.prvTaskExitError,"ax",%progbits
+ 630              		.align	2
+ 631              		.syntax unified
+ 632              		.arm
+ 633              		.fpu neon
+ 635              	prvTaskExitError:
+ 636              	.LFB4:
+ 318:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	/* A function that implements a task must not exit or attempt to return to
+ 637              		.loc 1 318 0
+ 638              		.cfi_startproc
+ 639              		@ Volatile: function does not return.
+ 640              		@ args = 0, pretend = 0, frame = 0
+ 641              		@ frame_needed = 0, uses_anonymous_args = 0
+ 325:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	portDISABLE_INTERRUPTS();
+ 642              		.loc 1 325 0
+ 643 0000 20309FE5 		ldr	r3, .L62
+ 318:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	/* A function that implements a task must not exit or attempt to return to
+ 644              		.loc 1 318 0
+ 645 0004 10402DE9 		push	{r4, lr}
+ 646              		.cfi_def_cfa_offset 8
+ 647              		.cfi_offset 4, -8
+ 648              		.cfi_offset 14, -4
+ 325:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	portDISABLE_INTERRUPTS();
+ 649              		.loc 1 325 0
+ 650 0008 003093E5 		ldr	r3, [r3]
+ 651 000c 010073E3 		cmn	r3, #1
+ 652 0010 0200000A 		beq	.L59
+ 325:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	portDISABLE_INTERRUPTS();
+ 653              		.loc 1 325 0 is_stmt 0 discriminator 1
+ 654 0014 0110A0E3 		mov	r1, #1
+ 655 0018 0C009FE5 		ldr	r0, .L62+4
+ 656 001c FEFFFFEB 		bl	longjmp
+ 657              	.LVL31:
+ 658              	.L59:
+ 326:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	for( ;; );
+ 659              		.loc 1 326 0 is_stmt 1
+ 660 0020 FEFFFFEB 		bl	ulPortSetInterruptMask
+ 661              	.LVL32:
+ 662              	.L60:
+ 663 0024 FEFFFFEA 		b	.L60
+ 664              	.L63:
+ 665              		.align	2
+ 666              	.L62:
+ 667 0028 00000000 		.word	.LANCHOR3
+ 668 002c 28000000 		.word	Unity+40
+ 669              		.cfi_endproc
+ 670              	.LFE4:
+ 672              		.section	.text.vPortEnterCritical,"ax",%progbits
+ 673              		.align	2
+ 674              		.global	vPortEnterCritical
+ 675              		.syntax unified
+ 676              		.arm
+ 677              		.fpu neon
+ 679              	vPortEnterCritical:
+ 680              	.LFB7:
+ 423:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	/* Mask interrupts up to the max syscall interrupt priority. */
+ 681              		.loc 1 423 0
+ 682              		.cfi_startproc
+ 683              		@ args = 0, pretend = 0, frame = 0
+ 684              		@ frame_needed = 0, uses_anonymous_args = 0
+ 685 0000 10402DE9 		push	{r4, lr}
+ 686              		.cfi_def_cfa_offset 8
+ 687              		.cfi_offset 4, -8
+ 688              		.cfi_offset 14, -4
+ 425:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 689              		.loc 1 425 0
+ 690 0004 FEFFFFEB 		bl	ulPortSetInterruptMask
+ 691              	.LVL33:
+ 430:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 692              		.loc 1 430 0
+ 693 0008 2C309FE5 		ldr	r3, .L70
+ 694 000c 002093E5 		ldr	r2, [r3]
+ 695 0010 012082E2 		add	r2, r2, #1
+ 696 0014 002083E5 		str	r2, [r3]
+ 437:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	{
+ 697              		.loc 1 437 0
+ 698 0018 001093E5 		ldr	r1, [r3]
+ 699 001c 010051E3 		cmp	r1, #1
+ 700 0020 1080BD18 		popne	{r4, pc}
+ 439:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	}
+ 701              		.loc 1 439 0
+ 702 0024 14309FE5 		ldr	r3, .L70+4
+ 703 0028 003093E5 		ldr	r3, [r3]
+ 704 002c 000053E3 		cmp	r3, #0
+ 705 0030 1080BD08 		popeq	{r4, pc}
+ 439:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	}
+ 706              		.loc 1 439 0 is_stmt 0 discriminator 1
+ 707 0034 08009FE5 		ldr	r0, .L70+8
+ 708 0038 FEFFFFEB 		bl	longjmp
+ 709              	.LVL34:
+ 710              	.L71:
+ 711              		.align	2
+ 712              	.L70:
+ 713 003c 00000000 		.word	.LANCHOR0
+ 714 0040 00000000 		.word	.LANCHOR3
+ 715 0044 28000000 		.word	Unity+40
+ 716              		.cfi_endproc
+ 717              	.LFE7:
+ 719              		.section	.text.vPortValidateInterruptPriority,"ax",%progbits
+ 720              		.align	2
+ 721              		.global	vPortValidateInterruptPriority
+ 722              		.syntax unified
+ 723              		.arm
+ 724              		.fpu neon
+ 726              	vPortValidateInterruptPriority:
+ 727              	.LFB13:
+ 543:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /*-----------------------------------------------------------*/
+ 544:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 545:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #if( configASSERT_DEFINED == 1 )
+ 546:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 547:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	void vPortValidateInterruptPriority( void )
+ 548:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	{
+ 728              		.loc 1 548 0 is_stmt 1
+ 729              		.cfi_startproc
+ 730              		@ args = 0, pretend = 0, frame = 0
+ 731              		@ frame_needed = 0, uses_anonymous_args = 0
+ 549:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		/* The following assertion will fail if a service routine (ISR) for
+ 550:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		an interrupt that has been assigned a priority above
+ 551:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		configMAX_SYSCALL_INTERRUPT_PRIORITY calls an ISR safe FreeRTOS API
+ 552:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		function.  ISR safe FreeRTOS API functions must *only* be called
+ 553:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		from interrupts that have been assigned a priority at or below
+ 554:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		configMAX_SYSCALL_INTERRUPT_PRIORITY.
+ 555:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 556:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		Numerically low interrupt priority numbers represent logically high
+ 557:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		interrupt priorities, therefore the priority of the interrupt must
+ 558:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		be set to a value equal to or numerically *higher* than
+ 559:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		configMAX_SYSCALL_INTERRUPT_PRIORITY.
+ 560:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 561:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		FreeRTOS maintains separate thread and ISR API functions to ensure
+ 562:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		interrupt entry is as fast and simple as possible. */
+ 563:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		configASSERT( portICCRPR_RUNNING_PRIORITY_REGISTER >= ( uint32_t ) ( configMAX_API_CALL_INTERRUPT
+ 732              		.loc 1 563 0
+ 733 0000 2C309FE5 		ldr	r3, .L80
+ 734 0004 142093E5 		ldr	r2, [r3, #20]
+ 735 0008 C70052E3 		cmp	r2, #199
+ 736 000c 0300008A 		bhi	.L73
+ 737              	.L74:
+ 548:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		/* The following assertion will fail if a service routine (ISR) for
+ 738              		.loc 1 548 0 discriminator 1
+ 739 0010 10402DE9 		push	{r4, lr}
+ 740              		.cfi_def_cfa_offset 8
+ 741              		.cfi_offset 4, -8
+ 742              		.cfi_offset 14, -4
+ 743              		.loc 1 563 0 discriminator 1
+ 744 0014 0110A0E3 		mov	r1, #1
+ 745 0018 18009FE5 		ldr	r0, .L80+4
+ 746 001c FEFFFFEB 		bl	longjmp
+ 747              	.LVL35:
+ 748              	.L73:
+ 749              		.cfi_def_cfa_offset 0
+ 750              		.cfi_restore 4
+ 751              		.cfi_restore 14
+ 564:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 565:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		/* Priority grouping:  The interrupt controller (GIC) allows the bits
+ 566:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		that define each interrupt's priority to be split between bits that
+ 567:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		define the interrupt's pre-emption priority bits and bits that define
+ 568:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		the interrupt's sub-priority.  For simplicity all bits must be defined
+ 569:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		to be pre-emption priority bits.  The following assertion will fail if
+ 570:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		this is not the case (if some bits represent a sub-priority).
+ 571:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 572:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		The priority grouping is configured by the GIC's binary point register
+ 573:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		(ICCBPR).  Writting 0 to ICCBPR will ensure it is set to its lowest
+ 574:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		possible value (which may be above 0). */
+ 575:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 		configASSERT( ( portICCBPR_BINARY_POINT_REGISTER & portBINARY_POINT_BITS ) <= portMAX_BINARY_POIN
+ 752              		.loc 1 575 0
+ 753 0020 083093E5 		ldr	r3, [r3, #8]
+ 754 0024 033003E2 		and	r3, r3, #3
+ 755 0028 030053E3 		cmp	r3, #3
+ 756 002c F7FFFF0A 		beq	.L74
+ 757 0030 1EFF2FE1 		bx	lr
+ 758              	.L81:
+ 759              		.align	2
+ 760              	.L80:
+ 761 0034 002022E8 		.word	-400416768
+ 762 0038 28000000 		.word	Unity+40
+ 763              		.cfi_endproc
+ 764              	.LFE13:
+ 766              		.section	.text.vApplicationFPUSafeIRQHandler,"ax",%progbits
+ 767              		.align	2
+ 768              		.weak	vApplicationFPUSafeIRQHandler
+ 769              		.syntax unified
+ 770              		.arm
+ 771              		.fpu neon
+ 773              	vApplicationFPUSafeIRQHandler:
+ 774              	.LFB14:
+ 576:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	}
+ 577:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 578:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** #endif /* configASSERT_DEFINED */
+ 579:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** /*-----------------------------------------------------------*/
+ 580:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 581:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** void vApplicationFPUSafeIRQHandler( uint32_t ulICCIAR )
+ 582:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** {
+ 775              		.loc 1 582 0
+ 776              		.cfi_startproc
+ 777              		@ args = 0, pretend = 0, frame = 0
+ 778              		@ frame_needed = 0, uses_anonymous_args = 0
+ 779              	.LVL36:
+ 780 0000 10402DE9 		push	{r4, lr}
+ 781              		.cfi_def_cfa_offset 8
+ 782              		.cfi_offset 4, -8
+ 783              		.cfi_offset 14, -4
+ 583:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	( void ) ulICCIAR;
+ 584:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	configASSERT( ( volatile void * ) NULL );
+ 784              		.loc 1 584 0
+ 785 0004 0110A0E3 		mov	r1, #1
+ 786 0008 00009FE5 		ldr	r0, .L84
+ 787              	.LVL37:
+ 788 000c FEFFFFEB 		bl	longjmp
+ 789              	.LVL38:
+ 790              	.L85:
+ 791              		.align	2
+ 792              	.L84:
+ 793 0010 28000000 		.word	Unity+40
+ 794              		.cfi_endproc
+ 795              	.LFE14:
+ 797              		.section	.text.vApplicationIRQHandler,"ax",%progbits
+ 798              		.align	2
+ 799              		.global	vApplicationIRQHandler
+ 800              		.syntax unified
+ 801              		.arm
+ 802              		.fpu neon
+ 804              	vApplicationIRQHandler:
+ 805              	.LFB15:
+ 585:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** }
+ 586:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 587:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** void vApplicationIRQHandler( uint32_t ulICCIAR )
+ 588:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** {
+ 806              		.loc 1 588 0
+ 807              		.cfi_startproc
+ 808              		@ args = 0, pretend = 0, frame = 0
+ 809              		@ frame_needed = 0, uses_anonymous_args = 0
+ 810              	.LVL39:
+ 811 0000 10402DE9 		push	{r4, lr}
+ 812              		.cfi_def_cfa_offset 8
+ 813              		.cfi_offset 4, -8
+ 814              		.cfi_offset 14, -4
+ 815              		.loc 1 588 0
+ 816 0004 0040A0E1 		mov	r4, r0
+ 589:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** uint32_t ulInterruptID;
+ 590:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 591:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****    /* Re-enable interrupts. */
+ 592:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****     __enable_irq();
+ 817              		.loc 1 592 0
+ 818 0008 FEFFFFEB 		bl	__enable_irq
+ 819              	.LVL40:
+ 593:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 594:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****    /* The ID of the interrupt can be obtained by bitwise anding the ICCIAR value
+ 595:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****    with 0x3FF. */
+ 596:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****    ulInterruptID = ulICCIAR & 0x3FFUL;
+ 820              		.loc 1 596 0
+ 821 000c 5400E9E7 		ubfx	r0, r4, #0, #10
+ 822              	.LVL41:
+ 597:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 
+ 598:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****    /* Properly handle spurious interrupts */
+ 599:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****    if(ulInterruptID < INTC_GIC_ID_TOTAL)
+ 823              		.loc 1 599 0
+ 824 0010 020C50E3 		cmp	r0, #512
+ 825 0014 1080BD28 		popcs	{r4, pc}
+ 600:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****    {
+ 601:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****       /* Call the function installed in the array of installed handler functions. */
+ 602:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** 	   g_intc_func_table[ ulInterruptID ]( 0 );
+ 826              		.loc 1 602 0
+ 827 0018 0C309FE5 		ldr	r3, .L89
+ 603:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****    }
+ 604:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c **** }
+ 828              		.loc 1 604 0
+ 829 001c 1040BDE8 		pop	{r4, lr}
+ 830              		.cfi_restore 14
+ 831              		.cfi_restore 4
+ 832              		.cfi_def_cfa_offset 0
+ 833              	.LVL42:
+ 602:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS/portable/GCC/ARM_CA9_RZA2M\port.c ****    }
+ 834              		.loc 1 602 0
+ 835 0020 003193E7 		ldr	r3, [r3, r0, lsl #2]
+ 836 0024 0000A0E3 		mov	r0, #0
+ 837              	.LVL43:
+ 838 0028 13FF2FE1 		bx	r3	@ indirect register sibling call
+ 839              	.LVL44:
+ 840              	.L90:
+ 841              		.align	2
+ 842              	.L89:
+ 843 002c 00000000 		.word	g_intc_func_table
+ 844              		.cfi_endproc
+ 845              	.LFE15:
+ 847              		.global	ulMaxAPIPriorityMask
+ 848              		.global	ulICCPMR
+ 849              		.global	ulICCEOIR
+ 850              		.global	ulICCIAR
+ 851              		.global	ulPortInterruptNesting
+ 852              		.global	ulPortYieldRequired
+ 853              		.global	ulPortTaskHasFPUContext
+ 854              		.global	ulCriticalNesting
+ 855              		.section	.bss.ulPortInterruptNesting,"aw",%nobits
+ 856              		.align	2
+ 857              		.set	.LANCHOR3,. + 0
+ 860              	ulPortInterruptNesting:
+ 861 0000 00000000 		.space	4
+ 862              		.section	.bss.ulPortTaskHasFPUContext,"aw",%nobits
+ 863              		.align	2
+ 864              		.set	.LANCHOR2,. + 0
+ 867              	ulPortTaskHasFPUContext:
+ 868 0000 00000000 		.space	4
+ 869              		.section	.bss.ulPortYieldRequired,"aw",%nobits
+ 870              		.align	2
+ 871              		.set	.LANCHOR1,. + 0
+ 874              	ulPortYieldRequired:
+ 875 0000 00000000 		.space	4
+ 876              		.section	.data.ulCriticalNesting,"aw",%progbits
+ 877              		.align	2
+ 878              		.set	.LANCHOR0,. + 0
+ 881              	ulCriticalNesting:
+ 882 0000 0F270000 		.word	9999
+ 883              		.section	.rodata.ulICCEOIR,"a",%progbits
+ 884              		.align	2
+ 887              	ulICCEOIR:
+ 888 0000 102022E8 		.word	-400416752
+ 889              		.section	.rodata.ulICCIAR,"a",%progbits
+ 890              		.align	2
+ 893              	ulICCIAR:
+ 894 0000 0C2022E8 		.word	-400416756
+ 895              		.section	.rodata.ulICCPMR,"a",%progbits
+ 896              		.align	2
+ 899              	ulICCPMR:
+ 900 0000 042022E8 		.word	-400416764
+ 901              		.section	.rodata.ulMaxAPIPriorityMask,"a",%progbits
+ 902              		.align	2
+ 905              	ulMaxAPIPriorityMask:
+ 906 0000 C8000000 		.word	200
+ 907              		.text
+ 908              	.Letext0:
+ 909              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 910              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 911              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 912              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 913              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 914              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 915              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 916              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 917              		.file 10 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 918              		.file 11 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\src/unity_internals.h"
+ 919              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include\\private/projdefs.h"
+ 920              		.file 13 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 921              		.file 14 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS\\portable\\GCC\\ARM_CA9_RZA2M/por
+ 922              		.file 15 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 923              		.file 16 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 924              		.file 17 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 925              		.file 18 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 926              		.file 19 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 927              		.file 20 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/task.h"
+ 928              		.file 21 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\renesas\\rza2m-gr-mango\\common\\config_
+DEFINED SYMBOLS
+                            *ABS*:00000000 port.c
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:17     .text.pxPortInitialiseStack:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:23     .text.pxPortInitialiseStack:00000000 pxPortInitialiseStack
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:119    .text.pxPortInitialiseStack:0000009c $d
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:635    .text.prvTaskExitError:00000000 prvTaskExitError
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:136    .text.xPortStartScheduler:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:142    .text.xPortStartScheduler:00000000 xPortStartScheduler
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:246    .text.xPortStartScheduler:000000b4 $d
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:253    .text.vPortEndScheduler:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:259    .text.vPortEndScheduler:00000000 vPortEndScheduler
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:288    .text.vPortEndScheduler:00000024 $d
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:294    .text.vPortExitCritical:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:300    .text.vPortExitCritical:00000000 vPortExitCritical
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:357    .text.vPortExitCritical:00000058 $d
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:363    .text.FreeRTOS_Tick_Handler:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:369    .text.FreeRTOS_Tick_Handler:00000000 FreeRTOS_Tick_Handler
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:459    .text.FreeRTOS_Tick_Handler:00000070 $d
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:465    .text.vPortTaskUsesFPU:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:471    .text.vPortTaskUsesFPU:00000000 vPortTaskUsesFPU
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:492    .text.vPortTaskUsesFPU:00000014 $d
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:497    .text.vPortClearInterruptMask:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:503    .text.vPortClearInterruptMask:00000000 vPortClearInterruptMask
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:551    .text.vPortClearInterruptMask:00000038 $d
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:556    .text.ulPortSetInterruptMask:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:562    .text.ulPortSetInterruptMask:00000000 ulPortSetInterruptMask
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:625    .text.ulPortSetInterruptMask:00000044 $d
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:630    .text.prvTaskExitError:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:667    .text.prvTaskExitError:00000028 $d
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:673    .text.vPortEnterCritical:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:679    .text.vPortEnterCritical:00000000 vPortEnterCritical
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:713    .text.vPortEnterCritical:0000003c $d
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:720    .text.vPortValidateInterruptPriority:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:726    .text.vPortValidateInterruptPriority:00000000 vPortValidateInterruptPriority
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:761    .text.vPortValidateInterruptPriority:00000034 $d
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:767    .text.vApplicationFPUSafeIRQHandler:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:773    .text.vApplicationFPUSafeIRQHandler:00000000 vApplicationFPUSafeIRQHandler
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:793    .text.vApplicationFPUSafeIRQHandler:00000010 $d
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:798    .text.vApplicationIRQHandler:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:804    .text.vApplicationIRQHandler:00000000 vApplicationIRQHandler
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:843    .text.vApplicationIRQHandler:0000002c $d
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:905    .rodata.ulMaxAPIPriorityMask:00000000 ulMaxAPIPriorityMask
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:899    .rodata.ulICCPMR:00000000 ulICCPMR
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:887    .rodata.ulICCEOIR:00000000 ulICCEOIR
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:893    .rodata.ulICCIAR:00000000 ulICCIAR
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:860    .bss.ulPortInterruptNesting:00000000 ulPortInterruptNesting
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:874    .bss.ulPortYieldRequired:00000000 ulPortYieldRequired
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:867    .bss.ulPortTaskHasFPUContext:00000000 ulPortTaskHasFPUContext
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:881    .data.ulCriticalNesting:00000000 ulCriticalNesting
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:856    .bss.ulPortInterruptNesting:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:863    .bss.ulPortTaskHasFPUContext:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:870    .bss.ulPortYieldRequired:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:877    .data.ulCriticalNesting:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:884    .rodata.ulICCEOIR:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:890    .rodata.ulICCIAR:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:896    .rodata.ulICCPMR:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccysyol2.s:902    .rodata.ulMaxAPIPriorityMask:00000000 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+longjmp
+get_apsr
+vConfigureTickInterrupt
+vPortRestoreTaskContext
+Unity
+xTaskIncrementTick
+set_fpscr
+__enable_irq
+g_intc_func_table

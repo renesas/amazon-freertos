@@ -1,0 +1,1443 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"pkwrite.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.pk_write_ec_pubkey,"ax",%progbits
+  17              		.align	2
+  18              		.syntax unified
+  19              		.arm
+  20              		.fpu neon
+  22              	pk_write_ec_pubkey:
+  23              	.LFB12:
+  24              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library/pkwrite.c"
+   1:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** /*
+   2:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  *  Public Key layer for writing key files and structures
+   3:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  *
+   4:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
+   5:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  *  SPDX-License-Identifier: Apache-2.0
+   6:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  *
+   7:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+   8:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  *  not use this file except in compliance with the License.
+   9:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  *  You may obtain a copy of the License at
+  10:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  *
+  11:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  *  http://www.apache.org/licenses/LICENSE-2.0
+  12:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  *
+  13:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  *  Unless required by applicable law or agreed to in writing, software
+  14:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  15:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  16:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  *  See the License for the specific language governing permissions and
+  17:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  *  limitations under the License.
+  18:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  *
+  19:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  *  This file is part of mbed TLS (https://tls.mbed.org)
+  20:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  */
+  21:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+  22:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #if !defined(MBEDTLS_CONFIG_FILE)
+  23:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #include "mbedtls/config.h"
+  24:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #else
+  25:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #include MBEDTLS_CONFIG_FILE
+  26:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #endif
+  27:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+  28:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #if defined(MBEDTLS_PK_WRITE_C)
+  29:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+  30:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #include "mbedtls/pk.h"
+  31:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #include "mbedtls/asn1write.h"
+  32:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #include "mbedtls/oid.h"
+  33:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+  34:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #include <string.h>
+  35:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+  36:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #if defined(MBEDTLS_RSA_C)
+  37:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #include "mbedtls/rsa.h"
+  38:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #endif
+  39:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #if defined(MBEDTLS_ECP_C)
+  40:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #include "mbedtls/ecp.h"
+  41:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #endif
+  42:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #if defined(MBEDTLS_ECDSA_C)
+  43:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #include "mbedtls/ecdsa.h"
+  44:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #endif
+  45:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #if defined(MBEDTLS_PEM_WRITE_C)
+  46:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #include "mbedtls/pem.h"
+  47:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #endif
+  48:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+  49:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #if defined(MBEDTLS_PLATFORM_C)
+  50:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #include "mbedtls/platform.h"
+  51:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #else
+  52:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #include <stdlib.h>
+  53:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #define mbedtls_calloc    calloc
+  54:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #define mbedtls_free       free
+  55:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #endif
+  56:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+  57:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #if defined(MBEDTLS_RSA_C)
+  58:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** /*
+  59:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  *  RSAPublicKey ::= SEQUENCE {
+  60:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  *      modulus           INTEGER,  -- n
+  61:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  *      publicExponent    INTEGER   -- e
+  62:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  *  }
+  63:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  */
+  64:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** static int pk_write_rsa_pubkey( unsigned char **p, unsigned char *start,
+  65:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****                                 mbedtls_rsa_context *rsa )
+  66:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** {
+  67:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     int ret;
+  68:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     size_t len = 0;
+  69:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     mbedtls_mpi T;
+  70:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+  71:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     mbedtls_mpi_init( &T );
+  72:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+  73:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     /* Export E */
+  74:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     if ( ( ret = mbedtls_rsa_export( rsa, NULL, NULL, NULL, NULL, &T ) ) != 0 ||
+  75:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****          ( ret = mbedtls_asn1_write_mpi( p, start, &T ) ) < 0 )
+  76:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         goto end_of_export;
+  77:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     len += ret;
+  78:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+  79:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     /* Export N */
+  80:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     if ( ( ret = mbedtls_rsa_export( rsa, &T, NULL, NULL, NULL, NULL ) ) != 0 ||
+  81:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****          ( ret = mbedtls_asn1_write_mpi( p, start, &T ) ) < 0 )
+  82:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         goto end_of_export;
+  83:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     len += ret;
+  84:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+  85:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** end_of_export:
+  86:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+  87:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     mbedtls_mpi_free( &T );
+  88:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     if( ret < 0 )
+  89:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         return( ret );
+  90:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+  91:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     MBEDTLS_ASN1_CHK_ADD( len, mbedtls_asn1_write_len( p, start, len ) );
+  92:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     MBEDTLS_ASN1_CHK_ADD( len, mbedtls_asn1_write_tag( p, start, MBEDTLS_ASN1_CONSTRUCTED |
+  93:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****                                                  MBEDTLS_ASN1_SEQUENCE ) );
+  94:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+  95:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     return( (int) len );
+  96:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** }
+  97:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #endif /* MBEDTLS_RSA_C */
+  98:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+  99:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #if defined(MBEDTLS_ECP_C)
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** /*
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  * EC public key is an EC point
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  */
+ 103:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** static int pk_write_ec_pubkey( unsigned char **p, unsigned char *start,
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****                                mbedtls_ecp_keypair *ec )
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** {
+  25              		.loc 1 105 0
+  26              		.cfi_startproc
+  27              		@ args = 0, pretend = 0, frame = 144
+  28              		@ frame_needed = 0, uses_anonymous_args = 0
+  29              	.LVL0:
+  30 0000 70402DE9 		push	{r4, r5, r6, lr}
+  31              		.cfi_def_cfa_offset 16
+  32              		.cfi_offset 4, -16
+  33              		.cfi_offset 5, -12
+  34              		.cfi_offset 6, -8
+  35              		.cfi_offset 14, -4
+  36 0004 98D04DE2 		sub	sp, sp, #152
+  37              		.cfi_def_cfa_offset 168
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     int ret;
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     size_t len = 0;
+  38              		.loc 1 107 0
+  39 0008 98308DE2 		add	r3, sp, #152
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     int ret;
+  40              		.loc 1 105 0
+  41 000c 0060A0E1 		mov	r6, r0
+  42 0010 0140A0E1 		mov	r4, r1
+  43 0014 0200A0E1 		mov	r0, r2
+  44              	.LVL1:
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     unsigned char buf[MBEDTLS_ECP_MAX_PT_LEN];
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 110:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     if( ( ret = mbedtls_ecp_point_write_binary( &ec->grp, &ec->Q,
+  45              		.loc 1 110 0
+  46 0018 8510A0E3 		mov	r1, #133
+  47              	.LVL2:
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     unsigned char buf[MBEDTLS_ECP_MAX_PT_LEN];
+  48              		.loc 1 107 0
+  49 001c 0020A0E3 		mov	r2, #0
+  50              	.LVL3:
+  51              		.loc 1 110 0
+  52 0020 10508DE2 		add	r5, sp, #16
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     unsigned char buf[MBEDTLS_ECP_MAX_PT_LEN];
+  53              		.loc 1 107 0
+  54 0024 8C2023E5 		str	r2, [r3, #-140]!
+  55              		.loc 1 110 0
+  56 0028 04108DE5 		str	r1, [sp, #4]
+  57 002c 881080E2 		add	r1, r0, #136
+  58 0030 00508DE5 		str	r5, [sp]
+  59 0034 FEFFFFEB 		bl	mbedtls_ecp_point_write_binary
+  60              	.LVL4:
+  61 0038 000050E3 		cmp	r0, #0
+  62 003c 0B00001A 		bne	.L1
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****                                         MBEDTLS_ECP_PF_UNCOMPRESSED,
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****                                         &len, buf, sizeof( buf ) ) ) != 0 )
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     {
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         return( ret );
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     }
+ 116:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     if( *p < start || (size_t)( *p - start ) < len )
+  63              		.loc 1 117 0
+  64 0040 000096E5 		ldr	r0, [r6]
+  65              	.LVL5:
+  66 0044 040050E1 		cmp	r0, r4
+  67 0048 0A00003A 		bcc	.L4
+  68              		.loc 1 117 0 is_stmt 0 discriminator 1
+  69 004c 0C209DE5 		ldr	r2, [sp, #12]
+  70 0050 044040E0 		sub	r4, r0, r4
+  71              	.LVL6:
+  72 0054 020054E1 		cmp	r4, r2
+  73 0058 0600003A 		bcc	.L4
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         return( MBEDTLS_ERR_ASN1_BUF_TOO_SMALL );
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     *p -= len;
+  74              		.loc 1 120 0 is_stmt 1
+  75 005c 020040E0 		sub	r0, r0, r2
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     memcpy( *p, buf, len );
+  76              		.loc 1 121 0
+  77 0060 0510A0E1 		mov	r1, r5
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     memcpy( *p, buf, len );
+  78              		.loc 1 120 0
+  79 0064 000086E5 		str	r0, [r6]
+  80              		.loc 1 121 0
+  81 0068 FEFFFFEB 		bl	memcpy
+  82              	.LVL7:
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     return( (int) len );
+  83              		.loc 1 123 0
+  84 006c 0C009DE5 		ldr	r0, [sp, #12]
+  85              	.L1:
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** }
+  86              		.loc 1 124 0
+  87 0070 98D08DE2 		add	sp, sp, #152
+  88              		.cfi_remember_state
+  89              		.cfi_def_cfa_offset 16
+  90              		@ sp needed
+  91 0074 7080BDE8 		pop	{r4, r5, r6, pc}
+  92              	.LVL8:
+  93              	.L4:
+  94              		.cfi_restore_state
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+  95              		.loc 1 118 0
+  96 0078 6B00E0E3 		mvn	r0, #107
+  97 007c FBFFFFEA 		b	.L1
+  98              		.cfi_endproc
+  99              	.LFE12:
+ 101              		.section	.text.pk_write_ec_param.isra.2,"ax",%progbits
+ 102              		.align	2
+ 103              		.syntax unified
+ 104              		.arm
+ 105              		.fpu neon
+ 107              	pk_write_ec_param.isra.2:
+ 108              	.LFB19:
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** /*
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  * ECParameters ::= CHOICE {
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  *   namedCurve         OBJECT IDENTIFIER
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  * }
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****  */
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** static int pk_write_ec_param( unsigned char **p, unsigned char *start,
+ 109              		.loc 1 131 0
+ 110              		.cfi_startproc
+ 111              		@ args = 0, pretend = 0, frame = 8
+ 112              		@ frame_needed = 0, uses_anonymous_args = 0
+ 113              	.LVL9:
+ 114 0000 37402DE9 		push	{r0, r1, r2, r4, r5, lr}
+ 115              		.cfi_def_cfa_offset 24
+ 116              		.cfi_offset 4, -12
+ 117              		.cfi_offset 5, -8
+ 118              		.cfi_offset 14, -4
+ 119              		.loc 1 131 0
+ 120 0004 0040A0E1 		mov	r4, r0
+ 121 0008 0150A0E1 		mov	r5, r1
+ 122 000c 0200A0E1 		mov	r0, r2
+ 123              	.LVL10:
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****                               mbedtls_ecp_keypair *ec )
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** {
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     int ret;
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     size_t len = 0;
+ 136:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     const char *oid;
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     size_t oid_len;
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 139:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     if( ( ret = mbedtls_oid_get_oid_by_ec_grp( ec->grp.id, &oid, &oid_len ) ) != 0 )
+ 124              		.loc 1 139 0
+ 125 0010 0D10A0E1 		mov	r1, sp
+ 126              	.LVL11:
+ 127 0014 04208DE2 		add	r2, sp, #4
+ 128 0018 FEFFFFEB 		bl	mbedtls_oid_get_oid_by_ec_grp
+ 129              	.LVL12:
+ 130 001c 000050E3 		cmp	r0, #0
+ 131 0020 0300001A 		bne	.L6
+ 140:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         return( ret );
+ 141:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 142:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     MBEDTLS_ASN1_CHK_ADD( len, mbedtls_asn1_write_oid( p, start, oid, oid_len ) );
+ 132              		.loc 1 142 0
+ 133 0024 0C009DE8 		ldm	sp, {r2, r3}
+ 134 0028 0510A0E1 		mov	r1, r5
+ 135 002c 0400A0E1 		mov	r0, r4
+ 136              	.LVL13:
+ 137 0030 FEFFFFEB 		bl	mbedtls_asn1_write_oid
+ 138              	.LVL14:
+ 139              	.L6:
+ 143:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 144:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     return( (int) len );
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** }
+ 140              		.loc 1 145 0
+ 141 0034 0CD08DE2 		add	sp, sp, #12
+ 142              		.cfi_def_cfa_offset 12
+ 143              		@ sp needed
+ 144 0038 3080BDE8 		pop	{r4, r5, pc}
+ 145              		.cfi_endproc
+ 146              	.LFE19:
+ 148              		.section	.text.mbedtls_pk_write_pubkey,"ax",%progbits
+ 149              		.align	2
+ 150              		.global	mbedtls_pk_write_pubkey
+ 151              		.syntax unified
+ 152              		.arm
+ 153              		.fpu neon
+ 155              	mbedtls_pk_write_pubkey:
+ 156              	.LFB14:
+ 146:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #endif /* MBEDTLS_ECP_C */
+ 147:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 148:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** int mbedtls_pk_write_pubkey( unsigned char **p, unsigned char *start,
+ 149:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****                              const mbedtls_pk_context *key )
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** {
+ 157              		.loc 1 150 0
+ 158              		.cfi_startproc
+ 159              		@ args = 0, pretend = 0, frame = 16
+ 160              		@ frame_needed = 0, uses_anonymous_args = 0
+ 161              	.LVL15:
+ 162 0000 F0472DE9 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 163              		.cfi_def_cfa_offset 32
+ 164              		.cfi_offset 4, -32
+ 165              		.cfi_offset 5, -28
+ 166              		.cfi_offset 6, -24
+ 167              		.cfi_offset 7, -20
+ 168              		.cfi_offset 8, -16
+ 169              		.cfi_offset 9, -12
+ 170              		.cfi_offset 10, -8
+ 171              		.cfi_offset 14, -4
+ 172 0004 0080A0E1 		mov	r8, r0
+ 173 0008 18D04DE2 		sub	sp, sp, #24
+ 174              		.cfi_def_cfa_offset 56
+ 151:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     int ret;
+ 152:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     size_t len = 0;
+ 153:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 154:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #if defined(MBEDTLS_RSA_C)
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     if( mbedtls_pk_get_type( key ) == MBEDTLS_PK_RSA )
+ 175              		.loc 1 155 0
+ 176 000c 0200A0E1 		mov	r0, r2
+ 177              	.LVL16:
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     int ret;
+ 178              		.loc 1 150 0
+ 179 0010 0190A0E1 		mov	r9, r1
+ 180              	.LVL17:
+ 181 0014 0240A0E1 		mov	r4, r2
+ 182              		.loc 1 155 0
+ 183 0018 FEFFFFEB 		bl	mbedtls_pk_get_type
+ 184              	.LVL18:
+ 185 001c 010050E3 		cmp	r0, #1
+ 186 0020 3900001A 		bne	.L10
+ 187 0024 04A094E5 		ldr	r10, [r4, #4]
+ 188              	.LVL19:
+ 189              	.LBB16:
+ 190              	.LBB17:
+  71:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 191              		.loc 1 71 0
+ 192 0028 0C708DE2 		add	r7, sp, #12
+  74:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****          ( ret = mbedtls_asn1_write_mpi( p, start, &T ) ) < 0 )
+ 193              		.loc 1 74 0
+ 194 002c 0050A0E3 		mov	r5, #0
+  71:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 195              		.loc 1 71 0
+ 196 0030 0700A0E1 		mov	r0, r7
+ 197 0034 FEFFFFEB 		bl	mbedtls_mpi_init
+ 198              	.LVL20:
+  74:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****          ( ret = mbedtls_asn1_write_mpi( p, start, &T ) ) < 0 )
+ 199              		.loc 1 74 0
+ 200 0038 04708DE5 		str	r7, [sp, #4]
+ 201 003c 0530A0E1 		mov	r3, r5
+ 202 0040 00508DE5 		str	r5, [sp]
+ 203 0044 0520A0E1 		mov	r2, r5
+ 204 0048 0510A0E1 		mov	r1, r5
+ 205 004c 0A00A0E1 		mov	r0, r10
+ 206 0050 FEFFFFEB 		bl	mbedtls_rsa_export
+ 207              	.LVL21:
+ 208 0054 004050E2 		subs	r4, r0, #0
+ 209              	.LVL22:
+ 210 0058 2900001A 		bne	.L16
+ 211 005c 0720A0E1 		mov	r2, r7
+ 212 0060 0910A0E1 		mov	r1, r9
+ 213 0064 0800A0E1 		mov	r0, r8
+ 214              	.LVL23:
+ 215 0068 FEFFFFEB 		bl	mbedtls_asn1_write_mpi
+ 216              	.LVL24:
+ 217 006c 004050E2 		subs	r4, r0, #0
+ 218 0070 230000BA 		blt	.L16
+  80:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****          ( ret = mbedtls_asn1_write_mpi( p, start, &T ) ) < 0 )
+ 219              		.loc 1 80 0
+ 220 0074 04508DE5 		str	r5, [sp, #4]
+ 221 0078 0530A0E1 		mov	r3, r5
+ 222 007c 00508DE5 		str	r5, [sp]
+ 223 0080 0520A0E1 		mov	r2, r5
+ 224 0084 0710A0E1 		mov	r1, r7
+ 225 0088 0A00A0E1 		mov	r0, r10
+ 226              	.LVL25:
+  77:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 227              		.loc 1 77 0
+ 228 008c 0460A0E1 		mov	r6, r4
+ 229              	.LVL26:
+  80:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****          ( ret = mbedtls_asn1_write_mpi( p, start, &T ) ) < 0 )
+ 230              		.loc 1 80 0
+ 231 0090 FEFFFFEB 		bl	mbedtls_rsa_export
+ 232              	.LVL27:
+ 233 0094 004050E2 		subs	r4, r0, #0
+ 234 0098 0500001A 		bne	.L11
+ 235 009c 0720A0E1 		mov	r2, r7
+ 236 00a0 0910A0E1 		mov	r1, r9
+ 237 00a4 0800A0E1 		mov	r0, r8
+ 238              	.LVL28:
+ 239 00a8 FEFFFFEB 		bl	mbedtls_asn1_write_mpi
+ 240              	.LVL29:
+ 241 00ac 004050E2 		subs	r4, r0, #0
+  83:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 242              		.loc 1 83 0
+ 243 00b0 046086A0 		addge	r6, r6, r4
+ 244              	.LVL30:
+ 245              	.L11:
+  87:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     if( ret < 0 )
+ 246              		.loc 1 87 0
+ 247 00b4 0700A0E1 		mov	r0, r7
+ 248              	.LVL31:
+ 249 00b8 FEFFFFEB 		bl	mbedtls_mpi_free
+ 250              	.LVL32:
+  88:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         return( ret );
+ 251              		.loc 1 88 0
+ 252 00bc 000054E3 		cmp	r4, #0
+ 253 00c0 0C0000BA 		blt	.L9
+  91:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     MBEDTLS_ASN1_CHK_ADD( len, mbedtls_asn1_write_tag( p, start, MBEDTLS_ASN1_CONSTRUCTED |
+ 254              		.loc 1 91 0
+ 255 00c4 0620A0E1 		mov	r2, r6
+ 256 00c8 0910A0E1 		mov	r1, r9
+ 257 00cc 0800A0E1 		mov	r0, r8
+ 258 00d0 FEFFFFEB 		bl	mbedtls_asn1_write_len
+ 259              	.LVL33:
+ 260 00d4 004050E2 		subs	r4, r0, #0
+ 261 00d8 060000BA 		blt	.L9
+  92:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****                                                  MBEDTLS_ASN1_SEQUENCE ) );
+ 262              		.loc 1 92 0
+ 263 00dc 3020A0E3 		mov	r2, #48
+ 264 00e0 0910A0E1 		mov	r1, r9
+ 265 00e4 0800A0E1 		mov	r0, r8
+ 266              	.LVL34:
+  91:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     MBEDTLS_ASN1_CHK_ADD( len, mbedtls_asn1_write_tag( p, start, MBEDTLS_ASN1_CONSTRUCTED |
+ 267              		.loc 1 91 0
+ 268 00e8 066084E0 		add	r6, r4, r6
+ 269              	.LVL35:
+  92:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****                                                  MBEDTLS_ASN1_SEQUENCE ) );
+ 270              		.loc 1 92 0
+ 271 00ec FEFFFFEB 		bl	mbedtls_asn1_write_tag
+ 272              	.LVL36:
+ 273 00f0 004050E2 		subs	r4, r0, #0
+ 274 00f4 064084A0 		addge	r4, r4, r6
+ 275              	.LVL37:
+ 276              	.L9:
+ 277              	.LBE17:
+ 278              	.LBE16:
+ 156:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( len, pk_write_rsa_pubkey( p, start, mbedtls_pk_rsa( *key ) ) );
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     else
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #endif
+ 159:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #if defined(MBEDTLS_ECP_C)
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     if( mbedtls_pk_get_type( key ) == MBEDTLS_PK_ECKEY )
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( len, pk_write_ec_pubkey( p, start, mbedtls_pk_ec( *key ) ) );
+ 162:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     else
+ 163:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #endif
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         return( MBEDTLS_ERR_PK_FEATURE_UNAVAILABLE );
+ 165:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 166:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     return( (int) len );
+ 167:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** }
+ 279              		.loc 1 167 0
+ 280 00f8 0400A0E1 		mov	r0, r4
+ 281 00fc 18D08DE2 		add	sp, sp, #24
+ 282              		.cfi_remember_state
+ 283              		.cfi_def_cfa_offset 32
+ 284              		@ sp needed
+ 285 0100 F087BDE8 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 286              	.LVL38:
+ 287              	.L16:
+ 288              		.cfi_restore_state
+ 289              	.LBB19:
+ 290              	.LBB18:
+  68:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     mbedtls_mpi T;
+ 291              		.loc 1 68 0
+ 292 0104 0560A0E1 		mov	r6, r5
+ 293 0108 E9FFFFEA 		b	.L11
+ 294              	.LVL39:
+ 295              	.L10:
+ 296              	.LBE18:
+ 297              	.LBE19:
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( len, pk_write_ec_pubkey( p, start, mbedtls_pk_ec( *key ) ) );
+ 298              		.loc 1 160 0
+ 299 010c 0400A0E1 		mov	r0, r4
+ 300 0110 FEFFFFEB 		bl	mbedtls_pk_get_type
+ 301              	.LVL40:
+ 302 0114 020050E3 		cmp	r0, #2
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 303              		.loc 1 164 0
+ 304 0118 18409F15 		ldrne	r4, .L19
+ 305              	.LVL41:
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( len, pk_write_ec_pubkey( p, start, mbedtls_pk_ec( *key ) ) );
+ 306              		.loc 1 160 0
+ 307 011c F5FFFF1A 		bne	.L9
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     else
+ 308              		.loc 1 161 0
+ 309 0120 042094E5 		ldr	r2, [r4, #4]
+ 310 0124 0910A0E1 		mov	r1, r9
+ 311 0128 0800A0E1 		mov	r0, r8
+ 312 012c FEFFFFEB 		bl	pk_write_ec_pubkey
+ 313              	.LVL42:
+ 314 0130 0040A0E1 		mov	r4, r0
+ 315              	.LVL43:
+ 316 0134 EFFFFFEA 		b	.L9
+ 317              	.L20:
+ 318              		.align	2
+ 319              	.L19:
+ 320 0138 80C6FFFF 		.word	-14720
+ 321              		.cfi_endproc
+ 322              	.LFE14:
+ 324              		.section	.text.mbedtls_pk_write_pubkey_der,"ax",%progbits
+ 325              		.align	2
+ 326              		.global	mbedtls_pk_write_pubkey_der
+ 327              		.syntax unified
+ 328              		.arm
+ 329              		.fpu neon
+ 331              	mbedtls_pk_write_pubkey_der:
+ 332              	.LFB15:
+ 168:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 169:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** int mbedtls_pk_write_pubkey_der( mbedtls_pk_context *key, unsigned char *buf, size_t size )
+ 170:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** {
+ 333              		.loc 1 170 0
+ 334              		.cfi_startproc
+ 335              		@ args = 0, pretend = 0, frame = 16
+ 336              		@ frame_needed = 0, uses_anonymous_args = 0
+ 337              	.LVL44:
+ 338 0000 F0472DE9 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 339              		.cfi_def_cfa_offset 32
+ 340              		.cfi_offset 4, -32
+ 341              		.cfi_offset 5, -28
+ 342              		.cfi_offset 6, -24
+ 343              		.cfi_offset 7, -20
+ 344              		.cfi_offset 8, -16
+ 345              		.cfi_offset 9, -12
+ 346              		.cfi_offset 10, -8
+ 347              		.cfi_offset 14, -4
+ 348 0004 18D04DE2 		sub	sp, sp, #24
+ 349              		.cfi_def_cfa_offset 56
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     int ret;
+ 172:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     unsigned char *c;
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     size_t len = 0, par_len = 0, oid_len;
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     const char *oid;
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 176:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     c = buf + size;
+ 350              		.loc 1 176 0
+ 351 0008 022081E0 		add	r2, r1, r2
+ 352              	.LVL45:
+ 353 000c 18608DE2 		add	r6, sp, #24
+ 170:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     int ret;
+ 354              		.loc 1 170 0
+ 355 0010 0080A0E1 		mov	r8, r0
+ 356 0014 0170A0E1 		mov	r7, r1
+ 357              		.loc 1 176 0
+ 358 0018 0C2026E5 		str	r2, [r6, #-12]!
+ 177:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     MBEDTLS_ASN1_CHK_ADD( len, mbedtls_pk_write_pubkey( &c, buf, key ) );
+ 359              		.loc 1 178 0
+ 360 001c 0020A0E1 		mov	r2, r0
+ 361 0020 0600A0E1 		mov	r0, r6
+ 362              	.LVL46:
+ 363 0024 FEFFFFEB 		bl	mbedtls_pk_write_pubkey
+ 364              	.LVL47:
+ 365 0028 004050E2 		subs	r4, r0, #0
+ 366 002c 410000BA 		blt	.L21
+ 367              	.LVL48:
+ 179:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 180:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     if( c - buf < 1 )
+ 368              		.loc 1 180 0 discriminator 2
+ 369 0030 0C309DE5 		ldr	r3, [sp, #12]
+ 370 0034 072043E0 		sub	r2, r3, r7
+ 371 0038 000052E3 		cmp	r2, #0
+ 181:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         return( MBEDTLS_ERR_ASN1_BUF_TOO_SMALL );
+ 372              		.loc 1 181 0 discriminator 2
+ 373 003c 6B40E0D3 		mvnle	r4, #107
+ 180:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         return( MBEDTLS_ERR_ASN1_BUF_TOO_SMALL );
+ 374              		.loc 1 180 0 discriminator 2
+ 375 0040 3C0000DA 		ble	.L21
+ 182:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     /*
+ 184:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****      *  SubjectPublicKeyInfo  ::=  SEQUENCE  {
+ 185:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****      *       algorithm            AlgorithmIdentifier,
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****      *       subjectPublicKey     BIT STRING }
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****      */
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     *--c = 0;
+ 376              		.loc 1 188 0
+ 377 0044 012043E2 		sub	r2, r3, #1
+ 189:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     len += 1;
+ 378              		.loc 1 189 0
+ 379 0048 01A084E2 		add	r10, r4, #1
+ 380              	.LVL49:
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     len += 1;
+ 381              		.loc 1 188 0
+ 382 004c 0C208DE5 		str	r2, [sp, #12]
+ 383 0050 0020A0E3 		mov	r2, #0
+ 384 0054 012043E5 		strb	r2, [r3, #-1]
+ 190:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 191:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     MBEDTLS_ASN1_CHK_ADD( len, mbedtls_asn1_write_len( &c, buf, len ) );
+ 385              		.loc 1 191 0
+ 386 0058 0710A0E1 		mov	r1, r7
+ 387 005c 0A20A0E1 		mov	r2, r10
+ 388 0060 0600A0E1 		mov	r0, r6
+ 389              	.LVL50:
+ 390 0064 FEFFFFEB 		bl	mbedtls_asn1_write_len
+ 391              	.LVL51:
+ 392 0068 005050E2 		subs	r5, r0, #0
+ 393 006c 0540A0B1 		movlt	r4, r5
+ 394 0070 300000BA 		blt	.L21
+ 395              	.LVL52:
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     MBEDTLS_ASN1_CHK_ADD( len, mbedtls_asn1_write_tag( &c, buf, MBEDTLS_ASN1_BIT_STRING ) );
+ 396              		.loc 1 192 0 discriminator 2
+ 397 0074 0320A0E3 		mov	r2, #3
+ 398 0078 0710A0E1 		mov	r1, r7
+ 399 007c 0600A0E1 		mov	r0, r6
+ 400              	.LVL53:
+ 401 0080 FEFFFFEB 		bl	mbedtls_asn1_write_tag
+ 402              	.LVL54:
+ 403 0084 009050E2 		subs	r9, r0, #0
+ 404 0088 0940A0B1 		movlt	r4, r9
+ 405 008c 290000BA 		blt	.L21
+ 406              	.LVL55:
+ 193:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 194:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     if( ( ret = mbedtls_oid_get_oid_by_pk_alg( mbedtls_pk_get_type( key ),
+ 407              		.loc 1 194 0 discriminator 2
+ 408 0090 0800A0E1 		mov	r0, r8
+ 409              	.LVL56:
+ 410 0094 FEFFFFEB 		bl	mbedtls_pk_get_type
+ 411              	.LVL57:
+ 412 0098 10208DE2 		add	r2, sp, #16
+ 413 009c 14108DE2 		add	r1, sp, #20
+ 414 00a0 FEFFFFEB 		bl	mbedtls_oid_get_oid_by_pk_alg
+ 415              	.LVL58:
+ 416 00a4 004050E2 		subs	r4, r0, #0
+ 417 00a8 2200001A 		bne	.L21
+ 195:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****                                        &oid, &oid_len ) ) != 0 )
+ 196:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     {
+ 197:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         return( ret );
+ 198:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     }
+ 199:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 200:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #if defined(MBEDTLS_ECP_C)
+ 201:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     if( mbedtls_pk_get_type( key ) == MBEDTLS_PK_ECKEY )
+ 418              		.loc 1 201 0
+ 419 00ac 0800A0E1 		mov	r0, r8
+ 420              	.LVL59:
+ 421 00b0 FEFFFFEB 		bl	mbedtls_pk_get_type
+ 422              	.LVL60:
+ 423 00b4 020050E3 		cmp	r0, #2
+ 424 00b8 0600001A 		bne	.L23
+ 202:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     {
+ 203:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( par_len, pk_write_ec_param( &c, buf, mbedtls_pk_ec( *key ) ) );
+ 425              		.loc 1 203 0
+ 426 00bc 043098E5 		ldr	r3, [r8, #4]
+ 427 00c0 0710A0E1 		mov	r1, r7
+ 428 00c4 0600A0E1 		mov	r0, r6
+ 429 00c8 0020D3E5 		ldrb	r2, [r3]	@ zero_extendqisi2
+ 430 00cc FEFFFFEB 		bl	pk_write_ec_param.isra.2
+ 431              	.LVL61:
+ 432 00d0 004050E2 		subs	r4, r0, #0
+ 433 00d4 170000BA 		blt	.L21
+ 434              	.LVL62:
+ 435              	.L23:
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     }
+ 205:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #endif
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 207:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     MBEDTLS_ASN1_CHK_ADD( len, mbedtls_asn1_write_algorithm_identifier( &c, buf, oid, oid_len,
+ 436              		.loc 1 207 0
+ 437 00d8 00408DE5 		str	r4, [sp]
+ 438 00dc 0710A0E1 		mov	r1, r7
+ 439 00e0 10309DE5 		ldr	r3, [sp, #16]
+ 440 00e4 0600A0E1 		mov	r0, r6
+ 441 00e8 14209DE5 		ldr	r2, [sp, #20]
+ 442 00ec FEFFFFEB 		bl	mbedtls_asn1_write_algorithm_identifier
+ 443              	.LVL63:
+ 444 00f0 004050E2 		subs	r4, r0, #0
+ 445              	.LVL64:
+ 446 00f4 0F0000BA 		blt	.L21
+ 191:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     MBEDTLS_ASN1_CHK_ADD( len, mbedtls_asn1_write_tag( &c, buf, MBEDTLS_ASN1_BIT_STRING ) );
+ 447              		.loc 1 191 0 discriminator 2
+ 448 00f8 0A5085E0 		add	r5, r5, r10
+ 449              	.LVL65:
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****                                                         par_len ) );
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 210:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     MBEDTLS_ASN1_CHK_ADD( len, mbedtls_asn1_write_len( &c, buf, len ) );
+ 450              		.loc 1 210 0 discriminator 2
+ 451 00fc 0710A0E1 		mov	r1, r7
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 452              		.loc 1 192 0 discriminator 2
+ 453 0100 055089E0 		add	r5, r9, r5
+ 454              		.loc 1 210 0 discriminator 2
+ 455 0104 0600A0E1 		mov	r0, r6
+ 456              	.LVL66:
+ 207:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****                                                         par_len ) );
+ 457              		.loc 1 207 0 discriminator 2
+ 458 0108 055084E0 		add	r5, r4, r5
+ 459              	.LVL67:
+ 460              		.loc 1 210 0 discriminator 2
+ 461 010c 0520A0E1 		mov	r2, r5
+ 462 0110 FEFFFFEB 		bl	mbedtls_asn1_write_len
+ 463              	.LVL68:
+ 464 0114 004050E2 		subs	r4, r0, #0
+ 465 0118 060000BA 		blt	.L21
+ 211:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     MBEDTLS_ASN1_CHK_ADD( len, mbedtls_asn1_write_tag( &c, buf, MBEDTLS_ASN1_CONSTRUCTED |
+ 466              		.loc 1 211 0 discriminator 2
+ 467 011c 3020A0E3 		mov	r2, #48
+ 468 0120 0710A0E1 		mov	r1, r7
+ 469 0124 0600A0E1 		mov	r0, r6
+ 470              	.LVL69:
+ 210:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     MBEDTLS_ASN1_CHK_ADD( len, mbedtls_asn1_write_tag( &c, buf, MBEDTLS_ASN1_CONSTRUCTED |
+ 471              		.loc 1 210 0 discriminator 2
+ 472 0128 055084E0 		add	r5, r4, r5
+ 473              	.LVL70:
+ 474              		.loc 1 211 0 discriminator 2
+ 475 012c FEFFFFEB 		bl	mbedtls_asn1_write_tag
+ 476              	.LVL71:
+ 477 0130 004050E2 		subs	r4, r0, #0
+ 478 0134 054084A0 		addge	r4, r4, r5
+ 479              	.LVL72:
+ 480              	.L21:
+ 212:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****                                                 MBEDTLS_ASN1_SEQUENCE ) );
+ 213:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 214:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     return( (int) len );
+ 215:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** }
+ 481              		.loc 1 215 0
+ 482 0138 0400A0E1 		mov	r0, r4
+ 483 013c 18D08DE2 		add	sp, sp, #24
+ 484              		.cfi_def_cfa_offset 32
+ 485              		@ sp needed
+ 486 0140 F087BDE8 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 487              		.cfi_endproc
+ 488              	.LFE15:
+ 490              		.section	.text.mbedtls_pk_write_key_der,"ax",%progbits
+ 491              		.align	2
+ 492              		.global	mbedtls_pk_write_key_der
+ 493              		.syntax unified
+ 494              		.arm
+ 495              		.fpu neon
+ 497              	mbedtls_pk_write_key_der:
+ 498              	.LFB16:
+ 216:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 217:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** int mbedtls_pk_write_key_der( mbedtls_pk_context *key, unsigned char *buf, size_t size )
+ 218:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** {
+ 499              		.loc 1 218 0
+ 500              		.cfi_startproc
+ 501              		@ args = 0, pretend = 0, frame = 16
+ 502              		@ frame_needed = 0, uses_anonymous_args = 0
+ 503              	.LVL73:
+ 504 0000 F04F2DE9 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 505              		.cfi_def_cfa_offset 36
+ 506              		.cfi_offset 4, -36
+ 507              		.cfi_offset 5, -32
+ 508              		.cfi_offset 6, -28
+ 509              		.cfi_offset 7, -24
+ 510              		.cfi_offset 8, -20
+ 511              		.cfi_offset 9, -16
+ 512              		.cfi_offset 10, -12
+ 513              		.cfi_offset 11, -8
+ 514              		.cfi_offset 14, -4
+ 219:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     int ret;
+ 220:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     unsigned char *c = buf + size;
+ 515              		.loc 1 220 0
+ 516 0004 022081E0 		add	r2, r1, r2
+ 517              	.LVL74:
+ 218:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     int ret;
+ 518              		.loc 1 218 0
+ 519 0008 1CD04DE2 		sub	sp, sp, #28
+ 520              		.cfi_def_cfa_offset 64
+ 218:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     int ret;
+ 521              		.loc 1 218 0
+ 522 000c 0040A0E1 		mov	r4, r0
+ 523 0010 0160A0E1 		mov	r6, r1
+ 524              		.loc 1 220 0
+ 525 0014 08208DE5 		str	r2, [sp, #8]
+ 526              	.LVL75:
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     size_t len = 0;
+ 222:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 223:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #if defined(MBEDTLS_RSA_C)
+ 224:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     if( mbedtls_pk_get_type( key ) == MBEDTLS_PK_RSA )
+ 527              		.loc 1 224 0
+ 528 0018 FEFFFFEB 		bl	mbedtls_pk_get_type
+ 529              	.LVL76:
+ 530 001c 010050E3 		cmp	r0, #1
+ 531 0020 8C00001A 		bne	.L30
+ 532 0024 049094E5 		ldr	r9, [r4, #4]
+ 533              	.LBB20:
+ 225:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     {
+ 226:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         mbedtls_mpi T; /* Temporary holding the exported parameters */
+ 227:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         mbedtls_rsa_context *rsa = mbedtls_pk_rsa( *key );
+ 228:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 229:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         /*
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****          * Export the parameters one after another to avoid simultaneous copies.
+ 231:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****          */
+ 232:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 233:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         mbedtls_mpi_init( &T );
+ 534              		.loc 1 233 0
+ 535 0028 0C708DE2 		add	r7, sp, #12
+ 536 002c 0700A0E1 		mov	r0, r7
+ 537 0030 FEFFFFEB 		bl	mbedtls_mpi_init
+ 538              	.LVL77:
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 235:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         /* Export QP */
+ 236:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         if( ( ret = mbedtls_rsa_export_crt( rsa, NULL, NULL, &T ) ) != 0 ||
+ 539              		.loc 1 236 0
+ 540 0034 0020A0E3 		mov	r2, #0
+ 541 0038 0730A0E1 		mov	r3, r7
+ 542 003c 0210A0E1 		mov	r1, r2
+ 543 0040 0900A0E1 		mov	r0, r9
+ 544 0044 FEFFFFEB 		bl	mbedtls_rsa_export_crt
+ 545              	.LVL78:
+ 546 0048 004050E2 		subs	r4, r0, #0
+ 547              	.LVL79:
+ 548 004c 7F00001A 		bne	.L36
+ 549              		.loc 1 236 0 is_stmt 0 discriminator 1
+ 550 0050 0720A0E1 		mov	r2, r7
+ 551 0054 0610A0E1 		mov	r1, r6
+ 552 0058 08008DE2 		add	r0, sp, #8
+ 553              	.LVL80:
+ 554 005c FEFFFFEB 		bl	mbedtls_asn1_write_mpi
+ 555              	.LVL81:
+ 556 0060 004050E2 		subs	r4, r0, #0
+ 557 0064 790000BA 		blt	.L36
+ 237:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****             ( ret = mbedtls_asn1_write_mpi( &c, buf, &T ) ) < 0 )
+ 238:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****             goto end_of_export;
+ 239:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         len += ret;
+ 240:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 241:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         /* Export DQ */
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         if( ( ret = mbedtls_rsa_export_crt( rsa, NULL, &T, NULL ) ) != 0 ||
+ 558              		.loc 1 242 0 is_stmt 1
+ 559 0068 0030A0E3 		mov	r3, #0
+ 560 006c 0720A0E1 		mov	r2, r7
+ 561 0070 0310A0E1 		mov	r1, r3
+ 562 0074 0900A0E1 		mov	r0, r9
+ 563              	.LVL82:
+ 239:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 564              		.loc 1 239 0
+ 565 0078 0450A0E1 		mov	r5, r4
+ 566              	.LVL83:
+ 567              		.loc 1 242 0
+ 568 007c FEFFFFEB 		bl	mbedtls_rsa_export_crt
+ 569              	.LVL84:
+ 570 0080 004050E2 		subs	r4, r0, #0
+ 571              	.LVL85:
+ 572 0084 6300001A 		bne	.L31
+ 573              		.loc 1 242 0 is_stmt 0 discriminator 1
+ 574 0088 0720A0E1 		mov	r2, r7
+ 575 008c 0610A0E1 		mov	r1, r6
+ 576 0090 08008DE2 		add	r0, sp, #8
+ 577              	.LVL86:
+ 578 0094 FEFFFFEB 		bl	mbedtls_asn1_write_mpi
+ 579              	.LVL87:
+ 580 0098 004050E2 		subs	r4, r0, #0
+ 581 009c 5D0000BA 		blt	.L31
+ 243:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****             ( ret = mbedtls_asn1_write_mpi( &c, buf, &T ) ) < 0 )
+ 244:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****             goto end_of_export;
+ 245:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         len += ret;
+ 246:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 247:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         /* Export DP */
+ 248:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         if( ( ret = mbedtls_rsa_export_crt( rsa, &T, NULL, NULL ) ) != 0 ||
+ 582              		.loc 1 248 0 is_stmt 1
+ 583 00a0 0030A0E3 		mov	r3, #0
+ 584 00a4 0710A0E1 		mov	r1, r7
+ 585 00a8 0320A0E1 		mov	r2, r3
+ 586 00ac 0900A0E1 		mov	r0, r9
+ 587              	.LVL88:
+ 245:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 588              		.loc 1 245 0
+ 589 00b0 045085E0 		add	r5, r5, r4
+ 590              	.LVL89:
+ 591              		.loc 1 248 0
+ 592 00b4 FEFFFFEB 		bl	mbedtls_rsa_export_crt
+ 593              	.LVL90:
+ 594 00b8 004050E2 		subs	r4, r0, #0
+ 595 00bc 5500001A 		bne	.L31
+ 596              		.loc 1 248 0 is_stmt 0 discriminator 1
+ 597 00c0 0720A0E1 		mov	r2, r7
+ 598 00c4 0610A0E1 		mov	r1, r6
+ 599 00c8 08008DE2 		add	r0, sp, #8
+ 600              	.LVL91:
+ 601 00cc FEFFFFEB 		bl	mbedtls_asn1_write_mpi
+ 602              	.LVL92:
+ 603 00d0 004050E2 		subs	r4, r0, #0
+ 604 00d4 4F0000BA 		blt	.L31
+ 249:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****             ( ret = mbedtls_asn1_write_mpi( &c, buf, &T ) ) < 0 )
+ 250:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****             goto end_of_export;
+ 251:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         len += ret;
+ 252:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 253:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         /* Export Q */
+ 254:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         if ( ( ret = mbedtls_rsa_export( rsa, NULL, NULL,
+ 605              		.loc 1 254 0 is_stmt 1
+ 606 00d8 0080A0E3 		mov	r8, #0
+ 607 00dc 0730A0E1 		mov	r3, r7
+ 608 00e0 04808DE5 		str	r8, [sp, #4]
+ 609 00e4 0820A0E1 		mov	r2, r8
+ 610 00e8 00808DE5 		str	r8, [sp]
+ 611 00ec 0810A0E1 		mov	r1, r8
+ 612 00f0 0900A0E1 		mov	r0, r9
+ 613              	.LVL93:
+ 251:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 614              		.loc 1 251 0
+ 615 00f4 045085E0 		add	r5, r5, r4
+ 616              	.LVL94:
+ 617              		.loc 1 254 0
+ 618 00f8 FEFFFFEB 		bl	mbedtls_rsa_export
+ 619              	.LVL95:
+ 620 00fc 004050E2 		subs	r4, r0, #0
+ 621 0100 4400001A 		bne	.L31
+ 255:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****                                          &T, NULL, NULL ) ) != 0 ||
+ 622              		.loc 1 255 0
+ 623 0104 0720A0E1 		mov	r2, r7
+ 624 0108 0610A0E1 		mov	r1, r6
+ 625 010c 08008DE2 		add	r0, sp, #8
+ 626              	.LVL96:
+ 627 0110 FEFFFFEB 		bl	mbedtls_asn1_write_mpi
+ 628              	.LVL97:
+ 629 0114 004050E2 		subs	r4, r0, #0
+ 630 0118 3E0000BA 		blt	.L31
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****              ( ret = mbedtls_asn1_write_mpi( &c, buf, &T ) ) < 0 )
+ 257:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****             goto end_of_export;
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         len += ret;
+ 259:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 260:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         /* Export P */
+ 261:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         if ( ( ret = mbedtls_rsa_export( rsa, NULL, &T,
+ 631              		.loc 1 261 0
+ 632 011c 04808DE5 		str	r8, [sp, #4]
+ 633 0120 0830A0E1 		mov	r3, r8
+ 634 0124 00808DE5 		str	r8, [sp]
+ 635 0128 0720A0E1 		mov	r2, r7
+ 636 012c 0810A0E1 		mov	r1, r8
+ 637 0130 0900A0E1 		mov	r0, r9
+ 638              	.LVL98:
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 639              		.loc 1 258 0
+ 640 0134 045085E0 		add	r5, r5, r4
+ 641              	.LVL99:
+ 642              		.loc 1 261 0
+ 643 0138 FEFFFFEB 		bl	mbedtls_rsa_export
+ 644              	.LVL100:
+ 645 013c 004050E2 		subs	r4, r0, #0
+ 646 0140 3400001A 		bne	.L31
+ 262:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****                                          NULL, NULL, NULL ) ) != 0 ||
+ 647              		.loc 1 262 0
+ 648 0144 0720A0E1 		mov	r2, r7
+ 649 0148 0610A0E1 		mov	r1, r6
+ 650 014c 08008DE2 		add	r0, sp, #8
+ 651              	.LVL101:
+ 652 0150 FEFFFFEB 		bl	mbedtls_asn1_write_mpi
+ 653              	.LVL102:
+ 654 0154 004050E2 		subs	r4, r0, #0
+ 655 0158 2E0000BA 		blt	.L31
+ 263:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****              ( ret = mbedtls_asn1_write_mpi( &c, buf, &T ) ) < 0 )
+ 264:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****             goto end_of_export;
+ 265:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         len += ret;
+ 266:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 267:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         /* Export D */
+ 268:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         if ( ( ret = mbedtls_rsa_export( rsa, NULL, NULL,
+ 656              		.loc 1 268 0
+ 657 015c 80018DE8 		stm	sp, {r7, r8}
+ 658 0160 0830A0E1 		mov	r3, r8
+ 659 0164 0820A0E1 		mov	r2, r8
+ 660 0168 0810A0E1 		mov	r1, r8
+ 661 016c 0900A0E1 		mov	r0, r9
+ 662              	.LVL103:
+ 265:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 663              		.loc 1 265 0
+ 664 0170 045085E0 		add	r5, r5, r4
+ 665              	.LVL104:
+ 666              		.loc 1 268 0
+ 667 0174 FEFFFFEB 		bl	mbedtls_rsa_export
+ 668              	.LVL105:
+ 669 0178 004050E2 		subs	r4, r0, #0
+ 670 017c 2500001A 		bne	.L31
+ 269:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****                                          NULL, &T, NULL ) ) != 0 ||
+ 671              		.loc 1 269 0
+ 672 0180 0720A0E1 		mov	r2, r7
+ 673 0184 0610A0E1 		mov	r1, r6
+ 674 0188 08008DE2 		add	r0, sp, #8
+ 675              	.LVL106:
+ 676 018c FEFFFFEB 		bl	mbedtls_asn1_write_mpi
+ 677              	.LVL107:
+ 678 0190 004050E2 		subs	r4, r0, #0
+ 679 0194 1F0000BA 		blt	.L31
+ 270:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****              ( ret = mbedtls_asn1_write_mpi( &c, buf, &T ) ) < 0 )
+ 271:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****             goto end_of_export;
+ 272:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         len += ret;
+ 273:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 274:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         /* Export E */
+ 275:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         if ( ( ret = mbedtls_rsa_export( rsa, NULL, NULL,
+ 680              		.loc 1 275 0
+ 681 0198 04708DE5 		str	r7, [sp, #4]
+ 682 019c 0830A0E1 		mov	r3, r8
+ 683 01a0 00808DE5 		str	r8, [sp]
+ 684 01a4 0820A0E1 		mov	r2, r8
+ 685 01a8 0810A0E1 		mov	r1, r8
+ 686 01ac 0900A0E1 		mov	r0, r9
+ 687              	.LVL108:
+ 272:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 688              		.loc 1 272 0
+ 689 01b0 045085E0 		add	r5, r5, r4
+ 690              	.LVL109:
+ 691              		.loc 1 275 0
+ 692 01b4 FEFFFFEB 		bl	mbedtls_rsa_export
+ 693              	.LVL110:
+ 694 01b8 004050E2 		subs	r4, r0, #0
+ 695 01bc 1500001A 		bne	.L31
+ 276:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****                                          NULL, NULL, &T ) ) != 0 ||
+ 696              		.loc 1 276 0
+ 697 01c0 0720A0E1 		mov	r2, r7
+ 698 01c4 0610A0E1 		mov	r1, r6
+ 699 01c8 08008DE2 		add	r0, sp, #8
+ 700              	.LVL111:
+ 701 01cc FEFFFFEB 		bl	mbedtls_asn1_write_mpi
+ 702              	.LVL112:
+ 703 01d0 004050E2 		subs	r4, r0, #0
+ 704 01d4 0F0000BA 		blt	.L31
+ 277:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****              ( ret = mbedtls_asn1_write_mpi( &c, buf, &T ) ) < 0 )
+ 278:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****             goto end_of_export;
+ 279:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         len += ret;
+ 280:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         /* Export N */
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         if ( ( ret = mbedtls_rsa_export( rsa, &T, NULL,
+ 705              		.loc 1 282 0
+ 706 01d8 04808DE5 		str	r8, [sp, #4]
+ 707 01dc 0830A0E1 		mov	r3, r8
+ 708 01e0 00808DE5 		str	r8, [sp]
+ 709 01e4 0820A0E1 		mov	r2, r8
+ 710 01e8 0710A0E1 		mov	r1, r7
+ 711 01ec 0900A0E1 		mov	r0, r9
+ 712              	.LVL113:
+ 279:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 713              		.loc 1 279 0
+ 714 01f0 045085E0 		add	r5, r5, r4
+ 715              	.LVL114:
+ 716              		.loc 1 282 0
+ 717 01f4 FEFFFFEB 		bl	mbedtls_rsa_export
+ 718              	.LVL115:
+ 719 01f8 004050E2 		subs	r4, r0, #0
+ 720 01fc 0500001A 		bne	.L31
+ 283:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****                                          NULL, NULL, NULL ) ) != 0 ||
+ 721              		.loc 1 283 0
+ 722 0200 0720A0E1 		mov	r2, r7
+ 723 0204 0610A0E1 		mov	r1, r6
+ 724 0208 08008DE2 		add	r0, sp, #8
+ 725              	.LVL116:
+ 726 020c FEFFFFEB 		bl	mbedtls_asn1_write_mpi
+ 727              	.LVL117:
+ 728 0210 004050E2 		subs	r4, r0, #0
+ 284:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****              ( ret = mbedtls_asn1_write_mpi( &c, buf, &T ) ) < 0 )
+ 285:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****             goto end_of_export;
+ 286:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         len += ret;
+ 729              		.loc 1 286 0
+ 730 0214 045085A0 		addge	r5, r5, r4
+ 731              	.LVL118:
+ 732              	.L31:
+ 287:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 288:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     end_of_export:
+ 289:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 290:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         mbedtls_mpi_free( &T );
+ 733              		.loc 1 290 0
+ 734 0218 0700A0E1 		mov	r0, r7
+ 735              	.LVL119:
+ 736 021c FEFFFFEB 		bl	mbedtls_mpi_free
+ 737              	.LVL120:
+ 291:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         if( ret < 0 )
+ 738              		.loc 1 291 0
+ 739 0220 000054E3 		cmp	r4, #0
+ 740 0224 060000BA 		blt	.L29
+ 292:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****             return( ret );
+ 293:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 294:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( len, mbedtls_asn1_write_int( &c, buf, 0 ) );
+ 741              		.loc 1 294 0
+ 742 0228 0020A0E3 		mov	r2, #0
+ 743 022c 0610A0E1 		mov	r1, r6
+ 744 0230 08008DE2 		add	r0, sp, #8
+ 745 0234 FEFFFFEB 		bl	mbedtls_asn1_write_int
+ 746              	.LVL121:
+ 747 0238 004050E2 		subs	r4, r0, #0
+ 748 023c 055084A0 		addge	r5, r4, r5
+ 749              	.LVL122:
+ 750 0240 610000AA 		bge	.L48
+ 751              	.LVL123:
+ 752              	.L29:
+ 753              	.LBE20:
+ 295:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( len, mbedtls_asn1_write_len( &c, buf, len ) );
+ 296:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( len, mbedtls_asn1_write_tag( &c,
+ 297:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****                                                buf, MBEDTLS_ASN1_CONSTRUCTED |
+ 298:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****                                                MBEDTLS_ASN1_SEQUENCE ) );
+ 299:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     }
+ 300:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     else
+ 301:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #endif /* MBEDTLS_RSA_C */
+ 302:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #if defined(MBEDTLS_ECP_C)
+ 303:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     if( mbedtls_pk_get_type( key ) == MBEDTLS_PK_ECKEY )
+ 304:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     {
+ 305:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         mbedtls_ecp_keypair *ec = mbedtls_pk_ec( *key );
+ 306:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         size_t pub_len = 0, par_len = 0;
+ 307:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 308:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         /*
+ 309:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****          * RFC 5915, or SEC1 Appendix C.4
+ 310:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****          *
+ 311:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****          * ECPrivateKey ::= SEQUENCE {
+ 312:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****          *      version        INTEGER { ecPrivkeyVer1(1) } (ecPrivkeyVer1),
+ 313:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****          *      privateKey     OCTET STRING,
+ 314:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****          *      parameters [0] ECParameters {{ NamedCurve }} OPTIONAL,
+ 315:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****          *      publicKey  [1] BIT STRING OPTIONAL
+ 316:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****          *    }
+ 317:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****          */
+ 318:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 319:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         /* publicKey */
+ 320:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( pub_len, pk_write_ec_pubkey( &c, buf, ec ) );
+ 321:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 322:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         if( c - buf < 1 )
+ 323:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****             return( MBEDTLS_ERR_ASN1_BUF_TOO_SMALL );
+ 324:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         *--c = 0;
+ 325:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         pub_len += 1;
+ 326:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 327:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( pub_len, mbedtls_asn1_write_len( &c, buf, pub_len ) );
+ 328:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( pub_len, mbedtls_asn1_write_tag( &c, buf, MBEDTLS_ASN1_BIT_STRING ) )
+ 329:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 330:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( pub_len, mbedtls_asn1_write_len( &c, buf, pub_len ) );
+ 331:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( pub_len, mbedtls_asn1_write_tag( &c, buf,
+ 332:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****                             MBEDTLS_ASN1_CONTEXT_SPECIFIC | MBEDTLS_ASN1_CONSTRUCTED | 1 ) );
+ 333:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         len += pub_len;
+ 334:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 335:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         /* parameters */
+ 336:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( par_len, pk_write_ec_param( &c, buf, ec ) );
+ 337:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 338:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( par_len, mbedtls_asn1_write_len( &c, buf, par_len ) );
+ 339:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( par_len, mbedtls_asn1_write_tag( &c, buf,
+ 340:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****                             MBEDTLS_ASN1_CONTEXT_SPECIFIC | MBEDTLS_ASN1_CONSTRUCTED | 0 ) );
+ 341:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         len += par_len;
+ 342:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 343:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         /* privateKey: write as MPI then fix tag */
+ 344:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( len, mbedtls_asn1_write_mpi( &c, buf, &ec->d ) );
+ 345:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         *c = MBEDTLS_ASN1_OCTET_STRING;
+ 346:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 347:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         /* version */
+ 348:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( len, mbedtls_asn1_write_int( &c, buf, 1 ) );
+ 349:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 350:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( len, mbedtls_asn1_write_len( &c, buf, len ) );
+ 351:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( len, mbedtls_asn1_write_tag( &c, buf, MBEDTLS_ASN1_CONSTRUCTED |
+ 352:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****                                                     MBEDTLS_ASN1_SEQUENCE ) );
+ 353:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     }
+ 354:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     else
+ 355:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** #endif /* MBEDTLS_ECP_C */
+ 356:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         return( MBEDTLS_ERR_PK_FEATURE_UNAVAILABLE );
+ 357:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 358:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     return( (int) len );
+ 359:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** }
+ 754              		.loc 1 359 0
+ 755 0244 0400A0E1 		mov	r0, r4
+ 756 0248 1CD08DE2 		add	sp, sp, #28
+ 757              		.cfi_remember_state
+ 758              		.cfi_def_cfa_offset 36
+ 759              		@ sp needed
+ 760 024c F08FBDE8 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 761              	.LVL124:
+ 762              	.L36:
+ 763              		.cfi_restore_state
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 764              		.loc 1 221 0
+ 765 0250 0050A0E3 		mov	r5, #0
+ 766 0254 EFFFFFEA 		b	.L31
+ 767              	.LVL125:
+ 768              	.L30:
+ 303:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     {
+ 769              		.loc 1 303 0
+ 770 0258 0400A0E1 		mov	r0, r4
+ 771 025c FEFFFFEB 		bl	mbedtls_pk_get_type
+ 772              	.LVL126:
+ 773 0260 020050E3 		cmp	r0, #2
+ 356:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 774              		.loc 1 356 0
+ 775 0264 A0419F15 		ldrne	r4, .L49
+ 776              	.LVL127:
+ 303:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****     {
+ 777              		.loc 1 303 0
+ 778 0268 F5FFFF1A 		bne	.L29
+ 779 026c 047094E5 		ldr	r7, [r4, #4]
+ 780              	.LVL128:
+ 781              	.LBB21:
+ 320:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 782              		.loc 1 320 0
+ 783 0270 0610A0E1 		mov	r1, r6
+ 784 0274 08008DE2 		add	r0, sp, #8
+ 785 0278 0720A0E1 		mov	r2, r7
+ 786 027c FEFFFFEB 		bl	pk_write_ec_pubkey
+ 787              	.LVL129:
+ 788 0280 004050E2 		subs	r4, r0, #0
+ 789 0284 EEFFFFBA 		blt	.L29
+ 790              	.LVL130:
+ 322:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****             return( MBEDTLS_ERR_ASN1_BUF_TOO_SMALL );
+ 791              		.loc 1 322 0 discriminator 2
+ 792 0288 08309DE5 		ldr	r3, [sp, #8]
+ 793 028c 062043E0 		sub	r2, r3, r6
+ 794 0290 000052E3 		cmp	r2, #0
+ 323:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         *--c = 0;
+ 795              		.loc 1 323 0 discriminator 2
+ 796 0294 6B40E0D3 		mvnle	r4, #107
+ 322:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****             return( MBEDTLS_ERR_ASN1_BUF_TOO_SMALL );
+ 797              		.loc 1 322 0 discriminator 2
+ 798 0298 E9FFFFDA 		ble	.L29
+ 324:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         pub_len += 1;
+ 799              		.loc 1 324 0
+ 800 029c 012043E2 		sub	r2, r3, #1
+ 325:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 801              		.loc 1 325 0
+ 802 02a0 015084E2 		add	r5, r4, #1
+ 803              	.LVL131:
+ 324:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         pub_len += 1;
+ 804              		.loc 1 324 0
+ 805 02a4 08208DE5 		str	r2, [sp, #8]
+ 806 02a8 0020A0E3 		mov	r2, #0
+ 807 02ac 012043E5 		strb	r2, [r3, #-1]
+ 327:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( pub_len, mbedtls_asn1_write_tag( &c, buf, MBEDTLS_ASN1_BIT_STRING ) )
+ 808              		.loc 1 327 0
+ 809 02b0 0610A0E1 		mov	r1, r6
+ 810 02b4 0520A0E1 		mov	r2, r5
+ 811 02b8 08008DE2 		add	r0, sp, #8
+ 812              	.LVL132:
+ 813 02bc FEFFFFEB 		bl	mbedtls_asn1_write_len
+ 814              	.LVL133:
+ 815 02c0 004050E2 		subs	r4, r0, #0
+ 816 02c4 DEFFFFBA 		blt	.L29
+ 817              	.LVL134:
+ 328:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 818              		.loc 1 328 0 discriminator 2
+ 819 02c8 0320A0E3 		mov	r2, #3
+ 820 02cc 0610A0E1 		mov	r1, r6
+ 821 02d0 08008DE2 		add	r0, sp, #8
+ 822              	.LVL135:
+ 823 02d4 FEFFFFEB 		bl	mbedtls_asn1_write_tag
+ 824              	.LVL136:
+ 825 02d8 000050E3 		cmp	r0, #0
+ 826 02dc 480000BA 		blt	.L44
+ 327:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( pub_len, mbedtls_asn1_write_tag( &c, buf, MBEDTLS_ASN1_BIT_STRING ) )
+ 827              		.loc 1 327 0 discriminator 2
+ 828 02e0 055084E0 		add	r5, r4, r5
+ 829              	.LVL137:
+ 330:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( pub_len, mbedtls_asn1_write_tag( &c, buf,
+ 830              		.loc 1 330 0 discriminator 2
+ 831 02e4 0610A0E1 		mov	r1, r6
+ 328:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 832              		.loc 1 328 0 discriminator 2
+ 833 02e8 055080E0 		add	r5, r0, r5
+ 834              	.LVL138:
+ 330:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( pub_len, mbedtls_asn1_write_tag( &c, buf,
+ 835              		.loc 1 330 0 discriminator 2
+ 836 02ec 08008DE2 		add	r0, sp, #8
+ 837              	.LVL139:
+ 838 02f0 0520A0E1 		mov	r2, r5
+ 839 02f4 FEFFFFEB 		bl	mbedtls_asn1_write_len
+ 840              	.LVL140:
+ 841 02f8 00A050E2 		subs	r10, r0, #0
+ 842 02fc 0A40A0B1 		movlt	r4, r10
+ 843 0300 CFFFFFBA 		blt	.L29
+ 844              	.LVL141:
+ 331:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****                             MBEDTLS_ASN1_CONTEXT_SPECIFIC | MBEDTLS_ASN1_CONSTRUCTED | 1 ) );
+ 845              		.loc 1 331 0 discriminator 2
+ 846 0304 A120A0E3 		mov	r2, #161
+ 847 0308 0610A0E1 		mov	r1, r6
+ 848 030c 08008DE2 		add	r0, sp, #8
+ 849              	.LVL142:
+ 850 0310 FEFFFFEB 		bl	mbedtls_asn1_write_tag
+ 851              	.LVL143:
+ 852 0314 009050E2 		subs	r9, r0, #0
+ 853 0318 0940A0B1 		movlt	r4, r9
+ 854 031c C8FFFFBA 		blt	.L29
+ 855              	.LVL144:
+ 336:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 856              		.loc 1 336 0 discriminator 2
+ 857 0320 0020D7E5 		ldrb	r2, [r7]	@ zero_extendqisi2
+ 858 0324 0610A0E1 		mov	r1, r6
+ 859 0328 08008DE2 		add	r0, sp, #8
+ 860              	.LVL145:
+ 861 032c FEFFFFEB 		bl	pk_write_ec_param.isra.2
+ 862              	.LVL146:
+ 863 0330 004050E2 		subs	r4, r0, #0
+ 864 0334 C2FFFFBA 		blt	.L29
+ 338:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( par_len, mbedtls_asn1_write_tag( &c, buf,
+ 865              		.loc 1 338 0 discriminator 2
+ 866 0338 0420A0E1 		mov	r2, r4
+ 867 033c 0610A0E1 		mov	r1, r6
+ 868 0340 08008DE2 		add	r0, sp, #8
+ 869              	.LVL147:
+ 336:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 870              		.loc 1 336 0 discriminator 2
+ 871 0344 04B0A0E1 		mov	fp, r4
+ 872              	.LVL148:
+ 338:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( par_len, mbedtls_asn1_write_tag( &c, buf,
+ 873              		.loc 1 338 0 discriminator 2
+ 874 0348 FEFFFFEB 		bl	mbedtls_asn1_write_len
+ 875              	.LVL149:
+ 876 034c 004050E2 		subs	r4, r0, #0
+ 877              	.LVL150:
+ 878 0350 BBFFFFBA 		blt	.L29
+ 879              	.LVL151:
+ 339:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****                             MBEDTLS_ASN1_CONTEXT_SPECIFIC | MBEDTLS_ASN1_CONSTRUCTED | 0 ) );
+ 880              		.loc 1 339 0 discriminator 2
+ 881 0354 A020A0E3 		mov	r2, #160
+ 882 0358 0610A0E1 		mov	r1, r6
+ 883 035c 08008DE2 		add	r0, sp, #8
+ 884              	.LVL152:
+ 885 0360 FEFFFFEB 		bl	mbedtls_asn1_write_tag
+ 886              	.LVL153:
+ 887 0364 008050E2 		subs	r8, r0, #0
+ 888 0368 0840A0B1 		movlt	r4, r8
+ 889              	.LVL154:
+ 890 036c B4FFFFBA 		blt	.L29
+ 891              	.LVL155:
+ 344:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         *c = MBEDTLS_ASN1_OCTET_STRING;
+ 892              		.loc 1 344 0 discriminator 2
+ 893 0370 7C2087E2 		add	r2, r7, #124
+ 894 0374 0610A0E1 		mov	r1, r6
+ 895 0378 08008DE2 		add	r0, sp, #8
+ 896              	.LVL156:
+ 897 037c FEFFFFEB 		bl	mbedtls_asn1_write_mpi
+ 898              	.LVL157:
+ 899 0380 007050E2 		subs	r7, r0, #0
+ 900 0384 0740A0B1 		movlt	r4, r7
+ 901 0388 ADFFFFBA 		blt	.L29
+ 345:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 902              		.loc 1 345 0 discriminator 2
+ 903 038c 08309DE5 		ldr	r3, [sp, #8]
+ 904 0390 0420A0E3 		mov	r2, #4
+ 348:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 905              		.loc 1 348 0 discriminator 2
+ 906 0394 0610A0E1 		mov	r1, r6
+ 907 0398 08008DE2 		add	r0, sp, #8
+ 908              	.LVL158:
+ 345:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 909              		.loc 1 345 0 discriminator 2
+ 910 039c 0020C3E5 		strb	r2, [r3]
+ 348:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 911              		.loc 1 348 0 discriminator 2
+ 912 03a0 0120A0E3 		mov	r2, #1
+ 913 03a4 FEFFFFEB 		bl	mbedtls_asn1_write_int
+ 914              	.LVL159:
+ 915 03a8 000050E3 		cmp	r0, #0
+ 916 03ac 140000BA 		blt	.L44
+ 341:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 917              		.loc 1 341 0 discriminator 2
+ 918 03b0 05508AE0 		add	r5, r10, r5
+ 919              	.LVL160:
+ 920 03b4 095085E0 		add	r5, r5, r9
+ 921 03b8 0B5085E0 		add	r5, r5, fp
+ 922 03bc 045085E0 		add	r5, r5, r4
+ 923 03c0 085085E0 		add	r5, r5, r8
+ 344:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         *c = MBEDTLS_ASN1_OCTET_STRING;
+ 924              		.loc 1 344 0 discriminator 2
+ 925 03c4 055087E0 		add	r5, r7, r5
+ 348:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c **** 
+ 926              		.loc 1 348 0 discriminator 2
+ 927 03c8 055080E0 		add	r5, r0, r5
+ 928              	.LVL161:
+ 929              	.L48:
+ 350:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( len, mbedtls_asn1_write_tag( &c, buf, MBEDTLS_ASN1_CONSTRUCTED |
+ 930              		.loc 1 350 0 discriminator 2
+ 931 03cc 0520A0E1 		mov	r2, r5
+ 932 03d0 0610A0E1 		mov	r1, r6
+ 933 03d4 08008DE2 		add	r0, sp, #8
+ 934 03d8 FEFFFFEB 		bl	mbedtls_asn1_write_len
+ 935              	.LVL162:
+ 936 03dc 004050E2 		subs	r4, r0, #0
+ 937 03e0 97FFFFBA 		blt	.L29
+ 351:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****                                                     MBEDTLS_ASN1_SEQUENCE ) );
+ 938              		.loc 1 351 0 discriminator 2
+ 939 03e4 3020A0E3 		mov	r2, #48
+ 940 03e8 0610A0E1 		mov	r1, r6
+ 941 03ec 08008DE2 		add	r0, sp, #8
+ 942              	.LVL163:
+ 350:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****         MBEDTLS_ASN1_CHK_ADD( len, mbedtls_asn1_write_tag( &c, buf, MBEDTLS_ASN1_CONSTRUCTED |
+ 943              		.loc 1 350 0 discriminator 2
+ 944 03f0 055084E0 		add	r5, r4, r5
+ 945              	.LVL164:
+ 351:D:/Work/DeviceTester/amazon-freertos/lib/third_party/mbedtls/library\pkwrite.c ****                                                     MBEDTLS_ASN1_SEQUENCE ) );
+ 946              		.loc 1 351 0 discriminator 2
+ 947 03f4 FEFFFFEB 		bl	mbedtls_asn1_write_tag
+ 948              	.LVL165:
+ 949 03f8 004050E2 		subs	r4, r0, #0
+ 950 03fc 054084A0 		addge	r4, r4, r5
+ 951 0400 8FFFFFEA 		b	.L29
+ 952              	.LVL166:
+ 953              	.L44:
+ 954 0404 0040A0E1 		mov	r4, r0
+ 955 0408 8DFFFFEA 		b	.L29
+ 956              	.L50:
+ 957              		.align	2
+ 958              	.L49:
+ 959 040c 80C6FFFF 		.word	-14720
+ 960              	.LBE21:
+ 961              		.cfi_endproc
+ 962              	.LFE16:
+ 964              		.text
+ 965              	.Letext0:
+ 966              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 967              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 968              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 969              		.file 5 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/bignu
+ 970              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 971              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 972              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 973              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 974              		.file 10 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 975              		.file 11 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 976              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\src/unity_internals.h"
+ 977              		.file 13 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/queue.h"
+ 978              		.file 14 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/semphr.h"
+ 979              		.file 15 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include\\private/threading_alt.h"
+ 980              		.file 16 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/thre
+ 981              		.file 17 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/rsa.
+ 982              		.file 18 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/ecp.
+ 983              		.file 19 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/pk.h
+ 984              		.file 20 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 985              		.file 21 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/asn1
+ 986              		.file 22 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mbedtls\\include/mbedtls/oid.
+DEFINED SYMBOLS
+                            *ABS*:00000000 pkwrite.c
+C:\Users\a5089698\AppData\Local\Temp\ccybKyqJ.s:17     .text.pk_write_ec_pubkey:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccybKyqJ.s:22     .text.pk_write_ec_pubkey:00000000 pk_write_ec_pubkey
+C:\Users\a5089698\AppData\Local\Temp\ccybKyqJ.s:102    .text.pk_write_ec_param.isra.2:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccybKyqJ.s:107    .text.pk_write_ec_param.isra.2:00000000 pk_write_ec_param.isra.2
+C:\Users\a5089698\AppData\Local\Temp\ccybKyqJ.s:149    .text.mbedtls_pk_write_pubkey:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccybKyqJ.s:155    .text.mbedtls_pk_write_pubkey:00000000 mbedtls_pk_write_pubkey
+C:\Users\a5089698\AppData\Local\Temp\ccybKyqJ.s:320    .text.mbedtls_pk_write_pubkey:00000138 $d
+C:\Users\a5089698\AppData\Local\Temp\ccybKyqJ.s:325    .text.mbedtls_pk_write_pubkey_der:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccybKyqJ.s:331    .text.mbedtls_pk_write_pubkey_der:00000000 mbedtls_pk_write_pubkey_der
+C:\Users\a5089698\AppData\Local\Temp\ccybKyqJ.s:491    .text.mbedtls_pk_write_key_der:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccybKyqJ.s:497    .text.mbedtls_pk_write_key_der:00000000 mbedtls_pk_write_key_der
+C:\Users\a5089698\AppData\Local\Temp\ccybKyqJ.s:959    .text.mbedtls_pk_write_key_der:0000040c $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+mbedtls_ecp_point_write_binary
+memcpy
+mbedtls_oid_get_oid_by_ec_grp
+mbedtls_asn1_write_oid
+mbedtls_pk_get_type
+mbedtls_mpi_init
+mbedtls_rsa_export
+mbedtls_asn1_write_mpi
+mbedtls_mpi_free
+mbedtls_asn1_write_len
+mbedtls_asn1_write_tag
+mbedtls_oid_get_oid_by_pk_alg
+mbedtls_asn1_write_algorithm_identifier
+mbedtls_rsa_export_crt
+mbedtls_asn1_write_int

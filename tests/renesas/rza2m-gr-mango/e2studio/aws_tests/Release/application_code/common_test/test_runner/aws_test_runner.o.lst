@@ -1,0 +1,314 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"aws_test_runner.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.WIFI_Off,"ax",%progbits
+  17              		.align	2
+  18              		.weak	WIFI_Off
+  19              		.syntax unified
+  20              		.arm
+  21              		.fpu neon
+  23              	WIFI_Off:
+  24              	.LFB0:
+  25              		.file 1 "D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner/aws_test_runner.c"
+   1:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** /*
+   2:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  * Amazon FreeRTOS Test Runner V1.1.4
+   3:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  * Copyright (C) 2018 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+   4:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  *
+   5:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  * Permission is hereby granted, free of charge, to any person obtaining a copy of
+   6:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  * this software and associated documentation files (the "Software"), to deal in
+   7:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  * the Software without restriction, including without limitation the rights to
+   8:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+   9:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  * the Software, and to permit persons to whom the Software is furnished to do so,
+  10:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  * subject to the following conditions:
+  11:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  *
+  12:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  * The above copyright notice and this permission notice shall be included in all
+  13:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  * copies or substantial portions of the Software.
+  14:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  *
+  15:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  16:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+  17:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+  18:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+  19:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  20:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  21:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  *
+  22:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  * http://aws.amazon.com/freertos
+  23:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  * http://www.FreeRTOS.org
+  24:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  */
+  25:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** 
+  26:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** 
+  27:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** /**
+  28:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  * @file aws_test_runner.c
+  29:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  * @brief The function to be called to run all the tests.
+  30:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  */
+  31:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** 
+  32:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** /* Test runner interface includes. */
+  33:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** #include "aws_test_runner.h"
+  34:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** 
+  35:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** /* FreeRTOS includes. */
+  36:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** #include "FreeRTOS.h"
+  37:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** #include "task.h"
+  38:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** 
+  39:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** /* Unity framework includes. */
+  40:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** #include "unity_fixture.h"
+  41:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** #include "unity_internals.h"
+  42:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** 
+  43:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** /* Application version info. */
+  44:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** #include "aws_application_version.h"
+  45:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** 
+  46:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** const AppVersion32_t xAppFirmwareVersion =
+  47:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** {
+  48:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     .u.x.ucMajor = APP_VERSION_MAJOR,
+  49:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     .u.x.ucMinor = APP_VERSION_MINOR,
+  50:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     .u.x.usBuild = APP_VERSION_BUILD,
+  51:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** };
+  52:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** 
+  53:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** char cBuffer[ testrunnerBUFFER_SIZE ];
+  54:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** 
+  55:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** /* Heap leak variables. */
+  56:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** unsigned int xHeapBefore;
+  57:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** unsigned int xHeapAfter;
+  58:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** /*-----------------------------------------------------------*/
+  59:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** __attribute__((weak)) void WIFI_Off(void)
+  60:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** {
+  26              		.loc 1 60 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              		@ link register save eliminated.
+  31 0000 1EFF2FE1 		bx	lr
+  32              		.cfi_endproc
+  33              	.LFE0:
+  35              		.section	.text.TEST_RUNNER_RunTests_task,"ax",%progbits
+  36              		.align	2
+  37              		.global	TEST_RUNNER_RunTests_task
+  38              		.syntax unified
+  39              		.arm
+  40              		.fpu neon
+  42              	TEST_RUNNER_RunTests_task:
+  43              	.LFB2:
+  61:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** }
+  62:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** volatile int_t ota_mode = 0;
+  63:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** 
+  64:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** /* This function will be generated by the test automation framework,
+  65:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  * do not change the signature of it. You could, however, add or remove
+  66:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  * RUN_TEST_GROUP statements.
+  67:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****  */
+  68:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** static void RunTests( void )
+  69:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** {
+  70:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****         extern void vStartOTAUpdateDemoTask( void );
+  71:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****         vStartOTAUpdateDemoTask();
+  72:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** }
+  73:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** /*-----------------------------------------------------------*/
+  74:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** 
+  75:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** void TEST_RUNNER_RunTests_task( void * pvParameters )
+  76:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** {
+  44              		.loc 1 76 0
+  45              		.cfi_startproc
+  46              		@ args = 0, pretend = 0, frame = 0
+  47              		@ frame_needed = 0, uses_anonymous_args = 0
+  48              	.LVL0:
+  77:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     /* Initialize unity. */
+  78:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     UnityFixture.Verbose = 1;
+  49              		.loc 1 78 0
+  50 0000 58309FE5 		ldr	r3, .L5
+  51 0004 0120A0E3 		mov	r2, #1
+  76:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     /* Initialize unity. */
+  52              		.loc 1 76 0
+  53 0008 10402DE9 		push	{r4, lr}
+  54              		.cfi_def_cfa_offset 8
+  55              		.cfi_offset 4, -8
+  56              		.cfi_offset 14, -4
+  79:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     UnityFixture.GroupFilter = 0;
+  57              		.loc 1 79 0
+  58 000c 0010A0E3 		mov	r1, #0
+  80:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     UnityFixture.NameFilter = testrunnerTEST_FILTER;
+  81:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     UnityFixture.RepeatCount = 1;
+  82:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** 
+  83:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     UNITY_BEGIN();
+  59              		.loc 1 83 0
+  60 0010 4C009FE5 		ldr	r0, .L5+4
+  61              	.LVL1:
+  78:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     UnityFixture.GroupFilter = 0;
+  62              		.loc 1 78 0
+  63 0014 002083E5 		str	r2, [r3]
+  79:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     UnityFixture.GroupFilter = 0;
+  64              		.loc 1 79 0
+  65 0018 0C1083E5 		str	r1, [r3, #12]
+  80:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     UnityFixture.NameFilter = testrunnerTEST_FILTER;
+  66              		.loc 1 80 0
+  67 001c 081083E5 		str	r1, [r3, #8]
+  81:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** 
+  68              		.loc 1 81 0
+  69 0020 042083E5 		str	r2, [r3, #4]
+  70              		.loc 1 83 0
+  71 0024 FEFFFFEB 		bl	UnityBegin
+  72              	.LVL2:
+  84:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** 
+  85:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     /* Give the print buffer time to empty */
+  86:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     vTaskDelay( 500 );
+  73              		.loc 1 86 0
+  74 0028 7D0FA0E3 		mov	r0, #500
+  75 002c FEFFFFEB 		bl	vTaskDelay
+  76              	.LVL3:
+  77              	.LBB4:
+  78              	.LBB5:
+  71:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** }
+  79              		.loc 1 71 0
+  80 0030 FEFFFFEB 		bl	vStartOTAUpdateDemoTask
+  81              	.LVL4:
+  82              	.LBE5:
+  83              	.LBE4:
+  87:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     /* Measure the heap size before any tests are run. */
+  88:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     #if ( testrunnerFULL_MEMORYLEAK_ENABLED == 1 )
+  89:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****         xHeapBefore = xPortGetFreeHeapSize();
+  90:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     #endif
+  91:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** 
+  92:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     RunTests();
+  93:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** 
+  94:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     #if ( testrunnerFULL_MEMORYLEAK_ENABLED == 1 )
+  95:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** 
+  96:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****         /* Measure the heap size after tests are done running.
+  97:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****          * This test must run last. */
+  98:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** 
+  99:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****         /* Perform any global resource cleanup necessary to avoid memory leaks. */
+ 100:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****         #ifdef testrunnerMEMORYLEAK_CLEANUP
+ 101:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****             testrunnerMEMORYLEAK_CLEANUP();
+ 102:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****         #endif
+ 103:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** 
+ 104:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****         /* Give the print buffer time to empty */
+ 105:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****         vTaskDelay( 500 );
+ 106:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****         xHeapAfter = xPortGetFreeHeapSize();
+ 107:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****         RUN_TEST_GROUP( Full_MemoryLeak );
+ 108:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     #endif /* if ( testrunnerFULL_MEMORYLEAK_ENABLED == 1 ) */
+ 109:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** 
+ 110:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     /* Currently disabled. Will be enabled after cleanup. */
+ 111:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     if(ota_mode==0) {
+  84              		.loc 1 111 0
+  85 0034 2C309FE5 		ldr	r3, .L5+8
+  86 0038 003093E5 		ldr	r3, [r3]
+  87 003c 000053E3 		cmp	r3, #0
+  88 0040 0200001A 		bne	.L3
+ 112:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****         vTaskDelay( 500 );
+  89              		.loc 1 112 0
+  90 0044 7D0FA0E3 		mov	r0, #500
+  91 0048 FEFFFFEB 		bl	vTaskDelay
+  92              	.LVL5:
+ 113:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     	WIFI_Off();
+  93              		.loc 1 113 0
+  94 004c FEFFFFEB 		bl	WIFI_Off
+  95              	.LVL6:
+  96              	.L3:
+ 114:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     }
+ 115:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     UNITY_END();
+  97              		.loc 1 115 0
+  98 0050 FEFFFFEB 		bl	UnityEnd
+  99              	.LVL7:
+ 116:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** 
+ 117:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     #ifdef CODE_COVERAGE
+ 118:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****         exit( 0 );
+ 119:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     #endif
+ 120:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** 
+ 121:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     /* This task has finished.  FreeRTOS does not allow a task to run off the
+ 122:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****      * end of its implementing function, so the task must be deleted. */
+ 123:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c ****     vTaskDelete( NULL );
+ 100              		.loc 1 123 0
+ 101 0054 0000A0E3 		mov	r0, #0
+ 124:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** }
+ 102              		.loc 1 124 0
+ 103 0058 1040BDE8 		pop	{r4, lr}
+ 104              		.cfi_restore 14
+ 105              		.cfi_restore 4
+ 106              		.cfi_def_cfa_offset 0
+ 123:D:/Work/DeviceTester/amazon-freertos/tests/common/test_runner\aws_test_runner.c **** }
+ 107              		.loc 1 123 0
+ 108 005c FEFFFFEA 		b	vTaskDelete
+ 109              	.LVL8:
+ 110              	.L6:
+ 111              		.align	2
+ 112              	.L5:
+ 113 0060 00000000 		.word	UnityFixture
+ 114 0064 00000000 		.word	.LC0
+ 115 0068 00000000 		.word	.LANCHOR0
+ 116              		.cfi_endproc
+ 117              	.LFE2:
+ 119              		.global	ota_mode
+ 120              		.comm	xHeapAfter,4,4
+ 121              		.comm	xHeapBefore,4,4
+ 122              		.comm	cBuffer,4000,1
+ 123              		.global	xAppFirmwareVersion
+ 124              		.section	.bss.ota_mode,"aw",%nobits
+ 125              		.align	2
+ 126              		.set	.LANCHOR0,. + 0
+ 129              	ota_mode:
+ 130 0000 00000000 		.space	4
+ 131              		.section	.rodata.TEST_RUNNER_RunTests_task.str1.1,"aMS",%progbits,1
+ 132              	.LC0:
+ 133 0000 443A2F57 		.ascii	"D:/Work/DeviceTester/amazon-freertos/tests/common/t"
+ 133      6F726B2F 
+ 133      44657669 
+ 133      63655465 
+ 133      73746572 
+ 134 0033 6573745F 		.ascii	"est_runner/aws_test_runner.c\000"
+ 134      72756E6E 
+ 134      65722F61 
+ 134      77735F74 
+ 134      6573745F 
+ 135              		.section	.rodata.xAppFirmwareVersion,"a",%progbits
+ 136              		.align	2
+ 139              	xAppFirmwareVersion:
+ 140 0000 0100     		.short	1
+ 141 0002 09       		.byte	9
+ 142 0003 00       		.byte	0
+ 143              		.text
+ 144              	.Letext0:
+ 145              		.file 2 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\common\\include/aws_test_runner.h"
+ 146              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 147              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 148              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 149              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 150              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 151              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 152              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 153              		.file 10 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 154              		.file 11 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\src/unity_internals.h"
+ 155              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 156              		.file 13 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 157              		.file 14 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\extras\\fixture\\src/u
+ 158              		.file 15 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/aws_appversion32.h"
+ 159              		.file 16 "D:\\Work\\DeviceTester\\amazon-freertos\\tests\\common\\include/aws_application_version.
+ 160              		.file 17 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/task.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 aws_test_runner.c
+C:\Users\a5089698\AppData\Local\Temp\ccsvRTev.s:17     .text.WIFI_Off:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccsvRTev.s:23     .text.WIFI_Off:00000000 WIFI_Off
+C:\Users\a5089698\AppData\Local\Temp\ccsvRTev.s:36     .text.TEST_RUNNER_RunTests_task:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccsvRTev.s:42     .text.TEST_RUNNER_RunTests_task:00000000 TEST_RUNNER_RunTests_task
+C:\Users\a5089698\AppData\Local\Temp\ccsvRTev.s:113    .text.TEST_RUNNER_RunTests_task:00000060 $d
+C:\Users\a5089698\AppData\Local\Temp\ccsvRTev.s:129    .bss.ota_mode:00000000 ota_mode
+                            *COM*:00000004 xHeapAfter
+                            *COM*:00000004 xHeapBefore
+                            *COM*:00000fa0 cBuffer
+C:\Users\a5089698\AppData\Local\Temp\ccsvRTev.s:139    .rodata.xAppFirmwareVersion:00000000 xAppFirmwareVersion
+C:\Users\a5089698\AppData\Local\Temp\ccsvRTev.s:125    .bss.ota_mode:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccsvRTev.s:136    .rodata.xAppFirmwareVersion:00000000 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+UnityBegin
+vTaskDelay
+vStartOTAUpdateDemoTask
+UnityEnd
+vTaskDelete
+UnityFixture

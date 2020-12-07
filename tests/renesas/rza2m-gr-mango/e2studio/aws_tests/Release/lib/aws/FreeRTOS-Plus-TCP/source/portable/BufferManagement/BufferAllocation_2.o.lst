@@ -1,0 +1,1087 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"BufferAllocation_2.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.xNetworkBuffersInitialise,"ax",%progbits
+  17              		.align	2
+  18              		.global	xNetworkBuffersInitialise
+  19              		.syntax unified
+  20              		.arm
+  21              		.fpu neon
+  23              	xNetworkBuffersInitialise:
+  24              	.LFB25:
+  25              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManageme
+   1:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** /*
+   2:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  * FreeRTOS+TCP V2.0.10
+   3:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  * Copyright (C) 2017 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+   4:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  *
+   5:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  * Permission is hereby granted, free of charge, to any person obtaining a copy of
+   6:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  * this software and associated documentation files (the "Software"), to deal in
+   7:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  * the Software without restriction, including without limitation the rights to
+   8:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+   9:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  * the Software, and to permit persons to whom the Software is furnished to do so,
+  10:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  * subject to the following conditions:
+  11:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  *
+  12:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  * The above copyright notice and this permission notice shall be included in all
+  13:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  * copies or substantial portions of the Software.
+  14:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  *
+  15:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  16:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+  17:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+  18:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+  19:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  20:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  21:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  *
+  22:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  * http://www.FreeRTOS.org
+  23:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  * http://aws.amazon.com/freertos
+  24:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  *
+  25:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  * 1 tab == 4 spaces!
+  26:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  */
+  27:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+  28:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** /******************************************************************************
+  29:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  *
+  30:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  * See the following web page for essential buffer allocation scheme usage and
+  31:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  * configuration details:
+  32:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  * http://www.FreeRTOS.org/FreeRTOS-Plus/FreeRTOS_Plus_TCP/Embedded_Ethernet_Buffer_Management.html
+  33:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  *
+  34:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  ******************************************************************************/
+  35:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+  36:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** /* THIS FILE SHOULD NOT BE USED IF THE PROJECT INCLUDES A MEMORY ALLOCATOR
+  37:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** THAT WILL FRAGMENT THE HEAP MEMORY.  For example, heap_2 must not be used,
+  38:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** heap_4 can be used. */
+  39:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+  40:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+  41:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** /* Standard includes. */
+  42:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** #include <stdint.h>
+  43:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+  44:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** /* FreeRTOS includes. */
+  45:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** #include "FreeRTOS.h"
+  46:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** #include "task.h"
+  47:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** #include "semphr.h"
+  48:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+  49:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** /* FreeRTOS+TCP includes. */
+  50:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** #include "FreeRTOS_IP.h"
+  51:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** #include "FreeRTOS_UDP_IP.h"
+  52:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** #include "FreeRTOS_IP_Private.h"
+  53:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** #include "NetworkInterface.h"
+  54:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** #include "NetworkBufferManagement.h"
+  55:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+  56:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** /* The obtained network buffer must be large enough to hold a packet that might
+  57:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** replace the packet that was requested to be sent. */
+  58:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** #if ipconfigUSE_TCP == 1
+  59:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	#define baMINIMAL_BUFFER_SIZE		sizeof( TCPPacket_t )
+  60:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** #else
+  61:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	#define baMINIMAL_BUFFER_SIZE		sizeof( ARPPacket_t )
+  62:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** #endif /* ipconfigUSE_TCP == 1 */
+  63:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+  64:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** /*_RB_ This is too complex not to have an explanation. */
+  65:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** #if defined( ipconfigETHERNET_MINIMUM_PACKET_BYTES )
+  66:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	#define ASSERT_CONCAT_(a, b) a##b
+  67:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	#define ASSERT_CONCAT(a, b) ASSERT_CONCAT_(a, b)
+  68:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	#define STATIC_ASSERT(e) \
+  69:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		;enum { ASSERT_CONCAT(assert_line_, __LINE__) = 1/(!!(e)) }
+  70:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+  71:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	STATIC_ASSERT( ipconfigETHERNET_MINIMUM_PACKET_BYTES <= baMINIMAL_BUFFER_SIZE );
+  72:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** #endif
+  73:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+  74:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** /* A list of free (available) NetworkBufferDescriptor_t structures. */
+  75:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** static List_t xFreeBuffersList;
+  76:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+  77:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** /* Some statistics about the use of buffers. */
+  78:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** static size_t uxMinimumFreeNetworkBuffers;
+  79:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+  80:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** /* Declares the pool of NetworkBufferDescriptor_t structures that are available
+  81:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** to the system.  All the network buffers referenced from xFreeBuffersList exist
+  82:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** in this array.  The array is not accessed directly except during initialisation,
+  83:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** when the xFreeBuffersList is filled (as all the buffers are free when the system
+  84:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** is booted). */
+  85:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** static NetworkBufferDescriptor_t xNetworkBufferDescriptors[ ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS 
+  86:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+  87:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** /* This constant is defined as false to let FreeRTOS_TCP_IP.c know that the
+  88:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** network buffers have a variable size: resizing may be necessary */
+  89:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** const BaseType_t xBufferAllocFixedSize = pdFALSE;
+  90:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+  91:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** /* The semaphore used to obtain network buffers. */
+  92:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** static SemaphoreHandle_t xNetworkBufferSemaphore = NULL;
+  93:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+  94:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** /*-----------------------------------------------------------*/
+  95:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+  96:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** BaseType_t xNetworkBuffersInitialise( void )
+  97:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** {
+  26              		.loc 1 97 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30 0000 F0412DE9 		push	{r4, r5, r6, r7, r8, lr}
+  31              		.cfi_def_cfa_offset 24
+  32              		.cfi_offset 4, -24
+  33              		.cfi_offset 5, -20
+  34              		.cfi_offset 6, -16
+  35              		.cfi_offset 7, -12
+  36              		.cfi_offset 8, -8
+  37              		.cfi_offset 14, -4
+  98:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** BaseType_t xReturn, x;
+  99:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	/* Only initialise the buffers and their associated kernel objects if they
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	have not been initialised before. */
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	if( xNetworkBufferSemaphore == NULL )
+  38              		.loc 1 102 0
+  39 0004 90409FE5 		ldr	r4, .L7
+  40 0008 005094E5 		ldr	r5, [r4]
+  41 000c 0460A0E1 		mov	r6, r4
+  42 0010 000055E3 		cmp	r5, #0
+  43 0014 1C00001A 		bne	.L2
+ 103:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	{
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		xNetworkBufferSemaphore = xSemaphoreCreateCounting( ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS, ipcon
+  44              		.loc 1 104 0
+  45 0018 0810A0E3 		mov	r1, #8
+  46 001c 0100A0E1 		mov	r0, r1
+  47 0020 FEFFFFEB 		bl	xQueueCreateCountingSemaphore
+  48              	.LVL0:
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		configASSERT( xNetworkBufferSemaphore );
+  49              		.loc 1 105 0
+  50 0024 000050E3 		cmp	r0, #0
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		configASSERT( xNetworkBufferSemaphore );
+  51              		.loc 1 104 0
+  52 0028 000084E5 		str	r0, [r4]
+  53              		.loc 1 105 0
+  54 002c 0200001A 		bne	.L3
+  55              		.loc 1 105 0 is_stmt 0 discriminator 1
+  56 0030 0110A0E3 		mov	r1, #1
+  57 0034 64009FE5 		ldr	r0, .L7+4
+  58 0038 FEFFFFEB 		bl	longjmp
+  59              	.LVL1:
+  60              	.L3:
+  61 003c 60409FE5 		ldr	r4, .L7+8
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		if( xNetworkBufferSemaphore != NULL )
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		{
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			#if ( configQUEUE_REGISTRY_SIZE > 0 )
+ 110:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			{
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				vQueueAddToRegistry( xNetworkBufferSemaphore, "NetBufSem" );
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			}
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			#endif /* configQUEUE_REGISTRY_SIZE */
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			/* If the trace recorder code is included name the semaphore for viewing
+ 116:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			in FreeRTOS+Trace.  */
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			#if( ipconfigINCLUDE_EXAMPLE_FREERTOS_PLUS_TRACE_CALLS == 1 )
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			{
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				extern QueueHandle_t xNetworkEventQueue;
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				vTraceSetQueueName( xNetworkEventQueue, "IPStackEvent" );
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				vTraceSetQueueName( xNetworkBufferSemaphore, "NetworkBufferCount" );
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			}
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			#endif /*  ipconfigINCLUDE_EXAMPLE_FREERTOS_PLUS_TRACE_CALLS == 1 */
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			vListInitialise( &xFreeBuffersList );
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			/* Initialise all the network buffers.  No storage is allocated to
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			the buffers yet. */
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			for( x = 0; x < ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS; x++ )
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			{
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				/* Initialise and set the owner of the buffer list items. */
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				xNetworkBufferDescriptors[ x ].pucEthernetBuffer = NULL;
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				vListInitialiseItem( &( xNetworkBufferDescriptors[ x ].xBufferListItem ) );
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				listSET_LIST_ITEM_OWNER( &( xNetworkBufferDescriptors[ x ].xBufferListItem ), &xNetworkBufferDe
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 136:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				/* Currently, all buffers are available for use. */
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				vListInsert( &xFreeBuffersList, &( xNetworkBufferDescriptors[ x ].xBufferListItem ) );
+  62              		.loc 1 137 0 is_stmt 1
+  63 0040 60809FE5 		ldr	r8, .L7+12
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			}
+  64              		.loc 1 111 0
+  65 0044 60109FE5 		ldr	r1, .L7+16
+  66 0048 127E84E2 		add	r7, r4, #288
+  67 004c FEFFFFEB 		bl	vQueueAddToRegistry
+  68              	.LVL2:
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+  69              		.loc 1 125 0
+  70 0050 50009FE5 		ldr	r0, .L7+12
+  71 0054 FEFFFFEB 		bl	vListInitialise
+  72              	.LVL3:
+  73              	.L4:
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				vListInitialiseItem( &( xNetworkBufferDescriptors[ x ].xBufferListItem ) );
+  74              		.loc 1 132 0 discriminator 3
+  75 0058 185084E5 		str	r5, [r4, #24]
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				listSET_LIST_ITEM_OWNER( &( xNetworkBufferDescriptors[ x ].xBufferListItem ), &xNetworkBufferDe
+  76              		.loc 1 133 0 discriminator 3
+  77 005c 0400A0E1 		mov	r0, r4
+  78 0060 FEFFFFEB 		bl	vListInitialiseItem
+  79              	.LVL4:
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+  80              		.loc 1 134 0 discriminator 3
+  81 0064 0C4084E5 		str	r4, [r4, #12]
+  82              		.loc 1 137 0 discriminator 3
+  83 0068 0410A0E1 		mov	r1, r4
+  84 006c 0800A0E1 		mov	r0, r8
+  85 0070 244084E2 		add	r4, r4, #36
+  86 0074 FEFFFFEB 		bl	vListInsert
+  87              	.LVL5:
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			{
+  88              		.loc 1 129 0 discriminator 3
+  89 0078 070054E1 		cmp	r4, r7
+  90 007c F5FFFF1A 		bne	.L4
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			}
+ 139:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 140:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			uxMinimumFreeNetworkBuffers = ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS;
+  91              		.loc 1 140 0
+  92 0080 28309FE5 		ldr	r3, .L7+20
+  93 0084 0820A0E3 		mov	r2, #8
+  94 0088 002083E5 		str	r2, [r3]
+  95              	.L2:
+  96              	.LVL6:
+ 141:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		}
+ 142:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	}
+ 143:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 144:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	if( xNetworkBufferSemaphore == NULL )
+  97              		.loc 1 144 0
+  98 008c 000096E5 		ldr	r0, [r6]
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	{
+ 146:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		xReturn = pdFAIL;
+ 147:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	}
+ 148:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	else
+ 149:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	{
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		xReturn = pdPASS;
+ 151:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	}
+ 152:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 153:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	return xReturn;
+ 154:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** }
+  99              		.loc 1 154 0
+ 100 0090 000090E2 		adds	r0, r0, #0
+ 101 0094 0100A013 		movne	r0, #1
+ 102 0098 F081BDE8 		pop	{r4, r5, r6, r7, r8, pc}
+ 103              	.L8:
+ 104              		.align	2
+ 105              	.L7:
+ 106 009c 00000000 		.word	.LANCHOR0
+ 107 00a0 28000000 		.word	Unity+40
+ 108 00a4 00000000 		.word	.LANCHOR2
+ 109 00a8 00000000 		.word	.LANCHOR1
+ 110 00ac 00000000 		.word	.LC0
+ 111 00b0 00000000 		.word	.LANCHOR3
+ 112              		.cfi_endproc
+ 113              	.LFE25:
+ 115              		.section	.text.pucGetNetworkBuffer,"ax",%progbits
+ 116              		.align	2
+ 117              		.global	pucGetNetworkBuffer
+ 118              		.syntax unified
+ 119              		.arm
+ 120              		.fpu neon
+ 122              	pucGetNetworkBuffer:
+ 123              	.LFB26:
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** /*-----------------------------------------------------------*/
+ 156:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** uint8_t *pucGetNetworkBuffer( size_t *pxRequestedSizeBytes )
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** {
+ 124              		.loc 1 158 0
+ 125              		.cfi_startproc
+ 126              		@ args = 0, pretend = 0, frame = 0
+ 127              		@ frame_needed = 0, uses_anonymous_args = 0
+ 128              	.LVL7:
+ 159:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** uint8_t *pucEthernetBuffer;
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** size_t xSize = *pxRequestedSizeBytes;
+ 129              		.loc 1 160 0
+ 130 0000 003090E5 		ldr	r3, [r0]
+ 131              	.LVL8:
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** uint8_t *pucEthernetBuffer;
+ 132              		.loc 1 158 0
+ 133 0004 10402DE9 		push	{r4, lr}
+ 134              		.cfi_def_cfa_offset 8
+ 135              		.cfi_offset 4, -8
+ 136              		.cfi_offset 14, -4
+ 137 0008 460053E3 		cmp	r3, #70
+ 138 000c 4630A033 		movcc	r3, #70
+ 139              	.LVL9:
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 162:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	if( xSize < baMINIMAL_BUFFER_SIZE )
+ 163:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	{
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		/* Buffers must be at least large enough to hold a TCP-packet with
+ 165:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		headers, or an ARP packet, in case TCP is not included. */
+ 166:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		xSize = baMINIMAL_BUFFER_SIZE;
+ 167:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	}
+ 168:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 169:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	/* Round up xSize to the nearest multiple of N bytes,
+ 170:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	where N equals 'sizeof( size_t )'. */
+ 171:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	if( ( xSize & ( sizeof( size_t ) - 1u ) ) != 0u )
+ 140              		.loc 1 171 0
+ 141 0010 030013E3 		tst	r3, #3
+ 172:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	{
+ 173:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		xSize = ( xSize | ( sizeof( size_t ) - 1u ) ) + 1u;
+ 142              		.loc 1 173 0
+ 143 0014 03308313 		orrne	r3, r3, #3
+ 144              	.LVL10:
+ 145 0018 01308312 		addne	r3, r3, #1
+ 146              	.LVL11:
+ 174:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	}
+ 175:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	*pxRequestedSizeBytes = xSize;
+ 147              		.loc 1 175 0
+ 148 001c 003080E5 		str	r3, [r0]
+ 176:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 177:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	/* Allocate a buffer large enough to store the requested Ethernet frame size
+ 178:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	and a pointer to a network buffer structure (hence the addition of
+ 179:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	ipBUFFER_PADDING bytes). */
+ 180:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	pucEthernetBuffer = ( uint8_t * ) pvPortMalloc( xSize + ipBUFFER_PADDING );
+ 149              		.loc 1 180 0
+ 150 0020 0A0083E2 		add	r0, r3, #10
+ 151              	.LVL12:
+ 152 0024 FEFFFFEB 		bl	pvPortMalloc
+ 153              	.LVL13:
+ 181:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	configASSERT( pucEthernetBuffer );
+ 154              		.loc 1 181 0
+ 155 0028 000050E3 		cmp	r0, #0
+ 156 002c 0200001A 		bne	.L11
+ 157              	.LVL14:
+ 158              	.LBB4:
+ 159              	.LBB5:
+ 160 0030 0110A0E3 		mov	r1, #1
+ 161 0034 08009FE5 		ldr	r0, .L16
+ 162              	.LVL15:
+ 163 0038 FEFFFFEB 		bl	longjmp
+ 164              	.LVL16:
+ 165              	.L11:
+ 166              	.LBE5:
+ 167              	.LBE4:
+ 182:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 183:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	if( pucEthernetBuffer != NULL )
+ 184:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	{
+ 185:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		/* Enough space is left at the start of the buffer to place a pointer to
+ 186:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		the network buffer structure that references this Ethernet buffer.
+ 187:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		Return a pointer to the start of the Ethernet buffer itself. */
+ 188:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		pucEthernetBuffer += ipBUFFER_PADDING;
+ 189:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	}
+ 190:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 191:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	return pucEthernetBuffer;
+ 192:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** }
+ 168              		.loc 1 192 0
+ 169 003c 0A0080E2 		add	r0, r0, #10
+ 170              	.LVL17:
+ 171 0040 1080BDE8 		pop	{r4, pc}
+ 172              	.L17:
+ 173              		.align	2
+ 174              	.L16:
+ 175 0044 28000000 		.word	Unity+40
+ 176              		.cfi_endproc
+ 177              	.LFE26:
+ 179              		.section	.text.vReleaseNetworkBuffer,"ax",%progbits
+ 180              		.align	2
+ 181              		.global	vReleaseNetworkBuffer
+ 182              		.syntax unified
+ 183              		.arm
+ 184              		.fpu neon
+ 186              	vReleaseNetworkBuffer:
+ 187              	.LFB27:
+ 193:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** /*-----------------------------------------------------------*/
+ 194:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 195:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** void vReleaseNetworkBuffer( uint8_t *pucEthernetBuffer )
+ 196:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** {
+ 188              		.loc 1 196 0
+ 189              		.cfi_startproc
+ 190              		@ args = 0, pretend = 0, frame = 0
+ 191              		@ frame_needed = 0, uses_anonymous_args = 0
+ 192              		@ link register save eliminated.
+ 193              	.LVL18:
+ 197:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	/* There is space before the Ethernet buffer in which a pointer to the
+ 198:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	network buffer that references this Ethernet buffer is stored.  Remove the
+ 199:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	space before freeing the buffer. */
+ 200:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	if( pucEthernetBuffer != NULL )
+ 194              		.loc 1 200 0
+ 195 0000 000050E3 		cmp	r0, #0
+ 196 0004 1EFF2F01 		bxeq	lr
+ 197              	.LVL19:
+ 201:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	{
+ 202:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		pucEthernetBuffer -= ipBUFFER_PADDING;
+ 203:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		vPortFree( ( void * ) pucEthernetBuffer );
+ 198              		.loc 1 203 0
+ 199 0008 0A0040E2 		sub	r0, r0, #10
+ 200              	.LVL20:
+ 201 000c FEFFFFEA 		b	vPortFree
+ 202              	.LVL21:
+ 203              		.cfi_endproc
+ 204              	.LFE27:
+ 206              		.section	.text.vReleaseNetworkBufferAndDescriptor,"ax",%progbits
+ 207              		.align	2
+ 208              		.global	vReleaseNetworkBufferAndDescriptor
+ 209              		.syntax unified
+ 210              		.arm
+ 211              		.fpu neon
+ 213              	vReleaseNetworkBufferAndDescriptor:
+ 214              	.LFB29:
+ 204:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	}
+ 205:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** }
+ 206:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** /*-----------------------------------------------------------*/
+ 207:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 208:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** NetworkBufferDescriptor_t *pxGetNetworkBufferWithDescriptor( size_t xRequestedSizeBytes, TickType_t
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** {
+ 210:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** NetworkBufferDescriptor_t *pxReturn = NULL;
+ 211:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** size_t uxCount;
+ 212:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 213:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	if( ( xRequestedSizeBytes != 0u ) && ( xRequestedSizeBytes < ( size_t ) baMINIMAL_BUFFER_SIZE ) )
+ 214:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	{
+ 215:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		/* ARP packets can replace application packets, so the storage must be
+ 216:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		at least large enough to hold an ARP. */
+ 217:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		xRequestedSizeBytes = baMINIMAL_BUFFER_SIZE;
+ 218:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	}
+ 219:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 220:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	/* Add 2 bytes to xRequestedSizeBytes and round up xRequestedSizeBytes
+ 221:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	to the nearest multiple of N bytes, where N equals 'sizeof( size_t )'. */
+ 222:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	xRequestedSizeBytes += 2u;
+ 223:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	if( ( xRequestedSizeBytes & ( sizeof( size_t ) - 1u ) ) != 0u )
+ 224:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	{
+ 225:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		xRequestedSizeBytes = ( xRequestedSizeBytes | ( sizeof( size_t ) - 1u ) ) + 1u;
+ 226:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	}
+ 227:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 228:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	/* If there is a semaphore available, there is a network buffer available. */
+ 229:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	if( xSemaphoreTake( xNetworkBufferSemaphore, xBlockTimeTicks ) == pdPASS )
+ 230:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	{
+ 231:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		/* Protect the structure as it is accessed from tasks and interrupts. */
+ 232:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		taskENTER_CRITICAL();
+ 233:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		{
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			pxReturn = ( NetworkBufferDescriptor_t * ) listGET_OWNER_OF_HEAD_ENTRY( &xFreeBuffersList );
+ 235:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			uxListRemove( &( pxReturn->xBufferListItem ) );
+ 236:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		}
+ 237:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		taskEXIT_CRITICAL();
+ 238:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 239:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		/* Reading UBaseType_t, no critical section needed. */
+ 240:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		uxCount = listCURRENT_LIST_LENGTH( &xFreeBuffersList );
+ 241:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		if( uxMinimumFreeNetworkBuffers > uxCount )
+ 243:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		{
+ 244:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			uxMinimumFreeNetworkBuffers = uxCount;
+ 245:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		}
+ 246:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 247:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		/* Allocate storage of exactly the requested size to the buffer. */
+ 248:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		configASSERT( pxReturn->pucEthernetBuffer == NULL );
+ 249:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		if( xRequestedSizeBytes > 0 )
+ 250:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		{
+ 251:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			/* Extra space is obtained so a pointer to the network buffer can
+ 252:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			be stored at the beginning of the buffer. */
+ 253:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			pxReturn->pucEthernetBuffer = ( uint8_t * ) pvPortMalloc( xRequestedSizeBytes + ipBUFFER_PADDING
+ 254:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 255:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			if( pxReturn->pucEthernetBuffer == NULL )
+ 256:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			{
+ 257:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				/* The attempt to allocate storage for the buffer payload failed,
+ 258:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				so the network buffer structure cannot be used and must be
+ 259:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				released. */
+ 260:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				vReleaseNetworkBufferAndDescriptor( pxReturn );
+ 261:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				pxReturn = NULL;
+ 262:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			}
+ 263:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			else
+ 264:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			{
+ 265:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				/* Store a pointer to the network buffer structure in the
+ 266:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				buffer storage area, then move the buffer pointer on past the
+ 267:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				stored pointer so the pointer value is not overwritten by the
+ 268:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				application when the buffer is used. */
+ 269:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				*( ( NetworkBufferDescriptor_t ** ) ( pxReturn->pucEthernetBuffer ) ) = pxReturn;
+ 270:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				pxReturn->pucEthernetBuffer += ipBUFFER_PADDING;
+ 271:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 272:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				/* Store the actual size of the allocated buffer, which may be
+ 273:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				greater than the original requested size. */
+ 274:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				pxReturn->xDataLength = xRequestedSizeBytes;
+ 275:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 276:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				#if( ipconfigUSE_LINKED_RX_MESSAGES != 0 )
+ 277:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				{
+ 278:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 					/* make sure the buffer is not linked */
+ 279:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 					pxReturn->pxNextBuffer = NULL;
+ 280:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				}
+ 281:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				#endif /* ipconfigUSE_LINKED_RX_MESSAGES */
+ 282:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			}
+ 283:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		}
+ 284:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		else
+ 285:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		{
+ 286:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			/* A descriptor is being returned without an associated buffer being
+ 287:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			allocated. */
+ 288:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		}
+ 289:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	}
+ 290:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 291:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	if( pxReturn == NULL )
+ 292:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	{
+ 293:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		iptraceFAILED_TO_OBTAIN_NETWORK_BUFFER();
+ 294:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	}
+ 295:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	else
+ 296:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	{
+ 297:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		iptraceNETWORK_BUFFER_OBTAINED( pxReturn );
+ 298:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	}
+ 299:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 300:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	return pxReturn;
+ 301:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** }
+ 302:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** /*-----------------------------------------------------------*/
+ 303:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 304:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** void vReleaseNetworkBufferAndDescriptor( NetworkBufferDescriptor_t * const pxNetworkBuffer )
+ 305:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** {
+ 215              		.loc 1 305 0
+ 216              		.cfi_startproc
+ 217              		@ args = 0, pretend = 0, frame = 0
+ 218              		@ frame_needed = 0, uses_anonymous_args = 0
+ 219              	.LVL22:
+ 220 0000 70402DE9 		push	{r4, r5, r6, lr}
+ 221              		.cfi_def_cfa_offset 16
+ 222              		.cfi_offset 4, -16
+ 223              		.cfi_offset 5, -12
+ 224              		.cfi_offset 6, -8
+ 225              		.cfi_offset 14, -4
+ 226              		.loc 1 305 0
+ 227 0004 0050A0E1 		mov	r5, r0
+ 306:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** BaseType_t xListItemAlreadyInFreeList;
+ 307:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 308:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	/* Ensure the buffer is returned to the list of free buffers before the
+ 309:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	counting semaphore is 'given' to say a buffer is available.  Release the
+ 310:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	storage allocated to the buffer payload.  THIS FILE SHOULD NOT BE USED
+ 311:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	IF THE PROJECT INCLUDES A MEMORY ALLOCATOR THAT WILL FRAGMENT THE HEAP
+ 312:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	MEMORY.  For example, heap_2 must not be used, heap_4 can be used. */
+ 313:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	vReleaseNetworkBuffer( pxNetworkBuffer->pucEthernetBuffer );
+ 314:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	pxNetworkBuffer->pucEthernetBuffer = NULL;
+ 228              		.loc 1 314 0
+ 229 0008 0040A0E3 		mov	r4, #0
+ 313:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	pxNetworkBuffer->pucEthernetBuffer = NULL;
+ 230              		.loc 1 313 0
+ 231 000c 180090E5 		ldr	r0, [r0, #24]
+ 232              	.LVL23:
+ 233 0010 FEFFFFEB 		bl	vReleaseNetworkBuffer
+ 234              	.LVL24:
+ 235              		.loc 1 314 0
+ 236 0014 184085E5 		str	r4, [r5, #24]
+ 315:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 316:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	taskENTER_CRITICAL();
+ 237              		.loc 1 316 0
+ 238 0018 FEFFFFEB 		bl	vPortEnterCritical
+ 239              	.LVL25:
+ 317:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	{
+ 318:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		xListItemAlreadyInFreeList = listIS_CONTAINED_WITHIN( &xFreeBuffersList, &( pxNetworkBuffer->xBuf
+ 240              		.loc 1 318 0
+ 241 001c 40009FE5 		ldr	r0, .L25
+ 242 0020 103095E5 		ldr	r3, [r5, #16]
+ 243 0024 000053E1 		cmp	r3, r0
+ 244 0028 0A00001A 		bne	.L21
+ 245 002c 0140A0E3 		mov	r4, #1
+ 246              	.L23:
+ 319:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 320:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		if( xListItemAlreadyInFreeList == pdFALSE )
+ 321:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		{
+ 322:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			vListInsertEnd( &xFreeBuffersList, &( pxNetworkBuffer->xBufferListItem ) );
+ 323:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		}
+ 324:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	}
+ 325:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	taskEXIT_CRITICAL();
+ 247              		.loc 1 325 0
+ 248 0030 FEFFFFEB 		bl	vPortExitCritical
+ 249              	.LVL26:
+ 326:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 327:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	/*
+ 328:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	 * Update the network state machine, unless the program fails to release its 'xNetworkBufferSemaph
+ 329:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	 * The program should only try to release its semaphore if 'xListItemAlreadyInFreeList' is false.
+ 330:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	 */
+ 331:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	if( xListItemAlreadyInFreeList == pdFALSE )
+ 250              		.loc 1 331 0
+ 251 0034 000054E3 		cmp	r4, #0
+ 252 0038 7080BD18 		popne	{r4, r5, r6, pc}
+ 253              	.LVL27:
+ 254              	.LBB8:
+ 255              	.LBB9:
+ 332:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	{
+ 333:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		if ( xSemaphoreGive( xNetworkBufferSemaphore ) == pdTRUE )
+ 256              		.loc 1 333 0
+ 257 003c 24009FE5 		ldr	r0, .L25+4
+ 258 0040 0430A0E1 		mov	r3, r4
+ 259 0044 0420A0E1 		mov	r2, r4
+ 260 0048 0410A0E1 		mov	r1, r4
+ 261              	.LBE9:
+ 262              	.LBE8:
+ 334:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		{
+ 335:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			iptraceNETWORK_BUFFER_RELEASED( pxNetworkBuffer );
+ 336:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		}
+ 337:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	}
+ 338:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	else
+ 339:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	{
+ 340:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		iptraceNETWORK_BUFFER_RELEASED( pxNetworkBuffer );
+ 341:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	}
+ 342:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** }
+ 263              		.loc 1 342 0
+ 264 004c 7040BDE8 		pop	{r4, r5, r6, lr}
+ 265              		.cfi_remember_state
+ 266              		.cfi_restore 14
+ 267              		.cfi_restore 6
+ 268              		.cfi_restore 5
+ 269              		.cfi_restore 4
+ 270              		.cfi_def_cfa_offset 0
+ 271              	.LVL28:
+ 272              	.LBB11:
+ 273              	.LBB10:
+ 333:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		{
+ 274              		.loc 1 333 0
+ 275 0050 000090E5 		ldr	r0, [r0]
+ 276 0054 FEFFFFEA 		b	xQueueGenericSend
+ 277              	.LVL29:
+ 278              	.L21:
+ 279              		.cfi_restore_state
+ 280              	.LBE10:
+ 281              	.LBE11:
+ 322:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		}
+ 282              		.loc 1 322 0
+ 283 0058 0510A0E1 		mov	r1, r5
+ 284 005c FEFFFFEB 		bl	vListInsertEnd
+ 285              	.LVL30:
+ 286 0060 F2FFFFEA 		b	.L23
+ 287              	.L26:
+ 288              		.align	2
+ 289              	.L25:
+ 290 0064 00000000 		.word	.LANCHOR1
+ 291 0068 00000000 		.word	.LANCHOR0
+ 292              		.cfi_endproc
+ 293              	.LFE29:
+ 295              		.section	.text.pxGetNetworkBufferWithDescriptor,"ax",%progbits
+ 296              		.align	2
+ 297              		.global	pxGetNetworkBufferWithDescriptor
+ 298              		.syntax unified
+ 299              		.arm
+ 300              		.fpu neon
+ 302              	pxGetNetworkBufferWithDescriptor:
+ 303              	.LFB28:
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** NetworkBufferDescriptor_t *pxReturn = NULL;
+ 304              		.loc 1 209 0
+ 305              		.cfi_startproc
+ 306              		@ args = 0, pretend = 0, frame = 0
+ 307              		@ frame_needed = 0, uses_anonymous_args = 0
+ 308              	.LVL31:
+ 213:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	{
+ 309              		.loc 1 213 0
+ 310 0000 013040E2 		sub	r3, r0, #1
+ 209:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** NetworkBufferDescriptor_t *pxReturn = NULL;
+ 311              		.loc 1 209 0
+ 312 0004 70402DE9 		push	{r4, r5, r6, lr}
+ 313              		.cfi_def_cfa_offset 16
+ 314              		.cfi_offset 4, -16
+ 315              		.cfi_offset 5, -12
+ 316              		.cfi_offset 6, -8
+ 317              		.cfi_offset 14, -4
+ 217:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	}
+ 318              		.loc 1 217 0
+ 319 0008 440053E3 		cmp	r3, #68
+ 229:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	{
+ 320              		.loc 1 229 0
+ 321 000c A8309FE5 		ldr	r3, .L42
+ 217:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	}
+ 322              		.loc 1 217 0
+ 323 0010 4600A093 		movls	r0, #70
+ 324              	.LVL32:
+ 222:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	if( ( xRequestedSizeBytes & ( sizeof( size_t ) - 1u ) ) != 0u )
+ 325              		.loc 1 222 0
+ 326 0014 024080E2 		add	r4, r0, #2
+ 327              	.LVL33:
+ 223:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	{
+ 328              		.loc 1 223 0
+ 329 0018 030014E3 		tst	r4, #3
+ 229:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	{
+ 330              		.loc 1 229 0
+ 331 001c 000093E5 		ldr	r0, [r3]
+ 225:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	}
+ 332              		.loc 1 225 0
+ 333 0020 03408413 		orrne	r4, r4, #3
+ 334              	.LVL34:
+ 335 0024 01408412 		addne	r4, r4, #1
+ 336              	.LVL35:
+ 229:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	{
+ 337              		.loc 1 229 0
+ 338 0028 FEFFFFEB 		bl	xQueueSemaphoreTake
+ 339              	.LVL36:
+ 340 002c 010050E3 		cmp	r0, #1
+ 341 0030 1E00001A 		bne	.L34
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			uxListRemove( &( pxReturn->xBufferListItem ) );
+ 342              		.loc 1 234 0
+ 343 0034 84609FE5 		ldr	r6, .L42+4
+ 232:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		{
+ 344              		.loc 1 232 0
+ 345 0038 FEFFFFEB 		bl	vPortEnterCritical
+ 346              	.LVL37:
+ 234:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			uxListRemove( &( pxReturn->xBufferListItem ) );
+ 347              		.loc 1 234 0
+ 348 003c 0C3096E5 		ldr	r3, [r6, #12]
+ 349 0040 0C5093E5 		ldr	r5, [r3, #12]
+ 350              	.LVL38:
+ 235:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		}
+ 351              		.loc 1 235 0
+ 352 0044 0500A0E1 		mov	r0, r5
+ 353 0048 FEFFFFEB 		bl	uxListRemove
+ 354              	.LVL39:
+ 237:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 355              		.loc 1 237 0
+ 356 004c FEFFFFEB 		bl	vPortExitCritical
+ 357              	.LVL40:
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		{
+ 358              		.loc 1 242 0
+ 359 0050 6C309FE5 		ldr	r3, .L42+8
+ 240:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 360              		.loc 1 240 0
+ 361 0054 002096E5 		ldr	r2, [r6]
+ 362              	.LVL41:
+ 242:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		{
+ 363              		.loc 1 242 0
+ 364 0058 001093E5 		ldr	r1, [r3]
+ 365 005c 010052E1 		cmp	r2, r1
+ 244:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		}
+ 366              		.loc 1 244 0
+ 367 0060 00208335 		strcc	r2, [r3]
+ 248:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		if( xRequestedSizeBytes > 0 )
+ 368              		.loc 1 248 0
+ 369 0064 183095E5 		ldr	r3, [r5, #24]
+ 370 0068 000053E3 		cmp	r3, #0
+ 371 006c 0200000A 		beq	.L32
+ 248:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		if( xRequestedSizeBytes > 0 )
+ 372              		.loc 1 248 0 is_stmt 0 discriminator 1
+ 373 0070 0110A0E3 		mov	r1, #1
+ 374 0074 4C009FE5 		ldr	r0, .L42+12
+ 375 0078 FEFFFFEB 		bl	longjmp
+ 376              	.LVL42:
+ 377              	.L32:
+ 249:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		{
+ 378              		.loc 1 249 0 is_stmt 1
+ 379 007c 000054E3 		cmp	r4, #0
+ 380 0080 0B00000A 		beq	.L27
+ 253:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 381              		.loc 1 253 0
+ 382 0084 0A0084E2 		add	r0, r4, #10
+ 383 0088 FEFFFFEB 		bl	pvPortMalloc
+ 384              	.LVL43:
+ 255:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			{
+ 385              		.loc 1 255 0
+ 386 008c 000050E3 		cmp	r0, #0
+ 253:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 387              		.loc 1 253 0
+ 388 0090 0060A0E1 		mov	r6, r0
+ 389 0094 180085E5 		str	r0, [r5, #24]
+ 269:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				pxReturn->pucEthernetBuffer += ipBUFFER_PADDING;
+ 390              		.loc 1 269 0
+ 391 0098 0A508614 		strne	r5, [r6], #10
+ 274:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 392              		.loc 1 274 0
+ 393 009c 1C408515 		strne	r4, [r5, #28]
+ 270:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 394              		.loc 1 270 0
+ 395 00a0 18608515 		strne	r6, [r5, #24]
+ 255:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			{
+ 396              		.loc 1 255 0
+ 397 00a4 0200001A 		bne	.L27
+ 260:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 				pxReturn = NULL;
+ 398              		.loc 1 260 0
+ 399 00a8 0500A0E1 		mov	r0, r5
+ 400 00ac FEFFFFEB 		bl	vReleaseNetworkBufferAndDescriptor
+ 401              	.LVL44:
+ 402              	.L34:
+ 210:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** size_t uxCount;
+ 403              		.loc 1 210 0
+ 404 00b0 0050A0E3 		mov	r5, #0
+ 405              	.LVL45:
+ 406              	.L27:
+ 301:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** /*-----------------------------------------------------------*/
+ 407              		.loc 1 301 0
+ 408 00b4 0500A0E1 		mov	r0, r5
+ 409 00b8 7080BDE8 		pop	{r4, r5, r6, pc}
+ 410              	.L43:
+ 411              		.align	2
+ 412              	.L42:
+ 413 00bc 00000000 		.word	.LANCHOR0
+ 414 00c0 00000000 		.word	.LANCHOR1
+ 415 00c4 00000000 		.word	.LANCHOR3
+ 416 00c8 28000000 		.word	Unity+40
+ 417              		.cfi_endproc
+ 418              	.LFE28:
+ 420              		.section	.text.uxGetNumberOfFreeNetworkBuffers,"ax",%progbits
+ 421              		.align	2
+ 422              		.global	uxGetNumberOfFreeNetworkBuffers
+ 423              		.syntax unified
+ 424              		.arm
+ 425              		.fpu neon
+ 427              	uxGetNumberOfFreeNetworkBuffers:
+ 428              	.LFB30:
+ 343:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** /*-----------------------------------------------------------*/
+ 344:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 345:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** /*
+ 346:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  * Returns the number of free network buffers
+ 347:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c ****  */
+ 348:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** UBaseType_t uxGetNumberOfFreeNetworkBuffers( void )
+ 349:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** {
+ 429              		.loc 1 349 0
+ 430              		.cfi_startproc
+ 431              		@ args = 0, pretend = 0, frame = 0
+ 432              		@ frame_needed = 0, uses_anonymous_args = 0
+ 433              		@ link register save eliminated.
+ 350:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	return listCURRENT_LIST_LENGTH( &xFreeBuffersList );
+ 434              		.loc 1 350 0
+ 435 0000 04309FE5 		ldr	r3, .L45
+ 436 0004 000093E5 		ldr	r0, [r3]
+ 351:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** }
+ 437              		.loc 1 351 0
+ 438 0008 1EFF2FE1 		bx	lr
+ 439              	.L46:
+ 440              		.align	2
+ 441              	.L45:
+ 442 000c 00000000 		.word	.LANCHOR1
+ 443              		.cfi_endproc
+ 444              	.LFE30:
+ 446              		.section	.text.uxGetMinimumFreeNetworkBuffers,"ax",%progbits
+ 447              		.align	2
+ 448              		.global	uxGetMinimumFreeNetworkBuffers
+ 449              		.syntax unified
+ 450              		.arm
+ 451              		.fpu neon
+ 453              	uxGetMinimumFreeNetworkBuffers:
+ 454              	.LFB31:
+ 352:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** /*-----------------------------------------------------------*/
+ 353:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 354:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** UBaseType_t uxGetMinimumFreeNetworkBuffers( void )
+ 355:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** {
+ 455              		.loc 1 355 0
+ 456              		.cfi_startproc
+ 457              		@ args = 0, pretend = 0, frame = 0
+ 458              		@ frame_needed = 0, uses_anonymous_args = 0
+ 459              		@ link register save eliminated.
+ 356:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	return uxMinimumFreeNetworkBuffers;
+ 357:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** }
+ 460              		.loc 1 357 0
+ 461 0000 04309FE5 		ldr	r3, .L48
+ 462 0004 000093E5 		ldr	r0, [r3]
+ 463 0008 1EFF2FE1 		bx	lr
+ 464              	.L49:
+ 465              		.align	2
+ 466              	.L48:
+ 467 000c 00000000 		.word	.LANCHOR3
+ 468              		.cfi_endproc
+ 469              	.LFE31:
+ 471              		.section	.text.pxResizeNetworkBufferWithDescriptor,"ax",%progbits
+ 472              		.align	2
+ 473              		.global	pxResizeNetworkBufferWithDescriptor
+ 474              		.syntax unified
+ 475              		.arm
+ 476              		.fpu neon
+ 478              	pxResizeNetworkBufferWithDescriptor:
+ 479              	.LFB32:
+ 358:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** /*-----------------------------------------------------------*/
+ 359:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 360:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** NetworkBufferDescriptor_t *pxResizeNetworkBufferWithDescriptor( NetworkBufferDescriptor_t * pxNetwo
+ 361:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** {
+ 480              		.loc 1 361 0
+ 481              		.cfi_startproc
+ 482              		@ args = 0, pretend = 0, frame = 8
+ 483              		@ frame_needed = 0, uses_anonymous_args = 0
+ 484              	.LVL46:
+ 485 0000 73402DE9 		push	{r0, r1, r4, r5, r6, lr}
+ 486              		.cfi_def_cfa_offset 24
+ 487              		.cfi_offset 4, -16
+ 488              		.cfi_offset 5, -12
+ 489              		.cfi_offset 6, -8
+ 490              		.cfi_offset 14, -4
+ 491              		.loc 1 361 0
+ 492 0004 0040A0E1 		mov	r4, r0
+ 362:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** size_t xOriginalLength;
+ 363:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** uint8_t *pucBuffer;
+ 364:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 365:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	xOriginalLength = pxNetworkBuffer->xDataLength + ipBUFFER_PADDING;
+ 493              		.loc 1 365 0
+ 494 0008 1C5090E5 		ldr	r5, [r0, #28]
+ 495              	.LVL47:
+ 366:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	xNewSizeBytes = xNewSizeBytes + ipBUFFER_PADDING;
+ 496              		.loc 1 366 0
+ 497 000c 0A1081E2 		add	r1, r1, #10
+ 498              	.LVL48:
+ 499 0010 08008DE2 		add	r0, sp, #8
+ 500              	.LVL49:
+ 501 0014 041020E5 		str	r1, [r0, #-4]!
+ 367:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 368:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	pucBuffer = pucGetNetworkBuffer( &( xNewSizeBytes ) );
+ 502              		.loc 1 368 0
+ 503 0018 FEFFFFEB 		bl	pucGetNetworkBuffer
+ 504              	.LVL50:
+ 369:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 370:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	if( pucBuffer == NULL )
+ 505              		.loc 1 370 0
+ 506 001c 006050E2 		subs	r6, r0, #0
+ 371:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	{
+ 372:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		/* In case the allocation fails, return NULL. */
+ 373:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		pxNetworkBuffer = NULL;
+ 507              		.loc 1 373 0
+ 508 0020 0640A001 		moveq	r4, r6
+ 509              	.LVL51:
+ 370:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	{
+ 510              		.loc 1 370 0
+ 511 0024 0C00000A 		beq	.L51
+ 374:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	}
+ 375:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	else
+ 376:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	{
+ 377:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		pxNetworkBuffer->xDataLength = xNewSizeBytes;
+ 512              		.loc 1 377 0
+ 513 0028 04309DE5 		ldr	r3, [sp, #4]
+ 514 002c 0A5085E2 		add	r5, r5, #10
+ 515              	.LVL52:
+ 378:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		if( xNewSizeBytes > xOriginalLength )
+ 379:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		{
+ 380:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 			xNewSizeBytes = xOriginalLength;
+ 381:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		}
+ 382:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 383:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		memcpy( pucBuffer - ipBUFFER_PADDING, pxNetworkBuffer->pucEthernetBuffer - ipBUFFER_PADDING, xNew
+ 516              		.loc 1 383 0
+ 517 0030 181094E5 		ldr	r1, [r4, #24]
+ 518 0034 0A0046E2 		sub	r0, r6, #10
+ 519              	.LVL53:
+ 378:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		if( xNewSizeBytes > xOriginalLength )
+ 520              		.loc 1 378 0
+ 521 0038 030055E1 		cmp	r5, r3
+ 377:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		if( xNewSizeBytes > xOriginalLength )
+ 522              		.loc 1 377 0
+ 523 003c 1C3084E5 		str	r3, [r4, #28]
+ 380:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		}
+ 524              		.loc 1 380 0
+ 525 0040 04508D35 		strcc	r5, [sp, #4]
+ 526              		.loc 1 383 0
+ 527 0044 0A1041E2 		sub	r1, r1, #10
+ 528 0048 04209DE5 		ldr	r2, [sp, #4]
+ 529 004c FEFFFFEB 		bl	memcpy
+ 530              	.LVL54:
+ 384:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		vReleaseNetworkBuffer( pxNetworkBuffer->pucEthernetBuffer );
+ 531              		.loc 1 384 0
+ 532 0050 180094E5 		ldr	r0, [r4, #24]
+ 533 0054 FEFFFFEB 		bl	vReleaseNetworkBuffer
+ 534              	.LVL55:
+ 385:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 		pxNetworkBuffer->pucEthernetBuffer = pucBuffer;
+ 535              		.loc 1 385 0
+ 536 0058 186084E5 		str	r6, [r4, #24]
+ 537              	.LVL56:
+ 538              	.L51:
+ 386:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	}
+ 387:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 
+ 388:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** 	return pxNetworkBuffer;
+ 389:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/BufferManagement\BufferAllocation_2.c **** }
+ 539              		.loc 1 389 0
+ 540 005c 0400A0E1 		mov	r0, r4
+ 541 0060 08D08DE2 		add	sp, sp, #8
+ 542              		.cfi_def_cfa_offset 16
+ 543              		@ sp needed
+ 544 0064 7080BDE8 		pop	{r4, r5, r6, pc}
+ 545              		.cfi_endproc
+ 546              	.LFE32:
+ 548              		.global	xBufferAllocFixedSize
+ 549              		.section	.bss.uxMinimumFreeNetworkBuffers,"aw",%nobits
+ 550              		.align	2
+ 551              		.set	.LANCHOR3,. + 0
+ 554              	uxMinimumFreeNetworkBuffers:
+ 555 0000 00000000 		.space	4
+ 556              		.section	.bss.xFreeBuffersList,"aw",%nobits
+ 557              		.align	2
+ 558              		.set	.LANCHOR1,. + 0
+ 561              	xFreeBuffersList:
+ 562 0000 00000000 		.space	20
+ 562      00000000 
+ 562      00000000 
+ 562      00000000 
+ 562      00000000 
+ 563              		.section	.bss.xNetworkBufferDescriptors,"aw",%nobits
+ 564              		.align	2
+ 565              		.set	.LANCHOR2,. + 0
+ 568              	xNetworkBufferDescriptors:
+ 569 0000 00000000 		.space	288
+ 569      00000000 
+ 569      00000000 
+ 569      00000000 
+ 569      00000000 
+ 570              		.section	.bss.xNetworkBufferSemaphore,"aw",%nobits
+ 571              		.align	2
+ 572              		.set	.LANCHOR0,. + 0
+ 575              	xNetworkBufferSemaphore:
+ 576 0000 00000000 		.space	4
+ 577              		.section	.rodata.xBufferAllocFixedSize,"a",%progbits
+ 578              		.align	2
+ 581              	xBufferAllocFixedSize:
+ 582 0000 00000000 		.space	4
+ 583              		.section	.rodata.xNetworkBuffersInitialise.str1.1,"aMS",%progbits,1
+ 584              	.LC0:
+ 585 0000 4E657442 		.ascii	"NetBufSem\000"
+ 585      75665365 
+ 585      6D00
+ 586              		.text
+ 587              	.Letext0:
+ 588              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 589              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 590              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 591              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 592              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 593              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 594              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 595              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 596              		.file 10 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\unity\\src/unity_internals.h"
+ 597              		.file 11 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 598              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS\\portable\\GCC\\ARM_CA9_RZA2M/por
+ 599              		.file 13 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include\\private/list.h"
+ 600              		.file 14 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/queue.h"
+ 601              		.file 15 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include/semphr.h"
+ 602              		.file 16 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 603              		.file 17 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 604              		.file 18 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 605              		.file 19 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 606              		.file 20 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 607              		.file 21 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 608              		.file 22 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 609              		.file 23 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS-Plus-TCP\\include/FreeRTOS_IP.h"
+ 610              		.file 24 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS-Plus-TCP\\include/FreeRTOS_TCP_WI
+ 611              		.file 25 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\FreeRTOS-Plus-TCP\\include/FreeRTOS_IP_Pri
+ 612              		.file 26 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 613              		.file 27 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\include\\private/portable.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 BufferAllocation_2.c
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:17     .text.xNetworkBuffersInitialise:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:23     .text.xNetworkBuffersInitialise:00000000 xNetworkBuffersInitialise
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:106    .text.xNetworkBuffersInitialise:0000009c $d
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:116    .text.pucGetNetworkBuffer:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:122    .text.pucGetNetworkBuffer:00000000 pucGetNetworkBuffer
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:175    .text.pucGetNetworkBuffer:00000044 $d
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:180    .text.vReleaseNetworkBuffer:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:186    .text.vReleaseNetworkBuffer:00000000 vReleaseNetworkBuffer
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:207    .text.vReleaseNetworkBufferAndDescriptor:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:213    .text.vReleaseNetworkBufferAndDescriptor:00000000 vReleaseNetworkBufferAndDescriptor
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:290    .text.vReleaseNetworkBufferAndDescriptor:00000064 $d
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:296    .text.pxGetNetworkBufferWithDescriptor:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:302    .text.pxGetNetworkBufferWithDescriptor:00000000 pxGetNetworkBufferWithDescriptor
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:413    .text.pxGetNetworkBufferWithDescriptor:000000bc $d
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:421    .text.uxGetNumberOfFreeNetworkBuffers:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:427    .text.uxGetNumberOfFreeNetworkBuffers:00000000 uxGetNumberOfFreeNetworkBuffers
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:442    .text.uxGetNumberOfFreeNetworkBuffers:0000000c $d
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:447    .text.uxGetMinimumFreeNetworkBuffers:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:453    .text.uxGetMinimumFreeNetworkBuffers:00000000 uxGetMinimumFreeNetworkBuffers
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:467    .text.uxGetMinimumFreeNetworkBuffers:0000000c $d
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:472    .text.pxResizeNetworkBufferWithDescriptor:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:478    .text.pxResizeNetworkBufferWithDescriptor:00000000 pxResizeNetworkBufferWithDescriptor
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:581    .rodata.xBufferAllocFixedSize:00000000 xBufferAllocFixedSize
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:550    .bss.uxMinimumFreeNetworkBuffers:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:554    .bss.uxMinimumFreeNetworkBuffers:00000000 uxMinimumFreeNetworkBuffers
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:557    .bss.xFreeBuffersList:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:561    .bss.xFreeBuffersList:00000000 xFreeBuffersList
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:564    .bss.xNetworkBufferDescriptors:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:568    .bss.xNetworkBufferDescriptors:00000000 xNetworkBufferDescriptors
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:571    .bss.xNetworkBufferSemaphore:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:575    .bss.xNetworkBufferSemaphore:00000000 xNetworkBufferSemaphore
+C:\Users\a5089698\AppData\Local\Temp\ccRByXRK.s:578    .rodata.xBufferAllocFixedSize:00000000 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+xQueueCreateCountingSemaphore
+longjmp
+vQueueAddToRegistry
+vListInitialise
+vListInitialiseItem
+vListInsert
+Unity
+pvPortMalloc
+vPortFree
+vPortEnterCritical
+vPortExitCritical
+xQueueGenericSend
+vListInsertEnd
+xQueueSemaphoreTake
+uxListRemove
+memcpy

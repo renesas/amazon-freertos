@@ -1,0 +1,390 @@
+   1              		.cpu cortex-a9
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.file	"ether_callback.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.callback_ether,"ax",%progbits
+  17              		.align	2
+  18              		.syntax unified
+  19              		.arm
+  20              		.fpu neon
+  22              	callback_ether:
+  23              	.LFB2:
+  24              		.file 1 "D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterfa
+   1:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** /**************************************************************************************************
+   2:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****  * DISCLAIMER
+   3:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****  * This software is supplied by Renesas Electronics Corporation and is only intended for use with R
+   4:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****  * other uses are authorized. This software is owned by Renesas Electronics Corporation and is prot
+   5:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****  * applicable laws, including copyright laws.
+   6:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****  * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+   7:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****  * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF
+   8:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****  * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAI
+   9:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****  * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS A
+  10:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****  * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY R
+  11:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****  * THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DA
+  12:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****  * Renesas reserves the right, without notice, to make changes to this software and to discontinue 
+  13:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****  * this software. By using this software, you agree to the additional terms and conditions found by
+  14:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****  * following link:
+  15:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****  * http://www.renesas.com/disclaimer
+  16:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****  *
+  17:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****  * Copyright (C) 2019 Renesas Electronics Corporation. All rights reserved.
+  18:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****  **************************************************************************************************
+  19:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** 
+  20:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** /**************************************************************************************************
+  21:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** * File Name    : ether_callback.c
+  22:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** * Version      : ----
+  23:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** * Description  : This module solves all the world's problems
+  24:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** ***************************************************************************************************
+  25:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** /**************************************************************************************************
+  26:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** * History : DD.MM.YYYY Version  Description
+  27:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** *         : 05.01.2015 ----     Clean up source code.
+  28:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** ***************************************************************************************************
+  29:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** 
+  30:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** /**************************************************************************************************
+  31:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** Includes   <System Includes> , "Project Includes"
+  32:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** ***************************************************************************************************
+  33:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** #include "r_ether_rza2_if.h"
+  34:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** 
+  35:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** /**************************************************************************************************
+  36:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** Private global variables and functions
+  37:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** ***************************************************************************************************
+  38:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** int32_t callback_ether_regist(void);
+  39:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** extern void EINT_Trig_isr(void *);
+  40:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** 
+  41:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** /**************************************************************************************************
+  42:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** Private global variables and functions
+  43:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** ***************************************************************************************************
+  44:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** static volatile uint8_t  pause_enable = ETHER_FLAG_OFF;
+  45:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** static volatile uint8_t  magic_packet_detect[ETHER_CHANNEL_MAX];
+  46:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** static volatile uint8_t  link_detect[ETHER_CHANNEL_MAX];
+  47:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** 
+  48:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** static void callback_ether(void * pparam);
+  49:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** static void callback_wakeon_lan(uint32_t channel);
+  50:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** static void callback_link_on(uint32_t channel);
+  51:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** static void callback_link_off(uint32_t channel);
+  52:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** 
+  53:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** 
+  54:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** /**************************************************************************************************
+  55:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****  * Function Name: callback_ether_regist
+  56:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****  * Description  : Regist of callback function.
+  57:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****  * Arguments    : None.
+  58:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****  * Return Value : 0: success, -1:failed.
+  59:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****  **************************************************************************************************
+  60:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** int32_t callback_ether_regist(void)
+  61:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** {
+  62:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     ether_param_t   param;
+  63:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     ether_cb_t      cb_func;
+  64:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** 
+  65:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     int32_t         ret;
+  66:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** 
+  67:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     /* Set the callback function (LAN cable connect/disconnect event) */
+  68:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     cb_func.pcb_func     = &callback_ether;
+  69:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     param.ether_callback = cb_func;
+  70:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     ret = R_ETHER_Control(CONTROL_SET_CALLBACK, param);
+  71:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     if (ETHER_SUCCESS != ret)
+  72:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     {
+  73:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****         return -1;
+  74:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     }
+  75:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** 
+  76:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     /* Set the callback function (Ether interrupt event) */
+  77:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     cb_func.pcb_int_hnd     = &EINT_Trig_isr;
+  78:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     param.ether_callback = cb_func;
+  79:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     ret = R_ETHER_Control(CONTROL_SET_INT_HANDLER, param);
+  80:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     if (ETHER_SUCCESS != ret)
+  81:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     {
+  82:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****         return -1;
+  83:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     }
+  84:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     return 0;
+  85:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** } /* End of function callback_ether_regist() */
+  86:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** 
+  87:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** /**************************************************************************************************
+  88:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** * Function Name: callback_ether
+  89:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** * Description  : Sample of the callback function
+  90:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** * Arguments    : pparam -
+  91:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** *
+  92:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** * Return Value : none
+  93:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** ***************************************************************************************************
+  94:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** static void callback_ether(void * pparam)
+  95:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** {
+  25              		.loc 1 95 0
+  26              		.cfi_startproc
+  27              		@ args = 0, pretend = 0, frame = 0
+  28              		@ frame_needed = 0, uses_anonymous_args = 0
+  29              		@ link register save eliminated.
+  30              	.LVL0:
+  96:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     ether_cb_arg_t    * p_decode;
+  97:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     uint32_t            channel;
+  98:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** 
+  99:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     /* cast to non void* pointer */
+ 100:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     p_decode = (ether_cb_arg_t *)pparam;
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     channel = p_decode->channel;                             /* Get Ethernet channel number */
+ 102:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** 
+ 103:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     switch (p_decode->event_id)
+  31              		.loc 1 103 0
+  32 0000 0420D0E5 		ldrb	r2, [r0, #4]	@ zero_extendqisi2
+ 101:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** 
+  33              		.loc 1 101 0
+  34 0004 003090E5 		ldr	r3, [r0]
+  35              	.LVL1:
+  36              		.loc 1 103 0
+  37 0008 010052E3 		cmp	r2, #1
+  38 000c 0800000A 		beq	.L3
+  39 0010 0200003A 		bcc	.L4
+  40 0014 020052E3 		cmp	r2, #2
+  41 0018 0B00000A 		beq	.L5
+  42 001c 1EFF2FE1 		bx	lr
+  43              	.L4:
+  44              	.LVL2:
+  45              	.LBB8:
+  46              	.LBB9:
+ 104:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     {
+ 105:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****             /* Callback function that notifies user to have detected magic packet. */
+ 106:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****         case ETHER_CB_EVENT_ID_WAKEON_LAN:
+ 107:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****             callback_wakeon_lan(channel);
+ 108:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****             break;
+ 109:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** 
+ 110:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****             /* Callback function that notifies user to have become Link up. */
+ 111:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****         case ETHER_CB_EVENT_ID_LINK_ON:
+ 112:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****             callback_link_on(channel);
+ 113:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****             break;
+ 114:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** 
+ 115:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****             /* Callback function that notifies user to have become Link down. */
+ 116:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****         case ETHER_CB_EVENT_ID_LINK_OFF:
+ 117:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****             callback_link_off(channel);
+ 118:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****             break;
+ 119:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** 
+ 120:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****         default:
+ 121:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****             break;
+ 122:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     }
+ 123:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** } /* End of function callback_ether() */
+ 124:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** 
+ 125:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** /**************************************************************************************************
+ 126:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** * Function Name: callback_wakeon_lan
+ 127:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** * Description  :
+ 128:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** * Arguments    : channel -
+ 129:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** *                    Ethernet channel number
+ 130:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** * Return Value : none
+ 131:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** ***************************************************************************************************
+ 132:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** static void callback_wakeon_lan(uint32_t channel)
+ 133:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** {
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     if (ETHER_CHANNEL_MAX > channel)
+  47              		.loc 1 134 0
+  48 0020 010053E3 		cmp	r3, #1
+ 135:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     {
+ 136:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****         magic_packet_detect[channel] = 1;
+  49              		.loc 1 136 0
+  50 0024 0110A093 		movls	r1, #1
+  51 0028 2C209F95 		ldrls	r2, .L7
+ 134:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     {
+  52              		.loc 1 134 0
+  53 002c 0400009A 		bls	.L6
+  54 0030 1EFF2FE1 		bx	lr
+  55              	.LVL3:
+  56              	.L3:
+  57              	.LBE9:
+  58              	.LBE8:
+  59              	.LBB10:
+  60              	.LBB11:
+ 137:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** 
+ 138:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****         /* Please add necessary processing when magic packet is detected.  */
+ 139:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     }
+ 140:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** } /* End of function callback_wakeon_lan() */
+ 141:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** 
+ 142:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** /**************************************************************************************************
+ 143:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** * Function Name: callback_link_on
+ 144:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** * Description  :
+ 145:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** * Arguments    : channel -
+ 146:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** *                    Ethernet channel number
+ 147:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** * Return Value : none
+ 148:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** ***************************************************************************************************
+ 149:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** static void callback_link_on(uint32_t channel)
+ 150:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** {
+ 151:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     if (ETHER_CHANNEL_MAX > channel)
+  61              		.loc 1 151 0
+  62 0034 010053E3 		cmp	r3, #1
+  63 0038 1EFF2F81 		bxhi	lr
+ 152:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     {
+ 153:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****         link_detect[channel] = ETHER_FLAG_ON_LINK_ON;
+  64              		.loc 1 153 0
+  65 003c 1C209FE5 		ldr	r2, .L7+4
+  66 0040 0310A0E3 		mov	r1, #3
+  67              	.LVL4:
+  68              	.L6:
+  69 0044 0310C2E7 		strb	r1, [r2, r3]
+  70 0048 1EFF2FE1 		bx	lr
+  71              	.L5:
+  72              	.LVL5:
+  73              	.LBE11:
+  74              	.LBE10:
+  75              	.LBB12:
+  76              	.LBB13:
+ 154:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** 
+ 155:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****         /* Please add necessary processing when becoming Link up. */
+ 156:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     }
+ 157:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** } /* End of function callback_link_on() */
+ 158:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** 
+ 159:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** /**************************************************************************************************
+ 160:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** * Function Name: callback_link_off
+ 161:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** * Description  :
+ 162:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** * Arguments    : channel -
+ 163:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** *                    Ethernet channel number
+ 164:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** * Return Value : none
+ 165:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** ***************************************************************************************************
+ 166:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** static void callback_link_off(uint32_t channel)
+ 167:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** {
+ 168:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     if (ETHER_CHANNEL_MAX > channel)
+  77              		.loc 1 168 0
+  78 004c 010053E3 		cmp	r3, #1
+ 169:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     {
+ 170:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****         link_detect[channel] = ETHER_FLAG_ON_LINK_OFF;
+  79              		.loc 1 170 0
+  80 0050 08109F95 		ldrls	r1, .L7+4
+  81 0054 0320C197 		strbls	r2, [r1, r3]
+  82 0058 1EFF2FE1 		bx	lr
+  83              	.L8:
+  84              		.align	2
+  85              	.L7:
+  86 005c 00000000 		.word	.LANCHOR0
+  87 0060 00000000 		.word	.LANCHOR1
+  88              	.LBE13:
+  89              	.LBE12:
+  90              		.cfi_endproc
+  91              	.LFE2:
+  93              		.section	.text.callback_ether_regist,"ax",%progbits
+  94              		.align	2
+  95              		.global	callback_ether_regist
+  96              		.syntax unified
+  97              		.arm
+  98              		.fpu neon
+ 100              	callback_ether_regist:
+ 101              	.LFB1:
+  61:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     ether_param_t   param;
+ 102              		.loc 1 61 0
+ 103              		.cfi_startproc
+ 104              		@ args = 0, pretend = 0, frame = 8
+ 105              		@ frame_needed = 0, uses_anonymous_args = 0
+ 106              	.LVL6:
+  69:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     ret = R_ETHER_Control(CONTROL_SET_CALLBACK, param);
+ 107              		.loc 1 69 0
+ 108 0000 4C309FE5 		ldr	r3, .L13
+  61:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     ether_param_t   param;
+ 109              		.loc 1 61 0
+ 110 0004 13402DE9 		push	{r0, r1, r4, lr}
+ 111              		.cfi_def_cfa_offset 16
+ 112              		.cfi_offset 4, -8
+ 113              		.cfi_offset 14, -4
+  69:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     ret = R_ETHER_Control(CONTROL_SET_CALLBACK, param);
+ 114              		.loc 1 69 0
+ 115 0008 00308DE5 		str	r3, [sp]
+ 116 000c 0030A0E3 		mov	r3, #0
+ 117 0010 04308DE5 		str	r3, [sp, #4]
+  70:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     if (ETHER_SUCCESS != ret)
+ 118              		.loc 1 70 0
+ 119 0014 06009DE8 		ldm	sp, {r1, r2}
+ 120 0018 0200A0E1 		mov	r0, r2
+ 121 001c FEFFFFEB 		bl	R_ETHER_Control
+ 122              	.LVL7:
+  71:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     {
+ 123              		.loc 1 71 0
+ 124 0020 000050E3 		cmp	r0, #0
+  73:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     }
+ 125              		.loc 1 73 0
+ 126 0024 0000E013 		mvnne	r0, #0
+ 127              	.LVL8:
+  71:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     {
+ 128              		.loc 1 71 0
+ 129 0028 0700001A 		bne	.L9
+ 130              	.LVL9:
+  78:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     ret = R_ETHER_Control(CONTROL_SET_INT_HANDLER, param);
+ 131              		.loc 1 78 0
+ 132 002c 24309FE5 		ldr	r3, .L13+4
+  79:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     if (ETHER_SUCCESS != ret)
+ 133              		.loc 1 79 0
+ 134 0030 0200A0E3 		mov	r0, #2
+  78:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     ret = R_ETHER_Control(CONTROL_SET_INT_HANDLER, param);
+ 135              		.loc 1 78 0
+ 136 0034 04308DE5 		str	r3, [sp, #4]
+  79:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     if (ETHER_SUCCESS != ret)
+ 137              		.loc 1 79 0
+ 138 0038 06009DE8 		ldm	sp, {r1, r2}
+ 139 003c FEFFFFEB 		bl	R_ETHER_Control
+ 140              	.LVL10:
+  80:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c ****     {
+ 141              		.loc 1 80 0
+ 142 0040 000090E2 		adds	r0, r0, #0
+ 143              	.LVL11:
+ 144 0044 0100A013 		movne	r0, #1
+ 145 0048 000060E2 		rsb	r0, r0, #0
+ 146              	.LVL12:
+ 147              	.L9:
+  85:D:/Work/DeviceTester/amazon-freertos/lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/RZ\ether_callback.c **** 
+ 148              		.loc 1 85 0
+ 149 004c 08D08DE2 		add	sp, sp, #8
+ 150              		.cfi_def_cfa_offset 8
+ 151              		@ sp needed
+ 152 0050 1080BDE8 		pop	{r4, pc}
+ 153              	.L14:
+ 154              		.align	2
+ 155              	.L13:
+ 156 0054 00000000 		.word	callback_ether
+ 157 0058 00000000 		.word	EINT_Trig_isr
+ 158              		.cfi_endproc
+ 159              	.LFE1:
+ 161              		.section	.bss.link_detect,"aw",%nobits
+ 162              		.set	.LANCHOR1,. + 0
+ 165              	link_detect:
+ 166 0000 0000     		.space	2
+ 167              		.section	.bss.magic_packet_detect,"aw",%nobits
+ 168              		.set	.LANCHOR0,. + 0
+ 171              	magic_packet_detect:
+ 172 0000 0000     		.space	2
+ 173              		.section	.bss.pause_enable,"aw",%nobits
+ 176              	pause_enable:
+ 177 0000 00       		.space	1
+ 178              		.text
+ 179              	.Letext0:
+ 180              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 181              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 182              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 183              		.file 5 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 184              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\lib\\gcc\\arm-none-eab
+ 185              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 186              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\include
+ 187              		.file 9 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_bo
+ 188              		.file 10 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 189              		.file 11 "c:\\program files (x86)\\gnu tools arm embedded\\6 2017-q2-update\\arm-none-eabi\\includ
+ 190              		.file 12 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 191              		.file 13 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 192              		.file 14 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 193              		.file 15 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 194              		.file 16 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+ 195              		.file 17 "D:\\Work\\DeviceTester\\amazon-freertos\\lib\\third_party\\mcu_vendor\\renesas\\rz_mcu_b
+DEFINED SYMBOLS
+                            *ABS*:00000000 ether_callback.c
+C:\Users\a5089698\AppData\Local\Temp\ccR3yYow.s:17     .text.callback_ether:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccR3yYow.s:22     .text.callback_ether:00000000 callback_ether
+C:\Users\a5089698\AppData\Local\Temp\ccR3yYow.s:86     .text.callback_ether:0000005c $d
+C:\Users\a5089698\AppData\Local\Temp\ccR3yYow.s:94     .text.callback_ether_regist:00000000 $a
+C:\Users\a5089698\AppData\Local\Temp\ccR3yYow.s:100    .text.callback_ether_regist:00000000 callback_ether_regist
+C:\Users\a5089698\AppData\Local\Temp\ccR3yYow.s:156    .text.callback_ether_regist:00000054 $d
+C:\Users\a5089698\AppData\Local\Temp\ccR3yYow.s:165    .bss.link_detect:00000000 link_detect
+C:\Users\a5089698\AppData\Local\Temp\ccR3yYow.s:166    .bss.link_detect:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccR3yYow.s:171    .bss.magic_packet_detect:00000000 magic_packet_detect
+C:\Users\a5089698\AppData\Local\Temp\ccR3yYow.s:172    .bss.magic_packet_detect:00000000 $d
+C:\Users\a5089698\AppData\Local\Temp\ccR3yYow.s:176    .bss.pause_enable:00000000 pause_enable
+C:\Users\a5089698\AppData\Local\Temp\ccR3yYow.s:177    .bss.pause_enable:00000000 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+R_ETHER_Control
+EINT_Trig_isr
