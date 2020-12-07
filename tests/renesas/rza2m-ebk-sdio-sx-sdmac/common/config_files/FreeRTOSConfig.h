@@ -357,4 +357,15 @@ uint32_t ulRand(void);
 /* When the FIT configurator or the Smart Configurator is used, platform.h has to be used. */
 #define configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H  1
 
+/* IDT OTA Wi-Fi Off timing */
+#define END_OF_OTAE2EBackToBackDownload			5
+#define END_OF_OTAE2ECorruptImageAfterSigning	(END_OF_OTAE2EBackToBackDownload+2)			/*	7	*/
+#define END_OF_OTAE2ECorruptImageBeforeSigning	(END_OF_OTAE2ECorruptImageAfterSigning+2)	/*	9	*/
+#define END_OF_OTAE2ECorruptSignature			(END_OF_OTAE2ECorruptImageBeforeSigning+2)	/*	11	*/
+#define	END_OF_OTAE2EGreaterVersion				(END_OF_OTAE2ECorruptSignature+2)			/*	13	*/
+#define	END_OF_OTAE2EIncorrectPlatform			(END_OF_OTAE2EGreaterVersion+2)				/*	15	*/
+
+
+
+
 #endif /* FREERTOS_CONFIG_H */

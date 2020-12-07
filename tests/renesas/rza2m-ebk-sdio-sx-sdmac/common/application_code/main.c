@@ -184,6 +184,9 @@ int_t main(void)
  */
 void os_main_task_t( void )
 {
+#if defined(__IDT_MODE__)
+    uint32_t boot_count=(*((uint32_t*)0x23FFC000)) + 1;
+#endif
     WIFINetworkParams_t xNetworkParams = { 0 };
     xNetworkParams.pcSSID = clientcredentialWIFI_SSID;
     xNetworkParams.ucSSIDLength = sizeof( clientcredentialWIFI_SSID );
@@ -191,6 +194,9 @@ void os_main_task_t( void )
     xNetworkParams.ucPasswordLength = sizeof( clientcredentialWIFI_PASSWORD );
     xNetworkParams.xSecurity = clientcredentialWIFI_SECURITY;
 
+#if defined(__IDT_MODE__)
+    printf("boot_count=%d\r\n",boot_count);
+#endif
     R_OS_TaskSleep(1000);
     /* Initialise the RTOS's TCP/IP stack.  The tasks that use the network
     are created in the vApplicationIPNetworkEventHook() hook function
@@ -200,6 +206,25 @@ void os_main_task_t( void )
     {
         printf("WIFI_ConnectAP failed\n");
     }
+#if (1)
+#if defined(__IDT_MODE__)
+   if ((boot_count==END_OF_OTAE2ECorruptImageAfterSigning)
+     ||(boot_count==END_OF_OTAE2ECorruptSignature)){
+   		uint32_t flash_data[256/sizeof(uint32_t)];
+		boot_count++;
+		memset(flash_data,0xFF,sizeof(flash_data));
+		flash_data[0]=boot_count;
+		flash_erase_sector(NULL,0x23FFC000);
+		flash_program_page(NULL,0x23FFC000,flash_data,sizeof(flash_data));
+
+	    WIFI_Off();
+	    while(1)
+	    {
+		    R_OS_TaskSleep(1000);
+	    }
+   }
+#endif
+#endif
 
     /* Provision the device with AWS certificate and private key. */
     vDevModeKeyProvisioning();

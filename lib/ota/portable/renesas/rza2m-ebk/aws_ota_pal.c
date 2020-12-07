@@ -233,7 +233,9 @@ static PACKET_BLOCK_FOR_QUEUE packet_block_for_queue2;
 static FIRMWARE_UPDATE_CONTROL_BLOCK *firmware_update_control_block_bank0 = (FIRMWARE_UPDATE_CONTROL_BLOCK*)BOOT_LOADER_UPDATE_EXECUTE_AREA_LOW_ADDRESS;
 static volatile uint32_t gs_header_flashing_task;
 static void software_reset(void);
-
+#if defined(__IDT_MODE__)
+volatile uint32_t wifi_reset_req = 0;
+#endif
 /*-----------------------------------------------------------*/
 
 OTA_Err_t prvPAL_CreateFileForRx( OTA_FileContext_t * const C )
@@ -562,6 +564,7 @@ OTA_Err_t prvPAL_ResetDevice( void )
 	{
 		printf("flash_program_page() returns error.\r\n");
 	}
+	WIFI_Off();
 
 	memset(&hyper[0], 0x00, image_size + BOOT_LOADER_USER_FIRMWARE_HEADER_LENGTH);
 	software_reset();
@@ -581,7 +584,6 @@ OTA_Err_t prvPAL_ActivateNewImage( void )
 
     OTA_LOG_L1( "[%s] Changing the Startup Bank\r\n", OTA_METHOD_NAME );
  
-	WIFI_Off();
     /* reset for self testing */
 	vTaskDelay(5000);
 	prvPAL_ResetDevice();	/* no return from this function */
@@ -607,6 +609,9 @@ OTA_Err_t prvPAL_SetPlatformImageState( OTA_ImageState_t eState )
 				break;
 			case eOTA_ImageState_Rejected:
 				OTA_LOG_L1( "[%s] Rejected image.\r\n", OTA_METHOD_NAME );
+#if defined(__IDT_MODE__)
+				wifi_reset_req = 1;
+#endif
 				eResult = kOTA_Err_None;
 				break;
 			case eOTA_ImageState_Aborted:
@@ -633,6 +638,9 @@ OTA_Err_t prvPAL_SetPlatformImageState( OTA_ImageState_t eState )
 				break;
 			case eOTA_ImageState_Rejected:
 				OTA_LOG_L1( "[%s] Rejected image.\r\n", OTA_METHOD_NAME );
+#if defined(__IDT_MODE__)
+				wifi_reset_req = 1;
+#endif
 				eResult = kOTA_Err_None;
 				break;
 			case eOTA_ImageState_Aborted:
