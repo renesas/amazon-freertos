@@ -64,7 +64,7 @@
  * 1 : SD boot
  * 2 : eMMC boot
  * 3 : SPI flash boot via SPI multi I/O bus
- * 4 : Octa flash boot via SPI multi I/O bus
+ * 4 : Octal-SPI flash boot via SPI multi I/O bus
  * 5 : Hyper flash boot via SPI multi I/O bus
  * 6 : Octa flash boot via Octa bus
  * 7 : Hyper flash boot via HyperBus(TM)
@@ -95,6 +95,14 @@
  * 1 : Enable writing on-chip data retention RAM
  */
 #define STARTUP_CFG_RETENTION_RAM_WRITE_ENABLE (1)
+
+/* Device Type setting connected to SPIBSC
+ * 0 : SerialFlash x 1
+ * 1 : SerialFlash x 2
+ * 2 : Octal-SPI Flash
+ * 3 : HyperFlash
+ */
+#define STARTUP_CFG_SPIBSC_CONNECT_DEVICE_TYPE (0)
 
 #endif /* R_STARTUP_CONFIG_H */
 

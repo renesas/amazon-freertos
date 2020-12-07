@@ -34,6 +34,8 @@
 ******************************************************************************/
 
 
+
+
 /*********************************************************************************************************************
  * @ingroup Interface_Library
  * @defgroup DS_DEVLINK_BASE STDIO Driver Interface Definition
@@ -105,7 +107,7 @@ Macro definitions
 #define FIRST_FILE                  (0)
 
 /** The maximum number of driver descriptor available to the user */
-#define DEV_MAX_DRIVER_DEVICES      (32)
+#define DEV_MAX_DRIVER_DEVICES      (64)
 
 /** Define the maximum string size for the device information strings */
 #define DEVICE_MAX_STRING_SIZE      (128)
@@ -234,12 +236,7 @@ extern "C" {
 
 extern int_t R_DEVLINK_FilePtrDescriptor(FILE *pFile);
 
-extern  int no_dev_open(st_stream_ptr_t pStream);
-extern  void no_dev_close(st_stream_ptr_t pStream);
-extern  int_t no_dev_io(st_stream_ptr_t pStream, uint8_t *pbyBuffer, uint32_t uiCount);
-extern  int_t no_dev_control(st_stream_ptr_t pStream, uint32_t ctlCode, void *pCtlStruct);
-extern  int_t no_dev_get_version(st_stream_ptr_t pStream, st_ver_info_ptr_t info_ptr);
-extern  st_r_driver_t * get_no_driver(void);
+
 
 /******************************************************************************
 Function Name: devGetFromList

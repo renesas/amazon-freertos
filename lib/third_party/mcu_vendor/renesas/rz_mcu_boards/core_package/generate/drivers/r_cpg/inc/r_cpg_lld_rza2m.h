@@ -1,29 +1,25 @@
-/*******************************************************************************
+/**********************************************************************************************************************
  * DISCLAIMER
- * This software is supplied by Renesas Electronics Corporation and is only
- * intended for use with Renesas products. No other uses are authorized. This
- * software is owned by Renesas Electronics Corporation and is protected under
- * all applicable laws, including copyright laws.
+ * This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
+ * other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
+ * applicable laws, including copyright laws.
  * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
- * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT
- * LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
- * AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED.
- * TO THE MAXIMUM EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS
- * ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES SHALL BE LIABLE
- * FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR
- * ANY REASON RELATED TO THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE
- * BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * Renesas reserves the right, without notice, to make changes to this software
- * and to discontinue the availability of this software. By using this software,
- * you agree to the additional terms and conditions found by accessing the
+ * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
+ * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
+ * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO
+ * THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+ * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
+ * this software. By using this software, you agree to the additional terms and conditions found by accessing the
  * following link:
  * http://www.renesas.com/disclaimer
- * Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
- *******************************************************************************/
-/******************************************************************************
+ *
+ * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
+ *********************************************************************************************************************/
+/**********************************************************************************************************************
  * File Name    : r_cpg_lld_rza2m.h
  * Description  : CPG driver API header
- ******************************************************************************/
+ *********************************************************************************************************************/
 
 /******************************************************************************
  Includes   <System Includes> , "Project Includes"
@@ -45,7 +41,7 @@
 /** Major Version Number of API */
 #define STDIO_CPG_RZ_LLD_VERSION_MAJOR      (1)
 /** Minor Version Number of API */
-#define STDIO_CPG_RZ_LLD_VERSION_MINOR      (3)
+#define STDIO_CPG_RZ_LLD_VERSION_MINOR      (5)
 /** Minor Version Number of API */
 #define STDIO_CPG_RZ_LLD_BUILD_NUM          (0)
 /** Unique ID */
@@ -156,6 +152,12 @@ typedef struct
     e_cpg_sub_clock_t clk_sub_src;          /*!< CPG sub-clock to configure */
     float64_t sub_clk_frequency_khz;        /*!< CPG Required sub clock frequency */
 } st_r_drv_cpg_set_sub_t;
+
+typedef struct
+{
+    st_r_drv_cpg_set_sub_t * p_sub_clk_settings;     /*!< Pointer to array of CPG sub-clock settings to configure */
+    uint32_t number_of_settings;                     /*!< Number of sub-clock settings in array at above location */
+} st_r_drv_cpg_set_sub_multi_t;
 
 typedef struct
 {

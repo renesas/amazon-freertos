@@ -586,8 +586,8 @@ int_t R_SCIFA_Open (r_sc_index_t sc_config_index, scifa_config_t *p_config_set)
     if (DRV_SUCCESS == result)
     {
         int_t gpio_handle;
-        gpio_handle = direct_open("gpio", 0);
-
+        gpio_handle = direct_open("gpio", O_RDONLY);
+        
         if (gpio_handle > 0)
         {
             /* direct_control as direct_control assumes parameter 3 is i/o, but using the parameter in input only mode is acceptable */
@@ -693,6 +693,7 @@ int_t R_SCIFA_ChannelConfigure (r_channel_t channel, const scifa_config_t *p_con
 
     /* open the CPG driver */
     cpg_handle = direct_open("cpg", O_RDONLY);
+
     if (cpg_handle < 0)
     {
         return (DRV_ERROR);
@@ -824,6 +825,9 @@ int_t R_SCIFA_StopTransmit (r_channel_t channel)
 
     /* disable transmit end interrupt enable */
     RZA_IO_RegWrite_16((volatile uint16_t *) &gsp_scifa[channel]->SCR.WORD, 0, SCIFA_SCR_TEIE_SHIFT, SCIFA_SCR_TEIE);
+
+    /* clear the TEND bit */
+     RZA_IO_RegWrite_16((volatile uint16_t *) &gsp_scifa[channel]->FSR.WORD, 0, SCIFA_FSR_TEND_SHIFT, SCIFA_FSR_TEND);
 
     /* flush the transmit FIFO */
     gsp_scifa[channel]->FCR.BIT.TFRST = 1;

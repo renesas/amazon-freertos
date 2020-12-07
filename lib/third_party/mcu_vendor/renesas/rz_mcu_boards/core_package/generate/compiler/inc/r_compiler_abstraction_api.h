@@ -14,30 +14,66 @@
  * following link:
  * http://www.renesas.com/disclaimer
  *
- * Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+ * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
  **********************************************************************************************************************/
 /***********************************************************************************************************************
  * File Name    : r_compiler_abstraction_api.h
- * Description  : Provides a common api for frequently used compiler specifc operations
+ * Description  : Provides a common API for frequently used compiler specific operations
  **********************************************************************************************************************/
 #include  "r_typedefs.h"
 
-#ifndef SRC_RENESAS_COMPILER_INC_R_COMPILER_ABSTRACTION_API_H_
-#define SRC_RENESAS_COMPILER_INC_R_COMPILER_ABSTRACTION_API_H_
+#ifndef SRC_PRV_RENESAS_COMPILER_INC_R_COMPILER_ABSTRACTION_API_H_
+#define SRC_PRV_RENESAS_COMPILER_INC_R_COMPILER_ABSTRACTION_API_H_
 
-#define R_COMPILER_INLINE static inline
+/* Macro is used to declare linkage to a function as weak so that it can be overridden by a normally declared function.
+ * Update this when using a different compiler. */
 #define R_COMPILER_WEAK __attribute__((weak))
 
-extern void __enable_irq(void);
-extern uint32_t __disable_irq(void);
-extern void __enable_fiq(void);
-extern void __disable_fiq(void);
+#define R_COMPILER_INLINE static inline
 
+extern void __enable_irq (void);
+extern uint32_t __disable_irq (void);
+extern void __enable_fiq (void);
+extern void __disable_fiq (void);
 
-R_COMPILER_INLINE void R_COMPILER_Nop(void) { __asm volatile ("nop"); }
+/**********************************************************************************************************************
+ * Function Name: R_COMPILER_Nop
+ * Description  : Abstracting a compiler No Operation opcode into a C function. Update this when using a different
+ *                compiler.
+ * Return Value : None.
+ *********************************************************************************************************************/
+R_COMPILER_INLINE void R_COMPILER_Nop (void)
+    {
+        __asm volatile ("nop");
+    }
+/**********************************************************************************************************************
+ End of function R_COMPILER_Nop
+ *********************************************************************************************************************/
 
-R_COMPILER_INLINE void R_COMPILER_EnableInterrupts(void) { __enable_irq(); }
+/**********************************************************************************************************************
+ * Function Name: R_COMPILER_EnableInterrupts
+ * Description  : Enable interrupts by using a compiler intrinsic call. Update this when using a different compiler.
+ * Return Value : None.
+ *********************************************************************************************************************/
+R_COMPILER_INLINE void R_COMPILER_EnableInterrupts(void)
+    {
+        __enable_irq();
+    }
+/**********************************************************************************************************************
+ End of function R_COMPILER_EnableInterrupts
+ *********************************************************************************************************************/
 
-R_COMPILER_INLINE void R_COMPILER_DisableInterrupts(void) { __disable_irq(); }
+/**********************************************************************************************************************
+ * Function Name: R_COMPILER_DisableInterrupts
+ * Description  : Disable interrupts by using a compiler intrinsic call. Update this when using a different compiler.
+ * Return Value : None.
+ *********************************************************************************************************************/
+R_COMPILER_INLINE void R_COMPILER_DisableInterrupts(void)
+    {
+        __disable_irq();
+    }
+/**********************************************************************************************************************
+ End of function R_COMPILER_DisableInterrupts
+ *********************************************************************************************************************/
 
-#endif /* SRC_RENESAS_COMPILER_INC_R_COMPILER_ABSTRACTION_API_H_ */
+#endif /* SRC_PRV_RENESAS_COMPILER_INC_R_COMPILER_ABSTRACTION_API_H_ */

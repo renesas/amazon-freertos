@@ -46,6 +46,7 @@
  * @{
  *********************************************************************************************************************/
 #include "r_os_abstraction_typedef.h"
+#include "r_os_abstraction_config.h"
 #include "driver.h"
 
 #ifndef SRC_RENESAS_APPLICATION_INC_R_OS_ABSTRACTION_API_H_
@@ -55,7 +56,7 @@
 #define R_OS_ABSTRACTION_VERSION_MAJOR         (3)
 
 /** Minor Version Number of API. */
-#define R_OS_ABSTRACTION_VERSION_MINOR         (2)
+#define R_OS_ABSTRACTION_VERSION_MINOR         (5)
 
 /** Unique ID. */
 #define R_OS_ABSTRACTION_UID                   (71)
@@ -104,7 +105,7 @@
  * @retval        true if there were no errors when initialising the OS Abstraction Layer.
  * @retval        false if there errors when initialising the OS Abstraction Layer.
  *********************************************************************************************************************/
-bool_t R_OS_AbstractionLayerInit(void);
+bool_t R_OS_AbstractionLayerInit (void);
 
 /**********************************************************************************************************************
  * @fn            R_OS_AbstractionLayerShutdown
@@ -115,7 +116,7 @@ bool_t R_OS_AbstractionLayerInit(void);
  * @retval        true if there were no errors when closing the OS Abstraction Layer.
  * @retval        false if there errors when closing the OS Abstraction Layer.
  *********************************************************************************************************************/
-bool_t R_OS_AbstractionLayerShutdown(void);
+bool_t R_OS_AbstractionLayerShutdown (void);
 
 
 /**********************************************************************************************************************
@@ -131,7 +132,7 @@ bool_t R_OS_AbstractionLayerShutdown(void);
  * @param [out]   .
  * @retval        NONE
  *********************************************************************************************************************/
-void R_OS_KernelInit(void);
+void R_OS_KernelInit (void);
 
 /**********************************************************************************************************************
  * @fn            R_OS_KernelStart
@@ -141,7 +142,7 @@ void R_OS_KernelInit(void);
  * @param [out]   .
  * @retval        NONE.
  *********************************************************************************************************************/
-void R_OS_KernelStart(void);
+void R_OS_KernelStart (void);
 
 /**********************************************************************************************************************
  * @fn            R_OS_KernelStop
@@ -153,7 +154,7 @@ void R_OS_KernelStart(void);
  * @param [out]   .
  * @retval        NONE.
  *********************************************************************************************************************/
-void R_OS_KernelStop(void);
+void R_OS_KernelStop (void);
 
 /**********************************************************************************************************************
  * @fn            R_OS_InitMemManager
@@ -164,7 +165,7 @@ void R_OS_KernelStop(void);
  * @param [out]   .
  * @retval        NONE.
  *********************************************************************************************************************/
-void R_OS_InitMemManager(void);
+void R_OS_InitMemManager (void);
 
 /**********************************************************************************************************************
  * @fn            R_OS_Running
@@ -172,7 +173,7 @@ void R_OS_InitMemManager(void);
  * @retval        true if scheduler has started
  * @retval        false if scheduler has not started (at least once)
  *********************************************************************************************************************/
-bool_t R_OS_Running(void);
+bool_t R_OS_Running (void);
 
 
 
@@ -202,7 +203,7 @@ os_task_t *R_OS_TaskCreate (const char_t *p_name, os_task_code_t task_code, void
  * @param [in]    p_task the task object.
  * @retval        None.
  *********************************************************************************************************************/
-void   R_OS_TaskDelete(os_task_t **p_task);
+void   R_OS_TaskDelete (os_task_t **p_task);
 
 /**********************************************************************************************************************
  * @fn            R_OS_TaskSleep
@@ -213,14 +214,14 @@ void   R_OS_TaskDelete(os_task_t **p_task);
  * @param [in]    sleep_ms Time in ms (uint32 => max ~49 Days).
  * @retval        None.
  *********************************************************************************************************************/
-void   R_OS_TaskSleep(uint32_t sleep_ms);
+void   R_OS_TaskSleep (uint32_t sleep_ms);
 
 /**********************************************************************************************************************
  * @fn            R_OS_TaskYield
  * @brief         Function to cause a task to suspend and pass control back to the OS / scheduler.
  * @retval        None.
  *********************************************************************************************************************/
-void   R_OS_TaskYield(void);
+void   R_OS_TaskYield (void);
 
 /**********************************************************************************************************************
  * @fn            R_OS_TaskSuspend
@@ -228,7 +229,7 @@ void   R_OS_TaskYield(void);
  * @param [in]    p_task the task object.
  * @retval        None.
  *********************************************************************************************************************/
-bool_t   R_OS_TaskSuspend(os_task_t *p_task);
+bool_t   R_OS_TaskSuspend (os_task_t *p_task);
 
 /**********************************************************************************************************************
  * @fn            R_OS_TaskResume
@@ -236,21 +237,21 @@ bool_t   R_OS_TaskSuspend(os_task_t *p_task);
  * @param [in]    p_task the task object.
  * @retval        None.
  *********************************************************************************************************************/
-bool_t   R_OS_TaskResume(os_task_t *p_task);
+bool_t   R_OS_TaskResume (os_task_t *p_task);
 
 /**********************************************************************************************************************
  * @fn            R_OS_TasksSuspendAll
  * @brief         Suspend all tasks, only attempted if the operating system is running.
  * @retval        None.
  *********************************************************************************************************************/
-void   R_OS_TasksSuspendAll(void);
+void   R_OS_TasksSuspendAll (void);
 
 /**********************************************************************************************************************
  * @fn            R_OS_TasksResumeAll
  * @brief         Resume all tasks, only attempted if the operating system is running.
  * @retval        None
  *********************************************************************************************************************/
-void   R_OS_TasksResumeAll(void);
+void   R_OS_TasksResumeAll (void);
 
 /**********************************************************************************************************************
  * @fn            R_OS_TasksGetNumber
@@ -258,14 +259,14 @@ void   R_OS_TasksResumeAll(void);
  *                only attempted if the operating system is running.
  * @retval        number of tasks.
  *********************************************************************************************************************/
-uint32_t   R_OS_TasksGetNumber(void);
+uint32_t   R_OS_TasksGetNumber (void);
 
 /**********************************************************************************************************************
  * @fn            R_OS_TaskUsesFloatingPoint
  * @brief         Function to indicate to the OS that the current task uses floating point numbers.
  * @retval        NONE.
  *********************************************************************************************************************/
-void R_OS_TaskUsesFloatingPoint(void);
+void R_OS_TaskUsesFloatingPoint (void);
 
 /**********************************************************************************************************************
  * @fn            R_OS_TaskGetPriority
@@ -275,7 +276,7 @@ void R_OS_TaskUsesFloatingPoint(void);
  * @retval        The function returns the task priority of the specified uiTaskID
  * @retval        -1 if the uiTaskID can not be found
  *********************************************************************************************************************/
-int32_t R_OS_TaskGetPriority(uint32_t task_id);
+int32_t R_OS_TaskGetPriority (uint32_t task_id);
 
 /**********************************************************************************************************************
  * @fn            R_OS_TaskSetPriority
@@ -286,7 +287,7 @@ int32_t R_OS_TaskGetPriority(uint32_t task_id);
  * @retval        true if priority is set
  * @retval        false if priority can not be set
  *********************************************************************************************************************/
-bool_t R_OS_TaskSetPriority(uint32_t task_id, uint32_t priority);
+bool_t R_OS_TaskSetPriority (uint32_t task_id, uint32_t priority);
 
 /**********************************************************************************************************************
  * @fn            R_OS_TaskGetCurrentHandle
@@ -295,7 +296,7 @@ bool_t R_OS_TaskSetPriority(uint32_t task_id, uint32_t priority);
  * @param [in]    none
  * @retval        The function returns the current running task
  *********************************************************************************************************************/
-os_task_t* R_OS_TaskGetCurrentHandle (void);
+os_task_t * R_OS_TaskGetCurrentHandle (void);
 
 /**********************************************************************************************************************
  * @fn            R_OS_TaskGetCurrentName
@@ -304,7 +305,7 @@ os_task_t* R_OS_TaskGetCurrentHandle (void);
  * @param [in]    none
  * @retval        The function returns a pointer to the text name of the current task
  *********************************************************************************************************************/
-const char *R_OS_TaskGetCurrentName (void);
+const char * R_OS_TaskGetCurrentName (void);
 
 /**********************************************************************************************************************
  * @fn            R_OS_TaskGetState
@@ -330,7 +331,7 @@ const char * R_OS_TaskGetState (const char* p_task);
  * @retval        0  Object locked
  * @retval        -1  Error, neither action possible
  *********************************************************************************************************************/
-int_t  R_OS_SysLock(void);
+int_t  R_OS_SysLock (void);
 
 /**********************************************************************************************************************
  * @fn            R_OS_SysUnlock
@@ -348,7 +349,7 @@ void R_OS_SysUnlock (void);
  *                This function allows a user to obtain the mutex for system critical usage.
  * @retval        None.
  *********************************************************************************************************************/
-void   R_OS_SysWaitAccess(void);
+void   R_OS_SysWaitAccess (void);
 
 /**********************************************************************************************************************
  * @fn            R_OS_SysReleaseAccess
@@ -357,7 +358,7 @@ void   R_OS_SysWaitAccess(void);
  *                the mutex from system critical usage.
  * @retval        None.
  *********************************************************************************************************************/
-void   R_OS_SysReleaseAccess(void);
+void   R_OS_SysReleaseAccess (void);
 
 /**********************************************************************************************************************
  * @fn            R_OS_GetTickCount
@@ -365,7 +366,7 @@ void   R_OS_SysReleaseAccess(void);
  * @warning       Function can only be called when the scheduler is running
  * @retval        The function returns the number of ticks counted.
  *********************************************************************************************************************/
-uint32_t R_OS_GetTickCount(void);
+uint32_t R_OS_GetTickCount (void);
 
 /**********************************************************************************************************************
  * @fn            R_OS_AssertCalled
@@ -374,7 +375,7 @@ uint32_t R_OS_GetTickCount(void);
  * @param [out]   line: line where the error occurred.
  * @retval        NONE.
  *********************************************************************************************************************/
-void R_OS_AssertCalled( const char * p_file, uint32_t line);
+void R_OS_AssertCalled (const char * p_file, uint32_t line);
 
 /**********************************************************************************************************************
  *                                  Memory Management API
@@ -387,7 +388,7 @@ void R_OS_AssertCalled( const char * p_file, uint32_t line);
  * @param [in]    region: Region of memory to allocate from.
  * @retval        pointer to allocated memory or NULL if failed
  *********************************************************************************************************************/
-void * R_OS_Malloc(size_t size, e_memory_region_t region);
+void * R_OS_Malloc (size_t size, e_memory_region_t region);
 
 /**********************************************************************************************************************
  * @fn            R_OS_Free
@@ -395,7 +396,7 @@ void * R_OS_Malloc(size_t size, e_memory_region_t region);
  * @param [in]    p_memory_to_free: Block of memory to free.
  * @retval        None.
  *********************************************************************************************************************/
-void   R_OS_Free(void **pp_memory_to_free);
+void   R_OS_Free (void ** pp_memory_to_free);
 
 /**********************************************************************************************************************
  *                                  Semaphore API
@@ -417,7 +418,7 @@ bool_t R_OS_SemaphoreCreate (p_semaphore_t p_semaphore, uint32_t count);
  * @param [in]    p_semaphore: Pointer to an associated semaphore.
  * @retval        None.
  *********************************************************************************************************************/
-void   R_OS_SemaphoreDelete(p_semaphore_t  p_semaphore);
+void   R_OS_SemaphoreDelete (p_semaphore_t  p_semaphore);
 
 /**********************************************************************************************************************
  * @fn            R_OS_SemaphoreWait
@@ -428,7 +429,7 @@ void   R_OS_SemaphoreDelete(p_semaphore_t  p_semaphore);
  * @retval        TRUE The semaphore object was successfully set.
  * @retval        FALSE Semaphore not set.
  *********************************************************************************************************************/
-bool_t R_OS_SemaphoreWait(p_semaphore_t p_semaphore, systime_t timeout);
+bool_t R_OS_SemaphoreWait (p_semaphore_t p_semaphore, systime_t timeout);
 
 /**********************************************************************************************************************
  * @fn            R_OS_SemaphoreRelease
@@ -436,7 +437,7 @@ bool_t R_OS_SemaphoreWait(p_semaphore_t p_semaphore, systime_t timeout);
  * @param [in]    p_semaphore: Pointer to an associated semaphore.
  * @retval        None.
  *********************************************************************************************************************/
-void   R_OS_SemaphoreRelease(p_semaphore_t p_semaphore);
+void   R_OS_SemaphoreRelease (p_semaphore_t p_semaphore);
 
 /**********************************************************************************************************************
  *                                  Mutex API
@@ -448,7 +449,7 @@ void   R_OS_SemaphoreRelease(p_semaphore_t p_semaphore);
  * @retval        p_mutex: Pointer to mutex created.
  * @retval        NULL If mutex creation fails.
  *********************************************************************************************************************/
-void*  R_OS_MutexCreate (void);
+void *  R_OS_MutexCreate (void);
 
 /**********************************************************************************************************************
  * @fn            R_OS_MutexDelete
@@ -456,7 +457,7 @@ void*  R_OS_MutexCreate (void);
  * @param [in]    pp_mutex: Address of mutex object to delete, set to NULL when deleted.
  * @retval        None.
  *********************************************************************************************************************/
-void   R_OS_MutexDelete(pp_mutex_t pp_mutex);
+void   R_OS_MutexDelete (pp_mutex_t pp_mutex);
 
 /**********************************************************************************************************************
  * @fn            R_OS_MutexAcquire
@@ -464,7 +465,7 @@ void   R_OS_MutexDelete(pp_mutex_t pp_mutex);
  * @param [in]    p_mutex: Mutex object to acquire.
  * @retval        None.
  *********************************************************************************************************************/
-void   R_OS_MutexAcquire(p_mutex_t p_mutex);
+void   R_OS_MutexAcquire (p_mutex_t p_mutex);
 
 /**********************************************************************************************************************
  * @fn            R_OS_MutexRelease
@@ -472,7 +473,7 @@ void   R_OS_MutexAcquire(p_mutex_t p_mutex);
  * @param [in]    p_mutex: Mutex object to release.
  * @retval        None.
  *********************************************************************************************************************/
-void   R_OS_MutexRelease(p_mutex_t p_mutex);
+void   R_OS_MutexRelease (p_mutex_t p_mutex);
 
 /**********************************************************************************************************************
  * @fn            R_OS_MutexWait
@@ -518,7 +519,7 @@ void R_OS_ExitCritical (void);
  * @param[in]     pp_queue_handle: pointer to queue handle pointer.
  * @retval        The function returns TRUE if the queue was successfully created. Otherwise, FALSE is returned
  *********************************************************************************************************************/
-bool_t R_OS_MessageQueueCreate (p_os_msg_queue_handle_t *pp_queue_handle, uint32_t queue_sz);
+bool_t R_OS_MessageQueueCreate (p_os_msg_queue_handle_t * pp_queue_handle, uint32_t queue_sz);
 
 /**********************************************************************************************************************
  * @fn            R_OS_MessageQueuePut
@@ -540,7 +541,7 @@ bool_t R_OS_MessageQueuePut (p_os_msg_queue_handle_t p_queue_handle, p_os_msg_t 
  * @param [in]    blocking true = block thread/task until message received. False = not blocking
  * @retval        The function returns TRUE if the message was successfully retrieved. Otherwise, FALSE is returned
  *********************************************************************************************************************/
-bool_t R_OS_MessageQueueGet (p_os_msg_queue_handle_t p_queue, p_os_msg_t *pp_msg, uint32_t timeout, bool_t blocking);
+bool_t R_OS_MessageQueueGet (p_os_msg_queue_handle_t p_queue, p_os_msg_t * pp_msg, uint32_t timeout, bool_t blocking);
 
 /**********************************************************************************************************************
  * @fn            R_OS_MessageQueueClear
@@ -556,7 +557,7 @@ bool_t R_OS_MessageQueueClear (p_os_msg_queue_handle_t p_queue_handle);
  * @param [in]    pp_queue_handle pointer to queue handle pointer.
  * @retval        The function returns TRUE if the queue was successfully deleted. Otherwise, FALSE is returned
  *********************************************************************************************************************/
-bool_t R_OS_MessageQueueDelete (p_os_msg_queue_handle_t *pp_queue_handle);
+bool_t R_OS_MessageQueueDelete (p_os_msg_queue_handle_t * pp_queue_handle);
 
 /**********************************************************************************************************************
  *                                      Event API
@@ -568,7 +569,7 @@ bool_t R_OS_MessageQueueDelete (p_os_msg_queue_handle_t *pp_queue_handle);
  * @param [in]    pp_event Pointer to an associated event.
  * @retval        The function returns TRUE if the event object was successfully created. Otherwise, FALSE is returned
  *********************************************************************************************************************/
-bool_t R_OS_EventCreate(pp_event_t pp_event);
+bool_t R_OS_EventCreate (pp_event_t pp_event);
 
 /**********************************************************************************************************************
  * @fn            R_OS_EventDelete
@@ -576,7 +577,7 @@ bool_t R_OS_EventCreate(pp_event_t pp_event);
  * @param [in]    pp_event Pointer to an associated event.
  * @retval        none
  *********************************************************************************************************************/
-void   R_OS_EventDelete(pp_event_t pp_event);
+void   R_OS_EventDelete (pp_event_t pp_event);
 
 /**********************************************************************************************************************
  * @fn            R_OS_EventSet
@@ -585,7 +586,7 @@ void   R_OS_EventDelete(pp_event_t pp_event);
  * @param [in]    pp_event Pointer to an associated event.
  * @retval        none.
  *********************************************************************************************************************/
-void   R_OS_EventSet(pp_event_t pp_event);
+void   R_OS_EventSet (pp_event_t pp_event);
 
 /**********************************************************************************************************************
  * @fn            R_OS_EventReset
@@ -593,7 +594,7 @@ void   R_OS_EventSet(pp_event_t pp_event);
  * @param [in]    pp_event Pointer to an associated event.
  * @retval        none.
  *********************************************************************************************************************/
-void   R_OS_EventReset(pp_event_t pp_event);
+void   R_OS_EventReset (pp_event_t pp_event);
 
 /**********************************************************************************************************************
  * @fn            R_OS_EventGet
@@ -603,7 +604,7 @@ void   R_OS_EventReset(pp_event_t pp_event);
  * @retval        EV_SET   Event Set.
  * @retval        EV_INVALID Invalid Event.
  *********************************************************************************************************************/
-e_event_state_t R_OS_EventGet(pp_event_t pp_event);
+e_event_state_t R_OS_EventGet (pp_event_t pp_event);
 
 /**********************************************************************************************************************
  * @fn            R_OS_EventWait
@@ -612,7 +613,7 @@ e_event_state_t R_OS_EventGet(pp_event_t pp_event);
  * @param [in]    timeout Maximum time to wait for associated event to occur.
  * @retval        The function returns TRUE if the event object was set, Otherwise, FALSE is returned
  *********************************************************************************************************************/
-bool_t R_OS_EventWait(pp_event_t pp_event, systime_t timeout);
+bool_t R_OS_EventWait (pp_event_t pp_event, systime_t timeout);
 
 /**********************************************************************************************************************
  * @fn            R_OS_EventSetFromIsr
@@ -622,7 +623,7 @@ bool_t R_OS_EventWait(pp_event_t pp_event, systime_t timeout);
  * @param [in]    pp_event Pointer to an associated event
  * @retval        The function returns TRUE if the event object was successfully set. Otherwise, FALSE is returned
  *********************************************************************************************************************/
-bool_t R_OS_EventSetFromIsr(pp_event_t pp_event);
+bool_t R_OS_EventSetFromIsr (pp_event_t pp_event);
 
 /**********************************************************************************************************************
  *                                      Version Control API
@@ -634,7 +635,7 @@ bool_t R_OS_EventSetFromIsr(pp_event_t pp_event);
  * @param [out]   p_info Structure containing module version information.
  * @retval        The function returns 0
  *********************************************************************************************************************/
-int32_t R_OS_GetVersion(st_os_abstraction_info_t* p_info);
+int32_t R_OS_GetVersion (st_os_abstraction_info_t * p_info);
 
 #endif /* SRC_RENESAS_APPLICATION_INC_R_OS_ABSTRACTION_API_H_ */
 

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<refinfo>
+
+    <!-- multiple versions permitted -->
+    <toolchain>
+      <brand>GNU</brand>
+      <product>GNUARM</product>
+      <version>6.03.01</version>
+    </toolchain>
+
+    <!-- only one target entry allowed; multiple sub tags permitted -->
+    <target>
+      <family>RZ</family>
+      <series>RZA</series>
+      <group>RZA2M</group>
+    </target>
+
+    <!-- only one package entry allowed -->
+    <!-- multiple dependencies, applications, functions, and incdirs permitted -->
+    <package>
+      <type>RSCD</type>
+      <name>r_riic</name>
+      <version>1.07</version>
+      <zipsource>r_riic_ebk_rza2_v1.07.zip</zipsource>
+      <dependency>
+        <module>r_cpg</module>
+        <version>1.05</version>
+      </dependency>
+      <details>RIIC Driver</details>
+      <function>drivers.communications</function>
+      <incdir>inc</incdir>
+    </package>
+
+</refinfo>

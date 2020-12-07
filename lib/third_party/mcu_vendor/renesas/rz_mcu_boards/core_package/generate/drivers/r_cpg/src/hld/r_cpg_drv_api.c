@@ -1,59 +1,55 @@
-/*******************************************************************************
+/**********************************************************************************************************************
  * DISCLAIMER
- * This software is supplied by Renesas Electronics Corporation and is only
- * intended for use with Renesas products. No other uses are authorized. This
- * software is owned by Renesas Electronics Corporation and is protected under
- * all applicable laws, including copyright laws.
+ * This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No
+ * other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
+ * applicable laws, including copyright laws.
  * THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
- * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT
- * LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
- * AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED.
- * TO THE MAXIMUM EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS
- * ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES SHALL BE LIABLE
- * FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR
- * ANY REASON RELATED TO THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE
- * BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * Renesas reserves the right, without notice, to make changes to this software
- * and to discontinue the availability of this software. By using this software,
- * you agree to the additional terms and conditions found by accessing the
+ * THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM
+ * EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES
+ * SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO
+ * THIS SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+ * Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of
+ * this software. By using this software, you agree to the additional terms and conditions found by accessing the
  * following link:
  * http://www.renesas.com/disclaimer
- * Copyright (C) 2012 - 2014 Renesas Electronics Corporation. All rights reserved.
- *******************************************************************************/
-/*******************************************************************************
+ *
+ * Copyright (C) 2020 Renesas Electronics Corporation. All rights reserved.
+ *********************************************************************************************************************/
+/**********************************************************************************************************************
  * File Name   : r_cpg_drv_api.c
  * Description : Clock Pulse Generator high layer driver
- *******************************************************************************/
+ *********************************************************************************************************************/
 
-/******************************************************************************
+/**********************************************************************************************************************
  Includes   <System Includes> , "Project Includes"
- ******************************************************************************/
+ *********************************************************************************************************************/
 #include <string.h>
 #include "r_cpg_drv_link.h"
 #include "r_cpg_hld_api.h"
 #include "r_cpg_drv_api.h"
 #include "r_cpg_drv_sc_cfg.h"
 
-/******************************************************************************
+/**********************************************************************************************************************
  Typedef definitions
- ******************************************************************************/
+ *********************************************************************************************************************/
 
-/******************************************************************************
+/**********************************************************************************************************************
  Macro definitions
- ******************************************************************************/
+ *********************************************************************************************************************/
 /* List channels supported */
 #define R_CFG_CPG_CHANNELS_SUPPORTED         (0)
 
 /* Maximum number of modules that can be granted simultaneous write access to this driver  */
 #define  R_CFG_CPG_DRV_MAXIMUM_WRITE_ACCESS_PRV    (1)
 
-/******************************************************************************
+/**********************************************************************************************************************
  Enumerated Types
- ******************************************************************************/
+ *********************************************************************************************************************/
 
-/******************************************************************************
+/**********************************************************************************************************************
  Typedefs
- ******************************************************************************/
+ *********************************************************************************************************************/
 typedef struct r_drvcpg
 {
     uint32_t access_handles_available;
@@ -65,21 +61,21 @@ typedef struct
     uint16_t gs_channel_open;
 } st_internal_configuration_t;
 
-/*****************************************************************************
+/**********************************************************************************************************************
  Function Prototypes
- ******************************************************************************/
+ *********************************************************************************************************************/
 static int_t cpg_open (st_stream_ptr_t stream_ptr);
 static void cpg_close (st_stream_ptr_t stream_ptr);
 static int_t cpg_control (st_stream_ptr_t stream_ptr, uint32_t ctrl_code, void *ctrl_ptr);
 static int_t cpg_get_version (st_stream_ptr_t stream_ptr, st_ver_info_t *pVerInfo);
 
-/*****************************************************************************
+/**********************************************************************************************************************
  Constant Data
- ******************************************************************************/
+ *********************************************************************************************************************/
 
-/******************************************************************************
+/**********************************************************************************************************************
  Private global variables and functions
- ******************************************************************************/
+ *********************************************************************************************************************/
 /*! Version Information */
 static const st_drv_info_t gs_hld_info =
 {
@@ -137,11 +133,6 @@ static int_t cpg_open (st_stream_ptr_t stream_ptr)
             ret = DRV_ERROR;
         }
     }
-    else
-    {
-        /* driver already opened, just store the reference count */
-        s_drv_config.gs_channel_open++;
-    }
 
     return (ret);
 }
@@ -158,10 +149,8 @@ static int_t cpg_open (st_stream_ptr_t stream_ptr)
  ******************************************************************************/
 static void cpg_close (st_stream_ptr_t stream_ptr)
 {
-    /* unused argument, kept to maintain defined API */
-    (void) stream_ptr;
-
-    if (0 != s_drv_config.gs_channel_open)
+    if ( (0 != s_drv_config.gs_channel_open)
+      && ( (stream_ptr->file_mode & __SWR) > 0 ) )
     {
         s_drv_config.gs_channel_open--;
     }
@@ -180,15 +169,7 @@ static void cpg_close (st_stream_ptr_t stream_ptr)
  ******************************************************************************/
 static int_t cpg_control (st_stream_ptr_t stream_ptr, uint32_t ctrl_code, void *ctrl_ptr)
 {
-    /* unused argument, kept to maintain defined API */
-    (void) stream_ptr;
     int_t retval = DRV_ERROR;
-
-    /* fail if the channel is not open */
-    if (0 == s_drv_config.gs_channel_open)
-    {
-        return (DRV_ERROR);
-    }
 
     /* fail if the ctrl_ptr parameter is NULL */
     if (NULL == ctrl_ptr)
@@ -201,6 +182,15 @@ static int_t cpg_control (st_stream_ptr_t stream_ptr, uint32_t ctrl_code, void *
     {
         /* no write access - fail as handle trying to call a write function */
         if (CTL_CPG_GET_CLK != ctrl_code)
+        {
+            return (DRV_ERROR);
+        }
+    }
+    else
+    {
+        /* This is a writeable stream */
+        /* fail if the channel is not open */
+        if (0 == s_drv_config.gs_channel_open)
         {
             return (DRV_ERROR);
         }
@@ -251,9 +241,20 @@ static int_t cpg_control (st_stream_ptr_t stream_ptr, uint32_t ctrl_code, void *
 
         case CTL_CPG_GET_CLK:
         {
-            st_r_drv_cpg_get_clk_t *cpg_get_clock_t = (st_r_drv_cpg_get_clk_t *) ctrl_ptr;
+            st_r_drv_cpg_get_clk_t * p_cpg_get_clock_t = (st_r_drv_cpg_get_clk_t *) ctrl_ptr;
 
-            retval = R_CPG_GetClock(cpg_get_clock_t->freq_src, &cpg_get_clock_t->clk_frequency_khz);
+            retval = R_CPG_GetClock(p_cpg_get_clock_t->freq_src, &p_cpg_get_clock_t->clk_frequency_khz);
+            break;
+        }
+
+        case CTL_CPG_SET_SUB_CLK_MULTI:
+        {
+            /* get array of settings and length integer */
+            st_r_drv_cpg_set_sub_multi_t * p_sub_set_multi = (st_r_drv_cpg_set_sub_multi_t *) ctrl_ptr;
+
+            /* set sub clocks */
+            retval = R_CPG_SetSubClockDividers(p_sub_set_multi->p_sub_clk_settings,
+                    p_sub_set_multi->number_of_settings);
             break;
         }
 

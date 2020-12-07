@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+/***********************************************************************************************************************
+  Purpose: Module Description File (MDF) Example (Schema Version 2.1)
+           This is a description of a sample module configuration file
+***********************************************************************************************************************/
+-->
+<module xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="2.1" xs:noNamespaceSchemaLocation="schema_mdf_2.10.xsd">
+    <fileVersion>1.00</fileVersion>
+    <formatVersion>2.12</formatVersion>
+
+    <resourceInfo>
+      <peripheral name="OSTM">
+        <channel number="OSTM0"/>
+        <channel number="OSTM1"/>
+        <channel number="OSTM2"/>
+      </peripheral>
+    </resourceInfo>
+    <configuration>
+      <property id="OSTM_MODE" display="Mode" default="OSTM_MODE_INTERVAL" type="combobox">
+        <option id="OSTM_MODE.OSTM_MODE_INTERVAL" display="Interval" value="OSTM_MODE_INTERVAL"/>
+        <option id="OSTM_MODE.OSTM_MODE_FREERUN" display="Free run" value="OSTM_MODE_FREERUN"/>
+        <description>Timer mode setting
+OSTM_MODE_INTERVAL = Interval
+OSTM_MODE_FREERUN = Free run</description>
+      </property>
+      <property id="OSTM_COUNTER_FORMAT" display="Counter format" default="OSTM_TIME_MS" type="combobox">
+        <option id="OSTM_COUNTER_FORMAT.OSTM_TIME_MS" display="ms" value="OSTM_TIME_MS"/>
+        <option id="OSTM_COUNTER_FORMAT.OSTM_TIME_COUNT" display="count" value="OSTM_TIME_COUNT"/>
+        <description>Timer counter format setting
+OSTM_TIME_MS = ms
+OSTM_TIME_COUNT = count</description>
+      </property>
+      <property id="OSTM_TIME" display="Counter value" default="500" type="textbox">
+        <constraint display="Value must be >= 1. Input value of Timer Counter = count  must be in the range 0 ~ 4294967295" actionOnFail="error">if ("${OSTM_COUNTER_FORMAT}" === "OSTM_TIME_COUNT") { ("${OSTM_TIME}" &gt;= 0) &amp;&amp; ("${OSTM_TIME}" &lt;= 4294967295)} else { "${OSTM_TIME}" &gt;= 1; }</constraint>
+        <description>Timer value setting
+If counter format is count, input value must be in the range 0 ~ 4294967295.
+If counter format is ms(msec) and mode is free_run, input value must be in the range 1 ~ Math.floor(4294967295000/P1CLK[Hz]).
+If counter format is ms(msec) and mode is interval, input value must be in the range 1 ~ Math.floor(4294967296000/P1CLK[Hz]).
+* P1CLK is refer to CPG (Clocks tab) configured frequency.</description>
+      </property>
+      <property id="OSTM_START_GENERATE_INTERRUPT" display="Start interrupt" default="OSTM_START_INTERRUPT_OFF" type="checkbox">
+        <option id="OSTM_START_GENERATE_INTERRUPT.OSTM_START_INTERRUPT_OFF" display="Unused" value="OSTM_START_INTERRUPT_OFF"/>
+        <option id="OSTM_START_GENERATE_INTERRUPT.OSTM_START_INTERRUPT_ON" display="Used" value="OSTM_START_INTERRUPT_ON"/>
+        <description>Timer start to generate interrupt setting
+OSTM_START_INTERRUPT_OFF = Start Interrupt OFF
+OSTM_START_INTERRUPT_ON = Start Interrupt ON</description>
+      </property>
+      <property id="OSTM_INTC_SETTING" display="Interrupt Setting" default="INTC_DISABLE" type="checkbox">
+        <option id="OSTM_INTC_SETTING.INTC_DISABLE" display="Unused" value="INTC_DISABLE"/>
+        <option id="OSTM_INTC_SETTING.INTC_ENABLE" display="Used" value="INTC_ENABLE"/>
+        <description>Interrupt setting
+INTC_ENABLE = Interrupt enable
+INTC_DISABLE = Interrupt disable</description>
+      </property>
+      <property id="OSTM_INTC_PRIORITY" display="Interrupt priority level(0 ~ 31)" default="3" type="textbox">
+        <constraint display="Value must be an integer" actionOnFail="error">testInteger("${OSTM_INTC_PRIORITY}")</constraint>
+        <constraint display="Value must be in the range 0 ~ 31" actionOnFail="error">("${OSTM_INTC_PRIORITY}" &gt;= 0) &amp;&amp; ("${OSTM_INTC_PRIORITY}" &lt;= 31)</constraint>
+        <description>Interrupt priority level(0 ~ 31) </description>
+      </property>
+      <property id="OSTM_INTC_FUNCTION" display="Interrupt function" default="NULL" type="textbox" keyword="extern void ${OSTM_INTC_FUNCTION}(void);">
+        <constraint display="Interrupt function is not allowed to be NULL or empty, it must be a valid function name." actionOnFail="error">(/^[a-zA-Z_]\w*$/.test("${OSTM_INTC_FUNCTION}") &amp;&amp; ("${OSTM_INTC_FUNCTION}" != "NULL"))</constraint>
+        <constraint display="The Interrupt Function cannot be editable when the Interrupt Setting is unused" actionOnFail="disable">("${OSTM_INTC_SETTING}" == "INTC_ENABLE")</constraint>
+        <description>Interrupt Function
+Please input the Interrupt function name.
+If Interrupt Setting is used, the Interrupt Function is not allowed to be NULL or empty.</description>
+      </property>
+    </configuration>
+</module>

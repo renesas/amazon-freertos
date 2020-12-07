@@ -158,7 +158,7 @@ static int_t get_p1clk(float64_t *p1clk)
     st_r_drv_cpg_get_clk_t cpg_get_clock_t;
 
     /* open the CPG driver */
-    cpg_handle = direct_open("cpg", O_RDWR);
+    cpg_handle = open(DEVICE_INDENTIFIER"cpg", O_RDWR);
     if (cpg_handle < 0)
     {
         return (DRV_ERROR);

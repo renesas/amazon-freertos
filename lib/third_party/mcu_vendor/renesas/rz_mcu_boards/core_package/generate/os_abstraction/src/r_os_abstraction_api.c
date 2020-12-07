@@ -1922,7 +1922,7 @@ int32_t R_OS_GetVersion (st_os_abstraction_info_t *p_info)
  *                pcTaskName - Name of the task in ASCII
  * Return Value : none
  *********************************************************************************************************************/
-void vApplicationStackOverflowHook (xTaskHandle xTask, char *pcTaskName)
+R_COMPILER_WEAK void vApplicationStackOverflowHook (xTaskHandle xTask, char *pcTaskName)
 {
 	UNUSED_PARAM(xTask);
 

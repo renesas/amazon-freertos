@@ -43,6 +43,7 @@ typedef enum
     CTL_CPG_SET_CLK_SRC,       /*!< Configure sub clock input source */
     CTL_CPG_SET_EXT_CLK,       /*!< Configure external clock pin characteristics */
     CTL_CPG_GET_CLK,           /*!< Get clock function */
+    CTL_CPG_SET_SUB_CLK_MULTI, /*!< Configure multiple sub clocks simultaneously */
 } e_ctrl_code_cpg_t;
 
 
@@ -58,7 +59,7 @@ typedef enum
 
 /** Minor Version Number of API.
  * Updated by developer */
-#define STDIO_CPG_RZ_HLD_VERSION_MINOR   (3)
+#define STDIO_CPG_RZ_HLD_VERSION_MINOR   (5)
 
 /** Build Number of API.
  * Generated during customer release */

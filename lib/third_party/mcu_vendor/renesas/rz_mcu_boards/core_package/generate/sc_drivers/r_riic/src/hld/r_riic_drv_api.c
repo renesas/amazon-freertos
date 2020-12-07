@@ -91,7 +91,7 @@ static volatile int_t gs_channel_count[RIIC_CFG_LLD_NUM_CHANNELS];
 
 /* Define the driver function table for this implementation */
 const st_r_driver_t g_riic_driver =
-{ "I2C Device Driver", riic_hld_open, riic_hld_close, no_dev_io, no_dev_write, riic_hld_control, riic_hld_get_version };
+{ "I2C Device Driver", riic_hld_open, riic_hld_close, no_dev_read, no_dev_write, riic_hld_control, riic_hld_get_version };
 
 /******************************************************************************
  Private global variables
