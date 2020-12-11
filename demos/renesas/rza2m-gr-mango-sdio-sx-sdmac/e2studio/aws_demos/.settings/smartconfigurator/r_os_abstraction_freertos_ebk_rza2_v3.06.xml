@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<refinfo>
+
+    <!-- multiple versions permitted -->
+    <toolchain>
+      <brand>GNU</brand>
+      <product>GNUARM</product>
+      <version>6.03.01</version>
+    </toolchain>
+
+    <!-- only one target entry allowed; multiple sub tags permitted -->
+    <target>
+      <family>RZ</family>
+      <series>RZA</series>
+      <group>RZA2M</group>
+    </target>
+
+    <!-- only one package entry allowed -->
+    <!-- multiple dependencies, applications, functions, and incdirs permitted -->
+    <package>
+      <type maxconfig="1">RSCD</type>
+      <name>r_os_abstraction_freertos</name>
+      <group>os_abstraction</group>
+      <version>3.06</version>
+      <zipsource>r_os_abstraction_freertos_ebk_rza2_v3.06.zip</zipsource>
+      <dependency>
+        <module>r_ostm</module>
+        <version>1.07</version>
+      </dependency>
+      <application>Common</application>
+      <details>os abstraction layer for FreeRTOS
+IMPORTANT - If you are updating from a version earlier than 3.04, you need to change the project. See below for details.
+    RZ/A2M Group RZ/A2M Software Package Quick Start Guide(R01QS0027)</details>
+      <function>interface.os</function>
+      <extractdir>generate/os_abstraction</extractdir>
+      <incdir>inc</incdir>
+      <asmincdir>inc</asmincdir>
+    </package>
+
+</refinfo>

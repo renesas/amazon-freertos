@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+/***********************************************************************************************************************
+  Purpose: Module Description File (MDF) Example (Schema Version 2.1)
+           This is a description of a sample module configuration file
+***********************************************************************************************************************/
+-->
+<module xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="2.1" xs:noNamespaceSchemaLocation="schema_mdf_2.10.xsd">
+    <fileVersion>1.00</fileVersion>
+    <formatVersion>2.12</formatVersion>
+
+    <resourceInfo>
+      <peripheral name="SCIFA">
+        <channel number="SCIFA0">
+          <pin name="TxD0"/>
+          <pin name="RxD0"/>
+          <pin name="SCK0"/>
+          <pin name="CTS0#"/>
+          <pin name="RTS0#"/>
+        </channel>
+        <channel number="SCIFA1">
+          <pin name="TxD1"/>
+          <pin name="RxD1"/>
+          <pin name="SCK1"/>
+          <pin name="CTS1#"/>
+          <pin name="RTS1#"/>
+        </channel>
+        <channel number="SCIFA2">
+          <pin name="TxD2"/>
+          <pin name="RxD2"/>
+          <pin name="SCK2"/>
+          <pin name="CTS2#"/>
+          <pin name="RTS2#"/>
+        </channel>
+        <channel number="SCIFA3">
+          <pin name="TxD3"/>
+          <pin name="RxD3"/>
+          <pin name="SCK3"/>
+        </channel>
+        <channel number="SCIFA4">
+          <pin name="TxD4"/>
+          <pin name="RxD4"/>
+          <pin name="SCK4"/>
+        </channel>
+      </peripheral>
+    </resourceInfo>
+    <configuration>
+      <property id="SCIFA_OPERATION_MODE" display="SCIFA communication modes" default="SCIFA_MODE_ASYNC" type="combobox">
+        <option id="SCIFA_OPERATION_MODE.SCIFA_MODE_ASYNC" display="Asynchronous mode" value="SCIFA_MODE_ASYNC"/>
+        <option id="SCIFA_OPERATION_MODE.SCIFA_MODE_SYNC" display="Synchronous mode" value="SCIFA_MODE_SYNC"/>
+        <description>SCIFA communication modes
+SCIFA_MODE_ASYNC = Asynchronous mode
+SCIFA_MODE_SYNC = Synchronous mode</description>
+      </property>
+      <property id="SCIFA_CFG_BITRATE_BPS" display="SCIFA Bit Rate (bps)" default="115200" type="textbox">
+        <constraint display="Value must be an integer" actionOnFail="error">testInteger("${SCIFA_CFG_BITRATE_BPS}")</constraint>
+        <constraint display="Value must be from 1" actionOnFail="error">("${SCIFA_CFG_BITRATE_BPS}" &gt;= 1)</constraint>
+        <description>Specifies the bit rate. Specifies a value greater than or equal 1.
+The bit rate setting should be based on this definition value and the clock setting definition value Depending on the target device to be used and clock setting, the actual bit rate may differ from the expected bit rate.</description>
+      </property>
+      <property id="SCIFA_TRANSFER_CLOCK" display="Clock select" default="SCIFA_CLK_SRC_INT_SCK_IN" type="combobox">
+        <option id="SCIFA_TRANSFER_CLOCK.SCIFA_CLK_SRC_INT_SCK_IN" display="Internal clock input" value="SCIFA_CLK_SRC_INT_SCK_IN"/>
+        <option id="SCIFA_TRANSFER_CLOCK.SCIFA_CLK_SRC_INT_SCK_OUT" display="Internal clock output" value="SCIFA_CLK_SRC_INT_SCK_OUT"/>
+        <option id="SCIFA_TRANSFER_CLOCK.SCIFA_CLK_SRC_EXT_SCK_IN" display="External clock input" value="SCIFA_CLK_SRC_EXT_SCK_IN"/>
+        <description>Clock select. Selectable from internal or external clock.
+SCIFA_CLK_SRC_INT_SCK_IN = Use internal clock and set SCK port as input
+SCIFA_CLK_SRC_INT_SCK_OUT = Use internal clock and set SCK port as output
+SCIFA_CLK_SRC_EXT_SCK_IN = Use external clock and set SCK port as input</description>
+      </property>
+      <property id="SCIFA_BASE_CLOCK_SELECT" display="Asynchronous Base Clock Select" default="SCIFA_CLK_16X" type="combobox">
+        <option id="SCIFA_BASE_CLOCK_SELECT.SCIFA_CLK_16X" display="Use clock as 16x mode" value="SCIFA_CLK_16X"/>
+        <option id="SCIFA_BASE_CLOCK_SELECT.SCIFA_CLK_8X" display="Use clock as 8x mode" value="SCIFA_CLK_8X"/>
+        <description>Asynchronous Base Clock Select
+SCIFA_CLK_16X = Use clock as 16x mode (asynchronous mode only)
+SCIFA_CLK_8X = Use clock as 8x mode (asynchronous mode only)</description>
+      </property>
+      <property id="SCIFA_DATA_BIT_LENGTH" display="Data Bit Length" default="SCIFA_DATA_8BIT" type="combobox">
+        <option id="SCIFA_DATA_BIT_LENGTH.SCIFA_DATA_7BIT" display="7 Bits" value="SCIFA_DATA_7BIT"/>
+        <option id="SCIFA_DATA_BIT_LENGTH.SCIFA_DATA_8BIT" display="8 Bits" value="SCIFA_DATA_8BIT"/>
+        <description>Data Bit Length
+SCIFA_DATA_7BIT = 7 bits
+SCIFA_DATA_8BIT = 8 bits</description>
+      </property>
+      <property id="SCIFA_PARITY_ENABLE" display="Parity Enable" default="SCIFA_PARITY_OFF" type="checkbox">
+        <option id="SCIFA_PARITY_ENABLE.SCIFA_PARITY_OFF" display="Unused" value="SCIFA_PARITY_OFF"/>
+        <option id="SCIFA_PARITY_ENABLE.SCIFA_PARITY_ON" display="Used" value="SCIFA_PARITY_ON"/>
+        <description>Parity Enable
+SCIFA_PARITY_OFF = Disabled
+SCIFA_PARITY_ON = Enabled</description>
+      </property>
+      <property id="SCIFA_PARITY_TYPE" display="Parity Mode" default="SCIFA_EVEN_PARITY" type="combobox">
+        <option id="SCIFA_PARITY_TYPE.SCIFA_EVEN_PARITY" display="Even Parity" value="SCIFA_EVEN_PARITY"/>
+        <option id="SCIFA_PARITY_TYPE.SCIFA_ODD_PARITY" display="Odd Parity" value="SCIFA_ODD_PARITY"/>
+        <description>Parity Mode
+SCIFA_EVEN_PARITY = Even
+SCIFA_ODD_PARITY = Odd</description>
+      </property>
+      <property id="SCIFA_STOP" display="Stop Bit Lenght(s)" default="SCIFA_STOPBITS_1" type="combobox">
+        <option id="SCIFA_STOP.SCIFA_STOPBITS_1" display="1 bit" value="SCIFA_STOPBITS_1"/>
+        <option id="SCIFA_STOP.SCIFA_STOPBITS_2" display="2 bits" value="SCIFA_STOPBITS_2"/>
+        <description>Stop Bit Lenght(s)
+SCIFA_STOPBITS_1 = 1 bit
+SCIFA_STOPBITS_2 = 2 bits</description>
+      </property>
+      <property id="SCIFA_NOISE_FILTER" display="Noise Cancellation" default="SCIFA_NOISE_CANCEL_DISABLE" type="checkbox">
+        <option id="SCIFA_NOISE_FILTER.SCIFA_NOISE_CANCEL_DISABLE" display="Unused" value="SCIFA_NOISE_CANCEL_DISABLE"/>
+        <option id="SCIFA_NOISE_FILTER.SCIFA_NOISE_CANCEL_ENABLE" display="Used" value="SCIFA_NOISE_CANCEL_ENABLE"/>
+        <description>Noise Cancellation. Incorporates a digital noise filter in the RXD pin input path.
+SCIFA_NOISE_CANCEL_DISABLE = Noise cancellation disabled
+SCIFA_NOISE_CANCEL_ENABLE = Noise cancellation enabled</description>
+      </property>
+      <property id="SCIFA_TRANSFER_DIRECTION" display="Data Transfer Direction Select" default="SCIFA_LSB_FIRST" type="combobox">
+        <option id="SCIFA_TRANSFER_DIRECTION.SCIFA_LSB_FIRST" display="LSB-first" value="SCIFA_LSB_FIRST"/>
+        <option id="SCIFA_TRANSFER_DIRECTION.SCIFA_MSB_FIRST" display="MSB-first" value="SCIFA_MSB_FIRST"/>
+        <description>Data Transfer Direction Select
+SCIFA_LSB_FIRST = LSB-first
+SCIFA_MSB_FIRST = MSB-first</description>
+      </property>
+      <property id="SCIFA_FIFO_DATA_SETTING" display="Loop back test" default="SCIFA_LOOPBACK_DISABLE" type="checkbox">
+        <option id="SCIFA_FIFO_DATA_SETTING.SCIFA_LOOPBACK_DISABLE" display="Unused" value="SCIFA_LOOPBACK_DISABLE"/>
+        <option id="SCIFA_FIFO_DATA_SETTING.SCIFA_LOOPBACK_ENABLE" display="Used" value="SCIFA_LOOPBACK_ENABLE"/>
+        <description>Loop back test
+SCIFA_LOOPBACK_DISABLE = Loop-back disabled
+SCIFA_LOOPBACK_ENABLE = Loop-back enabled</description>
+      </property>
+      <property id="SCIFA_MODULATION_DUTY_CORRECTON" display="Modem Control Enable" default="SCIFA_MODEM_CONTROL_DISABLE" type="checkbox">
+        <option id="SCIFA_MODULATION_DUTY_CORRECTON.SCIFA_MODEM_CONTROL_DISABLE" display="Unused" value="SCIFA_MODEM_CONTROL_DISABLE"/>
+        <option id="SCIFA_MODULATION_DUTY_CORRECTON.SCIFA_MODEM_CONTROL_ENABLE" display="Used" value="SCIFA_MODEM_CONTROL_ENABLE"/>
+        <description>Enable modulation duty correction. Enables errors to be decreased by correcting the output of the on-chip baud rate generator.
+SCIFA_MODEM_CONTROL_DISABLE = Modulation duty correction disabled
+SCIFA_MODEM_CONTROL_ENABLE = Modulation duty correction enabled</description>
+      </property>
+      <property id="SCIFA_RTS_TRIGGER_NUMBER" display="RTS# output active trigger number" default="SCIFA_RTS_ACTIVE_TRIGGER_15" type="combobox">
+        <option id="SCIFA_RTS_TRIGGER_NUMBER.SCIFA_RTS_ACTIVE_TRIGGER_15" display="15" value="SCIFA_RTS_ACTIVE_TRIGGER_15"/>
+        <option id="SCIFA_RTS_TRIGGER_NUMBER.SCIFA_RTS_ACTIVE_TRIGGER_1" display="1" value="SCIFA_RTS_ACTIVE_TRIGGER_1"/>
+        <option id="SCIFA_RTS_TRIGGER_NUMBER.SCIFA_RTS_ACTIVE_TRIGGER_4" display="4" value="SCIFA_RTS_ACTIVE_TRIGGER_4"/>
+        <option id="SCIFA_RTS_TRIGGER_NUMBER.SCIFA_RTS_ACTIVE_TRIGGER_6" display="6" value="SCIFA_RTS_ACTIVE_TRIGGER_6"/>
+        <option id="SCIFA_RTS_TRIGGER_NUMBER.SCIFA_RTS_ACTIVE_TRIGGER_8" display="8" value="SCIFA_RTS_ACTIVE_TRIGGER_8"/>
+        <option id="SCIFA_RTS_TRIGGER_NUMBER.SCIFA_RTS_ACTIVE_TRIGGER_10" display="10" value="SCIFA_RTS_ACTIVE_TRIGGER_10"/>
+        <option id="SCIFA_RTS_TRIGGER_NUMBER.SCIFA_RTS_ACTIVE_TRIGGER_12" display="12" value="SCIFA_RTS_ACTIVE_TRIGGER_12"/>
+        <option id="SCIFA_RTS_TRIGGER_NUMBER.SCIFA_RTS_ACTIVE_TRIGGER_14" display="14" value="SCIFA_RTS_ACTIVE_TRIGGER_14"/>
+        <description>RTS# output active trigger number
+SCIFA_RTS_ACTIVE_TRIGGER_15 = RTS output active trigger number 15
+SCIFA_RTS_ACTIVE_TRIGGER_1 = RTS output active trigger number 1
+SCIFA_RTS_ACTIVE_TRIGGER_4 = RTS output active trigger number 4
+SCIFA_RTS_ACTIVE_TRIGGER_6 = RTS output active trigger number 6
+SCIFA_RTS_ACTIVE_TRIGGER_8 = RTS output active trigger number 8
+SCIFA_RTS_ACTIVE_TRIGGER_10 = RTS output active trigger number 10
+SCIFA_RTS_ACTIVE_TRIGGER_12 = RTS output active trigger number 12
+SCIFA_RTS_ACTIVE_TRIGGER_14 = RTS output active trigger number 14</description>
+      </property>
+      <property id="SCIFA_TX_FIFO_DATA_TRIGGER" display="Transmit FIFO Data Trigger Number Select (0~15)" default="1" type="textbox">
+        <constraint display="Value must be an integer" actionOnFail="error">testInteger("${SCIFA_TX_FIFO_DATA_TRIGGER}")</constraint>
+        <constraint display="Value must be in the range 0 ~ 15" actionOnFail="error">("${SCIFA_TX_FIFO_DATA_TRIGGER}" &gt;= 0) &amp;&amp; ("${SCIFA_TX_FIFO_DATA_TRIGGER}" &lt;= 15)</constraint>
+        <description>Transmit FIFO Data Trigger Number Select</description>
+      </property>
+      <property id="SCIFA_RX_FIFO_DATA_TRIGGER" display="Receive FIFO Data Trigger Number Select (1~16)" default="1" type="textbox">
+        <constraint display="Value must be an integer" actionOnFail="error">testInteger("${SCIFA_RX_FIFO_DATA_TRIGGER}")</constraint>
+        <constraint display="Value must be in the range 1 ~ 16" actionOnFail="error">("${SCIFA_RX_FIFO_DATA_TRIGGER}" &gt;= 1) &amp;&amp; ("${SCIFA_RX_FIFO_DATA_TRIGGER}" &lt;= 16)</constraint>
+        <description>Receive FIFO Data Trigger Number Select </description>
+      </property>
+      <property id="SCIFA_SERIAL_PORT_BREAK_DATA" display="TXD Port Data Select" default="SCIFA_SPTR_INIT_HIGH" type="combobox">
+        <option id="SCIFA_SERIAL_PORT_BREAK_DATA.SCIFA_SPTR_INIT_LOW" display="Low output" value="SCIFA_SPTR_INIT_LOW"/>
+        <option id="SCIFA_SERIAL_PORT_BREAK_DATA.SCIFA_SPTR_INIT_HIGH" display="High output" value="SCIFA_SPTR_INIT_HIGH"/>
+        <description>TXD Port Data Select
+SCIFA_SPTR_INIT_LOW = Serial port break init low
+SCIFA_SPTR_INIT_HIGH = Serial port break init high</description>
+      </property>
+      <property id="SCIFA_SCK_PORT_DATA_SELECT" display="SCK Port Data Select" default="SCIFA_SPTR_INIT_HIGH" type="combobox">
+        <option id="SCIFA_SCK_PORT_DATA_SELECT.SCIFA_SPTR_INIT_LOW" display="Low output" value="SCIFA_SPTR_INIT_LOW"/>
+        <option id="SCIFA_SCK_PORT_DATA_SELECT.SCIFA_SPTR_INIT_HIGH" display="High output" value="SCIFA_SPTR_INIT_HIGH"/>
+        <description>SCK Port Data Select
+SCIFA_SPTR_INIT_LOW = Low output
+SCIFA_SPTR_INIT_HIGH = High output</description>
+      </property>
+      <property id="SCIFA_CTS_PORT_DATA_SELECT" display="CTS# Port Data Select" default="SCIFA_SPTR_INIT_HIGH" type="combobox">
+        <option id="SCIFA_CTS_PORT_DATA_SELECT.SCIFA_SPTR_INIT_LOW" display="Low output" value="SCIFA_SPTR_INIT_LOW"/>
+        <option id="SCIFA_CTS_PORT_DATA_SELECT.SCIFA_SPTR_INIT_HIGH" display="High output" value="SCIFA_SPTR_INIT_HIGH"/>
+        <description>CTS# Port Data Select
+SCIFA_SPTR_INIT_LOW = Low output
+SCIFA_SPTR_INIT_HIGH = High output</description>
+      </property>
+      <property id="SCIFA_RTS_PORT_DATA_SELECT" display="RTS# Port Data Select" default="SCIFA_SPTR_INIT_HIGH" type="combobox">
+        <option id="SCIFA_RTS_PORT_DATA_SELECT.SCIFA_SPTR_INIT_LOW" display="Low output" value="SCIFA_SPTR_INIT_LOW"/>
+        <option id="SCIFA_RTS_PORT_DATA_SELECT.SCIFA_SPTR_INIT_HIGH" display="High output" value="SCIFA_SPTR_INIT_HIGH"/>
+        <description>RTS# Port Data Select
+SCIFA_SPTR_INIT_LOW = Low output
+SCIFA_SPTR_INIT_HIGH = High output</description>
+      </property>
+      <property id="SCIFA_TX_DATA_MODE" display="Data transfer method at transmit" default="SCIFA_TX_INTERRUPT_MODE" type="combobox">
+        <option id="SCIFA_TX_DATA_MODE.SCIFA_TX_MODE_OFF" display="Not Transmit Mode" value="SCIFA_TX_MODE_OFF"/>
+        <option id="SCIFA_TX_DATA_MODE.SCIFA_TX_POLLING_MODE" display="Polling Mode" value="SCIFA_TX_POLLING_MODE"/>
+        <option id="SCIFA_TX_DATA_MODE.SCIFA_TX_INTERRUPT_MODE" display="Interrupt Mode" value="SCIFA_TX_INTERRUPT_MODE"/>
+        <option id="SCIFA_TX_DATA_MODE.SCIFA_TX_DMA_MODE" display="DMA Transfer Mode" value="SCIFA_TX_DMA_MODE"/>
+        <description>Data transfer method at transmit
+SCIFA_TX_MODE_OFF = Not in use
+SCIFA_TX_POLLING_MODE =  Polling mode
+SCIFA_TX_INTERRUPT_MODE = Interrupt mode
+SCIFA_TX_DMA_MODE = DMA mode
+IMPORTANT
+Setting DMA Transfer Mode will require adding DMA component (version 2.0 or later) to your project before attempting to build your application. 
+</description>
+      </property>
+      <property id="SCIFA_RX_DATA_MODE" display="Data transfer method at receive" default="SCIFA_RX_INTERRUPT_MODE" type="combobox">
+        <option id="SCIFA_RX_DATA_MODE.SCIFA_RX_MODE_OFF" display="Not Receive Mode" value="SCIFA_RX_MODE_OFF"/>
+        <option id="SCIFA_RX_DATA_MODE.SCIFA_RX_POLLING_MODE" display="Polling Mode" value="SCIFA_RX_POLLING_MODE"/>
+        <option id="SCIFA_RX_DATA_MODE.SCIFA_RX_INTERRUPT_MODE" display="Interrupt Mode" value="SCIFA_RX_INTERRUPT_MODE"/>
+        <option id="SCIFA_RX_DATA_MODE.SCIFA_RX_DMA_MODE" display="DMA Transfer Mode" value="SCIFA_RX_DMA_MODE"/>
+        <description>Data transfer method at receive
+SCIFA_RX_MODE_OFF = Not in use
+SCIFA_RX_POLLING_MODE = Polling mode
+SCIFA_RX_INTERRUPT_MODE = Interrupt mode
+SCIFA_RX_DMA_MODE = DMA mode
+IMPORTANT
+Setting DMA Transfer Mode will require adding DMA component (version 2.0 or later) to your project before attempting to build your application.</description>
+      </property>
+      <property id="SCIFA_ERI_BRI_INTERRUPT_PRORITY" display="ERI/BRI Interrupt priority level(0 ~ 31)" default="9" type="textbox">
+        <constraint display="Value must be an integer" actionOnFail="error">testInteger("${SCIFA_ERI_BRI_INTERRUPT_PRORITY}")</constraint>
+        <constraint display="Value must be in the range 0 ~ 31" actionOnFail="error">("${SCIFA_ERI_BRI_INTERRUPT_PRORITY}" &gt;= 0) &amp;&amp; ("${SCIFA_ERI_BRI_INTERRUPT_PRORITY}" &lt;= 31)</constraint>
+        <description>ERI/BRI Interrupt priority level(0 ~ 31) </description>
+      </property>
+      <property id="SCIFA_RX_INTERRUPT_PRORITY" display="RXI Interrupt priority level(0 ~ 31)" default="10" type="textbox">
+        <constraint display="Value must be an integer" actionOnFail="error">testInteger("${SCIFA_RX_INTERRUPT_PRORITY}")</constraint>
+        <constraint display="Value must be in the range 0 ~ 31" actionOnFail="error">("${SCIFA_RX_INTERRUPT_PRORITY}" &gt;= 0) &amp;&amp; ("${SCIFA_RX_INTERRUPT_PRORITY}" &lt;= 31)</constraint>
+        <description>RXI Interrupt priority level(0 ~ 31) </description>
+      </property>
+      <property id="SCIFA_TXI_INTERRUPT_PRORITY" display="TXI Interrupt priority level(0 ~ 31)" default="10" type="textbox">
+        <constraint display="Value must be an integer" actionOnFail="error">testInteger("${SCIFA_TXI_INTERRUPT_PRORITY}")</constraint>
+        <constraint display="Value must be in the range 0 ~ 31" actionOnFail="error">("${SCIFA_TXI_INTERRUPT_PRORITY}" &gt;= 0) &amp;&amp; ("${SCIFA_TXI_INTERRUPT_PRORITY}" &lt;= 31)</constraint>
+        <description>TXI Interrupt priority level(0 ~ 31) </description>
+      </property>
+      <property id="SCIFA_TEI_DRI_INTERRUPT_PRORITY" display="TEI/DRI Interrupt priority level (0 ~ 31)" default="9" type="textbox">
+        <constraint display="Value must be an integer" actionOnFail="error">testInteger("${SCIFA_TEI_DRI_INTERRUPT_PRORITY}")</constraint>
+        <constraint display="Value must be in the range 0 ~ 31" actionOnFail="error">("${SCIFA_TEI_DRI_INTERRUPT_PRORITY}" &gt;= 0) &amp;&amp; ("${SCIFA_TEI_DRI_INTERRUPT_PRORITY}" &lt;= 31)</constraint>
+        <description>TEI/DRI Interrupt priority level (0 ~ 31) </description>
+      </property>
+      <property id="SCIFA_TX_DMA_CALLBACK_FUNCTION" display="TX DMAC write complete callback" default="NULL" type="textbox" keyword="extern void ${SCIFA_TX_DMA_CALLBACK_FUNCTION}(void);">
+        <constraint display="The TX DMA write complete callback is not allowed to be NULL or empty, it must be a valid function name." actionOnFail="error">(/^[a-zA-Z_]\w*$/.test("${SCIFA_TX_DMA_CALLBACK_FUNCTION}") &amp;&amp; ("${SCIFA_TX_DMA_CALLBACK_FUNCTION}" != "NULL"))</constraint>
+        <constraint display="The TX DMA write complete callback cannot be edited when the TX data transfer mode is not DMA" actionOnFail="disable">("${SCIFA_TX_DATA_MODE}" == "SCIFA_TX_DMA_MODE")</constraint>
+        <description>TX DMA complete callback function&#xA;Please enter the transmit DMA complete callback function name.&#xA;If DMA Transfer Mode is used for Data transfer method at transmit, the TX DMAC module is not allowed to be NULL or empty.</description>
+      </property>
+      <property id="SCIFA_RX_DMA_CALLBACK_FUNCTION" display="RX DMAC read complete callback" default="NULL" type="textbox" keyword="extern void ${SCIFA_RX_DMA_CALLBACK_FUNCTION}(void);">
+        <constraint display="The RX DMA read complete callback is not allowed to be NULL or empty, it must be a valid function name." actionOnFail="error">(/^[a-zA-Z_]\w*$/.test("${SCIFA_RX_DMA_CALLBACK_FUNCTION}") &amp;&amp; ("${SCIFA_RX_DMA_CALLBACK_FUNCTION}" != "NULL"))</constraint>
+        <constraint display="The RX DMA read complete callback cannot be edited when the RX data transfer mode is not DMA" actionOnFail="disable">("${SCIFA_RX_DATA_MODE}" == "SCIFA_RX_DMA_MODE")</constraint>
+        <description>RX DMA complete callback function&#xA;Please enter the receive DMA complete callback function name.&#xA;If DMA Transfer Mode is used for Data transfer method at receive, the RX DMAC module is not allowed to be NULL or empty.</description>
+      </property>
+      <property id="SCIFA_TX_DMA_MODULE" display="TX DMAC module" default="NULL" type="textbox">
+        <constraint display="The TX DMAC module is not allowed to be NULL or empty, it must be a valid string enclosed in quotes" actionOnFail="error">/^"\w+"$/.test('${SCIFA_TX_DMA_MODULE}')</constraint>
+        <constraint display="The TX DMAC module cannot be edited when the TX data transfer mode is not DMA" actionOnFail="disable">("${SCIFA_TX_DATA_MODE}" == "SCIFA_TX_DMA_MODE")</constraint>
+        <description>TX DMAC module&#xA;Please enter the name of the DMAC module to use for transmit.&#xA;If DMA Transfer Mode is used for Data transfer method at transmit, the TX DMAC &#xA;module is not allowed to be NULL or empty.</description>
+      </property>
+      <property id="SCIFA_RX_DMA_MODULE" display="RX DMAC module" default="NULL" type="textbox">
+        <constraint display="The RX DMAC module is not allowed to be NULL or empty, it must be a valid string enclosed in quotes" actionOnFail="error">/^"\w+"$/.test('${SCIFA_RX_DMA_MODULE}')</constraint>
+        <constraint display="The RX DMAC module cannot be edited when the RX data transfer mode is not DMA" actionOnFail="disable">("${SCIFA_RX_DATA_MODE}" == "SCIFA_RX_DMA_MODE")</constraint>
+        <description>RX DMAC module&#xA;Please enter the name of the DMAC module to use for transmit.&#xA;If DMA Transfer Mode is used for Data transfer method at transmit, the RX DMAC &#xA;module is not allowed to be NULL or empty.</description>
+      </property>
+      <property id="SCIFA_READ_BLOCKING_MODE_SELECT" display="Read function Blocking mode Enable/Disable" default="SCIFA_READ_BLOCKING_MODE_ENABLE" type="combobox">
+        <option id="SCIFA_READ_BLOCKING_MODE_SELECT.SCIFA_READ_BLOCKING_MODE_ENABLE" display="Enable Blocking" value="SCIFA_READ_BLOCKING_MODE_ENABLE"/>
+        <option id="SCIFA_READ_BLOCKING_MODE_SELECT.SCIFA_READ_BLOCKING_MODE_DISABLE" display="Disable Blocking" value="SCIFA_READ_BLOCKING_MODE_DISABLE"/>
+        <description>Read function blocking mode
+SCIFA_READ_BLOCKING_MODE_ENABLE = Enable Blocking mode (function returns after 1 or more data points)
+SCIFA_READ_BLOCKING_MODE_DISABLE = Disable Blocking mode (function may return with 0 data points)</description>
+      </property>
+      <property id="SCIFA_WRITE_BLOCKING_MODE_SELECT" display="Write function Blocking mode Enable/Disable" default="SCIFA_WRITE_BLOCKING_MODE_ENABLE" type="combobox">
+        <option id="SCIFA_WRITE_BLOCKING_MODE_SELECT.SCIFA_WRITE_BLOCKING_MODE_ENABLE" display="Enable Blocking" value="SCIFA_WRITE_BLOCKING_MODE_ENABLE"/>
+        <option id="SCIFA_WRITE_BLOCKING_MODE_SELECT.SCIFA_WRITE_BLOCKING_MODE_DISABLE" display="Disable Blocking" value="SCIFA_WRITE_BLOCKING_MODE_DISABLE"/>
+        <description>Write function blocking mode
+SCIFA_WRITE_BLOCKING_MODE_ENABLE = Enable Blocking mode (waits for transmit buffer space before returning)
+SCIFA_WRITE_BLOCKING_MODE_DISABLE = Disable Blocking mode (return number of bytes added to transmit buffer, overflow is lost)</description>
+      </property>
+      <property id="SCIFA_RXI_DRIVER_BUFFER" display="Driver FIFO Receive Buffer (1B ~ 32K)" default="1024" type="textbox">
+        <constraint display="Value must be an integer" actionOnFail="error">testInteger("${SCIFA_RXI_DRIVER_BUFFER}")</constraint>
+        <constraint display="Value must be in the range 1byte ~ 32k" actionOnFail="error">("${SCIFA_RXI_DRIVER_BUFFER}" &gt;= 1) &amp;&amp; ("${SCIFA_RXI_DRIVER_BUFFER}" &lt;= 32768)</constraint>
+        <description>Driver FIFO Receive Buffer size (1Byte ~ 32KBytes)</description>
+      </property>
+      <property id="SCIFA_TXI_DRIVER_BUFFER" display="Driver FIFO Transmit Buffer (1B ~ 32K)" default="1024" type="textbox">
+        <constraint display="Value must be an integer" actionOnFail="error">testInteger("${SCIFA_TXI_DRIVER_BUFFER}")</constraint>
+        <constraint display="Value must be in the range 1byte ~ 32k" actionOnFail="error">("${SCIFA_TXI_DRIVER_BUFFER}" &gt;= 1) &amp;&amp; ("${SCIFA_TXI_DRIVER_BUFFER}" &lt;= 32768)</constraint>
+        <description>Driver FIFO Transmit Buffer size (1Byte ~ 32KBytes)
+Note 
+When debugging, if the Driver FIFO Transmit Buffer size is greater than the FIFO buffer (16 bytes), then your data my be inside this software buffer when a breakpoint is reached and not be transmitted until execution resumes.</description>
+      </property>
+    </configuration>
+</module>
