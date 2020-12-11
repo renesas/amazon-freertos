@@ -45,7 +45,7 @@ static const st_octabus_cfg_t OCTABUS_SC_TABLE[] =
     /* This code is auto-generated. Do not edit manually */
     {
         OCTABUS_NO_INIT, 
-#if (1) /* using ota_boot_proc */
+#if (0) /* using ota_boot_proc */
         OCTABUS_INIT_AT_LOADER,
 #else   /* ota_boot_proc is not used */
         OCTABUS_INIT_AT_APP, 
