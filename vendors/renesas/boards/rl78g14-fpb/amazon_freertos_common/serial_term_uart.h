@@ -13,7 +13,7 @@
 #include "r_sci_wrapper_if.h"
 
 void uart_config(void);
-void uart_string_printf(char * pString);
+void uart_string_printf(__far char * pString);
 
 void uart_printf(char * pString,...);
 unsigned short uart_string_scanf(char *pString, unsigned short str_length);

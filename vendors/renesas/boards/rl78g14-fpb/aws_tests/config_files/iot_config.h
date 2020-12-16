@@ -25,9 +25,11 @@
 #define IOT_CONFIG_H_
 
 /* Platform thread stack size. */
-#define IOT_THREAD_DEFAULT_STACK_SIZE    ( 5 * configMINIMAL_STACK_SIZE )
+#define IOT_THREAD_DEFAULT_STACK_SIZE    ( 15 * configMINIMAL_STACK_SIZE )
 
 /* Include the common configuration file for FreeRTOS. */
 #include "iot_config_common.h"
+
+#define IOT_TEST_MQTT_TIMEOUT_MS    ( 30000 )
 
 #endif /* ifndef IOT_CONFIG_H_ */

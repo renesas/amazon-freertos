@@ -150,8 +150,8 @@ static void r_uart0_callback_receiveend(void)
 static void r_uart0_callback_softwareoverrun(uint16_t rx_data)
 {
     /* Start user code. Do not edit comment generated here */
-	sci_receive(0U, (const uint8_t)rx_data);
-    /* End user code. Do not edit comment generated here */
+	sci_receive(0U, (uint8_t)rx_data);
+	/* End user code. Do not edit comment generated here */
 }
 
 /***********************************************************************************************************************

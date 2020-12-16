@@ -44,6 +44,14 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	#endif
 #endif
 
+#ifdef __RL
+	#ifdef __CCRL__
+		;
+		#pragma unpack
+	#endif
+#endif
+
+
 
 
 

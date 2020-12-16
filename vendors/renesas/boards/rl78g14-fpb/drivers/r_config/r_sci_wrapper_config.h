@@ -19,12 +19,12 @@
 #define SCI_CFG_CH2_INCLUDED            (1)
 #define SCI_CFG_CH3_INCLUDED            (1)
 
-#define SCI_CFG_CH0_TX_BUFSIZ           (512) /* (1024) */
+#define SCI_CFG_CH0_TX_BUFSIZ           (512)
 #define SCI_CFG_CH1_TX_BUFSIZ           (80)
-#define SCI_CFG_CH2_TX_BUFSIZ           (128)
-#define SCI_CFG_CH3_TX_BUFSIZ           (128) /* (256) */
+#define SCI_CFG_CH2_TX_BUFSIZ           (1024)
+#define SCI_CFG_CH3_TX_BUFSIZ           (128)
 
-#define SCI_CFG_CH0_RX_BUFSIZ           (512) /* (1024) */
+#define SCI_CFG_CH0_RX_BUFSIZ           (512)
 #define SCI_CFG_CH1_RX_BUFSIZ           (80)
 #define SCI_CFG_CH2_RX_BUFSIZ           (128)
 #define SCI_CFG_CH3_RX_BUFSIZ           (80)

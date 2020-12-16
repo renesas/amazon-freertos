@@ -34,8 +34,8 @@
  * @brief Port-specific maximum number of concurrent sockets
  * Do not define this if the number is limited only by free memory.
  */
-#if 0
-#define         integrationtestportableMAX_NUM_UNSECURE_SOCKETS    1    /* FIX ME. */
+#if 1
+#define         integrationtestportableMAX_NUM_UNSECURE_SOCKETS    2    /* FIX ME. */
 #endif
 
 /**
@@ -69,6 +69,10 @@
  */
 #define         integrationtestportableSEND_TIMEOUT                2000  /* FIX ME. */
 
+#define         tcptestTCP_ECHO_TASKS_STACK_SIZE                   ( configMINIMAL_STACK_SIZE * 15 )
+#define         tcptestTCP_ECHO_TASKS_PRIORITY                     ( tskIDLE_PRIORITY + 1 )
 
+#define tcptestECHO_TEST_SYNC_TIMEOUT 800000
+#define tcptestECHO_TEST_RXTX_TIMEOUT 40000
 
 #endif /*AWS_INTEGRATION_TEST_TCP_CONFIG_H */

@@ -41,10 +41,10 @@
 #include "iot_pkcs11.h"
 #include "iot_crypto.h"
 
-#if defined(__CCRX__)
+#if defined(__CCRX__) || defined(__ICCRX__) || defined(__RX__)
 #include "platform.h"
 #endif
-#if defined(__CCRL__)
+#if defined(__CCRL__) || defined(__ICCRL78__) || defined(__RL)
 #include "rl_platform.h"
 #endif
 #include "r_wifi_sx_ulpgn_if.h"
@@ -104,10 +104,11 @@ static BaseType_t prvNetworkSend( void * pvContext,
                                   const unsigned char * pucData,
                                   size_t xDataLength )
 {
-	BaseType_t send_byte;
+
+    BaseType_t send_byte;
     SSOCKETContextPtr_t pxContext = ( SSOCKETContextPtr_t ) pvContext; /*lint !e9087 cast used for portability. */
 
-    send_byte = R_WIFI_SX_ULPGN_SendSocket(pxContext->socket_number, (uint8_t *)pucData, xDataLength, pxContext->ulSendTimeout);
+    send_byte = R_WIFI_SX_ULPGN_SendSocket(pxContext->socket_number, (__far uint8_t *)pucData, xDataLength, pxContext->ulSendTimeout);
     return send_byte;
 }
 /*-----------------------------------------------------------*/
@@ -173,7 +174,6 @@ Socket_t SOCKETS_Socket( int32_t lDomain,
 			/* Allocate the internal context structure. */
 			if( NULL == ( pxContext = pvPortMalloc( sizeof( SSOCKETContext_t ) ) ) )
 			{
-				configPRINTF(("create malloc error: %d\r\n",ret));
 				lStatus = SOCKETS_ENOMEM;
 			}
 		}
@@ -186,7 +186,6 @@ Socket_t SOCKETS_Socket( int32_t lDomain,
 
 			if(0 > ret)
 			{
-				configPRINTF(("create error: %d\r\n",ret));
 				lStatus = SOCKETS_SOCKET_ERROR;
 			}
 			else
@@ -364,6 +363,7 @@ int32_t SOCKETS_Recv( Socket_t xSocket,
         }
 #endif
     }
+    vTaskDelay(1);
 
     return lStatus;
 }
@@ -411,6 +411,7 @@ int32_t SOCKETS_Send( Socket_t xSocket,
         }
 #endif
     }
+    vTaskDelay(1);
 
     return lStatus;
 }
@@ -564,7 +565,7 @@ int32_t SOCKETS_SetSockOpt( Socket_t xSocket,
     int32_t lStatus = SOCKETS_ERROR_NONE;
     TickType_t xTimeout;
     SSOCKETContextPtr_t pxContext = ( SSOCKETContextPtr_t ) xSocket; /*lint !e9087 cast used for portability. */
-    char ** ppcAlpnIn = ( char ** ) pvOptionValue;
+    const char ** ppcAlpnIn = (const char ** ) pvOptionValue;
     size_t xLength = 0;
     uint32_t ulProtocol;
 //    BaseType_t xTrustedFlags = pdFALSE;
@@ -821,7 +822,7 @@ BaseType_t SOCKETS_Init( void )
 }
 /*-----------------------------------------------------------*/
 
-#if !defined(__CCRL__)
+#if !(defined(__CCRL__) || defined(__ICCRL78__) || defined(__RL))
 static CK_RV prvSocketsGetCryptoSession( CK_SESSION_HANDLE * pxSession,
                                          CK_FUNCTION_LIST_PTR_PTR ppxFunctionList )
 {
@@ -912,7 +913,7 @@ uint32_t ulRand( void )
 /*-----------------------------------------------------------*/
 
 
-#if !defined(__CCRL__)
+#if !(defined(__CCRL__) || defined(__ICCRL78__) || defined(__RL))
 /**
  * @brief Generate a TCP Initial Sequence Number that is reasonably difficult
  * to predict, per https://tools.ietf.org/html/rfc6528.
@@ -1030,3 +1031,4 @@ uint8_t get_socket_number(void *pvContext)
 }
 /*-----------------------------------------------------------*/
 #endif
+

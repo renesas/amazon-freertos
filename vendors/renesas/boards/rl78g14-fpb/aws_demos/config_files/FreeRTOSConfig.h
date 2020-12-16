@@ -173,7 +173,7 @@ extern void uart_string_printf(char *pString);
 #endif
 /* Sets the length of the buffers into which logging messages are written - so
  * also defines the maximum length of each log message. */
-#define configLOGGING_MAX_MESSAGE_LENGTH            192
+#define configLOGGING_MAX_MESSAGE_LENGTH            100
 
 /* Set to 1 to prepend each log message with a message number, the task name,
  * and a time stamp. */

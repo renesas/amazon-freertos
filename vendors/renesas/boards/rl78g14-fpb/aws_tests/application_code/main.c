@@ -48,19 +48,17 @@
 
 /* Logging Task Defines. */
 #define mainLOGGING_MESSAGE_QUEUE_LENGTH    ( 15 )
-//#define mainLOGGING_TASK_STACK_SIZE         ( configMINIMAL_STACK_SIZE * 8 )
 #define mainLOGGING_TASK_STACK_SIZE         ( configMINIMAL_STACK_SIZE * 9 )
 
 /* Unit test defines. */
-//#define mainTEST_RUNNER_TASK_STACK_SIZE     ( configMINIMAL_STACK_SIZE * 16 )
-#define mainTEST_RUNNER_TASK_STACK_SIZE     ( configMINIMAL_STACK_SIZE * 20 )
+#define mainTEST_RUNNER_TASK_STACK_SIZE     ( configMINIMAL_STACK_SIZE * 50 )
 
 /* The task delay for allowing the lower priority logging task to print out Wi-Fi 
  * failure status before blocking indefinitely. */
 #define mainLOGGING_WIFI_STATUS_DELAY       pdMS_TO_TICKS( 1000 )
 
 /* The name of the devices for xApplicationDNSQueryHook. */
-#define mainDEVICE_NICK_NAME				"RenesasRL78_demo" /* FIX ME.*/
+#define mainDEVICE_NICK_NAME				"RenesasRL78_test" /* FIX ME.*/
 
 /* Static arrays for FreeRTOS-Plus-TCP stack initialization for Ethernet network 
  * connections are declared below. If you are using an Ethernet connection on your MCU 
@@ -82,6 +80,7 @@ const uint8_t ucMACAddress[ 6 ] =
     configMAC_ADDR5
 };
 
+#if (0)
 /* The default IP and MAC address used by the application.  The address configuration
  * defined here will be used if ipconfigUSE_DHCP is 0, or if ipconfigUSE_DHCP is
  * 1 but a DHCP server could not be contacted.  See the online documentation for
@@ -114,6 +113,7 @@ static const uint8_t ucDNSServerAddress[ 4 ] =
     configDNS_SERVER_ADDR2,
     configDNS_SERVER_ADDR3
 };
+#endif
 
 /**
  * @brief Application task startup hook for applications using Wi-Fi. If you are not 
@@ -147,6 +147,17 @@ extern void main_task(void *pvParameters);
 
 extern wifi_err_t R_WIFI_SX_ULPGN_SetCertificateProfile(uint8_t certificate_id, uint32_t ip_address, const char *server_name);
 void prvSetCertificateProfile( void );
+void prvFakeSetCertificateProfile(void);
+void prvWifiSetCertification(void);
+
+extern const uint8_t sharkSslCAList_PC;
+extern const uint32_t sharkSslCAList_PCLength;
+extern const uint8_t sharkSslCAList;
+extern const uint32_t sharkSslCAListLength;
+extern const uint8_t sharkSslRSACert_PC;
+extern const uint32_t sharkSslRSACert_PCLength;
+extern const uint8_t sharkSslRSACert;
+extern const uint32_t sharkSslRSACertLength;
 
 /*-----------------------------------------------------------*/
 int putchar (int ch);
@@ -154,39 +165,7 @@ void send(unsigned char ch);
 
 /*-----------------------------------------------------------*/
 
-#if(0)
-/**
- * @brief Application runtime entry point.
- */
-int main( void )
-{
-    /* Perform any hardware initialization that does not require the RTOS to be
-     * running.  */
-    prvMiscInitialization();
 
-    /* Create tasks that are not dependent on the Wi-Fi being initialized. */
-    xLoggingTaskInitialize( mainLOGGING_TASK_STACK_SIZE,
-                            tskIDLE_PRIORITY,
-                            mainLOGGING_MESSAGE_QUEUE_LENGTH );
-
-    /* FIX ME: If you are using Ethernet network connections and the FreeRTOS+TCP stack,
-     * uncomment the initialization function, FreeRTOS_IPInit(), below. */
-    /*FreeRTOS_IPInit( ucIPAddress,
-     *                 ucNetMask,
-     *                 ucGatewayAddress,
-     *                 ucDNSServerAddress,
-     *                 ucMACAddress );
-     */
-
-    /* Start the scheduler.  Initialization that requires the OS to be running,
-     * including the Wi-Fi initialization, is performed in the RTOS daemon task
-     * startup hook. */
-    vTaskStartScheduler();
-
-    return 0;
-}
-/*-----------------------------------------------------------*/
-#else
 void main( void )
 {
     Processing_Before_Start_Kernel();
@@ -215,7 +194,6 @@ void main_task( void *pvParameters)
     	vTaskDelay(10000);
     }
 }
-#endif
 
 static void prvMiscInitialization( void )
 {
@@ -249,8 +227,9 @@ void vApplicationDaemonTaskStartupHook( void )
             prvWifiConnect();
 
             /* Provision the device with AWS certificate and private key. */
-//            vDevModeKeyProvisioning();
-
+#if(0)
+            vDevModeKeyProvisioning();
+#endif
             /* Create the task to run unit tests. */
             xTaskCreate( TEST_RUNNER_RunTests_task,
                          "RunTests_task",
@@ -326,6 +305,11 @@ void prvWifiConnect( void )
         xNetworkParams.xSecurity = clientcredentialWIFI_SECURITY;
         xNetworkParams.cChannel = 0;
 
+#if 1
+//    prvWifiSetCertification();
+    prvSetCertificateProfile();
+#endif
+
         xWifiStatus = WIFI_ConnectAP( &( xNetworkParams ) );
 
         if( xWifiStatus == eWiFiSuccess )
@@ -338,8 +322,6 @@ void prvWifiConnect( void )
                 configPRINTF( ( "IP Address acquired %d.%d.%d.%d\r\n",
                                 ucTempIp[ 0 ], ucTempIp[ 1 ], ucTempIp[ 2 ], ucTempIp[ 3 ] ) );
             }
-
-            prvSetCertificateProfile();
         }
         else
         {
@@ -357,7 +339,7 @@ void prvWifiConnect( void )
 }
 /*-----------------------------------------------------------*/
 
-#if(0)
+#if !(defined(ENABLE_UNIT_TESTS) || defined(AMAZON_FREERTOS_ENABLE_UNIT_TESTS))
 /**
  * @brief This is to provide memory that is used by the Idle task.
  *
@@ -518,7 +500,7 @@ void vApplicationIdleHook( void )
 #endif /* if ( ipconfigUSE_LLMNR != 0 ) || ( ipconfigUSE_NBNS != 0 ) */
 /*-----------------------------------------------------------*/
 
-#if (0)
+#if !(defined(ENABLE_UNIT_TESTS) || defined(AMAZON_FREERTOS_ENABLE_UNIT_TESTS))
 /**
  * @brief User defined assertion call. This function is plugged into configASSERT.
  * See FreeRTOSConfig.h to define configASSERT to something different.
@@ -568,19 +550,99 @@ void vAssertCalled(const char * pcFile,
 
 #endif
 
-    void prvSetCertificateProfile(void)
-    {
-    	uint32_t ipaddress;
+void prvSetCertificateProfile(void)
+{
+    uint32_t ipaddress;
 
-    	ipaddress = SOCKETS_inet_addr_quick(tcptestECHO_SERVER_TLS_ADDR3, tcptestECHO_SERVER_TLS_ADDR2, tcptestECHO_SERVER_TLS_ADDR1, tcptestECHO_SERVER_TLS_ADDR0);
-    	R_WIFI_SX_ULPGN_SetCertificateProfile(0, ipaddress, "");
-    	R_WIFI_SX_ULPGN_SetCertificateProfile(1, 0, (char*)clientcredentialMQTT_BROKER_ENDPOINT);
-    }
+    ipaddress = SOCKETS_inet_addr_quick(tcptestECHO_SERVER_TLS_ADDR3, tcptestECHO_SERVER_TLS_ADDR2, tcptestECHO_SERVER_TLS_ADDR1, tcptestECHO_SERVER_TLS_ADDR0);
+    R_WIFI_SX_ULPGN_SetCertificateProfile(0, ipaddress, NULL);
+    R_WIFI_SX_ULPGN_SetCertificateProfile(1, 0, (const char*)clientcredentialMQTT_BROKER_ENDPOINT);
+}
 
+void prvFakeSetCertificateProfile(void)
+{
+    uint32_t ipaddress;
+
+    ipaddress = SOCKETS_inet_addr_quick(tcptestECHO_SERVER_TLS_ADDR3, tcptestECHO_SERVER_TLS_ADDR2, tcptestECHO_SERVER_TLS_ADDR1, tcptestECHO_SERVER_TLS_ADDR0);
+    R_WIFI_SX_ULPGN_SetCertificateProfile(1, ipaddress, NULL);
+    R_WIFI_SX_ULPGN_SetCertificateProfile(0, 0, (const char*)clientcredentialMQTT_BROKER_ENDPOINT);
+}
+
+void prvWifiSetCertification(void)
+{
+	wifi_certificate_infomation_t certificate_information;
+	wifi_certificate_infomation_t *pcertificate_information;
+	pcertificate_information =(wifi_certificate_infomation_t*)&certificate_information;
+
+//	uint8_t cert_number;
+	/* Get Initial Server Certificate Information */
+	R_WIFI_SX_ULPGN_GetServerCertificate(pcertificate_information);
+
+#if 0
+	/* Erase All Certificate */
+	R_WIFI_SX_ULPGN_EraseAllServerCertificate();
+	/* Get Server Certificate Information */
+	R_WIFI_SX_ULPGN_GetServerCertificate(pcertificate_information);
+	/* Erase All Certificate */
+	R_WIFI_SX_ULPGN_EraseAllServerCertificate();
+#endif
+
+	R_WIFI_SX_ULPGN_EraseAllServerCertificate();
+	R_WIFI_SX_ULPGN_GetServerCertificate(pcertificate_information);
+#if 0
+	if(certificate_information->certificate_number!=0)
+	{
+		printf("Certificate_file was not Erase\t\n");
+	}
+	else
+	{
+		printf("Certificate_file was Erased\t\n");
+	}
+#endif
+
+	/* Write 2Set Certificate */
+	/* Secure Echo Server Certificate cert0.crt(sharkSslRSACert_PC),calist0.crt(sharkSslCAList_PC) */
+	/* AWS Broker         Certificate cert1.crt(sharkSslRSACert)   ,calist1.crt(sharkSslCAList)    */
+	R_WIFI_SX_ULPGN_WriteServerCertificate (0,1,(const uint8_t*)&sharkSslRSACert_PC, (uint32_t)sharkSslRSACert_PCLength);
+	R_WIFI_SX_ULPGN_WriteServerCertificate (0,0,(const uint8_t*)&sharkSslCAList_PC , (uint32_t)sharkSslCAList_PCLength );
+	R_WIFI_SX_ULPGN_WriteServerCertificate (1,1,(const uint8_t*)&sharkSslRSACert   , (uint32_t)sharkSslRSACertLength   );
+	R_WIFI_SX_ULPGN_WriteServerCertificate (1,0,(const uint8_t*)&sharkSslCAList    , (uint32_t)sharkSslCAListLength    );
+
+#if 0
+	/* Get Updated Server Certificate Information */
+	R_WIFI_SX_ULPGN_GetServerCertificate(pcertificate_information);
+	if(pcertificate_information->certificate_number!=0)
+	{
+		printf("File Number = %d\r\n",pcertificate_information->certificate_number);
+		while (pcertificate_information->certificate_file[0]!=0)
+		{
+			printf("%s\r\n",(char*)pcertificate_information->certificate_file);
+			pcertificate_information = pcertificate_information->next_certificate_name;
+		}
+	}
+	else
+	{
+		printf("Certificate_file was Erased\t\n");
+	}
+#endif
+}// prvWifiSetCertification
+
+void prvEraseAllCertificateFile(void)
+{
+	R_WIFI_SX_ULPGN_EraseAllServerCertificate();
+}// prvEraseAllCertificateFile
+
+void prvWriteAllCertificateFile(void)
+{
+	R_WIFI_SX_ULPGN_WriteServerCertificate (0,1,(const uint8_t*)&sharkSslRSACert_PC, (uint32_t)sharkSslRSACert_PCLength);
+	R_WIFI_SX_ULPGN_WriteServerCertificate (0,0,(const uint8_t*)&sharkSslCAList_PC , (uint32_t)sharkSslCAList_PCLength );
+	R_WIFI_SX_ULPGN_WriteServerCertificate (1,1,(const uint8_t*)&sharkSslRSACert   , (uint32_t)sharkSslRSACertLength   );
+	R_WIFI_SX_ULPGN_WriteServerCertificate (1,0,(const uint8_t*)&sharkSslCAList    , (uint32_t)sharkSslCAListLength    );
+}// prvWriteAllCertificateFile
 
 int putchar (int ch)
 {
-	send((unsigned char)ch);	/* 1 byte transmission */
+    send((unsigned char)ch);	/* 1 byte transmission */
 #if 0
 	if(ch == '\r')			/* Send CR when LF */
 	{

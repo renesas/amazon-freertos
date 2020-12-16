@@ -72,7 +72,6 @@
 #endif
 
 /* Debug print mode */
-//#define DEBUGLOG 2
 #define DEBUGLOG 0
 
 

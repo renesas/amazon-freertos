@@ -99,10 +99,10 @@ typedef struct st_sci_cb_args
 typedef enum e_sci_cmd
 {
     SCI_CMD_CHANGE_BAUD,
-    SCI_CMD_RX_Q_BYTES_AVAIL_TO_READ,
-    SCI_CMD_RX_Q_FLUSH,
     SCI_CMD_TX_Q_FLUSH,
+    SCI_CMD_RX_Q_FLUSH,
     SCI_CMD_TX_Q_BYTES_FREE,
+    SCI_CMD_RX_Q_BYTES_AVAIL_TO_READ,
 	SCI_CMD_EN_CTS_IN
 } sci_cmd_t;
 
@@ -122,7 +122,7 @@ sci_err_t R_SCI_Open(uint8_t const      chan,
 sci_err_t R_SCI_Close(sci_hdl_t const hdl);
 
 sci_err_t R_SCI_Send(sci_hdl_t const hdl,
-                     uint8_t         *p_src,
+                     __far uint8_t   *p_src,
                      uint16_t  const length);
 
 sci_err_t R_SCI_Receive(sci_hdl_t const hdl,

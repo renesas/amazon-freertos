@@ -134,7 +134,7 @@ extern void Processing_Before_Start_Kernel(void);
 extern void main_task(void *pvParameters);
 
 /*-----------------------------------------------------------*/
-int putchar (int ch);
+int __far putchar (int ch);
 void send(unsigned char ch);
 
 extern void R_WIFI_SX_ULPGN_SetCertificateProfile(uint8_t certificate_id, uint32_t ipaddress,const char *servername);
@@ -327,7 +327,7 @@ const char * pcApplicationHostnameHook( void )
 }
 /*-----------------------------------------------------------*/
 
-int putchar (int ch)
+int __far putchar (int ch)
 {
 	send((unsigned char)ch);	/* 1 byte transmission */
 #if 0

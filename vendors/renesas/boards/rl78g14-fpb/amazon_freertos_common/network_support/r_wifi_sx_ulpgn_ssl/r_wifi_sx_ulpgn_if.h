@@ -162,7 +162,7 @@ wifi_err_t R_WIFI_SX_ULPGN_GetIpAddress (wifi_ip_configuration_t *ip_config);
 int32_t    R_WIFI_SX_ULPGN_CreateSocket(uint32_t type, uint32_t ip_version);
 wifi_err_t R_WIFI_SX_ULPGN_ConnectSocket(int32_t socket_number, uint32_t ip_address, uint16_t port,char *destination);
 wifi_err_t R_WIFI_SX_ULPGN_CloseSocket(int32_t socket_number);
-int32_t    R_WIFI_SX_ULPGN_SendSocket (int32_t socket_number, uint8_t *data, int32_t length, uint32_t timeout_ms);
+int32_t    R_WIFI_SX_ULPGN_SendSocket (int32_t socket_number, __far uint8_t *data, int32_t length, uint32_t timeout_ms);
 int32_t    R_WIFI_SX_ULPGN_ReceiveSocket (int32_t socket_number, uint8_t *data, int32_t length, uint32_t timeout_ms);
 wifi_err_t R_WIFI_SX_ULPGN_ShutdownSocket (int32_t socket_number);
 wifi_err_t R_WIFI_SX_ULPGN_DnsQuery (const uint8_t *domain_name, uint32_t *ip_address);

@@ -50,15 +50,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define configUSE_DAEMON_TASK_STARTUP_HOOK         1
 #define configENABLE_BACKWARD_COMPATIBILITY        0
 #define configUSE_PREEMPTION                       1
-//#define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
 #define configUSE_PORT_OPTIMISED_TASK_SELECTION    0
 #define configMAX_PRIORITIES                       ( 7 )
 #define configTICK_RATE_HZ                         ( 1000 )
-//#define configMINIMAL_STACK_SIZE                   ( ( unsigned short ) 60 )
-#define configMINIMAL_STACK_SIZE                   ( ( unsigned short ) ( 64 * 1 ) )
-//#define configTOTAL_HEAP_SIZE                      ( ( size_t ) ( 2048U * 1024U ) )
+#define configMINIMAL_STACK_SIZE                   ( ( unsigned short ) 64 )
 #define configTOTAL_HEAP_SIZE                      ( ( size_t ) ( 32U * 1024U ) )
-#define configMAX_TASK_NAME_LEN                    ( 15 )
+#define configMAX_TASK_NAME_LEN                    ( 12 )
 #define configUSE_TRACE_FACILITY                   1
 #define configUSE_16_BIT_TICKS                     0
 #define configIDLE_SHOULD_YIELD                    1
@@ -74,20 +71,15 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Hook function related definitions. */
 #define configUSE_TICK_HOOK                        0
-//#define configUSE_IDLE_HOOK                        1
 #define configUSE_IDLE_HOOK                        0
 #define configUSE_MALLOC_FAILED_HOOK               1
-//#define configCHECK_FOR_STACK_OVERFLOW             0      /* Not applicable to the Win32 port. */
 #define configCHECK_FOR_STACK_OVERFLOW             2      /* Not applicable to the Win32 port. */
 
 /* Software timer related definitions. */
 #define configUSE_TIMERS                           1
-//#define configTIMER_TASK_PRIORITY                  ( configMAX_PRIORITIES - 1 )
-#define configTIMER_TASK_PRIORITY                  2
-//#define configTIMER_QUEUE_LENGTH                   5
+#define configTIMER_TASK_PRIORITY                  ( configMAX_PRIORITIES - 1 )
 #define configTIMER_QUEUE_LENGTH                   10
-//#define configTIMER_TASK_STACK_DEPTH               ( configMINIMAL_STACK_SIZE * 2 )
-#define configTIMER_TASK_STACK_DEPTH               ( configMINIMAL_STACK_SIZE * 11 )
+#define configTIMER_TASK_STACK_DEPTH               ( configMINIMAL_STACK_SIZE * 10 )
 
 /* Event group related definitions. */
 #define configUSE_EVENT_GROUPS                     1
@@ -170,9 +162,11 @@ extern void vLoggingPrint( const char * pcMessage );
 /* Map the logging task's printf to the board specific output function. */
 #include <stdio.h>
 #define configPRINT_STRING( X )    printf( X ); /* FIX ME: Change to your devices console print acceptance function. */
+//#define configPRINT_STRING( x )    uart_string_printf( x )
 /* Sets the length of the buffers into which logging messages are written - so
  * also defines the maximum length of each log message. */
-#define configLOGGING_MAX_MESSAGE_LENGTH            100
+//#define configLOGGING_MAX_MESSAGE_LENGTH            100
+#define configLOGGING_MAX_MESSAGE_LENGTH            280
 
 /* Set to 1 to prepend each log message with a message number, the task name,
  * and a time stamp. */

@@ -78,7 +78,7 @@ void vApplicationSetupTimerInterrupt(void);
 //void vAssertCalled(void);
 //void vApplicationIdleHook(void);
 void vApplicationTickHook(void);
-void vApplicationMallocFailedHook(void);
+//void vApplicationMallocFailedHook(void);
 //void vApplicationStackOverflowHook(TaskHandle_t xTask, signed char *pcTaskName);
 
 /* FreeRTOS's processing before start the kernel. */
@@ -220,7 +220,7 @@ void vApplicationTickHook(void)
 
 } /* End of function vApplicationTickHook() */
 
-#if(0)
+#if !(defined(ENABLE_UNIT_TESTS) || defined(AMAZON_FREERTOS_ENABLE_UNIT_TESTS))
 /******************************************************************************
 * Function Name: vApplicationMallocFailedHook
 * Description  : This function is to capture the failure while

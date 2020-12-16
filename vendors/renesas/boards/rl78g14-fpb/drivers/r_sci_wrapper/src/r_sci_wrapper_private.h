@@ -8,6 +8,8 @@
 #ifndef R_SCI_WRAPPER_PRIVATE_H_
 #define R_SCI_WRAPPER_PRIVATE_H_
 
+#include "FreeRTOS.h"
+
 #include "r_byteq_if.h"
 #include "r_sci_wrapper_if.h"
 

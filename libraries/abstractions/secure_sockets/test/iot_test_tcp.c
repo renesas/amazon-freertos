@@ -51,7 +51,7 @@
 #include "aws_clientcredential.h"
 
 /* Verbose printing. */
-#define tcptestPRINTF( x )
+#define tcptestPRINTF( x ) 
 /* In case of test failures, FAILUREPRINTF may provide more detailed information. */
 #define tcptestFAILUREPRINTF( x )    vLoggingPrintf x
 /* Fail the test on tcptestASSERT. */
@@ -178,6 +178,11 @@ typedef struct
 #endif
 #define tcptestNUM_ECHO_CLIENTS               ( 2 )
 #define tcptestMAX_LOOPS_ECHO_CLIENTS_LOOP    ( 10 )
+
+extern void prvSetCertificateProfile( void );
+extern void prvFakeSetCertificateProfile(void);
+extern void prvEraseAllCertificateFile(void);
+extern void prvWriteAllCertificateFile(void);
 
 static void prvThreadSafeDifferentSocketsDifferentTasks( void * pvParameters );
 /****************** Unity Test Code *********************************/
@@ -2223,7 +2228,9 @@ static void prvTrustedServerCertificate( void )
 
     xSecureEchoServerAddress.usPort = SOCKETS_htons( tcptestECHO_PORT_TLS );
 
+    prvEraseAllCertificateFile();
     xResult = SOCKETS_Connect( xSocket, &xSecureEchoServerAddress, sizeof( xSecureEchoServerAddress ) );
+    prvWriteAllCertificateFile();
     TEST_ASSERT_LESS_THAN_INT32_MESSAGE( 0, xResult, "Connection permitted with untrusted server CA cert" );
 
     xResult = prvCloseHelper( xSocket, &xSocketOpen );
@@ -2274,7 +2281,10 @@ static void prvTriggerWrongRootCA( void )
     TEST_ASSERT_NOT_EQUAL_MESSAGE( 0, xAwsIotBrokerAddress.ulAddress, "DNS look up failed." );
     xAwsIotBrokerAddress.usPort = SOCKETS_htons( clientcredentialMQTT_BROKER_PORT );
 
+    prvFakeSetCertificateProfile(); 
     xResult = SOCKETS_Connect( xSocket, &xAwsIotBrokerAddress, sizeof( xAwsIotBrokerAddress ) );
+    prvSetCertificateProfile(); 
+
     TEST_ASSERT_LESS_THAN_INT32_MESSAGE( 0, xResult, "Connection permitted with untrusted server CA cert" );
 
     xResult = prvCloseHelper( xSocket, &xSocketOpen );

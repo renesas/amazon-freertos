@@ -389,7 +389,7 @@ void R_UART3_Create(void)
     SREIF3 = 0U;   /* clear INTSRE3 interrupt flag */
     /* Set INTST3 hign priority */
     STPR13 = 0U;
-    STPR03 = 0U;
+    STPR03 = 1U;
     /* Set INTSR3 level1 priority */
     SRPR13 = 0U;
     SRPR03 = 1U;
