@@ -33,6 +33,8 @@ import hashlib
 
 # Input Filename
 input_file			= 'aws_demos.bin'
+# boot Filename
+boot_file			= 'ota_boot_proc\ota_boot_proc.bin'
 # Output Filename
 output_file			= 'userprog.bin'
 # Input Key
@@ -40,11 +42,15 @@ input_key_file		= 'secp256r1.privatekey'
 # Firmware version (sequence number)
 sequence_number		= 1
 # addresses
-start_address		= 0x20200300
-end_address			= 0x209fffff
-execution_address	= 0x209ffffc
+start_address		= 0x50200300
+end_address			= 0x509fffff
+execution_address	= 0x509ffffc
 # Hardware ID
 hardware_id			= 0x00000009
+# Bootloader address
+boot_addr			= 0x50000000
+# Temporary address
+tmp_addr			= 0x50A00000
 # Image Size
 image_size			= 0x00800000
 # section Size
@@ -147,10 +153,22 @@ for num in range(len(string_r)):
 for num in range(len(string_s)):
 	whole_data[0x0000004c + num] = string_s[num]
 #
+#add boot loader
+#
+
+f = open(boot_file,'rb')
+buf = f.read()
+f.close()
+
+padding_size = tmp_addr - boot_addr - len(buf)
+buf += (bytearray(b'\xFF')*padding_size)
+buf += whole_data
+
+#
 #write file
 #
 with open(output_file,'wb') as f:
-	f.write(whole_data)
+	f.write(buf)
 f.close()
 sys.stdout.write("Output File:"+output_file+"\n")
 sys.stdout.write("Complete.\n")
