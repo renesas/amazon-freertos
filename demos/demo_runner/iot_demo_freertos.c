@@ -404,53 +404,53 @@ void runDemoTask( void * pArgument )
 
 /*-----------------------------------------------------------*/
 
-///**
-// * @brief Warn user if pvPortMalloc fails.
-// *
-// * Called if a call to pvPortMalloc() fails because there is insufficient
-// * free memory available in the FreeRTOS heap.  pvPortMalloc() is called
-// * internally by FreeRTOS API functions that create tasks, queues, software
-// * timers, and semaphores.  The size of the FreeRTOS heap is set by the
-// * configTOTAL_HEAP_SIZE configuration constant in FreeRTOSConfig.h.
-// *
-// */
-//void vApplicationMallocFailedHook()
-//{
-//    configPRINTF( ( "ERROR: Malloc failed to allocate memory\r\n" ) );
-//    taskDISABLE_INTERRUPTS();
-//
-//    /* Loop forever */
-//    for( ; ; )
-//    {
-//    }
-//}
-//
-///*-----------------------------------------------------------*/
-//
-///**
-// * @brief Loop forever if stack overflow is detected.
-// *
-// * If configCHECK_FOR_STACK_OVERFLOW is set to 1,
-// * this hook provides a location for applications to
-// * define a response to a stack overflow.
-// *
-// * Use this hook to help identify that a stack overflow
-// * has occurred.
-// *
-// */
-//void vApplicationStackOverflowHook( TaskHandle_t xTask,
-//                                    char * pcTaskName )
-//{
-//    configPRINTF( ( "ERROR: stack overflow with task %s\r\n", pcTaskName ) );
-//    portDISABLE_INTERRUPTS();
-//
-//    /* Unused Parameters */
-//    ( void ) xTask;
-//
-//    /* Loop forever */
-//    for( ; ; )
-//    {
-//    }
-//}
-//
-///*-----------------------------------------------------------*/
+/**
+ * @brief Warn user if pvPortMalloc fails.
+ *
+ * Called if a call to pvPortMalloc() fails because there is insufficient
+ * free memory available in the FreeRTOS heap.  pvPortMalloc() is called
+ * internally by FreeRTOS API functions that create tasks, queues, software
+ * timers, and semaphores.  The size of the FreeRTOS heap is set by the
+ * configTOTAL_HEAP_SIZE configuration constant in FreeRTOSConfig.h.
+ *
+ */
+void vApplicationMallocFailedHook()
+{
+    configPRINTF( ( "ERROR: Malloc failed to allocate memory\r\n" ) );
+    taskDISABLE_INTERRUPTS();
+
+    /* Loop forever */
+    for( ; ; )
+    {
+    }
+}
+
+/*-----------------------------------------------------------*/
+
+/**
+ * @brief Loop forever if stack overflow is detected.
+ *
+ * If configCHECK_FOR_STACK_OVERFLOW is set to 1,
+ * this hook provides a location for applications to
+ * define a response to a stack overflow.
+ *
+ * Use this hook to help identify that a stack overflow
+ * has occurred.
+ *
+ */
+void vApplicationStackOverflowHook( TaskHandle_t xTask,
+                                    char * pcTaskName )
+{
+    configPRINTF( ( "ERROR: stack overflow with task %s\r\n", pcTaskName ) );
+    portDISABLE_INTERRUPTS();
+
+    /* Unused Parameters */
+    ( void ) xTask;
+
+    /* Loop forever */
+    for( ; ; )
+    {
+    }
+}
+
+/*-----------------------------------------------------------*/

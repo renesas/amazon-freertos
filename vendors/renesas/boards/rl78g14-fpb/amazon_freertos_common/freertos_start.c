@@ -220,7 +220,7 @@ void vApplicationTickHook(void)
 
 } /* End of function vApplicationTickHook() */
 
-#if !(defined(ENABLE_UNIT_TESTS) || defined(AMAZON_FREERTOS_ENABLE_UNIT_TESTS))
+#if 0
 /******************************************************************************
 * Function Name: vApplicationMallocFailedHook
 * Description  : This function is to capture the failure while
