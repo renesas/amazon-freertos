@@ -1,6 +1,6 @@
 """
-Amazon FreeRTOS
-Copyright (C) 2018 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+FreeRTOS
+Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -18,35 +18,33 @@ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- 
+
 http://aws.amazon.com/freertos
-http://www.FreeRTOS.org 
+http://www.FreeRTOS.org
 
 """
-from .aws_ota_test_case import *
-from .aws_ota_aws_agent import *
+from .aws_ota_test_case import OtaTestCase
 import os
-from .aws_ota_test_result import OtaTestResult
 
-class OtaTestUntrustedCertificate( OtaTestCase ):
-    NAME = "OtaTestUntrustedCertificate"
-    def __init__(self, boardConfig, otaProject, otaAwsAgent, flashComm):
-        super(OtaTestUntrustedCertificate, self).__init__(
-            OtaTestUntrustedCertificate.NAME, 
-            boardConfig,
-            otaProject, 
-            otaAwsAgent, 
-            flashComm
-        )
+
+class OtaTestUntrustedCertificate(OtaTestCase):
+    """
+    This test verifies that device will reject an update if the firmware is signed with an untrusted
+    certificate.
+    """
+
+    is_positive = False
+
+    def __init__(self, positive, boardConfig, otaProject, otaAwsAgent, flashComm, protocol):
         # Define invalid/valid signing certificates for later use.
-        self._validSignerArn = "%s"%self._otaConfig['aws_signer_certificate_arn']
-        self._bogusSignerArn = "%s"%self._otaConfig['aws_untrusted_signer_certificate_arn']
+        self._validSignerArn = boardConfig['ota_config']['aws_signer_certificate_arn']
+        self._bogusSignerArn = boardConfig['ota_config']['aws_untrusted_signer_certificate_arn']
         # Set a semi-unique 'signing type' name based on the invalid certificate's ARN to avoid conflicts.
-        self._signingProfileName = "%s%s"%(self._bogusSignerArn[-10:], self._otaAwsAgent._boardName[:10])
+        self._signingProfileName = f'{self._bogusSignerArn[-10:]}{otaAwsAgent._boardName[:10]}'
 
-    def getName(self):
-        return self._name
-    
+        # Call base constructor.
+        super().__init__(positive, boardConfig, otaProject, otaAwsAgent, flashComm, protocol)
+
     def run(self):
         # Increase the version of the OTA image.
         self._otaProject.setApplicationVersion(0, 9, 1)
@@ -64,7 +62,8 @@ class OtaTestUntrustedCertificate( OtaTestCase ):
         # Create a job.
         if self._otaAwsAgent._stageParams:
             otaUpdateId = self._otaAwsAgent.createOtaUpdate(
-                deploymentFiles = [
+                protocols=[self._protocol],
+                deploymentFiles=[
                     {
                         'fileName': os.path.basename(self._otaConfig['ota_firmware_file_path']),
                         'fileVersion': '1',
@@ -75,7 +74,7 @@ class OtaTestUntrustedCertificate( OtaTestCase ):
                                 'version': self._otaAwsAgent.getS3ObjectVersion(os.path.basename(self._otaConfig['ota_firmware_file_path']))
                             }
                         },
-                        'codeSigning': { 
+                        'codeSigning': {
                             "startSigningJobParameter": {
                                 'signingProfileName': self._signingProfileName,
                                 'signingProfileParameter': {
@@ -104,12 +103,13 @@ class OtaTestUntrustedCertificate( OtaTestCase ):
             )
             # Create the OTA update job.
             otaUpdateId = self._otaAwsAgent.createOtaUpdate(
-                deploymentFiles = [
+                protocols=[self._protocol],
+                deploymentFiles=[
                     {
                         'fileName': self._otaConfig['device_firmware_file_name'],
                         'fileVersion': '1',
                         'fileLocation': {
-                            'stream':{
+                            'stream': {
                                 'streamId': streamId,
                                 'fileId': 0
                             },
@@ -125,11 +125,3 @@ class OtaTestUntrustedCertificate( OtaTestCase ):
         self._otaConfig['aws_signer_certificate_arn'] = self._validSignerArn
         # Wait for the job to complete.
         return self.getTestResultAfterOtaUpdateCompletion(otaUpdateId)
-
-    def getTestResult(self, jobStatus, log):
-        if (jobStatus.status == 'FAILED'):
-            # (Overwrite the confusing hex message presented as the 'jobStatus' on this type of failure)
-            job_status = namedtuple('JobStatus', 'status reason')('PASS', 'Invalid signing certificate test passed.')
-            return OtaTestResult.testResultFromJobStatus(self._name, OtaTestResult.PASS, job_status)
-        else:
-            return OtaTestResult.testResultFromJobStatus(self._name, OtaTestResult.FAIL, jobStatus)

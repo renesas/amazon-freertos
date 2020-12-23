@@ -1,6 +1,6 @@
 """
-Amazon FreeRTOS
-Copyright (C) 2018 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+FreeRTOS
+Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -18,41 +18,29 @@ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- 
+
 http://aws.amazon.com/freertos
-http://www.FreeRTOS.org 
+http://www.FreeRTOS.org
 
 """
 
-from .aws_ota_test_case import *
-from .aws_ota_aws_agent import *
+from .aws_ota_test_case import OtaTestCase
 from .aws_ota_test_result import OtaTestResult
 
-class OtaTestDummyTest( OtaTestCase ):
+
+class OtaTestDummyTest(OtaTestCase):
     """This test is for debugging code changes without waiting for projects to build.
     """
-    NAME = 'OtaTestDummyTest'
-    def __init__(self, boardConfig, otaProject, otaAwsAgent, flashComm):
-        super(OtaTestDummyTest, self).__init__(
-            OtaTestDummyTest.NAME, 
-            boardConfig,
-            otaProject, 
-            otaAwsAgent, 
-            flashComm
-        )
-
-    def getName(self):
-        return self._name
+    is_positive = False
 
     def setup(self):
         print('Ran OtaTestDummyTest::setup.')
+        # Adding empty list for return to indicate the successful setup.
+        return []
 
     def teardown(self):
         print('Ran OtaTestDummyTest::teardown.')
 
     def run(self):
         print('Ran OtaTestDummyTest::run.')
-        return self.getTestResult(None, None)
-
-    def getTestResult(self, jobStatus, log):
-        return OtaTestResult(testName=self._name, result=OtaTestResult.PASS, reason='Dummy test.')
+        return OtaTestResult(testName=self._name, result=OtaTestResult.PASS)

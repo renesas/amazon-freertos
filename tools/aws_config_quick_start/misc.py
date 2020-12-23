@@ -52,7 +52,7 @@ def format_credential_keys_text(credentialText):
 
 def update_client_credentials(afr_source_dir, thing_name, wifi_ssid, wifi_passwd, wifi_security):
     file_to_modify = os.path.join(
-        afr_source_dir, 'demos', 'common', 'include', 'aws_clientcredential.h')
+        afr_source_dir, 'demos', 'include', 'aws_clientcredential.h')
 
     filename = "aws_clientcredential.templ"
     with open(filename,'r') as template_file:
@@ -66,10 +66,11 @@ def update_client_credentials(afr_source_dir, thing_name, wifi_ssid, wifi_passwd
         header_file = open(str(file_to_modify),'w')
         header_file.write(new_text)
         header_file.close()
+    print("Updated aws_clientcredential.h")
 
 def update_client_credential_keys(afr_source_dir, client_certificate_pem, client_private_key_pem):
     file_to_modify = os.path.join(
-        afr_source_dir, 'demos', 'common', 'include', 'aws_clientcredential_keys.h')
+        afr_source_dir, 'demos', 'include', 'aws_clientcredential_keys.h')
 
     filename = "aws_clientcredential_keys.templ"
     with open(filename,'r') as template_file:
@@ -81,10 +82,11 @@ def update_client_credential_keys(afr_source_dir, client_certificate_pem, client
         header_file = open(str(file_to_modify),'w')
         header_file.write(new_text)
         header_file.close()
+    print("Updated aws_clientcredential_keys.h")
 
 def cleanup_client_credential_file(afr_source_dir):
     client_credential_file = os.path.join(
-        afr_source_dir, 'demos', 'common', 'include', 'aws_clientcredential.h')
+        afr_source_dir, 'demos', 'include', 'aws_clientcredential.h')
 
     endpoint_string = "Paste AWS IoT Broker endpoint here."
     wifi_ssid_string = "Paste Wi-Fi SSID here."
@@ -108,11 +110,11 @@ def cleanup_client_credential_file(afr_source_dir):
         header_file = open(str(client_credential_file),'w')
         header_file.write(new_text)
         header_file.close()
-
+    print("Cleaned up aws_clientcredential.h")
 
 def cleanup_client_credential_keys_file(afr_source_dir):
     client_credential_keys_file = os.path.join(
-        afr_source_dir, 'demos', 'common', 'include', 'aws_clientcredential_keys.h')
+        afr_source_dir, 'demos', 'include', 'aws_clientcredential_keys.h')
 
     certificate_pem_string = "Paste client certificate here."
     private_key_pem_string = "Paste client private key here."
@@ -127,3 +129,4 @@ def cleanup_client_credential_keys_file(afr_source_dir):
         header_file = open(str(client_credential_keys_file),'w')
         header_file.write(new_text)
         header_file.close()
+    print("Cleaned up aws_clientcredential_keys.h")

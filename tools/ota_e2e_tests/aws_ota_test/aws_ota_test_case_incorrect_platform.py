@@ -1,6 +1,6 @@
 """
-Amazon FreeRTOS
-Copyright (C) 2018 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+FreeRTOS
+Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -18,41 +18,34 @@ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- 
+
 http://aws.amazon.com/freertos
-http://www.FreeRTOS.org 
+http://www.FreeRTOS.org
 
 """
-from .aws_ota_test_case import *
-from .aws_ota_aws_agent import *
-import boto3
+from .aws_ota_test_case import OtaTestCase
 import os
-from .aws_ota_test_result import OtaTestResult
 
-class OtaTestIncorrectPlatform( OtaTestCase ):
-    NAME = "OtaTestIncorrectPlatform"
-    def __init__(self, boardConfig, otaProject, otaAwsAgent, flashComm):
-        super(OtaTestIncorrectPlatform, self).__init__(
-            OtaTestIncorrectPlatform.NAME, 
-            boardConfig,
-            otaProject, 
-            otaAwsAgent, 
-            flashComm
-        )
-        if self._otaConfig['aws_signer_platform'] == 'AmazonFreeRTOS-TI-CC3220SF':
-            self._signingType = 'FakeMCHP'
-            self._incorrectPlatform = 'AmazonFreeRTOS-Default'
+
+class OtaTestIncorrectPlatform(OtaTestCase):
+    """
+    Different hardware supports different signing and hashing algorithm. This test verifies that
+    device will fail the OTA update is it's created with non-supported algorithm.
+    """
+
+    is_positive = False
+
+    def __init__(self, positive, boardConfig, otaProject, otaAwsAgent, flashComm, protocol):
+        if boardConfig['ota_config']['aws_signer_platform'] == 'AmazonFreeRTOS-TI-CC3220SF':
             self._signingAlgorithm = 'ECDSA'
             self._hashingAlgorithm = 'SHA256'
         else:
-            self._signingType = 'IdentifyAsTI'
-            self._incorrectPlatform = 'AmazonFreeRTOS-TI-CC3220SF'
             self._signingAlgorithm = 'RSA'
             self._hashingAlgorithm = 'SHA1'
 
-    def getName(self):
-        return self._name
-    
+        # Call base constructor.
+        super().__init__(positive, boardConfig, otaProject, otaAwsAgent, flashComm, protocol)
+
     def run(self):
         # Increase the version of the OTA image.
         self._otaProject.setApplicationVersion(0, 9, 1)
@@ -72,24 +65,25 @@ class OtaTestIncorrectPlatform( OtaTestCase ):
         )
         # Create a job.
         otaUpdateId = self._otaAwsAgent.createOtaUpdate(
-            deploymentFiles = [
+            protocols=[self._protocol],
+            deploymentFiles=[
                 {
                     'fileName': self._otaConfig['device_firmware_file_name'],
                     'fileVersion': '1',
                     'fileLocation': {
-                        'stream':{
+                        'stream': {
                             'streamId': streamId,
                             'fileId': 0
                         },
                     },
-                    'codeSigning': { 
+                    'codeSigning': {
                         "customCodeSigning": {
                             "signature": {
-                                "inlineDocument":"IAmVeryTrusted"
+                                "inlineDocument": "IAmVeryTrusted"
                             },
                             "certificateChain": {
-                                "certificateName":"VeryTrustworthyOrganization",
-                                "inlineDocument":"TrustUs"
+                                "certificateName": "VeryTrustworthyOrganization",
+                                "inlineDocument": "TrustUs"
                             },
                             "hashAlgorithm": self._hashingAlgorithm,
                             "signatureAlgorithm": self._signingAlgorithm
@@ -101,11 +95,3 @@ class OtaTestIncorrectPlatform( OtaTestCase ):
 
         # Wait for the job to complete.
         return self.getTestResultAfterOtaUpdateCompletion(otaUpdateId)
-
-    def getTestResult(self, jobStatus, log):
-        if (jobStatus.status != 'SUCCEEDED'):
-            # (Overwrite the confusing hex message presented as the 'jobStatus' on this type of failure)
-            job_status = namedtuple('JobStatus', 'status reason')('PASS', 'Invalid signing certificate test passed.')
-            return OtaTestResult.testResultFromJobStatus(self._name, OtaTestResult.PASS, job_status)
-        else:
-            return OtaTestResult.testResultFromJobStatus(self._name, OtaTestResult.FAIL, jobStatus)

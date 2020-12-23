@@ -1,6 +1,6 @@
 """
-Amazon FreeRTOS
-Copyright (C) 2018 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+FreeRTOS
+Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -18,9 +18,9 @@ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- 
+
 http://aws.amazon.com/freertos
-http://www.FreeRTOS.org 
+http://www.FreeRTOS.org
 
 """
 import subprocess
@@ -64,11 +64,12 @@ class FlashSerialComm:
         self._serialThread.start()
 
     def flashApplication(self):
-        """Flash the application to the board. 
-        
+        """Flash the application to the board.
+
         We are expecting the flash commands to not only program the board, but to also
         take the board out of reset after programming.
         """
+        returnCodes = []
         # Save the system path to restore.
         system_path = os.environ['PATH']
         # Add the tool_paths to the system PATH
@@ -79,17 +80,24 @@ class FlashSerialComm:
         print('Flashing test application to board...')
         for command in flashCommands:
             command = command.format(**self._flashConfig)
-            subprocess.Popen(command, shell=True).wait()
+            print('====> Executing Command: ' + command)
+            proc = subprocess.Popen(command, shell=True)
+            proc.wait()
+            print('====> Command run completed with the return code: ', proc.returncode)
+            returnCodes.append(proc.returncode)
         print('Done with flash commands. Now running...')
 
         # Restore the system path
         os.environ['PATH'] = system_path
-        
+
+        return returnCodes
+
     def flashAndRead(self):
         """Flash program the board and also open a serial port for reading.
         """
         retryCount = 0
         testOutput = ''
+        returnCodes = []
 
         while (not testOutput) and retryCount < self._flashConfig['flash_num_retry']:
             # Clear the serial log before each new program of the board.
@@ -101,20 +109,22 @@ class FlashSerialComm:
                 # Open the serial port because it takes a while. We do this before flashing
                 # so that we don't miss any output logs.
                 self._serialThread.startRead()
-                self.flashApplication()
+                returnCodes = self.flashApplication()
             else:
-                # Some boards, especially where the output is USB, do not need for the 
+                # Some boards, especially where the output is USB, do not need for the
                 # serial port to be open before flashing to not miss logs; or have the same
                 # port for flashing and serial communication, so we must flash before opening
                 # the serial port.
-                self.flashApplication()
+                returnCodes = self.flashApplication()
                 self._serialThread.startRead()
-                
+
             # Wait the serial communication timeout to get an initial log output.
             sleep(self._flashConfig['serial_timeout_sec'])
             # Get the initial log, it should not be blank, if it is we will repeat flashing.
             testOutput = self._serialThread.getLog()
             retryCount += 1
+
+        return returnCodes
 
     def stopSerialRead(self):
         """Stop the serial thread from reading. This will close the serial port.
@@ -135,27 +145,27 @@ class FlashSerialComm:
 
 class ReadSerialThread(Thread):
     """A class for reading the serial port.
-    
+
     A serial thread class is created so that we can:
         - save logs for analyzing test out out.
         - Stop the thread in it's infinite serial read loop. We want to be able to stop
           reading after tests are over and to give up the serial port when necessary.
-    
+
     Attributes:
         _executable (str): The path to the executable to run instead of opening the serial port.
-        _port (str): The serial communication port defined in board.json under the 
+        _port (str): The serial communication port defined in board.json under the
             flash_config field. This port is 'COMx' in Windows and '/dev/xxx' in Unix
             systems.
         _baudrate (int): The bps of the serial port.
         _timeout (int): Timeout in seconds on the serial port read if we don't recieve any data.
-        _stopRead (bool): Initially set to false so that we can begin reading as soon 
+        _stopRead (bool): Initially set to false so that we can begin reading as soon
             as we are told to grab the serial port. set to true in the middle of a read
-            to let go of the serial port. The thread does not exit we go to the 
+            to let go of the serial port. The thread does not exit we go to the
             _holdBeforeOpen state.
         _exitRun (bool): Thread exits if this is set to True.
-        _holdBeforeOpen (bool): variable to wait on before opening the serial port for 
+        _holdBeforeOpen (bool): variable to wait on before opening the serial port for
             reading.
-        _log (str): All of the serial output in the last run. 
+        _log (str): All of the serial output in the last run.
 
     Example:
         serialThread = ReadSerialThread(
@@ -209,12 +219,12 @@ class ReadSerialThread(Thread):
 
     def _readOutput(self, outStream):
         # Read until we are told to stop.
-        self._stopRead = False 
+        self._stopRead = False
         while self._stopRead == False and not self._exitRun:
             try:
                 line = outStream.readline().decode()
                 # For windows simulator once we reach a reboot place, then we will manually reboot.
-                if 'Failed to activate new image (0x00000000). Please reset manually.' in line:
+                if 'Please reset manually' in line:
                     return 'reset'
             except UnicodeDecodeError:
                 # Discard data if fails to decode.
@@ -229,13 +239,13 @@ class ReadSerialThread(Thread):
                 self._log += line
 
     def run(self):
-        """ Run until this object is closed. 
+        """ Run until this object is closed.
         """
         while not self._exitRun:
             # Start out each new read paused.
             self._holdBeforeOpen = True
             # Nonblocking wait for the open of the serial port.
-            while self._holdBeforeOpen and not self._exitRun: 
+            while self._holdBeforeOpen and not self._exitRun:
                 sleep(0.5)
             # Exit the run if we are told to do so.
             if self._exitRun: continue

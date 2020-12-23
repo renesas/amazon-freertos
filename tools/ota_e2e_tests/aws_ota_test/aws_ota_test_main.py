@@ -1,6 +1,6 @@
 """
-Amazon FreeRTOS
-Copyright (C) 2018 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+FreeRTOS
+Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -18,9 +18,9 @@ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- 
+
 http://aws.amazon.com/freertos
-http://www.FreeRTOS.org 
+http://www.FreeRTOS.org
 
 """
 import os
@@ -30,7 +30,8 @@ import argparse
 from threading import Thread
 from functools import reduce
 from operator import add
-from junit_xml import TestSuite, TestCase
+
+import junitparser as junit
 from .aws_ota_test_runner import *
 from .aws_ota_test_result import OtaTestResult
 
@@ -50,6 +51,7 @@ def parseArgs():
     parser.add_argument('--signer-endpoint-url', action='store', required=False, dest='signerEndpointUrl', help='On certain stages AWS signer needs an endpoint URL')
     parser.add_argument('--region', action='store', required=False, dest='region', help='The region for AWS CLI operations when --stage is specified.')
     parser.add_argument('--certificate', action='store', required=False, dest='certificatePath', help='The path to the PEM encoded secure connection certificate needed for stages other than Production.')
+    parser.add_argument('--data-protocols', nargs='+', required=False, default=['MQTT', 'HTTP'], dest='dataProtocols', help='OTA data transfer protocols, valid values are "mqtt" and "http". If not supported by device, tests are ignored.')
     args = parser.parse_args()
 
     return args
@@ -60,7 +62,7 @@ def cleanBoardConfigsForInputArgs(args, boardConfigs):
     if args.enabledBoards:
         boardConfigs = \
             list(filter(
-                lambda boardConfig: boardConfig['name'] in args.enabledBoards[0], 
+                lambda boardConfig: boardConfig['name'] in args.enabledBoards[0],
                 boardConfigs
             ))
     if args.enabledTests:
@@ -90,7 +92,7 @@ def getBoardConfigsFromInputArgs(args):
     CONFIG_BOARD_CONFIG_DIR is defined in aws_ota_test_config.py. Define this to the
     directory containing all of your board configurations. This directory is walked for
     all board configurations.
-    Returns the the board configs in the CONFIG_BOARD_CONFIG_DIR. 
+    Returns the the board configs in the CONFIG_BOARD_CONFIG_DIR.
     """
     boardConfigs = []
     if args.boardConfigDir != None:
@@ -123,7 +125,7 @@ def formatBoardConfig(boardConfig):
     formatConfigValues(boardConfig, boardConfig)
     formatConfigValues(boardConfig['ota_config'], boardConfig, boardConfig['ota_config'])
     formatConfigValues(boardConfig['build_config'], boardConfig, boardConfig['build_config'])
-    formatConfigValues(boardConfig['flash_config'], boardConfig, boardConfig['flash_config'])    
+    formatConfigValues(boardConfig['flash_config'], boardConfig, boardConfig['flash_config'])
 
 def formatConfigValues(targetConfig, formatConfig1, formatConfig2 = {}):
     """Format the target configuration field references with the input formatConfigs dictionary.
@@ -153,18 +155,20 @@ def createJunitTestResults(boardToResults, fileName):
         boardToResults(dict[str:obj(OtaTestResult)]): Dictionary of the board name to it's OtaTestResult.
         fileName: The name of the junit test file to create.
     """
-    testSuites = []
+    report = junit.JUnitXml()
     for board in boardToResults.keys():
-        testCases = []
+        group_suite = junit.TestSuite(board + '.OTAEndToEndTests')
         for otaTestResult in boardToResults[board]:
-            testCase = TestCase(otaTestResult.testName, classname=board + '.OTAEndToEndTests')
-            testCases.append(testCase)
-            if otaTestResult.result != OtaTestResult.PASS:
-                testCases[-1].add_failure_info(message=otaTestResult.reason)
-        testSuites.append(TestSuite(board, test_cases=testCases, package=board))
-        
-    with open(fileName, 'w') as f:
-        TestSuite.to_file(f, testSuites)
+            test_case = junit.TestCase(otaTestResult.testName)
+            if otaTestResult.result == OtaTestResult.FAIL:
+                test_case.result = junit.Failure(otaTestResult.summary)
+            elif otaTestResult.result == OtaTestResult.ERROR:
+                test_case.result = junit.Skipped(otaTestResult.summary)
+            group_suite.add_testcase(test_case)
+        report.add_testsuite(group_suite)
+
+    report.update_statistics()
+    report.write(fileName, pretty=True)
 
 def getStageParameters(args):
     stageParams = {}
@@ -198,6 +202,10 @@ def otaTestMain():
         if boardConfig['exclude']:
             continue
         boardToResults[boardConfig['name']] = []
+        # Update 'data_protocols' key with user input.
+        args.dataProtocols = [p.upper() for p in args.dataProtocols]
+        data_protocols = set(args.dataProtocols) & set(boardConfig['ota_config'].get('data_protocols', ['MQTT']))
+        boardConfig['ota_config']['data_protocols'] = list(data_protocols)
         if args.separateThreads == True:
             threads.append(Thread(
                 target=getBoardOtaTestResult, \
@@ -205,7 +213,7 @@ def otaTestMain():
             ))
         else:
             getBoardOtaTestResult(boardConfig, stageParams, boardToResults[boardConfig['name']])
-        
+
     for i in range(len(threads)):
         threads[i].start()
 

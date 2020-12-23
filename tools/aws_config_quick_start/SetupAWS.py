@@ -16,10 +16,21 @@ def check_aws_configuration():
         print("AWS not configured. Please run `aws configure`.")
         sys.exit(1)
 
+def validate_json_text(json_text):
+    #Check that WiFi Security contains a valid value.
+    wifi_security = json_text['wifi_security']
+    if wifi_security not in ['eWiFiSecurityOpen', 'eWiFiSecurityWEP', 'eWiFiSecurityWPA', 'eWiFiSecurityWPA2']:
+        print("{} is not a valid wifi_security value.".format(wifi_security))
+        print("wifi_security value must be one of ['eWiFiSecurityOpen', 'eWiFiSecurityWEP', 'eWiFiSecurityWPA', 'eWiFiSecurityWPA2'].")
+        print("Please correct wifi_security value in configure.json.")
+        sys.exit(1)
 
 def prereq():
     with open('configure.json') as file:
         json_text = json.load(file)
+
+    # Validate that the entries in the JSON are valid.
+    validate_json_text(json_text)
 
     # Create a Thing
     thing_name = json_text['thing_name']
@@ -33,6 +44,7 @@ def prereq():
         # Store certId
         cert_id = result['certificateId']
         cert_id_filename = thing_name + '_cert_id_file'
+        print('Writing certificate ID to: {}'.format(cert_id_filename))
         cert_id_file = open(cert_id_filename, 'w')
         cert_id_file.write(cert_id)
         cert_id_file_path = os.path.abspath(cert_id_filename)
@@ -42,6 +54,7 @@ def prereq():
         # Store cert_pem as file
         cert_pem = result['certificatePem']
         cert_pem_filename = thing_name + '_cert_pem_file'
+        print('Writing certificate PEM to: {}'.format(cert_pem_filename))
         cert_pem_file = open(cert_pem_filename, 'w')
         cert_pem_file.write(cert_pem)
         cert_pem_file_path = os.path.abspath(cert_pem_filename)
@@ -51,6 +64,7 @@ def prereq():
         # Store private key PEM as file
         private_key_pem = result['keyPair']['PrivateKey']
         private_key_pem_filename = thing_name + '_private_key_pem_file'
+        print('Writing private key PEM to: {}'.format(private_key_pem_filename))
         private_key_pem_file = open(private_key_pem_filename, 'w')
         private_key_pem_file.write(private_key_pem)
         private_key_pem_file_path = os.path.abspath(private_key_pem_filename)
@@ -68,6 +82,7 @@ def prereq():
 
         # Attach policy to certificate
         cert_obj.attach_policy(policy_name)
+        print("Completed prereq operation!")
 
 def update_credential_file():
     with open('configure.json') as file:
@@ -106,6 +121,7 @@ def update_credential_file():
     # Modify 'aws_clientcredential_keys.h' file
     misc.update_client_credential_keys(
         afr_source_dir, cert_pem, private_key_pem)
+    print("Completed update operation!")
 
 def delete_prereq():
     with open('configure.json') as file:
@@ -122,18 +138,29 @@ def delete_prereq():
     cert_id =  cert_id_file.read()
     cert_obj = certs.Certificate(cert_id)
     cert_obj.delete()
+    cert_id_file.close()
+    cert_id_file_path = os.path.abspath(cert_id_filename)
+    os.chmod(cert_id_file_path, 0o666)
+    print("Deleting {}".format(cert_id_filename))
     os.remove(cert_id_filename)
 
     # Delete cert_pem file and private_key_pem file
     cert_pem_filename = thing_name + '_cert_pem_file'
     private_key_pem_filename = thing_name + '_private_key_pem_file'
+    cert_pem_file_path = os.path.abspath(cert_pem_filename)
+    private_key_pem_file_path = os.path.abspath(private_key_pem_filename)
+    os.chmod(cert_pem_file_path, 0o666)
+    os.chmod(private_key_pem_file_path, 0o666)
+    print("Deleting {}".format(cert_pem_filename))
     os.remove(cert_pem_filename)
+    print("Deleting {}".format(private_key_pem_filename))
     os.remove(private_key_pem_filename)
 
     # Delete policy
     policy_name = thing_name + '_amazon_freertos_policy'
     policy_obj = policy.Policy(policy_name)
     policy_obj.delete()
+    print("Successfully deleted prereqs!")
 
 def cleanup_creds():
     with open('configure.json') as file:

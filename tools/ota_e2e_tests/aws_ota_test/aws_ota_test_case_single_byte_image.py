@@ -1,6 +1,6 @@
 """
-Amazon FreeRTOS
-Copyright (C) 2018 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+FreeRTOS
+Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -18,35 +18,31 @@ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- 
+
 http://aws.amazon.com/freertos
-http://www.FreeRTOS.org 
+http://www.FreeRTOS.org
 
 """
-from .aws_ota_test_case import *
-from .aws_ota_aws_agent import *
-from .aws_ota_test_result import OtaTestResult
+from .aws_ota_test_case import OtaTestCase
 
-class OtaTestSingleByteImage( OtaTestCase ):
-    NAME = "OtaTestSingleByteImage"
-    def __init__(self, boardConfig, otaProject, otaAwsAgent, flashComm):
-        super(OtaTestSingleByteImage, self).__init__(
-            OtaTestSingleByteImage.NAME, 
-            boardConfig,
-            otaProject, 
-            otaAwsAgent, 
-            flashComm
-        )
 
+class OtaTestSingleByteImage(OtaTestCase):
+    """
+    This test checks that the device is able to receive and handle a minimum size update (1 byte).
+    """
+
+    is_positive = False
+
+    def __init__(self, positive, boardConfig, otaProject, otaAwsAgent, flashComm, protocol):
         # Create a large-ish file that is not a working binary image.
         self.singleByteFileName = 'singe_byte.bin'
         outfile = open(self.singleByteFileName, 'wb')
         charToWrite = "a"
         outfile.write(charToWrite.encode())
 
-    def getName(self):
-        return self._name
-    
+        # Call base constructor.
+        super().__init__(positive, boardConfig, otaProject, otaAwsAgent, flashComm, protocol)
+
     def run(self):
         # Upload the bad image to s3.
         self._otaAwsAgent.uploadFirmwareToS3Bucket(
@@ -68,12 +64,13 @@ class OtaTestSingleByteImage( OtaTestCase ):
         )
         # Create the OTA update job.
         otaUpdateId = self._otaAwsAgent.createOtaUpdate(
-            deploymentFiles = [
+            protocols=[self._protocol],
+            deploymentFiles=[
                 {
                     'fileName': self._otaConfig['device_firmware_file_name'],
                     'fileVersion': '1',
                     'fileLocation': {
-                        'stream':{
+                        'stream': {
                             'streamId': streamId,
                             'fileId': 0
                         },
@@ -86,9 +83,3 @@ class OtaTestSingleByteImage( OtaTestCase ):
         )
 
         return self.getTestResultAfterOtaUpdateCompletion(otaUpdateId)
-
-    def getTestResult(self, jobStatus, log):
-        if (jobStatus.status == 'FAILED'):
-            return OtaTestResult.testResultFromJobStatus(self._name, OtaTestResult.PASS, jobStatus)
-        else:
-            return OtaTestResult.testResultFromJobStatus(self._name, OtaTestResult.FAIL, jobStatus)

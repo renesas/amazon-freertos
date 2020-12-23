@@ -1,6 +1,6 @@
 """
-Amazon FreeRTOS
-Copyright (C) 2018 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+FreeRTOS
+Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -18,29 +18,31 @@ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- 
+
 http://aws.amazon.com/freertos
-http://www.FreeRTOS.org 
+http://www.FreeRTOS.org
 
 """
-from abc import abstractmethod
-from collections import namedtuple
+from abc import ABC, abstractmethod
 import os
+import time
 import errno
 import traceback
+import subprocess
 
 from .aws_ota_test_result import OtaTestResult
 
-class OtaTestCase( object ):
+
+class OtaTestCase(ABC):
     """OTA Test Case abstract class.
     Attributes:
         _name(str): Name of the testcase.
+        _positive(bool): Positive or negative of the testcase.
         _otaConfig(dict): 'ota_config' in board.json.
-        _otaProject(obj:OtaAfrProject): Amazon FreeRTOS source code resource.
+        _otaProject(obj:OtaAfrProject): FreeRTOS source code resource.
         _otaAwsAgent(obj:OtaAwsAgent): AWS CLI for OTA resource.
         _flashComm(obj:FlashSerialComm): MCU Flash and Serial read resource.
     Methods:
-        getTestResult() : abstract method
         run() : abstract method
         getName()
         setup() : Sets up _otaProject as 0.9.0 should be overwritten if that is not desired.
@@ -48,73 +50,121 @@ class OtaTestCase( object ):
         runTest()
         getTestResultAfterOtaUpdateCompletion()
     """
-    TestCaseResult = namedtuple('TestCaseResult', 'result reason')
-    def __init__(self, name, boardConfig, otaProject, otaAwsAgent, flashComm):
-        self._name = name
+    def __init__(self, positive, boardConfig, otaProject, otaAwsAgent, flashComm, protocol):
+        self._name = self.__class__.__name__
+        self._positive = positive
         self._boardConfig = boardConfig
         self._otaConfig = boardConfig['ota_config']
         self._otaProject = otaProject
         self._otaAwsAgent = otaAwsAgent
         self._flashComm = flashComm
+        self._protocol = protocol
 
-        self._logFilePath = os.path.join('logs', self._otaAwsAgent._boardName, self._otaAwsAgent._boardName + '.' + self._name + '.txt')
+        self._logFilePath = os.path.join(
+            'logs',
+            self._otaAwsAgent._boardName,
+            self._otaAwsAgent._boardName + '.' +
+            self._name + '.' +
+            self._protocol + '.txt'
+        )
+
+    @staticmethod
+    def supported_protocols():
+        """Which protocols are supported in this test case, default is both MQTT and HTTP, can be
+        overridden by subclass.
+        """
+        return ['MQTT', 'HTTP']
+
+    @classmethod
+    def generate_test_cases(cls, boardConfig, otaProject, otaAwsAgent, flashComm):
+        """Generate test cases based on configurations, can be overridden by subclass
+        """
+        enabled_protocols = boardConfig['ota_config']['data_protocols']
+        test_cases = []
+        for protocol in enabled_protocols:
+            if protocol in cls.supported_protocols():
+                test_cases.append(cls(cls.is_positive, boardConfig, otaProject, otaAwsAgent, flashComm, protocol))
+
+        return test_cases
 
     def getName(self):
         """Return the name of this test case.
         """
-        return self._name
-        
+        return f'{self._name}_{self._protocol}'
+
     def setup(self):
         """Setup the OTA test.
-        This method should be overwritten if flashing version 0.9.0 is not desired.
+        All the necessary setup. Optional method, but do call super setup if implementation is provided in sub-class.
         """
+        self._otaProject.initializeOtaProject()
+        self._otaProject.setClientCredentialsForAwsIotEndpoint(self._otaAwsAgent.getAwsIotEndpoint())
+        self._otaProject.setClientCredentialsForWifi(self._boardConfig['wifi_ssid'], self._boardConfig['wifi_password'], self._boardConfig['wifi_security'])
+        self._otaProject.setClientCredentialForThingName(self._otaAwsAgent.getThingName())
+        self._otaProject.setClientCredentialKeys(self._otaAwsAgent.getThingCertificate(), self._otaAwsAgent.getThingPrivateKey())
+        self._otaProject.copyCodesignerCertificateToBootloader(self._otaAwsAgent.getCodeSignerCertificateFromArn(self._otaConfig['aws_signer_certificate_arn']))
+        self._otaProject.setMqttLogsOn()
+        self._otaProject.setFreeRtosConfigNetworkInterface(self._boardConfig.get('windows_network_interface', 0))
+        if self._otaConfig.get('compile_codesigner_certificate', False):
+            self._otaProject.setCodesignerCertificate(self._otaAwsAgent.getCodeSignerCertificateFromArn(self._otaConfig['aws_signer_certificate_arn']))
+        transportation = self._otaConfig.get('transportation')
+        if transportation == 'ble':
+            self._otaProject.setBleConfig()
+        if 'HTTP' in self._protocol:
+            self._otaProject.setHTTPConfig()
         self._otaProject.setApplicationVersion(0, 9, 0)
-        self._otaProject.buildProject()
-        self._flashComm.flashAndRead()
+
+        buildReturnCode = self._otaProject.buildProject()
+        flashReturnCode = self._flashComm.flashAndRead()
+
+        return buildReturnCode + flashReturnCode
 
     def teardown(self):
         """ Tear down the OTA test.
-        All the necessary cleanup. Optional method.
+        All the necessary cleanup. Optional method, but do call super teardown if implementation is provided in sub-class.
         """
-        None
-        
-    @abstractmethod
-    def getTestResult(self, otaStatus, log):
-        """Get the results of the test given the otaStatus or the output in the log.
-        Returns OtaTestCase.PASS or OtaTestCase.FAIL.
-        Args:
-            otaStatus(namedtuple(status, reason)): The status from AWS IoT OTA Service.
-            log(str): The output log from the MCU device.
-        """
-        print("OtaTestCase::getTestResult is not implemented.")
-        return OtaTestResult(OtaTestCase.FAIL, 'OtaTestCase::getTestResult is not implemented')
+        self._flashComm.stopSerialRead()
+
+        # Call git to reset the source code.
+        try:
+          subprocess.run(['git', 'checkout', f'{self._boardConfig["afr_root"]}'])
+        except OSError as e:
+          print(f'Error reseting the source code: {e}')
 
     def runTest(self):
         """Run this OTA test case.
         """
-        print('---------- Running '+ self._boardConfig['name'] + ' : ' + self._name + ' ----------')
+        start = time.time()
+        print(f'---------- Running {self._boardConfig["name"]} : {self.getName()} ----------')
 
         # Run the implemented runTest function
         logAppendage = ''
         try:
             # Run the implemented setup.
-            self.setup()
+            returnCodes = self.setup()
+
             # Run the actual test.
-            testResult = self.run()
+            if all(p == 0 for p in returnCodes):
+                testResult = self.run()
+            else:
+                testResult = OtaTestResult(testName=self.getName(), result=OtaTestResult.ERROR, summary='Building or flashing failed. Please check logs.')
         except Exception:
             logAppendage = traceback.format_exc()
             print(logAppendage)
-            testResult = OtaTestResult(testName=self._name, result=OtaTestResult.FAIL, reason=logAppendage)
-        
-        print('OTA E2E TEST RESULT: ' + testResult.result + '; because ' + testResult.reason)
-        
+            testResult = OtaTestResult(testName=self.getName(), result=OtaTestResult.ERROR, summary='Exception found during test execution. Please check logs.')
+
         # The test is finished save the log to the board's folder
         self.createTestLog(logAppendage)
 
         # Clean up
         self.teardown()
 
-        print('---------- Finished '+ self._boardConfig['name'] + ' : ' + self._name + ' ----------')
+        print(f'---------- Finished {self._boardConfig["name"]} : {self.getName()} ----------')
+        end = time.time()
+
+        time.sleep(3) # Wait for the device log flashes completely.
+
+        testResult.print(int(end - start))
+
         return testResult
 
     def createTestLog(self, appendage=''):
@@ -131,10 +181,10 @@ class OtaTestCase( object ):
 
     @abstractmethod
     def run(self):
-        """ Run the OTA test case setup by the jobID. 
+        """ Run the OTA test case setup by the jobID.
         Should create the desired OTA job here and wait on completion.
         """
-        print('OtaTestCase::run is not implemented.')
+        raise Exception("OtaTestCase::run is not implemented. Please provide the implementation.")
 
     def getTestResultAfterOtaUpdateCompletion(self, otaUpdateId):
         """Utility helper to poll for completion of the input job then stop reading
@@ -142,6 +192,5 @@ class OtaTestCase( object ):
         Args:
             otaUpdateId(str): AWS IoT OTA Update ID to poll for completion status.
         """
-        jobStatus = self._otaAwsAgent.pollOtaUpdateCompletion(otaUpdateId, self._otaConfig['ota_timeout_sec'])
-        self._flashComm.stopSerialRead()
-        return self.getTestResult(jobStatus, self._flashComm.getSerialLog())
+        jobStatus, summary = self._otaAwsAgent.pollOtaUpdateCompletion(otaUpdateId, self._otaConfig['ota_timeout_sec'])
+        return OtaTestResult.testResultFromJobStatus(self.getName(), jobStatus, self._positive, summary)

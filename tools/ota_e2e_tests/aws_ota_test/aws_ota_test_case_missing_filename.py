@@ -1,6 +1,6 @@
 """
-Amazon FreeRTOS
-Copyright (C) 2018 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+FreeRTOS
+Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -18,25 +18,22 @@ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- 
+
 http://aws.amazon.com/freertos
-http://www.FreeRTOS.org 
+http://www.FreeRTOS.org
 
 """
-from .aws_ota_test_case import *
-from .aws_ota_aws_agent import *
-from .aws_ota_test_result import OtaTestResult
+from .aws_ota_test_case import OtaTestCase
+import os
 
-class OtaTestMissingFilename( OtaTestCase ):
-    NAME = 'OtaTestMissingImageName'
-    def __init__(self, boardConfig, otaProject, otaAwsAgent, flashComm):
-        super(OtaTestMissingFilename, self).__init__(
-            OtaTestMissingFilename.NAME, 
-            boardConfig,
-            otaProject,
-            otaAwsAgent,
-            flashComm
-        )
+
+class OtaTestMissingFilename(OtaTestCase):
+    """
+    This test verifies that device will reject an update if the job document is missing the required
+    `fileName` parameter.
+    """
+
+    is_positive = False
 
     def run(self):
         # Increase the version of the OTA image.
@@ -62,11 +59,12 @@ class OtaTestMissingFilename( OtaTestCase ):
         )
         # Create an OTA update without the expected 'fileName' parameter.
         otaUpdateId = self._otaAwsAgent.createOtaUpdate(
-            deploymentFiles = [
+            protocols=[self._protocol],
+            deploymentFiles=[
                 {
                     'fileVersion': '1',
                     'fileLocation': {
-                        'stream':{
+                        'stream': {
                             'streamId': streamId,
                             'fileId': 0
                         },
@@ -78,9 +76,3 @@ class OtaTestMissingFilename( OtaTestCase ):
             ]
         )
         return self.getTestResultAfterOtaUpdateCompletion(otaUpdateId)
-
-    def getTestResult(self, jobStatus, log):
-        if (jobStatus.status != 'FAILED'):
-            return OtaTestResult(testName=self._name, result=OtaTestResult.FAIL, reason='AWS Job Status: ' + jobStatus.status + ", reason: " + jobStatus.reason)
-        else:
-            return OtaTestResult(testName=self._name, result=OtaTestResult.PASS, reason='')
