@@ -221,7 +221,7 @@ sci_err_t R_SCI_Close(sci_hdl_t const hdl)
     return SCI_SUCCESS;
 }// R_SCI_Close
 
-sci_err_t R_SCI_Send(sci_hdl_t const hdl, uint8_t * p_src, uint16_t const length)
+sci_err_t R_SCI_Send(sci_hdl_t const hdl, __far uint8_t * p_src, uint16_t const length)
 {
     sci_err_t err = SCI_SUCCESS;
 
@@ -251,7 +251,7 @@ sci_err_t R_SCI_Send(sci_hdl_t const hdl, uint8_t * p_src, uint16_t const length
 
     for (cnt = 0; cnt < length; cnt++)
     {
-        q_err = put_tx_q(hdl->chan, (const uint8_t)*p_src++);
+        q_err = put_tx_q(hdl->chan, ( uint8_t)*p_src++);
         if (BYTEQ_SUCCESS != q_err)
         {
             err = SCI_ERR_INSUFFICIENT_SPACE;

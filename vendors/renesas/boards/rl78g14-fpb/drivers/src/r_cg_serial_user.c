@@ -40,8 +40,8 @@ Pragma directive
 ***********************************************************************************************************************/
 #pragma interrupt r_uart0_interrupt_send(vect=INTST0)
 #pragma interrupt r_uart0_interrupt_receive(vect=INTSR0)
-#pragma interrupt r_uart2_interrupt_send(vect=INTST2)
-#pragma interrupt r_uart2_interrupt_receive(vect=INTSR2)
+//#pragma interrupt r_uart2_interrupt_send(vect=INTST2)
+//#pragma interrupt r_uart2_interrupt_receive(vect=INTSR2)
 #pragma interrupt r_uart3_interrupt_send(vect=INTST3)
 #pragma interrupt r_uart3_interrupt_receive(vect=INTSR3)
 /* Start user code for pragma. Do not edit comment generated here */
@@ -150,7 +150,7 @@ static void r_uart0_callback_receiveend(void)
 static void r_uart0_callback_softwareoverrun(uint16_t rx_data)
 {
     /* Start user code. Do not edit comment generated here */
-	sci_receive(0U, (const uint8_t)rx_data);
+	sci_receive(0U, (uint8_t)rx_data);
     /* End user code. Do not edit comment generated here */
 }
 
@@ -180,6 +180,7 @@ static void r_uart0_callback_error(uint8_t err_type)
     /* End user code. Do not edit comment generated here */
 }
 
+#if 0
 /***********************************************************************************************************************
 * Function Name: r_uart2_interrupt_receive
 * Description  : This function is INTSR2 interrupt service routine.
@@ -289,7 +290,7 @@ static void r_uart2_callback_error(uint8_t err_type)
     /* Start user code. Do not edit comment generated here */
     /* End user code. Do not edit comment generated here */
 }
-
+#endif
 /***********************************************************************************************************************
 * Function Name: r_uart3_interrupt_receive
 * Description  : This function is INTSR3 interrupt service routine.

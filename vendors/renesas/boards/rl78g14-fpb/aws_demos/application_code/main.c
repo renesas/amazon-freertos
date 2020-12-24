@@ -44,7 +44,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "aws_clientcredential.h"
 #include "aws_application_version.h"
 //#include "aws_dev_mode_key_provisioning.h"
-#include "r_cg_macrodriver.h"
 
 /* Logging Task Defines. */
 //#define mainLOGGING_TASK_STACK_SIZE         ( configMINIMAL_STACK_SIZE * 6 )
@@ -122,7 +121,7 @@ void vApplicationDaemonTaskStartupHook( void );
 /**
  * @brief Connects to WiFi.
  */
-static void prvWifiConnect( void );
+//static void prvWifiConnect( void );
 
 /**
  * @brief Initializes the board.
@@ -134,7 +133,7 @@ extern void Processing_Before_Start_Kernel(void);
 extern void main_task(void *pvParameters);
 
 /*-----------------------------------------------------------*/
-int putchar (int ch);
+int __far putchar (int ch);
 void send(unsigned char ch);
 
 extern void R_WIFI_SX_ULPGN_SetCertificateProfile(uint8_t certificate_id, uint32_t ipaddress,const char *servername);
@@ -143,11 +142,14 @@ static void SX_ULPGN_ConnectingHostInformation( void );
 
 /*-----------------------------------------------------------*/
 
+//sensors_t test_g_sensors_data;
+
 /**
  * @brief Application runtime entry point.
  */
 void main( void )
 {
+
     Processing_Before_Start_Kernel();
 
     vTaskStartScheduler();
@@ -327,7 +329,7 @@ const char * pcApplicationHostnameHook( void )
 }
 /*-----------------------------------------------------------*/
 
-int putchar (int ch)
+int __far putchar (int ch)
 {
 	send((unsigned char)ch);	/* 1 byte transmission */
 #if 0
@@ -365,7 +367,10 @@ static void SX_ULPGN_ConnectingHostInformation( void )
 #if defined(CONFIG_MQTT_DEMO_ENABLED)
     R_WIFI_SX_ULPGN_SetCertificateProfile(1, 0, (const char *)clientcredentialMQTT_BROKER_ENDPOINT);
 #else
-    R_WIFI_SX_ULPGN_SetCertificateProfile(1, host_addr, host_name);
+//    R_WIFI_SX_ULPGN_SetCertificateProfile(1, host_addr, host_name);
+
+    R_WIFI_SX_ULPGN_SetCertificateProfile(1, 0, (const char *)clientcredentialMQTT_BROKER_ENDPOINT);
+
 #endif
     /* ----- */
 }// SX_ULPGN_ConnectingHostInformation

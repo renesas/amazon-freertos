@@ -169,7 +169,7 @@ WIFIReturnCode_t WIFI_Scan( WIFIScanResult_t * pxBuffer,
 WIFIReturnCode_t WIFI_SetMode( WIFIDeviceMode_t xDeviceMode )
 {
     /* FIX ME. */
-    return eWiFiFailure;
+    return eWiFiNotSupported;
 }
 /*-----------------------------------------------------------*/
 

@@ -46,7 +46,8 @@
  *
  *  These defines are used in iot_demo_runner.h for demo selection */
 
-#define CONFIG_MQTT_DEMO_ENABLED
+//#define CONFIG_MQTT_DEMO_ENABLED
+#define CONFIG_RENESAS_SENSOR_UPLOAD_DEMO_ENABLED
 //#define CONFIG_TCP_ECHO_CLIENT_DEMO_ENABLED
 
 #define democonfigNETWORK_TYPES                              ( AWSIOT_NETWORK_TYPE_WIFI )

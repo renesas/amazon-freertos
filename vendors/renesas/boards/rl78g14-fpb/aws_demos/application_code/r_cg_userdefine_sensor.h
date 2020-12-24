@@ -18,54 +18,25 @@
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-* File Name    : r_cg_port.c
+* File Name    : r_cg_userdefine.h
 * Version      : CodeGenerator for RL78/G14 V2.05.04.02 [20 Nov 2019]
 * Device(s)    : R5F104ML
 * Tool-Chain   : CCRL
-* Description  : This file implements device driver for PORT module.
-* Creation Date: 2020/05/18
+* Description  : This file includes user definition.
+* Creation Date: 2020/09/08
 ***********************************************************************************************************************/
+
+#ifndef _USER_DEF_H
+#define _USER_DEF_H
 
 /***********************************************************************************************************************
-Includes
+User definitions
 ***********************************************************************************************************************/
-#include "r_cg_macrodriver.h"
-#include "r_cg_port.h"
-/* Start user code for include. Do not edit comment generated here */
+
+/* Start user code for function. Do not edit comment generated here */
+//#include <r_cg_macrodriver.h>
+#include "r_cg_macrodriver_sensor.h"
+#include <stdio.h>
+#include <stddef.h>
 /* End user code. Do not edit comment generated here */
-#include "r_cg_userdefine.h"
-
-/***********************************************************************************************************************
-Pragma directive
-***********************************************************************************************************************/
-/* Start user code for pragma. Do not edit comment generated here */
-/* End user code. Do not edit comment generated here */
-
-/***********************************************************************************************************************
-Global variables and functions
-***********************************************************************************************************************/
-/* Start user code for global. Do not edit comment generated here */
-/* End user code. Do not edit comment generated here */
-
-/***********************************************************************************************************************
-* Function Name: R_PORT_Create
-* Description  : This function initializes the Port I/O.
-* Arguments    : None
-* Return Value : None
-***********************************************************************************************************************/
-void R_PORT_Create(void)
-{
-    P3 = _00_Pn0_OUTPUT_0;
-    P13 = _00_Pn0_OUTPUT_0;
-    PM3 = _00_PMn0_MODE_OUTPUT | _02_PMn1_NOT_USE | _FC_PM3_DEFAULT;
-
-
-    P14 = _00_Pn6_OUTPUT_0 | _00_Pn7_OUTPUT_0;
-    POM1 = _10_POMn4_NCH_ON | _20_POMn5_NCH_ON;
-    PMC14 = _00_PMCn7_DI_ON | _7F_PMC14_DEFAULT;
-    PM14 = _01_PMn0_NOT_USE | _02_PMn1_NOT_USE | _04_PMn2_NOT_USE | _08_PMn3_NOT_USE | _10_PMn4_NOT_USE |
-           _00_PMn6_MODE_OUTPUT | _00_PMn7_MODE_OUTPUT | _20_PM14_DEFAULT;
-}
-
-/* Start user code for adding. Do not edit comment generated here */
-/* End user code. Do not edit comment generated here */
+#endif

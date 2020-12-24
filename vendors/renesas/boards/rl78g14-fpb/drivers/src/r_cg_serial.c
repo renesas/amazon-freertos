@@ -230,7 +230,7 @@ void R_SAU1_Create(void)
     NOP();
     NOP();
     SPS1 = _0001_SAU_CK00_FCLK_1 | _0010_SAU_CK01_FCLK_1;
-    R_UART2_Create();
+//    R_UART2_Create();
     R_UART3_Create();
 }
 
@@ -389,7 +389,7 @@ void R_UART3_Create(void)
     SREIF3 = 0U;   /* clear INTSRE3 interrupt flag */
     /* Set INTST3 hign priority */
     STPR13 = 0U;
-    STPR03 = 0U;
+    STPR03 = 1U;
     /* Set INTSR3 level1 priority */
     SRPR13 = 0U;
     SRPR03 = 1U;

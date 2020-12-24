@@ -13,7 +13,7 @@
 #if defined(__CCRX__) || defined(__ICCRX__) || defined(__RX__)
 #include "platform.h"
 #include "r_sci_rx_if.h"
-#elif(__CCRL__)
+#elif defined(__CCRL__) || defined(__ICCRL78__) || defined(__RL)
 #include "rl_platform.h"
 #include "r_sci_wrapper_if.h"
 #endif

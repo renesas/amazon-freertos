@@ -24,6 +24,7 @@
 #if defined(__CCRL__) || defined(__ICCRL78__) || defined(__RL)
 #include "r_bsp_config.h"
 #include "r_sci_wrapper_if.h"
+#include "r_byteq_private.h"
 #endif
 #include "r_byteq_if.h"
 #include "r_wifi_sx_ulpgn_if.h"
@@ -234,10 +235,10 @@ const uint8_t * const wifi_socket_status_tbl[ULPGN_SOCKET_STATUS_MAX] =
 
 volatile uint8_t current_socket_index;
 
-#if(__CRX__)
+#if defined(__CCRX__) || defined(__ICCRX__) || defined(__RX__)
 WIFI_CertificateProfile_t certificate_profile[5];
 #endif
-#if(__CCRL__)
+#if defined(__CCRL__) || defined(__ICCRL78__) || defined(__RL)
 WIFI_CertificateProfile_t certificate_profile[2];
 #endif
 
@@ -590,13 +591,13 @@ wifi_err_t R_WIFI_SX_ULPGN_Open(void)
 	        WIFI_RESET_DR(WIFI_CFG_RESET_PORT, WIFI_CFG_RESET_PIN) = 0;
 
 	        WIFI_RESET_DDR(WIFI_CFG_RESET_PORT, WIFI_CFG_RESET_PIN) = 1;
-#elif(__CCRL__)
+#elif defined(__CCRL__) || defined(__ICCRL78__) || defined(__RL)
 	        WIFI_CFG_RESET_PORT_PODR = 0;
 #endif
 	        R_BSP_SoftwareDelay(26, BSP_DELAY_MILLISECS); /* 5us mergin 1us */
 #if defined(__CCRX__) || defined(__ICCRX__) || defined (__RX__)
 	        WIFI_RESET_DR(WIFI_CFG_RESET_PORT, WIFI_CFG_RESET_PIN) = 1;
-#elif(__CCRL__)
+#elif defined(__CCRL__) || defined(__ICCRL78__) || defined(__RL)
 	        WIFI_CFG_RESET_PORT_PODR = 1;
 #endif
 	        R_BSP_SoftwareDelay(200, BSP_DELAY_MILLISECS); /*  */
@@ -642,7 +643,7 @@ wifi_err_t R_WIFI_SX_ULPGN_Open(void)
 				R_SCI_Control(g_wifi_uart[wifi_command_port].wifi_uart_sci_handle, SCI_CMD_EN_CTS_IN, NULL);
 				WIFI_RTS_DR(WIFI_CFG_RTS_PORT, WIFI_CFG_RTS_PIN) = 0;
 				WIFI_RTS_DDR(WIFI_CFG_RTS_PORT, WIFI_CFG_RTS_PIN) = 1;
-#elif(__CCRL__)
+#elif defined(__CCRL__) || defined(__ICCRL78__) || defined(__RL)
 				R_UART0_Reset( WIFI_CFG_SCI_BAUDRATE );
 				WIFI_CFG_UART_DEFAULT_SCI_RTS_PODR = 0;
 #endif
@@ -1045,6 +1046,9 @@ wifi_err_t R_WIFI_SX_ULPGN_Disconnect(void)
 		wifi_execute_at_command(wifi_command_port, "ATWD\r", g_command_execute_timeout1, WIFI_RETURN_ENUM_OK, WIFI_COMMAND_SET_WIFI_DISCONNECT, 0xff);
 		memset(&g_wifi_ipconfig, 0, sizeof(g_wifi_ipconfig));
 		g_wifi_system_state = WIFI_SYSTEM_OPEN;
+#if DEBUGLOG ==2
+		printf("Disconnected WiFi AP.\r\n");
+#endif
 	}
 	if(WIFI_ERR_TAKE_MUTEX != api_ret)
 	{
@@ -1502,7 +1506,7 @@ wifi_err_t R_WIFI_SX_ULPGN_ConnectSocket(int32_t socket_number, uint32_t ip_addr
 * @fn
 * @brief Send Socket data
 */
-int32_t R_WIFI_SX_ULPGN_SendSocket (int32_t socket_number, uint8_t *data, int32_t length, uint32_t timeout_ms)
+int32_t R_WIFI_SX_ULPGN_SendSocket (int32_t socket_number, __far uint8_t *data, int32_t length, uint32_t timeout_ms)
 {
 	volatile int32_t timeout;
 	volatile int32_t sended_length;
@@ -1594,7 +1598,7 @@ int32_t R_WIFI_SX_ULPGN_SendSocket (int32_t socket_number, uint8_t *data, int32_
 
             g_wifi_uart[wifi_data_port].tx_end_flag = 0;
             ercd = R_SCI_Send(g_wifi_uart[wifi_data_port].wifi_uart_sci_handle,
-            		 (uint8_t *)data + sended_length, current_send_length);
+                             (__far uint8_t *)data + sended_length, current_send_length);
             if(SCI_SUCCESS != ercd)
             {
             	break;
@@ -1708,8 +1712,15 @@ int32_t R_WIFI_SX_ULPGN_ReceiveSocket (int32_t socket_number, uint8_t *data, int
 			R_BSP_CpuInterruptLevelWrite (WIFI_CFG_SCI_INTERRUPT_LEVEL);
 			byteq_ret = R_BYTEQ_Get(g_wifi_socket[current_socket_index].socket_byteq_hdl, (data + recvcnt));
 			R_BSP_CpuInterruptLevelWrite (ipl);
-#elif(__CCRL__)
+#elif defined(__CCRL__) || defined(__ICCRL__) || defined (__RL)
 			byteq_ret = R_BYTEQ_Get(g_wifi_socket[current_socket_index].socket_byteq_hdl, (data + recvcnt));
+
+            uint16_t byteq_free = 0;
+            R_BYTEQ_Unused(g_wifi_socket[current_socket_index].socket_byteq_hdl, &byteq_free);
+            if (WIFI_CFG_SOCKETS_RECEIVE_BUFFER_THRESHOLD < byteq_free)
+            {
+                WIFI_CFG_UART_DEFAULT_SCI_RTS_PODR = 0;
+            }
 #endif
 			if(BYTEQ_SUCCESS == byteq_ret)
 			{
@@ -2626,6 +2637,7 @@ static int32_t wifi_serial_default_port_close(void)
     R_SCI_Control(g_wifi_uart[ULPGN_UART_DEFAULT_PORT].wifi_uart_sci_handle,  SCI_CMD_RX_Q_FLUSH, NULL);
     R_SCI_Control(g_wifi_uart[ULPGN_UART_DEFAULT_PORT].wifi_uart_sci_handle, SCI_CMD_TX_Q_FLUSH, NULL);
     R_SCI_Close(g_wifi_uart[ULPGN_UART_DEFAULT_PORT].wifi_uart_sci_handle);
+
     return 0;
 }
 
@@ -2765,9 +2777,21 @@ static void wifi_uart_callback_default_port_for_data(void *pArgs)
     {
         if((0 == g_temporary_byteq_enable_flag)&&(g_wifi_socket[current_socket_index].socket_create_flag == 1))
         {
+#if defined(__CCRL__) || defined(__ICCRL78__) || defined(__RL)
+            if (g_wifi_socket[current_socket_index].socket_status == ULPGN_SOCKET_STATUS_CONNECTED)
+            {
+                uint16_t byteq_free = 0;
+                R_BYTEQ_Unused(g_wifi_socket[current_socket_index].socket_byteq_hdl, &byteq_free);
+                if (WIFI_CFG_SOCKETS_RECEIVE_BUFFER_THRESHOLD >= byteq_free)
+                {
+                    WIFI_CFG_UART_DEFAULT_SCI_RTS_PODR = 1;
+                }
+            }
+#endif
             /* From RXI interrupt; received character data is in p_args->byte */
             R_SCI_Control(g_wifi_uart[ULPGN_UART_DEFAULT_PORT].wifi_uart_sci_handle, SCI_CMD_RX_Q_FLUSH, NULL);
             byteq_ret = R_BYTEQ_Put(g_wifi_socket[current_socket_index].socket_byteq_hdl, p_args->byte);
+
             if (BYTEQ_SUCCESS != byteq_ret)
             {
             	g_wifi_socket[current_socket_index].put_error_count++;
@@ -2904,8 +2928,6 @@ static int32_t wifi_execute_at_command(uint8_t serial_ch_id, const uint8_t *ptex
 	{
 		return -1;
 	}
-
-	ret = -1;
 	if(result == expect_code)
 	{
 		ret = 0;
@@ -3121,6 +3143,7 @@ static int32_t wifi_take_mutex(uint8_t mutex_flag)
 	{
 		if( xSemaphoreTake( g_wifi_tx_semaphore, xMaxSemaphoreBlockTime ) != pdTRUE )
 		{
+            vTaskDelay(1);
         	return -1;
 		}
 	}
@@ -3133,12 +3156,14 @@ static int32_t wifi_take_mutex(uint8_t mutex_flag)
 			{
 				xSemaphoreGive( g_wifi_tx_semaphore );
 			}
+            vTaskDelay(1);
 			return -1;
 		}
 	}
 #if DEBUGLOG ==2
 	printf("Semaphore Get\n\n");
 #endif
+    vTaskDelay(1);
 	return 0;
 }
 
@@ -3159,8 +3184,11 @@ static void wifi_give_mutex(uint8_t mutex_flag)
 #if DEBUGLOG ==2
 	printf("Semaphore Give\r\n");
 #endif
+    vTaskDelay(1);
 	return;
 }
+
+sci_err_t ercd;
 
 /**
 * @fn
@@ -3172,7 +3200,7 @@ wifi_err_t R_WIFI_SX_ULPGN_RegistServerCertificate (uint32_t data_id, uint32_t d
 	volatile int32_t sended_length;
 	int32_t current_send_length;
 	wifi_err_t api_ret = WIFI_SUCCESS;
-	sci_err_t ercd;
+//	sci_err_t ercd;
 	int8_t get_queue;
 	wifi_return_code_t result;
 	uint8_t mutex_flag;
@@ -3202,11 +3230,11 @@ wifi_err_t R_WIFI_SX_ULPGN_RegistServerCertificate (uint32_t data_id, uint32_t d
 		{
 		case 0x00:
 			/* RootCA */
-			sprintf((char *)g_wifi_uart[wifi_command_port].command_buff, "ATNSSLCERT=calist%d.crt,%d\r", data_id,length);
+			sprintf((char *)g_wifi_uart[wifi_command_port].command_buff, "ATNSSLCERT=calist%d.crt,%d\r", (uint8_t)data_id, length);
 			break;
 		case 0x01:
 			/* Certificate & Key */
-			sprintf((char *)g_wifi_uart[wifi_command_port].command_buff, "ATNSSLCERT=cert%d.crt,%d\r", data_id,length);
+			sprintf((char *)g_wifi_uart[wifi_command_port].command_buff, "ATNSSLCERT=cert%d.crt,%d\r", (uint8_t)data_id, length);
 			break;
 		}
 		wifi_execute_at_command(wifi_command_port, g_wifi_uart[wifi_command_port].command_buff, g_command_execute_timeout2, WIFI_RETURN_ENUM_OK, WIFI_COMMAND_SET_SYSFALSH_WRITE_DATA, 0xff);
@@ -3243,6 +3271,10 @@ wifi_err_t R_WIFI_SX_ULPGN_RegistServerCertificate (uint32_t data_id, uint32_t d
 				vTaskDelay(1);
 			}
 			sended_length += current_send_length;
+			while(1)
+			{
+				break;
+			}
 		}
 		while(1)
 		{
@@ -3313,7 +3345,7 @@ wifi_err_t R_WIFI_SX_ULPGN_RequestTlsSocket (int32_t socket_number)
 */
 wifi_err_t wifi_setsslconfiguration (int32_t socket_number, uint8_t ssl_type)
 {
-	uint8_t mutex_flag;
+//	uint8_t mutex_flag;
 	wifi_err_t api_ret = WIFI_SUCCESS;
 
 	if( (socket_number >= WIFI_CFG_CREATABLE_SOCKETS) || (socket_number < 0) || (ssl_type > 3) ||
@@ -3351,7 +3383,7 @@ uint32_t erase_certificate (uint8_t *certificate_name)
 wifi_err_t R_WIFI_SX_ULPGN_EraseServerCertificate (uint8_t *certificate_name)
 {
 	wifi_err_t api_ret = WIFI_SUCCESS ;
-	int32_t ret;
+	wifi_err_t ret;
 	uint8_t mutex_flag;
 	uint8_t certificate_flg = 0;
 	wifi_certificate_infomation_t *certificate_information;
@@ -3544,7 +3576,7 @@ wifi_err_t	R_WIFI_SX_ULPGN_EraseAllServerCertificate(void)
 			}
 			if(WIFI_SUCCESS!=api_ret)
 			{
-				return WIRI_ERR_FLASH_ERASE;
+//				return WIRI_ERR_FLASH_ERASE;
 			}
 		}
 		certificate_information = certificate_information->next_certificate_name;
@@ -3624,4 +3656,13 @@ void r_wifi_sx_ulpgn_give_semaphore(void)
 	uint8_t mutex_flag;
 	mutex_flag = MUTEX_TX | MUTEX_RX;
 	wifi_give_mutex(mutex_flag);
+}
+
+void SOCKET_GetSocketStatus( void )
+{
+    uint32_t p_recv, p_send;
+    wifi_check_uart_state(&p_recv, &p_send);
+printf("recv=%lu: send=%lu\r\n", p_recv, p_send);
+
+	return;
 }
