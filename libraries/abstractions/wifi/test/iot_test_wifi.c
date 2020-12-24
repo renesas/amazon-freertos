@@ -175,7 +175,7 @@ typedef struct
 /* Test WIFI_ConfigureAP(). Beware that enabling these tests might affect
  * WIFI_ConnectAP()
  * if in WIFI_ConnectAP() the mode is not switched from SoftAP to Station. */
-#define testwifiENABLE_CONFIGURE_AP_TESTS    0
+#define testwifiENABLE_CONFIGURE_AP_TESTS    1
 
 /* Functions that are required to be implemented for DQP_FR are:
  * - WIFI_On()

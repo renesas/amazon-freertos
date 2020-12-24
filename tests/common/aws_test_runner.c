@@ -271,6 +271,11 @@ void TEST_RUNNER_RunTests_task( void * pvParameters )
         RUN_TEST_GROUP( Full_MemoryLeak );
     #endif /* if ( testrunnerFULL_MEMORYLEAK_ENABLED == 1 ) */
 
+#if defined(__IDT_MODE__)
+    vTaskDelay( 500 );
+    WIFI_Off();
+#endif
+
     /* Currently disabled. Will be enabled after cleanup. */
     UNITY_END();
 
