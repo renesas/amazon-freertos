@@ -201,15 +201,15 @@ static void my_sci_callback(void *pArgs)
 
 } /* End of function my_sci_callback() */
 
-void uart_string_printf(char *pString)
+void uart_string_printf(__far char *pString)
 {
     uint16_t str_length = 0;
-//    uint16_t transmit_length = 0;
+    uint16_t transmit_length = 0;
     sci_err_t sci_err = SCI_SUCCESS;
-//    uint32_t retry = 0xFFFF;
+    uint32_t retry = 0xFFFF;
 
     str_length = (uint16_t)strlen(pString);
-#if 0
+
     while ((retry > 0) && (str_length > 0))
     {
 
@@ -220,7 +220,7 @@ void uart_string_printf(char *pString)
             transmit_length = str_length;
         }
 
-        sci_err = R_SCI_Send(my_sci_handle, (uint8_t *) pString,
+        sci_err = R_SCI_Send(my_sci_handle, (__far uint8_t *) pString,
                              transmit_length);
 
         if ((sci_err == SCI_ERR_XCVR_BUSY) || (sci_err == SCI_ERR_INSUFFICIENT_SPACE))
@@ -233,15 +233,10 @@ void uart_string_printf(char *pString)
         pString += transmit_length;
 
     }
-#endif
-
-#if(1)
-    sci_err = R_SCI_Send(my_sci_handle, (uint8_t *)pString, str_length);
-#endif
 
     if (SCI_SUCCESS != sci_err)
     {
-    	NOP(); // R_BSP_NOP(); //TODO error handling code
+    	R_BSP_NOP(); //TODO error handling code
     }
 
 }

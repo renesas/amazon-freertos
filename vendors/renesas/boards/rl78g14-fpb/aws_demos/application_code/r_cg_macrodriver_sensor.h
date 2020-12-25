@@ -18,54 +18,71 @@
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-* File Name    : r_cg_port.c
+* File Name    : r_cg_macrodriver.h
 * Version      : CodeGenerator for RL78/G14 V2.05.04.02 [20 Nov 2019]
 * Device(s)    : R5F104ML
 * Tool-Chain   : CCRL
-* Description  : This file implements device driver for PORT module.
-* Creation Date: 2020/05/18
+* Description  : This file implements general head file.
+* Creation Date: 2020/09/08
 ***********************************************************************************************************************/
 
+#ifndef STATUS_H
+#define STATUS_H
 /***********************************************************************************************************************
 Includes
 ***********************************************************************************************************************/
-#include "r_cg_macrodriver.h"
-#include "r_cg_port.h"
-/* Start user code for include. Do not edit comment generated here */
-/* End user code. Do not edit comment generated here */
-#include "r_cg_userdefine.h"
+#include "iodefine.h"
 
 /***********************************************************************************************************************
-Pragma directive
+Macro definitions (Register bit)
 ***********************************************************************************************************************/
-/* Start user code for pragma. Do not edit comment generated here */
-/* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
-Global variables and functions
+Macro definitions
 ***********************************************************************************************************************/
-/* Start user code for global. Do not edit comment generated here */
-/* End user code. Do not edit comment generated here */
+#ifndef __TYPEDEF__
+#define DI      __DI
+#define EI      __EI
+#define HALT    __halt
+#define NOP     __nop
+#define STOP    __stop
+#define BRK     __brk
+
+/* Status list definition */
+#define MD_STATUSBASE       (0x00U)
+#define MD_OK               (MD_STATUSBASE + 0x00U) /* register setting OK */
+#define MD_SPT              (MD_STATUSBASE + 0x01U) /* IIC stop */
+#define MD_NACK             (MD_STATUSBASE + 0x02U) /* IIC no ACK */
+#define MD_BUSY1            (MD_STATUSBASE + 0x03U) /* busy 1 */
+#define MD_BUSY2            (MD_STATUSBASE + 0x04U) /* busy 2 */
+#define MD_OVERRUN           (MD_STATUSBASE + 0x05U) /* IIC OVERRUN occur */
+
+/* Error list definition */
+#define MD_ERRORBASE        (0x80U)
+#define MD_ERROR            (MD_ERRORBASE + 0x00U)  /* error */
+#define MD_ARGERROR         (MD_ERRORBASE + 0x01U)  /* error agrument input error */
+#define MD_ERROR1           (MD_ERRORBASE + 0x02U)  /* error 1 */
+#define MD_ERROR2           (MD_ERRORBASE + 0x03U)  /* error 2 */
+#define MD_ERROR3           (MD_ERRORBASE + 0x04U)  /* error 3 */
+#define MD_ERROR4           (MD_ERRORBASE + 0x05U)  /* error 4 */
+#endif
 
 /***********************************************************************************************************************
-* Function Name: R_PORT_Create
-* Description  : This function initializes the Port I/O.
-* Arguments    : None
-* Return Value : None
+Typedef definitions
 ***********************************************************************************************************************/
-void R_PORT_Create(void)
-{
-    P3 = _00_Pn0_OUTPUT_0;
-    P13 = _00_Pn0_OUTPUT_0;
-    PM3 = _00_PMn0_MODE_OUTPUT | _02_PMn1_NOT_USE | _FC_PM3_DEFAULT;
+#ifndef __TYPEDEF__
+typedef signed char         int8_t;
+typedef unsigned char       uint8_t;
+typedef signed short        int16_t;
+typedef unsigned short      uint16_t;
+typedef signed long         int32_t;
+typedef unsigned long       uint32_t;
+typedef unsigned short      MD_STATUS;
+#define __TYPEDEF__
+#endif
 
+/***********************************************************************************************************************
+Global functions
+***********************************************************************************************************************/
 
-    P14 = _00_Pn6_OUTPUT_0 | _00_Pn7_OUTPUT_0;
-    POM1 = _10_POMn4_NCH_ON | _20_POMn5_NCH_ON;
-    PMC14 = _00_PMCn7_DI_ON | _7F_PMC14_DEFAULT;
-    PM14 = _01_PMn0_NOT_USE | _02_PMn1_NOT_USE | _04_PMn2_NOT_USE | _08_PMn3_NOT_USE | _10_PMn4_NOT_USE |
-           _00_PMn6_MODE_OUTPUT | _00_PMn7_MODE_OUTPUT | _20_PM14_DEFAULT;
-}
-
-/* Start user code for adding. Do not edit comment generated here */
-/* End user code. Do not edit comment generated here */
+#endif

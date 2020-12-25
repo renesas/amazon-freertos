@@ -142,13 +142,13 @@ void sci_transfer(sci_hdl_t hdl)
     }
 } // sci_transfer
 
-
 void sci_receive(sci_ch_t chan, uint8_t byte)
 {
     byteq_err_t err = BYTEQ_ERR_QUEUE_FULL;
     sci_cb_args_t arg;
 
     err = R_BYTEQ_Put(g_handles[chan]->rx_bq_hdl, byte);
+
     if (BYTEQ_SUCCESS == err)
     {
         arg.event = SCI_EVT_RX_CHAR;
@@ -166,4 +166,3 @@ void sci_receive(sci_ch_t chan, uint8_t byte)
         g_handles[chan]->callback((void *)&arg);
     }
 }
-

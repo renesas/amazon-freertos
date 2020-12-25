@@ -23,14 +23,12 @@
 * Device(s)    : R5F104ML
 * Tool-Chain   : CCRL
 * Description  : This file implements device driver for Serial module.
-* Creation Date: 2020/05/18
+* Creation Date: 2020/09/08
 ***********************************************************************************************************************/
 
 #ifndef SERIAL_H
 #define SERIAL_H
 
-
-#include <r_cg_macrodriver.h>
 /***********************************************************************************************************************
 Macro definitions (Register bit)
 ***********************************************************************************************************************/
@@ -375,12 +373,8 @@ Macro definitions (Register bit)
 /***********************************************************************************************************************
 Macro definitions
 ***********************************************************************************************************************/
-#define _8800_UART0_RECEIVE_DIVISOR      (0x8800U)
-#define _8800_UART0_TRANSMIT_DIVISOR     (0x8800U)
-#define _8800_UART2_RECEIVE_DIVISOR      (0x8800U)
-#define _8800_UART2_TRANSMIT_DIVISOR     (0x8800U)
-#define _8800_UART3_RECEIVE_DIVISOR      (0x8800U)
-#define _8800_UART3_TRANSMIT_DIVISOR     (0x8800U)
+#define _9E00_IIC20_DIVISOR              (0x9E00U)
+#define IIC20_WAITTIME                   (160U) /* change the waiting time according to the system */
 
 /***********************************************************************************************************************
 Typedef definitions
@@ -389,62 +383,23 @@ Typedef definitions
 /***********************************************************************************************************************
 Global functions
 ***********************************************************************************************************************/
-void R_SAU0_Create(void);
-void R_UART0_Create(void);
-void R_UART0_Start(void);
-void R_UART0_Stop(void);
-MD_STATUS R_UART0_Send(uint8_t * const tx_buf, uint16_t tx_num);
-MD_STATUS R_UART0_Receive(uint8_t * const rx_buf, uint16_t rx_num);
-static void r_uart0_callback_error(uint8_t err_type);
-static void r_uart0_callback_receiveend(void);
-static void r_uart0_callback_sendend(void);
-static void r_uart0_callback_softwareoverrun(uint16_t rx_data);
-void R_SAU1_Create(void);
-void R_UART2_Create(void);
-void R_UART2_Start(void);
-void R_UART2_Stop(void);
-MD_STATUS R_UART2_Send(uint8_t * const tx_buf, uint16_t tx_num);
-MD_STATUS R_UART2_Receive(uint8_t * const rx_buf, uint16_t rx_num);
-static void r_uart2_callback_error(uint8_t err_type);
-static void r_uart2_callback_receiveend(void);
-static void r_uart2_callback_sendend(void);
-static void r_uart2_callback_softwareoverrun(uint16_t rx_data);
-void R_UART3_Create(void);
-void R_UART3_Start(void);
-void R_UART3_Stop(void);
-MD_STATUS R_UART3_Send(uint8_t * const tx_buf, uint16_t tx_num);
-MD_STATUS R_UART3_Receive(uint8_t * const rx_buf, uint16_t rx_num);
-static void r_uart3_callback_error(uint8_t err_type);
-static void r_uart3_callback_receiveend(void);
-static void r_uart3_callback_sendend(void);
-static void r_uart3_callback_softwareoverrun(uint16_t rx_data);
+void R_SAU1_Create_sensor(void);
+void R_IIC20_Create(void);
+void R_IIC20_Master_Send(uint8_t adr, uint8_t * const tx_buf, uint16_t tx_num);
+void R_IIC20_Master_Receive(uint8_t adr, uint8_t * const rx_buf, uint16_t rx_num);
+void R_IIC20_Stop(void);
+void R_IIC20_StartCondition(void);
+void R_IIC20_StopCondition(void);
+static void r_iic20_callback_master_error(MD_STATUS flag);
+static void r_iic20_callback_master_receiveend(void);
+static void r_iic20_callback_master_sendend(void);
 
 /* Start user code for function. Do not edit comment generated here */
-
-#ifndef _4400_UART0_RECEIVE_DIVISOR      /* 460800 */
-#define _4400_UART0_RECEIVE_DIVISOR      (0x4400U)
-#endif
-#ifndef _4400_UART0_TRANSMIT_DIVISOR     /* 460800 */
-#define _4400_UART0_TRANSMIT_DIVISOR     (0x4400U)
-#endif
-#ifndef _8800_UART0_RECEIVE_DIVISOR      /* 115200, 230400 */
-#define _8800_UART0_RECEIVE_DIVISOR      (0x8800U)
-#endif
-#ifndef _8800_UART0_TRANSMIT_DIVISOR     /* 115200, 230400 */
-#define _8800_UART0_TRANSMIT_DIVISOR     (0x8800U)
-#endif
-#ifndef _CE00_UART0_RECEIVE_DIVISOR      /* 9600 */
-#define _CE00_UART0_RECEIVE_DIVISOR      (0xCE00U)
-#endif
-#ifndef _CE00_UART0_TRANSMIT_DIVISOR     /* 9600 */
-#define _CE00_UART0_TRANSMIT_DIVISOR     (0xCE00U)
-#endif
-
-#define R_BAUDRATE_115200                (115200)
-#define R_BAUDRATE_230400                (230400)
-#define R_BAUDRATE_460800                (460800)
-
-void R_UART0_Reset( uint32_t baudrate );
-
+#define TRUE						(1)
+#define FALSE						(0)
+int8_t write(uint8_t addr, uint8_t startReg, uint8_t* data, uint8_t numBytes);
+int8_t read(uint8_t addr, uint8_t startReg, uint8_t* data, uint8_t numBytes);
+uint8_t read_device(uint8_t addr, uint8_t* data, uint8_t numBytes, uint8_t delay);
+uint8_t write_device(uint8_t addr, uint8_t* data, uint8_t numBytes, uint8_t delay);
 /* End user code. Do not edit comment generated here */
 #endif
