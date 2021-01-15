@@ -1,3 +1,5 @@
+#Run this before make all C:/Renesas/RX/3_2_0/setccrx_sample.bat
+
 # Set variables.
 set(renesas_dir "${AFR_VENDORS_DIR}/renesas")
 set(rx65nrsk_dir "${AFR_VENDORS_DIR}/renesas/boards/rx65n-rsk")
@@ -34,7 +36,6 @@ afr_set_board_metadata(KEY_IMPORT_PROVISIONING "TRUE")
 afr_set_board_metadata(IDE_E2Studio_PROJECT_LOCATION "${AFR_ROOT_DIR}/projects/renesas/rx65n-rsk/e2studio/aws_demos")
 afr_set_board_metadata(AWS_DEMOS_CONFIG_FILES_LOCATION "${CMAKE_CURRENT_LIST_DIR}/aws_demos/config_files")
 
-
 # -------------------------------------------------------------------------------------------------
 # Compiler settings
 #
@@ -43,11 +44,9 @@ afr_set_board_metadata(AWS_DEMOS_CONFIG_FILES_LOCATION "${CMAKE_CURRENT_LIST_DIR
 # -------------------------------------------------------------------------------------------------
 afr_mcu_port(compiler)
 
-#set(compiler_flags
-#    -isa=rxv2 -fpu -branch=32 -preinclude="implicitlyinclude.h"
-#    -nomessage=11174,21644,20010,23034,23035,20177,23033 -output=obj  -debug -nologo
-#    -obj_path=${workspace_loc:/${ProjName}/${ConfigName}}
-#)
+set(compiler_flags
+    -isa=rxv2 -lang=c99 -branch=32  -preinclude=${renesas_dir}/amazon_freertos_common/compiler_support/ccrx/implicitlyinclude.h -define=MBEDTLS_CONFIG_FILE=<aws_mbedtls_config.h$<ANGLE-R>,CONFIG_MEDTLS_USE_AFR_MEMORY -nomessage=11174,21644,20010,23034,23035,20177,23033 -output=obj -debug -nologo
+)
 
 # Compiler flags.
 target_compile_options(
@@ -56,10 +55,9 @@ target_compile_options(
         $<$<COMPILE_LANGUAGE:C>:${compiler_flags}>
 )
 
-#set(assembler_flags
-#    -isa=rxv2 -fpu -debug -nologo
-#    -output=${workspace_loc:/${ProjName}/${ConfigName}}
-#)
+set(assembler_flags
+    -isa=rxv2 -debug -nologo
+)
 
 # Assembler flags
 target_compile_options(
@@ -67,6 +65,11 @@ target_compile_options(
     INTERFACE
         $<$<COMPILE_LANGUAGE:ASM>:${assembler_flags}>
 )
+
+SET(LINKER_OPTIONS "-start=SU,SI,R_1,R_2,R,RPFRAM2*/04,C_PKCS11_STORAGE*/0100800,C_SYSTEM_CONFIG*/0104800,B_ETHERNET_BUFFERS_1,B_RX_DESC_1,B_TX_DESC_1,B,B_1,B_2/0800000,C_1,C_2,C,C$$*,D*,W*,L,P*/0FFF00300,EXCEPTVECT/0FFFFFF80,RESETVECT/0FFFFFFFC")
+
+SET (CMAKE_C_LINK_EXECUTABLE "${CMAKE_C_LINK_EXECUTABLE} ${LINKER_OPTIONS} -form=absolute <OBJECTS> -library=afr_common.a -library=afr_core_json.a -library=afr_core_mqtt.a -library=afr_core_mqtt_demo_dependencies.a -library=afr_crypto.a -library=afr_defender.a -library=afr_dev_mode_key_provisioning.a -library=afr_device_shadow.a -library=afr_device_shadow_demo_dependencies.a -library=afr_freertos_plus_tcp.a -library=afr_greengrass.a -library=afr_https.a -library=afr_kernel.a -library=afr_logging.a -library=afr_mqtt.a -library=afr_ota.a -library=afr_pkcs11.a -library=afr_pkcs11_implementation.a -library=afr_pkcs11_utils.a -library=afr_platform.a -library=afr_retry_utils.a -library=afr_secure_sockets.a  -library=afr_serializer.a -library=afr_tls.a -library=afr_transport_interface_secure_sockets.a -library=libraries/3rdparty/libafr_3rdparty_mbedtls.a -library=libraries/3rdparty/libafr_3rdparty_tinycbor.a afr_kernel.a(resetprg.c) afr_kernel.a(dbsct.c) afr_kernel.a(vecttbl.c) -output=${exe_target}.abs -library=${exe_target}.lib -noprelink -nomessage -vect=_undefined_interrupt_source_isr -list=${exe_target}.map -show=all -nooptimize -rom=D=R,D_1=R_1,D_2=R_2,PFRAM2=RPFRAM2 -nologo")
+
 
 #set(linker_flags
 #    -noprelink -form=absolute -nomessage -vect=_undefined_interrupt_source_isr -list=${exe_target}.map
@@ -77,6 +80,12 @@ target_link_options(
     AFR::compiler::mcu_port
     INTERFACE
         ${linker_flags}
+)
+
+target_link_libraries(
+  AFR::compiler::mcu_port
+  INTERFACE
+ 
 )
 
 # -------------------------------------------------------------------------------------------------
@@ -106,13 +115,7 @@ afr_glob_src(rbsp_board_genericrx65n_src DIRECTORY "${rx_driver_package_dir}/r_b
 afr_glob_src(rbsp_mcu_all_src DIRECTORY "${rx_driver_package_dir}/r_bsp/mcu/all")
 afr_glob_src(rbsp_mcu_rx65n_src DIRECTORY "${rx_driver_package_dir}/r_bsp/mcu/rx65n")
 
-set(rbsp_mcu_src
-    "${rx_driver_package_dir}/r_bsp/mcu/all/dbsct.c"
-    "${rx_driver_package_dir}/r_bsp/mcu/all/lowlvl.c"
-    "${rx_driver_package_dir}/r_bsp/mcu/all/lowsrc.c"
-    "${rx_driver_package_dir}/r_bsp/mcu/all/resetprg.c"
-    "${rx_driver_package_dir}/r_bsp/mcu/all/sbrk.c"
-)
+list(REMOVE_ITEM rbsp_mcu_all_src "${renesas_dir}/rx_driver_package/v125/r_bsp/mcu/all/reset_program.S")
 
 set(rbsp_src
     ${rbsp_mcu_src}
@@ -149,6 +152,48 @@ set(rx_driver_package_include
     "${rx_driver_package_dir}/r_s12ad_rx/src/targets/rx65n"
 )
 
+set(lib_include
+    "${AFR_ROOT_DIR}/libraries/c_sdk/standard/common/include/private"
+    "${AFR_ROOT_DIR}/libraries/c_sdk/standard/common/include"
+    "${AFR_ROOT_DIR}/libraries/abstractions/platform/include"
+    "${AFR_ROOT_DIR}/libraries/abstractions/platform/freertos/include"
+    "${AFR_ROOT_DIR}/libraries/abstractions/platform/include/platform"
+    "${AFR_ROOT_DIR}/libraries/abstractions/secure_sockets/include"
+    "${AFR_ROOT_DIR}/libraries/freertos_plus/standard/freertos_plus_tcp/test"
+    "${AFR_ROOT_DIR}/libraries/freertos_plus/standard/freertos_plus_tcp/include"
+    "${AFR_ROOT_DIR}/libraries/freertos_plus/standard/freertos_plus_tcp/portable/Compiler/Renesas"
+    "${AFR_ROOT_DIR}/libraries/freertos_plus/standard/tls/include"
+    "${AFR_ROOT_DIR}/libraries/freertos_plus/standard/crypto/include"
+    "${AFR_ROOT_DIR}/libraries/abstractions/pkcs11/corePKCS11/source/include"
+    "${AFR_ROOT_DIR}/libraries/freertos_plus/standard/utils/include"
+    "${AFR_ROOT_DIR}/libraries/logging/include"
+    "${AFR_ROOT_DIR}/demos/dev_mode_key_provisioning/include"
+    "${AFR_ROOT_DIR}/libraries/c_sdk/aws/defender/include"
+    "${AFR_ROOT_DIR}/libraries/c_sdk/standard/mqtt/include"
+    "${AFR_ROOT_DIR}/libraries/coreMQTT/source/include"
+    "${AFR_ROOT_DIR}/libraries/coreMQTT/source/interface"
+    "${AFR_ROOT_DIR}/libraries/abstractions/retry_utils"
+    "${AFR_ROOT_DIR}/libraries/abstractions/transport/secure_sockets"
+    "${AFR_ROOT_DIR}/libraries/c_sdk/standard/serializer/include"
+    "${AFR_ROOT_DIR}/libraries/c_sdk/aws/shadow/include"
+    "${AFR_ROOT_DIR}/libraries/c_sdk/standard/https/include"
+    "${AFR_ROOT_DIR}/libraries/freertos_plus/aws/greengrass/include"
+    "${AFR_ROOT_DIR}/libraries/freertos_plus/aws/ota/src"
+    "${AFR_ROOT_DIR}/libraries/freertos_plus/aws/ota/include"
+    "${AFR_ROOT_DIR}/libraries/3rdparty/mbedtls/include"
+    "${AFR_ROOT_DIR}/libraries/freertos_plus/standard/freertos_plus_cli/include"
+    "${AFR_ROOT_DIR}/libraries/coreJSON/source/include"
+    "${AFR_ROOT_DIR}/libraries/device_shadow_for_aws/source/include"
+    "${AFR_ROOT_DIR}/libraries/3rdparty/pkcs11"
+    "${AFR_ROOT_DIR}/libraries/abstractions/pkcs11/corePKCS11/source/portable/mbedtls/include"
+    "${AFR_ROOT_DIR}/libraries/3rdparty/mbedtls/include/mbedtls"
+    "${AFR_ROOT_DIR}/libraries/3rdparty/mbedtls_utils"
+    "${AFR_ROOT_DIR}/libraries/3rdparty/mbedtls_config"
+    "${AFR_ROOT_DIR}/libraries/3rdparty/tinycbor/src"
+    "${AFR_ROOT_DIR}/libraries/3rdparty/http_parser"
+    "${AFR_ROOT_DIR}/libraries/3rdparty/jsmn"
+)
+
 afr_glob_src(smc_gen_src DIRECTORY "${rx65nrsk_aws_dir}/src/smc_gen" RECURSE)
 
 set(smc_gen_include
@@ -182,10 +227,12 @@ target_sources(
 set(kernel_inc_dirs
     ${afr_common_include}
     ${rx_driver_package_include}
+    ${lib_include}
     ${smc_gen_include}
     "${AFR_KERNEL_DIR}/portable/Renesas/RX600v2"
     "${rx65nrsk_aws_dir}/config_files"
     "${rx65nrsk_aws_dir}/application_code/renesas_code"
+    "${rx65nrsk_aws_dir}/application_code/renesas_code/utility"
     "$<IF:${AFR_IS_TESTING},${AFR_TESTS_DIR},${AFR_DEMOS_DIR}>/include"
 )
 
@@ -200,6 +247,11 @@ target_sources(
     AFR::pkcs11_implementation::mcu_port
     INTERFACE
         "${rx65nrsk_ports_dir}/pkcs11/core_pkcs11_pal.c"
+)
+
+target_include_directories(
+    AFR::pkcs11_implementation::mcu_port
+    INTERFACE $<$<NOT:$<COMPILE_LANGUAGE:ASM>>:${kernel_inc_dirs}>
 )
 
 target_link_libraries(
@@ -225,6 +277,7 @@ target_sources(
 target_include_directories(
     AFR::freertos_plus_tcp::mcu_port
     INTERFACE
+        INTERFACE $<$<NOT:$<COMPILE_LANGUAGE:ASM>>:${kernel_inc_dirs}>
         "${AFR_MODULES_FREERTOS_PLUS_DIR}/standard/freertos_plus_tcp/portable/Compiler/Renesas"
 )
 
@@ -256,12 +309,14 @@ target_link_libraries(
 set(CMAKE_EXECUTABLE_SUFFIX "abs")
 
 afr_glob_src(board_code_src DIRECTORY "${rx65nrsk_aws_dir}/application_code/renesas_code")
-afr_glob_src(config_files_src DIRECTORY "${rx65nrsk_aws_dir}/config_files")
+afr_glob_src(board_code_util DIRECTORY "${rx65nrsk_aws_dir}/application_code/renesas_code/utility")
+afr_glob_src(config_files_src DIRECTORY "${AFR_ROOT}/projects/renesas/rx65n-rsk/aws_demos/config_files")
 
 # Do not add demos or tests if they're turned off.
 if(AFR_ENABLE_DEMOS OR AFR_ENABLE_TESTS)
     add_executable(${exe_target}
         ${board_code_src}
+        ${board_code_util}
         ${config_files_src}
         "${rx65nrsk_aws_dir}/application_code/main.c"
     )
@@ -273,6 +328,36 @@ if(AFR_ENABLE_DEMOS OR AFR_ENABLE_TESTS)
     )
 endif()
 
-if(NOT AFR_METADATA_MODE)
-    message(FATAL_ERROR "CMake support for nxp is not complete yet.")
-endif()
+# Set C Library Generator Commands
+add_custom_command(
+              TARGET ${exe_target}
+              PRE_LINK
+              COMMENT "\nExecuting: GENERATING LIBRARY FILE" #this command is not mandatory.
+              COMMAND lbgrx -isa=rxv2 -fpu -branch=32 -lang=c99 -head=runtime,ctype,math,mathf,stdarg,stdio,stdlib,string,new,fenv,inttypes,wchar,wctype -output=${exe_target}.lib -nologo
+              VERBATIM
+)
+
+# Set Output File Type:
+SET(Convert_Command "-form=stype") #to output .mot file
+#SET(Convert_Command "-form=hexadecimal") # to output .hex file
+#SET(Convert_Command "-form=binary") # to output .bin file
+
+# Set Converter Command
+add_custom_command (
+	TARGET ${exe_target}
+	COMMAND ${CMAKE_CONVERTER_EXECUTABLE} ${exe_target}.abs ${Convert_Command}
+	COMMENT "Converter:"
+	VERBATIM
+)
+
+# add command for building with X Converter
+add_custom_command(
+	TARGET ${exe_target}
+	COMMENT "\nExecuting: ${CMAKE_COMMAND} ${exe_target}.abs ${exe_target}.x" #this command is not mandatory.
+	COMMAND ${CMAKE_COMMAND} "${exe_target}.abs" "${exe_target}.x"
+	VERBATIM
+)
+
+#if(NOT AFR_METADATA_MODE)
+#    message(FATAL_ERROR "CMake support for nxp is not complete yet.")
+#endif()
