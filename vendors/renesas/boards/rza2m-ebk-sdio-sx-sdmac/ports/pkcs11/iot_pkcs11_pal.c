@@ -148,7 +148,7 @@ static int_t check_eeprom_area(uint32_t retry_counter);
 extern CK_RV prvMbedTLS_Initialize( void );
 
 //CK_RV C_Initialize( CK_VOID_PTR pvInitArgs )
-void PKCS11_PAL_Initialize( void )
+CK_RV PKCS11_PAL_Initialize( void )
 {
     CK_RV xResult = CKR_OK;
     int_t ret = NO_ERROR;
