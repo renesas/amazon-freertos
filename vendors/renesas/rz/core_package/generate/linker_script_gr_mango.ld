@@ -26,15 +26,13 @@
 *******************************************************************************/
 
 MEMORY {
-/*
     BOOT_LOADER        (rx) : ORIGIN = 0x50000000, LENGTH = 0x00010000
-*/
     /* Debugging or without OTA update */
-/*
-    ROM               (rx)  : ORIGIN = 0x50010000, LENGTH = 0x00FF0000
-*/
+    ROM               (rx)  : ORIGIN = 0x50010000, LENGTH = 0x00FEC000
     /* OTA update */
-    ROM               (rx)  : ORIGIN = 0x50200300, LENGTH = 0x00DFFD00
+/*
+    ROM               (rx)  : ORIGIN = 0x50200300, LENGTH = 0x00DFBD00
+*/
     CACHED_HYPER_RAM  (rwx) : ORIGIN = 0x60000000, LENGTH = 0x01000000
     MMU_PAGE_TABLE    (rw)  : ORIGIN = 0x80020000, LENGTH = 0x00004000
     HARDWARE_INIT_RAM (rwx) : ORIGIN = 0x80024000, LENGTH = 0x00004000
@@ -45,12 +43,10 @@ MEMORY {
 
 SECTIONS
 {
-/*
     .boot 0x50000000 :
     {
         KEEP(*(.boot_loader)) 
     } > BOOT_LOADER 
-*/
 
     LOAD_MODULE1 : {
         KEEP(* (VECTOR_TABLE))      /*asm*/
