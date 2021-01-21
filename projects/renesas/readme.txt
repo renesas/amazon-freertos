@@ -17,6 +17,18 @@ I hope this solution will be helpful for embedded system developer in W/W.
 --------------------------------------------------------------------------
 Change Logs
 --------------------------------------------------------------------------
+202002.00-rx-1.0.4
+ [UPDATED] Updated project files for e2studio 2020-10
+ [TESTED] demos MQTT echo, OTA behavior for
+          RX65N RSK CC-RX, GCC e2 studio with E2 Emulator Lite.
+          RX65N Cloud kit CC-RX, GCC e2 studio with E2 Emulator Lite (on board).
+		  
+		  demos MQTTecho behavior for
+          RX72N Envision kit CC-RX, GCC e2 studio with E2 Emulator Lite (on board).
+          Using RX Driver Package V.1.25
+          Please download this the following web site
+          https://www.renesas.com/rdp
+		  
 202002.00-rx-1.0.3
  [UPDATED] Updated project files for e2studio 2020-10
  [TESTED] demos MQTT echo behavior for
