@@ -85,7 +85,7 @@
  * the size of the stack used by the idle task - but allow this to be overridden in
  * FreeRTOSConfig.h as configMINIMAL_STACK_SIZE is a user definable constant. */
 #ifndef configEMAC_TASK_STACK_SIZE
-	#define configEMAC_TASK_STACK_SIZE ( 4 * configMINIMAL_STACK_SIZE )
+    #define configEMAC_TASK_STACK_SIZE    ( 4 * configMINIMAL_STACK_SIZE )
 #endif
 
 #if ( ipconfigZERO_COPY_RX_DRIVER == 0 || ipconfigZERO_COPY_TX_DRIVER == 0 )
@@ -328,90 +328,92 @@ BaseType_t xGetPhyLinkStatus( void )
 }
 /*-----------------------------------------------------------*/
 
-static void prvEMACHandlerTask( void *pvParameters )
+static void prvEMACHandlerTask( void * pvParameters )
 {
-TimeOut_t xPhyTime;
-TickType_t xPhyRemTime;
-BaseType_t xResult = 0;
-uint32_t xStatus;
-const TickType_t ulMaxBlockTime = pdMS_TO_TICKS( 100UL );
+    TimeOut_t xPhyTime;
+    TickType_t xPhyRemTime;
+    BaseType_t xResult = 0;
+    uint32_t xStatus;
+    const TickType_t ulMaxBlockTime = pdMS_TO_TICKS( 100UL );
 
-	/* Remove compiler warnings about unused parameters. */
-	( void ) pvParameters;
+    /* Remove compiler warnings about unused parameters. */
+    ( void ) pvParameters;
 
-	/* A possibility to set some additional task properties like calling
-	portTASK_USES_FLOATING_POINT() */
-	iptraceEMAC_TASK_STARTING();
+    /* A possibility to set some additional task properties like calling
+     * portTASK_USES_FLOATING_POINT() */
+    iptraceEMAC_TASK_STARTING();
 
-	vTaskSetTimeOutState( &xPhyTime );
-	xPhyRemTime = pdMS_TO_TICKS( PHY_LS_LOW_CHECK_TIME_MS );
+    vTaskSetTimeOutState( &xPhyTime );
+    xPhyRemTime = pdMS_TO_TICKS( PHY_LS_LOW_CHECK_TIME_MS );
 
-	for( ;; )
-	{
-		/* Call a function that monitors resources: the amount of free network
-		buffers and the amount of free space on the heap.  See FreeRTOS_IP.c
-		for more detailed comments. */
-		vPrintResourceStats();
+    for( ; ; )
+    {
+        /* Call a function that monitors resources: the amount of free network
+         * buffers and the amount of free space on the heap.  See FreeRTOS_IP.c
+         * for more detailed comments. */
+        vPrintResourceStats();
 
-		if( ( xEMACpsif.isr_events & EMAC_IF_ALL_EVENT ) == 0 )
-		{
-			/* No events to process now, wait for the next. */
-			ulTaskNotifyTake( pdFALSE, ulMaxBlockTime );
-		}
+        if( ( xEMACpsif.isr_events & EMAC_IF_ALL_EVENT ) == 0 )
+        {
+            /* No events to process now, wait for the next. */
+            ulTaskNotifyTake( pdFALSE, ulMaxBlockTime );
+        }
 
-		if( ( xEMACpsif.isr_events & EMAC_IF_RX_EVENT ) != 0 )
-		{
-			xEMACpsif.isr_events &= ~EMAC_IF_RX_EVENT;
-			xResult = emacps_check_rx( &xEMACpsif );
-		}
+        if( ( xEMACpsif.isr_events & EMAC_IF_RX_EVENT ) != 0 )
+        {
+            xEMACpsif.isr_events &= ~EMAC_IF_RX_EVENT;
+            xResult = emacps_check_rx( &xEMACpsif );
+        }
 
-		if( ( xEMACpsif.isr_events & EMAC_IF_TX_EVENT ) != 0 )
-		{
-			xEMACpsif.isr_events &= ~EMAC_IF_TX_EVENT;
-			emacps_check_tx( &xEMACpsif );
-		}
+        if( ( xEMACpsif.isr_events & EMAC_IF_TX_EVENT ) != 0 )
+        {
+            xEMACpsif.isr_events &= ~EMAC_IF_TX_EVENT;
+            emacps_check_tx( &xEMACpsif );
+        }
 
-		if( ( xEMACpsif.isr_events & EMAC_IF_ERR_EVENT ) != 0 )
-		{
-			xEMACpsif.isr_events &= ~EMAC_IF_ERR_EVENT;
-			emacps_check_errors( &xEMACpsif );
-		}
+        if( ( xEMACpsif.isr_events & EMAC_IF_ERR_EVENT ) != 0 )
+        {
+            xEMACpsif.isr_events &= ~EMAC_IF_ERR_EVENT;
+            emacps_check_errors( &xEMACpsif );
+        }
 
-		if( xResult > 0 )
-		{
-			/* A packet was received. No need to check for the PHY status now,
-			but set a timer to check it later on. */
-			vTaskSetTimeOutState( &xPhyTime );
-			xPhyRemTime = pdMS_TO_TICKS( PHY_LS_HIGH_CHECK_TIME_MS );
-			xResult = 0;
-			if( ( ulPHYLinkStatus & niBMSR_LINK_STATUS ) == 0uL )
-			{
-				/* Indicate that the Link Status is high, so that
-				xNetworkInterfaceOutput() can send packets. */
-				ulPHYLinkStatus |= niBMSR_LINK_STATUS;
-				FreeRTOS_printf( ( "prvEMACHandlerTask: PHY LS assume 1\n" ) );
-			}
-		}
-		else if( xTaskCheckForTimeOut( &xPhyTime, &xPhyRemTime ) != pdFALSE )
-		{
-			xStatus = ulReadMDIO( PHY_REG_01_BMSR );
+        if( xResult > 0 )
+        {
+            /* A packet was received. No need to check for the PHY status now,
+             * but set a timer to check it later on. */
+            vTaskSetTimeOutState( &xPhyTime );
+            xPhyRemTime = pdMS_TO_TICKS( PHY_LS_HIGH_CHECK_TIME_MS );
+            xResult = 0;
 
-			if( ( ulPHYLinkStatus & niBMSR_LINK_STATUS ) != ( xStatus & niBMSR_LINK_STATUS ) )
-			{
-				ulPHYLinkStatus = xStatus;
-				FreeRTOS_printf( ( "prvEMACHandlerTask: PHY LS now %d\n", ( ulPHYLinkStatus & niBMSR_LINK_STATUS ) != 0uL ) );
-			}
+            if( ( ulPHYLinkStatus & niBMSR_LINK_STATUS ) == 0uL )
+            {
+                /* Indicate that the Link Status is high, so that
+                 * xNetworkInterfaceOutput() can send packets. */
+                ulPHYLinkStatus |= niBMSR_LINK_STATUS;
+                FreeRTOS_printf( ( "prvEMACHandlerTask: PHY LS assume 1\n" ) );
+            }
+        }
+        else if( xTaskCheckForTimeOut( &xPhyTime, &xPhyRemTime ) != pdFALSE )
+        {
+            xStatus = ulReadMDIO( PHY_REG_01_BMSR );
 
-			vTaskSetTimeOutState( &xPhyTime );
-			if( ( ulPHYLinkStatus & niBMSR_LINK_STATUS ) != 0uL )
-			{
-				xPhyRemTime = pdMS_TO_TICKS( PHY_LS_HIGH_CHECK_TIME_MS );
-			}
-			else
-			{
-				xPhyRemTime = pdMS_TO_TICKS( PHY_LS_LOW_CHECK_TIME_MS );
-			}
-		}
-	}
+            if( ( ulPHYLinkStatus & niBMSR_LINK_STATUS ) != ( xStatus & niBMSR_LINK_STATUS ) )
+            {
+                ulPHYLinkStatus = xStatus;
+                FreeRTOS_printf( ( "prvEMACHandlerTask: PHY LS now %d\n", ( ulPHYLinkStatus & niBMSR_LINK_STATUS ) != 0uL ) );
+            }
+
+            vTaskSetTimeOutState( &xPhyTime );
+
+            if( ( ulPHYLinkStatus & niBMSR_LINK_STATUS ) != 0uL )
+            {
+                xPhyRemTime = pdMS_TO_TICKS( PHY_LS_HIGH_CHECK_TIME_MS );
+            }
+            else
+            {
+                xPhyRemTime = pdMS_TO_TICKS( PHY_LS_LOW_CHECK_TIME_MS );
+            }
+        }
+    }
 }
 /*-----------------------------------------------------------*/

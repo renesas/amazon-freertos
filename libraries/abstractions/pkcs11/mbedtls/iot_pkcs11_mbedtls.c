@@ -54,14 +54,22 @@
 #include "mbedtls_error.h"
 
 /* C runtime includes. */
-#include <stdio.h>
 #include <string.h>
 
 /*-----------------------------------------------------------*/
 
 /**
- * @brief Default EC operations to ON.
- *
+ * @defgroup pkcs11_macros PKCS #11 Implementation Macros
+ * @brief Macros for PKCS #11 software implementation.
+ */
+
+/**
+ * @defgroup pkcs11_datatypes PKCS #11 Datatypes
+ * @brief Internal datatypes for PKCS #11 software implementation.
+ */
+
+/* @ingroup pkcs11_macros
+ * @brief Suppress EC operations.
  */
 #ifndef pkcs11configSUPPRESS_ECDSA_MECHANISM
     #define pkcs11configSUPPRESS_ECDSA_MECHANISM    0
@@ -98,45 +106,108 @@ static const char * pNoLowLevelMbedTlsCodeStr = "<No-Low-Level-Code>";
 /**
  * @ingroup pkcs11_macros
  * @brief Macro for logging in PKCS #11.
- *
  */
 #define PKCS11_PRINT( X )            configPRINTF( X )
 
 /**
  * @ingroup pkcs11_macros
  * @brief Macro for logging warnings in PKCS #11.
- *
  */
 #define PKCS11_WARNING_PRINT( X )    /* configPRINTF( X ) */
 
 /**
  * @ingroup pkcs11_macros
  * @brief Indicates that no PKCS #11 operation is underway for given session.
- *
  */
-#define pkcs11NO_OPERATION     ( ( CK_MECHANISM_TYPE ) -1 )
+#define pkcs11NO_OPERATION                      ( ( CK_MECHANISM_TYPE ) -1 )
+
+/**
+ * @ingroup pkcs11_macros
+ * @brief size of a prime256v1 EC private key in bytes, when encoded in DER.
+ */
+#define pkcs11_PRIVATE_EC_PRIME_256_DER_SIZE    160
+
+/**
+ * @ingroup pkcs11_macros
+ * @brief size of a prime256v1 EC public key in bytes, when encoded in DER.
+ */
+#define pkcs11_PUBLIC_EC_PRIME_256_DER_SIZE     100
+
+/**
+ * @ingroup pkcs11_macros
+ * @brief size of a 2048 bit RSA public key in bytes, when encoded in DER.
+ */
+#define pkcs11_PUBLIC_RSA_2048_DER_SIZE         300
+
+/**
+ * @ingroup pkcs11_macros
+ * @brief size of a 2048 bit RSA private key in bytes, in DER encoding.
+ */
+#define pkcs11_PRIVATE_RSA_2048_DER_SIZE        1200
+
+/**
+ * @ingroup pkcs11_macros
+ * @brief Max size of an EC public key in bytes, in DER encoding.
+ */
+#define pkcs11_MAX_EC_PUBLIC_KEY_DER_SIZE       pkcs11_PUBLIC_EC_PRIME_256_DER_SIZE
+
+
+/**
+ * @ingroup pkcs11_macros
+ * @brief Max size of an EC private key in bytes, in DER encoding.
+ */
+#define pkcs11_MAX_EC_PRIVATE_KEY_DER_SIZE    pkcs11_PRIVATE_EC_PRIME_256_DER_SIZE
+
+/**
+ * @ingroup pkcs11_macros
+ * @brief Length of bytes to contain an EC point.
+ *
+ * This port currently only uses prime256v1, in which the fields are 32 bytes in
+ * length. The public EC point is as long as the curve's fields * 2 + 1.
+ * so the EC point for this port is (32 * 2) + 1 bytes in length.
+ *
+ * mbed TLS encodes the length of the point in the first byte of the buffer it
+ * receives, so an additional 1 byte in length is added to account for this.
+ *
+ * In addition to this, an additional 1 byte is added to store information
+ * indicating that the point is uncompressed.
+ *
+ * @note This length needs to be updated if using a different curve.
+ *
+ * To summarize:
+ * 32 points of 2 bytes each + 1 point length byte, 1 length byte, and
+ * 1 type (uncompressed) byte
+ */
+#define pkcs11EC_POINT_LENGTH                 ( ( 32 * 2 ) + 1 + 1 + 1 )
 
 /**
  * @ingroup pkcs11_macros
  * @brief Max size of a public key.
- * TODO: How long is a typical RSA key anyhow?
+ * This macro defines the size of a key in bytes, in DER encoding.
+ *
+ * @note The largest RSA public key is used because EC keys are smaller.
  */
-#define MAX_PUBLIC_KEY_SIZE    3000
+#define pkcs11_MAX_PUBLIC_KEY_DER_SIZE        pkcs11_PUBLIC_RSA_2048_DER_SIZE
 
 
 /**
  * @ingroup pkcs11_macros
  * @brief Max key length of a key.
- * TODO: How long is a typical RSA key anyhow?
+ * This macro defines the size of a key in bytes, in DER format.
+ *
+ * Currently the largest key type supported by this port is a 2048 bit
+ * RSA private key.
+ *
+ * @note The largest RSA private key is used because EC keys are smaller and
+ * the RSA public key is smaller.
  */
-#define MAX_LENGTH_KEY                3000
+#define pkcs11_MAX_PRIVATE_KEY_DER_SIZE    pkcs11_PRIVATE_RSA_2048_DER_SIZE
 
 /**
  * @ingroup pkcs11_macros
  * @brief The size of the buffer malloc'ed for the exported public key in C_GenerateKeyPair.
- *
  */
-#define pkcs11KEY_GEN_MAX_DER_SIZE    200
+#define pkcs11KEY_GEN_MAX_DER_SIZE         200
 
 /**
  * @ingroup pkcs11_macros
@@ -144,30 +215,29 @@ static const char * pNoLowLevelMbedTlsCodeStr = "<No-Low-Level-Code>";
  *
  * @note that this implementation does not have a concept of "slots" so this number is arbitrary.
  */
-#define pkcs11SLOT_ID                 1
+#define pkcs11SLOT_ID                      1
 
 /**
  * @ingroup pkcs11_macros
  * @brief Private defines for checking that attribute templates are complete.
  */
-#define LABEL_IN_TEMPLATE             ( 1U )           /**< Bit set for label in template. */
-#define PRIVATE_IN_TEMPLATE           ( 1U << 1 )      /**< Bit set for private key in in template. */
-#define SIGN_IN_TEMPLATE              ( 1U << 2 )      /**< Bit set for sign in template. */
-#define EC_PARAMS_IN_TEMPLATE         ( 1U << 3 )      /**< Bit set for EC params in template. */
-#define VERIFY_IN_TEMPLATE            ( 1U << 4 )      /**< Bit set for verify in template. */
+#define LABEL_IN_TEMPLATE                  ( 1U )      /**< Bit set for label in template. */
+#define PRIVATE_IN_TEMPLATE                ( 1U << 1 ) /**< Bit set for private key in in template. */
+#define SIGN_IN_TEMPLATE                   ( 1U << 2 ) /**< Bit set for sign in template. */
+#define EC_PARAMS_IN_TEMPLATE              ( 1U << 3 ) /**< Bit set for EC params in template. */
+#define VERIFY_IN_TEMPLATE                 ( 1U << 4 ) /**< Bit set for verify in template. */
 
 /**
  * @ingroup pkcs11_macros
  * @brief Macro to signify an invalid PKCS #11 key type.
  */
-#define PKCS11_INVALID_KEY_TYPE       ( ( CK_KEY_TYPE ) 0xFFFFFFFFUL )
+#define PKCS11_INVALID_KEY_TYPE            ( ( CK_KEY_TYPE ) 0xFFFFFFFFUL )
 
 /**
  * @ingroup pkcs11_datatypes
  * @brief PKCS #11 object container.
  *
  * Maps a PKCS #11 object handle to it's label.
- *
  */
 typedef struct P11Object_t
 {
@@ -195,7 +265,6 @@ typedef struct P11ObjectList_t
 /**
  * @ingroup pkcs11_datatypes
  * @brief PKCS #11 Module Object
- *
  */
 typedef struct P11Struct_t
 {
@@ -222,9 +291,11 @@ typedef struct P11Session
     CK_ULONG xFindObjectLabelLen;                /**< @brief Size of current search label. */
     CK_MECHANISM_TYPE xOperationVerifyMechanism; /**< @brief The mechanism of verify operation in progress. Set during C_VerifyInit. */
     SemaphoreHandle_t xVerifyMutex;              /**< @brief Protects the verification key from being modified while in use. */
+    CK_OBJECT_HANDLE xVerifyKeyHandle;           /**< @brief Object handle to the verification key. */
     mbedtls_pk_context xVerifyKey;               /**< @brief Verification key.  Set during C_VerifyInit. */
     CK_MECHANISM_TYPE xOperationSignMechanism;   /**< @brief Mechanism of the sign operation in progress. Set during C_SignInit. */
     SemaphoreHandle_t xSignMutex;                /**< @brief Protects the signing key from being modified while in use. */
+    CK_OBJECT_HANDLE xSignKeyHandle;             /**< @brief Object handle to the signing key. */
     mbedtls_pk_context xSignKey;                 /**< @brief Signing key.  Set during C_SignInit. */
     mbedtls_sha256_context xSHA256Context;       /**< @brief Context for in progress digest operation. */
 } P11Session_t;
@@ -321,9 +392,7 @@ static CK_BBOOL prvOperationActive( const P11Session_t * pxSession )
 
 /*
  * PKCS#11 module implementation.
- */
-
-/**
+ *
  * @functions_page{pkcs11_mbedtls,PKCS #11 mbedTLS, PKCS #11 mbedTLS}
  * @functions_brief{PKCS #11 mbedTLS implementation}
  * - @function_name{pkcs11_mbedtls_function_c_initialize}
@@ -467,23 +536,17 @@ static CK_RV prvMbedTLS_Initialize( void )
 
     /* See explanation in prvCheckValidSessionAndModule for this exception. */
     /* coverity[misra_c_2012_rule_10_5_violation] */
-    if( xP11Context.xIsInitialized == ( CK_BBOOL ) CK_TRUE )
-    {
-        xResult = CKR_CRYPTOKI_ALREADY_INITIALIZED;
-    }
-    else
-    {
-        ( void ) memset( &xP11Context, 0, sizeof( xP11Context ) );
-        xP11Context.xObjectList.xMutex = xSemaphoreCreateMutexStatic(
-            &xP11Context.xObjectList.xMutexBuffer );
+    ( void ) memset( &xP11Context, 0, sizeof( xP11Context ) );
+    xP11Context.xObjectList.xMutex = xSemaphoreCreateMutexStatic(
+        &xP11Context.xObjectList.xMutexBuffer );
 
-        xP11Context.xSessionMutex = xSemaphoreCreateMutexStatic(
-            &xP11Context.xSessionMutexBuffer );
+    xP11Context.xSessionMutex = xSemaphoreCreateMutexStatic(
+        &xP11Context.xSessionMutexBuffer );
 
-        if( ( xP11Context.xObjectList.xMutex == NULL ) || ( xP11Context.xSessionMutex == NULL ) )
-        {
-            xResult = CKR_HOST_MEMORY;
-        }
+    if( ( xP11Context.xObjectList.xMutex == NULL ) ||
+        ( xP11Context.xSessionMutex == NULL ) )
+    {
+        xResult = CKR_HOST_MEMORY;
     }
 
     if( xResult == CKR_OK )
@@ -514,7 +577,6 @@ static CK_RV prvMbedTLS_Initialize( void )
 
 /**
  * @brief Searches a template for the CKA_CLASS attribute.
- *
  */
 static CK_RV prvGetObjectClass( const CK_ATTRIBUTE * pxTemplate,
                                 CK_ULONG ulCount,
@@ -541,7 +603,6 @@ static CK_RV prvGetObjectClass( const CK_ATTRIBUTE * pxTemplate,
 
 /**
  * @brief Parses attribute values for a certificate.
- *
  */
 static CK_RV prvCertAttParse( CK_ATTRIBUTE * pxAttribute,
                               CK_CERTIFICATE_TYPE * pxCertificateType,
@@ -613,7 +674,6 @@ static CK_RV prvCertAttParse( CK_ATTRIBUTE * pxAttribute,
 
 /**
  * @brief Parses attribute values for a RSA Key.
- *
  */
 static CK_RV prvRsaKeyAttParse( const CK_ATTRIBUTE * pxAttribute,
                                 const mbedtls_pk_context * pxMbedContext )
@@ -722,7 +782,6 @@ static CK_RV prvRsaKeyAttParse( const CK_ATTRIBUTE * pxAttribute,
 
 /**
  * @brief Parses attribute values for a private EC Key.
- *
  */
 #if ( pkcs11configSUPPRESS_ECDSA_MECHANISM != 1 )
     static CK_RV prvEcPrivKeyAttParse( const CK_ATTRIBUTE * pxAttribute,
@@ -769,7 +828,6 @@ static CK_RV prvRsaKeyAttParse( const CK_ATTRIBUTE * pxAttribute,
 
 /**
  * @brief Parses attribute values for a public EC Key.
- *
  */
 #if ( pkcs11configSUPPRESS_ECDSA_MECHANISM != 1 )
     static CK_RV prvEcPubKeyAttParse( const CK_ATTRIBUTE * pxAttribute,
@@ -817,7 +875,6 @@ static CK_RV prvRsaKeyAttParse( const CK_ATTRIBUTE * pxAttribute,
 
 /**
  * @brief Parses attribute values for an EC Key.
- *
  */
 #if ( pkcs11configSUPPRESS_ECDSA_MECHANISM != 1 )
     static CK_RV prvEcKeyAttParse( const CK_ATTRIBUTE * pxAttribute,
@@ -981,7 +1038,6 @@ static void prvFindObjectInListByHandle( CK_OBJECT_HANDLE xAppHandle,
  * @warning This does not delete the object from NVM.
  *
  * @param[in] xAppHandle     Application handle of the object to be deleted.
- *
  */
 static CK_RV prvDeleteObjectFromList( CK_OBJECT_HANDLE xAppHandle )
 {
@@ -1100,7 +1156,6 @@ static CK_RV prvAddObjectToList( CK_OBJECT_HANDLE xPalHandle,
 
 /**
  * @brief Save a DER formatted key in the PKCS #11 PAL.
- *
  */
 static CK_RV prvSaveDerKeyToPal( mbedtls_pk_context * pxMbedContext,
                                  CK_OBJECT_HANDLE_PTR pxObject,
@@ -1109,13 +1164,46 @@ static CK_RV prvSaveDerKeyToPal( mbedtls_pk_context * pxMbedContext,
                                  CK_BBOOL xIsPrivate )
 {
     CK_RV xResult = CKR_OK;
-    CK_BYTE_PTR pxDerKey;
+    CK_BYTE_PTR pxDerKey = NULL;
     int32_t lDerKeyLength = 0;
     uint32_t ulActualKeyLength = 0;
     int32_t lCompare = 0;
     CK_OBJECT_HANDLE xPalHandle = CK_INVALID_HANDLE;
+    uint32_t ulDerBufSize = 0;
 
-    pxDerKey = pvPortMalloc( MAX_PUBLIC_KEY_SIZE );
+    /* See explanation in prvCheckValidSessionAndModule for this exception. */
+    /* coverity[misra_c_2012_rule_10_5_violation] */
+    if( ( xKeyType == CKK_EC ) && ( xIsPrivate == ( CK_BBOOL ) CK_TRUE ) )
+    {
+        ulDerBufSize = pkcs11_MAX_EC_PRIVATE_KEY_DER_SIZE;
+    }
+    /* See explanation in prvCheckValidSessionAndModule for this exception. */
+    /* coverity[misra_c_2012_rule_10_5_violation] */
+    else if( ( xKeyType == CKK_EC ) && ( xIsPrivate == ( CK_BBOOL ) CK_FALSE ) )
+    {
+        ulDerBufSize = pkcs11_MAX_EC_PUBLIC_KEY_DER_SIZE;
+    }
+    /* See explanation in prvCheckValidSessionAndModule for this exception. */
+    /* coverity[misra_c_2012_rule_10_5_violation] */
+    else if( ( xKeyType == CKK_RSA ) && ( xIsPrivate == ( CK_BBOOL ) CK_TRUE ) )
+    {
+        ulDerBufSize = pkcs11_MAX_PRIVATE_KEY_DER_SIZE;
+    }
+    /* See explanation in prvCheckValidSessionAndModule for this exception. */
+    /* coverity[misra_c_2012_rule_10_5_violation] */
+    else if( ( xKeyType == CKK_RSA ) && ( xIsPrivate == ( CK_BBOOL ) CK_FALSE ) )
+    {
+        ulDerBufSize = pkcs11_MAX_PUBLIC_KEY_DER_SIZE;
+    }
+    else
+    {
+        xResult = CKR_ARGUMENTS_BAD;
+    }
+
+    if( xResult == CKR_OK )
+    {
+        pxDerKey = pvPortMalloc( ulDerBufSize );
+    }
 
     if( pxDerKey == NULL )
     {
@@ -1126,13 +1214,13 @@ static CK_RV prvSaveDerKeyToPal( mbedtls_pk_context * pxMbedContext,
     /* coverity[misra_c_2012_rule_10_5_violation] */
     if( ( xResult == CKR_OK ) && ( xIsPrivate == ( CK_BBOOL ) CK_TRUE ) )
     {
-        lDerKeyLength = mbedtls_pk_write_key_der( pxMbedContext, pxDerKey, MAX_PUBLIC_KEY_SIZE );
+        lDerKeyLength = mbedtls_pk_write_key_der( pxMbedContext, pxDerKey, ulDerBufSize );
     }
     /* See explanation in prvCheckValidSessionAndModule for this exception. */
     /* coverity[misra_c_2012_rule_10_5_violation] */
-    else if( ( xResult == CKR_OK ) && ( xIsPrivate == ( CK_BBOOL ) CK_FALSE ) )
+    else if( ( xResult == CKR_OK ) )
     {
-        lDerKeyLength = mbedtls_pk_write_pubkey_der( pxMbedContext, pxDerKey, MAX_PUBLIC_KEY_SIZE );
+        lDerKeyLength = mbedtls_pk_write_pubkey_der( pxMbedContext, pxDerKey, ulDerBufSize );
     }
     else
     {
@@ -1174,12 +1262,12 @@ static CK_RV prvSaveDerKeyToPal( mbedtls_pk_context * pxMbedContext,
          * It must be removed so that we can read the private
          * key back at a later time. */
         uint8_t emptyPubKey[ 6 ] = { 0xa1, 0x04, 0x03, 0x02, 0x00, 0x00 };
-        lCompare = memcmp( &pxDerKey[ MAX_LENGTH_KEY - 6 ], emptyPubKey, 6 );
+        lCompare = memcmp( &pxDerKey[ ulDerBufSize - 6UL ], emptyPubKey, 6 );
 
         if( ( lCompare == 0 ) && ( ulActualKeyLength >= 6UL ) )
         {
             /* Do not write the last 6 bytes to key storage. */
-            pxDerKey[ MAX_LENGTH_KEY - lDerKeyLength + 1 ] -= ( uint8_t ) 6;
+            pxDerKey[ ulDerBufSize - ( uint32_t ) lDerKeyLength + 1UL ] -= ( uint8_t ) 6;
             ulActualKeyLength -= 6UL;
         }
     }
@@ -1187,7 +1275,7 @@ static CK_RV prvSaveDerKeyToPal( mbedtls_pk_context * pxMbedContext,
     if( xResult == CKR_OK )
     {
         xPalHandle = PKCS11_PAL_SaveObject( pxLabel,
-                                            pxDerKey + ( MAX_LENGTH_KEY - lDerKeyLength ),
+                                            pxDerKey + ( ulDerBufSize - ( uint32_t ) lDerKeyLength ),
                                             ulActualKeyLength );
 
         if( xPalHandle == CK_INVALID_HANDLE )
@@ -1867,6 +1955,7 @@ CK_DECLARE_FUNCTION( CK_RV, C_CloseSession )( CK_SESSION_HANDLE hSession )
          * Tear down the session.
          */
         mbedtls_pk_free( &pxSession->xSignKey );
+        pxSession->xSignKeyHandle = CK_INVALID_HANDLE;
 
         if( NULL != pxSession->xSignMutex )
         {
@@ -1875,6 +1964,7 @@ CK_DECLARE_FUNCTION( CK_RV, C_CloseSession )( CK_SESSION_HANDLE hSession )
 
         /* Free the public key context if it exists. */
         mbedtls_pk_free( &pxSession->xVerifyKey );
+        pxSession->xVerifyKeyHandle = CK_INVALID_HANDLE;
 
         if( NULL != pxSession->xVerifyMutex )
         {
@@ -1992,7 +2082,6 @@ static CK_RV prvCreateCertificate( CK_ATTRIBUTE * pxTemplate,
  * @param[out] pxKeyType pointer to key type.
  * @param[in] pxTemplate templates to search for a key in.
  * @param[in] ulCount length of templates array.
- *
  */
 static void prvGetKeyType( CK_KEY_TYPE * pxKeyType,
                            const CK_ATTRIBUTE * pxTemplate,
@@ -2021,7 +2110,6 @@ static void prvGetKeyType( CK_KEY_TYPE * pxKeyType,
  * @param[out] ppxLabel pointer to label.
  * @param[in] pxTemplate templates to search for a key in.
  * @param[in] ulCount length of templates array.
- *
  */
 static void prvGetLabel( CK_ATTRIBUTE ** ppxLabel,
                          CK_ATTRIBUTE * pxTemplate,
@@ -2131,7 +2219,6 @@ static void prvGetLabel( CK_ATTRIBUTE ** ppxLabel,
  * @param[in] ulCount length of templates array.
  * @param[in] pxObject PKCS #11 object handle.
  * @param[in] xIsPrivate boolean indicating whether the key is private or public.
- *
  */
 #if ( pkcs11configSUPPRESS_ECDSA_MECHANISM != 1 )
     static CK_RV prvCreateECKey( CK_ATTRIBUTE * pxTemplate,
@@ -2239,7 +2326,6 @@ static void prvGetLabel( CK_ATTRIBUTE ** ppxLabel,
  * @param[in] pxTemplate templates to search for a key in.
  * @param[in] ulCount length of templates array.
  * @param[in] pxObject PKCS #11 object handle.
- *
  */
 static CK_RV prvCreateRsaPrivateKey( CK_ATTRIBUTE * pxTemplate,
                                      CK_ULONG ulCount,
@@ -2309,7 +2395,6 @@ static CK_RV prvCreateRsaPrivateKey( CK_ATTRIBUTE * pxTemplate,
  * @param[in] pxTemplate templates to search for a key in.
  * @param[in] ulCount length of templates array.
  * @param[in] pxObject PKCS #11 object handle.
- *
  */
 static CK_RV prvCreatePrivateKey( CK_ATTRIBUTE * pxTemplate,
                                   CK_ULONG ulCount,
@@ -2354,7 +2439,6 @@ static CK_RV prvCreatePrivateKey( CK_ATTRIBUTE * pxTemplate,
  * @param[in] pxTemplate templates to search for a key in.
  * @param[in] ulCount length of templates array.
  * @param[in] pxObject PKCS #11 object handle.
- *
  */
 static CK_RV prvCreatePublicKey( CK_ATTRIBUTE * pxTemplate,
                                  CK_ULONG ulCount,
@@ -2573,10 +2657,11 @@ CK_DECLARE_FUNCTION( CK_RV, C_GetAttributeValue )( CK_SESSION_HANDLE hSession,
     CK_BBOOL xIsPrivate = ( CK_BBOOL ) CK_TRUE;
     CK_ULONG iAttrib;
     mbedtls_pk_context xKeyContext = { 0 };
+    mbedtls_x509_crt xMbedX509Context = { 0 };
     mbedtls_pk_type_t xKeyType;
     const mbedtls_ecp_keypair * pxKeyPair;
     CK_KEY_TYPE xPkcsKeyType = ( CK_KEY_TYPE ) ~0UL;
-    CK_OBJECT_CLASS xClass;
+    CK_OBJECT_CLASS xClass = ~0UL;
     CK_BYTE_PTR pxObjectValue = NULL;
     CK_ULONG ulLength = 0;
     const CK_BYTE ucP256Oid[] = pkcs11DER_ENCODED_OID_P256;
@@ -2620,8 +2705,11 @@ CK_DECLARE_FUNCTION( CK_RV, C_GetAttributeValue )( CK_SESSION_HANDLE hSession,
     /* Determine what kind of object we are dealing with. */
     if( xResult == CKR_OK )
     {
-        /* Is it a key? */
+        /* Initialize mbed TLS key context. */
         mbedtls_pk_init( &xKeyContext );
+
+        /* Initialize mbed TLS x509 context. */
+        mbedtls_x509_crt_init( &xMbedX509Context );
 
         if( 0 == mbedtls_pk_parse_key( &xKeyContext, pxObjectValue, ulLength, NULL, 0 ) )
         {
@@ -2640,11 +2728,13 @@ CK_DECLARE_FUNCTION( CK_RV, C_GetAttributeValue )( CK_SESSION_HANDLE hSession,
         {
             xClass = CKO_PUBLIC_KEY;
         }
+        else if( 0 == mbedtls_x509_crt_parse( &xMbedX509Context, pxObjectValue, ulLength ) )
+        {
+            xClass = CKO_CERTIFICATE;
+        }
         else
         {
-            /* TODO: Do we want to safety parse the cert?
-             * Assume certificate. */
-            xClass = CKO_CERTIFICATE;
+            xResult = CKR_OBJECT_HANDLE_INVALID;
         }
     }
 
@@ -2679,6 +2769,7 @@ CK_DECLARE_FUNCTION( CK_RV, C_GetAttributeValue )( CK_SESSION_HANDLE hSession,
 
                     break;
 
+                case CKA_PUBLIC_KEY_INFO:
                 case CKA_VALUE:
 
                     /* See explanation in prvCheckValidSessionAndModule for this exception. */
@@ -2755,8 +2846,6 @@ CK_DECLARE_FUNCTION( CK_RV, C_GetAttributeValue )( CK_SESSION_HANDLE hSession,
 
                 case CKA_EC_PARAMS:
 
-                    /* TODO: Add check that is key, is ec key. */
-
                     pTemplate[ iAttrib ].ulValueLen = sizeof( ucP256Oid );
 
                     if( pTemplate[ iAttrib ].pValue != NULL )
@@ -2777,7 +2866,7 @@ CK_DECLARE_FUNCTION( CK_RV, C_GetAttributeValue )( CK_SESSION_HANDLE hSession,
 
                     if( pTemplate[ iAttrib ].pValue == NULL )
                     {
-                        pTemplate[ iAttrib ].ulValueLen = 67; /* TODO: Is this large enough?*/
+                        pTemplate[ iAttrib ].ulValueLen = pkcs11EC_POINT_LENGTH;
                     }
                     else
                     {
@@ -2825,6 +2914,9 @@ CK_DECLARE_FUNCTION( CK_RV, C_GetAttributeValue )( CK_SESSION_HANDLE hSession,
 
         /* Free the mbedTLS structure used to parse the key. */
         mbedtls_pk_free( &xKeyContext );
+
+        /* Free the mbedTLS structure used to parse the certificate. */
+        mbedtls_x509_crt_free( &xMbedX509Context );
     }
 
     return xResult;
@@ -2913,7 +3005,7 @@ CK_DECLARE_FUNCTION( CK_RV, C_FindObjectsInit )( CK_SESSION_HANDLE hSession,
     {
         xResult = CKR_TEMPLATE_INCOMPLETE;
 
-        for( ulIndex = 0; ulIndex < ulCount; ulIndex++ ) /* TODO: Re-evaluate the need for this for loop... we are making bad assumptions if 2 objects have the same label anyhow! */
+        for( ulIndex = 0; ulIndex < ulCount; ulIndex++ )
         {
             xAttribute = pTemplate[ ulIndex ];
 
@@ -3242,7 +3334,8 @@ CK_DECLARE_FUNCTION( CK_RV, C_DigestUpdate )( CK_SESSION_HANDLE hSession,
         }
     }
 
-    if( ( xResult != CKR_OK ) && ( xResult != CKR_SESSION_HANDLE_INVALID ) )
+    if( ( xResult != CKR_OK ) && ( xResult != CKR_SESSION_HANDLE_INVALID ) &&
+        ( xResult != CKR_OPERATION_NOT_INITIALIZED ) )
     {
         pxSession->xOperationDigestMechanism = pkcs11NO_OPERATION;
         mbedtls_sha256_free( &pxSession->xSHA256Context );
@@ -3328,7 +3421,9 @@ CK_DECLARE_FUNCTION( CK_RV, C_DigestFinal )( CK_SESSION_HANDLE hSession,
         }
     }
 
-    if( ( xResult != CKR_OK ) && ( xResult != CKR_BUFFER_TOO_SMALL ) && ( xResult != CKR_SESSION_HANDLE_INVALID ) )
+    if( ( xResult != CKR_OK ) && ( xResult != CKR_BUFFER_TOO_SMALL ) &&
+        ( xResult != CKR_SESSION_HANDLE_INVALID ) &&
+        ( xResult != CKR_OPERATION_NOT_INITIALIZED ) )
     {
         pxSession->xOperationDigestMechanism = pkcs11NO_OPERATION;
         mbedtls_sha256_free( &pxSession->xSHA256Context );
@@ -3382,7 +3477,6 @@ CK_DECLARE_FUNCTION( CK_RV, C_SignInit )( CK_SESSION_HANDLE hSession,
     CK_ULONG ulKeyDataLength = 0;
     int32_t lMbedTLSResult = 0;
 
-
     if( NULL == pMechanism )
     {
         PKCS11_PRINT( ( "ERROR: Null signing mechanism provided. \r\n" ) );
@@ -3435,20 +3529,26 @@ CK_DECLARE_FUNCTION( CK_RV, C_SignInit )( CK_SESSION_HANDLE hSession,
          * is underway on another thread where modification of key would lead to hard fault.*/
         if( pdTRUE == xSemaphoreTake( pxSession->xSignMutex, portMAX_DELAY ) )
         {
-            /* Free the private key context if it exists.
-             * TODO: Check if the key is the same as was used previously. */
-            mbedtls_pk_free( &pxSession->xSignKey );
-
-            mbedtls_pk_init( &pxSession->xSignKey );
-            lMbedTLSResult = mbedtls_pk_parse_key( &pxSession->xSignKey, pulKeyData, ulKeyDataLength, NULL, 0 );
-
-            if( lMbedTLSResult != 0 )
+            if( ( pxSession->xSignKeyHandle == CK_INVALID_HANDLE ) || ( pxSession->xSignKeyHandle != hKey ) )
             {
-                PKCS11_PRINT( ( "mbedTLS unable to parse private key for signing. %s : ",
-                                mbedtlsHighLevelCodeOrDefault( lMbedTLSResult ) ) );
-                PKCS11_PRINT( ( "%s \r\n",
-                                mbedtlsLowLevelCodeOrDefault( lMbedTLSResult ) ) );
-                xResult = CKR_KEY_HANDLE_INVALID;
+                pxSession->xSignKeyHandle = CK_INVALID_HANDLE;
+                mbedtls_pk_free( &pxSession->xSignKey );
+                mbedtls_pk_init( &pxSession->xSignKey );
+
+                lMbedTLSResult = mbedtls_pk_parse_key( &pxSession->xSignKey, pulKeyData, ulKeyDataLength, NULL, 0 );
+
+                if( lMbedTLSResult != 0 )
+                {
+                    PKCS11_PRINT( ( "mbedTLS unable to parse private key for signing. %s : ",
+                                    mbedtlsHighLevelCodeOrDefault( lMbedTLSResult ) ) );
+                    PKCS11_PRINT( ( "%s \r\n",
+                                    mbedtlsLowLevelCodeOrDefault( lMbedTLSResult ) ) );
+                    xResult = CKR_KEY_HANDLE_INVALID;
+                }
+                else
+                {
+                    pxSession->xSignKeyHandle = hKey;
+                }
             }
 
             ( void ) xSemaphoreGive( pxSession->xSignMutex );
@@ -3547,8 +3647,11 @@ CK_DECLARE_FUNCTION( CK_RV, C_Sign )( CK_SESSION_HANDLE hSession,
     /* See explanation in prvCheckValidSessionAndModule for this exception. */
     /* coverity[misra_c_2012_rule_10_5_violation] */
     CK_BBOOL xSignatureGenerated = ( CK_BBOOL ) CK_FALSE;
-    uint8_t ecSignature[ pkcs11ECDSA_P256_SIGNATURE_LENGTH + 15 ]; /*TODO: Figure out this length. */
+
+    /* 8 bytes added to hold ASN.1 encoding information. */
+    uint8_t ecSignature[ pkcs11ECDSA_P256_SIGNATURE_LENGTH + 8 ];
     int32_t lMbedTLSResult;
+    mbedtls_md_type_t xHashType = MBEDTLS_MD_NONE;
 
 
     if( ( NULL == pulSignatureLen ) || ( NULL == pData ) )
@@ -3569,6 +3672,7 @@ CK_DECLARE_FUNCTION( CK_RV, C_Sign )( CK_SESSION_HANDLE hSession,
             xSignatureLength = pkcs11ECDSA_P256_SIGNATURE_LENGTH;
             xExpectedInputLength = pkcs11SHA256_DIGEST_LENGTH;
             pxSignatureBuffer = ecSignature;
+            xHashType = MBEDTLS_MD_SHA256;
         }
         else
         {
@@ -3601,8 +3705,13 @@ CK_DECLARE_FUNCTION( CK_RV, C_Sign )( CK_SESSION_HANDLE hSession,
             {
                 if( pdTRUE == xSemaphoreTake( pxSessionObj->xSignMutex, portMAX_DELAY ) )
                 {
+                    /* Per mbed TLS documentation, if using RSA, md_alg should
+                     * be MBEDTLS_MD_NONE. If ECDSA, md_alg should never be
+                     * MBEDTLS_MD_NONE. SHA-256 will be used for ECDSA for
+                     * consistency with the rest of the port.
+                     */
                     lMbedTLSResult = mbedtls_pk_sign( &pxSessionObj->xSignKey,
-                                                      MBEDTLS_MD_NONE,
+                                                      xHashType,
                                                       pData,
                                                       ulDataLen,
                                                       pxSignatureBuffer,
@@ -3634,11 +3743,11 @@ CK_DECLARE_FUNCTION( CK_RV, C_Sign )( CK_SESSION_HANDLE hSession,
 
     if( xResult == CKR_OK )
     {
-        /* If this an EC signature, reformat from ASN.1 encoded to 64-byte R & S components */
         /* See explanation in prvCheckValidSessionAndModule for this exception. */
         /* coverity[misra_c_2012_rule_10_5_violation] */
         if( ( pxSessionObj->xOperationSignMechanism == CKM_ECDSA ) && ( xSignatureGenerated == ( CK_BBOOL ) CK_TRUE ) )
         {
+            /* If this an EC signature, reformat from ASN.1 encoded to 64-byte R & S components */
             lMbedTLSResult = PKI_mbedTLSSignatureToPkcs11Signature( pSignature, ecSignature );
 
             if( lMbedTLSResult != 0 )
@@ -3757,18 +3866,23 @@ CK_DECLARE_FUNCTION( CK_RV, C_VerifyInit )( CK_SESSION_HANDLE hSession,
     {
         if( pdTRUE == xSemaphoreTake( pxSession->xVerifyMutex, portMAX_DELAY ) )
         {
-            /* Free the public key context if it exists.
-             * TODO: Check if the key is the same as used by last verify operation. */
-            mbedtls_pk_free( &pxSession->xVerifyKey );
-
-            mbedtls_pk_init( &pxSession->xVerifyKey );
-
-            if( 0 != mbedtls_pk_parse_public_key( &pxSession->xVerifyKey, pucKeyData, ulKeyDataLength ) )
+            if( ( pxSession->xVerifyKeyHandle == CK_INVALID_HANDLE ) || ( pxSession->xVerifyKeyHandle != hKey ) )
             {
-                if( 0 != mbedtls_pk_parse_key( &pxSession->xVerifyKey, pucKeyData, ulKeyDataLength, NULL, 0 ) )
+                pxSession->xVerifyKeyHandle = CK_INVALID_HANDLE;
+                mbedtls_pk_free( &pxSession->xVerifyKey );
+                mbedtls_pk_init( &pxSession->xVerifyKey );
+
+                if( 0 != mbedtls_pk_parse_public_key( &pxSession->xVerifyKey, pucKeyData, ulKeyDataLength ) )
                 {
-                    PKCS11_PRINT( ( "ERROR: Unable to parse public key for verification. \r\n" ) );
-                    xResult = CKR_KEY_HANDLE_INVALID;
+                    if( 0 != mbedtls_pk_parse_key( &pxSession->xVerifyKey, pucKeyData, ulKeyDataLength, NULL, 0 ) )
+                    {
+                        PKCS11_PRINT( ( "ERROR: Unable to parse public key for verification. \r\n" ) );
+                        xResult = CKR_KEY_HANDLE_INVALID;
+                    }
+                    else
+                    {
+                        pxSession->xVerifyKeyHandle = hKey;
+                    }
                 }
             }
 
@@ -3926,8 +4040,7 @@ CK_DECLARE_FUNCTION( CK_RV, C_Verify )( CK_SESSION_HANDLE hSession,
         /* Perform an ECDSA verification. */
         else if( pxSessionObj->xOperationVerifyMechanism == CKM_ECDSA )
         {
-            /* TODO: Refactor w/ test code
-             * An ECDSA signature is comprised of 2 components - R & S.  C_Sign returns them one after another. */
+            /* An ECDSA signature is comprised of 2 components - R & S.  C_Sign returns them one after another. */
             mbedtls_ecdsa_context * pxEcdsaContext;
             mbedtls_mpi xR;
             mbedtls_mpi xS;

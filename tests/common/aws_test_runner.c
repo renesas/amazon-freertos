@@ -68,6 +68,7 @@ static void RunTests( void )
      * first tests in this function. */
     #if ( testrunnerFULL_WIFI_ENABLED == 1 )
         RUN_TEST_GROUP( Full_WiFi );
+        RUN_TEST_GROUP( Quarantine_WiFi );
     #endif
 
     #if ( testrunnerFULL_TASKPOOL_ENABLED == 1 )
@@ -269,6 +270,11 @@ void TEST_RUNNER_RunTests_task( void * pvParameters )
         xHeapAfter = xPortGetFreeHeapSize();
         RUN_TEST_GROUP( Full_MemoryLeak );
     #endif /* if ( testrunnerFULL_MEMORYLEAK_ENABLED == 1 ) */
+
+#if defined(__IDT_MODE__)
+    vTaskDelay( 500 );
+    WIFI_Off();
+#endif
 
     /* Currently disabled. Will be enabled after cleanup. */
     UNITY_END();

@@ -39,6 +39,7 @@
 #include "mock_entropy.h"
 #include "mock_sha256.h"
 #include "mock_pk.h"
+#include "mock_x509_crt.h"
 #include "mock_ecp.h"
 #include "mock_ecdsa.h"
 #include "mock_rsa.h"
@@ -1617,8 +1618,10 @@ void test_pkcs11_C_GetAttributeValueCert( void )
     /* Get Certificate value. */
     PKCS11_PAL_GetObjectValue_IgnoreAndReturn( CKR_OK );
     mbedtls_pk_init_CMockIgnore();
+    mbedtls_x509_crt_init_CMockIgnore();
     mbedtls_pk_parse_key_IgnoreAndReturn( 1 );
     mbedtls_pk_parse_public_key_IgnoreAndReturn( 1 );
+    mbedtls_x509_crt_parse_IgnoreAndReturn( 0 );
     PKCS11_PAL_GetObjectValueCleanup_CMockIgnore();
     mbedtls_pk_free_CMockIgnore();
     xResult = C_GetAttributeValue( xSession, xObject, ( CK_ATTRIBUTE_PTR ) &xCertificateTemplate, ulCount );
@@ -1658,10 +1661,9 @@ void test_pkcs11_C_GetAttributeValueAttParsing( void )
 
 
     /* EC Params Case */
-    PKCS11_PAL_GetObjectValue_ExpectAnyArgsAndReturn( CKR_OK );
     mbedtls_pk_init_CMockIgnore();
-    mbedtls_pk_parse_key_IgnoreAndReturn( 1 );
-    mbedtls_pk_parse_public_key_IgnoreAndReturn( 1 );
+    mbedtls_x509_crt_init_CMockIgnore();
+    mbedtls_pk_parse_key_IgnoreAndReturn( 0 );
     PKCS11_PAL_GetObjectValueCleanup_CMockIgnore();
     mbedtls_pk_free_CMockIgnore();
     xResult = C_GetAttributeValue( xSession, xObject, ( CK_ATTRIBUTE_PTR ) &xTemplate, ulCount );
@@ -1674,7 +1676,6 @@ void test_pkcs11_C_GetAttributeValueAttParsing( void )
     xTemplate.pValue = NULL;
     xTemplate.ulValueLen = 0;
 
-    PKCS11_PAL_GetObjectValue_ExpectAnyArgsAndReturn( CKR_OK );
     xResult = C_GetAttributeValue( xSession, xObject, ( CK_ATTRIBUTE_PTR ) &xTemplate, ulCount );
     TEST_ASSERT_EQUAL( CKR_OK, xResult );
 
@@ -1685,7 +1686,6 @@ void test_pkcs11_C_GetAttributeValueAttParsing( void )
     xTemplate.pValue = &ulPoint;
     xTemplate.ulValueLen = sizeof( ulPoint );
 
-    PKCS11_PAL_GetObjectValue_ExpectAnyArgsAndReturn( CKR_OK );
     xResult = C_GetAttributeValue( xSession, xObject, ( CK_ATTRIBUTE_PTR ) &xTemplate, ulCount );
     TEST_ASSERT_EQUAL( CKR_OK, xResult );
     TEST_ASSERT_EQUAL( ulKnownPoint, ulPoint );
@@ -1694,7 +1694,6 @@ void test_pkcs11_C_GetAttributeValueAttParsing( void )
     xTemplate.ulValueLen = sizeof( ulPoint );
 
     mbedtls_ecp_tls_write_point_IgnoreAndReturn( MBEDTLS_ERR_ECP_BUFFER_TOO_SMALL );
-    PKCS11_PAL_GetObjectValue_ExpectAnyArgsAndReturn( CKR_OK );
     xResult = C_GetAttributeValue( xSession, xObject, ( CK_ATTRIBUTE_PTR ) &xTemplate, ulCount );
     TEST_ASSERT_EQUAL( CKR_BUFFER_TOO_SMALL, xResult );
 
@@ -1702,7 +1701,6 @@ void test_pkcs11_C_GetAttributeValueAttParsing( void )
     xTemplate.pValue = &ulPoint;
     xTemplate.ulValueLen = sizeof( ulPoint );
 
-    PKCS11_PAL_GetObjectValue_ExpectAnyArgsAndReturn( CKR_OK );
     xResult = C_GetAttributeValue( xSession, xObject, ( CK_ATTRIBUTE_PTR ) &xTemplate, ulCount );
     TEST_ASSERT_EQUAL( CKR_FUNCTION_FAILED, xResult );
 
@@ -1711,7 +1709,6 @@ void test_pkcs11_C_GetAttributeValueAttParsing( void )
     /* Unknown attribute. */
     xTemplate.type = CKA_MODULUS;
 
-    PKCS11_PAL_GetObjectValue_ExpectAnyArgsAndReturn( CKR_OK );
     xResult = C_GetAttributeValue( xSession, xObject, ( CK_ATTRIBUTE_PTR ) &xTemplate, ulCount );
     TEST_ASSERT_EQUAL( CKR_ATTRIBUTE_TYPE_INVALID, xResult );
 
@@ -1720,7 +1717,6 @@ void test_pkcs11_C_GetAttributeValueAttParsing( void )
     xTemplate.pValue = NULL;
     xTemplate.ulValueLen = 0;
 
-    PKCS11_PAL_GetObjectValue_ExpectAnyArgsAndReturn( CKR_OK );
     mbedtls_pk_parse_key_IgnoreAndReturn( 0 );
     xResult = C_GetAttributeValue( xSession, xObject, ( CK_ATTRIBUTE_PTR ) &xTemplate, ulCount );
     TEST_ASSERT_EQUAL( CKR_OK, xResult );
@@ -1729,7 +1725,6 @@ void test_pkcs11_C_GetAttributeValueAttParsing( void )
 
     xTemplate.pValue = &xPrivateKeyClass;
 
-    PKCS11_PAL_GetObjectValue_ExpectAnyArgsAndReturn( CKR_OK );
     xResult = C_GetAttributeValue( xSession, xObject, ( CK_ATTRIBUTE_PTR ) &xTemplate, ulCount );
     TEST_ASSERT_EQUAL( CKR_OK, xResult );
     TEST_ASSERT_EQUAL( sizeof( xPrivateKeyClass ), xTemplate.ulValueLen );
@@ -1744,7 +1739,7 @@ void test_pkcs11_C_GetAttributeValueAttParsing( void )
     PKCS11_PAL_GetObjectValue_ReturnThruPtr_pIsPrivate( &xIsPrivate );
     PKCS11_PAL_GetObjectValue_ReturnThruPtr_pulDataSize( &ulLength );
     mbedtls_pk_parse_key_IgnoreAndReturn( 1 );
-    mbedtls_pk_parse_public_key_IgnoreAndReturn( 0 );
+    mbedtls_pk_parse_public_key_ExpectAnyArgsAndReturn( 0 );
     xResult = C_GetAttributeValue( xSession, xObjectPub, ( CK_ATTRIBUTE_PTR ) &xTemplate, ulCount );
     TEST_ASSERT_EQUAL( CKR_OK, xResult );
     TEST_ASSERT_EQUAL( 1, xTemplate.ulValueLen );
@@ -1796,6 +1791,7 @@ void test_pkcs11_C_GetAttributeValuePrivKey( void )
 
     PKCS11_PAL_GetObjectValue_IgnoreAndReturn( CKR_OK );
     mbedtls_pk_init_CMockIgnore();
+    mbedtls_x509_crt_init_CMockIgnore();
     mbedtls_pk_parse_key_IgnoreAndReturn( 0 );
     PKCS11_PAL_GetObjectValueCleanup_CMockIgnore();
     mbedtls_pk_free_CMockIgnore();
@@ -3168,6 +3164,7 @@ void test_pkcs11_C_GenerateKeyPairECDSALockFail( void )
     CK_ATTRIBUTE xPublicKeyTemplate[] =
     {
         { CKA_KEY_TYPE,  &xKeyType,         sizeof( xKeyType )                           },
+        { CKA_TOKEN,     &xTrue,            sizeof( xTrue )                              },
         { CKA_VERIFY,    &xTrue,            sizeof( xTrue )                              },
         { CKA_EC_PARAMS, xEcParams,         sizeof( xEcParams )                          },
         { CKA_LABEL,     pucPublicKeyLabel, strlen( ( const char * ) pucPublicKeyLabel ) }
@@ -3303,7 +3300,8 @@ void test_pkcs11_C_GenerateKeyPairBadArgs( void )
         { CKA_KEY_TYPE,  &xKeyType,         sizeof( xKeyType )                           },
         { CKA_VERIFY,    &xTrue,            sizeof( xTrue )                              },
         { CKA_EC_PARAMS, xEcParams,         sizeof( xEcParams )                          },
-        { CKA_LABEL,     pucPublicKeyLabel, strlen( ( const char * ) pucPublicKeyLabel ) }
+        { CKA_LABEL,     pucPublicKeyLabel, strlen( ( const char * ) pucPublicKeyLabel ) },
+        { CKA_TOKEN,     &xTrue,            sizeof( xTrue )                              }
     };
 
     CK_ATTRIBUTE xPrivateKeyTemplate[] =
@@ -3373,6 +3371,14 @@ void test_pkcs11_C_GenerateKeyPairBadArgs( void )
                                  &xPubKeyHandle, &xPrivKeyHandle );
     TEST_ASSERT_EQUAL( CKR_TEMPLATE_INCONSISTENT, xResult );
     xPublicKeyTemplate[ 0 ].pValue = &xKeyType;
+
+    xPublicKeyTemplate[ 4 ].pValue = &xFalse;
+    xResult = C_GenerateKeyPair( xSession, &xMechanism, xPublicKeyTemplate,
+                                 sizeof( xPublicKeyTemplate ) / sizeof( CK_ATTRIBUTE ),
+                                 xPrivateKeyTemplate, sizeof( xPrivateKeyTemplate ) / sizeof( CK_ATTRIBUTE ),
+                                 &xPubKeyHandle, &xPrivKeyHandle );
+    TEST_ASSERT_EQUAL( CKR_TEMPLATE_INCONSISTENT, xResult );
+    xPublicKeyTemplate[ 4 ].pValue = &xTrue;
 
     prvCommonDeinitStubs();
 }
