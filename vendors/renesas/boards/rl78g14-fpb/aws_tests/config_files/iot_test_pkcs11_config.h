@@ -35,7 +35,7 @@
  * Each task consumes both stack and heap space, which may cause memory allocation
  * failures if too many tasks are created.
  */
-#define pkcs11testMULTI_THREAD_TASK_COUNT     ( 2 )
+#define pkcs11testMULTI_THREAD_TASK_COUNT     ( 1 )
 
 /**
  * @brief The number of iterations of the test that will run in multithread tests.
@@ -52,7 +52,7 @@
  * All tasks of the SignVerifyRoundTrip_MultitaskLoop test must finish within
  * this timeout, or the test will fail.
  */
-#define pkcs11testEVENT_GROUP_TIMEOUT_MS      ( pdMS_TO_TICKS( 1000000UL ) )
+#define pkcs11testEVENT_GROUP_TIMEOUT_MS      ( pdMS_TO_TICKS( 100000L ) )
 
 /**
  * @brief The index of the slot that should be used to open sessions for PKCS #11 tests.
@@ -72,7 +72,7 @@
 /*
  * @brief Set to 1 if importing device private key via C_CreateObject is supported.  0 if not.
  */
-#define pkcs11testIMPORT_PRIVATE_KEY_SUPPORT              ( 1 )
+#define pkcs11testIMPORT_PRIVATE_KEY_SUPPORT              ( 0 )
 
 /*
  * @brief Set to 1 if generating a device private-public key pair via C_GenerateKeyPair. 0 if not.

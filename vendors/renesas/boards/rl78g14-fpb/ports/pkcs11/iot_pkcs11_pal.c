@@ -30,13 +30,45 @@
 
 /* FreeRTOS Includes. */
 #include "iot_pkcs11.h"
+#include "iot_pkcs11_config.h"
 #include "FreeRTOS.h"
+#include "mbedtls/sha256.h"
 
 /* C runtime includes. */
 #include <stdio.h>
 #include <string.h>
 
+/* Renesas RX platform includes */
+#include "platform.h"
 
+
+extern CK_RV prvMbedTLS_Initialize( void );
+
+CK_RV C_Initialize( CK_VOID_PTR pvInitArgs )
+{
+    CK_RV xResult = CKR_OK;
+
+//    R_FLASH_Open();
+
+#if defined (BSP_MCU_RX63N) || (BSP_MCU_RX631) || (BSP_MCU_RX630)
+    flash_access_window_config_t flash_access_window_config;
+    flash_access_window_config.read_en_mask = 0xffff;
+    flash_access_window_config.write_en_mask = 0xffff;
+    R_FLASH_Control(FLASH_CMD_ACCESSWINDOW_SET, &flash_access_window_config);
+#endif
+
+    /* check the hash */
+//    check_dataflash_area(0);
+//
+//    /* copy data from storage to ram */
+//    memcpy(&pkcs_control_block_data_image, (void *)&pkcs_control_block_data, sizeof(pkcs_control_block_data_image));
+//
+//    R_FLASH_Close();
+
+    xResult = prvMbedTLS_Initialize();
+
+    return xResult;
+}
 /**
 * @brief Writes a file to local storage.
 *
@@ -120,7 +152,8 @@ CK_RV PKCS11_PAL_GetObjectValue( CK_OBJECT_HANDLE xHandle,
 void PKCS11_PAL_GetObjectValueCleanup( uint8_t * pucData,
     uint32_t ulDataSize )
 {
-    
+
+
 }
 
 /*-----------------------------------------------------------*/
@@ -130,6 +163,8 @@ int mbedtls_hardware_poll( void * data,
                            size_t len,
                            size_t * olen )
 {
-    /* FIX ME. */
+	const char random[10] = {0x12, 0x34, 0x56, 0x78, 0x22, 0x99, 0x45, 0x78, 0x55, 0x63};
+	*olen = sizeof(random);
+	memcpy(random, output, sizeof(random));
     return 0;
 }

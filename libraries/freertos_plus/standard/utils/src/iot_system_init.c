@@ -40,7 +40,9 @@ BaseType_t SYSTEM_Init( void )
 {
     BaseType_t xResult = pdPASS;
 
+	#if defined (__AWS_TESTS__)
     CRYPTO_Init();
+	#endif
 
     if( xResult == pdPASS )
     {
