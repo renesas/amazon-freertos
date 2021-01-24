@@ -1262,10 +1262,24 @@ int32_t    R_WIFI_SX_ULPGN_CreateSocket(uint32_t type, uint32_t ip_version)
 			break;
 		}
 	}
-	if(i >=g_wifi_createble_sockets)
+	if (g_wifi_createble_sockets == WIFI_CFG_CREATABLE_SOCKETS )
+	{
+		if(i >= g_wifi_createble_sockets)
+		{
+			api_ret = WIFI_ERR_SOCKET_NUM;
+		}
+	}
+	else if(g_wifi_createble_sockets < WIFI_CFG_CREATABLE_SOCKETS ) {
+		if(i > g_wifi_createble_sockets)
+		{
+			api_ret = WIFI_ERR_SOCKET_NUM;
+		}
+	}
+	else
 	{
 		api_ret = WIFI_ERR_SOCKET_NUM;
 	}
+
 	if(WIFI_SUCCESS == api_ret)
 	{
 		g_wifi_socket[i].socket_create_flag = 1;
