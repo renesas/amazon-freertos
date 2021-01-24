@@ -40,7 +40,7 @@ BaseType_t SYSTEM_Init( void )
 {
     BaseType_t xResult = pdPASS;
 
-//    CRYPTO_Init();
+    CRYPTO_Init();
 
     if( xResult == pdPASS )
     {
