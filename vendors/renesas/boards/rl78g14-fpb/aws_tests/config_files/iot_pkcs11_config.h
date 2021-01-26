@@ -33,7 +33,11 @@
 #define _AWS_PKCS11_CONFIG_H_
 
 /* A non-standard version of C_INITIALIZE should be used by this port. */
- #define pkcs11configC_INITIALIZE_ALT 	1
+ #define pkcs11configC_INITIALIZE_ALT 	0
+
+#define pkcs11testMULTI_TASK_STACK_SIZE    ( configMINIMAL_STACK_SIZE * 4 )
+
+#define pkcs11testMULTI_TASK_PRIORITY    ( tskIDLE_PRIORITY )
 
 /**
  * @brief PKCS #11 default user PIN.
