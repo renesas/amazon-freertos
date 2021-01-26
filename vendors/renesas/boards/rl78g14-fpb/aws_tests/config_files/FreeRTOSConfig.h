@@ -53,8 +53,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define configUSE_PORT_OPTIMISED_TASK_SELECTION    0
 #define configMAX_PRIORITIES                       ( 7 )
 #define configTICK_RATE_HZ                         ( 1000 )
-#define configMINIMAL_STACK_SIZE                   ( ( unsigned short ) 70 )
-#define configTOTAL_HEAP_SIZE                      ( ( size_t ) ( 31U * 1024U +512) )
+#define configMINIMAL_STACK_SIZE                   ( ( unsigned short ) 64 )
+#define configTOTAL_HEAP_SIZE                      ( ( size_t ) ( 30U * 1024U) )
 #define configMAX_TASK_NAME_LEN                    ( 12 )
 #define configUSE_TRACE_FACILITY                   1
 #define configUSE_16_BIT_TICKS                     0
