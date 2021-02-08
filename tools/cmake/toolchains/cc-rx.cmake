@@ -53,7 +53,8 @@ set(CMAKE_C_CREATE_STATIC_LIBRARY "<CMAKE_AR> -form=library=u -output=<TARGET> -
 #set(CMAKE_C_CREATE_STATIC_LIBRARY "<CMAKE_AR> -form=library=u -noprelink -nomessage -list -show=all -nooptimize -nologo <OBJECTS>")
 
 # Specify the linker
-SET(CMAKE_C_LINK_EXECUTABLE rlink)
+SET(CMAKE_C_LINK_EXECUTABLE "rlink <FLAGS> <CMAKE_C_LINK_FLAGS> <LINK_FLAGS> <OBJECTS>")
+#SET(CMAKE_C_LINK_EXECUTABLE rlink)
 #SET(CMAKE_CXX_LINK_EXECUTABLE rlink)
 
 # Specify the make
