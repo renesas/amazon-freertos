@@ -47,7 +47,7 @@
 
 /* This checks that the module of the Ethernet is supported to the MCU that has been selected for sure. */
     #if (defined(BSP_MCU_RX65N) || defined(BSP_MCU_RX64M) || defined(BSP_MCU_RX71M) || defined(BSP_MCU_RX72M) || \
-         defined(BSP_MCU_RX72N) || defined(BSP_MCU_RX66N))
+         defined(BSP_MCU_RX72N) || defined(BSP_MCU_RX66N)) || defined(BSP_MCU_RX72N)
 
     #else
         #error "This MCU is not supported by the current r_ether_rx module."
