@@ -14,6 +14,8 @@ else()
     set(exe_target aws_demos)
 endif()
 
+#include("${CMAKE_CURRENT_LIST_DIR}/bootloader.cmake")
+
 # -------------------------------------------------------------------------------------------------
 # FreeRTOS Console metadata
 # -------------------------------------------------------------------------------------------------
@@ -66,20 +68,20 @@ target_compile_options(
         $<$<COMPILE_LANGUAGE:ASM>:${assembler_flags}>
 )
 
-SET(LINKER_OPTIONS "-start=SU,SI,R_1,R_2,R,RPFRAM2*/04,C_PKCS11_STORAGE*/0100800,C_SYSTEM_CONFIG*/0104800,B_ETHERNET_BUFFERS_1,B_RX_DESC_1,B_TX_DESC_1,B,B_1,B_2/0800000,C_1,C_2,C,C$$*,D*,W*,L,P*/0FFF00300,EXCEPTVECT/0FFFFFF80,RESETVECT/0FFFFFFFC")
+SET(LINKER_OPTIONS "-start=SU,SI,R_1,R_2,R,RPFRAM2*/04,C_PKCS11_STORAGE*/0100800,C_SYSTEM_CONFIG*/0104800,B_ETHERNET_BUFFERS_1,B_RX_DESC_1,B_TX_DESC_1,B,B_1,B_2/0800000,C_1,C_2,C,C$$*,D*,W*,L,P*/0FFF00300,EXCEPTVECT/0FFFBFF80,RESETVECT/0FFFBFFFC")
 
 SET (CMAKE_C_LINK_EXECUTABLE "${CMAKE_C_LINK_EXECUTABLE} ${LINKER_OPTIONS} -form=absolute <OBJECTS> -library=afr_common.a -library=afr_core_json.a -library=afr_core_mqtt.a -library=afr_core_mqtt_demo_dependencies.a -library=afr_crypto.a -library=afr_defender.a -library=afr_dev_mode_key_provisioning.a -library=afr_device_shadow.a -library=afr_device_shadow_demo_dependencies.a -library=afr_freertos_plus_tcp.a -library=afr_greengrass.a -library=afr_https.a -library=afr_kernel.a -library=afr_logging.a -library=afr_mqtt.a -library=afr_ota.a -library=afr_pkcs11.a -library=afr_pkcs11_implementation.a -library=afr_pkcs11_utils.a -library=afr_platform.a -library=afr_retry_utils.a -library=afr_secure_sockets.a  -library=afr_serializer.a -library=afr_tls.a -library=afr_transport_interface_secure_sockets.a -library=libraries/3rdparty/libafr_3rdparty_mbedtls.a -library=libraries/3rdparty/libafr_3rdparty_tinycbor.a afr_kernel.a(resetprg.c) afr_kernel.a(dbsct.c) afr_kernel.a(vecttbl.c) -output=${exe_target}.abs -library=${exe_target}.lib -noprelink -nomessage -vect=_undefined_interrupt_source_isr -list=${exe_target}.map -show=all -nooptimize -rom=D=R,D_1=R_1,D_2=R_2,PFRAM2=RPFRAM2 -nologo")
 
 
-#set(linker_flags
-#    -noprelink -form=absolute -nomessage -vect=_undefined_interrupt_source_isr -list=${exe_target}.map
-#    -nooptimize -rom=D=R,D_1=R_1,D_2=R_2 -nologo
-#)
+set(linker_flags
+    -noprelink -form=absolute -nomessage -vect=_undefined_interrupt_source_isr -list=${exe_target}.map
+    -nooptimize -rom=D=R,D_1=R_1,D_2=R_2 -nologo
+)
 
 target_link_options(
     AFR::compiler::mcu_port
     INTERFACE
-        ${linker_flags}
+        #${linker_flags}
 )
 
 target_link_libraries(
