@@ -23,6 +23,8 @@
  * http://www.FreeRTOS.org
  */
 
+#include "FreeRTOSApplicationConfig.h"
+ 
 #ifndef _AWS_DEMO_CONFIG_H_
 #define _AWS_DEMO_CONFIG_H_
 
@@ -43,8 +45,15 @@
  *          CONFIG_HTTPS_ASYNC_UPLOAD_DEMO_ENABLED
  *
  *  These defines are used in iot_demo_runner.h for demo selection */
+ 
+ /* demo is configured for MQTT */
+#if (OTA == 0)
+   #define CONFIG_CORE_MQTT_MUTUAL_AUTH_DEMO_ENABLED
 
-#define CONFIG_CORE_MQTT_MUTUAL_AUTH_DEMO_ENABLED
+/* demo is configured for OTA */
+#elif (OTA == 1)
+   #define CONFIG_OTA_UPDATE_DEMO_ENABLED
+#endif
 
 /* Default configuration for all demos. Individual demos can override these below */
 #define democonfigDEMO_STACKSIZE                                     ( configMINIMAL_STACK_SIZE * 8 )
