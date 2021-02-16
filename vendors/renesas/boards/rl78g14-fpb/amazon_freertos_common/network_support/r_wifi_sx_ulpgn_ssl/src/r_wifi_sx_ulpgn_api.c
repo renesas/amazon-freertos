@@ -1854,7 +1854,7 @@ wifi_err_t R_WIFI_SX_ULPGN_ShutdownSocket (int32_t socket_number)
 		else
 		{
 			g_wifi_socket[socket_number].socket_status = WIFI_SOCKET_STATUS_SOCKET;
-			R_BSP_SoftwareDelay(500, BSP_DELAY_MILLISECS);
+			R_BSP_SoftwareDelay(10, BSP_DELAY_MILLISECS);
 		}
     }
     if(WIFI_ERR_TAKE_MUTEX != api_ret)
@@ -1862,7 +1862,7 @@ wifi_err_t R_WIFI_SX_ULPGN_ShutdownSocket (int32_t socket_number)
    		/* Give back the socketInUse mutex. */
    		wifi_give_mutex(mutex_flag);
        }
-       wifi_give_mutex(mutex_flag);
+//       wifi_give_mutex(mutex_flag);
    	return api_ret;
 
 }
@@ -2184,7 +2184,7 @@ static int32_t wifi_change_socket_index(uint8_t socket_number)
             {
             	return -1;
             }
-			R_BSP_SoftwareDelay(ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_VALUE, ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_PERIOD);
+			R_BSP_SoftwareDelay(10, ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_PERIOD);
 
             while(sequence < 0x80)
             {
@@ -2249,12 +2249,12 @@ static int32_t wifi_change_socket_index(uint8_t socket_number)
                         previous_atustat_sent = now_atustat_sent;
             			if(zero_cnt < 2)
             			{
-        					R_BSP_SoftwareDelay(ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_VALUE, ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_PERIOD);
+        					R_BSP_SoftwareDelay(10, ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_PERIOD);
             				sequence = 0;
             			}
             			else
             			{
-        					R_BSP_SoftwareDelay(ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_VALUE, ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_PERIOD);
+        					R_BSP_SoftwareDelay(10, ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_PERIOD);
         					zero_cnt = 0;
             				sequence = 2;
             			}
