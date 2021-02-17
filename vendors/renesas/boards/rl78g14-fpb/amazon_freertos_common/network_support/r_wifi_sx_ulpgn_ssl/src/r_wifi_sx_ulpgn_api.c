@@ -2254,7 +2254,7 @@ static int32_t wifi_change_socket_index(uint8_t socket_number)
             			}
             			else
             			{
-        					R_BSP_SoftwareDelay(5, ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_PERIOD);
+        					R_BSP_SoftwareDelay(8, ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_PERIOD);
         					zero_cnt = 0;
             				sequence = 2;
             			}
