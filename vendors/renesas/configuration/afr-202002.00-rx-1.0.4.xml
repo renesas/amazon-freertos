@@ -89,8 +89,12 @@
             <address>0x00000004</address>
         </section>
         <section>
-            <name>C_PKCS11_STORAGE*</name>
-            <address>0x00100000</address>
+          <name>C_PKCS11_STORAGE*</name>
+          <address>0x0100800</address>
+        </section>
+        <section>
+          <name>C_SYSTEM_CONFIG*</name>
+          <address>0x0104800</address>
         </section>
         <section>
             <name>B_1</name>
@@ -124,76 +128,108 @@
     </sections>
     </boardsupport>
     <boardsupport>
-    <sections>
-      <toolchain>RXC</toolchain>
-      <board>RSKRX65N-2MB</board>
-      <series>RX600</series>
-      <group>RX65N</group>
-      <section>
-        <name>SU</name>
-        <name>SI</name>
-        <name>R_1</name>
-        <name>R_2</name>
-        <name>R</name>
-        <name>RPFRAM2</name>
-        <address>0x00000004</address>
-      </section>
-      <section>
-        <name>C_PKCS11_STORAGE_MIRROR</name>
-        <address>0x00102000</address>
-      </section>
-      <section>
-        <name>C_PKCS11_STORAGE</name>
-        <address>0x00100000</address>
-      </section>
-      <section>
-        <name>B_ETHERNET_BUFFERS_1</name>
-        <name>B_RX_DESC_1</name>
-        <name>B_TX_DESC_1</name>
-        <address>0x00010000</address>
-      </section>
-      <section>
-        <name>B</name>
-        <name>B_1</name>
-        <name>B_2</name>
-        <address>0x00800000</address>
-      </section>
-    </sections>
+      <sections>
+        <toolchain>RXC</toolchain>
+        <board>RSKRX65N-2MB</board>
+        <series>RX600</series>
+        <group>RX65N</group>
+        <section>
+          <name>SU</name>
+          <name>SI</name>
+          <name>R_1</name>
+          <name>R_2</name>
+          <name>R</name>
+          <name>RPFRAM2*</name>
+          <address>0x00000004</address>
+        </section>
+        <section>
+          <name>C_PKCS11_STORAGE*</name>
+          <address>0x0100800</address>
+        </section>
+        <section>
+          <name>C_SYSTEM_CONFIG*</name>
+          <address>0x0104800</address>
+        </section>
+        <section>
+          <name>B_ETHERNET_BUFFERS_1</name>
+          <name>B_RX_DESC_1</name>
+          <name>B_TX_DESC_1</name>
+          <name>B</name>
+          <name>B_1</name>
+          <name>B_2</name>
+          <address>0x0800000</address>
+        </section>
+        <section>
+          <name>C_1</name>
+          <name>C_2</name>
+          <name>C</name>
+          <name>C$*</name>
+          <name>D*</name>
+          <name>W*</name>
+          <name>L</name>
+          <name>P*</name>
+          <address>0x0FFF00300</address>
+        </section>
+        <section>
+          <name>EXCEPTVECT</name>
+          <address>0x0FFFFFF80</address>
+        </section>
+        <section>
+          <name>RESETVECT</name>
+          <address>0x0FFFFFFFC</address>
+        </section>
+      </sections>
     </boardsupport>
     <sections>
       <toolchain>RXC</toolchain>
       <board>Default</board>
       <series>RX600</series>
       <group>RX65N</group>
-      <section>
-        <name>SU</name>
-        <name>SI</name>
-        <name>R_1</name>
-        <name>R_2</name>
-        <name>R</name>
-        <name>RPFRAM2</name>
-        <address>0x00000004</address>
-      </section>
-      <section>
-        <name>C_PKCS11_STORAGE_MIRROR</name>
-        <address>0x00102000</address>
-      </section>
-      <section>
-        <name>C_PKCS11_STORAGE</name>
-        <address>0x00100000</address>
-      </section>
-      <section>
-        <name>B_ETHERNET_BUFFERS_1</name>
-        <name>B_RX_DESC_1</name>
-        <name>B_TX_DESC_1</name>
-        <address>0x00010000</address>
-      </section>
-      <section>
-        <name>B</name>
-        <name>B_1</name>
-        <name>B_2</name>
-        <address>0x00800000</address>
-      </section>
+        <section>
+          <name>SU</name>
+          <name>SI</name>
+          <name>R_1</name>
+          <name>R_2</name>
+          <name>R</name>
+          <name>RPFRAM2*</name>
+          <address>0x00000004</address>
+        </section>
+        <section>
+          <name>C_PKCS11_STORAGE*</name>
+          <address>0x0100800</address>
+        </section>
+        <section>
+          <name>C_SYSTEM_CONFIG*</name>
+          <address>0x0104800</address>
+        </section>
+        <section>
+          <name>B_ETHERNET_BUFFERS_1</name>
+          <name>B_RX_DESC_1</name>
+          <name>B_TX_DESC_1</name>
+          <name>B</name>
+          <name>B_1</name>
+          <name>B_2</name>
+          <address>0x0800000</address>
+        </section>
+        <section>
+          <name>C_1</name>
+          <name>C_2</name>
+          <name>C</name>
+          <name>C$*</name>
+          <name>D*</name>
+          <name>W*</name>
+          <name>L</name>
+          <name>P*</name>
+          <address>0x0FFF00300</address>
+        </section>
+        <section>
+          <name>EXCEPTVECT</name>
+          <address>0x0FFFFFF80</address>
+        </section>
+        <section>
+          <name>RESETVECT</name>
+          <address>0x0FFFFFFFC</address>
+        </section>
     </sections>
     <sections>
       <toolchain>RXC</toolchain>
@@ -286,17 +322,17 @@
         <name>B_ETHERNET_BUFFERS_1</name>
         <name>B_RX_DESC_1</name>
         <name>B_TX_DESC_1</name>
+        <name>R</name>
+        <name>R_1</name>
+        <name>R_2</name>
+        <name>R_8</name>
+        <name>B_8</name>
+        <name>B</name>
+        <name>B_1</name>
+        <name>B_2</name>
+        <name>RPFRAM2*</name>
         <name>SU</name>
         <name>SI</name>
-        <name>B_1</name>
-        <name>R_1</name>
-        <name>B_2</name>
-        <name>R_2</name>
-        <name>B</name>
-        <name>R</name>
-        <name>B_8</name>
-        <name>R_8</name>
-        <name>RPFRAM2*</name>
         <address>0x00000000</address>
       </section>
       <section>
@@ -311,6 +347,26 @@
         <name>C_SYSTEM_CONFIG*</name>
         <address>0x00104800</address>
       </section>
+        <section>
+          <name>C_1</name>
+          <name>C_2</name>
+          <name>C</name>
+          <name>C_8</name>
+          <name>C$*</name>
+          <name>D*</name>
+          <name>W*</name>
+          <name>L</name>
+          <name>P*</name>
+          <address>0xFFE00300</address>
+        </section>
+        <section>
+          <name>EXCEPTVECT</name>
+          <address>0x0FFFFFF80</address>
+        </section>
+        <section>
+          <name>RESETVECT</name>
+          <address>0x0FFFFFFFC</address>
+        </section>
     </sections>
     <preinc>
       <toolchain>RXC</toolchain>
@@ -555,6 +611,10 @@
       <series>RX700</series>
       <group>RX72N</group>
       <path>${ProjDirPath}/application_code/renesas_code/smc_gen/r_s12ad_rx/src/targets/rx72n</path>
+    </incdir>
+    <incdir>
+      <toolchain>RXC</toolchain>
+      <path>${ProjDirPath}/application_code/renesas_code/utility</path>
     </incdir>
     <incdir>
         <toolchain>GNURX</toolchain>
@@ -812,6 +872,41 @@
       <file>vendors/renesas/boards/rx_mcu_boards/rx72n-envision-kit/aws_demos/application_code/main.c</file>
       <path>application_code</path>
     </impdir>
+    <boardsupport>
+    <impdir>
+      <board>CloudKitRX65N</board>
+        <toolchain>RXC</toolchain>
+        <file>vendors/renesas/boards/rx_mcu_boards/rx65n-cloud-kit-uart-sx-ulpgn/aws_demos/application_code/main_task.c</file>
+        <path>application_code/renesas_code</path>
+    </impdir>
+    </boardsupport>
+    <boardsupport>
+    <impdir>
+      <board>CloudKitRX65N</board>
+        <toolchain>GNURX</toolchain>
+        <!-- use main.c in rxc project, because in gcc project, main.c is not correct -->
+        <file>vendors/renesas/boards/rx_mcu_boards/rx65n-cloud-kit-uart-sx-ulpgn/aws_demos/application_code/main_task.c</file>
+        <path>application_code/renesas_code</path>
+    </impdir>
+    </boardsupport>
+    <impdir>
+      <series>RX600</series>
+      <group>RX65N</group>
+      <file>vendors/renesas/boards/rx_mcu_boards/rx65n-rsk/aws_demos/application_code/renesas_code/main_task.c</file>
+      <path>application_code/renesas_code</path>
+    </impdir>
+    <impdir>
+      <series>RX600</series>
+      <group>RX65N</group>
+      <file>vendors/renesas/boards/rx_mcu_boards/rx65n-rsk/aws_demos/application_code/renesas_code/utility/r_simple_filesystem_on_dataflash.c</file>
+      <path>application_code/renesas_code/utility</path>
+    </impdir>
+    <impdir>
+      <series>RX600</series>
+      <group>RX65N</group>
+      <file>vendors/renesas/boards/rx_mcu_boards/rx65n-rsk/aws_demos/application_code/renesas_code/utility/r_simple_filesystem_on_dataflash_if.h</file>
+      <path>application_code/renesas_code/utility</path>
+    </impdir>
     <!--RZA2M -->
     <impdir>
       <series>RZA</series>
@@ -1030,6 +1125,22 @@
       <folder>vendors/renesas/boards/rx_mcu_boards/rx72m-rsk/aws_demos/config_files/</folder>
       <path>config_files</path>
     </impdir>
+    <impdir>
+      <board>Default</board>
+      <series>RX600</series>
+      <group>RX65N</group>
+      <folder>vendors/renesas/boards/rx_mcu_boards/rx65n-rsk/aws_demos/application_code/renesas_code/utility</folder>
+      <path>application_code/renesas_code/utility</path>
+    </impdir>
+	 <boardsupport>
+      <impdir>
+        <board>RSKRX65N-2MB</board>
+        <series>RX600</series>
+        <group>RX65N</group>
+        <folder>vendors/renesas/boards/rx_mcu_boards/rx65n-rsk/aws_demos/application_code/renesas_code/utility</folder>
+        <path>application_code/renesas_code/utility</path>
+      </impdir>
+    </boardsupport>
     </boardsupport>
     <impdir>
       <board>Default</board>
