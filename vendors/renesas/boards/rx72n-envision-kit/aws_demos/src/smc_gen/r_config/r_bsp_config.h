@@ -119,7 +119,7 @@ NOTE: The RAM areas are not contiguous.It is separated by 512 KB each.
  * NOTE: This setting is available only when using CCRX and GNUC.
  *       This is invalid when using Renesas RTOS with CCRX.
  */
-#define BSP_CFG_USER_STACK_ENABLE       (0)
+#define BSP_CFG_USER_STACK_ENABLE       (1)
 
 /* If only 1 stack is chosen using BSP_CFG_USER_STACK_ENABLE then no RAM will be allocated for the user stack. */
 #if BSP_CFG_USER_STACK_ENABLE == 1

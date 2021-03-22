@@ -18,7 +18,7 @@
 </tool>
 <tool id="SWComponent" version="1.0.0.0">
 <configuration inuse="true" name="r_bsp">
-<component display="r_bsp" id="r_bsp5.50" version="5.50">
+<component display="r_bsp" id="r_bsp5.52" version="5.52">
 <gridItem id="BSP_CFG_CODE_FLASH_BANK_MODE" selectedIndex="0"/>
 <gridItem id="BSP_CFG_USER_STACK_ENABLE" selectedIndex="1"/>
 <gridItem id="BSP_CFG_SWINT_UNIT2_ENABLE" selectedIndex="1"/>
