@@ -129,11 +129,9 @@ Disable: disable record stack high address</description>
 Disable: omit a a daemon task startup hook.</description>
         </property>
         <property id="configCPU_CLOCK_HZ" display="The frequency of the CPU clock" default="BSP_ICLK_HZ" type="textbox">
-            <constraint display="default disable" actionOnFail="disable">("${configCPU_CLOCK_HZ}" == BSP_ICLK_HZ)</constraint>
             <description>Enter the frequency in Hz at which the internal clock that driver the peripheral used to generate the tick interrupt will be executing - this is normally the same clock that drives the internal CPU clock. This value is required in order to correctly configure timer peripherals.</description>
         </property>
         <property id="configPERIPHERAL_CLOCK_HZ" display="The frequency of the PERIPHERAL clock" default="BSP_PCLKB_HZ" type="textbox">
-            <constraint display="default disable" actionOnFail="disable">("${configPERIPHERAL_CLOCK_HZ}" == BSP_PCLK_HZ)</constraint>
             <description>Enter the frequency of the PERIPHERAL clock.</description>
         </property>
         <property id="configUSE_QUEUE_SETS" display="Queue set functionality" default="1" type="checkbox">
@@ -188,7 +186,6 @@ Disable: omit software timer functionality.</description>
             <description>Sets the length of the software timer command queue. See the FreeRTOS software timers page for a full description. </description>
         </property>
         <property id="configTIMER_TASK_STACK_DEPTH" display="The stack depth allocated to the software timer task" default="configMINIMAL_STACK_SIZE * 6" type="textbox">
-            <constraint display="default disable" actionOnFail="disable">("${configTIMER_TASK_STACK_DEPTH}" == configMINIMAL_STACK_SIZE) </constraint>
             <description>Sets the stack depth allocated to the software timer service/daemon task. See the FreeRTOS software timers page for a full description. </description>
         </property>
         <property id="configKERNEL_INTERRUPT_PRIORITY" display="Kernel interrupt priority" default="1" type="textbox">
@@ -358,15 +355,12 @@ Disable: exclude the xTaskAbortDelay() from your build</description>
 Disable: disable stats formatting function</description>
         </property>
         <property id="configPRINTF ( X )" display="configPRINTF ( X )" default="vLoggingPrintf X" type="textbox">
-            <constraint display="default disable" actionOnFail="disable">("${configPRINTF ( X )}" == vLoggingPrintf X)</constraint>
             <description>The function that implements FreeRTOS printf style output, and the macro that maps the configPRINTF() macros to that function.</description>
         </property>
         <property id="configPRINT( X )" display="configPRINT( X )" default="vLoggingPrint( X )" type="textbox">
-            <constraint display="default disable" actionOnFail="disable">("${configPRINT( X )}" == vLoggingPrint( X ))</constraint>
             <description>Non-format version thread-safe print</description>
         </property>
         <property id="configPRINT_STRING( x )" display="configPRINT_STRING( x )" default="uart_string_printf( x )" type="textbox">
-            <constraint display="default disable" actionOnFail="disable">("${configPRINT_STRING( x )}" == uart_string_printf( x ))</constraint>
             <description>Map the logging task's printf to the board specific output function.</description>
         </property>
         <property id="configLOGGING_MAX_MESSAGE_LENGTH" display="Max message length" default="192" type="textbox">
@@ -392,7 +386,6 @@ Disable: omit demo debug stats.</description>
             <description>The size of the global output buffer that is available for use when there are multiple command interpreters running at once (for example, one on a UART and one on TCP/IP).  This is done to prevent an output buffer being defined by each implementation - which would waste RAM.  In this case, there is only one command interpreter running, and it has its own local output buffer, so the global buffer is just set to be one byte long as it is not used and should not take up unnecessary RAM.</description>
         </property>
         <property id="configMAC_ISR_SIMULATOR_PRIORITY" display="ISR simulator priority" default="configMAX_PRIORITIES - 1" type="textbox">
-            <constraint display="default disable" actionOnFail="disable">("${configMAC_ISR_SIMULATOR_PRIORITY}" == (configMAX_PRIORITIES - 1))</constraint>
             <description>Only used when running in the FreeRTOS Windows simulator.  Defines the priority of the task used to simulate Ethernet interrupts.</description>
         </property>
         <property id="configNETWORK_INTERFACE_TO_USE" display="Network interface" default="2L" type="textbox">
