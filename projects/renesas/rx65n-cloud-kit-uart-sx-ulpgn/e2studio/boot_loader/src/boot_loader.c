@@ -1485,7 +1485,6 @@ void my_sw_charput_function(uint8_t data)
     while (SCI_CFG_CH8_TX_BUFSIZ != arg);
     /* Casting uint8_t pointer is used for address. */
     R_SCI_Send(my_sci_handle, (uint8_t*)&data, 1);
-//    R_SIMPLE_GRAPHIC_PutCharacter(data);
 
     return;
 }

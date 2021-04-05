@@ -8,13 +8,13 @@ MEMORY
 }
 SECTIONS
 {
-	.exvectors 0xFFFFFF80 : AT(0xFFFFFF80)
+	.exvectors 0xFFFBFF80 : AT(0xFFFBFF80)
 	{
 		"_exvectors_start" = .;
 		KEEP(*(.exvectors))
 		"_exvectors_end" = .;
 	} >ROM
-	.fvectors 0xFFFFFFFC : AT(0xFFFFFFFC)
+	.fvectors 0xFFFBFFFC : AT(0xFFFBFFFC)
 	{
 		KEEP(*(.fvectors))
 	} >ROM
@@ -176,9 +176,22 @@ SECTIONS
 	_FRAM2_end = .;
 	} >RAM2
 	
-	C_PKCS11_STORAGE_1 :
+	C_BOOTLOADER_KEY_STORAGE_1 0x00100000 : AT(0x00100000)
+	{
+	} >DATAFLASH C_BOOTLOADER_KEY_STORAGE_MIRROR_1 :
+    {
+    } >DATAFLASH
+    
+	
+	C_PKCS11_STORAGE_1 0x00100800 : AT(0x00100800)
 	{
 	} >DATAFLASH C_PKCS11_STORAGE_MIRROR_1 :
+    {
+    } >DATAFLASH
+    
+    C_SYSTEM_CONFIG_1 0x00104800 : AT(0x00104800)
+	{
+	} >DATAFLASH C_SYSTEM_CONFIG_MIRROR_1 :
     {
     } >DATAFLASH
 	

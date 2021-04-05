@@ -28,7 +28,7 @@ SECTIONS
 	.rvectors ALIGN(4) :
 	{
 		_rvectors_start = .;
-		INCLUDE ../src/smc_gen/r_bsp/mcu/all/linker_script_rvectors.inc
+		INCLUDE ../../../../../../vendors/renesas/rx_driver_package/v125/r_bsp/mcu/all/linker_script_rvectors.inc
 		_rvectors_end = .;
 	} >ROM
 	.init :
@@ -176,9 +176,22 @@ SECTIONS
 	_FRAM2_end = .;
 	} >RAM2
 	
-	C_PKCS11_STORAGE_1 :
+	C_BOOTLOADER_KEY_STORAGE_1 0x00100000 : AT(0x00100000)
+	{
+	} >DATAFLASH C_BOOTLOADER_KEY_STORAGE_MIRROR_1 :
+    {
+    } >DATAFLASH
+    
+	
+	C_PKCS11_STORAGE_1 0x00100800 : AT(0x00100800)
 	{
 	} >DATAFLASH C_PKCS11_STORAGE_MIRROR_1 :
+    {
+    } >DATAFLASH
+    
+    C_SYSTEM_CONFIG_1 0x00104800 : AT(0x00104800)
+	{
+	} >DATAFLASH C_SYSTEM_CONFIG_MIRROR_1 :
     {
     } >DATAFLASH
 	

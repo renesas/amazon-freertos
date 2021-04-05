@@ -36,6 +36,11 @@
 			<locationURI>AFR_HOME/vendors/renesas/boards/rx_mcu_boards/rx65n-rsk-gcc/aws_demos/application_code/main.c</locationURI>
 		</link>
 		<link>
+			<name>application_code/main_task.c</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/vendors/renesas/boards/rx_mcu_boards/rx65n-rsk-gcc/aws_demos/application_code/renesas_code/main_task.c</locationURI>
+		</link>
+		<link>
 			<name>config_files/FreeRTOSConfig.h</name>
 			<type>1</type>
 			<locationURI>AFR_HOME/vendors/renesas/boards/rx_mcu_boards/rx65n-rsk-gcc/aws_demos/config_files/FreeRTOSConfig.h</locationURI>
@@ -381,6 +386,16 @@
 			<locationURI>AFR_HOME/freertos_kernel/include/timers.h</locationURI>
 		</link>
 		<link>
+			<name>application_code/application_code/utility/r_simple_filesystem_on_dataflash.c</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/vendors/renesas/boards/rx_mcu_boards/rx65n-rsk-gcc/aws_demos/application_code/renesas_code/utility/r_simple_filesystem_on_dataflash.c</locationURI>
+		</link>
+		<link>
+			<name>application_code/application_code/utility/r_simple_filesystem_on_dataflash_if.h</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/vendors/renesas/boards/rx_mcu_boards/rx65n-rsk-gcc/aws_demos/application_code/renesas_code/utility/r_simple_filesystem_on_dataflash_if.h</locationURI>
+		</link>
+		<link>
 			<name>demos/dev_mode_key_provisioning/include/aws_dev_mode_key_provisioning.h</name>
 			<type>1</type>
 			<locationURI>AFR_HOME/demos/dev_mode_key_provisioning/include/aws_dev_mode_key_provisioning.h</locationURI>
@@ -459,6 +474,36 @@
 			<name>libraries/3rdparty/tinycbor/cborpretty.c</name>
 			<type>1</type>
 			<locationURI>AFR_HOME/libraries/3rdparty/tinycbor/cborpretty.c</locationURI>
+		</link>
+		<link>
+			<name>vendors/renesas/amazon_freertos_common/croutine.h</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/vendors/renesas/amazon_freertos_common/croutine.h</locationURI>
+		</link>
+		<link>
+			<name>vendors/renesas/amazon_freertos_common/entropy_hardware_poll.c</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/vendors/renesas/amazon_freertos_common/entropy_hardware_poll.c</locationURI>
+		</link>
+		<link>
+			<name>vendors/renesas/amazon_freertos_common/freertos_start.c</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/vendors/renesas/amazon_freertos_common/freertos_start.c</locationURI>
+		</link>
+		<link>
+			<name>vendors/renesas/amazon_freertos_common/freertos_start.h</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/vendors/renesas/amazon_freertos_common/freertos_start.h</locationURI>
+		</link>
+		<link>
+			<name>vendors/renesas/amazon_freertos_common/serial_term_uart.c</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/vendors/renesas/amazon_freertos_common/serial_term_uart.c</locationURI>
+		</link>
+		<link>
+			<name>vendors/renesas/amazon_freertos_common/serial_term_uart.h</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/vendors/renesas/amazon_freertos_common/serial_term_uart.h</locationURI>
 		</link>
 		<link>
 			<name>freertos_kernel/portable/GCC/RX600v2/port.c</name>
@@ -904,36 +949,6 @@
 			<name>libraries/c_sdk/standard/common/iot_static_memory_common.c</name>
 			<type>1</type>
 			<locationURI>AFR_HOME/libraries/c_sdk/standard/common/iot_static_memory_common.c</locationURI>
-		</link>
-		<link>
-			<name>vendors/renesas/amazon_freertos_common/croutine.h</name>
-			<type>1</type>
-			<locationURI>AFR_HOME/vendors/renesas/amazon_freertos_common/croutine.h</locationURI>
-		</link>
-		<link>
-			<name>vendors/renesas/amazon_freertos_common/entropy_hardware_poll.c</name>
-			<type>1</type>
-			<locationURI>AFR_HOME/vendors/renesas/amazon_freertos_common/entropy_hardware_poll.c</locationURI>
-		</link>
-		<link>
-			<name>vendors/renesas/amazon_freertos_common/freertos_start.c</name>
-			<type>1</type>
-			<locationURI>AFR_HOME/vendors/renesas/amazon_freertos_common/freertos_start.c</locationURI>
-		</link>
-		<link>
-			<name>vendors/renesas/amazon_freertos_common/freertos_start.h</name>
-			<type>1</type>
-			<locationURI>AFR_HOME/vendors/renesas/amazon_freertos_common/freertos_start.h</locationURI>
-		</link>
-		<link>
-			<name>vendors/renesas/amazon_freertos_common/serial_term_uart.c</name>
-			<type>1</type>
-			<locationURI>AFR_HOME/vendors/renesas/amazon_freertos_common/serial_term_uart.c</locationURI>
-		</link>
-		<link>
-			<name>vendors/renesas/amazon_freertos_common/serial_term_uart.h</name>
-			<type>1</type>
-			<locationURI>AFR_HOME/vendors/renesas/amazon_freertos_common/serial_term_uart.h</locationURI>
 		</link>
 		<link>
 			<name>libraries/3rdparty/mbedtls/include/mbedtls/aes.h</name>
@@ -1736,6 +1751,46 @@
 			<locationURI>AFR_HOME/libraries/freertos_plus/standard/utils/src/iot_system_init.c</locationURI>
 		</link>
 		<link>
+			<name>vendors/renesas/amazon_freertos_common/compiler_support/gnuc/assert.c</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/vendors/renesas/amazon_freertos_common/compiler_support/gnuc/assert.c</locationURI>
+		</link>
+		<link>
+			<name>vendors/renesas/amazon_freertos_common/compiler_support/gnuc/fprintf.c</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/vendors/renesas/amazon_freertos_common/compiler_support/gnuc/fprintf.c</locationURI>
+		</link>
+		<link>
+			<name>vendors/renesas/amazon_freertos_common/compiler_support/gnuc/implicitlyinclude.h</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/vendors/renesas/amazon_freertos_common/compiler_support/gnuc/implicitlyinclude.h</locationURI>
+		</link>
+		<link>
+			<name>vendors/renesas/amazon_freertos_common/network_support/onchip_rx_ether/freertos_ip_hook.c</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/vendors/renesas/amazon_freertos_common/network_support/onchip_rx_ether/freertos_ip_hook.c</locationURI>
+		</link>
+		<link>
+			<name>vendors/renesas/rx_driver_package/v125/r_byteq/r_byteq_if.h</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/vendors/renesas/rx_driver_package/v125/r_byteq/r_byteq_if.h</locationURI>
+		</link>
+		<link>
+			<name>vendors/renesas/rx_driver_package/v125/r_ether_rx/r_ether_rx_if.h</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/vendors/renesas/rx_driver_package/v125/r_ether_rx/r_ether_rx_if.h</locationURI>
+		</link>
+		<link>
+			<name>vendors/renesas/rx_driver_package/v125/r_flash_rx/r_flash_rx_if.h</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/vendors/renesas/rx_driver_package/v125/r_flash_rx/r_flash_rx_if.h</locationURI>
+		</link>
+		<link>
+			<name>vendors/renesas/rx_driver_package/v125/r_s12ad_rx/r_s12ad_rx_if.h</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/vendors/renesas/rx_driver_package/v125/r_s12ad_rx/r_s12ad_rx_if.h</locationURI>
+		</link>
+		<link>
 			<name>libraries/abstractions/platform/freertos/include/platform/iot_network_freertos.h</name>
 			<type>1</type>
 			<locationURI>AFR_HOME/libraries/abstractions/platform/freertos/include/platform/iot_network_freertos.h</locationURI>
@@ -1824,71 +1879,6 @@
 			<name>libraries/freertos_plus/aws/ota/src/mqtt/aws_iot_ota_mqtt.h</name>
 			<type>1</type>
 			<locationURI>AFR_HOME/libraries/freertos_plus/aws/ota/src/mqtt/aws_iot_ota_mqtt.h</locationURI>
-		</link>
-		<link>
-			<name>vendors/renesas/amazon_freertos_common/compiler_support/gnuc/assert.c</name>
-			<type>1</type>
-			<locationURI>AFR_HOME/vendors/renesas/amazon_freertos_common/compiler_support/gnuc/assert.c</locationURI>
-		</link>
-		<link>
-			<name>vendors/renesas/amazon_freertos_common/compiler_support/gnuc/fprintf.c</name>
-			<type>1</type>
-			<locationURI>AFR_HOME/vendors/renesas/amazon_freertos_common/compiler_support/gnuc/fprintf.c</locationURI>
-		</link>
-		<link>
-			<name>vendors/renesas/amazon_freertos_common/compiler_support/gnuc/implicitlyinclude.h</name>
-			<type>1</type>
-			<locationURI>AFR_HOME/vendors/renesas/amazon_freertos_common/compiler_support/gnuc/implicitlyinclude.h</locationURI>
-		</link>
-		<link>
-			<name>vendors/renesas/amazon_freertos_common/network_support/onchip_rx_ether/freertos_ip_hook.c</name>
-			<type>1</type>
-			<locationURI>AFR_HOME/vendors/renesas/amazon_freertos_common/network_support/onchip_rx_ether/freertos_ip_hook.c</locationURI>
-		</link>
-		<link>
-			<name>vendors/renesas/rx_driver_package/v125/r_byteq/r_byteq_if.h</name>
-			<type>1</type>
-			<locationURI>AFR_HOME/vendors/renesas/rx_driver_package/v125/r_byteq/r_byteq_if.h</locationURI>
-		</link>
-		<link>
-			<name>vendors/renesas/rx_driver_package/v125/r_ether_rx/r_ether_rx_if.h</name>
-			<type>1</type>
-			<locationURI>AFR_HOME/vendors/renesas/rx_driver_package/v125/r_ether_rx/r_ether_rx_if.h</locationURI>
-		</link>
-		<link>
-			<name>vendors/renesas/rx_driver_package/v125/r_flash_rx/r_flash_rx_if.h</name>
-			<type>1</type>
-			<locationURI>AFR_HOME/vendors/renesas/rx_driver_package/v125/r_flash_rx/r_flash_rx_if.h</locationURI>
-		</link>
-		<link>
-			<name>vendors/renesas/rx_driver_package/v125/r_s12ad_rx/r_s12ad_rx_if.h</name>
-			<type>1</type>
-			<locationURI>AFR_HOME/vendors/renesas/rx_driver_package/v125/r_s12ad_rx/r_s12ad_rx_if.h</locationURI>
-		</link>
-		<link>
-			<name>libraries/freertos_plus/standard/freertos_plus_tcp/source/portable/BufferManagement/BufferAllocation_2.c</name>
-			<type>1</type>
-			<locationURI>AFR_HOME/libraries/freertos_plus/standard/freertos_plus_tcp/source/portable/BufferManagement/BufferAllocation_2.c</locationURI>
-		</link>
-		<link>
-			<name>libraries/freertos_plus/standard/freertos_plus_tcp/source/portable/GCC/pack_struct_end.h</name>
-			<type>1</type>
-			<locationURI>AFR_HOME/libraries/freertos_plus/standard/freertos_plus_tcp/source/portable/Compiler/GCC/pack_struct_end.h</locationURI>
-		</link>
-		<link>
-			<name>libraries/freertos_plus/standard/freertos_plus_tcp/source/portable/GCC/pack_struct_start.h</name>
-			<type>1</type>
-			<locationURI>AFR_HOME/libraries/freertos_plus/standard/freertos_plus_tcp/source/portable/Compiler/GCC/pack_struct_start.h</locationURI>
-		</link>
-		<link>
-			<name>vendors/renesas/boards/rx_mcu_boards/rx65n-rsk-gcc/ports/ota/aws_ota_pal.c</name>
-			<type>1</type>
-			<locationURI>AFR_HOME/vendors/renesas/boards/rx_mcu_boards/rx65n-rsk-gcc/ports/ota/aws_ota_pal.c</locationURI>
-		</link>
-		<link>
-			<name>vendors/renesas/boards/rx_mcu_boards/rx65n-rsk-gcc/ports/pkcs11/iot_pkcs11_pal.c</name>
-			<type>1</type>
-			<locationURI>AFR_HOME/vendors/renesas/boards/rx_mcu_boards/rx65n-rsk-gcc/ports/pkcs11/iot_pkcs11_pal.c</locationURI>
 		</link>
 		<link>
 			<name>vendors/renesas/rx_driver_package/v125/r_byteq/ref/r_byteq_config_reference.h</name>
@@ -1981,14 +1971,29 @@
 			<locationURI>AFR_HOME/vendors/renesas/rx_driver_package/v125/r_sci_rx/src/r_sci_rx.c</locationURI>
 		</link>
 		<link>
-			<name>libraries/freertos_plus/standard/freertos_plus_tcp/source/portable/NetworkInterface/RX/NetworkInterface.c</name>
+			<name>libraries/freertos_plus/standard/freertos_plus_tcp/source/portable/BufferManagement/BufferAllocation_2.c</name>
 			<type>1</type>
-			<locationURI>AFR_HOME/libraries/freertos_plus/standard/freertos_plus_tcp/source/portable/NetworkInterface/RX/NetworkInterface.c</locationURI>
+			<locationURI>AFR_HOME/libraries/freertos_plus/standard/freertos_plus_tcp/source/portable/BufferManagement/BufferAllocation_2.c</locationURI>
 		</link>
 		<link>
-			<name>libraries/freertos_plus/standard/freertos_plus_tcp/source/portable/NetworkInterface/RX/ether_callback.c</name>
+			<name>libraries/freertos_plus/standard/freertos_plus_tcp/source/portable/GCC/pack_struct_end.h</name>
 			<type>1</type>
-			<locationURI>AFR_HOME/libraries/freertos_plus/standard/freertos_plus_tcp/source/portable/NetworkInterface/RX/ether_callback.c</locationURI>
+			<locationURI>AFR_HOME/libraries/freertos_plus/standard/freertos_plus_tcp/source/portable/Compiler/GCC/pack_struct_end.h</locationURI>
+		</link>
+		<link>
+			<name>libraries/freertos_plus/standard/freertos_plus_tcp/source/portable/GCC/pack_struct_start.h</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/libraries/freertos_plus/standard/freertos_plus_tcp/source/portable/Compiler/GCC/pack_struct_start.h</locationURI>
+		</link>
+		<link>
+			<name>vendors/renesas/boards/rx_mcu_boards/rx65n-rsk-gcc/ports/ota/aws_ota_pal.c</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/vendors/renesas/boards/rx_mcu_boards/rx65n-rsk-gcc/ports/ota/aws_ota_pal.c</locationURI>
+		</link>
+		<link>
+			<name>vendors/renesas/boards/rx_mcu_boards/rx65n-rsk-gcc/ports/pkcs11/iot_pkcs11_pal.c</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/vendors/renesas/boards/rx_mcu_boards/rx65n-rsk-gcc/ports/pkcs11/iot_pkcs11_pal.c</locationURI>
 		</link>
 		<link>
 			<name>vendors/renesas/rx_driver_package/v125/r_bsp/board/generic_rx65n/hwsetup.c</name>
@@ -2286,6 +2291,56 @@
 			<locationURI>AFR_HOME/vendors/renesas/rx_driver_package/v125/r_flash_rx/src/flash_type_4/r_flash_type4_if.h</locationURI>
 		</link>
 		<link>
+			<name>libraries/freertos_plus/standard/freertos_plus_tcp/source/portable/NetworkInterface/RX/NetworkInterface.c</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/libraries/freertos_plus/standard/freertos_plus_tcp/source/portable/NetworkInterface/RX/NetworkInterface.c</locationURI>
+		</link>
+		<link>
+			<name>libraries/freertos_plus/standard/freertos_plus_tcp/source/portable/NetworkInterface/RX/ether_callback.c</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/libraries/freertos_plus/standard/freertos_plus_tcp/source/portable/NetworkInterface/RX/ether_callback.c</locationURI>
+		</link>
+		<link>
+			<name>vendors/renesas/rx_driver_package/v125/r_ether_rx/src/targets/rx65n/r_ether_setting_rx65n.c</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/vendors/renesas/rx_driver_package/v125/r_ether_rx/src/targets/rx65n/r_ether_setting_rx65n.c</locationURI>
+		</link>
+		<link>
+			<name>vendors/renesas/rx_driver_package/v125/r_flash_rx/src/targets/rx65n/r_flash_rx65n.h</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/vendors/renesas/rx_driver_package/v125/r_flash_rx/src/targets/rx65n/r_flash_rx65n.h</locationURI>
+		</link>
+		<link>
+			<name>vendors/renesas/rx_driver_package/v125/r_flash_rx/src/targets/rx65n/r_mcu_config_reference.h</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/vendors/renesas/rx_driver_package/v125/r_flash_rx/src/targets/rx65n/r_mcu_config_reference.h</locationURI>
+		</link>
+		<link>
+			<name>vendors/renesas/rx_driver_package/v125/r_s12ad_rx/src/targets/rx65n/r_s12ad_rx65n.c</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/vendors/renesas/rx_driver_package/v125/r_s12ad_rx/src/targets/rx65n/r_s12ad_rx65n.c</locationURI>
+		</link>
+		<link>
+			<name>vendors/renesas/rx_driver_package/v125/r_s12ad_rx/src/targets/rx65n/r_s12ad_rx65x_if.h</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/vendors/renesas/rx_driver_package/v125/r_s12ad_rx/src/targets/rx65n/r_s12ad_rx65n_if.h</locationURI>
+		</link>
+		<link>
+			<name>vendors/renesas/rx_driver_package/v125/r_sci_rx/src/targets/rx65n/r_sci_rx65n.c</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/vendors/renesas/rx_driver_package/v125/r_sci_rx/src/targets/rx65n/r_sci_rx65n.c</locationURI>
+		</link>
+		<link>
+			<name>vendors/renesas/rx_driver_package/v125/r_sci_rx/src/targets/rx65n/r_sci_rx65n_data.c</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/vendors/renesas/rx_driver_package/v125/r_sci_rx/src/targets/rx65n/r_sci_rx65n_data.c</locationURI>
+		</link>
+		<link>
+			<name>vendors/renesas/rx_driver_package/v125/r_sci_rx/src/targets/rx65n/r_sci_rx65n_private.h</name>
+			<type>1</type>
+			<locationURI>AFR_HOME/vendors/renesas/rx_driver_package/v125/r_sci_rx/src/targets/rx65n/r_sci_rx65n_private.h</locationURI>
+		</link>
+		<link>
 			<name>vendors/renesas/boards/rx_mcu_boards/rx65n-rsk-gcc/aws_demos/src/smc_gen/general/r_cg_hardware_setup.c</name>
 			<type>1</type>
 			<locationURI>SMC_GENERATED_LOC/general/r_cg_hardware_setup.c</locationURI>
@@ -2409,46 +2464,6 @@
 			<name>vendors/renesas/boards/rx_mcu_boards/rx65n-rsk-gcc/aws_demos/src/smc_gen/r_pincfg/r_sci_rx_pinset.h</name>
 			<type>1</type>
 			<locationURI>SMC_GENERATED_LOC/r_pincfg/r_sci_rx_pinset.h</locationURI>
-		</link>
-		<link>
-			<name>vendors/renesas/rx_driver_package/v125/r_ether_rx/src/targets/rx65n/r_ether_setting_rx65n.c</name>
-			<type>1</type>
-			<locationURI>AFR_HOME/vendors/renesas/rx_driver_package/v125/r_ether_rx/src/targets/rx65n/r_ether_setting_rx65n.c</locationURI>
-		</link>
-		<link>
-			<name>vendors/renesas/rx_driver_package/v125/r_flash_rx/src/targets/rx65n/r_flash_rx65n.h</name>
-			<type>1</type>
-			<locationURI>AFR_HOME/vendors/renesas/rx_driver_package/v125/r_flash_rx/src/targets/rx65n/r_flash_rx65n.h</locationURI>
-		</link>
-		<link>
-			<name>vendors/renesas/rx_driver_package/v125/r_flash_rx/src/targets/rx65n/r_mcu_config_reference.h</name>
-			<type>1</type>
-			<locationURI>AFR_HOME/vendors/renesas/rx_driver_package/v125/r_flash_rx/src/targets/rx65n/r_mcu_config_reference.h</locationURI>
-		</link>
-		<link>
-			<name>vendors/renesas/rx_driver_package/v125/r_s12ad_rx/src/targets/rx65n/r_s12ad_rx65n.c</name>
-			<type>1</type>
-			<locationURI>AFR_HOME/vendors/renesas/rx_driver_package/v125/r_s12ad_rx/src/targets/rx65n/r_s12ad_rx65n.c</locationURI>
-		</link>
-		<link>
-			<name>vendors/renesas/rx_driver_package/v125/r_s12ad_rx/src/targets/rx65n/r_s12ad_rx65x_if.h</name>
-			<type>1</type>
-			<locationURI>AFR_HOME/vendors/renesas/rx_driver_package/v125/r_s12ad_rx/src/targets/rx65n/r_s12ad_rx65n_if.h</locationURI>
-		</link>
-		<link>
-			<name>vendors/renesas/rx_driver_package/v125/r_sci_rx/src/targets/rx65n/r_sci_rx65n.c</name>
-			<type>1</type>
-			<locationURI>AFR_HOME/vendors/renesas/rx_driver_package/v125/r_sci_rx/src/targets/rx65n/r_sci_rx65n.c</locationURI>
-		</link>
-		<link>
-			<name>vendors/renesas/rx_driver_package/v125/r_sci_rx/src/targets/rx65n/r_sci_rx65n_data.c</name>
-			<type>1</type>
-			<locationURI>AFR_HOME/vendors/renesas/rx_driver_package/v125/r_sci_rx/src/targets/rx65n/r_sci_rx65n_data.c</locationURI>
-		</link>
-		<link>
-			<name>vendors/renesas/rx_driver_package/v125/r_sci_rx/src/targets/rx65n/r_sci_rx65n_private.h</name>
-			<type>1</type>
-			<locationURI>AFR_HOME/vendors/renesas/rx_driver_package/v125/r_sci_rx/src/targets/rx65n/r_sci_rx65n_private.h</locationURI>
 		</link>
 	</linkedResources>
 	<filteredResources>
