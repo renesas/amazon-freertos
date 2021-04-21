@@ -180,37 +180,14 @@ void vApplicationDaemonTaskStartupHook( void )
         }
 		FreeRTOS_printf( ( "The network is up and running\n" ) );
 #endif
-//		WIFI_On();
-//		_wifiEnable();
-//		Wifistatus = WIFI_On();	// RX65N Cloud Kit 20200923
-//		if (Wifistatus == eWiFiSuccess){
-//
-//			configPRINTF( ( "WiFi module initialized.\r\n" ) );
-//			WIFI_Off();
-////			_wifiEnable();
-////			WIFI_Off();
-//		}
-//		else
-//		{
-//			configPRINTF( ( "WiFi module failed to initialize.\r\n" ) );
-//			_wifiEnable();
-//			WIFI_Off();
-//			reboot();
-//		}
-
         /* Provision the device with AWS certificate and private key. */
         vDevModeKeyProvisioning();
-
-//        vTaskDelay(1000);
-//
-//        WIFI_Off();
-
         /* Run all demos. */
         DEMO_RUNNER_RunDemos();
     }
 }
 
-// RX65N Cloud Kit 20200923 -->>
+
 static bool _wifiConnectAccessPoint( void )
 {
     bool ret = false;
@@ -283,7 +260,7 @@ static bool _wifiEnable( void )
 
     return ret;
 }
-// RX65N Cloud Kit 20200923 <<--
+
 
 static void reboot() {
     //WDT Control Register (WDTCR)
