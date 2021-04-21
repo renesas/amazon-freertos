@@ -18,7 +18,7 @@
 </tool>
 <tool id="SWComponent" version="1.0.0.0">
 <configuration inuse="true" name="r_bsp">
-<component display="r_bsp" id="r_bsp5.50" version="5.50">
+<component display="r_bsp" id="r_bsp5.52" version="5.52">
 <gridItem id="BSP_CFG_USER_STACK_ENABLE" selectedIndex="0"/>
 <gridItem id="BSP_CFG_ISTACK_BYTES" selectedIndex="0x1000"/>
 <gridItem id="BSP_CFG_HEAP_BYTES" selectedIndex="0x1000"/>
