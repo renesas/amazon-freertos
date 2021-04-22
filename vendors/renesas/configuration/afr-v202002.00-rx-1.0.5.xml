@@ -4,12 +4,12 @@
   <toolchain>
     <brand>Renesas</brand>
     <product>RXC</product>
-    <version>3.01.00</version>
+    <version>3.02.00</version>
   </toolchain>
   <toolchain>
     <brand>GNU</brand>
     <product>GNURX</product>
-    <version>4.8.4</version>
+    <version>8.3.0.202004</version>
   </toolchain>
   <!-- only one target entry allowed; multiple sub tags permitted -->
 <memoryreq>
@@ -42,7 +42,7 @@
   <package>
     <type>rtosmodule</type>
     <name>AmazonFreeRTOS_RX</name>
-    <version>v202002.00-rx-1.0.4</version>
+    <version>v202002.00-rx-1.0.5</version>
     <dependency>
       <module>r_bsp</module>
       <version>5.50</version>
@@ -333,7 +333,7 @@
         <name>RPFRAM2*</name>
         <name>SU</name>
         <name>SI</name>
-        <address>0x00000000</address>
+        <address>0x00000004</address>
       </section>
       <section>
         <name>C_BOOTLOADER_KEY_STORAGE*</name>
@@ -841,7 +841,7 @@
     <impdir>
       <board>CloudKitRX65N</board>
         <toolchain>RXC</toolchain>
-        <file>vendors/renesas/boards/rx_mcu_boards/rx65n-cloud-kit-uart-sx-ulpgn/aws_demos/application_code/main.c</file>
+        <file>vendors/renesas/boards/rx_mcu_boards/rx65n-cloudkit/aws_demos/application_code/main.c</file>
         <path>application_code</path>
     </impdir>
     </boardsupport>
@@ -850,7 +850,7 @@
       <board>CloudKitRX65N</board>
         <toolchain>GNURX</toolchain>
         <!-- use main.c in rxc project, because in gcc project, main.c is not correct -->
-        <file>vendors/renesas/boards/rx_mcu_boards/rx65n-cloud-kit-uart-sx-ulpgn/aws_demos/application_code/main.c</file>
+        <file>vendors/renesas/boards/rx_mcu_boards/rx65n-cloudkit-gcc/aws_demos/application_code/main.c</file>
         <path>application_code</path>
     </impdir>
     </boardsupport>
@@ -876,7 +876,7 @@
     <impdir>
       <board>CloudKitRX65N</board>
         <toolchain>RXC</toolchain>
-        <file>vendors/renesas/boards/rx_mcu_boards/rx65n-cloud-kit-uart-sx-ulpgn/aws_demos/application_code/main_task.c</file>
+        <file>vendors/renesas/boards/rx_mcu_boards/rx65n-cloudkit/aws_demos/application_code/main_task.c</file>
         <path>application_code/renesas_code</path>
     </impdir>
     </boardsupport>
@@ -885,7 +885,7 @@
       <board>CloudKitRX65N</board>
         <toolchain>GNURX</toolchain>
         <!-- use main.c in rxc project, because in gcc project, main.c is not correct -->
-        <file>vendors/renesas/boards/rx_mcu_boards/rx65n-cloud-kit-uart-sx-ulpgn/aws_demos/application_code/main_task.c</file>
+        <file>vendors/renesas/boards/rx_mcu_boards/rx65n-cloudkit-gcc/aws_demos/application_code/main_task.c</file>
         <path>application_code/renesas_code</path>
     </impdir>
     </boardsupport>
@@ -1082,7 +1082,7 @@
       <impdir>
         <board>CloudKitRX65N</board>
         <toolchain>RXC</toolchain>
-        <folder>vendors/renesas/boards/rx_mcu_boards/rx65n-cloud-kit-uart-sx-ulpgn/aws_demos/config_files/</folder>
+        <folder>vendors/renesas/boards/rx_mcu_boards/rx65n-cloudkit/aws_demos/config_files/</folder>
         <path>config_files</path>
       </impdir>
     </boardsupport>
@@ -1090,7 +1090,7 @@
       <impdir>
         <board>CloudKitRX65N</board>
         <toolchain>GNURX</toolchain>
-        <folder>vendors/renesas/boards/rx_mcu_boards/rx65n-cloud-kit-uart-sx-ulpgn/aws_demos/config_files/</folder>
+        <folder>vendors/renesas/boards/rx_mcu_boards/rx65n-cloudkit-gcc/aws_demos/config_files/</folder>
         <path>config_files</path>
       </impdir>
     </boardsupport>
@@ -1275,7 +1275,7 @@
       <toolchain>GNURX</toolchain>
       <series>RX600</series>
       <group>RX64M</group>
-      <file>projects/renesas/rx64m-rsk/e2studio/aws_demos/application_code/renesas_code/frtos_skeleton/task_function.h</file>
+      <file>projects/renesas/rx64m-rsk/e2studio-gcc/aws_demos/application_code/renesas_code/frtos_skeleton/task_function.h</file>
       <path>application_code/renesas_code/frtos_skeleton</path>
     </impdir>
     <boardsupport>
@@ -1284,7 +1284,7 @@
       <toolchain>GNURX</toolchain>
       <series>RX600</series>
       <group>RX64M</group>
-      <file>projects/renesas/rx64m-rsk/e2studio/aws_demos/application_code/renesas_code/frtos_skeleton/task_function.h</file>
+      <file>projects/renesas/rx64m-rsk/e2studio-gcc/aws_demos/application_code/renesas_code/frtos_skeleton/task_function.h</file>
       <path>application_code/renesas_code/frtos_skeleton</path>
     </impdir>
     </boardsupport>
@@ -1293,7 +1293,7 @@
       <toolchain>GNURX</toolchain>
       <series>RX600</series>
       <group>RX65N</group>
-      <file>projects/renesas/rx65n-rsk/e2studio/aws_demos/application_code/renesas_code/frtos_skeleton/task_function.h</file>
+      <file>projects/renesas/rx65n-rsk/e2studio-gcc/aws_demos/application_code/renesas_code/frtos_skeleton/task_function.h</file>
       <path>application_code/renesas_code/frtos_skeleton</path>
     </impdir>
     <boardsupport>
@@ -1303,7 +1303,7 @@
       <toolchain>GNURX</toolchain>
       <series>RX600</series>
       <group>RX65N</group>
-      <file>projects/renesas/rx65n-rsk/e2studio/aws_demos/application_code/renesas_code/frtos_skeleton/task_function.h</file>
+      <file>projects/renesas/rx65n-rsk/e2studio-gcc/aws_demos/application_code/renesas_code/frtos_skeleton/task_function.h</file>
       <path>application_code/renesas_code/frtos_skeleton</path>
     </impdir>
     </boardsupport>
@@ -1311,7 +1311,7 @@
       <impdir>
         <board>CloudKitRX65N</board>
         <toolchain>GNURX</toolchain>
-        <file>projects/renesas/rx65n-cloud-kit-uart-sx-ulpgn/e2studio/aws_demos/application_code/renesas_code/frtos_skeleton/task_function.h</file>
+        <file>projects/renesas/rx65n-cloud-kit-uart-sx-ulpgn/e2studio-gcc/aws_demos/application_code/renesas_code/frtos_skeleton/task_function.h</file>
         <path>application_code/renesas_code/frtos_skeleton</path>
       </impdir>
     </boardsupport>
@@ -1320,7 +1320,7 @@
       <toolchain>GNURX</toolchain>
       <series>RX700</series>
       <group>RX71M</group>
-      <file>projects/renesas/rx71m-rsk/e2studio/aws_demos/application_code/renesas_code/frtos_skeleton/task_function.h</file>
+      <file>projects/renesas/rx71m-rsk/e2studio-gcc/aws_demos/application_code/renesas_code/frtos_skeleton/task_function.h</file>
       <path>application_code/renesas_code/frtos_skeleton</path>
     </impdir>
     <boardsupport>
@@ -1329,7 +1329,7 @@
       <toolchain>GNURX</toolchain>
       <series>RX700</series>
       <group>RX71M</group>
-      <file>projects/renesas/rx71m-rsk/e2studio/aws_demos/application_code/renesas_code/frtos_skeleton/task_function.h</file>
+      <file>projects/renesas/rx71m-rsk/e2studio-gcc/aws_demos/application_code/renesas_code/frtos_skeleton/task_function.h</file>
       <path>application_code/renesas_code/frtos_skeleton</path>
     </impdir>
     </boardsupport>
@@ -1338,7 +1338,7 @@
       <toolchain>GNURX</toolchain>
       <series>RX700</series>
       <group>RX72M</group>
-      <file>projects/renesas/rx72m-rsk/e2studio/aws_demos/application_code/renesas_code/frtos_skeleton/task_function.h</file>
+      <file>projects/renesas/rx72m-rsk/e2studio-gcc/aws_demos/application_code/renesas_code/frtos_skeleton/task_function.h</file>
       <path>application_code/renesas_code/frtos_skeleton</path>
     </impdir>
     <boardsupport>
@@ -1347,7 +1347,7 @@
       <toolchain>GNURX</toolchain>
       <series>RX700</series>
       <group>RX72M</group>
-      <file>projects/renesas/rx72m-rsk/e2studio/aws_demos/application_code/renesas_code/frtos_skeleton/task_function.h</file>
+      <file>projects/renesas/rx72m-rsk/e2studio-gcc/aws_demos/application_code/renesas_code/frtos_skeleton/task_function.h</file>
       <path>application_code/renesas_code/frtos_skeleton</path>
     </impdir>
     </boardsupport>
@@ -1356,7 +1356,7 @@
       <toolchain>GNURX</toolchain>
       <series>RX700</series>
       <group>RX72N</group>
-      <file>projects/renesas/rx72n-envision-kit/e2studio/aws_demos/application_code/renesas_code/frtos_skeleton/task_function.h</file>
+      <file>projects/renesas/rx72n-envision-kit/e2studio-gcc/aws_demos/application_code/renesas_code/frtos_skeleton/task_function.h</file>
       <path>application_code/renesas_code/frtos_skeleton</path>
     </impdir>
     <boardsupport>
@@ -1365,7 +1365,7 @@
       <toolchain>GNURX</toolchain>
       <series>RX700</series>
       <group>RX72N</group>
-      <file>projects/renesas/rx72n-envision-kit/e2studio/aws_demos/application_code/renesas_code/frtos_skeleton/task_function.h</file>
+      <file>projects/renesas/rx72n-envision-kit/e2studio-gcc/aws_demos/application_code/renesas_code/frtos_skeleton/task_function.h</file>
       <path>application_code/renesas_code/frtos_skeleton</path>
     </impdir>
     </boardsupport>
@@ -1473,7 +1473,7 @@
       <toolchain>GNURX</toolchain>
       <series>RX600</series>
       <group>RX64M</group>
-      <file>projects/renesas/rx64m-rsk/e2studio/aws_demos/application_code/renesas_code/frtos_startup/freertos_object_init.c</file>
+      <file>projects/renesas/rx64m-rsk/e2studio-gcc/aws_demos/application_code/renesas_code/frtos_startup/freertos_object_init.c</file>
       <path>application_code/renesas_code/frtos_startup</path>
     </impdir>
     <boardsupport>
@@ -1482,7 +1482,7 @@
       <toolchain>GNURX</toolchain>
       <series>RX600</series>
       <group>RX64M</group>
-      <file>projects/renesas/rx64m-rsk/e2studio/aws_demos/application_code/renesas_code/frtos_startup/freertos_object_init.c</file>
+      <file>projects/renesas/rx64m-rsk/e2studio-gcc/aws_demos/application_code/renesas_code/frtos_startup/freertos_object_init.c</file>
       <path>application_code/renesas_code/frtos_startup</path>
     </impdir>
     </boardsupport>
@@ -1491,7 +1491,7 @@
       <toolchain>GNURX</toolchain>
       <series>RX600</series>
       <group>RX65N</group>
-      <file>projects/renesas/rx65n-rsk/e2studio/aws_demos/application_code/renesas_code/frtos_startup/freertos_object_init.c</file>
+      <file>projects/renesas/rx65n-rsk/e2studio-gcc/aws_demos/application_code/renesas_code/frtos_startup/freertos_object_init.c</file>
       <path>application_code/renesas_code/frtos_startup</path>
     </impdir>
     <boardsupport>
@@ -1501,7 +1501,7 @@
       <toolchain>GNURX</toolchain>
       <series>RX600</series>
       <group>RX65N</group>
-      <file>projects/renesas/rx65n-rsk/e2studio/aws_demos/application_code/renesas_code/frtos_startup/freertos_object_init.c</file>
+      <file>projects/renesas/rx65n-rsk/e2studio-gcc/aws_demos/application_code/renesas_code/frtos_startup/freertos_object_init.c</file>
       <path>application_code/renesas_code/frtos_startup</path>
     </impdir>
     </boardsupport>
@@ -1509,7 +1509,7 @@
       <impdir>
         <board>CloudKitRX65N</board>
         <toolchain>GNURX</toolchain>
-        <file>projects/renesas/rx65n-cloud-kit-uart-sx-ulpgn/e2studio/aws_demos/application_code/renesas_code/frtos_startup/freertos_object_init.c</file>
+        <file>projects/renesas/rx65n-cloud-kit-uart-sx-ulpgn/e2studio-gcc/aws_demos/application_code/renesas_code/frtos_startup/freertos_object_init.c</file>
         <path>application_code/renesas_code/frtos_startup</path>
       </impdir>
     </boardsupport>
@@ -1518,7 +1518,7 @@
       <toolchain>GNURX</toolchain>
       <series>RX700</series>
       <group>RX71M</group>
-      <file>projects/renesas/rx71m-rsk/e2studio/aws_demos/application_code/renesas_code/frtos_startup/freertos_object_init.c</file>
+      <file>projects/renesas/rx71m-rsk/e2studio-gcc/aws_demos/application_code/renesas_code/frtos_startup/freertos_object_init.c</file>
       <path>application_code/renesas_code/frtos_startup</path>
     </impdir>
     <boardsupport>
@@ -1527,7 +1527,7 @@
       <toolchain>GNURX</toolchain>
       <series>RX700</series>
       <group>RX71M</group>
-      <file>projects/renesas/rx71m-rsk/e2studio/aws_demos/application_code/renesas_code/frtos_startup/freertos_object_init.c</file>
+      <file>projects/renesas/rx71m-rsk/e2studio-gcc/aws_demos/application_code/renesas_code/frtos_startup/freertos_object_init.c</file>
       <path>application_code/renesas_code/frtos_startup</path>
     </impdir>
     </boardsupport>
@@ -1536,7 +1536,7 @@
       <toolchain>GNURX</toolchain>
       <series>RX700</series>
       <group>RX72M</group>
-      <file>projects/renesas/rx72m-rsk/e2studio/aws_demos/application_code/renesas_code/frtos_startup/freertos_object_init.c</file>
+      <file>projects/renesas/rx72m-rsk/e2studio-gcc/aws_demos/application_code/renesas_code/frtos_startup/freertos_object_init.c</file>
       <path>application_code/renesas_code/frtos_startup</path>
     </impdir>
     <boardsupport>
@@ -1545,7 +1545,7 @@
       <toolchain>GNURX</toolchain>
       <series>RX700</series>
       <group>RX72M</group>
-      <file>projects/renesas/rx72m-rsk/e2studio/aws_demos/application_code/renesas_code/frtos_startup/freertos_object_init.c</file>
+      <file>projects/renesas/rx72m-rsk/e2studio-gcc/aws_demos/application_code/renesas_code/frtos_startup/freertos_object_init.c</file>
       <path>application_code/renesas_code/frtos_startup</path>
     </impdir>
     </boardsupport>
@@ -1554,7 +1554,7 @@
       <toolchain>GNURX</toolchain>
       <series>RX700</series>
       <group>RX72N</group>
-      <file>projects/renesas/rx72n-envision-kit/e2studio/aws_demos/application_code/renesas_code/frtos_startup/freertos_object_init.c</file>
+      <file>projects/renesas/rx72n-envision-kit/e2studio-gcc/aws_demos/application_code/renesas_code/frtos_startup/freertos_object_init.c</file>
       <path>application_code/renesas_code/frtos_startup</path>
     </impdir>
     <boardsupport>
@@ -1563,7 +1563,7 @@
       <toolchain>GNURX</toolchain>
       <series>RX700</series>
       <group>RX72N</group>
-      <file>projects/renesas/rx65n-rsk/e2studio/aws_demos/application_code/renesas_code/frtos_startup/freertos_object_init.c</file>
+      <file>projects/renesas/rx65n-rsk/e2studio-gcc/aws_demos/application_code/renesas_code/frtos_startup/freertos_object_init.c</file>
       <path>application_code/renesas_code/frtos_startup</path>
     </impdir>
     </boardsupport>
@@ -2200,7 +2200,7 @@
       <impdir>
         <board>CloudKitRX65N</board>
         <toolchain>RXC</toolchain>
-        <folder>vendors/renesas/boards/rx_mcu_boards/rx65n-cloud-kit-uart-sx-ulpgn/aws_demos/src/smc_gen</folder>
+        <folder>vendors/renesas/boards/rx_mcu_boards/rx65n-cloudkit/aws_demos/src/smc_gen</folder>
         <path>application_code/renesas_code/smc_gen</path>
       </impdir>
     </boardsupport>
@@ -2208,7 +2208,7 @@
       <impdir>
         <board>CloudKitRX65N</board>
         <toolchain>GNURX</toolchain>
-        <folder>vendors/renesas/boards/rx_mcu_boards/rx65n-cloud-kit-uart-sx-ulpgn-gcc/aws_demos/src/smc_gen</folder>
+        <folder>vendors/renesas/boards/rx_mcu_boards/rx65n-cloudkit-gcc-gcc/aws_demos/src/smc_gen</folder>
         <path>application_code/renesas_code/smc_gen</path>
       </impdir>
     </boardsupport>
@@ -3495,8 +3495,8 @@
         <board>CloudKitRX65N</board>
         <series>RX600</series>
         <group>RX65N</group>
-        <file>vendors/renesas/boards/rx_mcu_boards/rx65n-cloud-kit-uart-sx-ulpgn-gcc/ports/pkcs11/iot_pkcs11_pal.c</file>
-        <path>vendors/renesas/boards/rx_mcu_boards/rx65n-cloud-kit-uart-sx-ulpgn-gcc/ports/pkcs11</path>
+        <file>vendors/renesas/boards/rx_mcu_boards/rx65n-cloudkit-gcc/ports/pkcs11/iot_pkcs11_pal.c</file>
+        <path>vendors/renesas/boards/rx_mcu_boards/rx65n-cloudkit-gcc/ports/pkcs11</path>
       </linkdir>
     </boardsupport>
       <linkdir>
@@ -3524,8 +3524,8 @@
         <board>CloudKitRX65N</board>
         <series>RX600</series>
         <group>RX65N</group>
-        <file>vendors/renesas/boards/rx_mcu_boards/rx65n-cloud-kit-uart-sx-ulpgn/ports/pkcs11/iot_pkcs11_pal.c</file>
-        <path>vendors/renesas/boards/rx_mcu_boards/rx65n-cloud-kit-uart-sx-ulpgn/ports/pkcs11</path>
+        <file>vendors/renesas/boards/rx_mcu_boards/rx65n-cloudkit/ports/pkcs11/iot_pkcs11_pal.c</file>
+        <path>vendors/renesas/boards/rx_mcu_boards/rx65n-cloudkit/ports/pkcs11</path>
       </linkdir>
     </boardsupport>
       <linkdir>
@@ -3553,8 +3553,8 @@
         <board>CloudKitRX65N</board>
         <series>RX600</series>
         <group>RX65N</group>
-        <file>vendors/renesas/boards/rx_mcu_boards/rx65n-cloud-kit-uart-sx-ulpgn-gcc/ports/ota/aws_ota_pal.c</file>
-        <path>vendors/renesas/boards/rx_mcu_boards/rx65n-cloud-kit-uart-sx-ulpgn-gcc/ports/ota</path>
+        <file>vendors/renesas/boards/rx_mcu_boards/rx65n-cloudkit-gcc/ports/ota/aws_ota_pal.c</file>
+        <path>vendors/renesas/boards/rx_mcu_boards/rx65n-cloudkit-gcc/ports/ota</path>
       </linkdir>
     </boardsupport>
       <linkdir>
@@ -3582,24 +3582,24 @@
         <board>CloudKitRX65N</board>
         <series>RX600</series>
         <group>RX65N</group>
-        <file>vendors/renesas/boards/rx_mcu_boards/rx65n-cloud-kit-uart-sx-ulpgn/ports/ota/aws_ota_pal.c</file>
-        <path>vendors/renesas/boards/rx_mcu_boards/rx65n-cloud-kit-uart-sx-ulpgn/ports/ota</path>
+        <file>vendors/renesas/boards/rx_mcu_boards/rx65n-cloudkit/ports/ota/aws_ota_pal.c</file>
+        <path>vendors/renesas/boards/rx_mcu_boards/rx65n-cloudkit/ports/ota</path>
       </linkdir>
     </boardsupport>
     <boardsupport>
       <linkdir>
       <board>CloudKitRX65N</board>
         <toolchain>RXC</toolchain>
-        <file>vendors/renesas/boards/rx_mcu_boards/rx65n-cloud-kit-uart-sx-ulpgn/ports/secure_sockets/iot_secure_sockets.c</file>
-        <path>libraries/abstractions/secure_sockets/rx65n-cloud-kit-uart-sx-ulpgn</path>
+        <file>vendors/renesas/boards/rx_mcu_boards/rx65n-cloudkit/ports/secure_sockets/iot_secure_sockets.c</file>
+        <path>libraries/abstractions/secure_sockets/rx65n-cloudkit</path>
       </linkdir>
     </boardsupport>
     <boardsupport>
       <linkdir>
         <board>CloudKitRX65N</board>
         <toolchain>GNURX</toolchain>
-        <file>vendors/renesas/boards/rx_mcu_boards/rx65n-cloud-kit-uart-sx-ulpgn-gcc/ports/secure_sockets/iot_secure_sockets.c</file>
-        <path>libraries/abstractions/secure_sockets/rx65n-cloud-kit-uart-sx-ulpgn-gcc</path>
+        <file>vendors/renesas/boards/rx_mcu_boards/rx65n-cloudkit-gcc/ports/secure_sockets/iot_secure_sockets.c</file>
+        <path>libraries/abstractions/secure_sockets/rx65n-cloudkit-gcc</path>
       </linkdir>
     </boardsupport>
     <boardsupport>
@@ -3613,16 +3613,16 @@
       <linkdir>
       <board>CloudKitRX65N</board>
         <toolchain>RXC</toolchain>
-        <file>vendors/renesas/boards/rx_mcu_boards/rx65n-cloud-kit-uart-sx-ulpgn/ports/wifi/iot_wifi.c</file>
-        <path>libraries/abstractions/wifi/rx65n-cloud-kit-uart-sx-ulpgn</path>
+        <file>vendors/renesas/boards/rx_mcu_boards/rx65n-cloudkit/ports/wifi/iot_wifi.c</file>
+        <path>libraries/abstractions/wifi/rx65n-cloudkit</path>
       </linkdir>
     </boardsupport>
     <boardsupport>
       <linkdir>
       <board>CloudKitRX65N</board>
         <toolchain>GNURX</toolchain>
-        <file>vendors/renesas/boards/rx_mcu_boards/rx65n-cloud-kit-uart-sx-ulpgn-gcc/ports/wifi/iot_wifi.c</file>
-        <path>libraries/abstractions/wifi/rx65n-cloud-kit-uart-sx-ulpgn-gcc</path>
+        <file>vendors/renesas/boards/rx_mcu_boards/rx65n-cloudkit-gcc/ports/wifi/iot_wifi.c</file>
+        <path>libraries/abstractions/wifi/rx65n-cloudkit-gcc</path>
       </linkdir>
     </boardsupport>
       <linkdir>
