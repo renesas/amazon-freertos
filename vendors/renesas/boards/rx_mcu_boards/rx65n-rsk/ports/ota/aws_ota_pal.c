@@ -609,28 +609,18 @@ OTA_Err_t prvPAL_ResetDevice( void )
     DEFINE_OTA_METHOD_NAME("prvPAL_ResetDevice");
 
     OTA_LOG_L1( "[%s] Resetting the device.\r\n", OTA_METHOD_NAME );
+	vTaskDelay(500);
 
-	if ((eOTA_ImageState_Accepted == load_firmware_control_block.eSavedAgentState) ||
-	    (eOTA_ImageState_Testing == load_firmware_control_block.eSavedAgentState))
-	{
-	    /* Software reset issued (Not swap bank) */
-	    set_psw(0);
-	    R_BSP_InterruptsDisable();
-	    R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_LPC_CGC_SWR);
-	    SYSTEM.SWRR = 0xa501;
-		while(1);	/* software reset */
-	}
-	else
-	{
-		/* If the status is rejected, aborted, or error, swap bank and return to the previous image.
-		   Then the boot loader will start and erase the image that failed to update. */
-	    set_psw(0);
-    	R_BSP_InterruptsDisable();
-    	R_FLASH_Control(FLASH_CMD_BANK_TOGGLE, NULL);
-    	R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_LPC_CGC_SWR);
-    	SYSTEM.SWRR = 0xa501;
-    	while(1);   /* software reset */
-	}
+	
+	/* If the status is rejected, aborted, or error, swap bank and return to the previous image.
+	   Then the boot loader will start and erase the image that failed to update. */
+	set_psw(0);
+	R_BSP_InterruptsDisable();
+	R_FLASH_Control(FLASH_CMD_BANK_TOGGLE, NULL);
+	R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_LPC_CGC_SWR);
+	SYSTEM.SWRR = 0xa501;
+	while(1);   /* software reset */
+	
 
     /* We shouldn't actually get here if the board supports the auto reset.
      * But, it doesn't hurt anything if we do although someone will need to
