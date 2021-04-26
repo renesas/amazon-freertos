@@ -6,334 +6,362 @@
             <toolchain id="com.renesas.smc.toolchain.gccrx.toolchain.gccrx">
                 <option id="com.renesas.smc.toolchain.option.buildArtefactType" key="com.renesas.smc.toolchain.option.buildArtefactType.exe"/>
                 <option id="com.renesas.smc.toolchain.option.rtos" key="com.renesas.smc.toolchain.option.rtos.freertos">
-                    <item id="com.renesas.smc.toolchain.option.rtos.freertos" value="AmazonFreeRTOS_RX_v202002-rx-1.0.0"/>
+                    <item id="com.renesas.smc.toolchain.option.rtos.freertos" value="AmazonFreeRTOS_RX_v202002-rx-1.0.3"/>
                 </option>
             </toolchain>
         </configuration>
         <platform id="R5F572NNHxFB"/>
         <option id="board" value="Custom User Board"/>
     </general>
-    <tool id="Clock">
-        <Item current="true" id="vccSetting.isSelected"/>
-        <Item current="" id="vccSetting.InputValue"/>
-        <Item current="vcc2_7-3_6" id="vccSetting.OutputValue"/>
-        <Item current="3.3" id="vccSetting.vccTxt"/>
-        <Item current="true" id="mainclock.selectBox"/>
-        <Item current="" id="mainclock.InputValue"/>
-        <Item current="16 MHz" id="mainclock.OutputValue"/>
-        <Item current="16" error="false" id="mainclock.frequencyTxt"/>
-        <Item current="srcR" id="mainclock.sourceBox"/>
-        <Item current="9980" id="mainclock.cycleValueTxt"/>
-        <Item current="false" id="subclock.selectBox"/>
-        <Item current="" id="subclock.InputValue"/>
-        <Item current="" id="subclock.OutputValue"/>
-        <Item current="32.768" error="false" id="subclock.frequencyTxt"/>
-        <Item current="standardCL" id="subclock.generalBox"/>
-        <Item current="2000" id="subclock.cycleValueTxt"/>
-        <Item current="false" id="hococlock.selectBox"/>
-        <Item current="" id="hococlock.InputValue"/>
-        <Item current="" id="hococlock.OutputValue"/>
-        <Item current="frq16" id="hococlock.frequencyListBox"/>
-        <Item current="false" id="lococlock.selectBox"/>
-        <Item current="" id="lococlock.InputValue"/>
-        <Item current="" id="lococlock.OutputValue"/>
-        <Item current="240" error="false" id="lococlock.frequencyTxt"/>
-        <Item current="false" id="iwdtclock.selectBox"/>
-        <Item current="" id="iwdtclock.InputValue"/>
-        <Item current="" id="iwdtclock.OutputValue"/>
-        <Item current="120" error="false" id="iwdtclock.frequencyTxt"/>
-        <Item current="true" id="pllSourceSelect.isSelected"/>
-        <Item current="16 MHz" id="pllSourceSelect.InputValue"/>
-        <Item current="16 MHz" id="pllSourceSelect.OutputValue"/>
-        <Item current="swtmainclock" id="pllSourceSelect.radiobutton"/>
-        <Item current="0" id="pllSourceSelect.CurrentValue"/>
-        <Item current="false" id="pllSourceSelect.buttonDisable.0"/>
-        <Item current="true" id="pllSourceSelect.buttonDisable.1"/>
-        <Item current="true" id="pll.isSelected"/>
-        <Item current="16 MHz" id="pll.InputValue"/>
-        <Item current="160.0 MHz" id="pll.OutputValue"/>
-        <Item current="mul10-1" error="false" id="pll.multiplyBox"/>
-        <Item current="div1-1" error="false" id="pll.dividerBox"/>
-        <Item current="16.0 MHz" error="false" id="pll.MiddleValue"/>
-        <Item current="true" id="ppll.isSelected"/>
-        <Item current="16 MHz" id="ppll.InputValue"/>
-        <Item current="200.0 MHz" id="ppll.OutputValue"/>
-        <Item current="mul25-1" error="false" id="ppll.multiplyBox"/>
-        <Item current="div1-2" error="false" id="ppll.dividerBox"/>
-        <Item current="8.0 MHz" error="false" id="ppll.MiddleValue"/>
-        <Item current="true" id="sckselector.isSelected"/>
-        <Item current="160.0 MHz" id="sckselector.InputValue"/>
-        <Item current="160.0 MHz" id="sckselector.OutputValue"/>
-        <Item current="swtpll" id="sckselector.radiobutton"/>
-        <Item current="0" id="sckselector.CurrentValue"/>
-        <Item current="false" id="sckselector.buttonDisable.0"/>
-        <Item current="false" id="sckselector.buttonDisable.1"/>
-        <Item current="true" id="sckselector.buttonDisable.2"/>
-        <Item current="true" id="sckselector.buttonDisable.3"/>
-        <Item current="true" id="sckselector.buttonDisable.4"/>
-        <Item current="true" id="ckoselector.isSelected"/>
-        <Item current="16 MHz" id="ckoselector.InputValue"/>
-        <Item current="16 MHz" id="ckoselector.OutputValue"/>
-        <Item current="swtmainclock" id="ckoselector.radiobutton"/>
-        <Item current="2" id="ckoselector.CurrentValue"/>
-        <Item current="false" id="ckoselector.buttonDisable.0"/>
-        <Item current="false" id="ckoselector.buttonDisable.1"/>
-        <Item current="false" id="ckoselector.buttonDisable.2"/>
-        <Item current="true" id="ckoselector.buttonDisable.3"/>
-        <Item current="true" id="ckoselector.buttonDisable.4"/>
-        <Item current="true" id="ckoselector.buttonDisable.5"/>
-        <Item current="true" id="bckdivider.isSelected"/>
-        <Item current="160.0 MHz" id="bckdivider.InputValue"/>
-        <Item current="53.333333333333336 MHz" id="bckdivider.OutputValue"/>
-        <Item current="sckselector.radiobutton.swtpll" id="bckdivider.Condition"/>
-        <Item current="comboBox1-3" error="false" id="bckdivider.comboBox"/>
-        <Item current="160.0 MHz" error="false" id="bckdivider.PreOutput"/>
-        <Item current="iclkdivider" error="false" id="bckdivider.PreOutputController"/>
-        <Item current="false" id="bckselector.selectBox"/>
-        <Item current="53.333333333333336 MHz" id="bckselector.InputValue"/>
-        <Item current="" id="bckselector.OutputValue"/>
-        <Item current="comboBox1-2" error="false" id="bckselector.comboBox"/>
-        <Item current="true" id="fclkdivider.isSelected"/>
-        <Item current="160.0 MHz" id="fclkdivider.InputValue"/>
-        <Item current="40.0 MHz" id="fclkdivider.OutputValue"/>
-        <Item current="sckselector.radiobutton.swtpll" id="fclkdivider.Condition"/>
-        <Item current="comboBox1-4" error="false" id="fclkdivider.comboBox"/>
-        <Item current="true" id="pclkcdivider.isSelected"/>
-        <Item current="160.0 MHz" id="pclkcdivider.InputValue"/>
-        <Item current="40.0 MHz" id="pclkcdivider.OutputValue"/>
-        <Item current="sckselector.radiobutton.swtpll" id="pclkcdivider.Condition"/>
-        <Item current="comboBox1-4" error="false" id="pclkcdivider.comboBox"/>
-        <Item current="40.0 MHz" error="false" id="pclkcdivider.PreOutput"/>
-        <Item current="pclkbdivider" error="false" id="pclkcdivider.PreOutputController"/>
-        <Item current="true" id="pclkddivider.isSelected"/>
-        <Item current="160.0 MHz" id="pclkddivider.InputValue"/>
-        <Item current="40.0 MHz" id="pclkddivider.OutputValue"/>
-        <Item current="sckselector.radiobutton.swtpll" id="pclkddivider.Condition"/>
-        <Item current="comboBox1-4" error="false" id="pclkddivider.comboBox"/>
-        <Item current="40.0 MHz" error="false" id="pclkddivider.PreOutput"/>
-        <Item current="pclkbdivider" error="false" id="pclkddivider.PreOutputController"/>
-        <Item current="true" id="pclkbdivider.isSelected"/>
-        <Item current="160.0 MHz" id="pclkbdivider.InputValue"/>
-        <Item current="40.0 MHz" id="pclkbdivider.OutputValue"/>
-        <Item current="sckselector.radiobutton.swtpll" id="pclkbdivider.Condition"/>
-        <Item current="comboBox1-4" error="false" id="pclkbdivider.comboBox"/>
-        <Item current="80.0 MHz" error="false" id="pclkbdivider.PreOutput"/>
-        <Item current="pclkadivider" error="false" id="pclkbdivider.PreOutputController"/>
-        <Item current="true" id="pclkadivider.isSelected"/>
-        <Item current="160.0 MHz" id="pclkadivider.InputValue"/>
-        <Item current="80.0 MHz" id="pclkadivider.OutputValue"/>
-        <Item current="sckselector.radiobutton.swtpll" id="pclkadivider.Condition"/>
-        <Item current="comboBox1-2" error="false" id="pclkadivider.comboBox"/>
-        <Item current="true" id="uckdivider.selectBox"/>
-        <Item current="160.0 MHz" id="uckdivider.InputValue"/>
-        <Item current="32.0 MHz" id="uckdivider.OutputValue"/>
-        <Item current="sckselector.radiobutton.swtpll" id="uckdivider.Condition"/>
-        <Item current="comboBox1-5" error="false" id="uckdivider.comboBox"/>
-        <Item current="true" id="iclkdivider.isSelected"/>
-        <Item current="160.0 MHz" id="iclkdivider.InputValue"/>
-        <Item current="160.0 MHz" id="iclkdivider.OutputValue"/>
-        <Item current="sckselector.radiobutton.swtpll" id="iclkdivider.Condition"/>
-        <Item current="comboBox1-1" error="false" id="iclkdivider.comboBox"/>
-        <Item current="true" id="pplldivider.isSelected"/>
-        <Item current="200.0 MHz" id="pplldivider.InputValue"/>
-        <Item current="100.0 MHz" id="pplldivider.OutputValue"/>
-        <Item current="comboBox1-2" error="false" id="pplldivider.comboBox"/>
-        <Item current="true" id="ckodivider.isSelected"/>
-        <Item current="16 MHz" id="ckodivider.InputValue"/>
-        <Item current="16.0 MHz" id="ckodivider.OutputValue"/>
-        <Item current="ckoselector.radiobutton.swtmainclock" id="ckodivider.Condition"/>
-        <Item current="comboBox1-1" error="false" id="ckodivider.comboBox"/>
-        <Item current="16 MHz" error="false" id="ckodivider.PreOutput"/>
-        <Item current="ckoselector" error="false" id="ckodivider.PreOutputController"/>
-        <Item current="true" id="uclkSourceSelect.isSelected"/>
-        <Item current="32.0 MHz" id="uclkSourceSelect.InputValue"/>
-        <Item current="32.0 MHz" id="uclkSourceSelect.OutputValue"/>
-        <Item current="swtuckdivider" id="uclkSourceSelect.radiobutton"/>
-        <Item current="0" id="uclkSourceSelect.CurrentValue"/>
-        <Item current="false" id="uclkSourceSelect.buttonDisable.0"/>
-        <Item current="false" id="uclkSourceSelect.buttonDisable.1"/>
-        <Item current="true" id="outckSourceSelect.isSelected"/>
-        <Item current="200.0 MHz" id="outckSourceSelect.InputValue"/>
-        <Item current="200.0 MHz" id="outckSourceSelect.OutputValue"/>
-        <Item current="swtppll" id="outckSourceSelect.radiobutton"/>
-        <Item current="1" id="outckSourceSelect.CurrentValue"/>
-        <Item current="false" id="outckSourceSelect.buttonDisable.0"/>
-        <Item current="false" id="outckSourceSelect.buttonDisable.1"/>
-        <Item current="true" id="fclk.isSelected"/>
-        <Item current="40.0 MHz" id="fclk.InputValue"/>
-        <Item current="40.0 MHz" id="fclk.OutputValue"/>
-        <Item current="40.0" id="fclk.frequencyTxt"/>
-        <Item current="MHz" id="fclk.unitTxt"/>
-        <Item current="40.0" id="fclk.CurrentValue"/>
-        <Item current="false" id="fclk.Disabled"/>
-        <Item current="true" id="iclk.isSelected"/>
-        <Item current="160.0 MHz" id="iclk.InputValue"/>
-        <Item current="160.0 MHz" id="iclk.OutputValue"/>
-        <Item current="160.0" id="iclk.frequencyTxt"/>
-        <Item current="MHz" id="iclk.unitTxt"/>
-        <Item current="160.0" id="iclk.CurrentValue"/>
-        <Item current="false" id="iclk.Disabled"/>
-        <Item current="true" id="pclka.isSelected"/>
-        <Item current="80.0 MHz" id="pclka.InputValue"/>
-        <Item current="80.0 MHz" id="pclka.OutputValue"/>
-        <Item current="80.0" id="pclka.frequencyTxt"/>
-        <Item current="MHz" id="pclka.unitTxt"/>
-        <Item current="80.0" id="pclka.CurrentValue"/>
-        <Item current="false" id="pclka.Disabled"/>
-        <Item current="true" id="pclkb.isSelected"/>
-        <Item current="40.0 MHz" id="pclkb.InputValue"/>
-        <Item current="40.0 MHz" id="pclkb.OutputValue"/>
-        <Item current="40.0" id="pclkb.frequencyTxt"/>
-        <Item current="MHz" id="pclkb.unitTxt"/>
-        <Item current="40.0" id="pclkb.CurrentValue"/>
-        <Item current="false" id="pclkb.Disabled"/>
-        <Item current="true" id="pclkc.isSelected"/>
-        <Item current="40.0 MHz" id="pclkc.InputValue"/>
-        <Item current="40.0 MHz" id="pclkc.OutputValue"/>
-        <Item current="40.0" id="pclkc.frequencyTxt"/>
-        <Item current="MHz" id="pclkc.unitTxt"/>
-        <Item current="40.0" id="pclkc.CurrentValue"/>
-        <Item current="false" id="pclkc.Disabled"/>
-        <Item current="true" id="pclkd.isSelected"/>
-        <Item current="40.0 MHz" id="pclkd.InputValue"/>
-        <Item current="40.0 MHz" id="pclkd.OutputValue"/>
-        <Item current="40.0" id="pclkd.frequencyTxt"/>
-        <Item current="MHz" id="pclkd.unitTxt"/>
-        <Item current="40.0" id="pclkd.CurrentValue"/>
-        <Item current="false" id="pclkd.Disabled"/>
-        <Item current="false" id="bckpin.isSelected"/>
-        <Item current="" id="bckpin.InputValue"/>
-        <Item current="0" id="bckpin.OutputValue"/>
-        <Item current="-" id="bckpin.frequencyTxt"/>
-        <Item current="MHz" id="bckpin.unitTxt"/>
-        <Item current="true" id="bckpin.Disabled"/>
-        <Item current="true" id="bck.isSelected"/>
-        <Item current="53.333333333333336 MHz" id="bck.InputValue"/>
-        <Item current="53.333333333333336 MHz" id="bck.OutputValue"/>
-        <Item current="53.333333333333336" id="bck.frequencyTxt"/>
-        <Item current="MHz" id="bck.unitTxt"/>
-        <Item current="53.333333333333336" id="bck.CurrentValue"/>
-        <Item current="false" id="bck.Disabled"/>
-        <Item current="false" id="sdclk.selectBox"/>
-        <Item current="53.333333333333336 MHz" id="sdclk.InputValue"/>
-        <Item current="0" id="sdclk.OutputValue"/>
-        <Item current="-" id="sdclk.frequencyTxt"/>
-        <Item current="MHz" id="sdclk.unitTxt"/>
-        <Item current="53.333333333333336" id="sdclk.CurrentValue"/>
-        <Item current="true" id="sdclk.Disabled"/>
-        <Item current="false" id="sdclk.SelectBoxDisabled"/>
-        <Item current="true" id="uclk.isSelected"/>
-        <Item current="32.0 MHz" id="uclk.InputValue"/>
-        <Item current="32.0 MHz" id="uclk.OutputValue"/>
-        <Item current="32.0" id="uclk.frequencyTxt"/>
-        <Item current="MHz" id="uclk.unitTxt"/>
-        <Item current="32.0" id="uclk.CurrentValue"/>
-        <Item current="false" id="uclk.Disabled"/>
-        <Item current="true" id="outckdivider.isSelected"/>
-        <Item current="200.0 MHz" id="outckdivider.InputValue"/>
-        <Item current="25.0 MHz" id="outckdivider.OutputValue"/>
-        <Item current="comboBox1-8" error="false" id="outckdivider.comboBox"/>
-        <Item current="true" id="clkout25m.isSelected"/>
-        <Item current="25.0 MHz" id="clkout25m.InputValue"/>
-        <Item current="25.0 MHz" id="clkout25m.OutputValue"/>
-        <Item current="25.0" id="clkout25m.frequencyTxt"/>
-        <Item current="MHz" id="clkout25m.unitTxt"/>
-        <Item current="25.0" id="clkout25m.CurrentValue"/>
-        <Item current="false" id="clkout25m.Disabled"/>
-        <Item current="false" id="clkout.selectBox"/>
-        <Item current="16.0 MHz" id="clkout.InputValue"/>
-        <Item current="0" id="clkout.OutputValue"/>
-        <Item current="-" id="clkout.frequencyTxt"/>
-        <Item current="MHz" id="clkout.unitTxt"/>
-        <Item current="16.0" id="clkout.CurrentValue"/>
-        <Item current="true" id="clkout.Disabled"/>
-        <Item current="false" id="clkout.SelectBoxDisabled"/>
-        <Item current="false" id="cacilsclk.isSelected"/>
-        <Item current="" id="cacilsclk.InputValue"/>
-        <Item current="0" id="cacilsclk.OutputValue"/>
-        <Item current="-" id="cacilsclk.frequencyTxt"/>
-        <Item current="MHz" id="cacilsclk.unitTxt"/>
-        <Item current="true" id="cacilsclk.Disabled"/>
-        <Item current="false" id="caclclk.isSelected"/>
-        <Item current="" id="caclclk.InputValue"/>
-        <Item current="0" id="caclclk.OutputValue"/>
-        <Item current="-" id="caclclk.frequencyTxt"/>
-        <Item current="MHz" id="caclclk.unitTxt"/>
-        <Item current="true" id="caclclk.Disabled"/>
-        <Item current="false" id="cachclk.isSelected"/>
-        <Item current="" id="cachclk.InputValue"/>
-        <Item current="0" id="cachclk.OutputValue"/>
-        <Item current="-" id="cachclk.frequencyTxt"/>
-        <Item current="MHz" id="cachclk.unitTxt"/>
-        <Item current="true" id="cachclk.Disabled"/>
-        <Item current="false" id="cacsclk.isSelected"/>
-        <Item current="" id="cacsclk.InputValue"/>
-        <Item current="0" id="cacsclk.OutputValue"/>
-        <Item current="-" id="cacsclk.frequencyTxt"/>
-        <Item current="MHz" id="cacsclk.unitTxt"/>
-        <Item current="true" id="cacsclk.Disabled"/>
-        <Item current="false" id="rtcclk.selectBox"/>
-        <Item current="" id="rtcclk.InputValue"/>
-        <Item current="0" id="rtcclk.OutputValue"/>
-        <Item current="-" id="rtcclk.frequencyTxt"/>
-        <Item current="MHz" id="rtcclk.unitTxt"/>
-        <Item current="true" id="rtcclk.Disabled"/>
-        <Item current="true" id="rtcclk.SelectBoxDisabled"/>
-        <Item current="true" id="cacmclk.isSelected"/>
-        <Item current="16 MHz" id="cacmclk.InputValue"/>
-        <Item current="16 MHz" id="cacmclk.OutputValue"/>
-        <Item current="16" id="cacmclk.frequencyTxt"/>
-        <Item current="MHz" id="cacmclk.unitTxt"/>
-        <Item current="16" id="cacmclk.CurrentValue"/>
-        <Item current="false" id="cacmclk.Disabled"/>
-    </tool>
     <tool id="Summary" version="1.0.0.0">
         <option id="com.renesas.smc.code.type" value="Linked File"/>
     </tool>
-    <tool id="Pins" version="1.0.1.0">
-        <pinItem allocation="20" comments="" direction="None" id="XTAL" isUsedBySoftware="true" locked="false" status="0"/>
-        <pinItem allocation="50" comments="" direction="None" id="CLKOUT25M" isUsedBySoftware="true" locked="false" status="0"/>
-        <pinItem allocation="22" comments="" direction="None" id="EXTAL" isUsedBySoftware="true" locked="false" status="0"/>
-        <pinItem allocation="45" comments="" direction="None" id="RXD2" isUsedBySoftware="true" locked="false" status="0"/>
-        <pinItem allocation="128" comments="" direction="None" id="RXD7" isUsedBySoftware="true" locked="false" status="0"/>
-        <pinItem allocation="65" comments="" direction="None" id="ET0_TX_EN" isUsedBySoftware="true" locked="false" status="0"/>
-        <pinItem allocation="67" comments="" direction="None" id="ET0_TX_ER" isUsedBySoftware="true" locked="false" status="0"/>
-        <pinItem allocation="85" comments="" direction="None" id="ET0_MDC" isUsedBySoftware="true" locked="false" status="0"/>
-        <pinItem allocation="60" comments="" direction="None" id="ET0_COL" isUsedBySoftware="true" locked="false" status="0"/>
-        <pinItem allocation="131" comments="" direction="None" id="TXD7" isUsedBySoftware="true" locked="false" status="0"/>
-        <pinItem allocation="58" comments="" direction="None" id="ET0_CRS" isUsedBySoftware="true" locked="false" status="0"/>
-        <pinItem allocation="44" comments="" direction="None" id="TXD2" isUsedBySoftware="true" locked="false" status="0"/>
-        <pinItem allocation="70" comments="" direction="None" id="ET0_RX_DV" isUsedBySoftware="true" locked="false" status="0"/>
-        <pinItem allocation="68" comments="" direction="None" id="ET0_RX_ER" isUsedBySoftware="true" locked="false" status="0"/>
-        <pinItem allocation="61" comments="" direction="None" id="ET0_ETXD3" isUsedBySoftware="true" locked="false" status="0"/>
-        <pinItem allocation="62" comments="" direction="None" id="ET0_ETXD2" isUsedBySoftware="true" locked="false" status="0"/>
-        <pinItem allocation="63" comments="" direction="None" id="ET0_ETXD1" isUsedBySoftware="true" locked="false" status="0"/>
-        <pinItem allocation="64" comments="" direction="None" id="ET0_ETXD0" isUsedBySoftware="true" locked="false" status="0"/>
-        <pinItem allocation="69" comments="" direction="None" id="ET0_RX_CLK" isUsedBySoftware="true" locked="false" status="0"/>
-        <pinItem allocation="75" comments="" direction="None" id="ET0_ERXD3" isUsedBySoftware="true" locked="false" status="0"/>
-        <pinItem allocation="73" comments="" direction="None" id="ET0_ERXD2" isUsedBySoftware="true" locked="false" status="0"/>
-        <pinItem allocation="72" comments="" direction="None" id="ET0_ERXD1" isUsedBySoftware="true" locked="false" status="0"/>
-        <pinItem allocation="71" comments="" direction="None" id="ET0_ERXD0" isUsedBySoftware="true" locked="false" status="0"/>
-        <pinItem allocation="66" comments="" direction="None" id="ET0_TX_CLK" isUsedBySoftware="true" locked="false" status="0"/>
-        <pinItem allocation="86" comments="" direction="None" id="ET0_MDIO" isUsedBySoftware="true" locked="false" status="0"/>
-        <pinItem allocation="" comments="" direction="None" id="RMII0_RXD0" isUsedBySoftware="false" locked="false" status="0"/>
-        <pinItem allocation="" comments="" direction="None" id="RMII0_RXD1" isUsedBySoftware="false" locked="false" status="0"/>
-        <pinItem allocation="" comments="" direction="None" id="ET0_LINKSTA" isUsedBySoftware="false" locked="false" status="0"/>
-        <pinItem allocation="" comments="" direction="None" id="PMGI0_MDIO" isUsedBySoftware="false" locked="false" status="0"/>
-        <pinItem allocation="" comments="" direction="None" id="PMGI0_MDC" isUsedBySoftware="false" locked="false" status="0"/>
-        <pinItem allocation="" comments="" direction="None" id="ET0_WOL" isUsedBySoftware="false" locked="false" status="0"/>
-        <pinItem allocation="" comments="" direction="None" id="ET0_EXOUT" isUsedBySoftware="false" locked="false" status="0"/>
-        <pinItem allocation="" comments="" direction="None" id="RMII0_TXD1" isUsedBySoftware="false" locked="false" status="0"/>
-        <pinItem allocation="" comments="" direction="None" id="RMII0_TXD0" isUsedBySoftware="false" locked="false" status="0"/>
-        <pinItem allocation="" comments="" direction="None" id="REF50CK0" isUsedBySoftware="false" locked="false" status="0"/>
-        <pinItem allocation="" comments="" direction="None" id="RMII0_RX_ER" isUsedBySoftware="false" locked="false" status="0"/>
-        <pinItem allocation="" comments="" direction="None" id="RMII0_TXD_EN" isUsedBySoftware="false" locked="false" status="0"/>
-        <pinItem allocation="" comments="" direction="None" id="RMII0_CRS_DV" isUsedBySoftware="false" locked="false" status="0"/>
-        <pinItem allocation="" comments="" direction="None" id="ET1_LINKSTA" isUsedBySoftware="false" locked="false" status="0"/>
-        <pinItem allocation="" comments="" direction="None" id="PMGI1_MDIO" isUsedBySoftware="false" locked="false" status="0"/>
-        <pinItem allocation="" comments="" direction="None" id="ET1_MDC" isUsedBySoftware="false" locked="false" status="0"/>
-        <pinItem allocation="" comments="" direction="None" id="ET1_MDIO" isUsedBySoftware="false" locked="false" status="0"/>
-        <pinItem allocation="" comments="" direction="None" id="PMGI1_MDC" isUsedBySoftware="false" locked="false" status="0"/>
+    <tool id="Clock">
+        <option enabled="true" id="vccinput" selection="textinputitem">
+            <item enabled="true" id="textinputitem" input="3.3" value="3.300"/>
+        </option>
+        <option enabled="true" id="mainclockenable" selection="check">
+            <item enabled="true" id="check"/>
+            <item enabled="true" id="uncheck"/>
+        </option>
+        <option enabled="true" id="mainsourcebox" selection="srcR">
+            <item enabled="true" id="srcR"/>
+            <item enabled="true" id="srcEOI"/>
+        </option>
+        <option enabled="true" id="mainfrequency" selection="textinputitem">
+            <item enabled="true" id="textinputitem" input="16" value="16.000000"/>
+        </option>
+        <option enabled="true" id="mainwaittime" selection="textinputitem">
+            <item enabled="true" id="textinputitem" input="9980" value="9980.000000"/>
+        </option>
+        <option enabled="true" id="subclockenable" selection="uncheck">
+            <item enabled="true" id="check"/>
+            <item enabled="true" id="uncheck"/>
+        </option>
+        <option enabled="false" id="subfrequency" selection="textinputitem">
+            <item enabled="true" id="textinputitem" input="" value="32.768"/>
+        </option>
+        <option enabled="false" id="subdrivecap" selection="standardCL">
+            <item enabled="true" id="lowCL"/>
+            <item enabled="true" id="standardCL"/>
+        </option>
+        <option enabled="false" id="subwaittime" selection="textinputitem">
+            <item enabled="true" id="textinputitem" input="2000" value="2000.000000"/>
+        </option>
+        <option enabled="true" id="hococlockenable" selection="uncheck">
+            <item enabled="true" id="check"/>
+            <item enabled="true" id="uncheck"/>
+        </option>
+        <option enabled="false" id="hocofrequency" selection="frq16">
+            <item enabled="true" id="frq16"/>
+            <item enabled="true" id="frq18"/>
+            <item enabled="true" id="frq20"/>
+        </option>
+        <option enabled="false" id="hocooscenable" selection="uncheck">
+            <item enabled="true" id="check"/>
+            <item enabled="true" id="uncheck"/>
+        </option>
+        <option enabled="true" id="lococlockenable" selection="uncheck">
+            <item enabled="true" id="check"/>
+            <item enabled="true" id="uncheck"/>
+        </option>
+        <option enabled="false" id="locofrequency" selection="textinputitem">
+            <item enabled="true" id="textinputitem" input="" value="240"/>
+        </option>
+        <option enabled="true" id="iwdtclockenable" selection="uncheck">
+            <item enabled="true" id="check"/>
+            <item enabled="true" id="uncheck"/>
+        </option>
+        <option enabled="false" id="iwdtfrequency" selection="textinputitem">
+            <item enabled="true" id="textinputitem" input="" value="120"/>
+        </option>
+        <option enabled="true" id="pllswitcher" selection="pllmain">
+            <item enabled="true" id="pllmain" input="" value="16.0"/>
+            <item enabled="false" id="pllhoco" input="" value="16"/>
+        </option>
+        <option enabled="true" id="plldivider" selection="div1-1">
+            <item enabled="true" id="div1-1"/>
+            <item enabled="true" id="div1-2"/>
+            <item enabled="false" id="div1-3"/>
+        </option>
+        <option enabled="true" id="pllmul" selection="mul10-1">
+            <item enabled="true" id="mul10-1"/>
+            <item enabled="true" id="mul10_5-1"/>
+            <item enabled="true" id="mul11-1"/>
+            <item enabled="true" id="mul11_5-1"/>
+            <item enabled="true" id="mul12-1"/>
+            <item enabled="true" id="mul12_5-1"/>
+            <item enabled="true" id="mul13-1"/>
+            <item enabled="true" id="mul13_5-1"/>
+            <item enabled="true" id="mul14-1"/>
+            <item enabled="true" id="mul14_5-1"/>
+            <item enabled="true" id="mul15-1"/>
+            <item enabled="false" id="mul15_5-1"/>
+            <item enabled="false" id="mul16-1"/>
+            <item enabled="false" id="mul16_5-1"/>
+            <item enabled="false" id="mul17-1"/>
+            <item enabled="false" id="mul17_5-1"/>
+            <item enabled="false" id="mul18-1"/>
+            <item enabled="false" id="mul18_5-1"/>
+            <item enabled="false" id="mul19-1"/>
+            <item enabled="false" id="mul19_5-1"/>
+            <item enabled="false" id="mul20-1"/>
+            <item enabled="false" id="mul20_5-1"/>
+            <item enabled="false" id="mul21-1"/>
+            <item enabled="false" id="mul21_5-1"/>
+            <item enabled="false" id="mul22-1"/>
+            <item enabled="false" id="mul22_5-1"/>
+            <item enabled="false" id="mul23-1"/>
+            <item enabled="false" id="mul23_5-1"/>
+            <item enabled="false" id="mul24-1"/>
+            <item enabled="false" id="mul24_5-1"/>
+            <item enabled="false" id="mul25-1"/>
+            <item enabled="false" id="mul25_5-1"/>
+            <item enabled="false" id="mul26-1"/>
+            <item enabled="false" id="mul26_5-1"/>
+            <item enabled="false" id="mul27-1"/>
+            <item enabled="false" id="mul27_5-1"/>
+            <item enabled="false" id="mul28-1"/>
+            <item enabled="false" id="mul28_5-1"/>
+            <item enabled="false" id="mul29-1"/>
+            <item enabled="false" id="mul29_5-1"/>
+            <item enabled="false" id="mul30-1"/>
+        </option>
+        <option enabled="true" id="pplldivider" selection="div1-2">
+            <item enabled="true" id="div1-1"/>
+            <item enabled="true" id="div1-2"/>
+            <item enabled="false" id="div1-3"/>
+        </option>
+        <option enabled="true" id="ppllmul" selection="mul25-1">
+            <item enabled="false" id="mul10-1"/>
+            <item enabled="false" id="mul10_5-1"/>
+            <item enabled="false" id="mul11-1"/>
+            <item enabled="false" id="mul11_5-1"/>
+            <item enabled="false" id="mul12-1"/>
+            <item enabled="false" id="mul12_5-1"/>
+            <item enabled="false" id="mul13-1"/>
+            <item enabled="false" id="mul13_5-1"/>
+            <item enabled="false" id="mul14-1"/>
+            <item enabled="false" id="mul14_5-1"/>
+            <item enabled="true" id="mul15-1"/>
+            <item enabled="true" id="mul15_5-1"/>
+            <item enabled="true" id="mul16-1"/>
+            <item enabled="true" id="mul16_5-1"/>
+            <item enabled="true" id="mul17-1"/>
+            <item enabled="true" id="mul17_5-1"/>
+            <item enabled="true" id="mul18-1"/>
+            <item enabled="true" id="mul18_5-1"/>
+            <item enabled="true" id="mul19-1"/>
+            <item enabled="true" id="mul19_5-1"/>
+            <item enabled="true" id="mul20-1"/>
+            <item enabled="true" id="mul20_5-1"/>
+            <item enabled="true" id="mul21-1"/>
+            <item enabled="true" id="mul21_5-1"/>
+            <item enabled="true" id="mul22-1"/>
+            <item enabled="true" id="mul22_5-1"/>
+            <item enabled="true" id="mul23-1"/>
+            <item enabled="true" id="mul23_5-1"/>
+            <item enabled="true" id="mul24-1"/>
+            <item enabled="true" id="mul24_5-1"/>
+            <item enabled="true" id="mul25-1"/>
+            <item enabled="true" id="mul25_5-1"/>
+            <item enabled="true" id="mul26-1"/>
+            <item enabled="true" id="mul26_5-1"/>
+            <item enabled="true" id="mul27-1"/>
+            <item enabled="true" id="mul27_5-1"/>
+            <item enabled="true" id="mul28-1"/>
+            <item enabled="true" id="mul28_5-1"/>
+            <item enabled="true" id="mul29-1"/>
+            <item enabled="true" id="mul29_5-1"/>
+            <item enabled="true" id="mul30-1"/>
+        </option>
+        <option enabled="true" id="sckswitcher" selection="pll">
+            <item enabled="true" id="pll" input="" value="160.0"/>
+            <item enabled="true" id="main" input="" value="16.0"/>
+            <item enabled="false" id="sub" input="" value="0.032768"/>
+            <item enabled="false" id="hoco" input="" value="16"/>
+            <item enabled="false" id="loco" input="" value="0.24"/>
+        </option>
+        <option enabled="true" id="ckoswitcher" selection="ckomain">
+            <item enabled="true" id="ckoppll" input="" value="200.0"/>
+            <item enabled="true" id="ckopll" input="" value="160.0"/>
+            <item enabled="true" id="ckomain" input="" value="16.0"/>
+            <item enabled="false" id="ckosub" input="" value="0.032768"/>
+            <item enabled="false" id="ckohoco" input="" value="16"/>
+            <item enabled="false" id="ckoloco" input="" value="0.24"/>
+        </option>
+        <option enabled="true" id="usbswitcher" selection="usbuclk">
+            <item enabled="true" id="usbuclk" input="" value="32.0"/>
+            <item enabled="true" id="usbppll" input="" value="100.0"/>
+        </option>
+        <option enabled="true" id="physwitcher" selection="phyppll">
+            <item enabled="true" id="phypll" input="" value="160.0"/>
+            <item enabled="true" id="phyppll" input="" value="200.0"/>
+        </option>
+        <option enabled="true" id="fclkdivider" selection="comboBox1-4">
+            <item enabled="false" id="comboBox1-1"/>
+            <item enabled="false" id="comboBox1-2"/>
+            <item enabled="true" id="comboBox1-4"/>
+            <item enabled="true" id="comboBox1-8"/>
+            <item enabled="true" id="comboBox1-16"/>
+            <item enabled="true" id="comboBox1-32"/>
+            <item enabled="true" id="comboBox1-64"/>
+        </option>
+        <option enabled="true" id="iclkdivider" selection="comboBox1-1">
+            <item enabled="true" id="comboBox1-1"/>
+            <item enabled="true" id="comboBox1-2"/>
+            <item enabled="true" id="comboBox1-4"/>
+            <item enabled="true" id="comboBox1-8"/>
+            <item enabled="true" id="comboBox1-16"/>
+            <item enabled="true" id="comboBox1-32"/>
+            <item enabled="true" id="comboBox1-64"/>
+        </option>
+        <option enabled="true" id="pclkadivider" selection="comboBox1-2">
+            <item enabled="false" id="comboBox1-1"/>
+            <item enabled="true" id="comboBox1-2"/>
+            <item enabled="true" id="comboBox1-4"/>
+            <item enabled="true" id="comboBox1-8"/>
+            <item enabled="true" id="comboBox1-16"/>
+            <item enabled="true" id="comboBox1-32"/>
+            <item enabled="true" id="comboBox1-64"/>
+        </option>
+        <option enabled="true" id="pclkbdivider" selection="comboBox1-4">
+            <item enabled="false" id="comboBox1-1"/>
+            <item enabled="false" id="comboBox1-2"/>
+            <item enabled="true" id="comboBox1-4"/>
+            <item enabled="true" id="comboBox1-8"/>
+            <item enabled="true" id="comboBox1-16"/>
+            <item enabled="true" id="comboBox1-32"/>
+            <item enabled="true" id="comboBox1-64"/>
+        </option>
+        <option enabled="true" id="pclkcdivider" selection="comboBox1-4">
+            <item enabled="false" id="comboBox1-1"/>
+            <item enabled="false" id="comboBox1-2"/>
+            <item enabled="true" id="comboBox1-4"/>
+            <item enabled="true" id="comboBox1-8"/>
+            <item enabled="true" id="comboBox1-16"/>
+            <item enabled="true" id="comboBox1-32"/>
+            <item enabled="false" id="comboBox1-64"/>
+        </option>
+        <option enabled="true" id="pclkddivider" selection="comboBox1-4">
+            <item enabled="false" id="comboBox1-1"/>
+            <item enabled="false" id="comboBox1-2"/>
+            <item enabled="true" id="comboBox1-4"/>
+            <item enabled="true" id="comboBox1-8"/>
+            <item enabled="true" id="comboBox1-16"/>
+            <item enabled="true" id="comboBox1-32"/>
+            <item enabled="false" id="comboBox1-64"/>
+        </option>
+        <option enabled="true" id="bckdivider" selection="comboBox1-3">
+            <item enabled="false" id="comboBox1-1"/>
+            <item enabled="true" id="comboBox1-2"/>
+            <item enabled="true" id="comboBox1-3"/>
+            <item enabled="true" id="comboBox1-4"/>
+            <item enabled="true" id="comboBox1-8"/>
+            <item enabled="true" id="comboBox1-16"/>
+            <item enabled="true" id="comboBox1-32"/>
+            <item enabled="true" id="comboBox1-64"/>
+        </option>
+        <option enabled="true" id="bckselectorenable" selection="uncheck">
+            <item enabled="true" id="check"/>
+            <item enabled="true" id="uncheck"/>
+        </option>
+        <option enabled="false" id="bckselector" selection="comboBox1-2">
+            <item enabled="true" id="comboBox1-1"/>
+            <item enabled="true" id="comboBox1-2"/>
+        </option>
+        <option enabled="true" id="uckenable" selection="check">
+            <item enabled="true" id="check"/>
+            <item enabled="true" id="uncheck"/>
+        </option>
+        <option enabled="true" id="uckdivider" selection="comboBox1-5">
+            <item enabled="false" id="comboBox1-2"/>
+            <item enabled="false" id="comboBox1-3"/>
+            <item enabled="true" id="comboBox1-4"/>
+            <item enabled="true" id="comboBox1-5"/>
+        </option>
+        <option enabled="true" id="pplldiv" selection="comboBox1-2">
+            <item enabled="true" id="comboBox1-2"/>
+            <item enabled="true" id="comboBox1-3"/>
+            <item enabled="true" id="comboBox1-4"/>
+            <item enabled="true" id="comboBox1-5"/>
+        </option>
+        <option enabled="true" id="outckdivider" selection="comboBox1-8">
+            <item enabled="true" id="comboBox1-8"/>
+        </option>
+        <option enabled="true" id="ckodivider" selection="comboBox1-1">
+            <item enabled="true" id="comboBox1-1"/>
+            <item enabled="true" id="comboBox1-2"/>
+            <item enabled="true" id="comboBox1-4"/>
+            <item enabled="true" id="comboBox1-8"/>
+            <item enabled="true" id="comboBox1-16"/>
+        </option>
+        <option enabled="true" id="fclk" selection="textoutputitem">
+            <item enabled="true" id="textoutputitem" input="" value="40.0"/>
+        </option>
+        <option enabled="true" id="iclk" selection="textoutputitem">
+            <item enabled="true" id="textoutputitem" input="" value="160.0"/>
+        </option>
+        <option enabled="true" id="pclka" selection="textoutputitem">
+            <item enabled="true" id="textoutputitem" input="" value="80.0"/>
+        </option>
+        <option enabled="true" id="pclkb" selection="textoutputitem">
+            <item enabled="true" id="textoutputitem" input="" value="40.0"/>
+        </option>
+        <option enabled="true" id="pclkc" selection="textoutputitem">
+            <item enabled="true" id="textoutputitem" input="" value="40.0"/>
+        </option>
+        <option enabled="true" id="pclkd" selection="textoutputitem">
+            <item enabled="true" id="textoutputitem" input="" value="40.0"/>
+        </option>
+        <option enabled="true" id="bck" selection="textoutputitem">
+            <item enabled="true" id="textoutputitem" input="" value="53.333333"/>
+        </option>
+        <option enabled="false" id="bckpin" selection="textoutputitem">
+            <item enabled="true" id="textoutputitem" input="" value="26.666667"/>
+        </option>
+        <option enabled="true" id="sdclkenable" selection="uncheck">
+            <item enabled="true" id="check"/>
+            <item enabled="true" id="uncheck"/>
+        </option>
+        <option enabled="false" id="sdclk" selection="textoutputitem">
+            <item enabled="true" id="textoutputitem" input="" value="53.333333"/>
+        </option>
+        <option enabled="true" id="uclk" selection="textoutputitem">
+            <item enabled="false" id="textoutputitem" input="" value="32.0"/>
+        </option>
+        <option enabled="true" id="clkout25m" selection="textoutputitem">
+            <item enabled="true" id="textoutputitem" input="" value="25.0"/>
+        </option>
+        <option enabled="true" id="clkoutenable" selection="uncheck">
+            <item enabled="true" id="check"/>
+            <item enabled="true" id="uncheck"/>
+        </option>
+        <option enabled="false" id="clkout" selection="textoutputitem">
+            <item enabled="true" id="textoutputitem" input="" value="16.0"/>
+        </option>
+        <option enabled="false" id="cacilclk" selection="textoutputitem">
+            <item enabled="true" id="textoutputitem" input="" value="120"/>
+        </option>
+        <option enabled="false" id="caclclk" selection="textoutputitem">
+            <item enabled="true" id="textoutputitem" input="" value="240"/>
+        </option>
+        <option enabled="false" id="cachclk" selection="textoutputitem">
+            <item enabled="true" id="textoutputitem" input="" value="16"/>
+        </option>
+        <option enabled="false" id="cacsclk" selection="textoutputitem">
+            <item enabled="true" id="textoutputitem" input="" value="32.768"/>
+        </option>
+        <option enabled="false" id="rtcsclkenable" selection="uncheck">
+            <item enabled="true" id="check"/>
+            <item enabled="true" id="uncheck"/>
+        </option>
+        <option enabled="false" id="rtcsclk" selection="textoutputitem">
+            <item enabled="true" id="textoutputitem" input="" value="32.768"/>
+        </option>
+        <option enabled="true" id="cacmclk" selection="textoutputitem">
+            <item enabled="true" id="textoutputitem" input="" value="16.0"/>
+        </option>
     </tool>
     <tool id="Interrupt">
         <Item currentVect="16" id="BSC_BUSERR" priority="15" usedState="Not Use"/>
@@ -560,6 +588,33 @@
         <Item currentVect="253" defaultVect="253" id="PMGI1_PMGI1I" priority="2" usedState="Used"/>
         <Item currentVect="254" id="PERIA_INTA254" priority="15" usedState="Not Use"/>
         <Item currentVect="255" id="PERIA_INTA255" priority="15" usedState="Not Use"/>
+    </tool>
+    <tool id="Pins" version="1.0.1.0">
+        <pinItem allocation="20" comments="" direction="None" id="XTAL" isUsedBySoftware="true" locked="false" status="0"/>
+        <pinItem allocation="50" comments="" direction="None" id="CLKOUT25M" isUsedBySoftware="true" locked="false" status="0"/>
+        <pinItem allocation="45" comments="" direction="None" id="RXD2" isUsedBySoftware="true" locked="false" status="0"/>
+        <pinItem allocation="128" comments="" direction="None" id="RXD7" isUsedBySoftware="true" locked="false" status="0"/>
+        <pinItem allocation="65" comments="" direction="None" id="ET0_TX_EN" isUsedBySoftware="true" locked="false" status="0"/>
+        <pinItem allocation="67" comments="" direction="None" id="ET0_TX_ER" isUsedBySoftware="true" locked="false" status="0"/>
+        <pinItem allocation="85" comments="" direction="None" id="ET0_MDC" isUsedBySoftware="true" locked="false" status="0"/>
+        <pinItem allocation="60" comments="" direction="None" id="ET0_COL" isUsedBySoftware="true" locked="false" status="0"/>
+        <pinItem allocation="131" comments="" direction="None" id="TXD7" isUsedBySoftware="true" locked="false" status="0"/>
+        <pinItem allocation="58" comments="" direction="None" id="ET0_CRS" isUsedBySoftware="true" locked="false" status="0"/>
+        <pinItem allocation="44" comments="" direction="None" id="TXD2" isUsedBySoftware="true" locked="false" status="0"/>
+        <pinItem allocation="22" comments="" direction="None" id="EXTAL" isUsedBySoftware="true" locked="false" status="0"/>
+        <pinItem allocation="70" comments="" direction="None" id="ET0_RX_DV" isUsedBySoftware="true" locked="false" status="0"/>
+        <pinItem allocation="68" comments="" direction="None" id="ET0_RX_ER" isUsedBySoftware="true" locked="false" status="0"/>
+        <pinItem allocation="61" comments="" direction="None" id="ET0_ETXD3" isUsedBySoftware="true" locked="false" status="0"/>
+        <pinItem allocation="62" comments="" direction="None" id="ET0_ETXD2" isUsedBySoftware="true" locked="false" status="0"/>
+        <pinItem allocation="63" comments="" direction="None" id="ET0_ETXD1" isUsedBySoftware="true" locked="false" status="0"/>
+        <pinItem allocation="64" comments="" direction="None" id="ET0_ETXD0" isUsedBySoftware="true" locked="false" status="0"/>
+        <pinItem allocation="69" comments="" direction="None" id="ET0_RX_CLK" isUsedBySoftware="true" locked="false" status="0"/>
+        <pinItem allocation="75" comments="" direction="None" id="ET0_ERXD3" isUsedBySoftware="true" locked="false" status="0"/>
+        <pinItem allocation="73" comments="" direction="None" id="ET0_ERXD2" isUsedBySoftware="true" locked="false" status="0"/>
+        <pinItem allocation="72" comments="" direction="None" id="ET0_ERXD1" isUsedBySoftware="true" locked="false" status="0"/>
+        <pinItem allocation="71" comments="" direction="None" id="ET0_ERXD0" isUsedBySoftware="true" locked="false" status="0"/>
+        <pinItem allocation="66" comments="" direction="None" id="ET0_TX_CLK" isUsedBySoftware="true" locked="false" status="0"/>
+        <pinItem allocation="86" comments="" direction="None" id="ET0_MDIO" isUsedBySoftware="true" locked="false" status="0"/>
     </tool>
     <tool id="SWComponent" version="1.0.0.0">
         <configuration inuse="true" name="r_bsp">
@@ -992,6 +1047,235 @@
             </component>
             <source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
             <source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
+        </configuration>
+        <configuration id="be7b15cb-0e6b-426f-940a-8ae10c1e356f" inuse="false" name="FreeRTOS_Object">
+            <allocatable id="OBJECT" name="OBJECT">
+                <allocatable id="TASK" name="TASK">
+                    <option defaultValue="0" id="LinkNum" value=""/>
+                </allocatable>
+                <allocatable id="QUEUE" name="QUEUE">
+                    <option defaultValue="0" id="LinkNum" value=""/>
+                </allocatable>
+                <allocatable id="SEMAPHORE" name="SEMAPHORE">
+                    <option defaultValue="0" id="LinkNum" value=""/>
+                </allocatable>
+                <allocatable id="SWTIMER" name="SWTIMER">
+                    <option defaultValue="0" id="LinkNum" value=""/>
+                </allocatable>
+                <allocatable id="EVENTGROUP" name="EVENTGROUP">
+                    <option defaultValue="0" id="LinkNum" value=""/>
+                </allocatable>
+                <allocatable id="STREAMBUFFER" name="STREAMBUFFER">
+                    <option defaultValue="0" id="LinkNum" value=""/>
+                </allocatable>
+                <allocatable id="MESSAGEBUFFER" name="MESSAGEBUFFER">
+                    <option defaultValue="0" id="LinkNum" value=""/>
+                </allocatable>
+            </allocatable>
+            <component description="This component is a part of RTOS Configurator feature that allow user to use the GUI to create and configure new object of FreeRTOS." detailDescription="" display="FreeRTOS_Object" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.freertos.object" version="1.0.100"/>
+            <source description="Code generator for Real-time OS" display="RTOS Configurator" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.source"/>
+        </configuration>
+        <configuration id="c1d705eb-96e6-483b-83af-1d6196a5a410" inuse="false" name="FreeRTOS_Kernel">
+            <component description="This component is a part of RTOS Configurator feature that allow user to use the GUI to configure kernel setting of AFR" detailDescription="" display="FreeRTOS_kernel" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.freertos.amazon.kernel" version="1.0.100">
+                <gridItem id="configENABLE_BACKWARD_COMPATIBILITY" selectedIndex="1"/>
+                <gridItem id="configUSE_PREEMPTION" selectedIndex="1"/>
+                <gridItem id="configUSE_PORT_OPTIMISED_TASK_SELECTION" selectedIndex="0"/>
+                <gridItem id="configMAX_PRIORITIES" selectedIndex="7"/>
+                <gridItem id="configTICK_RATE_HZ" selectedIndex="1000"/>
+                <gridItem id="configMINIMAL_STACK_SIZE" selectedIndex="( unsigned short ) 512"/>
+                <gridItem id="configTOTAL_HEAP_SIZE" selectedIndex="( size_t ) ( 128U * 1024U )"/>
+                <gridItem id="configMAX_TASK_NAME_LEN" selectedIndex="12"/>
+                <gridItem id="configUSE_TRACE_FACILITY" selectedIndex="1"/>
+                <gridItem id="configUSE_16_BIT_TICKS" selectedIndex="0"/>
+                <gridItem id="configIDLE_SHOULD_YIELD" selectedIndex="1"/>
+                <gridItem id="configUSE_MUTEXES" selectedIndex="1"/>
+                <gridItem id="configUSE_RECURSIVE_MUTEXES" selectedIndex="1"/>
+                <gridItem id="configQUEUE_REGISTRY_SIZE" selectedIndex="0"/>
+                <gridItem id="configUSE_APPLICATION_TASK_TAG" selectedIndex="0"/>
+                <gridItem id="configUSE_COUNTING_SEMAPHORES" selectedIndex="1"/>
+                <gridItem id="configUSE_ALTERNATIVE_API" selectedIndex="0"/>
+                <gridItem id="configNUM_THREAD_LOCAL_STORAGE_POINTERS" selectedIndex="3"/>
+                <gridItem id="configRECORD_STACK_HIGH_ADDRESS" selectedIndex="1"/>
+                <gridItem id="configUSE_DAEMON_TASK_STARTUP_HOOK" selectedIndex="1"/>
+                <gridItem id="configCPU_CLOCK_HZ" selectedIndex="BSP_ICLK_HZ"/>
+                <gridItem id="configPERIPHERAL_CLOCK_HZ" selectedIndex="BSP_PCLKB_HZ"/>
+                <gridItem id="configUSE_QUEUE_SETS" selectedIndex="1"/>
+                <gridItem id="configUSE_TICK_HOOK" selectedIndex="0"/>
+                <gridItem id="configUSE_IDLE_HOOK" selectedIndex="0"/>
+                <gridItem id="configUSE_MALLOC_FAILED_HOOK" selectedIndex="1"/>
+                <gridItem id="configCHECK_FOR_STACK_OVERFLOW" selectedIndex="0"/>
+                <gridItem id="configUSE_TIMERS" selectedIndex="1"/>
+                <gridItem id="configTIMER_TASK_PRIORITY" selectedIndex="6"/>
+                <gridItem id="configTIMER_QUEUE_LENGTH" selectedIndex="5"/>
+                <gridItem id="configTIMER_TASK_STACK_DEPTH" selectedIndex="configMINIMAL_STACK_SIZE * 6"/>
+                <gridItem id="configKERNEL_INTERRUPT_PRIORITY" selectedIndex="1"/>
+                <gridItem id="configMAX_SYSCALL_INTERRUPT_PRIORITY" selectedIndex="4"/>
+                <gridItem id="configTICK_VECTOR" selectedIndex="0"/>
+                <gridItem id="configUSE_EVENT_GROUPS" selectedIndex="1"/>
+                <gridItem id="configGENERATE_RUN_TIME_STATS" selectedIndex="0"/>
+                <gridItem id="configUSE_CO_ROUTINES" selectedIndex="0"/>
+                <gridItem id="configMAX_CO_ROUTINE_PRIORITIES" selectedIndex="2"/>
+                <gridItem id="configSUPPORT_DYNAMIC_ALLOCATION" selectedIndex="1"/>
+                <gridItem id="configSUPPORT_STATIC_ALLOCATION" selectedIndex="1"/>
+                <gridItem id="INCLUDE_vTaskPrioritySet" selectedIndex="1"/>
+                <gridItem id="INCLUDE_uxTaskPriorityGet" selectedIndex="1"/>
+                <gridItem id="INCLUDE_vTaskDelete" selectedIndex="1"/>
+                <gridItem id="INCLUDE_vTaskCleanUpResources" selectedIndex="0"/>
+                <gridItem id="INCLUDE_vTaskSuspend" selectedIndex="1"/>
+                <gridItem id="INCLUDE_vTaskDelayUntil" selectedIndex="1"/>
+                <gridItem id="INCLUDE_vTaskDelay" selectedIndex="1"/>
+                <gridItem id="INCLUDE_uxTaskGetStackHighWaterMark" selectedIndex="1"/>
+                <gridItem id="INCLUDE_xTaskGetSchedulerState" selectedIndex="1"/>
+                <gridItem id="INCLUDE_xTimerGetTimerTaskHandle" selectedIndex="0"/>
+                <gridItem id="INCLUDE_xTaskGetIdleTaskHandle" selectedIndex="0"/>
+                <gridItem id="INCLUDE_xQueueGetMutexHolder" selectedIndex="1"/>
+                <gridItem id="INCLUDE_eTaskGetState" selectedIndex="1"/>
+                <gridItem id="INCLUDE_xEventGroupSetBitsFromISR" selectedIndex="1"/>
+                <gridItem id="INCLUDE_xTimerPendFunctionCall" selectedIndex="1"/>
+                <gridItem id="INCLUDE_xTaskGetCurrentTaskHandle" selectedIndex="1"/>
+                <gridItem id="INCLUDE_xTaskAbortDelay" selectedIndex="1"/>
+                <gridItem id="configUSE_STATS_FORMATTING_FUNCTIONS" selectedIndex="1"/>
+                <gridItem id="configPRINTF ( X )" selectedIndex="vLoggingPrintf X"/>
+                <gridItem id="configPRINT( X )" selectedIndex="vLoggingPrint( X )"/>
+                <gridItem id="configPRINT_STRING( x )" selectedIndex="uart_string_printf( x )"/>
+                <gridItem id="configLOGGING_MAX_MESSAGE_LENGTH" selectedIndex="192"/>
+                <gridItem id="configLOGGING_INCLUDE_TIME_AND_TASK_NAME" selectedIndex="1"/>
+                <gridItem id="configINCLUDE_DEMO_DEBUG_STATS" selectedIndex="1"/>
+                <gridItem id="configCOMMAND_INT_MAX_OUTPUT_SIZE" selectedIndex="1"/>
+                <gridItem id="configMAC_ISR_SIMULATOR_PRIORITY" selectedIndex="configMAX_PRIORITIES - 1"/>
+                <gridItem id="configNETWORK_INTERFACE_TO_USE" selectedIndex="2L"/>
+                <gridItem id="configECHO_SERVER_ADDR0" selectedIndex="192"/>
+                <gridItem id="configECHO_SERVER_ADDR1" selectedIndex="168"/>
+                <gridItem id="configECHO_SERVER_ADDR2" selectedIndex="1"/>
+                <gridItem id="configECHO_SERVER_ADDR3" selectedIndex="200"/>
+                <gridItem id="configTCP_ECHO_CLIENT_PORT" selectedIndex="9999"/>
+                <gridItem id="configMAC_ADDR0" selectedIndex="0x74"/>
+                <gridItem id="configMAC_ADDR1" selectedIndex="0x90"/>
+                <gridItem id="configMAC_ADDR2" selectedIndex="0x50"/>
+                <gridItem id="configMAC_ADDR3" selectedIndex="0x00"/>
+                <gridItem id="configMAC_ADDR4" selectedIndex="0x79"/>
+                <gridItem id="configMAC_ADDR5" selectedIndex="0x03"/>
+                <gridItem id="configIP_ADDR0" selectedIndex="172"/>
+                <gridItem id="configIP_ADDR1" selectedIndex="27"/>
+                <gridItem id="configIP_ADDR2" selectedIndex="49"/>
+                <gridItem id="configIP_ADDR3" selectedIndex="127"/>
+                <gridItem id="configGATEWAY_ADDR0" selectedIndex="172"/>
+                <gridItem id="configGATEWAY_ADDR1" selectedIndex="27"/>
+                <gridItem id="configGATEWAY_ADDR2" selectedIndex="49"/>
+                <gridItem id="configGATEWAY_ADDR3" selectedIndex="1"/>
+                <gridItem id="configDNS_SERVER_ADDR0" selectedIndex="143"/>
+                <gridItem id="configDNS_SERVER_ADDR1" selectedIndex="103"/>
+                <gridItem id="configDNS_SERVER_ADDR2" selectedIndex="47"/>
+                <gridItem id="configDNS_SERVER_ADDR3" selectedIndex="193"/>
+                <gridItem id="configNET_MASK0" selectedIndex="8"/>
+                <gridItem id="configNET_MASK1" selectedIndex="8"/>
+                <gridItem id="configNET_MASK2" selectedIndex="8"/>
+                <gridItem id="configNET_MASK3" selectedIndex="0"/>
+                <gridItem id="configPRINT_PORT" selectedIndex="15000"/>
+                <gridItem id="configPROFILING" selectedIndex="0"/>
+                <gridItem id="configRAND32()" selectedIndex="ulRand()"/>
+                <gridItem id="configPLATFORM_NAME" selectedIndex="&quot;RenesasRX65N&quot;"/>
+                <gridItem id="configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H" selectedIndex="1"/>
+            </component>
+            <source description="Code generator for Real-time OS" display="RTOS Configurator" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.source"/>
+        </configuration>
+        <configuration id="cd7b469e-280f-40e6-8cfe-e2521b240b82" inuse="false" name="AWS_device_shadow">
+            <component description="This component is a part of RTOS Configurator feature that allow user to use the GUI to configure kernel setting of AFR" detailDescription="" display="AWS_device_shadow" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.freertos.amazon.device_shadow" version="1.0.100">
+                <gridItem id="shadowConfigJSON_JSMN_TOKENS" selectedIndex="64"/>
+                <gridItem id="shadowConfigJSON_CLIENT_TOKEN" selectedIndex="&quot;clientToken&quot;"/>
+                <gridItem id="shadowConfigUNIQUE_CLIENT_TOKEN_CHECK" selectedIndex="1"/>
+            </component>
+            <source description="Code generator for Real-time OS" display="RTOS Configurator" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.source"/>
+        </configuration>
+        <configuration id="42419520-51b8-407b-9505-82c6367044aa" inuse="false" name="AWS_tcp_ip">
+            <component description="This component is a part of RTOS Configurator feature that allow user to use the GUI to configure kernel setting of AFR" detailDescription="" display="AWS_tcp_ip" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.freertos.amazon.tcp_ip" version="1.0.100">
+                <gridItem id="ipconfigHAS_DEBUG_PRINTF" selectedIndex="1"/>
+                <gridItem id="ipconfigHAS_PRINTF" selectedIndex="0"/>
+                <gridItem id="ipconfigBYTE_ORDER" selectedIndex="0"/>
+                <gridItem id="ipconfigDRIVER_INCLUDED_RX_IP_CHECKSUM" selectedIndex="0"/>
+                <gridItem id="ipconfigSOCK_DEFAULT_RECEIVE_BLOCK_TIME" selectedIndex="10000"/>
+                <gridItem id="ipconfigSOCK_DEFAULT_SEND_BLOCK_TIME" selectedIndex="10000"/>
+                <gridItem id="ipconfigUSE_DNS_CACHE" selectedIndex="0"/>
+                <gridItem id="ipconfigDNS_REQUEST_ATTEMPTS" selectedIndex="2"/>
+                <gridItem id="ipconfigIP_TASK_PRIORITY" selectedIndex="configMAX_PRIORITIES - 2"/>
+                <gridItem id="ipconfigIP_TASK_STACK_SIZE_WORDS" selectedIndex="configMINIMAL_STACK_SIZE * 5"/>
+                <gridItem id="ipconfigUSE_NETWORK_EVENT_HOOK" selectedIndex="0"/>
+                <gridItem id="ipconfigUDP_MAX_SEND_BLOCK_TIME_TICKS" selectedIndex="5000 / portTICK_PERIOD_MS"/>
+                <gridItem id="ipconfigUSE_DHCP" selectedIndex="0"/>
+                <gridItem id="ipconfigDHCP_REGISTER_HOSTNAME" selectedIndex="0"/>
+                <gridItem id="ipconfigDHCP_USES_UNICAST" selectedIndex="0"/>
+                <gridItem id="ipconfigDHCP_SEND_DISCOVER_AFTER_AUTO_IP" selectedIndex="1"/>
+                <gridItem id="ipconfigUSE_DHCP_HOOK" selectedIndex="1"/>
+                <gridItem id="ipconfigMAXIMUM_DISCOVER_TX_PERIOD" selectedIndex="120000 / portTICK_PERIOD_MS"/>
+                <gridItem id="ipconfigARP_CACHE_ENTRIES" selectedIndex="6"/>
+                <gridItem id="ipconfigMAX_ARP_RETRANSMISSIONS" selectedIndex="5"/>
+                <gridItem id="ipconfigMAX_ARP_AGE" selectedIndex="150"/>
+                <gridItem id="ipconfigINCLUDE_FULL_INET_ADDR" selectedIndex="0"/>
+                <gridItem id="ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS" selectedIndex="8"/>
+                <gridItem id="ipconfigEVENT_QUEUE_LENGTH" selectedIndex="ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS + 5"/>
+                <gridItem id="ipconfigALLOW_SOCKET_SEND_WITHOUT_BIND" selectedIndex="0"/>
+                <gridItem id="ipconfigUDP_TIME_TO_LIVE" selectedIndex="128"/>
+                <gridItem id="ipconfigTCP_TIME_TO_LIVE" selectedIndex="128"/>
+                <gridItem id="ipconfigUSE_TCP" selectedIndex="0"/>
+                <gridItem id="ipconfigUSE_TCP_WIN" selectedIndex="0"/>
+                <gridItem id="ipconfigNETWORK_MTU" selectedIndex="1500"/>
+                <gridItem id="ipconfigUSE_DNS" selectedIndex="0"/>
+                <gridItem id="ipconfigREPLY_TO_INCOMING_PINGS" selectedIndex="0"/>
+                <gridItem id="ipconfigSUPPORT_OUTGOING_PINGS" selectedIndex="1"/>
+                <gridItem id="ipconfigSUPPORT_SELECT_FUNCTION" selectedIndex="1"/>
+                <gridItem id="ipconfigFILTER_OUT_NON_ETHERNET_II_FRAMES" selectedIndex="0"/>
+                <gridItem id="ipconfigETHERNET_DRIVER_FILTERS_FRAME_TYPES" selectedIndex="1"/>
+                <gridItem id="configWINDOWS_MAC_INTERRUPT_SIMULATOR_DELAY" selectedIndex="20 / portTICK_PERIOD_MS"/>
+                <gridItem id="ipconfigPACKET_FILLER_SIZE" selectedIndex="2"/>
+                <gridItem id="ipconfigTCP_WIN_SEG_COUNT" selectedIndex="240"/>
+                <gridItem id="ipconfigTCP_RX_BUFFER_LENGTH" selectedIndex="1460 * 3"/>
+                <gridItem id="ipconfigTCP_TX_BUFFER_LENGTH" selectedIndex="1460 * 3"/>
+                <gridItem id="ipconfigTCP_KEEP_ALIVE" selectedIndex="0"/>
+                <gridItem id="ipconfigTCP_KEEP_ALIVE_INTERVAL" selectedIndex="20"/>
+                <gridItem id="ipconfigSOCKET_HAS_USER_SEMAPHORE" selectedIndex="1"/>
+                <gridItem id="ipconfigSOCKET_HAS_USER_WAKE_CALLBACK" selectedIndex="0"/>
+                <gridItem id="ipconfigUSE_CALLBACKS" selectedIndex="1"/>
+                <gridItem id="ipconfigZERO_COPY_TX_DRIVER" selectedIndex="1"/>
+                <gridItem id="ipconfigZERO_COPY_RX_DRIVER" selectedIndex="1"/>
+                <gridItem id="ipconfigUSE_LINKED_RX_MESSAGES" selectedIndex="1"/>
+            </component>
+            <source description="Code generator for Real-time OS" display="RTOS Configurator" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.source"/>
+        </configuration>
+        <configuration id="4ff2365d-8e18-4028-ae0f-4efbf2252fe5" inuse="false" name="AWS_mqtt">
+            <component description="This component is a part of RTOS Configurator feature that allow user to use the GUI to configure kernel setting of AFR" detailDescription="" display="AWS_mqtt" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.freertos.amazon.mqtt" version="1.0.100">
+                <gridItem id="mqttconfigENABLE_METRICS" selectedIndex="0"/>
+                <gridItem id="mqttOPERATION_TIMEOUT_MS" selectedIndex="120000"/>
+                <gridItem id="mqttconfigKEEP_ALIVE_INTERVAL_SECONDS" selectedIndex="100"/>
+                <gridItem id="mqttconfigKEEP_ALIVE_ACTUAL_INTERVAL_TICKS" selectedIndex="pdMS_TO_TICKS( 300000 )"/>
+                <gridItem id="mqttconfigKEEP_ALIVE_TIMEOUT_TICKS" selectedIndex="1000"/>
+                <gridItem id="mqttconfigMQTT_TASK_STACK_DEPTH" selectedIndex="6114"/>
+                <gridItem id="mqttconfigMQTT_TASK_PRIORITY" selectedIndex="configMAX_PRIORITIES - 3"/>
+                <gridItem id="mqttconfigMAX_BROKERS" selectedIndex="2"/>
+                <gridItem id="mqttconfigMAX_PARALLEL_OPS" selectedIndex="5"/>
+                <gridItem id="mqttconfigTCP_SEND_TIMEOUT_MS" selectedIndex="20"/>
+                <gridItem id="mqttconfigRX_BUFFER_SIZE" selectedIndex="1024"/>
+                <gridItem id="mqttconfigMQTT_TASK_MAX_BLOCK_TICKS" selectedIndex="100"/>
+                <gridItem id="mqttconfigENABLE_SUBSCRIPTION_MANAGEMENT" selectedIndex="0"/>
+                <gridItem id="mqttconfigSUBSCRIPTION_MANAGER_MAX_TOPIC_LENGTH" selectedIndex="128"/>
+                <gridItem id="mqttconfigSUBSCRIPTION_MANAGER_MAX_SUBSCRIPTIONS" selectedIndex="8"/>
+                <gridItem id="mqttconfigENABLE_DEBUG_LOGS" selectedIndex="1"/>
+            </component>
+            <source description="Code generator for Real-time OS" display="RTOS Configurator" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.source"/>
+        </configuration>
+        <configuration id="5cedd291-3143-4b4e-96c5-aa50d929e34f" inuse="false" name="AWS_secure_socket">
+            <component description="This component is a part of RTOS Configurator feature that allow user to use the GUI to configure kernel setting of AFR" detailDescription="" display="AWS_secure_socket" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.freertos.amazon.secure_socket" version="1.0.100">
+                <gridItem id="socketsconfigBYTE_ORDER" selectedIndex="0"/>
+                <gridItem id="socketsconfigDEFAULT_SEND_TIMEOUT" selectedIndex="10000"/>
+                <gridItem id="socketsconfigDEFAULT_RECV_TIMEOUT" selectedIndex="10000"/>
+            </component>
+            <source description="Code generator for Real-time OS" display="RTOS Configurator" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.source"/>
+        </configuration>
+        <configuration id="46dbe67a-ddfc-44f3-8bef-b49c901537d9" inuse="false" name="AWS_ggd">
+            <component description="This component is a part of RTOS Configurator feature that allow user to use the GUI to configure kernel setting of AFR" detailDescription="" display="AWS_ggd" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.freertos.amazon.ggd" version="1.0.100">
+                <gridItem id="ggdconfigCORE_NETWORK_INTERFACE" selectedIndex="0"/>
+                <gridItem id="ggdconfigJSON_MAX_TOKENS" selectedIndex="128"/>
+            </component>
+            <source description="Code generator for Real-time OS" display="RTOS Configurator" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.source"/>
         </configuration>
     </tool>
 </smc>
