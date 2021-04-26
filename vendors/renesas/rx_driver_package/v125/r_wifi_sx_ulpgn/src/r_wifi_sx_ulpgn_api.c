@@ -2545,7 +2545,8 @@ static int32_t wifi_change_socket_index(uint8_t socket_number)
                                     sequence = 0x80;
                                     break;
                                 }
-                                if ((now_atustat_sent - previous_atustat_sent) > 0)
+                                //if ((now_atustat_sent - previous_atustat_sent) > 0)
+                                if (stored_data_size > 0)
                                 {
                                     previous_socket_store_data_size = now_atustat_sent - previous_atustat_sent;
 #if defined(__CCRX__) || defined(__ICCRX__) || defined (__RX__)

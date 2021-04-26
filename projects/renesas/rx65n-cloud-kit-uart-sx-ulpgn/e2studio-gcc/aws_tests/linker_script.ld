@@ -115,15 +115,23 @@ SECTIONS
 	{
 		*(.gcc_exc)
 	} >RAM
-	.bss :
+	.bss : 
+	{ 
+		*t.o(.bss.**)
+		*k.o(.bss.**)
+		*r.o(.bss.**)
+		*l.o(.bss.**)
+		*x.o(.bss.**)
+	} >RAM
+	.bss2 :
 	{
 		_bss = .;
 		*(.bss)
-		*(.bss.**)
 		*(COMMON)
 		*(B)
 		*(B_1)
 		*(B_2)
+		*(.bss.**)
 		_ebss = .;
 		_end = .;
 	} >RAM2

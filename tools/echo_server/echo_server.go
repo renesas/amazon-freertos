@@ -171,7 +171,7 @@ func main() {
 	configLocation := flag.String("config", "./config.json", "Path to a JSON configuration.")
 	flag.Parse()
 	jsonFile, err := os.Open(*configLocation)
-
+	
 	if err != nil {
 		log.Fatalf("Failed to open file with error: %s", err)
 	}
@@ -188,6 +188,6 @@ func main() {
 	if config.Logging {
 		logSetup()
 	}
-
+	log.Println("Echo server start")
 	startup(config)
 }

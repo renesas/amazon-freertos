@@ -36,14 +36,11 @@
  * "...base64 data...\n"\
  * "-----END CERTIFICATE-----"
  */
-//#define CODE_SIGNENR_PUBLIC_KEY_PEM "Paste code signer public key here."
-#define CODE_SIGNENR_PUBLIC_KEY_PEM \
+#define CODE_SIGNENR_PUBLIC_KEY_PEM  \
 "-----BEGIN PUBLIC KEY-----"\
-"MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEWiAlaCQGEgIKoP+qk7Uqc/ME/hjw"\
-"amq1v/z/LWx15CKig59Pd3+ar2RFOlMMOhIfkYgS+Ha7tH+w0ggnKDrUug=="\
+"MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEJvD0c4if9KIJfx1R1gkGGV6+J6nX"\
+"E8IKvWdQoEhflI2C73ys2xln7CZrJOyrk6MiCN9TrIBHViWdx3v7zWTPgQ=="\
 "-----END PUBLIC KEY-----"\
-
-
 
 extern const uint8_t code_signer_public_key[];
 extern const uint32_t code_signer_public_key_length;
