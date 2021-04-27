@@ -624,13 +624,13 @@
       <group>RX64M</group>
       <group>RX65N</group>
       <group>RX71M</group>
-      <group>RX72M</group>      
       <path>${AFR_HOME}/freertos_kernel/portable/GCC/RX600v2</path>
     </incdir>
 	
     <incdir>
 	<toolchain>GNURX</toolchain>      
       <series>RX700</series>      
+      <group>RX72M</group>
       <group>RX72N</group>
       <path>${AFR_HOME}/freertos_kernel/portable/GCC/RX700v3_DPFPU</path>
     </incdir>
@@ -2682,7 +2682,6 @@
       <group>RX64M</group>
       <group>RX65N</group>
       <group>RX71M</group>
-      <group>RX72M</group>      
       <file>freertos_kernel/portable/GCC/RX600v2/port.c</file>
       <file>freertos_kernel/portable/GCC/RX600v2/portmacro.h</file>
       <path>freertos_kernel/portable/GCC/RX600v2</path>
@@ -2691,6 +2690,7 @@
     <linkdir>
       <toolchain>GNURX</toolchain>      
       <series>RX700</series>      
+      <group>RX72M</group>
       <group>RX72N</group>
       <file>freertos_kernel/portable/GCC/RX700v3_DPFPU/port.c</file>
       <file>freertos_kernel/portable/GCC/RX700v3_DPFPU/portmacro.h</file>
@@ -2709,6 +2709,16 @@
       <file>freertos_kernel/portable/Renesas/RX600v2/port_asm.src</file>
       <file>freertos_kernel/portable/Renesas/RX600v2/portmacro.h</file>
       <path>freertos_kernel/portable/Renesas/RX600v2</path>
+    </linkdir>
+    <linkdir>
+      <toolchain>RXC</toolchain>
+      <series>RX700</series>
+      <group>RX72M</group>
+      <group>RX72N</group>
+      <file>freertos_kernel/portable/Renesas/RX700v3_DPFPU/port.c</file>
+      <file>freertos_kernel/portable/Renesas/RX700v3_DPFPU/port_asm.src</file>
+      <file>freertos_kernel/portable/Renesas/RX700v3_DPFPU/portmacro.h</file>
+      <path>freertos_kernel/portable/Renesas/RX700v3_DPFPU</path>
     </linkdir>
     <!--RZA2M -->
     <linkdir>
