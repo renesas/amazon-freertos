@@ -333,7 +333,7 @@
         <name>RPFRAM2*</name>
         <name>SU</name>
         <name>SI</name>
-        <address>0x00000004</address>
+        <address>0x00000000</address>
       </section>
       <section>
         <name>C_BOOTLOADER_KEY_STORAGE*</name>
@@ -624,10 +624,17 @@
       <group>RX64M</group>
       <group>RX65N</group>
       <group>RX71M</group>
-      <group>RX72M</group>
-      <group>RX72N</group>
+      <group>RX72M</group>      
       <path>${AFR_HOME}/freertos_kernel/portable/GCC/RX600v2</path>
     </incdir>
+	
+    <incdir>
+	<toolchain>GNURX</toolchain>      
+      <series>RX700</series>      
+      <group>RX72N</group>
+      <path>${AFR_HOME}/freertos_kernel/portable/GCC/RX700v3_DPFPU</path>
+    </incdir>
+	
     <incdir>
       <toolchain>RXC</toolchain>
       <series>RX600</series>
@@ -1047,6 +1054,7 @@
       <path>application_code/demos/network_manager</path>
     </impdir>
     <impdir>
+	<toolchain>RXC</toolchain>
       <board>Default</board>
       <series>RX600</series>
       <group>RX64M</group>
@@ -1055,6 +1063,7 @@
     </impdir>
     <boardsupport>
       <impdir>
+	  <toolchain>RXC</toolchain>
         <board>RSKRX64M</board>
         <series>RX600</series>
         <group>RX64M</group>
@@ -1063,6 +1072,7 @@
       </impdir>
     </boardsupport>
     <impdir>
+	<toolchain>RXC</toolchain>
       <board>Default</board>
       <series>RX600</series>
       <group>RX65N</group>
@@ -1071,6 +1081,7 @@
     </impdir>
     <boardsupport>
       <impdir>
+	  <toolchain>RXC</toolchain>
         <board>RSKRX65N</board>
         <board>RSKRX65N-2MB</board>
         <series>RX600</series>
@@ -1081,6 +1092,7 @@
     </boardsupport>
     <boardsupport>
       <impdir>
+	  <toolchain>RXC</toolchain>
         <board>CloudKitRX65N</board>
         <toolchain>RXC</toolchain>
         <folder>vendors/renesas/boards/rx_mcu_boards/rx65n-cloudkit/aws_demos/config_files/</folder>
@@ -1089,6 +1101,7 @@
     </boardsupport>
     <boardsupport>
       <impdir>
+	  <toolchain>RXC</toolchain>
         <board>CloudKitRX65N</board>
         <toolchain>GNURX</toolchain>
         <folder>vendors/renesas/boards/rx_mcu_boards/rx65n-cloudkit-gcc/aws_demos/config_files/</folder>
@@ -1096,6 +1109,7 @@
       </impdir>
     </boardsupport>
     <impdir>
+	<toolchain>RXC</toolchain>
       <board>Default</board>
       <series>RX700</series>
       <group>RX71M</group>
@@ -1104,6 +1118,7 @@
     </impdir>
     <boardsupport>
       <impdir>
+	  <toolchain>RXC</toolchain>
         <board>RSKRX71M</board>
         <series>RX700</series>
         <group>RX71M</group>
@@ -1112,6 +1127,7 @@
       </impdir>
     </boardsupport>
     <impdir>
+	<toolchain>RXC</toolchain>
       <board>Default</board>
       <series>RX700</series>
       <group>RX72M</group>
@@ -1120,6 +1136,7 @@
     </impdir>
     <boardsupport>
       <impdir>
+	  <toolchain>RXC</toolchain>
         <board>RSKRX72M</board>
         <series>RX700</series>
         <group>RX72M</group>
@@ -1128,6 +1145,7 @@
       </impdir>
     </boardsupport>
     <impdir>
+	<toolchain>RXC</toolchain>
       <board>Default</board>
       <series>RX600</series>
       <group>RX65N</group>
@@ -1136,6 +1154,7 @@
     </impdir>
     <boardsupport>
       <impdir>
+	  <toolchain>RXC</toolchain>
         <board>RSKRX65N-2MB</board>
         <series>RX600</series>
         <group>RX65N</group>
@@ -1144,6 +1163,7 @@
       </impdir>
     </boardsupport>
     <impdir>
+	<toolchain>RXC</toolchain>
       <board>Default</board>
       <series>RX700</series>
       <group>RX72N</group>
@@ -1152,6 +1172,7 @@
     </impdir>
     <boardsupport>
       <impdir>
+	  <toolchain>RXC</toolchain>
         <board>ENVISIONRX72N</board>
         <series>RX700</series>
         <group>RX72N</group>
@@ -1159,6 +1180,141 @@
         <path>config_files</path>
       </impdir>
     </boardsupport>
+	
+	<!--GCC -->
+	
+	<impdir>
+	<toolchain>GNURX</toolchain>
+      <board>Default</board>
+      <series>RX600</series>
+      <group>RX64M</group>
+      <folder>vendors/renesas/boards/rx_mcu_boards/rx64m-rsk-gcc/aws_demos/config_files/</folder>
+      <path>config_files</path>
+    </impdir>
+    <boardsupport>
+      <impdir>
+	  <toolchain>GNURX</toolchain>
+        <board>RSKRX64M</board>
+        <series>RX600</series>
+        <group>RX64M</group>
+        <folder>vendors/renesas/boards/rx_mcu_boards/rx64m-rsk-gcc/aws_demos/config_files/</folder>
+        <path>config_files</path>
+      </impdir>
+    </boardsupport>
+    <impdir>
+	<toolchain>GNURX</toolchain>
+      <board>Default</board>
+      <series>RX600</series>
+      <group>RX65N</group>
+      <folder>vendors/renesas/boards/rx_mcu_boards/rx65n-rsk-gcc/aws_demos/config_files/</folder>
+      <path>config_files</path>
+    </impdir>
+    <boardsupport>
+      <impdir>
+	  <toolchain>GNURX</toolchain>
+        <board>RSKRX65N</board>
+        <board>RSKRX65N-2MB</board>
+        <series>RX600</series>
+        <group>RX65N</group>
+        <folder>vendors/renesas/boards/rx_mcu_boards/rx65n-rsk-gcc/aws_demos/config_files/</folder>
+        <path>config_files</path>
+      </impdir>
+    </boardsupport>
+    <boardsupport>
+      <impdir>
+	  <toolchain>GNURX</toolchain>
+        <board>CloudKitRX65N</board>
+        <toolchain>RXC</toolchain>
+        <folder>vendors/renesas/boards/rx_mcu_boards/rx65n-cloudkit-gcc/aws_demos/config_files/</folder>
+        <path>config_files</path>
+      </impdir>
+    </boardsupport>
+    <boardsupport>
+      <impdir>
+	  <toolchain>GNURX</toolchain>
+        <board>CloudKitRX65N</board>
+        <toolchain>GNURX</toolchain>
+        <folder>vendors/renesas/boards/rx_mcu_boards/rx65n-cloudkit-gcc/aws_demos/config_files/</folder>
+        <path>config_files</path>
+      </impdir>
+    </boardsupport>
+    <impdir>
+	<toolchain>GNURX</toolchain>
+      <board>Default</board>
+      <series>RX700</series>
+      <group>RX71M</group>
+      <folder>vendors/renesas/boards/rx_mcu_boards/rx71m-rsk-gcc/aws_demos/config_files/</folder>
+      <path>config_files</path>
+    </impdir>
+    <boardsupport>
+      <impdir>
+	  <toolchain>GNURX</toolchain>
+        <board>RSKRX71M</board>
+        <series>RX700</series>
+        <group>RX71M</group>
+        <folder>vendors/renesas/boards/rx_mcu_boards/rx71m-rsk-gcc/aws_demos/config_files/</folder>
+        <path>config_files</path>
+      </impdir>
+    </boardsupport>
+    <impdir>
+	<toolchain>GNURX</toolchain>
+      <board>Default</board>
+      <series>RX700</series>
+      <group>RX72M</group>
+      <folder>vendors/renesas/boards/rx_mcu_boards/rx72m-rsk-gcc/aws_demos/config_files/</folder>
+      <path>config_files</path>
+    </impdir>
+    <boardsupport>
+      <impdir>
+	  <toolchain>GNURX</toolchain>
+        <board>RSKRX72M</board>
+        <series>RX700</series>
+        <group>RX72M</group>
+        <folder>vendors/renesas/boards/rx_mcu_boards/rx72m-rsk-gcc/aws_demos/config_files/</folder>
+        <path>config_files</path>
+      </impdir>
+    </boardsupport>
+    <impdir>
+	<toolchain>GNURX</toolchain>
+      <board>Default</board>
+      <series>RX600</series>
+      <group>RX65N</group>
+      <folder>vendors/renesas/boards/rx_mcu_boards/rx65n-rsk-gcc/aws_demos/application_code/renesas_code/utility</folder>
+      <path>application_code/renesas_code/utility</path>
+    </impdir>
+    <boardsupport>
+      <impdir>
+	  <toolchain>GNURX</toolchain>
+        <board>RSKRX65N-2MB</board>
+        <series>RX600</series>
+        <group>RX65N</group>
+        <folder>vendors/renesas/boards/rx_mcu_boards/rx65n-rsk-gcc/aws_demos/application_code/renesas_code/utility</folder>
+        <path>application_code/renesas_code/utility</path>
+      </impdir>
+    </boardsupport>
+	
+	<!-- GCC-->
+	
+	
+	<impdir>
+	<toolchain>GNURX</toolchain>
+      <board>Default</board>
+      <series>RX700</series>
+      <group>RX72N</group>
+      <folder>vendors/renesas/boards/rx_mcu_boards/rx72n-envision-kit-gcc/aws_demos/config_files/</folder>
+      <path>config_files</path>
+    </impdir>
+    <boardsupport>
+      <impdir>
+	  <toolchain>GNURX</toolchain>
+        <board>ENVISIONRX72N</board>
+        <series>RX700</series>
+        <group>RX72N</group>
+        <folder>vendors/renesas/boards/rx_mcu_boards/rx72n-envision-kit-gcc/aws_demos/config_files/</folder>
+        <path>config_files</path>
+      </impdir>
+    </boardsupport>
+	
     <!--RZA2M -->
     <impdir>
       <series>RZA</series>
@@ -2539,17 +2695,26 @@
     </linkdir>
     <linkdir>
       <toolchain>GNURX</toolchain>
-      <series>RX600</series>
+      <series>RX600</series>      
       <series>RX700</series>
       <group>RX64M</group>
       <group>RX65N</group>
       <group>RX71M</group>
-      <group>RX72M</group>
-      <group>RX72N</group>
+      <group>RX72M</group>      
       <file>freertos_kernel/portable/GCC/RX600v2/port.c</file>
       <file>freertos_kernel/portable/GCC/RX600v2/portmacro.h</file>
       <path>freertos_kernel/portable/GCC/RX600v2</path>
     </linkdir>
+	
+    <linkdir>
+      <toolchain>GNURX</toolchain>      
+      <series>RX700</series>      
+      <group>RX72N</group>
+      <file>freertos_kernel/portable/GCC/RX700v3_DPFPU/port.c</file>
+      <file>freertos_kernel/portable/GCC/RX700v3_DPFPU/portmacro.h</file>
+      <path>freertos_kernel/portable/GCC/RX700v3_DPFPU</path>
+    </linkdir>
+	
     <linkdir>
       <toolchain>RXC</toolchain>
       <series>RX600</series>
@@ -2557,8 +2722,7 @@
       <group>RX64M</group>
       <group>RX65N</group>
       <group>RX71M</group>
-      <group>RX72M</group>
-      <group>RX72N</group>
+      <group>RX72M</group>      
       <file>freertos_kernel/portable/Renesas/RX600v2/port.c</file>
       <file>freertos_kernel/portable/Renesas/RX600v2/port_asm.src</file>
       <file>freertos_kernel/portable/Renesas/RX600v2/portmacro.h</file>
