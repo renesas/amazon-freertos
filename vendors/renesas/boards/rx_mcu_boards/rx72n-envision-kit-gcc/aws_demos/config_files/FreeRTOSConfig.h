@@ -71,7 +71,7 @@
 #define configRECORD_STACK_HIGH_ADDRESS            1
 
 #define configUSE_DAEMON_TASK_STARTUP_HOOK 1
-#define configUSE_TASK_DPFPU_SUPPORT 1
+#define configUSE_TASK_DPFPU_SUPPORT 0
 #define configCPU_CLOCK_HZ				(BSP_ICLK_HZ)
 #define configPERIPHERAL_CLOCK_HZ		(BSP_PCLKB_HZ)
 #define configUSE_QUEUE_SETS			1
