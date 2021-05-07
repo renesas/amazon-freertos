@@ -8,13 +8,13 @@ MEMORY
 }
 SECTIONS
 {
-	.exvectors 0xFFFBFF80  : AT(0xFFFBFF80)
+	.exvectors 0xFFFFFF80  : AT(0xFFFFFF80)
 	{
 		"_exvectors_start" = .;
 		KEEP(*(.exvectors))
 		"_exvectors_end" = .;
 	} >ROM
-	.fvectors 0xFFFBFFFC  : AT(0xFFFBFFFC)
+	.fvectors 0xFFFFFFFC  : AT(0xFFFFFFFC)
 	{
 		KEEP(*(.fvectors))
 	} >ROM
