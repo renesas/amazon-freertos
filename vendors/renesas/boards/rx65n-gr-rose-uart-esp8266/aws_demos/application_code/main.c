@@ -27,7 +27,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "FreeRTOS.h"
 #include "task.h"
 #include <stdio.h>
-#include <stdbool.h>	// RX65N Cloud Kit 20200923
+#include <stdbool.h>
+#include "platform.h"
 
 /* Version includes. */
 #include "aws_application_version.h"
@@ -49,7 +50,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "aws_demo.h"
 #include "aws_clientcredential.h"
 #include "aws_clientcredential_keys.h"
-#include "iot_wifi.h"	// RX65N Cloud Kit 20200923
+#include "iot_wifi.h"
 
 #define mainLOGGING_TASK_STACK_SIZE         ( configMINIMAL_STACK_SIZE * 6 )
 #define mainLOGGING_MESSAGE_QUEUE_LENGTH    ( 15 )
@@ -144,7 +145,6 @@ void main( void )
     }
 }
 /*-----------------------------------------------------------*/
-static void reboot();
 static void prvMiscInitialization( void )
 {
     /* Initialize UART for serial terminal. */
@@ -163,37 +163,19 @@ void vApplicationDaemonTaskStartupHook( void )
     WIFIReturnCode_t Wifistatus;
     if( SYSTEM_Init() == pdPASS )
     {
-#if 0
-    	/* Initialise the RTOS's TCP/IP stack.  The tasks that use the network
-        are created in the vApplicationIPNetworkEventHook() hook function
-        below.  The hook function is called when the network connects. */
-        FreeRTOS_IPInit( ucIPAddress,
-                         ucNetMask,
-                         ucGatewayAddress,
-                         ucDNSServerAddress,
-                         ucMACAddress );
-
-        /* We should wait for the network to be up before we run any demos. */
-        while( FreeRTOS_IsNetworkUp() == pdFALSE )
-        {
-            vTaskDelay(300);
-        }
-		FreeRTOS_printf( ( "The network is up and running\n" ) );
-#endif
-		Wifistatus = WIFI_On();	// RX65N Cloud Kit 20200923
+		configPRINTF( ( "WiFi module initializing.\r\n" ) );
+		Wifistatus = WIFI_On();
 		if (Wifistatus == eWiFiSuccess){
 
 			configPRINTF( ( "WiFi module initialized.\r\n" ) );
 			WIFI_Off();
-//			_wifiEnable();
-//			WIFI_Off();
 		}
 		else
 		{
 			configPRINTF( ( "WiFi module failed to initialize.\r\n" ) );
 			_wifiEnable();
 			WIFI_Off();
-			reboot();
+			R_BSP_SoftwareReset();
 		}
 
         /* Provision the device with AWS certificate and private key. */
@@ -208,7 +190,6 @@ void vApplicationDaemonTaskStartupHook( void )
     }
 }
 
-// RX65N Cloud Kit 20200923 -->>
 static bool _wifiConnectAccessPoint( void )
 {
 	bool status = true;
@@ -332,28 +313,6 @@ static bool _wifiEnable( void )
     #endif /* if ( IOT_BLE_ENABLE_WIFI_PROVISIONING == 0 ) */
 
     return ret;
-}
-// RX65N Cloud Kit 20200923 <<--
-
-static void reboot() {
-    //WDT Control Register (WDTCR)
-    WDT.WDTCR.BIT.TOPS = 0;
-    WDT.WDTCR.BIT.CKS  = 1;
-    WDT.WDTCR.BIT.RPES = 3;
-    WDT.WDTCR.BIT.RPSS = 3;
-    //WDT Status Register
-    WDT.WDTSR.BIT.CNTVAL = 0;
-    WDT.WDTSR.BIT.REFEF  = 0;
-    WDT.WDTSR.BIT.UNDFF  = 0;
-    //WDT Reset Control Register
-    WDT.WDTRCR.BIT.RSTIRQS = 1;
-    //Non-Maskable Interrupt Enable Register (NMIER)
-    ICU.NMIER.BIT.WDTEN    = 0;
-
-    WDT.WDTRR = 0;
-    WDT.WDTRR = 0xff;
-
-    while (1); // Wait for Watchdog to kick in
 }
 
 /*-----------------------------------------------------------*/

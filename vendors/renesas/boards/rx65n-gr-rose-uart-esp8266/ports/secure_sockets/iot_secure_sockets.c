@@ -248,7 +248,7 @@ int32_t SOCKETS_Connect( Socket_t xSocket,
     if( ( pxContext != SOCKETS_INVALID_SOCKET ) && ( pxAddress != NULL ) )
     {
     	pxContext->xConnectAttempted = pdTRUE;	// RX65N Cloud Kit 20200923
-		ret = R_WIFI_ESP8266_SocketConnect(pxContext->socket_no, SOCKETS_ntohl(pxAddress->ulAddress), SOCKETS_ntohs(pxAddress->usPort), pxContext->pcDestination);
+		ret = R_WIFI_ESP8266_SocketConnect(pxContext->socket_no, SOCKETS_ntohl(pxAddress->ulAddress), SOCKETS_ntohs(pxAddress->usPort));
 		if( WIFI_SUCCESS != ret )
 		{
 			lStatus = SOCKETS_SOCKET_ERROR;
