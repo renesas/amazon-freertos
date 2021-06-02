@@ -254,14 +254,16 @@
  * token must be unique at any given time, but may be reused once the update is
  * completed. For this demo, a timestamp is used for a client token.
  */
-#define SHADOW_DESIRED_JSON     \
-    "{"                         \
-    "\"state\":{"               \
-    "\"desired\":{"             \
-    "\"SensorDataUpdateOn\":%01d"          \
-    "}"                         \
-    "},"                        \
-    "\"clientToken\":\"%06lu\"" \
+#define SHADOW_DESIRED_JSON                \
+    "{"                                    \
+    "\"state\":{"                          \
+    "\"desired\":{"                        \
+    "\"LEDControl\": \"LED_OFF\","         \
+    "\"SWVersion\": \"VER_0.9.3\","        \
+    "\"SensorDataUpdateOn\": \"UpdateOn\"" \
+    "}"                                    \
+    "},"                                   \
+    "\"clientToken\":\"%06lu\""            \
     "}"
 
 /**
@@ -270,32 +272,8 @@
  * Because all the format specifiers in #SHADOW_DESIRED_JSON include a length,
  * its full size is known at compile-time.
  */
-#define EXPECTED_DESIRED_JSON_SIZE    ( sizeof( SHADOW_DESIRED_JSON ) - 3 )
+#define EXPECTED_DESIRED_JSON_SIZE    ( sizeof( SHADOW_DESIRED_JSON ) )
 
-/**
- * @brief Format string representing a Shadow document with a "reported" state.
- *
- * Note the client token, which is required for all Shadow updates. The client
- * token must be unique at any given time, but may be reused once the update is
- * completed. For this demo, a timestamp is used for a client token.
- */
-#define SHADOW_REPORTED_JSON    \
-    "{"                         \
-    "\"state\":{"               \
-    "\"reported\":{"            \
-    "\"SensorDataUpdateOn\":%01d"          \
-    "}"                         \
-    "},"                        \
-    "\"clientToken\":\"%06lu\"" \
-    "}"
-
-/**
- * @brief The expected size of #SHADOW_REPORTED_JSON.
- *
- * Because all the format specifiers in #SHADOW_REPORTED_JSON include a length,
- * its full size is known at compile-time.
- */
-#define EXPECTED_REPORTED_JSON_SIZE    ( sizeof( SHADOW_REPORTED_JSON ) - 3 )
 
 /* LEDControl status pattern */
 #define LED_COMMAND_ON      "LED_ON"
@@ -595,19 +573,15 @@ static void _shadowDeltaCallback( void * pCallbackContext,
     AwsIotShadowDocumentInfo_t updateDocument = AWS_IOT_SHADOW_DOCUMENT_INFO_INITIALIZER;
     char cmdBuff[16] = {'\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0'};
     int i,j;
-    char swVer[3] = {0x0,0x0,0x0};
+    int swVer[3] = {0x0,0x0,0x0};
     char seVerIdx = 0;
     char staIdx = 5;
     char endIdx = 0;
-    char num = 0;
+    int num = 0;
     bool swVerFix = false;
 
     /* Stored state. */
     static int32_t currentState = 0;
-
-    /* A buffer containing the update document. It has static duration to prevent
-     * it from being placed on the call stack. */
-    static char pUpdateDocument[ EXPECTED_REPORTED_JSON_SIZE + 1 ] = { 0 };
 
 	/* LEDControl */
     /* Check if there is a different "LEDControl" state in the Shadow. */
@@ -1015,7 +989,7 @@ static int _sendShadowUpdates( IotSemaphore_t * pDeltaSemaphore,
                                size_t thingNameLength )
 {
     int status = EXIT_SUCCESS;
-    int32_t i = 0, desiredState = 0;
+    int32_t i = 0;
     AwsIotShadowError_t updateStatus = AWS_IOT_SHADOW_STATUS_PENDING;
     AwsIotShadowDocumentInfo_t updateDocument = AWS_IOT_SHADOW_DOCUMENT_INFO_INITIALIZER;
 
@@ -1033,7 +1007,7 @@ static int _sendShadowUpdates( IotSemaphore_t * pDeltaSemaphore,
 	 * token. To keep the client token within 6 characters, it is modded by 1000000. */
 	status = snprintf(pUpdateDocument,
 	EXPECTED_DESIRED_JSON_SIZE + 1,
-	SHADOW_DESIRED_JSON, (int ) desiredState,
+	SHADOW_DESIRED_JSON,
 			(long unsigned ) (IotClock_GetTimeMs() % 1000000));
 
 	/* Check for errors from snprintf. The expected value is the length of
