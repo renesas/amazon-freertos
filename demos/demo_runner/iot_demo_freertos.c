@@ -41,7 +41,7 @@
 #include "iot_init.h"
 
 /* Remove dependency to MQTT */
-#if ( defined( CONFIG_MQTT_DEMO_ENABLED ) || defined( CONFIG_SHADOW_DEMO_ENABLED ) || defined( CONFIG_DEFENDER_DEMO_ENABLED ) || defined( CONFIG_OTA_UPDATE_DEMO_ENABLED ) )
+#if ( defined( CONFIG_MQTT_DEMO_ENABLED ) || defined( CONFIG_SHADOW_DEMO_ENABLED ) || defined( CONFIG_DEFENDER_DEMO_ENABLED ) || defined( CONFIG_UPDATE_DEMO_ENABLED ) )
     #define MQTT_DEMO_TYPE_ENABLED
 #endif
 

@@ -19,10 +19,10 @@
 
 /***********************************************************************************************************************
 * File Name    : r_cg_hardware_setup.c
-* Version      : 1.2.101
+* Version      : 1.2.102
 * Device(s)    : R5F565NEDxFP
 * Description  : Initialization file for code generation configurations.
-* Creation Date: 2020-08-04
+* Creation Date: 2021-05-06
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -95,5 +95,5 @@ void R_Systeminit(void)
 }
 
 /* Start user code for adding. Do not edit comment generated here */
-/* End user code. Do not edit comment generated here */   
+/* End user code. Do not edit comment generated here */
 

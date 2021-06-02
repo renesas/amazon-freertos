@@ -82,8 +82,8 @@
     #define DEMO_entryFUNCTION              RunDefenderDemo
 #elif defined( CONFIG_POSIX_DEMO_ENABLED )
     #define DEMO_entryFUNCTION              vStartPOSIXDemo
-#elif defined( CONFIG_OTA_UPDATE_DEMO_ENABLED )
-    #define DEMO_entryFUNCTION              vStartOTAUpdateDemoTask
+#elif defined( CONFIG_UPDATE_DEMO_ENABLED )
+    #define DEMO_entryFUNCTION              RenesasSensorDataUploadDemo
     #if defined( democonfigOTA_UPDATE_TASK_STACK_SIZE )
         #undef democonfigDEMO_STACKSIZE
         #define democonfigDEMO_STACKSIZE    democonfigOTA_UPDATE_TASK_STACK_SIZE

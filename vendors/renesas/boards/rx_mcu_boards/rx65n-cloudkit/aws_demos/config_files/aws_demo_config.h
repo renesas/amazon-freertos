@@ -35,7 +35,7 @@
 *          CONFIG_TCP_ECHO_CLIENT_DEMO_ENABLED
 *          CONFIG_DEFENDER_DEMO_ENABLED
 *          CONFIG_POSIX_DEMO_ENABLED
-*          CONFIG_OTA_UPDATE_DEMO_ENABLED
+*          CONFIG_UPDATE_DEMO_ENABLED
 *          CONFIG_HTTPS_SYNC_DOWNLOAD_DEMO_ENABLED
 *          CONFIG_HTTPS_ASYNC_DOWNLOAD_DEMO_ENABLED
 *          CONFIG_HTTPS_SYNC_UPLOAD_DEMO_ENABLED
@@ -43,7 +43,7 @@
 *
 *  These defines are used in iot_demo_runner.h for demo selection */
 
-#define CONFIG_MQTT_DEMO_ENABLED
+#define CONFIG_UPDATE_DEMO_ENABLED
 
 /* Default configuration for all demos. Individual demos can override these below */
 #define democonfigDEMO_STACKSIZE                          ( configMINIMAL_STACK_SIZE * 8 )
