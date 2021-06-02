@@ -96,6 +96,7 @@
 #define ULPGN_SOCKET_STATUS_TEXT_BOUND       "BOUND"
 #define ULPGN_SOCKET_STATUS_TEXT_LISTEN      "LISTEN"
 #define ULPGN_SOCKET_STATUS_TEXT_CONNECTED   "CONNECTED"
+#define ULPGN_SOCKET_STATUS_TEXT_BROKEN		 "BROKEN"
 
 #define WIFI_AT_COMMAND_BUFF_SIZE         (512)
 #define WIFI_AT_RESPONSE_BUFF_SIZE        (512)
@@ -211,6 +212,11 @@ typedef struct wifi_socket_tag
     uint32_t receive_num;
     uint32_t receive_count;
     uint32_t put_error_count;
+    uint32_t extracted_data_size;
+    uint32_t total_data_size;
+    uint32_t processed_data_size;
+    uint32_t start_processed_data_size;
+    uint32_t end_processed_data_size;
     uint8_t socket_recv_buff[WIFI_CFG_SOCKETS_RECEIVE_BUFFER_SIZE];
     byteq_hdl_t socket_byteq_hdl;
     TickType_t send_starttime;
@@ -219,6 +225,7 @@ typedef struct wifi_socket_tag
     TickType_t recv_starttime;
     TickType_t recv_thistime;
     TickType_t recv_endtime;
+    uint8_t timeout_count;
     uint8_t send_timeout_overflow_flag;
     uint8_t recv_timeout_overflow_flag;
     uint8_t ssl_flag;
@@ -243,6 +250,7 @@ typedef struct
     volatile uint8_t     tx_end_flag;
     uint8_t     timeout_overflow_flag;
     uint8_t     byte_timeout_overflow_flag;
+    uint32_t	socket_change_delay_time;
 } st_atcmd_info_t;
 
 typedef struct
