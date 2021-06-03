@@ -27,10 +27,10 @@
 #define _AWS_APPLICATION_VERSION_H_
 
 #include "iot_appversion32.h"
-extern AppVersion32_t xAppFirmwareVersion;
+extern const AppVersion32_t xAppFirmwareVersion;
 
 #define APP_VERSION_MAJOR    0
 #define APP_VERSION_MINOR    9
-#define APP_VERSION_BUILD    3
+#define APP_VERSION_BUILD    2
 
 #endif
