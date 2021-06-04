@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <smc>
     <general version="2.0.0.0">
-        <configuration active="true" id="com.renesas.smc.toolchain.gccrx.configuration.release">
+        <configuration active="true" id="com.renesas.smc.toolchain.rxc.configuration.release">
             <property id="com.renesas.smc.service.project.buildArtefactType" values="com.renesas.smc.service.project.buildArtefactType.exe"/>
-            <toolchain id="com.renesas.smc.toolchain.gccrx.toolchain.gccrx">
+            <toolchain id="com.renesas.smc.toolchain.rxc.toolchain.rxc">
                 <option id="com.renesas.smc.toolchain.option.buildArtefactType" key="com.renesas.smc.toolchain.option.buildArtefactType.exe"/>
                 <option id="com.renesas.smc.toolchain.option.rtos" key="com.renesas.smc.toolchain.option.rtos.freertos">
-                    <item id="com.renesas.smc.toolchain.option.rtos.freertos" value="AmazonFreeRTOS_RX_202011.00-rx-1.0.0"/>
+                    <item id="com.renesas.smc.toolchain.option.rtos.freertos" value="AmazonFreeRTOS_RX_202012.00-rx-1.0.0"/>
                 </option>
             </toolchain>
         </configuration>
@@ -15,7 +15,7 @@
     </general>
     <tool id="Clock">
         <option enabled="true" id="vccinput" selection="textinputitem">
-            <item enabled="true" id="textinputitem" input="3.3" value="3.3"/>
+            <item enabled="true" id="textinputitem" input="3.3" value="3.300"/>
         </option>
         <option enabled="true" id="mainclockenable" selection="check">
             <item enabled="true" id="check"/>
@@ -26,10 +26,10 @@
             <item enabled="true" id="srcEOI"/>
         </option>
         <option enabled="true" id="mainfrequency" selection="textinputitem">
-            <item enabled="true" id="textinputitem" input="24" value="24"/>
+            <item enabled="true" id="textinputitem" input="24" value="24.000000"/>
         </option>
         <option enabled="true" id="mainwaittime" selection="textinputitem">
-            <item enabled="true" id="textinputitem" input="9980" value="9980"/>
+            <item enabled="true" id="textinputitem" input="9980" value="9980.000000"/>
         </option>
         <option enabled="true" id="subclockenable" selection="uncheck">
             <item enabled="true" id="check"/>
@@ -43,7 +43,7 @@
             <item enabled="true" id="lowCL"/>
         </option>
         <option enabled="false" id="subwaittime" selection="textinputitem">
-            <item enabled="true" id="textinputitem" input="2000" value="2000"/>
+            <item enabled="true" id="textinputitem" input="2000" value="2000.000000"/>
         </option>
         <option enabled="true" id="hococlockenable" selection="uncheck">
             <item enabled="true" id="check"/>
@@ -73,7 +73,7 @@
             <item enabled="true" id="textinputitem" input="" value="120"/>
         </option>
         <option enabled="true" id="pllswitcher" selection="pllmain">
-            <item enabled="true" id="pllmain" input="" value="24"/>
+            <item enabled="true" id="pllmain" input="" value="24.0"/>
             <item enabled="false" id="pllhoco" input="" value="16"/>
         </option>
         <option enabled="true" id="plldivider" selection="div1-1">
@@ -126,7 +126,7 @@
         </option>
         <option enabled="true" id="sckswitcher" selection="pll">
             <item enabled="true" id="pll" input="" value="2.4E8"/>
-            <item enabled="true" id="main" input="" value="24000000"/>
+            <item enabled="true" id="main" input="" value="2.4E7"/>
             <item enabled="false" id="sub" input="" value="32768.0"/>
             <item enabled="false" id="hoco" input="" value="16000000"/>
             <item enabled="false" id="loco" input="" value="240000"/>
@@ -266,7 +266,7 @@
             <item enabled="true" id="textoutputitem" input="" value="120"/>
         </option>
         <option enabled="true" id="cacmclk" selection="textoutputitem">
-            <item enabled="true" id="textoutputitem" input="" value="24"/>
+            <item enabled="true" id="textoutputitem" input="" value="24.0"/>
         </option>
     </tool>
     <tool id="Interrupt">
@@ -492,8 +492,8 @@
         <Item currentVect="255" id="PERIA_INTA255" priority="15" usedState="Not Use"/>
     </tool>
     <tool id="Pins" version="1.0.1.0">
-        <pinItem allocation="24" comments="" direction="None" id="EXTAL" isUsedBySoftware="true" locked="false" status="0"/>
         <pinItem allocation="22" comments="" direction="None" id="XTAL" isUsedBySoftware="true" locked="false" status="0"/>
+        <pinItem allocation="24" comments="" direction="None" id="EXTAL" isUsedBySoftware="true" locked="false" status="0"/>
     </tool>
     <tool id="Summary" version="1.0.0.0">
         <option id="com.renesas.smc.code.type" value="Linked File"/>
@@ -506,7 +506,7 @@
                 <gridItem id="BSP_CFG_USTACK_BYTES" selectedIndex="0x1000"/>
                 <gridItem id="BSP_CFG_ISTACK_BYTES" selectedIndex="0x400"/>
                 <gridItem id="BSP_CFG_HEAP_BYTES" selectedIndex="0x400"/>
-                <gridItem id="BSP_CFG_IO_LIB_ENABLE" selectedIndex="0"/>
+                <gridItem id="BSP_CFG_IO_LIB_ENABLE" selectedIndex="1"/>
                 <gridItem id="BSP_CFG_USER_CHARGET_ENABLED" selectedIndex="0"/>
                 <gridItem id="BSP_CFG_USER_CHARGET_FUNCTION" selectedIndex="my_sw_charget_function"/>
                 <gridItem id="BSP_CFG_USER_CHARPUT_ENABLED" selectedIndex="0"/>
@@ -917,32 +917,32 @@
             <source id="com.renesas.smc.tools.swcomponent.rtosconfigurator.source"/>
             <source description="Code generator for Real-time OS" display="RTOS Configurator" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.source"/>
         </configuration>
-        <configuration exclude="false" id="e96e1bd4-f995-4ee2-b7f2-83d09518a2fd" inuse="true" name="FreeRTOS_Object">
+        <configuration exclude="false" id="5d7b1909-ef35-4228-8782-23e7c8f5402c" inuse="true" name="FreeRTOS_Object">
             <allocatable id="OBJECT" name="OBJECT"/>
             <component description="This component is a part of RTOS Configurator feature that allow user to use the GUI to create and configure new object of FreeRTOS." detailDescription="" display="FreeRTOS_Object" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.freertos.object" version="1.0.101"/>
             <source description="Code generator for Real-time OS" display="RTOS Configurator" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.source"/>
         </configuration>
-        <configuration exclude="false" id="cc42edfb-7eae-43bd-bb51-53ffae43dd6e" inuse="true" name="FreeRTOS_Kernel">
+        <configuration exclude="false" id="0e628f18-3509-4f07-a246-2678d89fc40d" inuse="true" name="FreeRTOS_Kernel">
             <component description="This component is a part of RTOS Configurator feature that allow user to use the GUI to configure kernel setting of AFR" detailDescription="" display="FreeRTOS_kernel" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.freertos.amazon.kernel" version="1.0.101"/>
             <source description="Code generator for Real-time OS" display="RTOS Configurator" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.source"/>
         </configuration>
-        <configuration exclude="false" id="b19875b4-f0de-4d62-9307-b6ffdd955798" inuse="true" name="AWS_device_shadow">
+        <configuration exclude="false" id="a51dd47e-2135-482e-8cee-c7421f1d7caf" inuse="true" name="AWS_device_shadow">
             <component description="This component is a part of RTOS Configurator feature that allow user to use the GUI to configure kernel setting of AFR" detailDescription="" display="AWS_device_shadow" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.freertos.amazon.device_shadow" version="1.0.101"/>
             <source description="Code generator for Real-time OS" display="RTOS Configurator" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.source"/>
         </configuration>
-        <configuration exclude="false" id="670c049b-de7c-4b46-b9a4-a78a8e288e85" inuse="true" name="AWS_tcp_ip">
+        <configuration exclude="false" id="d39f58e6-b6de-45c6-8d65-018360d0549c" inuse="true" name="AWS_tcp_ip">
             <component description="This component is a part of RTOS Configurator feature that allow user to use the GUI to configure kernel setting of AFR" detailDescription="" display="AWS_tcp_ip" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.freertos.amazon.tcp_ip" version="1.0.101"/>
             <source description="Code generator for Real-time OS" display="RTOS Configurator" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.source"/>
         </configuration>
-        <configuration exclude="false" id="fde9783a-e55b-41bb-8d4e-a2c719989c8b" inuse="true" name="AWS_mqtt">
+        <configuration exclude="false" id="8291c6f9-cf30-4191-b660-1e740d5cf735" inuse="true" name="AWS_mqtt">
             <component description="This component is a part of RTOS Configurator feature that allow user to use the GUI to configure kernel setting of AFR" detailDescription="" display="AWS_mqtt" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.freertos.amazon.mqtt" version="1.0.101"/>
             <source description="Code generator for Real-time OS" display="RTOS Configurator" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.source"/>
         </configuration>
-        <configuration exclude="false" id="812b2961-8962-4eb3-b44a-9f369453db79" inuse="true" name="AWS_secure_socket">
+        <configuration exclude="false" id="e20ead76-8e7e-4a52-80bb-3a6ecee61165" inuse="true" name="AWS_secure_socket">
             <component description="This component is a part of RTOS Configurator feature that allow user to use the GUI to configure kernel setting of AFR" detailDescription="" display="AWS_secure_socket" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.freertos.amazon.secure_socket" version="1.0.101"/>
             <source description="Code generator for Real-time OS" display="RTOS Configurator" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.source"/>
         </configuration>
-        <configuration exclude="false" id="43d760e9-ae52-46c5-8974-4df698767bdf" inuse="true" name="AWS_ggd">
+        <configuration exclude="false" id="839e1e5d-5e50-4cdf-87bb-443d34112e8f" inuse="true" name="AWS_ggd">
             <component description="This component is a part of RTOS Configurator feature that allow user to use the GUI to configure kernel setting of AFR" detailDescription="" display="AWS_ggd" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.freertos.amazon.ggd" version="1.0.101"/>
             <source description="Code generator for Real-time OS" display="RTOS Configurator" id="com.renesas.smc.tools.swcomponent.rtosconfigurator.source"/>
         </configuration>
