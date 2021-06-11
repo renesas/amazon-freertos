@@ -41,6 +41,13 @@
 #if defined(__CCRX__) || defined(__ICCRX__) || defined(__RX__)
 #include "r_sci_rx_if.h"
 #include "r_sci_rx_pinset.h"
+#if defined(BSP_MCU_RX72N)
+#include "../r_sci_rx/src/targets/rx72n/r_sci_rx72n_private.h"
+#elif defined(BSP_MCU_RX65N)
+#include "../r_sci_rx/src/targets/rx65n/r_sci_rx65n_private.h"
+#else
+#error "Include the appropriate file for your MCU."
+#endif
 #endif
 #include "r_byteq_if.h"
 #include "r_wifi_sx_ulpgn_if.h"
@@ -225,6 +232,7 @@ const uint8_t g_ulpgn_socket_status_socket[] = ULPGN_SOCKET_STATUS_TEXT_SOCKET;
 const uint8_t g_ulpgn_socket_status_bound[] = ULPGN_SOCKET_STATUS_TEXT_BOUND;
 const uint8_t g_ulpgn_socket_status_listen[] = ULPGN_SOCKET_STATUS_TEXT_LISTEN;
 const uint8_t g_ulpgn_socket_status_connected[] = ULPGN_SOCKET_STATUS_TEXT_CONNECTED;
+const uint8_t g_ulpgn_socket_status_broken[] = ULPGN_SOCKET_STATUS_TEXT_BROKEN;
 
 const uint8_t g_ulpgn_return_dummy[] = "";
 
@@ -244,9 +252,11 @@ const uint8_t *const gp_wifi_socket_status_tbl[ULPGN_SOCKET_STATUS_MAX] =
         g_ulpgn_socket_status_bound,
         g_ulpgn_socket_status_listen,
         g_ulpgn_socket_status_connected,
+		g_ulpgn_socket_status_broken,
     };
 
 volatile uint8_t g_current_socket_index;
+volatile uint8_t g_before_socket_index;
 
 #if defined(__CCRX__) || defined(__ICCRX__) || defined (__RX__)
 st_cert_profile_t g_cert_profile[5];
@@ -319,10 +329,6 @@ static SemaphoreHandle_t s_wifi_rx_semaphore = NULL;
  * @brief Maximum time in ticks to wait for obtaining a semaphore.
  */
 static const TickType_t s_xMaxSemaphoreBlockTime = pdMS_TO_TICKS(10000UL);
-
-static uint8_t s_temporary_byteq_enable_flag = 0;
-static uint8_t s_sockindex_command_flag = 0;
-
 
 /**********************************************************************************************************************
  * Function Name: R_WIFI_SX_ULPGN_Open
@@ -440,11 +446,11 @@ wifi_err_t R_WIFI_SX_ULPGN_Open(void)
         WIFI_RESET_DR(WIFI_CFG_RESET_PORT, WIFI_CFG_RESET_PIN) = 0;
         WIFI_RESET_DDR(WIFI_CFG_RESET_PORT, WIFI_CFG_RESET_PIN) = 1;
 #endif
-        R_BSP_SoftwareDelay(26, BSP_DELAY_MILLISECS); /* 5us mergin 1us */
+        vTaskDelay(26);
 #if defined(__CCRX__) || defined(__ICCRX__) || defined (__RX__)
         WIFI_RESET_DR(WIFI_CFG_RESET_PORT, WIFI_CFG_RESET_PIN) = 1;
 #endif
-        R_BSP_SoftwareDelay(250, BSP_DELAY_MILLISECS); /*  */
+        vTaskDelay(250);
 
         ret = wifi_serial_open_for_initial();
         if (0 == ret)
@@ -517,7 +523,7 @@ wifi_err_t R_WIFI_SX_ULPGN_Open(void)
         }
         else
         {
-            R_BSP_SoftwareDelay(1000, BSP_DELAY_MILLISECS); /* 1 sec */
+        	vTaskDelay(1000); /* 1 sec */
             g_atcmd_port = ULPGN_UART_SECOND_PORT;
             wifi_serial_default_port_close();
             open_phase &= (~0x08);
@@ -564,7 +570,7 @@ wifi_err_t R_WIFI_SX_ULPGN_Open(void)
                 WIFI_RTS_DR(WIFI_CFG_RTS_PORT, WIFI_CFG_RTS_PIN) = 0;
                 WIFI_RTS_DDR(WIFI_CFG_RTS_PORT, WIFI_CFG_RTS_PIN) = 1;
 #endif
-                R_BSP_SoftwareDelay(1000, BSP_DELAY_MILLISECS);
+                vTaskDelay(1000);
 
                 ret = wifi_execute_at_command(g_atcmd_port, "ATUART=2,1\r", g_atcmd_timeout1,
                         WIFI_RETURN_ENUM_OK, WIFI_COMMAND_SET_UART_CHANGE_TO_21, 0xff);
@@ -575,7 +581,7 @@ wifi_err_t R_WIFI_SX_ULPGN_Open(void)
             }
             if (WIFI_SUCCESS == api_ret)
             {
-                R_BSP_SoftwareDelay(1000, BSP_DELAY_MILLISECS); /* 1 sec */
+            	vTaskDelay(1000); /* 1 sec */
 
                 g_use_uart_num = 2;
                 g_wifi_createble_sockets = WIFI_CFG_CREATABLE_SOCKETS;
@@ -608,11 +614,11 @@ wifi_err_t R_WIFI_SX_ULPGN_Open(void)
             WIFI_RESET_DR(WIFI_CFG_RESET_PORT, WIFI_CFG_RESET_PIN) = 0;
             WIFI_RESET_DDR(WIFI_CFG_RESET_PORT, WIFI_CFG_RESET_PIN) = 1;
 #endif
-            R_BSP_SoftwareDelay(26, BSP_DELAY_MILLISECS); /* 5us mergin 1us */
+            vTaskDelay(26);
 #if defined(__CCRX__) || defined(__ICCRX__) || defined (__RX__)
             WIFI_RESET_DR(WIFI_CFG_RESET_PORT, WIFI_CFG_RESET_PIN) = 1;
 #endif
-            R_BSP_SoftwareDelay(200, BSP_DELAY_MILLISECS); /*  */
+            vTaskDelay(200);
 
             ret = wifi_serial_open_for_initial();
             if (0 == ret)
@@ -653,7 +659,7 @@ wifi_err_t R_WIFI_SX_ULPGN_Open(void)
             if (WIFI_SUCCESS == api_ret)
             {
 #if defined(__CCRX__) || defined(__ICCRX__) || defined (__RX__)
-                change_baud.pclk = BSP_PCLKB_HZ;
+            	change_baud.pclk = g_wifi_uart[g_atcmd_port].wifi_uart_sci_handle->pclk_speed;
                 change_baud.rate = WIFI_CFG_SCI_BAUDRATE;
                 R_SCI_Control(g_wifi_uart[g_atcmd_port].wifi_uart_sci_handle, SCI_CMD_CHANGE_BAUD, &change_baud);
                 R_SCI_Control(g_wifi_uart[g_atcmd_port].wifi_uart_sci_handle, SCI_CMD_EN_CTS_IN, NULL);
@@ -661,7 +667,7 @@ wifi_err_t R_WIFI_SX_ULPGN_Open(void)
                 WIFI_RTS_DDR(WIFI_CFG_RTS_PORT, WIFI_CFG_RTS_PIN) = 1;
 #endif
 
-                R_BSP_SoftwareDelay(1000, BSP_DELAY_MILLISECS); /* 5us mergin 1us */
+                vTaskDelay(1000);
             }
         }
 
@@ -723,7 +729,7 @@ wifi_err_t R_WIFI_SX_ULPGN_Open(void)
     if (WIFI_SUCCESS == api_ret)
     {
         /* Receive timeout  */
-        ret = wifi_execute_at_command(g_atcmd_port, "ATS110=0\r", g_atcmd_timeout1,
+    	ret = wifi_execute_at_command(g_atcmd_port, "ATS110=1\r", g_atcmd_timeout1,
                 WIFI_RETURN_ENUM_OK, WIFI_COMMAND_SET_AUTOCLOSE, 0xff);
         if (0 != ret)
         {
@@ -806,7 +812,6 @@ wifi_err_t R_WIFI_SX_ULPGN_Close(void)
     {
         R_BYTEQ_Close(g_wifi_socket[i].socket_byteq_hdl);
     }
-
     g_wifi_system_state = WIFI_SYSTEM_CLOSE;
 
     return api_ret;
@@ -1004,7 +1009,7 @@ wifi_err_t R_WIFI_SX_ULPGN_Connect(const uint8_t * ssid, const uint8_t * pass,
     }
     if (WIFI_SUCCESS == api_ret)
     {
-        R_BSP_SoftwareDelay(2000, BSP_DELAY_MILLISECS);
+    	vTaskDelay(2000);
 
         if (WIFI_SECURITY_WPA == security)
         {
@@ -1402,6 +1407,10 @@ int32_t R_WIFI_SX_ULPGN_CreateSocket(uint32_t type, uint32_t ip_version)
         g_wifi_socket[i].ssl_flag = 0;
         g_wifi_socket[i].ssl_type = 0;
         g_wifi_socket[i].ssl_certificate_id = 0;
+        g_wifi_socket[i].timeout_count = 0;
+        g_wifi_socket[i].processed_data_size = 0;
+        g_wifi_socket[i].start_processed_data_size = 0;
+        g_wifi_socket[i].end_processed_data_size = 0;
         R_BYTEQ_Flush(g_wifi_socket[i].socket_byteq_hdl);
         ret = i;
     }
@@ -1672,7 +1681,7 @@ wifi_err_t R_WIFI_SX_ULPGN_ConnectSocket(int32_t socket_number,
         {
             wifi_execute_at_command(g_atcmd_port, "ATNCLOSE\r", g_atcmd_timeout1, WIFI_RETURN_ENUM_OK,
                     WIFI_COMMAND_SET_SOCKET_CLOSE, socket_number);
-            R_BSP_SoftwareDelay(500, BSP_DELAY_MILLISECS);
+            vTaskDelay(500);
             api_ret = WIFI_ERR_MODULE_COM;
         }
     }
@@ -1680,7 +1689,7 @@ wifi_err_t R_WIFI_SX_ULPGN_ConnectSocket(int32_t socket_number,
     {
         wifi_execute_at_command(g_atcmd_port, "ATNCLOSE\r", g_atcmd_timeout1, WIFI_RETURN_ENUM_OK,
                 WIFI_COMMAND_SET_SOCKET_CLOSE, socket_number);
-        R_BSP_SoftwareDelay(500, BSP_DELAY_MILLISECS);
+        vTaskDelay(500);
         api_ret = WIFI_ERR_MODULE_COM;
     }
     if (WIFI_SUCCESS == api_ret)
@@ -1888,9 +1897,9 @@ int32_t R_WIFI_SX_ULPGN_ReceiveSocket(int32_t socket_number, uint8_t * data, int
         {
             if (socket_number != g_current_socket_index)
             {
-                wifi_give_mutex(MUTEX_RX);
-                if (0 != wifi_take_mutex(MUTEX_TX | MUTEX_RX))
+                if (0 != wifi_take_mutex(MUTEX_TX))
                 {
+                	wifi_give_mutex(MUTEX_RX);
                     return WIFI_ERR_TAKE_MUTEX;
                 }
                 ret = wifi_change_socket_index((uint8_t)socket_number); /* socket index */
@@ -1907,9 +1916,9 @@ int32_t R_WIFI_SX_ULPGN_ReceiveSocket(int32_t socket_number, uint8_t * data, int
         {
             if (0 == g_wifi_transparent_mode)
             {
-                wifi_give_mutex(MUTEX_RX);
-                if (0 != wifi_take_mutex(MUTEX_TX | MUTEX_RX))
+                if (0 != wifi_take_mutex(MUTEX_TX))
                 {
+                	wifi_give_mutex(MUTEX_RX);
                     return WIFI_ERR_TAKE_MUTEX;
                 }
                 ret = wifi_change_transparent_mode();
@@ -1960,8 +1969,31 @@ int32_t R_WIFI_SX_ULPGN_ReceiveSocket(int32_t socket_number, uint8_t * data, int
 #if DEBUGLOG == 1
                     R_BSP_CpuInterruptLevelWrite (13);
                     R_BSP_CpuInterruptLevelWrite (0);
-    #endif
-                    R_BSP_NOP();
+#endif
+                    if (0 == recvcnt)
+                    {
+                    	g_wifi_socket[socket_number].timeout_count++;
+						if (g_wifi_socket[socket_number].timeout_count >= ULPGN_CFG_SOCKET_STATUS_CHECK_FREQUENCY)
+						{
+							ret = wifi_get_socket_status(socket_number);
+							if (ULPGN_SOCKET_STATUS_CONNECTED != ret)
+							{
+								wifi_give_mutex(MUTEX_RX);
+								R_WIFI_SX_ULPGN_CloseSocket(socket_number);
+#if DEBUGLOG == 1
+								R_BSP_CpuInterruptLevelWrite (13);
+								printf("Socket_%d is not connected\r\n", socket_number);
+								R_BSP_CpuInterruptLevelWrite (0);
+#endif
+							}
+							g_wifi_socket[socket_number].timeout_count = 0;
+						}
+                    }
+                    else
+                    {
+                    	g_wifi_socket[socket_number].timeout_count = 0;
+                    }
+
                     break;
                 }
             }
@@ -2041,7 +2073,7 @@ wifi_err_t R_WIFI_SX_ULPGN_ShutdownSocket(int32_t socket_number)
         else
         {
             g_wifi_socket[socket_number].socket_status = WIFI_SOCKET_STATUS_SOCKET;
-            R_BSP_SoftwareDelay(500, BSP_DELAY_MILLISECS);
+            vTaskDelay(500);
         }
     }
     return api_ret;
@@ -2101,6 +2133,10 @@ wifi_err_t R_WIFI_SX_ULPGN_CloseSocket(int32_t socket_number)
             g_wifi_socket[socket_number].ssl_certificate_id = 0;
             g_wifi_socket[socket_number].socket_status = WIFI_SOCKET_STATUS_CLOSED;
             g_wifi_socket[socket_number].socket_create_flag = 0;
+            g_wifi_socket[socket_number].timeout_count = 0;
+            g_wifi_socket[socket_number].processed_data_size = 0;
+            g_wifi_socket[socket_number].start_processed_data_size = 0;
+            g_wifi_socket[socket_number].end_processed_data_size = 0;
         }
     }
     if (WIFI_ERR_TAKE_MUTEX != api_ret)
@@ -2372,14 +2408,14 @@ static int32_t wifi_change_command_mode(void)
     int32_t ret;
     if ((1 == g_use_uart_num) && (1 == g_wifi_transparent_mode))
     {
-        R_BSP_SoftwareDelay(202, BSP_DELAY_MILLISECS);
+    	vTaskDelay(202);
         g_wifi_transparent_mode = 0;
         ret = wifi_execute_at_command(g_atcmd_port, "+++",
                 g_atcmd_timeout1, WIFI_RETURN_ENUM_OK,
                 WIFI_COMMAND_SET_COMMAND_MODE, 0xff);
         if (0 == ret)
         {
-            R_BSP_SoftwareDelay(202, BSP_DELAY_MILLISECS);
+        	vTaskDelay(202);
         }
         else
         {
@@ -2401,313 +2437,71 @@ static int32_t wifi_change_command_mode(void)
  *********************************************************************************************************************/
 static int32_t wifi_change_socket_index(uint8_t socket_number)
 {
-    volatile int32_t timeout;
+    uint8_t sequence = 0;
     int32_t ret = 0;
-    uint16_t i;
-    uint16_t stored_data_size = 0;
-    uint32_t previous_socket_store_data_size = 0;
-    uint16_t read_data_size;
-    uint8_t before_socket_number;
-    uint8_t temprary_buff[64];
-
-    uint32_t previous_atustat_sent;
-    uint32_t now_atustat_sent;
     uint32_t atustat_recv;
-    uint8_t sequence;
-    uint8_t zero_cnt;
-    uint32_t ipl;
 
     if (2 == g_use_uart_num)
     {
         if (socket_number != g_current_socket_index)
         {
-            sequence = 0;
-            before_socket_number = g_current_socket_index;
-            stored_data_size = 0;
-            zero_cnt = 0;
+            g_before_socket_index = g_current_socket_index;
 
             /* AT command */
             sprintf((char *)g_wifi_uart[g_atcmd_port].p_cmdbuf, "ATNSOCKINDEX=%d\r", socket_number);
-
-            ret = wifi_check_uart_state( &atustat_recv, &previous_atustat_sent);
-            if (0 != ret)
-            {
-                return -1;
-            }
-            R_BSP_SoftwareDelay(ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_VALUE, ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_PERIOD);
-
             while (sequence < 0x80)
             {
                 switch (sequence)
                 {
                     case 0:
-                        /* Read the remaining data three times and proceed to the next step without data. */
-                        /* Enable temporary byte que(default byte que). */
-                        s_temporary_byteq_enable_flag = 1;
-                        ret = wifi_check_uart_state( &atustat_recv, &now_atustat_sent);
-                        if (0 != ret)
+                    	/* RTS_ON */
+                    	WIFI_RTS_DR(WIFI_CFG_RTS_PORT, WIFI_CFG_RTS_PIN) = 1;
+                        vTaskDelay(ULPGN_CFG_SOCKET_CHANGE_BEFORE_WAIT);
+
+                        if (0 != wifi_check_uart_state( &atustat_recv, &g_wifi_socket[g_before_socket_index].end_processed_data_size))
                         {
                             ret = -1;
                             sequence = 0x80;
                             break;
                         }
-
-                        do
-                        {
-
-                            if (SCI_SUCCESS
-                                    != R_SCI_Control(g_wifi_uart[g_data_port].wifi_uart_sci_handle,
-                                            SCI_CMD_RX_Q_BYTES_AVAIL_TO_READ, &stored_data_size))
-                            {
-                                ret = -1;
-                                sequence = 0x80;
-                                break;
-                            }
-                            if (stored_data_size > 0)
-                            {
-                                zero_cnt = 0;
-                                if ((sizeof(temprary_buff)) >= stored_data_size)
-                                {
-                                    read_data_size = stored_data_size;
-                                }
-                                else
-                                {
-                                    read_data_size = sizeof(temprary_buff);
-                                }
-
-                                R_SCI_Receive(g_wifi_uart[g_data_port].wifi_uart_sci_handle, temprary_buff,
-                                        read_data_size);
-
-                                for (i = 0; i < read_data_size; i++ )
-                                {
-                                    if (BYTEQ_SUCCESS
-                                            != R_BYTEQ_Put(g_wifi_socket[g_current_socket_index].socket_byteq_hdl,
-                                                    *(temprary_buff + i)))
-                                    {
-                                        g_wifi_socket[g_current_socket_index].put_error_count++;
-                                    }
-                                }
-
-                                stored_data_size -= read_data_size;
-                            }
-                        } while (stored_data_size > 0);
-                        if (now_atustat_sent == previous_atustat_sent)
-                        {
-                            zero_cnt++;
-                        }
-                        else
-                        {
-                            zero_cnt = 0;
-                        }
-                        previous_atustat_sent = now_atustat_sent;
-                        if (zero_cnt < 2)
-                        {
-                            R_BSP_SoftwareDelay(ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_VALUE,
-                                    ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_PERIOD);
-                            sequence = 0;
-                        }
-                        else
-                        {
-                            R_BSP_SoftwareDelay(ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_VALUE,
-                                    ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_PERIOD);
-                            zero_cnt = 0;
-                            sequence = 2;
-                        }
-                        break;
-                    case 2:
-                        timeout = 0;
-                        g_wifi_uart[g_atcmd_port].tx_end_flag = 0;
-
                         /* Send ATNSOCKINDEX command. */
-                        s_sockindex_command_flag = 1;
                         ret = wifi_execute_at_command(g_atcmd_port,
                                 g_wifi_uart[g_atcmd_port].p_cmdbuf,
                                 g_atcmd_timeout1,
                                 WIFI_RETURN_ENUM_OK, WIFI_COMMAND_SET_SOCKET_CHANGE,
                                 socket_number);
-                        s_sockindex_command_flag = 0;
-                        if ((-1) == ret)
-                        {
-                            ret = -1;
-                            sequence = 0x80;
-                            break;
-                        }
 
                         /* Parse command return code. */
                         switch (ret)
                         {
-                            case 0: /* change socket index to next. */
-                                g_current_socket_index = socket_number;
-                                ret = wifi_check_uart_state( &atustat_recv, &now_atustat_sent);
-                                if (0 != ret)
-                                {
-                                    ret = -1;
-                                    sequence = 0x80;
-                                    break;
-                                }
-                                //if ((now_atustat_sent - previous_atustat_sent) > 0)
-                                if (stored_data_size > 0)
-                                {
-                                    previous_socket_store_data_size = now_atustat_sent - previous_atustat_sent;
-#if defined(__CCRX__) || defined(__ICCRX__) || defined (__RX__)
-                                    WIFI_RTS_DR(WIFI_CFG_RTS_PORT, WIFI_CFG_RTS_PIN) = 0;
-#endif
-
-                                    /* Copy data(which stored during socket switching)
-                                     * from temporary buff to current socket buff. */
-                                    while (previous_socket_store_data_size > 0)
-                                    {
-                                        if (SCI_SUCCESS
-                                                != R_SCI_Control(g_wifi_uart[g_data_port].wifi_uart_sci_handle,
-                                                        SCI_CMD_RX_Q_BYTES_AVAIL_TO_READ, &stored_data_size))
-                                        {
-                                            ret = -1;
-                                            sequence = 0x80;
-                                            break;
-                                        }
-                                        if (stored_data_size > 0)
-                                        {
-                                            if ((sizeof(temprary_buff)) >= stored_data_size)
-                                            {
-                                                read_data_size = stored_data_size;
-                                            }
-                                            else
-                                            {
-                                                read_data_size = sizeof(temprary_buff);
-                                            }
-
-                                            if (read_data_size > previous_socket_store_data_size)
-                                            {
-                                                read_data_size = previous_socket_store_data_size;
-                                            }
-                                            if (SCI_SUCCESS
-                                                    != R_SCI_Receive(g_wifi_uart[g_data_port].wifi_uart_sci_handle,
-                                                            temprary_buff, read_data_size))
-                                            {
-                                                ret = -1;
-                                                sequence = 0x80;
-                                                break;
-                                            }
-                                            else
-                                            {
-                                                for (i = 0; i < read_data_size; i++ )
-                                                {
-                                                    if (BYTEQ_SUCCESS != R_BYTEQ_Put(
-                                                                g_wifi_socket[before_socket_number].socket_byteq_hdl,
-                                                                *(temprary_buff + i)))
-                                                    {
-                                                        g_wifi_socket[before_socket_number].put_error_count++;
-                                                    }
-                                                }
-                                                previous_socket_store_data_size -= read_data_size;
-                                            }
-                                        }
-                                    }
-                                }
-                                else
-                                {
-#if defined(__CCRX__) || defined(__ICCRX__) || defined (__RX__)
-                                    WIFI_RTS_DR(WIFI_CFG_RTS_PORT, WIFI_CFG_RTS_PIN) = 0;
-#endif
-                                }
-
-                                /* Copy data(which stored during socket switching)
-                                 * from temporary buff to next socket buff. */
-                                do
-                                {
-
-                                    if (SCI_SUCCESS
-                                            != R_SCI_Control(g_wifi_uart[g_data_port].wifi_uart_sci_handle,
-                                                    SCI_CMD_RX_Q_BYTES_AVAIL_TO_READ, &stored_data_size))
-                                    {
-                                        ret = -1;
-                                        break;
-                                    }
-                                    if ((sizeof(temprary_buff)) >= stored_data_size)
-                                    {
-                                        read_data_size = stored_data_size;
-                                    }
-                                    else
-                                    {
-                                        read_data_size = sizeof(temprary_buff);
-                                    }
-
-                                    R_SCI_Receive(g_wifi_uart[g_data_port].wifi_uart_sci_handle,
-                                            temprary_buff, read_data_size);
-
-                                    for (i = 0; i < read_data_size; i++ )
-                                    {
-                                        R_BYTEQ_Put(g_wifi_socket[g_current_socket_index].socket_byteq_hdl,
-                                                *(temprary_buff + i));
-                                    }
-
-                                    stored_data_size -= read_data_size;
-
-                                } while (stored_data_size > 0);
-
-                                /* Disable temporary byte que(default byte que). */
-                                s_temporary_byteq_enable_flag = 0;
-                                ret = 0;
+                            case 0:/* change socket index to next. */
+                            	g_current_socket_index = socket_number;
+                            	g_wifi_socket[g_current_socket_index].start_processed_data_size = g_wifi_socket[g_before_socket_index].end_processed_data_size;
+                            	g_wifi_socket[g_current_socket_index].processed_data_size = 0;
+                            	/* RTS_OFF */
+                            	WIFI_RTS_DR(WIFI_CFG_RTS_PORT, WIFI_CFG_RTS_PIN) = 0;
                                 sequence = 0x80;
                                 break;
-                            case -2: /* BUSY */
 
+                            case -1: /* Communication with module failed. */
+                            	sequence = 0x80;
+                            	break;
+
+                            case -2: /* BUSY */
                                 /* If dont change socket because of wifi module busy,
-                                 * copy data from temporary buff to socket buff
-                                 * and retry change socket command. */
+                                 * retry change socket command. */
 #if defined(__CCRX__) || defined(__ICCRX__) || defined (__RX__)
                                 WIFI_RTS_DR(WIFI_CFG_RTS_PORT, WIFI_CFG_RTS_PIN) = 0;
 #endif
-                                /* Wait 100us for module to complete send data. */
+                                /* Wait for module to complete send data. */
+                                vTaskDelay(g_wifi_uart[g_data_port].socket_change_delay_time);
 #if defined(__CCRX__) || defined(__ICCRX__) || defined(__RX__)
-                                R_BSP_SoftwareDelay(100, BSP_DELAY_MICROSECS);
                                 WIFI_RTS_DR(WIFI_CFG_RTS_PORT, WIFI_CFG_RTS_PIN) = 1;
 #endif
-
-                                /* Copy data(which stored during socket switching) from
-                                 * temporary buff to current socekt buff. */
-                                do
-                                {
-
-                                    if (SCI_SUCCESS != R_SCI_Control(g_wifi_uart[g_data_port].wifi_uart_sci_handle,
-                                            SCI_CMD_RX_Q_BYTES_AVAIL_TO_READ, &stored_data_size))
-                                    {
-                                        ret = -1;
-                                        sequence = 0x80;
-                                    }
-                                    if (stored_data_size > 0)
-                                    {
-                                        if ((sizeof(temprary_buff)) >= stored_data_size)
-                                        {
-                                            read_data_size = stored_data_size;
-                                        }
-                                        else
-                                        {
-                                            read_data_size = sizeof(temprary_buff);
-                                        }
-
-                                        R_SCI_Receive(g_wifi_uart[g_data_port].wifi_uart_sci_handle,
-                                                temprary_buff, read_data_size);
-
-                                        for (i = 0; i < read_data_size; i++ )
-                                        {
-                                            if (BYTEQ_SUCCESS
-                                                    != R_BYTEQ_Put(
-                                                            g_wifi_socket[g_current_socket_index].socket_byteq_hdl,
-                                                            *(temprary_buff + i)))
-                                            {
-                                                g_wifi_socket[g_current_socket_index].put_error_count++;
-                                            }
-                                        }
-
-                                        stored_data_size -= read_data_size;
-                                    }
-                                } while (stored_data_size > 0);
                                 sequence = 0;
                                 break;
-                            default:
 
-                                /* This is command error and recovery socket status. */
+                            default:/* This is command error and recovery socket status. */
                                 ret = -1;
                                 sequence = 0x80;
                                 break;
@@ -2717,60 +2511,7 @@ static int32_t wifi_change_socket_index(uint8_t socket_number)
                         break;
                 }
             }
-
-            if ((-1) == ret)
-            {
-                ipl = R_BSP_CpuInterruptLevelRead();
-                R_BSP_CpuInterruptLevelWrite(WIFI_CFG_SCI_INTERRUPT_LEVEL);
-
-                /* Copy data(which stored during socket switching) from temporary buff to current socket buff. */
-                do
-                {
-
-                    if (SCI_SUCCESS != R_SCI_Control(g_wifi_uart[g_data_port].wifi_uart_sci_handle,
-                            SCI_CMD_RX_Q_BYTES_AVAIL_TO_READ, &stored_data_size))
-                    {
-                        break;
-                    }
-                    if (stored_data_size > 0)
-                    {
-                        if ((sizeof(temprary_buff)) >= stored_data_size)
-                        {
-                            read_data_size = stored_data_size;
-                        }
-                        else
-                        {
-                            read_data_size = sizeof(temprary_buff);
-                        }
-
-                        R_SCI_Receive(g_wifi_uart[g_data_port].wifi_uart_sci_handle,
-                                temprary_buff, read_data_size);
-
-                        for (i = 0; i < read_data_size; i++ )
-                        {
-                            if (BYTEQ_SUCCESS
-                                    != R_BYTEQ_Put(g_wifi_socket[g_current_socket_index].socket_byteq_hdl,
-                                            *(temprary_buff + i)))
-                            {
-                                g_wifi_socket[g_current_socket_index].put_error_count++;
-                            }
-                        }
-                        stored_data_size -= read_data_size;
-                    }
-                } while (stored_data_size > 0);
-
-                /* Disable temporary byte que(default byte que). */
-                s_temporary_byteq_enable_flag = 0;
-#if defined(__CCRX__) || defined(__ICCRX__) || defined (__RX__)
-                WIFI_RTS_DR(WIFI_CFG_RTS_PORT, WIFI_CFG_RTS_PIN) = 0;
-#endif
-
-                R_BSP_CpuInterruptLevelWrite(ipl);
-
-            }
-
         }
-
     }
 
     return ret;
@@ -2885,6 +2626,9 @@ static int32_t wifi_serial_open_for_data(void)
     g_wifi_uart[ULPGN_UART_DEFAULT_PORT].sci_config.async.parity_type = SCI_EVEN_PARITY;
     g_wifi_uart[ULPGN_UART_DEFAULT_PORT].sci_config.async.stop_bits = SCI_STOPBITS_1;
     g_wifi_uart[ULPGN_UART_DEFAULT_PORT].sci_config.async.int_priority = WIFI_CFG_SCI_INTERRUPT_LEVEL;
+
+    g_wifi_uart[ULPGN_UART_DEFAULT_PORT].socket_change_delay_time = ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_VALUE
+    																* ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_PERIOD / (WIFI_CFG_SCI_BAUDRATE / 8);
 
     my_sci_err = R_SCI_Open(SCI_CH_WIFI_DEFAULT, SCI_MODE_ASYNC,
             &g_wifi_uart[ULPGN_UART_DEFAULT_PORT].sci_config,
@@ -3086,12 +2830,6 @@ static void wifi_uart_callback_second_port_for_command(void * pArgs)
     else if (SCI_EVT_TEI == p_args->event)
     {
         g_wifi_uart[ULPGN_UART_SECOND_PORT].tx_end_flag = 1;
-        if (1 == s_sockindex_command_flag)
-        {
-#if defined(__CCRX__) || defined(__ICCRX__) || defined (__RX__)
-            WIFI_RTS_DR(WIFI_CFG_RTS_PORT, WIFI_CFG_RTS_PIN) = 1;
-#endif
-        }
     }
 #endif
     else if (SCI_EVT_RXBUF_OVFL == p_args->event)
@@ -3146,16 +2884,29 @@ static void wifi_uart_callback_default_port_for_data(void * pArgs)
 
     if (SCI_EVT_RX_CHAR == p_args->event)
     {
-        if ((0 == s_temporary_byteq_enable_flag) && (g_wifi_socket[g_current_socket_index].socket_create_flag == 1))
-        {
-            /* From RXI interrupt; received character data is in p_args->byte */
-            R_SCI_Control(g_wifi_uart[ULPGN_UART_DEFAULT_PORT].wifi_uart_sci_handle, SCI_CMD_RX_Q_FLUSH, NULL);
-            byteq_ret = R_BYTEQ_Put(g_wifi_socket[g_current_socket_index].socket_byteq_hdl, p_args->byte);
+        R_SCI_Control(g_wifi_uart[ULPGN_UART_DEFAULT_PORT].wifi_uart_sci_handle, SCI_CMD_RX_Q_FLUSH, NULL);
+
+    	if ((g_wifi_socket[g_before_socket_index].socket_create_flag == 1)
+    			&& (0 != g_wifi_socket[g_before_socket_index].end_processed_data_size
+        					- g_wifi_socket[g_before_socket_index].start_processed_data_size
+								- g_wifi_socket[g_before_socket_index].processed_data_size))
+    	{
+    		byteq_ret = R_BYTEQ_Put(g_wifi_socket[g_before_socket_index].socket_byteq_hdl, p_args->byte);
+            if (BYTEQ_SUCCESS != byteq_ret)
+            {
+                g_wifi_socket[g_before_socket_index].put_error_count++;
+            }
+            g_wifi_socket[g_before_socket_index].processed_data_size++;
+    	}
+    	else if (g_wifi_socket[g_current_socket_index].socket_create_flag == 1)
+    	{
+    		byteq_ret = R_BYTEQ_Put(g_wifi_socket[g_current_socket_index].socket_byteq_hdl, p_args->byte);
             if (BYTEQ_SUCCESS != byteq_ret)
             {
                 g_wifi_socket[g_current_socket_index].put_error_count++;
             }
-        }
+            g_wifi_socket[g_current_socket_index].processed_data_size++;
+    	}
     }
 #if SCI_CFG_TEI_INCLUDED
     else if (SCI_EVT_TEI == p_args->event)

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+/***********************************************************************************************************************
+  Purpose: Module Description File (MDF) Example (Schema Version 2.0)
+           This is a description of a sample FIT module configuration file
+***********************************************************************************************************************/
+-->
+<module xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="2.0" xs:noNamespaceSchemaLocation="schema_mdf_2.00.xsd">
+    <fileVersion>1.00</fileVersion>
+    <formatVersion>2.00</formatVersion>
+    <fileTemplate></fileTemplate>
+    <configuration>
+      <property id="CONNECTION" display="The connection type" default="ETHER" type="combobox">
+        <option id="CONNECTION.0" display="WIFI" value="WIFI"/>
+        <option id="CONNECTION.1" display="ETHER" value="ETHER"/>
+        <description>Select type of the connection</description>
+      </property>
+      <property id="OTA" display="OTA" default="Used" type="combobox">
+        <option id="OTA.0" display="Unused" value="Unused"/>
+        <option id="OTA.1" display="Used" value="Used"/>
+        <description>MQTT or OTA demo is used
+Unused: MQTT demo
+Used: OTA demo</description>
+      </property>
+    </configuration>
+</module>

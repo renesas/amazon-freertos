@@ -55,10 +55,9 @@
  */
 #define         integrationtestportableRECEIVE_TIMEOUT             20000
 
-#define 		tcptestECHO_TEST_SYNC_TIMEOUT    				200000
+#define 		tcptestECHO_TEST_SYNC_TIMEOUT    				800000
 
-#define 		integrationtestportableMAX_NUM_UNSECURE_SOCKETS		4u
-//#define 		MAX_NUM_SOCKETS    									4u
+#define 		integrationtestportableMAX_NUM_UNSECURE_SOCKETS		3u
 
 /**
  * @brief Indicates how long  send needs to wait before Timeout happens.

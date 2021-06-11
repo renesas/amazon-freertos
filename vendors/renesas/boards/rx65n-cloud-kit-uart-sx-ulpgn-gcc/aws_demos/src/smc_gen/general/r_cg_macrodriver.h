@@ -63,7 +63,6 @@ Macro definitions
 
 #define nop()                R_BSP_NOP()
 #define wait()               R_BSP_WAIT()
-#define set_psw(x)
 
 #endif
 
@@ -80,6 +79,7 @@ Global functions
 ***********************************************************************************************************************/
 void R_Systeminit(void);
 /* Start user code for function. Do not edit comment generated here */
+#define set_psw(x)
 /* End user code. Do not edit comment generated here */
 #endif
 

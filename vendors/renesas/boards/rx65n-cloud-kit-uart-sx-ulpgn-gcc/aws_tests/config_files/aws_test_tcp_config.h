@@ -65,10 +65,8 @@
  * @brief Defines test config to overwrite IDT settings
  *
  */
-#define			integrationtestportableMAX_NUM_UNSECURE_SOCKETS		4u
-#define			tcptestECHO_TEST_SYNC_TIMEOUT						200000
-//#define			tcptestECHO_TEST_RXTX_TIMEOUT						10000
+#define			tcptestECHO_TEST_SYNC_TIMEOUT						800000
 
-
+#define			integrationtestportableMAX_NUM_UNSECURE_SOCKETS		3u
 
 #endif /*AWS_INTEGRATION_TEST_TCP_CONFIG_H */
