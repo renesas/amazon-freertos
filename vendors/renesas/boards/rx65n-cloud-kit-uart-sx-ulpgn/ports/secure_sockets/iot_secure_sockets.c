@@ -330,7 +330,7 @@ int32_t SOCKETS_Recv( Socket_t xSocket,
             lStatus = prvNetworkRecv( pxContext, pvBuffer, xBufferLength );
         }
     }
-    vTaskDelay( 1 );	// RX65N Cloud Kit 20200923 LastWillAndTestament ???PASS???? ??????
+//    vTaskDelay( 1 );	// RX65N Cloud Kit 20200923 LastWillAndTestament ???PASS???? ??????
     return lStatus;
 }
 /*-----------------------------------------------------------*/
@@ -374,7 +374,7 @@ int32_t SOCKETS_Send( Socket_t xSocket,
             lStatus = prvNetworkSend( pxContext, pvBuffer, xDataLength );
         }
     }
-	vTaskDelay( 1 );	// RX65N Cloud Kit 20200923 OTA E2E???PASS???? ??????
+//	vTaskDelay( 1 );	// RX65N Cloud Kit 20200923 OTA E2E???PASS???? ??????
     return lStatus;
 }
 /*-----------------------------------------------------------*/

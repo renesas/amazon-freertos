@@ -399,7 +399,7 @@ static void wifi_recv_task(void * pvParameters)
                     wifi_analyze_get_socket_status_string(p_response_buff);
                 }
                 /* Error */
-                else if (0 == strcmp((const char* )p_response_buff, WIFI_RETURN_TEXT_ERROR))
+                if (0 == strcmp((const char* )p_response_buff, WIFI_RETURN_TEXT_ERROR))
                 {
                     wifi_set_result_to_current_running_queue(WIFI_RETURN_ENUM_ERROR);
                 }
@@ -806,11 +806,11 @@ static void wifi_analyze_get_socket_status_string(uint8_t * pstring)
         str_ptr = strchr((const char *)pstring, ',');
         if (NULL != str_ptr)
         {
-            str_ptr = "\0";
+        	str_ptr = (char *)&pstring[0];
             for (i = 0; i < ULPGN_SOCKET_STATUS_MAX; i++ )
             {
                 /* socket status */
-                if (0 == strcmp((const char *)str_ptr, (const char *)gp_wifi_socket_status_tbl[i]))
+            	if (NULL != strstr((const char *)str_ptr, (const char *)gp_wifi_socket_status_tbl[i]))
                 {
                     break;
                 }

@@ -47,7 +47,9 @@
 #define WIFI_SX_ULPGN_CFG_VERSION_MINOR           (02)
 
 /* Configuration */
-#define ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_VALUE     (200)
+#define ULPGN_CFG_SOCKET_STATUS_CHECK_FREQUENCY	  (10)
+#define ULPGN_CFG_SOCKET_CHANGE_BEFORE_WAIT		  (800)
+#define ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_VALUE     (2000)
 #define ULPGN_CFG_SOCKET_CHANGE_TIMEOUT_PERIOD    (BSP_DELAY_MILLISECS)
 
 /**********************************************************************************************************************
@@ -127,6 +129,7 @@ typedef enum
     ULPGN_SOCKET_STATUS_BOUND,
     ULPGN_SOCKET_STATUS_LISTEN,
     ULPGN_SOCKET_STATUS_CONNECTED,
+	ULPGN_SOCKET_STATUS_BROKEN,
     ULPGN_SOCKET_STATUS_MAX,
 } sx_ulpgn_socket_status_t;
 
