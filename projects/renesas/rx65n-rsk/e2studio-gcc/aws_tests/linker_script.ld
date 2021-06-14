@@ -1,6 +1,6 @@
 MEMORY
 {
-	RAM : ORIGIN = 0x8, LENGTH = 262136
+	RAM : ORIGIN = 0x4, LENGTH = 0x3fffc
 	RAM2 : ORIGIN = 0x00800000, LENGTH = 393216
     DATAFLASH (!rx) : ORIGIN = 0x100000, LENGTH = 32768 
 	ROM : ORIGIN = 0xFFF00000, LENGTH = 1048576
@@ -18,7 +18,7 @@ SECTIONS
 	{
 		KEEP(*(.fvectors))
 	} >ROM
-	.text 0xFFF35000 : AT(0xFFF35000)
+	.text 0xFFF00300 : AT(0xFFF00300)
 	{
 		*(.text)
 		*(.text.*)
@@ -54,16 +54,17 @@ SECTIONS
 	{
 		*(.got)
 		*(.got.plt)
-	} >ROM
-	.rodata 0xFFF00300 : AT(0xFFF00300)
-	{
-		*(.rodata)
-		*(.rodata.*)
-		*(C_1)
-		*(C_2)
-		*(C)
-		_erodata = .;
-	} >ROM
+	} >ROM .rodata :
+{
+	*(.rodata)
+	*(.rodata.*)
+	*(C_1)
+	*(C_2)
+	*(C)
+	_erodata = .;
+} >ROM
+
+
 	.eh_frame_hdr :
 	{
 		*(.eh_frame_hdr)
@@ -108,13 +109,14 @@ SECTIONS
 		_RPFRAM_end = (. + 3) & ~ 3;
 		_PFRAM_end = LOADADDR(.data) + (_RPFRAM_end - ADDR(.data));
 		_edata = .;
-	} >RAM B_ETHERNET_BUFFERS_1 (NOLOAD) :
+	} >RAM
+	
+	B_ETHERNET_BUFFERS_1  (NOLOAD) :
 {
 	_B_ETHERNET_BUFFERS_1_start = .;
 	*(B_ETHERNET_BUFFERS_1)
 	_B_ETHERNET_BUFFERS_1_end = .;
-} >RAM
-
+	} >RAM2
 	B_RX_DESC_1 (NOLOAD) :
 	{
 	_B_RX_DESC_1_start = .;
@@ -131,6 +133,8 @@ SECTIONS
 	.gcc_exc :
 	{
 		*(.gcc_exc)
+		*t.o(.bss.**)
+		*l.o(.bss.**)
 	} >RAM
 	.bss :
 	{
@@ -175,9 +179,22 @@ SECTIONS
 	_FRAM2_end = .;
 	} >RAM2
 	
-	C_PKCS11_STORAGE_1 :
+	C_BOOTLOADER_KEY_STORAGE_1 0x00100000 : AT(0x00100000)
+	{
+	} >DATAFLASH C_BOOTLOADER_KEY_STORAGE_MIRROR_1 :
+    {
+    } >DATAFLASH
+    
+	
+	C_PKCS11_STORAGE_1 0x00100800 : AT(0x00100800)
 	{
 	} >DATAFLASH C_PKCS11_STORAGE_MIRROR_1 :
+    {
+    } >DATAFLASH
+    
+    C_SYSTEM_CONFIG_1 0x00104800 : AT(0x00104800)
+	{
+	} >DATAFLASH C_SYSTEM_CONFIG_MIRROR_1 :
     {
     } >DATAFLASH
 	

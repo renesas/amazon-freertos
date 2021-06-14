@@ -111,6 +111,16 @@ typedef struct _pkcs_data
     },\
     /* uint8_t hash_sha256[PKCS_SHA256_LENGTH]; */\
     {0xea, 0x57, 0x12, 0x9a, 0x18, 0x10, 0x83, 0x80, 0x88, 0x80, 0x40, 0x1f, 0xae, 0xb2, 0xd2, 0xff, 0x1c, 0x14, 0x5e, 0x81, 0x22, 0x6b, 0x9d, 0x93, 0x21, 0xf8, 0x0c, 0xc1, 0xda, 0x29, 0x61, 0x64},
+#elif defined (BSP_MCU_RX72N)
+#define PKCS_CONTROL_BLOCK_INITIAL_DATA \
+    {\
+        /* uint8_t local_storage[((FLASH_DF_BLOCK_SIZE * FLASH_NUM_BLOCKS_DF) / 4) - (sizeof(PKCS_DATA) * PKCS_OBJECT_HANDLES_NUM) - PKCS_SHA256_LENGTH]; */\
+        {0x00},\
+        /* PKCS_DATA pkcs_data[PKCS_OBJECT_HANDLES_NUM]; */\
+        {0x00},\
+    },\
+    /* uint8_t hash_sha256[PKCS_SHA256_LENGTH]; */\
+    {0xea, 0x57, 0x12, 0x9a, 0x18, 0x10, 0x83, 0x80, 0x88, 0x80, 0x40, 0x1f, 0xae, 0xb2, 0xd2, 0xff, 0x1c, 0x14, 0x5e, 0x81, 0x22, 0x6b, 0x9d, 0x93, 0x21, 0xf8, 0x0c, 0xc1, 0xda, 0x29, 0x61, 0x64},
 #else
 #error "core_pkcs11_pal.c does not support your MCU"
 #endif
@@ -179,6 +189,8 @@ typedef struct _update_data_flash_control_block {
 	uint32_t status;
 }UPDATA_DATA_FLASH_CONTROL_BLOCK;
 
+extern xSemaphoreHandle xSemaphoreFlashAccess;
+
 /******************************************************************************
  Private global variables
  ******************************************************************************/
@@ -189,7 +201,7 @@ CK_RV PKCS11_PAL_Initialize( CK_VOID_PTR pvInitArgs )
     CK_RV xResult = CKR_OK;
 
     CRYPTO_Init();
-    R_FLASH_Open();
+    //R_FLASH_Open();
 
 #if defined (BSP_MCU_RX63N) || (BSP_MCU_RX631) || (BSP_MCU_RX630)
     flash_access_window_config_t flash_access_window_config;
@@ -204,7 +216,7 @@ CK_RV PKCS11_PAL_Initialize( CK_VOID_PTR pvInitArgs )
     /* copy data from storage to ram */
     memcpy(&pkcs_control_block_data_image, (void *)&pkcs_control_block_data, sizeof(pkcs_control_block_data_image));
 
-    R_FLASH_Close();
+    //R_FLASH_Close();
 
     return xResult;
 }
@@ -230,7 +242,7 @@ CK_OBJECT_HANDLE PKCS11_PAL_SaveObject( CK_ATTRIBUTE_PTR pxLabel,
     mbedtls_sha256_context ctx;
 
     mbedtls_sha256_init(&ctx);
-    R_FLASH_Open();
+	//R_FLASH_Open();
 
 #if defined (BSP_MCU_RX63N) || (BSP_MCU_RX631) || (BSP_MCU_RX630)
     flash_access_window_config_t flash_access_window_config;
@@ -337,22 +349,26 @@ CK_OBJECT_HANDLE PKCS11_PAL_SaveObject( CK_ATTRIBUTE_PTR pxLabel,
 
         /* update data from ram to storage */
         data_flash_update_status_initialize();
+        xSemaphoreTake(xSemaphoreFlashAccess, portMAX_DELAY);
         while ( update_data_flash_control_block.status < DATA_FLASH_UPDATE_STATE_FINALIZE_COMPLETED )
         {
             update_dataflash_data_from_image();
             vTaskDelay(1);
         }
+        xSemaphoreGive(xSemaphoreFlashAccess);
         if (update_data_flash_control_block.status == DATA_FLASH_UPDATE_STATE_ERROR)
         {
             PKCS11_PAL_DEBUG_PRINT(("ERROR: Update data flash data from image\r\n"));
             while(1);
         }
         data_flash_update_status_initialize();
+        xSemaphoreTake(xSemaphoreFlashAccess, portMAX_DELAY);
         while ( update_data_flash_control_block.status < DATA_FLASH_UPDATE_STATE_FINALIZE_COMPLETED )
         {
             update_dataflash_data_mirror_from_image();
             vTaskDelay(1);
         }
+        xSemaphoreGive(xSemaphoreFlashAccess);
         if (update_data_flash_control_block.status == DATA_FLASH_UPDATE_STATE_ERROR)
         {
             PKCS11_PAL_DEBUG_PRINT(("ERROR: Update data flash data mirror from image\r\n"));
@@ -360,8 +376,7 @@ CK_OBJECT_HANDLE PKCS11_PAL_SaveObject( CK_ATTRIBUTE_PTR pxLabel,
         }
     }
 
-    R_FLASH_Close();
-
+	//R_FLASH_Close();
     return xHandle;
 
 }
@@ -657,10 +672,12 @@ static void check_dataflash_area(uint32_t retry_counter)
             memcpy(&pkcs_control_block_data_image, (void *)&pkcs_control_block_data, sizeof(pkcs_control_block_data));
 
             data_flash_update_status_initialize();
+            xSemaphoreTake(xSemaphoreFlashAccess, portMAX_DELAY);
             while ( update_data_flash_control_block.status < DATA_FLASH_UPDATE_STATE_FINALIZE_COMPLETED )
             {
                 update_dataflash_data_mirror_from_image();
             }
+            xSemaphoreGive(xSemaphoreFlashAccess);
             if (update_data_flash_control_block.status == DATA_FLASH_UPDATE_STATE_ERROR)
             {
                 PKCS11_PAL_DEBUG_PRINT(("ERROR: Update data flash data mirror from image\r\n"));

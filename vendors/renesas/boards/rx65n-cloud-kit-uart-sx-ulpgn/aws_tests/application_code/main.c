@@ -58,8 +58,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #define _NM_WIFI_CONNECTION_RETRY_INTERVAL_MS    ( 1000 )
 
-#define _NM_WIFI_CONNECTION_RETRIES              ( 5 )
+#define _NM_WIFI_CONNECTION_RETRIES              ( 10 )
 // RX65N Cloud Kit 20200923 <<--
+
+extern void main_task(void);
 
 /* The MAC address array is not declared const as the MAC address will
 normally be read from an EEPROM and not hard coded (in real deployed
@@ -127,13 +129,13 @@ static bool _wifiEnable( void );	// RX65N Cloud Kit 20200923
  */
 void main( void )
 {
-	nop();
+//	nop();
     /* Perform any hardware initialization that does not require the RTOS to be
      * running.  */
 
     while(1)
     {
-    	vTaskDelay(10000);
+    	main_task();
     }
 }
 /*-----------------------------------------------------------*/
