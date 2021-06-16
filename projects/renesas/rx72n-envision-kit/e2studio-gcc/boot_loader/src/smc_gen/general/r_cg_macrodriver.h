@@ -33,7 +33,6 @@ Includes
 ***********************************************************************************************************************/
 #include "platform.h"
 #include "r_smc_interrupt.h"
-#include <machine.h>
 
 /***********************************************************************************************************************
 Macro definitions (Register bit)
@@ -61,6 +60,10 @@ Macro definitions
 #define MD_ERROR3            (MD_ERRORBASE + 0x04U)  /* error 3 */
 #define MD_ERROR4            (MD_ERRORBASE + 0x05U)  /* error 4 */
 #define MD_ERROR5            (MD_ERRORBASE + 0x06U)  /* error 5 */
+
+#define nop()                R_BSP_NOP()
+#define wait()               R_BSP_WAIT()
+#define set_psw(x)  		 R_BSP_SET_PSW(x)
 
 #endif
 

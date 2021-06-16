@@ -20,9 +20,9 @@
 /***********************************************************************************************************************
 * File Name    : r_smc_interrupt.h
 * Version      : 1.1.0
-* Device(s)    : R5F565NEDxFC
+* Device(s)    : R5F572NNHxFB
 * Description  : This file implements interrupt setting.
-* Creation Date: 2020-04-09
+* Creation Date: 2020-04-23
 ***********************************************************************************************************************/
 
 #ifndef SMC_INTERRUPT_H
@@ -61,6 +61,7 @@ Macro definitions
  * Please do not modify this file manually
  */
 #define ICU_BSC_BUSERR_PRIORITY                    (_0F_ICU_PRIORITY_LEVEL15)
+#define ICU_ICU_GROUPIE0_PRIORITY                  (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_RAM_RAMERR_PRIORITY                    (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_FCU_FIFERR_PRIORITY                    (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_FCU_FRDYI_PRIORITY                     (_0F_ICU_PRIORITY_LEVEL15)
@@ -80,6 +81,9 @@ Macro definitions
 #define ICU_QSPI_SPTI_PRIORITY                     (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_SDHI_SBFAI_PRIORITY                    (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_MMCIF_MBFAI_PRIORITY                   (_0F_ICU_PRIORITY_LEVEL15)
+#define ICU_SSIE0_SSITXI0_PRIORITY                 (_0F_ICU_PRIORITY_LEVEL15)
+#define ICU_SSIE0_SSIRXI0_PRIORITY                 (_0F_ICU_PRIORITY_LEVEL15)
+#define ICU_SSIE1_SSIRTI1_PRIORITY                 (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_RIIC1_RXI1_PRIORITY                    (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_RIIC1_TXI1_PRIORITY                    (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_RIIC0_RXI0_PRIORITY                    (_0F_ICU_PRIORITY_LEVEL15)
@@ -216,7 +220,6 @@ Macro definitions
 #define ICU_S12AD1_S12ADI1_PRIORITY                (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_S12AD1_S12GBADI1_PRIORITY              (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_S12AD1_S12GCADI1_PRIORITY              (_0F_ICU_PRIORITY_LEVEL15)
-#define ICU_RNG_RNGEND_PRIORITY                    (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_ELC_ELSR18I_PRIORITY                   (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_ELC_ELSR19I_PRIORITY                   (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_TSIP_PROC_BUSY_PRIORITY                (_0F_ICU_PRIORITY_LEVEL15)
@@ -230,6 +233,7 @@ Macro definitions
 #define ICU_TSIP_RDRDY1_PRIORITY                   (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_TSIP_INTEGRATE_WRRDY_PRIORITY          (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_TSIP_INTEGRATE_RDRDY_PRIORITY          (_0F_ICU_PRIORITY_LEVEL15)
+#define ICU_PERIB_INTB205_PRIORITY                 (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_PERIB_INTB206_PRIORITY                 (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_PERIB_INTB207_PRIORITY                 (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_MTU1_TGIA1_PRIORITY                    (_0F_ICU_PRIORITY_LEVEL15)
@@ -275,9 +279,9 @@ Macro definitions
 #define ICU_MTU8_TGIC8_PRIORITY                    (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_MTU8_TGID8_PRIORITY                    (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_MTU8_TCIV8_PRIORITY                    (_0F_ICU_PRIORITY_LEVEL15)
-#define ICU_AES_AESRDY_PRIORITY                    (_0F_ICU_PRIORITY_LEVEL15)
-#define ICU_AES_AESEND_PRIORITY                    (_0F_ICU_PRIORITY_LEVEL15)
-#define ICU_PERIA_INTA253_PRIORITY                 (_0F_ICU_PRIORITY_LEVEL15)
+#define ICU_EPTPC_IPLS_PRIORITY                    (_0F_ICU_PRIORITY_LEVEL15)
+#define ICU_PMGI0_PMGI0I_PRIORITY                  (_0F_ICU_PRIORITY_LEVEL15)
+#define ICU_PMGI1_PMGI1I_PRIORITY                  (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_PERIA_INTA254_PRIORITY                 (_0F_ICU_PRIORITY_LEVEL15)
 #define ICU_PERIA_INTA255_PRIORITY                 (_0F_ICU_PRIORITY_LEVEL15)
 

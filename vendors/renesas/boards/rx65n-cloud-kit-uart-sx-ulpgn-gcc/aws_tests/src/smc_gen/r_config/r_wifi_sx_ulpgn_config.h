@@ -52,7 +52,7 @@
 #define WIFI_CFG_RTS_PORT                      2
 #define WIFI_CFG_RTS_PIN                       2
 
-#define WIFI_CFG_CREATABLE_SOCKETS             5
+#define WIFI_CFG_CREATABLE_SOCKETS             4
 
 #define WIFI_CFG_SOCKETS_RECEIVE_BUFFER_SIZE   1024 * 10
 
