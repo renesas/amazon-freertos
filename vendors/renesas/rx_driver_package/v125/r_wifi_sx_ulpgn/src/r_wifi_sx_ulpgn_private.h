@@ -212,6 +212,8 @@ typedef struct wifi_socket_tag
     uint32_t receive_num;
     uint32_t receive_count;
     uint32_t put_error_count;
+    uint32_t extracted_data_size;
+    uint32_t total_data_size;
     uint32_t processed_data_size;
     uint32_t start_processed_data_size;
     uint32_t end_processed_data_size;
