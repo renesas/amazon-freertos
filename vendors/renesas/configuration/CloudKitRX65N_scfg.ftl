@@ -26,10 +26,10 @@
 <source id="com.renesas.smc.tools.swcomponent.fit.source"/>
 </configuration>
 <configuration inuse="true" name="r_wifi_sx_ulpgn">
-<component description="Dependency : r_bsp version(s) 5.20&#10;Dependency : r_byteq version(s) 1.80&#10;Dependency : r_sci_rx version(s) 3.20&#10;Use UART to control SX-ULPGN and connect to the Internet." detailDescription="WI-FI Module control functions for Renesas MCUs." display="r_wifi_sx_ulpgn" id="r_wifi_sx_ulpgn1.00" version="1.00">
+<component description="Dependency : r_bsp version(s) 5.20&#10;Dependency : r_byteq version(s) 1.80&#10;Dependency : r_sci_rx version(s) 3.20&#10;Use UART to control SX-ULPGN and connect to the Internet." detailDescription="Wi-Fi Module control functions for Renesas MCUs." display="r_wifi_sx_ulpgn" id="r_wifi_sx_ulpgn1.02" version="1.02">
 <gridItem id="WIFI_CFG_SCI_CHANNEL" selectedIndex="0"/>
 <gridItem id="WIFI_CFG_SCI_SECOND_CHANNEL" selectedIndex="1"/>
-<gridItem id="WIFI_CFG_SCI_INTERRUPT_LEVEL" selectedIndex="14"/>
+<gridItem id="WIFI_CFG_SCI_INTERRUPT_LEVEL" selectedIndex="4"/>
 <gridItem id="WIFI_CFG_SCI_BAUDRATE" selectedIndex="460800"/>
 <gridItem id="WIFI_CFG_SCI_USE_FLOW_CONTROL" selectedIndex="1"/>
 <gridItem id="WIFI_CFG_RESET_PORT" selectedIndex="13"/>
