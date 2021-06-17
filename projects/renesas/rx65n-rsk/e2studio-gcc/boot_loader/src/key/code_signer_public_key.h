@@ -39,8 +39,8 @@
 //#define CODE_SIGNENR_PUBLIC_KEY_PEM "Paste code signer public key here."
 #define CODE_SIGNENR_PUBLIC_KEY_PEM \
 "-----BEGIN PUBLIC KEY-----"\
-"MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEJd5UEmAy5koXLgv9uK+dIqB7cFph"\
-"A5u1JFBPWTbzdGm/eQIj32snr5o9hKomq+GzMk3j5WbsBzVmXzKmFkJ7Zw=="\
+"MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEHHOpv3uoyZngVylYoPxsUGVCIdL4"\
+"xC8tx5JTDRDtQTGGe9/KZdxhH7i+uDNrQnb9Mxsdwk71g+p0mTKN4OKGCA=="\
 "-----END PUBLIC KEY-----"\
 
 extern const uint8_t code_signer_public_key[];

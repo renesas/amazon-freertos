@@ -2,35 +2,35 @@ MEMORY
 {
 	RAM : ORIGIN = 0x4, LENGTH = 0x7fffc
 	RAM2 : ORIGIN = 0x00800000, LENGTH = 524288
-	DATAFLASH (!rx) : ORIGIN = 0x100000, LENGTH = 32768 
+	DATAFLASH (!rx) : ORIGIN = 0x100000, LENGTH = 32768
 	ROM : ORIGIN = 0xFFC00000, LENGTH = 4194304
 	OFS : ORIGIN = 0xFE7F5D00, LENGTH = 128
 }
 SECTIONS
 {
-	.exvectors 0xFFFFFF80: AT(0xFFFFFF80)
+	.exvectors 0xFFFFFF80 : AT(0xFFFFFF80)
 	{
 		"_exvectors_start" = .;
 		KEEP(*(.exvectors))
-	"_exvectors_end" = .;
+		"_exvectors_end" = .;
 	} >ROM
-	.fvectors 0xFFFFFFFC: AT(0xFFFFFFFC)
+	.fvectors 0xFFFFFFFC : AT(0xFFFFFFFC)
 	{
 		KEEP(*(.fvectors))
-	} > ROM
-	.text 0xFFE00000: AT(0xFFE00000)
+	} >ROM
+	.text 0xFFE00300 : AT(0xFFE00300)
 	{
 		*(.text)
 		*(.text.*)
 		*(P)
 		etext = .;
-	} > ROM
-	.rvectors ALIGN(4):
+	} >ROM
+	.rvectors ALIGN(4) :
 	{
 		_rvectors_start = .;
 		INCLUDE ../../../../../../vendors/renesas/rx_driver_package/v125/r_bsp/mcu/all/linker_script_rvectors.inc
 		_rvectors_end = .;
-	} > ROM
+	} >ROM
 	.init :
 	{
 		KEEP(*(.init))
@@ -45,16 +45,16 @@ SECTIONS
 		KEEP(*(.fini_array))
 		KEEP(*(SORT(.fini_array.*)))
 		__fini_array_end = .;
-	} > ROM
+	} >ROM
 	.fini :
 	{
 		KEEP(*(.fini))
-	} > ROM
+	} >ROM
 	.got :
 	{
 		*(.got)
 		*(.got.plt)
-	} > ROM
+	} >ROM
 	.rodata :
 	{
 		*(.rodata)
@@ -63,19 +63,19 @@ SECTIONS
 		*(C_2)
 		*(C)
 		_erodata = .;
-	} > ROM
+	} >ROM
 	.eh_frame_hdr :
 	{
 		*(.eh_frame_hdr)
-	} > ROM
+	} >ROM
 	.eh_frame :
 	{
 		*(.eh_frame)
-	} > ROM
+	} >ROM
 	.jcr :
 	{
 		*(.jcr)
-	} > ROM
+	} >ROM
 	.tors :
 	{
 		__CTOR_LIST__ = .;
@@ -91,7 +91,7 @@ SECTIONS
 		__DTOR_END__ = .;
 		. = ALIGN(2);
 		_mdata = .;
-	} > ROM
+	} >ROM
 	.data : AT(_mdata)
 	{
 		_data = .;
@@ -106,11 +106,29 @@ SECTIONS
 		_RPFRAM_end = (. + 3) & ~ 3;
 		_PFRAM_end = LOADADDR(.data) + (_RPFRAM_end - ADDR(.data));
 		_edata = .;
-	} > RAM
+	} >RAM
+	B_ETHERNET_BUFFERS_1 (NOLOAD) :
+	{
+		_B_ETHERNET_BUFFERS_1_start = .;
+		*(B_ETHERNET_BUFFERS_1)
+		_B_ETHERNET_BUFFERS_1_end = .;
+	} >RAM2
+	B_RX_DESC_1 (NOLOAD) :
+	{
+		_B_RX_DESC_1_start = .;
+		*(B_RX_DESC_1)
+		_B_RX_DESC_1_end = .;
+	} >RAM2
+	B_TX_DESC_1 (NOLOAD) :
+	{
+		_B_TX_DESC_1_start = .;
+		*(B_TX_DESC_1)
+		_B_TX_DESC_1_end = .;
+	} >RAM2
 	.gcc_exc :
 	{
 		*(.gcc_exc)
-	} > RAM
+	} >RAM
 	.bss :
 	{
 		_bss = .;
@@ -122,112 +140,98 @@ SECTIONS
 		*(B_2)
 		_ebss = .;
 		_end = .;
-	} > RAM
-	
-	B_ETHERNET_BUFFERS_1  (NOLOAD) :
-{
-	_B_ETHERNET_BUFFERS_1_start = .;
-	*(B_ETHERNET_BUFFERS_1)
-	_B_ETHERNET_BUFFERS_1_end = .;
 	} >RAM2
-	B_RX_DESC_1 (NOLOAD) :
+	RPFRAM2 (NOLOAD) :
 	{
-	_B_RX_DESC_1_start = .;
-	*(B_RX_DESC_1)
-	_B_RX_DESC_1_end = .;
-	} >RAM2
-	B_TX_DESC_1 (NOLOAD) :
-	{
-	_B_TX_DESC_1_start = .;
-	*(B_TX_DESC_1)
-	_B_TX_DESC_1_end = .;
-	} >RAM2
-		
-	RPFRAM2   (NOLOAD) : 
-{
-	_RPFRAM2_start = .;
-	*(RPFRAM2)
-	_RPFRAM2_end = .;
+		_RPFRAM2_start = .;
+		*(RPFRAM2)
+		_RPFRAM2_end = .;
 	} >RAM
-	
-	PFRAM  (NOLOAD) : 
-{
-	_PFRAM_start = .;
-	*(PFRAM)
-	_PFRAM_end = .;
-	} >ROM
-	
-	PFRAM2  (NOLOAD) : 
-{
-	_PFRAM2_start = .;
-	*(PFRAM2)
-	_PFRAM2_end = .;
-	} >ROM
-	
-	
-	
-	FRAM2  (NOLOAD) : 
-{
-	_FRAM2_start = .;
-	*(FRAM2)
-	_FRAM2_end = .;
-	} >RAM2
-	
-	C_PKCS11_STORAGE_1 :
+	PFRAM (NOLOAD) :
 	{
-	} >DATAFLASH C_PKCS11_STORAGE_MIRROR_1 :
-    {
-    } >DATAFLASH
-	.ofs1 0xFE7F5D00: AT(0xFE7F5D00)
+		_PFRAM_start = .;
+		*(PFRAM)
+		_PFRAM_end = .;
+	} >ROM
+	PFRAM2 (NOLOAD) :
+	{
+		_PFRAM2_start = .;
+		*(PFRAM2)
+		_PFRAM2_end = .;
+	} >ROM
+	FRAM2 (NOLOAD) :
+	{
+		_FRAM2_start = .;
+		*(FRAM2)
+		_FRAM2_end = .;
+	} >RAM2
+	C_BOOTLOADER_KEY_STORAGE_1 0x00100000 : AT(0x00100000)
+	{
+	} >DATAFLASH
+	C_BOOTLOADER_KEY_STORAGE_MIRROR_1 :
+	{
+	} >DATAFLASH
+	C_PKCS11_STORAGE_1 0x00100800 : AT(0x00100800)
+	{
+	} >DATAFLASH
+	C_PKCS11_STORAGE_MIRROR_1 :
+	{
+	} >DATAFLASH
+	C_SYSTEM_CONFIG_1 0x00104800 : AT(0x00104800)
+	{
+	} >DATAFLASH
+	C_SYSTEM_CONFIG_MIRROR_1 :
+	{
+	} >DATAFLASH	.ofs1 0xFE7F5D00 : AT(0xFE7F5D00)
 	{
 		KEEP(*(.ofs1))
-	} > OFS
-	.ofs2 0xFE7F5D10: AT(0xFE7F5D10)
+	} >OFS
+	.ofs2 0xFE7F5D10 : AT(0xFE7F5D10)
 	{
 		KEEP(*(.ofs2))
-	} > OFS
-	.ofs3 0xFE7F5D20: AT(0xFE7F5D20)
+	} >OFS
+	.ofs3 0xFE7F5D20 : AT(0xFE7F5D20)
 	{
 		KEEP(*(.ofs3))
-	} > OFS
-	.ofs4 0xFE7F5D40: AT(0xFE7F5D40)
+	} >OFS
+	.ofs4 0xFE7F5D40 : AT(0xFE7F5D40)
 	{
 		KEEP(*(.ofs4))
-	} > OFS
-	.ofs5 0xFE7F5D48: AT(0xFE7F5D48)
+	} >OFS
+	.ofs5 0xFE7F5D48 : AT(0xFE7F5D48)
 	{
 		KEEP(*(.ofs5))
-	} > OFS
-	.ofs6 0xFE7F5D50: AT(0xFE7F5D50)
+	} >OFS
+	.ofs6 0xFE7F5D50 : AT(0xFE7F5D50)
 	{
 		KEEP(*(.ofs6))
-	} > OFS
-	.ofs7 0xFE7F5D64: AT(0xFE7F5D64)
+	} >OFS
+	.ofs7 0xFE7F5D64 : AT(0xFE7F5D64)
 	{
 		KEEP(*(.ofs7))
-	} > OFS
-	.ofs8 0xFE7F5D70: AT(0xFE7F5D70)
+	} >OFS
+	.ofs8 0xFE7F5D70 : AT(0xFE7F5D70)
 	{
 		KEEP(*(.ofs8))
-	} > OFS
+	} >OFS
 	.r_bsp_NULL :
 	{
 		. += 0x100;
 		"_r_bsp_NULL_end" = .;
 	} >RAM
-.r_bsp_istack BLOCK(0x4) (NOLOAD) :
+	.r_bsp_istack BLOCK(0x4) (NOLOAD) :
 	{
 		KEEP(*(.r_bsp_istack))
 	} >RAM
-.istack :
+	.istack :
 	{
 		"_istack" = .;
 	} >RAM
-.r_bsp_ustack BLOCK(0x4) (NOLOAD) :
+	.r_bsp_ustack BLOCK(0x4) (NOLOAD) :
 	{
 		KEEP(*(.r_bsp_ustack))
 	} >RAM
-.ustack :
+	.ustack :
 	{
 		"_ustack" = .;
 	} >RAM

@@ -1,6 +1,6 @@
 /*
-FreeRTOS
-Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+Amazon FreeRTOS
+Copyright (C) 2017 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -58,8 +58,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #define _NM_WIFI_CONNECTION_RETRY_INTERVAL_MS    ( 1000 )
 
-#define _NM_WIFI_CONNECTION_RETRIES              ( 5 )
+#define _NM_WIFI_CONNECTION_RETRIES              ( 20 )
 // RX65N Cloud Kit 20200923 <<--
+
+extern void main_task(void);
 
 /* The MAC address array is not declared const as the MAC address will
 normally be read from an EEPROM and not hard coded (in real deployed
@@ -118,7 +120,6 @@ void vApplicationDaemonTaskStartupHook( void );
  */
 static void prvMiscInitialization( void );
 static bool _wifiEnable( void );	// RX65N Cloud Kit 20200923
-
 /*-----------------------------------------------------------*/
 
 /**
@@ -132,7 +133,7 @@ void main( void )
 
     while(1)
     {
-    	vTaskDelay(10000);
+    	main_task();
     }
 }
 /*-----------------------------------------------------------*/
@@ -272,6 +273,7 @@ static bool _wifiEnable( void )
     if( WIFI_On() != eWiFiSuccess )
     {
         ret = false;
+        configPRINTF(( "WiFi network cannot be enabled.\n" ));
     }
 
     #if ( IOT_BLE_ENABLE_WIFI_PROVISIONING == 0 )
