@@ -137,14 +137,19 @@
 </configuration>
 </tool>
 <tool id="Clock">
-<option enabled="true" id="hocofrequency" selection="frq20"/>
+<option enabled="false" id="hocofrequency" selection="frq20"/>
 <option enabled="true" id="hocooscenable" selection="uncheck"/>
 <option enabled="true" id="mainclockenable" selection="uncheck"/>
 <option enabled="false" id="mainsourcebox" selection="srcR"/>
 <option enabled="false" id="mainfrequency" selection="textinputitem"/>
 <option enabled="false" id="mainwaittime" selection="textinputitem"/>
 <option enabled="true" id="hococlockenable" selection="check"/>
-<option enabled="true" id="hocofrequency" selection="frq20"/>
+<option enabled="true" id="uckdivider" selection="comboBox1-5">
+<item enabled="false" id="comboBox1-2"/>
+<item enabled="false" id="comboBox1-3"/>
+<item enabled="false" id="comboBox1-4"/>
+<item enabled="true" id="comboBox1-5"/>
+</option>
 <option enabled="true" id="hocooscenable" selection="uncheck"/>
 <option enabled="true" id="pllswitcher" selection="pllhoco">
 <item enabled="false" id="pllmain" input="" value="24.0"/>
@@ -178,7 +183,7 @@
 <Item current="240.0 MHz" id="uckdivider.InputValue"/>
 <Item current="48.0 MHz" id="uckdivider.OutputValue"/>
 <Item current="sckselector.radiobutton.swtpll" id="uckdivider.Condition"/>
-<Item current="comboBox1-5" error="false" id="uckdivider.comboBox"/>
+<Item current="comboBox1-2" error="false" id="uckdivider.comboBox"/>
 </tool>
 <tool id="Pins" version="1.0.1.0">
 <pinItem allocation="11" comments="" direction="None" id="XTAL" isUsedBySoftware="true" locked="false" status="0"/>
