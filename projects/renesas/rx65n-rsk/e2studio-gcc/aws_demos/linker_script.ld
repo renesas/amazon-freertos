@@ -18,7 +18,7 @@ SECTIONS
 	{
 		KEEP(*(.fvectors))
 	} >ROM
-	.text 0xFFF30000 : AT(0xFFF30000)
+	.text 0xFFF37000 : AT(0xFFF37000)
 	{
 		*(.text)
 		*(.text.*)
