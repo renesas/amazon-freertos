@@ -132,7 +132,7 @@ void get_random_number(uint8_t *data, uint32_t len)
     R_ADC_Read(1, ADC_REG_TEMP, &temperature_data);
 
     y += temperature_data;  /* randomness from internal temperature sensor */
-#elif defined (BSP_MCU_RX63N) || (BSP_MCU_RX631) || (BSP_MCU_RX630)
+#elif defined (BSP_MCU_RX63N) || (BSP_MCU_RX631) || (BSP_MCU_RX630)|| (BSP_MCU_RX671)
     adc_cfg_t ad_cfg;
     adc_ch_cfg_t ch_cfg;
     uint16_t temperature_data;
