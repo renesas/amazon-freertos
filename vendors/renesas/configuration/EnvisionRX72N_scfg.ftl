@@ -44,6 +44,9 @@
 </configuration>
 <configuration inuse="true" name="r_sci_rx">
 <component display="r_sci_rx" id="r_sci_rx3.40" version="3.40">
+<gridItem id="RXD1/SMISO1" selectedIndex="1"/>
+<gridItem id="TXD1/SMOSI1" selectedIndex="1"/>
+<gridItem id="SCI1" selectedIndex="1"/>
 <gridItem id="RXD2/SMISO2" selectedIndex="1"/>
 <gridItem id="TXD2/SMOSI2" selectedIndex="1"/>
 <gridItem id="SCI2" selectedIndex="1"/>
@@ -53,7 +56,7 @@
 <gridItem id="SCI_CFG_TEI_INCLUDED" selectedIndex="1"/>
 <gridItem id="SCI_CFG_CH2_INCLUDED" selectedIndex="1"/>
 <gridItem id="SCI_CFG_CH7_INCLUDED" selectedIndex="1"/>
-<gridItem id="SCI_CFG_CH1_INCLUDED" selectedIndex="0"/>
+<gridItem id="SCI_CFG_CH1_INCLUDED" selectedIndex="1"/>
 </component>
 <source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
 </configuration>
