@@ -54,6 +54,16 @@
     },\
     /* uint8_t hash_sha256[SFD_SHA256_LENGTH]; */\
     {0x4b, 0x48, 0xf2, 0x1a, 0x4b, 0x7a, 0x02, 0xbf, 0xbe, 0xc1, 0x9e, 0xf8, 0x80, 0xa9, 0x67, 0xa0, 0x23, 0x34, 0xa3, 0xcd, 0xce, 0xf8, 0xae, 0x83, 0xde, 0x2e, 0xf3, 0x27, 0xba, 0x8b, 0xc5, 0xdd},
+#elif SFD_CONTROL_BLOCK_SIZE == 256
+#define SFD_CONTROL_BLOCK_INITIAL_DATA \
+    {\
+        /* uint8_t local_storage[((FLASH_DF_BLOCK_SIZE * FLASH_NUM_BLOCKS_DF) / 4) - (sizeof(SFD_DATA) * SFD_OBJECT_HANDLES_NUM) - SFD_SHA256_LENGTH]; */\
+        {0x00},\
+        /* SFD_DATA sfd_data[SFD_OBJECT_HANDLES_NUM]; */\
+        {0x00},\
+    },\
+    /* uint8_t hash_sha256[SFD_SHA256_LENGTH]; */\
+    {0x6e, 0xb6, 0x9e, 0x26, 0xde, 0x2a, 0x26, 0xed, 0xa4, 0x8a, 0xf7, 0x7d, 0x4c, 0xec, 0x89, 0x3a, 0xa0, 0xcf, 0x47, 0x48, 0xa6, 0x4c, 0xbe, 0xfc, 0xfe, 0x11, 0xa2, 0x2c, 0x1e, 0x68, 0x0a, 0xd9},
 #elif SFD_CONTROL_BLOCK_SIZE == 1024
 #define SFD_CONTROL_BLOCK_INITIAL_DATA \
     {\
@@ -100,7 +110,7 @@
 #error "Simple Filesystem on Dataflash (SFD) does not support your MCU"
 #endif
 
-#define SFD_DEBUG_PRINT( X )  /* printf( X ) */
+#define SFD_DEBUG_PRINT( X )  // configPRINTF( X )
 
 #define SFD_DATA_FLASH_UPDATE_STATE_INITIALIZE 0
 #define SFD_DATA_FLASH_UPDATE_STATE_ERASE 1
@@ -153,6 +163,7 @@ static UPDATA_DATA_FLASH_CONTROL_BLOCK update_data_flash_control_block;
 
 sfd_err_t R_SFD_Open(void)
 {
+
 	sfd_err_t sfd_err = SFD_FATAL_ERROR;
 
 	if(FLASH_CFG_DATA_FLASH_BGO == 1)
@@ -165,7 +176,7 @@ sfd_err_t R_SFD_Open(void)
 	}
 	else
 	{
-		SFD_DEBUG_PRINT("Please set FLASH_CFG_DATA_FLASH_BGO to 1 in r_flash_config_rx.h.\r\n");
+		SFD_DEBUG_PRINT( ("Please set FLASH_CFG_DATA_FLASH_BGO to 1 in r_flash_config_rx.h.\r\n") );
 		sfd_err = SFD_FATAL_ERROR;
 	}
     return sfd_err;
@@ -750,7 +761,7 @@ static void check_dataflash_area(uint32_t retry_counter)
         {
             SFD_DEBUG_PRINT(("NG\r\n"));
 			SFD_DEBUG_PRINT(("------------------------------------------------\r\n"));
-			SFD_DEBUG_PRINT(("Data flash is completely broken.\r\n"));
+			SFD_DEBUG_PRINT(("Data flash is completely broken!\r\n"));
 			SFD_DEBUG_PRINT(("Initializing Data Flash data to all zero.\r\n"));
 			SFD_DEBUG_PRINT(("------------------------------------------------\r\n"));
 

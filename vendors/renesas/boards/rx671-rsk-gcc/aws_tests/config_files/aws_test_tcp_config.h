@@ -61,7 +61,7 @@
  */
 #define         integrationtestportableSEND_TIMEOUT                20000
 
-#define			tcptestECHO_TEST_SYNC_TIMEOUT					  200000
+#define			tcptestECHO_TEST_SYNC_TIMEOUT					  800000
 #define			integrationtestportableMAX_NUM_UNSECURE_SOCKETS	   4u
 
 #endif /*AWS_INTEGRATION_TEST_TCP_CONFIG_H */
