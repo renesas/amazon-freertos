@@ -250,8 +250,16 @@
         <address>0x00000000</address>
       </section>
       <section>
-        <name>C_PKCS11_STORAGE*</name>
+        <name>C_BOOTLOADER_KEY_STORAGE*</name>
         <address>0x00100000</address>
+      </section>
+      <section>
+        <name>C_PKCS11_STORAGE*</name>
+        <address>0x00100800</address>
+      </section>
+      <section>
+        <name>C_SYSTEM_CONFIG*</name>
+        <address>0x00104800</address>
       </section>
         <section>
           <name>C_1</name>
@@ -1665,6 +1673,26 @@
         <group>RX72N</group>
       <folder>vendors/renesas/boards/rx72n-envision-kit/aws_demos/src/smc_gen/general</folder>
       <path>application_code/renesas_code/smc_gen/general</path>
+      </impdir>
+    </boardsupport>
+    <boardsupport>
+      <impdir>
+        <toolchain>GNURX</toolchain>
+        <board>ENVISIONRX72N</board>
+        <series>RX700</series>
+        <group>RX72N</group>
+        <file>vendors/renesas/boards/rx72n-envision-kit-uart-sx-ulpgn-gcc/aws_demos/src/smc_gen/general/r_cg_port.h</file>
+        <path>application_code/renesas_code/smc_gen/general</path>
+      </impdir>
+    </boardsupport>
+    <boardsupport>
+      <impdir>
+        <toolchain>RXC</toolchain>
+        <board>ENVISIONRX72N</board>
+        <series>RX700</series>
+        <group>RX72N</group>
+        <file>vendors/renesas/boards/rx72n-envision-kit-uart-sx-ulpgn/aws_demos/src/smc_gen/general/r_cg_port.h</file>
+        <path>application_code/renesas_code/smc_gen/general</path>
       </impdir>
     </boardsupport>
     <boardsupport>

@@ -1,0 +1,103 @@
+/***********************************************************************************************************************
+* DISCLAIMER
+* This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products.
+* No other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all
+* applicable laws, including copyright laws. 
+* THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING THIS SOFTWARE, WHETHER EXPRESS, IMPLIED
+* OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+* NON-INFRINGEMENT.  ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED.TO THE MAXIMUM EXTENT PERMITTED NOT PROHIBITED BY
+* LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES SHALL BE LIABLE FOR ANY DIRECT,
+* INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS SOFTWARE, EVEN IF RENESAS OR
+* ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+* Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability 
+* of this software. By using this software, you agree to the additional terms and conditions found by accessing the 
+* following link:
+* http://www.renesas.com/disclaimer
+*
+* Copyright (C) 2018 Renesas Electronics Corporation. All rights reserved.
+***********************************************************************************************************************/
+
+/***********************************************************************************************************************
+* File Name    : Pin.c
+* Version      : 1.0.2
+* Device(s)    : R5F5671EHxFB
+* Description  : This file implements SMC pin code generation.
+* Creation Date: 2021-04-28
+***********************************************************************************************************************/
+
+/***********************************************************************************************************************
+Pragma directive
+***********************************************************************************************************************/
+/* Start user code for pragma. Do not edit comment generated here */
+/* End user code. Do not edit comment generated here */
+
+/***********************************************************************************************************************
+Includes
+***********************************************************************************************************************/
+#include "r_cg_macrodriver.h"
+/* Start user code for include. Do not edit comment generated here */
+/* End user code. Do not edit comment generated here */
+#include "r_cg_userdefine.h"
+
+/***********************************************************************************************************************
+Global variables and functions
+***********************************************************************************************************************/
+/* Start user code for global. Do not edit comment generated here */
+/* End user code. Do not edit comment generated here */
+
+/***********************************************************************************************************************
+* Function Name: R_Pins_Create
+* Description  : This function initializes Smart Configurator pins
+* Arguments    : None
+* Return Value : None
+***********************************************************************************************************************/
+
+void R_Pins_Create(void)
+{
+    R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_MPC);
+
+    /* Set CTS6# pin */
+    MPC.PJ3PFS.BYTE = 0x0AU;
+    PORTJ.PMR.BYTE |= 0x08U;
+
+    /* Set EXTAL pin */
+    PORT3.PMR.BYTE &= 0xBFU;
+    PORT3.PDR.BYTE &= 0xBFU;
+
+    /* Set RXD6 pin */
+    MPC.P01PFS.BYTE = 0x0AU;
+    PORT0.PMR.BYTE |= 0x02U;
+
+    /* Set RXD10 pin */
+    MPC.P86PFS.BYTE = 0x0AU;
+    PORT8.PMR.BYTE |= 0x40U;
+
+    /* Set RXD11 pin */
+    MPC.P76PFS.BYTE = 0x0AU;
+    PORT7.PMR.BYTE |= 0x40U;
+
+    /* Set TXD6 pin */
+    PORT0.PODR.BYTE |= 0x01U;
+    MPC.P00PFS.BYTE = 0x0AU;
+    PORT0.PDR.BYTE |= 0x01U;
+    // PORT0.PMR.BIT.B0 = 1U; // Please set the PMR bit after TE bit is set to 1.
+
+    /* Set TXD10 pin */
+    PORT8.PODR.BYTE |= 0x80U;
+    MPC.P87PFS.BYTE = 0x0AU;
+    PORT8.PDR.BYTE |= 0x80U;
+    // PORT8.PMR.BIT.B7 = 1U; // Please set the PMR bit after TE bit is set to 1.
+
+    /* Set TXD11 pin */
+    PORT7.PODR.BYTE |= 0x80U;
+    MPC.P77PFS.BYTE = 0x0AU;
+    PORT7.PDR.BYTE |= 0x80U;
+    // PORT7.PMR.BIT.B7 = 1U; // Please set the PMR bit after TE bit is set to 1.
+
+    /* Set XTAL pin */
+    PORT3.PMR.BYTE &= 0x7FU;
+    PORT3.PDR.BYTE &= 0x7FU;
+
+    R_BSP_RegisterProtectEnable(BSP_REG_PROTECT_MPC);
+}
+
