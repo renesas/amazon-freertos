@@ -806,11 +806,11 @@ static void wifi_analyze_get_socket_status_string(uint8_t * pstring)
         str_ptr = strchr((const char *)pstring, ',');
         if (NULL != str_ptr)
         {
-        	str_ptr = (char *)&pstring[0];
+            str_ptr = (char *)&pstring[0];
             for (i = 0; i < ULPGN_SOCKET_STATUS_MAX; i++ )
             {
                 /* socket status */
-            	if (NULL != strstr((const char *)str_ptr, (const char *)gp_wifi_socket_status_tbl[i]))
+                if (NULL != strstr((const char *)str_ptr, (const char *)gp_wifi_socket_status_tbl[i]))
                 {
                     break;
                 }

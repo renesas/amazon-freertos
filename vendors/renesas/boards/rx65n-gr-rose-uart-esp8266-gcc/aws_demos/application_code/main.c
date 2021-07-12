@@ -56,7 +56,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define mainLOGGING_MESSAGE_QUEUE_LENGTH    ( 15 )
 #define mainTEST_RUNNER_TASK_STACK_SIZE    ( configMINIMAL_STACK_SIZE * 8 )
 
-// RX65N Cloud Kit 20200923 -->>
+ 
 #define _NM_PARAMS( networkType, networkState )    ( ( ( uint32_t ) networkType ) << 16 | ( ( uint16_t ) networkState ) )
 
 #define _NM_GET_NETWORK_TYPE( params )             ( ( uint32_t ) ( ( params ) >> 16 ) & 0x0000FFFFUL )
@@ -66,7 +66,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define _NM_WIFI_CONNECTION_RETRY_INTERVAL_MS    ( 1000 )
 
 #define _NM_WIFI_CONNECTION_RETRIES              ( 5 )
-// RX65N Cloud Kit 20200923 <<--
+ 
 
 #define mainLOGGING_TASK_STACK_SIZE         ( configMINIMAL_STACK_SIZE * 6 )
 #define mainLOGGING_MESSAGE_QUEUE_LENGTH    ( 15 )
@@ -128,7 +128,7 @@ void vApplicationDaemonTaskStartupHook( void );
  * @brief Initializes the board.
  */
 static void prvMiscInitialization( void );
-static bool _wifiEnable( void );	// RX65N Cloud Kit 20200923
+static bool _wifiEnable( void );	
 extern void main_task(void);
 
 /*-----------------------------------------------------------*/

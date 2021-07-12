@@ -27,7 +27,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "FreeRTOS.h"
 #include "task.h"
 #include <stdio.h>
-#include <stdbool.h>	// RX65N Cloud Kit 20200923
+#include <stdbool.h>	
 
 /* Version includes. */
 #include "aws_application_version.h"
@@ -49,14 +49,14 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "aws_demo.h"
 #include "aws_clientcredential.h"
 #include "aws_clientcredential_keys.h"
-#include "iot_wifi.h"	// RX65N Cloud Kit 20200923
+#include "iot_wifi.h"	
 #include "r_cg_port.h"
 
 #define mainLOGGING_TASK_STACK_SIZE         ( configMINIMAL_STACK_SIZE * 6 )
 #define mainLOGGING_MESSAGE_QUEUE_LENGTH    ( 15 )
 #define mainTEST_RUNNER_TASK_STACK_SIZE    ( configMINIMAL_STACK_SIZE * 8 )
 
-// RX65N Cloud Kit 20200923 -->>
+ 
 #define _NM_PARAMS( networkType, networkState )    ( ( ( uint32_t ) networkType ) << 16 | ( ( uint16_t ) networkState ) )
 
 #define _NM_GET_NETWORK_TYPE( params )             ( ( uint32_t ) ( ( params ) >> 16 ) & 0x0000FFFFUL )
@@ -66,7 +66,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define _NM_WIFI_CONNECTION_RETRY_INTERVAL_MS    ( 1000 )
 
 #define _NM_WIFI_CONNECTION_RETRIES              ( 10 )
-// RX65N Cloud Kit 20200923 <<--
+ 
 
 #define mainLOGGING_TASK_STACK_SIZE         ( configMINIMAL_STACK_SIZE * 6 )
 #define mainLOGGING_MESSAGE_QUEUE_LENGTH    ( 15 )
@@ -132,7 +132,7 @@ void vApplicationDaemonTaskStartupHook( void );
  * @brief Initializes the board.
  */
 static void prvMiscInitialization( void );
-static bool _wifiEnable( void );	// RX65N Cloud Kit 20200923
+static bool _wifiEnable( void );	
 extern void main_task(void);
 
 /*-----------------------------------------------------------*/
@@ -172,7 +172,7 @@ void vApplicationDaemonTaskStartupHook( void )
     	R_Config_PORT_Create();
 
 #if 0
-    	Wifistatus = WIFI_On();	// RX65N Cloud Kit 20200923
+    	Wifistatus = WIFI_On();	
 		if (Wifistatus == eWiFiSuccess){
 
 			configPRINTF( ( "WiFi module initialized.\r\n" ) );
@@ -195,7 +195,7 @@ void vApplicationDaemonTaskStartupHook( void )
     }
 }
 
-// RX65N Cloud Kit 20200923 -->>
+ 
 static bool _wifiConnectAccessPoint( void )
 {
 	bool status = true;
@@ -329,7 +329,7 @@ static bool _wifiEnable( void )
 
     return ret;
 }
-// RX65N Cloud Kit 20200923 <<--
+ 
 
 static void reboot() {
     //WDT Control Register (WDTCR)

@@ -26,10 +26,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /* FreeRTOS includes. */
 #include "FreeRTOS.h"
 #include "task.h"
-// RX65N Cloud Kit 20200923#include "FreeRTOS_IP.h"
+#include "FreeRTOS_IP.h"
 #include <stdio.h>
 #include <string.h>
-#include <stdbool.h>	// RX65N Cloud Kit 20200923
+#include <stdbool.h>	
 
 /* Renesas. */
 #include "serial_term_uart.h"
@@ -43,13 +43,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "aws_clientcredential.h"
 #include "aws_application_version.h"
 #include "aws_dev_mode_key_provisioning.h"
-#include "iot_wifi.h"	// RX65N Cloud Kit 20200923
+#include "iot_wifi.h"	
 
 #define mainLOGGING_TASK_STACK_SIZE         ( configMINIMAL_STACK_SIZE * 6 )
 #define mainLOGGING_MESSAGE_QUEUE_LENGTH    ( 15 )
 #define mainTEST_RUNNER_TASK_STACK_SIZE    ( configMINIMAL_STACK_SIZE * 8 )
 
-// RX65N Cloud Kit 20200923 -->>
+ 
 #define _NM_PARAMS( networkType, networkState )    ( ( ( uint32_t ) networkType ) << 16 | ( ( uint16_t ) networkState ) )
 
 #define _NM_GET_NETWORK_TYPE( params )             ( ( uint32_t ) ( ( params ) >> 16 ) & 0x0000FFFFUL )
@@ -59,7 +59,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define _NM_WIFI_CONNECTION_RETRY_INTERVAL_MS    ( 1000 )
 
 #define _NM_WIFI_CONNECTION_RETRIES              ( 5 )
-// RX65N Cloud Kit 20200923 <<--
+ 
 
 /* The MAC address array is not declared const as the MAC address will
 normally be read from an EEPROM and not hard coded (in real deployed
@@ -117,7 +117,7 @@ void vApplicationDaemonTaskStartupHook( void );
  * @brief Initializes the board.
  */
 static void prvMiscInitialization( void );
-static bool _wifiEnable( void );	// RX65N Cloud Kit 20200923
+static bool _wifiEnable( void );	
 
 /*-----------------------------------------------------------*/
 
@@ -173,7 +173,7 @@ void vApplicationDaemonTaskStartupHook( void )
         FreeRTOS_printf( ( "The network is up and running\n" ) );
 #endif
 
-        _wifiEnable();	// RX65N Cloud Kit 20200923
+        _wifiEnable();	
 
         /* Provision the device with AWS certificate and private key. */
         vDevModeKeyProvisioning();
@@ -190,7 +190,7 @@ void vApplicationDaemonTaskStartupHook( void )
 }
 /*-----------------------------------------------------------*/
 
-// RX65N Cloud Kit 20200923 -->>
+ 
 static bool _wifiConnectAccessPoint( void )
 {
     bool ret = false;
@@ -299,7 +299,7 @@ static bool _wifiEnable( void )
 
     return ret;
 }
-// RX65N Cloud Kit 20200923 <<--
+ 
 /*-----------------------------------------------------------*/
 
 
