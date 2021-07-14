@@ -1,5 +1,5 @@
 /*
- * FreeRTOS Kernel V10.3.0
+ * FreeRTOS Kernel V10.4.3
  * Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -279,11 +279,11 @@ uint32_t ulRand(void);
 /* Each TCP socket has a circular buffers for Rx and Tx, which have a fixed
  * maximum size.  Define the size of Rx buffer for TCP sockets. */
 //#define ipconfigTCP_RX_BUFFER_LENGTH                   (4380)
-#define ipconfigTCP_RX_BUFFER_LENGTH                   (1480*10)	// RX65N Cloud Kit 20200923
+#define ipconfigTCP_RX_BUFFER_LENGTH                   (1480*10)	
 
 /* Define the size of Tx buffer for TCP sockets. */
 //#define ipconfigTCP_TX_BUFFER_LENGTH                   (4380)
-#define ipconfigTCP_TX_BUFFER_LENGTH                   (1480*10)	// RX65N Cloud Kit 20200923
+#define ipconfigTCP_TX_BUFFER_LENGTH                   (1480*10)	
 
 /* When using call-back handlers, the driver may check if the handler points to
  * real program memory (RAM or flash) or just has a random non-zero value. */

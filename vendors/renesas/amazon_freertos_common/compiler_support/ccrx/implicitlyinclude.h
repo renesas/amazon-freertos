@@ -30,7 +30,7 @@
 #if !defined(__BYTE_ORDER__)
 #define __BYTE_ORDER__ __ORDER_LITTLE_ENDIAN__
 #endif
-#elif defiend(__BIG)
+#elif defined(__BIG)
 #if !defined(__RX_BIG_ENDIAN__)
 #define __RX_BIG_ENDIAN__ 1
 #endif
